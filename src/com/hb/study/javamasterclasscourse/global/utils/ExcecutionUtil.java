@@ -1,6 +1,7 @@
-package com.hb.study.javamasterclasscourse.globalcommon.utils;
+package com.hb.study.javamasterclasscourse.global.utils;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.model.Duration;
 
 public class ExcecutionUtil {
     Duration duration;
@@ -13,7 +14,7 @@ public class ExcecutionUtil {
 
     @Override
     public String toString() {
-        return (GlobalCommonConstants.executionDurationStatsIntro +
+        return (CommonConstants.executionDurationStatsIntro +
                 duration.toString());
     }
 }

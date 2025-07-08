@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.model.*;
 import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.util.*;
 
@@ -19,7 +19,7 @@ public class FinalGenericsChallengeMain {
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
 
         QueryList<LPAStudent> queryList = new QueryList<LPAStudent>();
         int maxStudents = 25;
@@ -28,11 +28,11 @@ public class FinalGenericsChallengeMain {
         }
         System.out.println(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         System.out.println("Ordered");
         queryList.sort(Comparator.naturalOrder());
         printList(queryList);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         System.out.println("Matches");
         var matches = queryList
@@ -41,17 +41,17 @@ public class FinalGenericsChallengeMain {
 
         matches.sort(new LPAStudentComparator());
         printList(matches);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         System.out.println("Ordered");
         matches.sort(null);
         printList(matches);
 
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 //     QueryList<Employee> employeeList = new QueryList<>();
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
 
     public static void printList(List<?> students) {

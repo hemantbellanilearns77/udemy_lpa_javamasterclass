@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section10_collections.exercises.exercise45;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ public class Exercise45_PlaylistTestClass {
 
     public static void main(String[] args) {
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         ArrayList<Album> albums = new ArrayList<>();
 
         Album album = new Album("Stormbringer", "Deep Purple");
@@ -27,7 +27,7 @@ public class Exercise45_PlaylistTestClass {
        // System.out.println("The album 'Stormbringer' looks like below: \n" + album ) ;
         System.out.println(album) ;
 
-        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.asteriskSeparatorLine);
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
         album.addSong("I put the finger on you", 3.25);
@@ -41,7 +41,7 @@ public class Exercise45_PlaylistTestClass {
         albums.add(album);
         //System.out.println("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
         System.out.println(album) ;
-        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.asteriskSeparatorLine);
 
         LinkedList<Song> playList = new LinkedList<>();
         albums.get(0).addToPlayList("You can't do it right", playList);
@@ -57,10 +57,10 @@ public class Exercise45_PlaylistTestClass {
             System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
-        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.asteriskSeparatorLine);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
 
     }
 

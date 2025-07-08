@@ -1,10 +1,8 @@
-package com.hb.study.javamasterclasscourse.globalcommon.misc_practice;
+package com.hb.study.javamasterclasscourse.misc_practice;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +15,7 @@ public class StringManipulations {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         /*
          *****************************************************
          */
@@ -36,9 +34,9 @@ public class StringManipulations {
 
          ******************************************************
          */
-        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.asteriskSeparatorLine);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
 }

@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section12_generics.misc_practice.genericsbasedcomparing;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -11,7 +11,7 @@ public class GenericsBasedComparingMain {
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};
 
@@ -23,7 +23,7 @@ public class GenericsBasedComparingMain {
 
         String banana = "banana";
         String[] fruit = {"apple", "banana", "pear", "BANANA"};
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         for (String s : fruit) {
             int val = banana.compareTo(s);
             System.out.printf("%s %s %s: compareTo=%d%n", banana,
@@ -35,7 +35,7 @@ public class GenericsBasedComparingMain {
         System.out.println("A:"+(int)'A' + " " + "a:"+(int)'a');
         System.out.println("B:"+(int)'B' + " " + "b:"+(int)'b');
         System.out.println("P:"+(int)'P' + " " + "p:"+(int)'p');
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         Student tim = new Student ("Tim");
         Student [] students = {new Student("Zach"), new Student("Tim"),
                 new Student("Ann"), new Student("Tim")};
@@ -46,10 +46,10 @@ public class GenericsBasedComparingMain {
         Comparator<Student> gpaSorter = new StudentGPAComparator();
         Arrays.sort(students, gpaSorter.reversed());
         System.out.println(Arrays.toString(students));
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
 }
 

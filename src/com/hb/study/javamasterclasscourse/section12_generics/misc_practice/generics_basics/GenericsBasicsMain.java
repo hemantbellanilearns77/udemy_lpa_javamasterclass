@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section12_generics.misc_practice.generics_basics;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 interface Player {
 
@@ -15,7 +15,7 @@ public class GenericsBasicsMain {
 
     public static void main(String[] args) {
 
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
         var philly = new Affiliation("city", "Philadelphia, PA",
                 "US");
@@ -27,12 +27,12 @@ public class GenericsBasicsMain {
         SportsTeam phillies2 = new SportsTeam("Philadelphia Phillies");
         SportsTeam astros2 = new SportsTeam("Houston Astros");
         scoreResult(phillies2, 5, astros2, 5);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         Team<BaseballPlayer, Affiliation> phillies =
                 new Team<>("Philadelphia Phillies", philly);
         Team<BaseballPlayer, Affiliation> astros = new Team<>("Houston Astros");
         scoreResult(phillies, 11, astros, 9);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         var harper = new BaseballPlayer("B Harper", "Right Fielder");
         var marsh = new BaseballPlayer("B Marsh", "Right Fielder");
         phillies.addTeamMember(harper);
@@ -41,7 +41,7 @@ public class GenericsBasicsMain {
         phillies.addTeamMember(guthrie);
 
         phillies.listTeamMembers();
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         SportsTeam afc1 = new SportsTeam ("Adelaide Crows");
         Team<FootballPlayer, String> afc = new Team<>("Adelaide Crows",
@@ -55,22 +55,22 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
         var rory = new FootballPlayer("Rory Laird", "Midfield");
         afc.addTeamMember(rory);
         afc.listTeamMembers();
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         Team<VolleyballPlayer, Affiliation> adelaide = new Team<>("Adelaide Storm");
         adelaide.addTeamMember(new VolleyballPlayer("N Roberts", "Setter"));
         adelaide.listTeamMembers();
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         var canberra = new Team<VolleyballPlayer, Affiliation>("Canberra Heat");
         canberra.addTeamMember(new VolleyballPlayer("B Black", "Opposite"));
         canberra.listTeamMembers();
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         scoreResult(canberra, 0, adelaide, 1);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil.toString());
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
 
 //        Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
     }

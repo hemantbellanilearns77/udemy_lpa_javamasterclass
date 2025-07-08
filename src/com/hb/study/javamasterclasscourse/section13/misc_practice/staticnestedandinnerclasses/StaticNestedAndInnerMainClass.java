@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section13.misc_practice.staticnestedandinnerclasses;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class StaticNestedAndInnerMainClass {
 
     public static void main(String[] args) {
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         List<Employee> employees = new ArrayList<>(List.of(
                 new Employee(10001, "Ralph", 2015),
                 new Employee(10005, "Carole", 2021),
@@ -27,7 +27,7 @@ public class StaticNestedAndInnerMainClass {
         for (Employee e : employees) {
             System.out.println(e);
         }
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         System.out.println("Store Members");
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
@@ -47,14 +47,14 @@ public class StaticNestedAndInnerMainClass {
         for (StoreEmployee e : storeEmployees) {
             System.out.println(e);
         }
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         System.out.println("With Pig Latin Names");
         addPigLatinName(storeEmployees);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
 
     }
 

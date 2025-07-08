@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section11.misc_practice.interfacesdeepdive;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class InterfacesDeepDiveMainClass {
 
     public static void main(String[] args) {
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         ExcecutionUtil executionUtil = new ExcecutionUtil();
         //executionTiming.setStartTime(System.nanoTime());
         Bird bird = new Bird();
@@ -38,7 +38,7 @@ public class InterfacesDeepDiveMainClass {
         kmsTraveled = milesTraveled * FlightEnabled.MILES_TO_KM;
         System.out.printf("%.2f kms%n",
                 kmsTraveled);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         LinkedList<FlightEnabled> fliers = new LinkedList<>();
         fliers.add(bird);
 
@@ -52,10 +52,10 @@ public class InterfacesDeepDiveMainClass {
         triggerFliers(betterFliers);
         flyFliers(betterFliers);
         landFliers(betterFliers);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);;
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
 
     private static void inFlight(FlightEnabled flier) {

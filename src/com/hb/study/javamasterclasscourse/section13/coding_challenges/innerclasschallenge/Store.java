@@ -1,27 +1,25 @@
 package com.hb.study.javamasterclasscourse.section13.coding_challenges.innerclasschallenge;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
-
-import java.lang.reflect.Executable;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 public class Store {
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         System.out.println(regularMeal);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 
         Meal USRegularMeal = new Meal(0.68);
         System.out.println(USRegularMeal);
 
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
 
 
     }

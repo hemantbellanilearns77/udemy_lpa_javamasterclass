@@ -1,4 +1,4 @@
-package com.hb.study.javamasterclasscourse.globalcommon.misc_practice;
+package com.hb.study.javamasterclasscourse.misc_practice;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

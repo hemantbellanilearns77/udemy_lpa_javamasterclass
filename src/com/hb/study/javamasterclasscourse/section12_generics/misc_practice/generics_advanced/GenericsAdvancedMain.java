@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section12_generics.misc_practice.generics_advanced;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 import com.hb.study.javamasterclasscourse.section12_generics.misc_practice.generics_advanced.model.LPAStudent;
 import com.hb.study.javamasterclasscourse.section12_generics.misc_practice.generics_advanced.model.Student;
 import com.hb.study.javamasterclasscourse.section12_generics.misc_practice.generics_advanced.util.QueryItem;
@@ -22,7 +22,7 @@ public class GenericsAdvancedMain {
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         int studentCount = new Random().nextInt(1,11);
         System.out.println(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
@@ -32,30 +32,30 @@ public class GenericsAdvancedMain {
         students.add(new LPAStudent());
 //        printList(students);
         printMoreLists(students);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         List<LPAStudent> lpaStudents = new ArrayList<>();
         for (int i = 0; i < studentCount; i++) {
             lpaStudents.add(new LPAStudent());
         }
 //        printList(lpaStudents);
         printMoreLists(lpaStudents);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
         testList(new ArrayList<Integer>(List.of(1, 2, 3)));
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         var queryList = new QueryList<>(lpaStudents);
         var matches = queryList.getMatches(
                 "Course", "Python");
         printMoreLists(matches);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
         var students2021 =
                 QueryList.getMatches(students, "YearStarted", "2021");
         printMoreLists(students2021);
-        System.out.println(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.asteriskSeparatorLine);
 //     QueryList<Employee> employeeList = new QueryList<>();
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
 
     public static void printMoreLists(List<? extends Student> students) {

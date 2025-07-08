@@ -1,7 +1,7 @@
 package com.hb.study.javamasterclasscourse.section13.misc_practice.staticnestedandinnerclasses;
 
-import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
-import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
+import com.hb.study.javamasterclasscourse.global.constants.CommonConstants;
+import com.hb.study.javamasterclasscourse.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +14,7 @@ public class RunMethods {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(GlobalCommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.programOutputBegins);
         /*
          *****************************************************
          */
@@ -63,10 +63,10 @@ public class RunMethods {
 
          ******************************************************
          */
-        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.asteriskSeparatorLine);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(GlobalCommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.programOutputEnds);
     }
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {

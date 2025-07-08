@@ -1,4 +1,4 @@
-package com.hb.study.javamasterclasscourse.globalcommon.utils;
+package com.hb.study.javamasterclasscourse.global.model;
 
 import java.time.Instant;
 import java.time.ZoneId;

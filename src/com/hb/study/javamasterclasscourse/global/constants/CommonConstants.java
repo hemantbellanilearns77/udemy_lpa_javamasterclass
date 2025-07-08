@@ -1,6 +1,6 @@
-package com.hb.study.javamasterclasscourse.globalcommon.constants;
+package com.hb.study.javamasterclasscourse.global.constants;
 
-public class GlobalCommonConstants {
+public class CommonConstants {
     public static String programOutputBegins = "\n" + "*".repeat(54) + " Beginning of Program Execution ond Output " + "*".repeat(54) + "\n";
     public static String programOutputEnds = "\n" + "*".repeat(54) + " End of Program Execution and Output " + "*".repeat(54) + "\n";
     public static String executionDurationStatsIntro = "The stats for \"duration\" of this program's execution are as below:\n";
