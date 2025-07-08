@@ -2,15 +2,11 @@ package com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.
 
 import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
 import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
-import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.model.LPAStudent;
-import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.model.LPAStudentComparator;
-import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.model.Student;
-import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.util.QueryItem;
-import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.util.QueryList;
+import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.model.*;
+import com.hb.study.javamasterclasscourse.section12_generics.coding_challenges.finalgenericschallenge.util.*;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 record Employee(String name) implements QueryItem {
 
