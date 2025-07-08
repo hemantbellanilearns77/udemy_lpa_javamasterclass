@@ -7,7 +7,6 @@ public class ExcecutionUtil {
     public ExcecutionUtil(){
        duration = new Duration();
     }
-
     public void updateExecutionStats() {
         duration.calculateAndUpdateDuration();
     }

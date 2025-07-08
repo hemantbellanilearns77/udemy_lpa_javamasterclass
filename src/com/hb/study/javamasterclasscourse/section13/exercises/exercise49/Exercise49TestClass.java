@@ -1,19 +1,25 @@
-package com.hb.study.javamasterclasscourse.section10_collections.exercises.exercise45;
+package com.hb.study.javamasterclasscourse.section13.exercises.exercise49;
 
 import com.hb.study.javamasterclasscourse.globalcommon.constants.GlobalCommonConstants;
 import com.hb.study.javamasterclasscourse.globalcommon.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Exercise45_PlaylistTestClass {
-
+/**
+ * created by : heman on 07-07-2025, 06:07 PM, in the "udemy_lpa_javamasterclass" project
+ **/
+public class Exercise49TestClass {
     public static void main(String[] args) {
+
         ExcecutionUtil executionUtil = new ExcecutionUtil();
         System.out.println(GlobalCommonConstants.programOutputBegins);
-        ArrayList<Album> albums = new ArrayList<>();
+        // your code comes in here
 
+        List<Album> albums = new ArrayList<>();
         Album album = new Album("Stormbringer", "Deep Purple");
+        album.addSong("Stormbringer", 4.6);
         album.addSong("Stormbringer", 4.6);
         album.addSong("Love don't mean a thing", 4.22);
         album.addSong("Holy man", 4.3);
@@ -24,10 +30,9 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("The gypsy", 4.2);
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
-       // System.out.println("The album 'Stormbringer' looks like below: \n" + album ) ;
         System.out.println(album) ;
-
         System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
         album.addSong("I put the finger on you", 3.25);
@@ -39,19 +44,22 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        //System.out.println("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
         System.out.println(album) ;
         System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
 
-        LinkedList<Song> playList = new LinkedList<>();
+        LinkedList<Song> playList = new LinkedList<Song>();
         albums.get(0).addToPlayList("You can't do it right", playList);
         albums.get(0).addToPlayList("Holy man", playList);
         albums.get(0).addToPlayList("Speed king", playList);  // Does not exist
+        albums.get(0).addToPlayList("Huppa Huyya", playList);  // Does not exist
         albums.get(0).addToPlayList(9, playList);
+        albums.get(1).addToPlayList(8, playList);
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
+        albums.get(1).addToPlayList(10, playList);  // There is no track 10
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-        System.out.println("Playlist:" ) ;
+        System.out.print(GlobalCommonConstants.asteriskSeparatorLine);
+        System.out.println("Final Playlist:" ) ;
         System.out.println("Track No. Title: Duration");
         for(int loopCounter = 0; loopCounter < playList.size(); loopCounter++ ){
             System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
@@ -61,8 +69,5 @@ public class Exercise45_PlaylistTestClass {
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
         System.out.println(GlobalCommonConstants.programOutputEnds);
-
     }
-
-
 }
