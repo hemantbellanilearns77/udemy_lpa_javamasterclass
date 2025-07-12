@@ -7,7 +7,7 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 public class GenericClassChallengeMain {
 
     public static void main(String[] args) {
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
@@ -18,7 +18,7 @@ public class GenericClassChallengeMain {
         Layer<Park> parkLayer = new Layer<>(nationalUSParks);
         System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() +" has: ");
         parkLayer.renderLayer();
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         var majorUSRivers = new River[]{
                 new River("Mississippi",
                         "47.2160, -95.2348", "29.1566, -89.2495",
@@ -36,9 +36,9 @@ public class GenericClassChallengeMain {
                     "42.2026, -75.00836", "39.4955, -75.5592"));
         System.out.println(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() +" has: ");
         riverLayer.renderLayer();
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil.toString());
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 }

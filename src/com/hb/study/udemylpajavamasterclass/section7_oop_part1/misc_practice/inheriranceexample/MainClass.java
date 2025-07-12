@@ -1,6 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_practice.inheriranceexample;
 
-public class MainClass extends Object{
+public class MainClass {
     public static void main(String[] args)  {
         Animal firstGenericAnimal = new Animal("Generic Animal", "Huge", 400);
         doAnimalStuff(firstGenericAnimal, "slow");

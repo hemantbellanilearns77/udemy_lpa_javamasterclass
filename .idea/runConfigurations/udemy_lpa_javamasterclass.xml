@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="udemy_lpa_javamasterclass" type="Application" factoryName="Application">
+    <module name="udemy_lpa_javamasterclass" />
+    <option name="VM_PARAMETERS" value="--enable-preview" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

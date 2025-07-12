@@ -15,7 +15,7 @@ public class StringManipulations {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         /*
          *****************************************************
          */
@@ -34,9 +34,9 @@ public class StringManipulations {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 }

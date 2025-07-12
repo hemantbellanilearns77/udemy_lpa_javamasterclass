@@ -14,7 +14,7 @@ public class Exercise49TestClass {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         // your code comes in here
 
         List<Album> albums = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Exercise49TestClass {
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
         System.out.println(album) ;
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
 
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
@@ -45,7 +45,7 @@ public class Exercise49TestClass {
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
         System.out.println(album) ;
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
 
         LinkedList<Song> playList = new LinkedList<Song>();
         albums.get(0).addToPlayList("You can't do it right", playList);
@@ -58,16 +58,16 @@ public class Exercise49TestClass {
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(10, playList);  // There is no track 10
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
         System.out.println("Final Playlist:" ) ;
         System.out.println("Track No. Title: Duration");
         for(int loopCounter = 0; loopCounter < playList.size(); loopCounter++ ){
             System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 }

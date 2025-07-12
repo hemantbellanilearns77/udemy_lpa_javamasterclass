@@ -22,7 +22,9 @@ public class polymorphismchallenge_MainClass {
             case "Electric" ->  {yield new ElectricCar("It runs on Electric Charging");}
             case "Hybrid" ->  {yield new HybridCar("It runs on both gasoline " +
                     "and electric charge ");}
-            case default ->  {yield new Car("It runs on Gasoline");}
+            default -> {
+                yield new Car("It runs on Gasoline");
+            }
         };
     }
     public static void runCarRace(Car car) {

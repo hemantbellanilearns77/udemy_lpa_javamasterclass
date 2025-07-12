@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.model;
+package com.hb.study.udemylpajavamasterclass.global.models;
 
 import java.time.Instant;
 import java.time.ZoneId;

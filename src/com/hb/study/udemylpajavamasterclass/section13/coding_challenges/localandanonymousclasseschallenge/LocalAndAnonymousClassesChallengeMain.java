@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section13.coding_challenges.localandanonymousclasseschallenge;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -19,10 +20,11 @@ import java.util.Random;
  **/
 public class LocalAndAnonymousClassesChallengeMain {
 
-    private static int maxEmployeeCount = new Random().nextInt(1, (27_000_00 + 1));
+    private static final int maxEmployeeCount = new Random().nextInt(1, (3969 + 1));
+
     private static final String[] FIRST_NAMES = {
-            "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh"
+            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
+            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
     };
 
     private static final String[] LAST_NAMES = {
@@ -33,50 +35,48 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println("This program will generate " + maxEmployeeCount + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
         System.out.println("Default  listing of Employees (without Details) is: :  ");
-     /*   for (Employee emp : employees) {
-            System.out.printf("%s%n", emp.toString());
-        }*/
         System.out.println("S.No.\t\t\t\tEmployee Details");
         for (int i = 0; i < employees.size(); i++) {
-            System.out.println((i + 1) + "\t\t" + employees.get(i).toString());
+            System.out.println((i + 1) + ".\t\t" + employees.get(i).toString());
         }
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
 
         System.out.println("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
-        String sortField = null;
+        String sortField;
 
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
-                ((sortField == null) ? "default sort order" : sortField) + " is:");
-        printOrderedList(employees, sortField);
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+                "default sort order" + " is:");
+        printOrderedList(employees, null);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
 
         sortField = "fullName";
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
-                ((sortField == null) ? "default sort order" : sortField) + " is:");
+                sortField + " is:");
         printOrderedList(employees, sortField);
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
 
         sortField = "yearsWorked";
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
-                ((sortField == null) ? "default sort order" : sortField) + " is:");
+                sortField + " is:");
         printOrderedList(employees, sortField);
 
 
-        System.out.print(CommonConstants.asteriskSeparatorLine);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 
     public static void printOrderedList(List<Employee> employeeList, String sortField) {
         //local class
         class DetailedEmployee {
-            Employee currentEmployee;
-            String fullName = null;
+            final Employee currentEmployee;
+            final String fullName;
             int yearsWorked;
             LocalDate startDate;
 
@@ -98,12 +98,19 @@ public class LocalAndAnonymousClassesChallengeMain {
 
             }
         }
+
+        interface EnhancedComparator<T> extends Comparator<T> {
+            int secondLevel(T o1, T o2);
+        }
+
+
+
         List<DetailedEmployee> empDetails = new ArrayList<>();
         for (Employee emp : employeeList) {
             empDetails.add(new DetailedEmployee(emp));
         }
         //anonymous class
-        var detailedEmpComparator = new Comparator<DetailedEmployee>() {
+        /*var detailedEmpComparator = new Comparator<DetailedEmployee>() {
 
             @Override
             public int compare(DetailedEmployee o1, DetailedEmployee o2) {
@@ -111,30 +118,59 @@ public class LocalAndAnonymousClassesChallengeMain {
                     if (sortField.equalsIgnoreCase("fullName")) {
                         return o1.fullName.compareTo(o2.fullName);
                     } else if (sortField.equalsIgnoreCase("yearsWorked")) {
-                        return Integer.valueOf(o1.yearsWorked).compareTo(Integer.valueOf(o2.yearsWorked));
+                        return Integer.compare(o1.yearsWorked, o2.yearsWorked);
                     }
                 }
                 return 0;
             }
+        };*/
+        //another anonymous class
+        var detailedEmpComparatorMixed = new EnhancedComparator<DetailedEmployee>() {
+
+            @Override
+            public int compare(DetailedEmployee o1, DetailedEmployee o2) {
+                if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
+                    if (sortField.equalsIgnoreCase("fullName")) {
+                        String o1FirstName = o1.fullName.split(" ")[0];
+                        String o2FirstName =  o2.fullName.split(" ")[0];
+
+                        int result = o1FirstName.compareTo(o2FirstName);
+                        return (result == 0 ? secondLevel(o1, o2) : result);
+                    } else if (sortField.equalsIgnoreCase("yearsWorked")) {
+                        return Integer.compare(o1.yearsWorked, o2.yearsWorked);
+                    }
+                }
+                return 0;
+            }
+
+            @Override
+            public int secondLevel(DetailedEmployee o1, DetailedEmployee o2) {
+                String o1Lastname = o1.fullName.split(" ")[1];
+                String o2LastName =  o2.fullName.split(" ")[1];
+                return o1Lastname.compareTo(o2LastName);
+            }
         };
-        empDetails.sort(detailedEmpComparator);
-        /*for (DetailedEmployee detailedEmployee : empDetails) {
-            System.out.print(detailedEmployee.toString());
-        }*/
+        empDetails.sort(detailedEmpComparatorMixed);
+
         System.out.println("S.No.\t\t\t\t\tEmployee Details");
         for (int i = 0; i < empDetails.size(); i++) {
             System.out.print((i + 1) + "\t\t" + empDetails.get(i).toString());
         }
+
+
+
     }
 
     private static List<Employee> generateEmployeesList() {
-
+        String[] fullName;
         List<Employee> generatedEmployeesList = new ArrayList<>(maxEmployeeCount);
-        for (int listElementCounter = 0; listElementCounter < maxEmployeeCount; listElementCounter++) {
+        Name generatedFullName;
 
+        for (int listElementCounter = 0; listElementCounter < maxEmployeeCount; listElementCounter++) {
+            generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
             generatedEmployeesList.add(listElementCounter, new Employee(
-                    CommonUtils.generateRandomName()[0],
-                    CommonUtils.generateRandomName()[1],
+                    generatedFullName.getFirstName(),
+                    generatedFullName.getLastName(),
                     CommonUtils.getRandomDate(15,8, 1947,FormatStyle.LONG)));
         }
         return generatedEmployeesList;

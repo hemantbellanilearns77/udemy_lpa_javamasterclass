@@ -22,7 +22,7 @@ public class GenericsAdvancedMain {
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         int studentCount = new Random().nextInt(1,11);
         System.out.println(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
@@ -32,30 +32,30 @@ public class GenericsAdvancedMain {
         students.add(new LPAStudent());
 //        printList(students);
         printMoreLists(students);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         List<LPAStudent> lpaStudents = new ArrayList<>();
         for (int i = 0; i < studentCount; i++) {
             lpaStudents.add(new LPAStudent());
         }
 //        printList(lpaStudents);
         printMoreLists(lpaStudents);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
         testList(new ArrayList<Integer>(List.of(1, 2, 3)));
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         var queryList = new QueryList<>(lpaStudents);
         var matches = queryList.getMatches(
                 "Course", "Python");
         printMoreLists(matches);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         var students2021 =
                 QueryList.getMatches(students, "YearStarted", "2021");
         printMoreLists(students2021);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
 //     QueryList<Employee> employeeList = new QueryList<>();
         excecutionUtil.updateExecutionStats();
         System.out.println(excecutionUtil);
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 
     public static void printMoreLists(List<? extends Student> students) {

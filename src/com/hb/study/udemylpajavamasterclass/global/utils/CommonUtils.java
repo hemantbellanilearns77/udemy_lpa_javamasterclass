@@ -1,7 +1,9 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.models.Name;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -12,46 +14,37 @@ import java.util.concurrent.ThreadLocalRandom;
  * created by : heman on 08-07-2025, 09:27 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class CommonUtils {
-    private static int nameMaxLength = new Random().nextInt(1, 19);
-    private static final String[] FIRST_NAMES = {
-            "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh"
-    };
+    private static final int nameMaxLength = new Random().nextInt(1, 19);
 
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
-    public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.programOutputBegins);
-        /*
-         *****************************************************
-         */
-        //your code comes in here
-        /*
+    public static Name generateRandomName(String[]... arrays) {
 
-         ******************************************************
-         */
-        System.out.print(CommonConstants.asteriskSeparatorLine);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.programOutputEnds);
-    }
-
-    public static String[] generateRandomName() {
-        String[] nameArray = new String[2];
         Random random = new Random();
-        String firstName = FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
-        nameArray[0] = firstName;
-        String lastName = LAST_NAMES[random.nextInt(LAST_NAMES.length)];
-        nameArray[1] = lastName;
+        //String[] fullNameArray = new String[2];
+        String firstName;
+        String lastName;
+        Name generatedFullName;
+        switch (arrays.length) {
+            case 1 -> {
+                firstName = arrays[0][random.nextInt(arrays[0].length)];
+                lastName = CommonConstants.LAST_NAMES[random.nextInt(CommonConstants.LAST_NAMES.length)];
 
-        return nameArray;
+            }
+            case 2 -> {
+                firstName = arrays[0][random.nextInt(arrays[0].length)];
+                lastName = arrays[1][random.nextInt(arrays[1].length)];
+            }
+            default -> {
+                firstName = CommonConstants.FIRST_NAMES[random.nextInt(CommonConstants.FIRST_NAMES.length)];
+                lastName = CommonConstants.LAST_NAMES[random.nextInt(CommonConstants.LAST_NAMES.length)];
+            }
+        }
+        generatedFullName = new Name(firstName,lastName);
+        return generatedFullName;
     }
+
     public static String generateRandomName(int nameMaxLength) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
 
@@ -61,6 +54,7 @@ public class CommonUtils {
         }
         return sb.toString();
     }
+
     public static String generateRandomString() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder sb = new StringBuilder();
@@ -74,12 +68,21 @@ public class CommonUtils {
         return sb.toString();
     }
 
-    public static String getRandomDate( int fromDayOfMonth, int fromMonth,int fromYear,FormatStyle formatStyle ) {
-        //public static LocalDate getRandomDate() {
-        long minDay = LocalDate.of(1947, 8, 15).toEpochDay();
-        long maxDay = LocalDate.now().toEpochDay();
-        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+    public static String getRandomDate(int fromDayOfMonth, int fromMonth, int fromYear, FormatStyle formatStyle) {
+        long minDay;
+        long maxDay;
+        long randomDay;
+        try {
+            minDay = LocalDate.of(fromYear, fromMonth, fromDayOfMonth).toEpochDay();
+        } catch (DateTimeException dateTimeException) {
+            System.out.println("Since the Random Date couldn't be formed from the range between today and date parameters supplied, due to: \n" +
+                    dateTimeException.getMessage());
+            System.out.println("Therefore returning a default date: 15-Aug-1947");
+            minDay = LocalDate.of(1947, 8, 15).toEpochDay();
+        }
+        maxDay = LocalDate.now().toEpochDay();
+        randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
         return LocalDate.ofEpochDay(randomDay).format(DateTimeFormatter.ofLocalizedDate(formatStyle));
-        //return LocalDate.ofEpochDay(randomDay);
+
     }
 }

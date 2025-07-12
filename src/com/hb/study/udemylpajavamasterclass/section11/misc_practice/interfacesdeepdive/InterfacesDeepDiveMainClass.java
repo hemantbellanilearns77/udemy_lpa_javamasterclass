@@ -9,7 +9,7 @@ import java.util.List;
 public class InterfacesDeepDiveMainClass {
 
     public static void main(String[] args) {
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         ExcecutionUtil executionUtil = new ExcecutionUtil();
         //executionTiming.setStartTime(System.nanoTime());
         Bird bird = new Bird();
@@ -38,7 +38,7 @@ public class InterfacesDeepDiveMainClass {
         kmsTraveled = milesTraveled * FlightEnabled.MILES_TO_KM;
         System.out.printf("%.2f kms%n",
                 kmsTraveled);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         LinkedList<FlightEnabled> fliers = new LinkedList<>();
         fliers.add(bird);
 
@@ -52,10 +52,10 @@ public class InterfacesDeepDiveMainClass {
         triggerFliers(betterFliers);
         flyFliers(betterFliers);
         landFliers(betterFliers);
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         executionUtil.updateExecutionStats();
         System.out.println(executionUtil);;
-        System.out.println(CommonConstants.programOutputEnds);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
     }
 
     private static void inFlight(FlightEnabled flier) {

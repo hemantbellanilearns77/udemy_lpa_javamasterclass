@@ -1,7 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.model.Duration;
+import com.hb.study.udemylpajavamasterclass.global.models.Duration;
 
 public class ExcecutionUtil {
     Duration duration;
@@ -14,8 +13,7 @@ public class ExcecutionUtil {
 
     @Override
     public String toString() {
-        return (CommonConstants.executionDurationStatsIntro +
-                duration.toString());
+        return (duration.toString());
     }
 }
 

@@ -12,7 +12,7 @@ public class EnumPractice {
         // Set Start time
         //long startTime = System.nanoTime();
         //executionTiming.setStartTime(System.nanoTime());
-        System.out.println(CommonConstants.programOutputBegins);
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
 /*        System.out.println("Days of the week are: \n" +
                 Arrays.asList(DayOfTheWeek.values()));
         System.out.println(asteriskSeparatorLine);
@@ -44,7 +44,7 @@ public class EnumPractice {
         //long endTime = System.nanoTime();
         //executionTiming.setEndTime(System.nanoTime());
         executionUtil.updateExecutionStats();
-        System.out.println(CommonConstants.asteriskSeparatorLine);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
     }
 
     public static DayOfTheWeek getRandomDay(){
