@@ -1,0 +1,47 @@
+package com.hb.study.udemylpajavamasterclass.misc_practice;
+
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
+
+import java.util.Map;
+import java.util.Properties;
+
+/**
+ * created by : heman on 12-07-2025, 08:40 PM, in the "udemy_lpa_javamasterclass" project
+ **/
+public class SystemDiagnostics  {
+
+    //Object level or Static declarations here...
+
+    public static void main(String[] args) {
+
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        /*
+         *****************************************************
+         */
+        System.out.println("=== 🌍 System Properties ===");
+
+        Properties props = System.getProperties();
+        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            System.out.printf("%-40s : %s%n", entry.getKey(), entry.getValue());
+        }
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println("\n=== 🌐 Environment Variables ===");
+        Map<String, String> env = System.getenv();
+        for (Map.Entry<String, String> entry : env.entrySet()) {
+            System.out.printf("%-30s : %s%n", entry.getKey(), entry.getValue());
+        }
+
+        System.out.println("\n✅ Diagnostics Complete.");
+        /*
+
+         ******************************************************
+         */
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.EXECUTIONSTATSINTROSTR);
+        executionUtil.updateExecutionStats();
+        System.out.println(executionUtil);
+        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+    }
+}
