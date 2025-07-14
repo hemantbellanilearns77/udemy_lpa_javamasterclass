@@ -1,19 +1,24 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Duration;
 
 public class ExcecutionUtil {
-    Duration duration;
-    public ExcecutionUtil(){
-       duration = new Duration();
-    }
-    public void updateExecutionStats() {
-        duration.calculateAndUpdateDuration();
+    private Duration duration;
+
+    public void setUp(){
+        duration = new Duration();
+        System.out.println("\n" + CommonConstants.EXECUTIONSETUPSSTR);
     }
 
-    @Override
-    public String toString() {
-        return (duration.toString());
+    public void publishBenchmarkingSummary() {
+        System.out.println("\n" + CommonConstants.BENCHMARKINGINTROSTR);
+        duration.updateDurationFields();
+        System.out.println(duration);
+    }
+    public void windDown() {
+        publishBenchmarkingSummary();
+        System.out.println("\n" + CommonConstants.EXECUTIONENDEDSTR);
     }
 }
 

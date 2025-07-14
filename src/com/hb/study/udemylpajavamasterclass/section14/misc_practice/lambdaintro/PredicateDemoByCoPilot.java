@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  * created by : heman on 11-07-2025, 03:58 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class PredicateDemoByCoPilot {
-
+    private static ExcecutionUtil execution = new ExcecutionUtil();
     private static final String[] FIRST_NAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
@@ -34,8 +34,7 @@ public class PredicateDemoByCoPilot {
     }
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        execution.setUp();
         /*
          *****************************************************
          */
@@ -63,13 +62,12 @@ public class PredicateDemoByCoPilot {
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+
         /*
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.windDown();
     }
 }

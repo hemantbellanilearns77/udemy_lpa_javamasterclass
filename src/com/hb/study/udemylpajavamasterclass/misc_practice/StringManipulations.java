@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.misc_practice;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.LocalDate;
@@ -12,10 +11,10 @@ import java.util.Locale;
  * created by : heman on 08-07-2025, 03:16 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class StringManipulations {
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        execution.setUp();
         /*
          *****************************************************
          */
@@ -34,9 +33,6 @@ public class StringManipulations {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.windDown();
     }
 }

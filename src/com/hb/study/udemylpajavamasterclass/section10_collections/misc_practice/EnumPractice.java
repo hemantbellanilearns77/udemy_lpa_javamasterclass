@@ -1,18 +1,16 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.misc_practice;
 
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.Random;
 
 public class EnumPractice {
-    private static ExcecutionUtil executionUtil = new ExcecutionUtil();
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
     public static void main(String[] args) {
-        // Set Start time
-        //long startTime = System.nanoTime();
-        //executionTiming.setStartTime(System.nanoTime());
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        execution.setUp();
 /*        System.out.println("Days of the week are: \n" +
                 Arrays.asList(DayOfTheWeek.values()));
         System.out.println(asteriskSeparatorLine);
@@ -40,12 +38,15 @@ public class EnumPractice {
         System.out.println("Total of " + ((loopCounter == 1) ? 0 : loopCounter)  + " iterations were executed... ");
         long weekendDaysPercentage = Math.round( ((double) weekendDaysFound/ (double) loopCounter) * 100);
         System.out.println("A total of " + weekendDaysFound + " Weekend Days were found and that's approximately " + weekendDaysPercentage + " %") ;
-        // Set End time
-        //long endTime = System.nanoTime();
-        //executionTiming.setEndTime(System.nanoTime());
-        executionUtil.updateExecutionStats();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+
+        /*
+
+         ******************************************************
+         */
+        execution.windDown();
     }
+
+  //
 
     public static DayOfTheWeek getRandomDay(){
         int randomInteger = new Random().nextInt(0, 7);

@@ -5,10 +5,11 @@ import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 public class GenericClassChallengeMain {
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
+        execution.setUp();
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
                 new Park("Grand Canyon", "36.1085, -112.0965"),
@@ -16,7 +17,7 @@ public class GenericClassChallengeMain {
         };
 
         Layer<Park> parkLayer = new Layer<>(nationalUSParks);
-        System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() +" has: ");
+        System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() + " has: ");
         parkLayer.renderLayer();
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         var majorUSRivers = new River[]{
@@ -32,13 +33,13 @@ public class GenericClassChallengeMain {
         riverLayer.addElements(
                 new River("Colorado",
                         "40.4708, -105.8286", "31.7811, -114.7724"),
-            new River("Delaware",
-                    "42.2026, -75.00836", "39.4955, -75.5592"));
-        System.out.println(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() +" has: ");
+                new River("Delaware",
+                        "42.2026, -75.00836", "39.4955, -75.5592"));
+        System.out.println(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() + " has: ");
         riverLayer.renderLayer();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
-        excecutionUtil.updateExecutionStats();
-        System.out.println(excecutionUtil.toString());
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        /*
+            *****************************************************
+         */
+        execution.windDown();
     }
 }

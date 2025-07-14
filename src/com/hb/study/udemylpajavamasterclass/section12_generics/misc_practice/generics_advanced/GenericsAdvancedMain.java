@@ -19,10 +19,13 @@ record Employee(String name) implements QueryItem {
     }
 }
 public class GenericsAdvancedMain {
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
 
     public static void main(String[] args) {
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+
+        execution.setUp();
         int studentCount = new Random().nextInt(1,11);
         System.out.println(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
@@ -53,10 +56,14 @@ public class GenericsAdvancedMain {
         printMoreLists(students2021);
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
 //     QueryList<Employee> employeeList = new QueryList<>();
-        excecutionUtil.updateExecutionStats();
-        System.out.println(excecutionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+ 	       /*
+
+         ******************************************************
+         */
+        execution.windDown();
     }
+
+  //
 
     public static void printMoreLists(List<? extends Student> students) {
         if(students.size() == 0) {

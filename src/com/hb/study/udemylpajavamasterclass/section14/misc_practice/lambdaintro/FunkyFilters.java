@@ -14,6 +14,8 @@ import java.util.function.Predicate;
  * created by : heman on 11-07-2025, 04:41 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class FunkyFilters {
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
     private static final String[] FIRST_NAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
@@ -26,14 +28,13 @@ public class FunkyFilters {
     };
     private static int namesCount =  new Random().nextInt(1,64);
 
-    public static void main(String[] args) {
+    public static void main(String[] ignoredArgs) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+
         /*
          *****************************************************
          */
-
+        execution.setUp();
         List<String> names = new ArrayList<>();
         Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
 
@@ -75,9 +76,6 @@ public class FunkyFilters {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.windDown();
     }
 }

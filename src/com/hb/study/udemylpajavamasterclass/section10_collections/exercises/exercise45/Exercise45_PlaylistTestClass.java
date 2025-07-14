@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Exercise45_PlaylistTestClass {
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
 
     public static void main(String[] args) {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        execution.setUp();
         ArrayList<Album> albums = new ArrayList<>();
 
         Album album = new Album("Stormbringer", "Deep Purple");
@@ -58,11 +60,14 @@ public class Exercise45_PlaylistTestClass {
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
         System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        /*
 
+         ******************************************************
+         */
+        execution.windDown();
     }
+
+  //
 
 
 }

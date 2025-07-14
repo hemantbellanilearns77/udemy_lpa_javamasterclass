@@ -9,14 +9,15 @@ import java.util.Properties;
 /**
  * created by : heman on 12-07-2025, 08:40 PM, in the "udemy_lpa_javamasterclass" project
  **/
-public class SystemDiagnostics  {
+public class SystemDiagnostics {
 
     //Object level or Static declarations here...
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        execution.setUp();
         /*
          *****************************************************
          */
@@ -34,14 +35,13 @@ public class SystemDiagnostics  {
         }
 
         System.out.println("\n✅ Diagnostics Complete.");
+
         /*
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        System.out.println(CommonConstants.EXECUTIONSTATSINTROSTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.windDown();
     }
+
+    //
 }

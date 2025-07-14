@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section13.misc_practice.staticnestedandinnerclasses;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -11,13 +10,15 @@ import java.util.List;
  * created by : heman on 08-07-2025, 12:00 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class RunMethods {
+    //Object level or Static declarations here...
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         /*
          *****************************************************
          */
+        execution.setUp();
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
                         "Target"),
@@ -63,11 +64,10 @@ public class RunMethods {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.windDown();
     }
+
+  //
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {
 
