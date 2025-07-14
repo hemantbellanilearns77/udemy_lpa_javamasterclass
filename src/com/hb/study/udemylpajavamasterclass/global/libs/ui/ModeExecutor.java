@@ -33,6 +33,11 @@ public class ModeExecutor {
                 NumberUtils.runGlobalCurrencyAndNumber();
                 PatternLibrary.runGlobalPatterns();
                 DTFormatterUtils.runFormatStyleCombos(locale, zone);
+              /*  for (Locale currentLocale : LocaleLibrary.getAllLocales()) {
+                    System.out.printf("🌐 %s\n", currentLocale.getDisplayName());
+                    System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+                }*/
+
             }
         }
 
