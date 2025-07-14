@@ -19,7 +19,7 @@ public class GenericClassChallengeMain {
         Layer<Park> parkLayer = new Layer<>(nationalUSParks);
         System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() + " has: ");
         parkLayer.renderLayer();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         var majorUSRivers = new River[]{
                 new River("Mississippi",
                         "47.2160, -95.2348", "29.1566, -89.2495",

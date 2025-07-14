@@ -13,7 +13,7 @@ public class Store {
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         System.out.println(regularMeal);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         Meal USRegularMeal = new Meal(0.68);
         System.out.println(USRegularMeal);

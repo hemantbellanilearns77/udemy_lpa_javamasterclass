@@ -25,7 +25,7 @@ public class GenericsBasedComparingMain {
 
         String banana = "banana";
         String[] fruit = {"apple", "banana", "pear", "BANANA"};
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         for (String s : fruit) {
             int val = banana.compareTo(s);
             System.out.printf("%s %s %s: compareTo=%d%n", banana,
@@ -37,7 +37,7 @@ public class GenericsBasedComparingMain {
         System.out.println("A:"+(int)'A' + " " + "a:"+(int)'a');
         System.out.println("B:"+(int)'B' + " " + "b:"+(int)'b');
         System.out.println("P:"+(int)'P' + " " + "p:"+(int)'p');
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         Student tim = new Student ("Tim");
         Student [] students = {new Student("Zach"), new Student("Tim"),
                 new Student("Ann"), new Student("Tim")};
@@ -48,7 +48,7 @@ public class GenericsBasedComparingMain {
         Comparator<Student> gpaSorter = new StudentGPAComparator();
         Arrays.sort(students, gpaSorter.reversed());
         System.out.println(Arrays.toString(students));
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
  	       /*
 
          ******************************************************
