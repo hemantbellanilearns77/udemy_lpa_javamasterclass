@@ -46,7 +46,7 @@ public class FunkyFilters {
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         // Predicate: starts with 'A'
         Predicate<String> startsWithA = name -> name.startsWith("A");

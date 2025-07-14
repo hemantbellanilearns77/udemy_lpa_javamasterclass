@@ -28,7 +28,7 @@ public class StaticNestedAndInnerMainClass {
         for (Employee e : employees) {
             System.out.println(e);
         }
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         System.out.println("Store Members");
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
@@ -48,10 +48,10 @@ public class StaticNestedAndInnerMainClass {
         for (StoreEmployee e : storeEmployees) {
             System.out.println(e);
         }
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         System.out.println("With Pig Latin Names");
         addPigLatinName(storeEmployees);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
 
         /*

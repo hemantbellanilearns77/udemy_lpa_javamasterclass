@@ -30,11 +30,11 @@ public class FinalGenericsChallengeMain {
         }
         System.out.println(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         System.out.println("Ordered");
         queryList.sort(Comparator.naturalOrder());
         printList(queryList);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         System.out.println("Matches");
         var matches = queryList
@@ -43,13 +43,13 @@ public class FinalGenericsChallengeMain {
 
         matches.sort(new LPAStudentComparator());
         printList(matches);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         System.out.println("Ordered");
         matches.sort(null);
         printList(matches);
 
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 //     QueryList<Employee> employeeList = new QueryList<>();
         /*
 

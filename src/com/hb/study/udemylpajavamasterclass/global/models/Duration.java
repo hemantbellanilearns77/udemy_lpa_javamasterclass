@@ -133,7 +133,7 @@ public class Duration {
         executionInfoPrintable.append("The Execution started at: " + zonedDateTime.format(formatter));
         //dateTime = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
         zonedDateTime = ZonedDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        executionInfoPrintable.append("\nThe Execution ended at: " + zonedDateTime.format(formatter));
+        executionInfoPrintable.append("The Execution ended at: " + zonedDateTime.format(formatter));
 
         return executionInfoPrintable.toString();
 

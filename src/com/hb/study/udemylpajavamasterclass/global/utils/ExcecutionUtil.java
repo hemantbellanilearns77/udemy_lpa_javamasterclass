@@ -11,86 +11,25 @@ public class ExcecutionUtil {
         System.out.println("\n" + CommonConstants.EXECUTIONSETUPSSTR);
     }
 
-    public void publishBenchmarkingSummary() {
-        System.out.println("\n" + CommonConstants.BENCHMARKINGINTROSTR);
+    public void publishBenchmarkingInfo() {
         duration.updateDurationFields();
-        System.out.println(duration);
+        System.out.println(CommonConstants.BENCHMARKSECTIONHEADER + "\n");
+        publishBenchmarkSummary();
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRHALF);
+        publishBenchMarkDetails();
+    }
+    private void publishBenchmarkSummary() {
+        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR + "\n");
+        System.out.println("🕒 Millis: " + duration.getMilliseconds() + " ms");
+        System.out.println("⏱️ Nano  : " + duration.getNanoseconds() + " ns");
+    }
+    private void publishBenchMarkDetails() {
+        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR + "\n");
+        System.out.println(duration + "\n"); // can be improvised....
     }
     public void windDown() {
-        publishBenchmarkingSummary();
-        System.out.println("\n" + CommonConstants.EXECUTIONENDEDSTR);
+        publishBenchmarkingInfo();
+        System.out.println(CommonConstants.EXECUTIONENDEDSTR + "\n");
     }
 }
-
- /*       // Print the result
-        System.out.printf("Time taken: %d days, %d hours, %d minutes, %d seconds, %d milliseconds, %d nanoseconds%n",
-                days, hours, minutes, seconds, milliseconds, nanoseconds);*/
-
-
-  /*  public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
-    }*/
-   /* public long getStartTime() {
-        return startTime;
-    }
-
-
-
-    public long getEndTime() {
-        return endTime;
-    }
-
-
-
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public long getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(long seconds) {
-        this.seconds = seconds;
-    }
-
-    public long getMilliseconds() {
-        return milliseconds;
-    }
-
-    public void setMilliseconds(long milliseconds) {
-        this.milliseconds = milliseconds;
-    }
-
-    public long getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(long minutes) {
-        this.minutes = minutes;
-    }
-
-    public long getHours() {
-        return hours;
-    }
-
-    public void setHours(long hours) {
-        this.hours = hours;
-    }
-
-    public long getDays() {
-        return days;
-    }
-
-    public void setDays(long days) {
-        this.days = days;
-    }*/
 

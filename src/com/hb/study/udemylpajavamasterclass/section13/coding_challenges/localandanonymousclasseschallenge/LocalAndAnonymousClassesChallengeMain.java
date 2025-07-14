@@ -47,7 +47,7 @@ public class LocalAndAnonymousClassesChallengeMain {
         for (int i = 0; i < employees.size(); i++) {
             System.out.println((i + 1) + ".\t\t" + employees.get(i).toString());
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         System.out.println("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
         String sortField;
@@ -55,13 +55,13 @@ public class LocalAndAnonymousClassesChallengeMain {
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 "default sort order" + " is:");
         printOrderedList(employees, null);
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         sortField = "fullName";
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 
         sortField = "yearsWorked";
         System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +

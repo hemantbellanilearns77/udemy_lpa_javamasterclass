@@ -35,26 +35,26 @@ public class GenericsAdvancedMain {
         students.add(new LPAStudent());
 //        printList(students);
         printMoreLists(students);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         List<LPAStudent> lpaStudents = new ArrayList<>();
         for (int i = 0; i < studentCount; i++) {
             lpaStudents.add(new LPAStudent());
         }
 //        printList(lpaStudents);
         printMoreLists(lpaStudents);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
         testList(new ArrayList<Integer>(List.of(1, 2, 3)));
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         var queryList = new QueryList<>(lpaStudents);
         var matches = queryList.getMatches(
                 "Course", "Python");
         printMoreLists(matches);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         var students2021 =
                 QueryList.getMatches(students, "YearStarted", "2021");
         printMoreLists(students2021);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
 //     QueryList<Employee> employeeList = new QueryList<>();
  	       /*
 

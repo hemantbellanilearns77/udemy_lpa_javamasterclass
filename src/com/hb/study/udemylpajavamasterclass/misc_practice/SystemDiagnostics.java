@@ -27,7 +27,7 @@ public class SystemDiagnostics {
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
             System.out.printf("%-40s : %s%n", entry.getKey(), entry.getValue());
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
+        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
         System.out.println("\n=== 🌐 Environment Variables ===");
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> entry : env.entrySet()) {
