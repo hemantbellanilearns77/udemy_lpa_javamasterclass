@@ -3,10 +3,10 @@ package com.hb.study.udemylpajavamasterclass.global.constants;
 import java.util.Random;
 
 public class CommonConstants {
-    public static final String PROGRAMOUTPUTBEGINSSTR = "\n" + "*".repeat(54) + " Beginning of Program Execution ond Output " + "*".repeat(54) + "\n";
-    public static final String PROGRAMOUTPUTENDSSTR = "\n" + "*".repeat(54) + " End of Program Execution and Output " + "*".repeat(54) + "\n";
-    public static final String EXECUTIONSTATSINTROSTR = "The stats for \"duration\" of this program's execution are as below:\n";
-    public static final String ASTERISKSEPERATORLINESTR = "*".repeat(144) + "\n";
+    public static final String EXECUTIONSETUPSSTR = "*".repeat(54) + " Execution of current code block is set-up and Output is as below " + "*".repeat(54);
+    public static final String EXECUTIONENDEDSTR = "*".repeat(54) + " End of Execution and Output " + "*".repeat(54);
+    public static final String BENCHMARKINGINTROSTR = "Benchmarking Details of the above execution:";
+    public static final String ASTERISKSEPERATORLINESTR = "*".repeat(144);
     public static final String DATEPATTERNDDMMYYYY = "dd/MM/yyyy";
     public static final int MAX_ITERATION_COUNT = new Random().nextInt(1, (3969 + 1));
     public static final String[] FIRST_NAMES = {

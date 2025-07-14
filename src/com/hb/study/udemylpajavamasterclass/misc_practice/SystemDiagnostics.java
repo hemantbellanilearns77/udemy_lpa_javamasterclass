@@ -12,11 +12,12 @@ import java.util.Properties;
 public class SystemDiagnostics  {
 
     //Object level or Static declarations here...
-
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         /*
          *****************************************************
          */
@@ -34,14 +35,17 @@ public class SystemDiagnostics  {
         }
 
         System.out.println("\n✅ Diagnostics Complete.");
+
         /*
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        System.out.println(CommonConstants.EXECUTIONSTATSINTROSTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 }

@@ -7,11 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InterfacesDeepDiveMainClass {
-
+    private static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        //executionTiming.setStartTime(System.nanoTime());
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         Bird bird = new Bird();
         Animal animal = bird;
         FlightEnabled flier = bird;
@@ -53,9 +51,18 @@ public class InterfacesDeepDiveMainClass {
         flyFliers(betterFliers);
         landFliers(betterFliers);
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);;
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+
+        /*
+
+         ******************************************************
+         */
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 
     private static void inFlight(FlightEnabled flier) {

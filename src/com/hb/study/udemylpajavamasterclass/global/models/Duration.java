@@ -97,7 +97,7 @@ public class Duration {
     public void setDays(long days) {
         this.days = days;
     }
-    public void calculateAndUpdateDuration() {
+    public void updateDurationFields() {
         this.setEndTime(System.currentTimeMillis());
         this.setTotalExecutionTime(this.getEndTime() - this.getStartTime());
         // Convert duration to milliseconds
@@ -120,7 +120,7 @@ public class Duration {
     @Override
     public String toString() {
         StringBuilder executionInfoPrintable = new StringBuilder(
-        "\nThe Time taken to execute program is:%n%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
+        "The Time taken to execute program is:%n%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
                 .formatted(this.getDays(), this.getHours(),
                         this.getMinutes(),this.getSeconds(),
                         this.getMilliseconds(), this.getMicroSeconds(), this.getNanoseconds())

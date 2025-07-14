@@ -11,10 +11,12 @@ import java.util.List;
  * created by : heman on 07-07-2025, 06:07 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class Exercise49TestClass {
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         // your code comes in here
 
         List<Album> albums = new ArrayList<>();
@@ -65,9 +67,17 @@ public class Exercise49TestClass {
             System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+
+        /*
+
+         ******************************************************
+         */
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 }

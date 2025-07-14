@@ -7,7 +7,8 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
  * created by : heman on 12-07-2025, 12:02 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class Name {
-
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     String firstName;
     String lastName;
 
@@ -39,7 +40,7 @@ public class Name {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         /*
          *****************************************************
          */
@@ -48,10 +49,12 @@ public class Name {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        System.out.println(CommonConstants.EXECUTIONSTATSINTROSTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 }

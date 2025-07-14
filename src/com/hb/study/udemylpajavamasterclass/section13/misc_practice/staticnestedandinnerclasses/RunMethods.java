@@ -11,10 +11,10 @@ import java.util.List;
  * created by : heman on 08-07-2025, 12:00 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class RunMethods {
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
         /*
          *****************************************************
          */
@@ -63,10 +63,13 @@ public class RunMethods {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {

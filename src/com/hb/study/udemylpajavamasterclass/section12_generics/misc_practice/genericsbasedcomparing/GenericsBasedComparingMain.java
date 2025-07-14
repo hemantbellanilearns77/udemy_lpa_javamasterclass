@@ -8,10 +8,11 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class GenericsBasedComparingMain {
-
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+
+
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};
 
@@ -47,9 +48,17 @@ public class GenericsBasedComparingMain {
         Arrays.sort(students, gpaSorter.reversed());
         System.out.println(Arrays.toString(students));
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
-        excecutionUtil.updateExecutionStats();
-        System.out.println(excecutionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+ 	       /*
+
+         ******************************************************
+         */
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 }
 

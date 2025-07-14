@@ -11,6 +11,8 @@ import java.util.*;
  * created by : heman on 11-07-2025, 11:55 AM, in the "udemy_lpa_javamasterclass" project
  **/
 public class LambdaIntrosMain {
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     private static final String[] FIRST_NAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
@@ -32,7 +34,7 @@ public class LambdaIntrosMain {
     public static void main(String[] args) {
 
         ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         /*
          *****************************************************
          */
@@ -83,9 +85,12 @@ public class LambdaIntrosMain {
 
          ******************************************************
          */
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR);
-        executionUtil.updateExecutionStats();
-        System.out.println(executionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 }

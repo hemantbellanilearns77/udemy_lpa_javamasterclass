@@ -4,10 +4,12 @@ import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 public class Store {
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
 
     public static void main(String[] args) {
         ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         System.out.println(regularMeal);
@@ -16,11 +18,16 @@ public class Store {
         Meal USRegularMeal = new Meal(0.68);
         System.out.println(USRegularMeal);
 
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
-        excecutionUtil.updateExecutionStats();
-        System.out.println(excecutionUtil);
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
 
+        /*
 
+         ******************************************************
+         */
+        execution.executionWindDown();
     }
-}
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
+    }}

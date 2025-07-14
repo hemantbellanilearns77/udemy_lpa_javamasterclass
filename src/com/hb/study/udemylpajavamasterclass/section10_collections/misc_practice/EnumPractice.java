@@ -7,12 +7,13 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import java.util.Random;
 
 public class EnumPractice {
-    private static ExcecutionUtil executionUtil = new ExcecutionUtil();
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
         // Set Start time
         //long startTime = System.nanoTime();
         //executionTiming.setStartTime(System.nanoTime());
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
 /*        System.out.println("Days of the week are: \n" +
                 Arrays.asList(DayOfTheWeek.values()));
         System.out.println(asteriskSeparatorLine);
@@ -43,8 +44,17 @@ public class EnumPractice {
         // Set End time
         //long endTime = System.nanoTime();
         //executionTiming.setEndTime(System.nanoTime());
-        executionUtil.updateExecutionStats();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
+        /*
+
+         ******************************************************
+         */
+        execution.executionWindDown();
+    }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
     }
 
     public static DayOfTheWeek getRandomDay(){

@@ -12,11 +12,11 @@ record FootballPlayer(String name, String position) implements Player {}
 record VolleyballPlayer(String name, String position) implements Player {}
 
 public class GenericsBasicsMain {
-
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = executionSetup();
     public static void main(String[] args) {
 
-        System.out.println(CommonConstants.PROGRAMOUTPUTBEGINSSTR);
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
+
         var philly = new Affiliation("city", "Philadelphia, PA",
                 "US");
 
@@ -67,13 +67,22 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
         canberra.listTeamMembers();
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
         scoreResult(canberra, 0, adelaide, 1);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTR);
-        excecutionUtil.updateExecutionStats();
-        System.out.println(excecutionUtil.toString());
-        System.out.println(CommonConstants.PROGRAMOUTPUTENDSSTR);
+        //        Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
 
-//        Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
+        /*
+
+         ******************************************************
+         */
+        execution.executionWindDown();
     }
+
+    public static ExcecutionUtil executionSetup() {
+        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        return executionUtil;
+    }
+
+
 
     public static void scoreResult(BaseballTeam team1, int t1_score,
                                    BaseballTeam team2, int t2_score) {
