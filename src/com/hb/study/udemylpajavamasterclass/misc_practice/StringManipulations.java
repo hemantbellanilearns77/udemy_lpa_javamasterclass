@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.misc_practice;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.LocalDate;
@@ -13,9 +12,9 @@ import java.util.Locale;
  **/
 public class StringManipulations {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+    public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-
+        execution.setUp();
         /*
          *****************************************************
          */
@@ -34,12 +33,6 @@ public class StringManipulations {
 
          ******************************************************
          */
-        execution.executionWindDown();
-    }
-
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
+        execution.windDown();
     }
 }

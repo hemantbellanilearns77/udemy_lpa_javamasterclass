@@ -15,7 +15,8 @@ import java.util.function.Predicate;
  **/
 public class FunkyFilters {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
     private static final String[] FIRST_NAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
@@ -33,7 +34,7 @@ public class FunkyFilters {
         /*
          *****************************************************
          */
-
+        execution.setUp();
         List<String> names = new ArrayList<>();
         Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
 
@@ -75,12 +76,6 @@ public class FunkyFilters {
 
          ******************************************************
          */
-        execution.executionWindDown();
-    }
-
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
+        execution.windDown();
     }
 }

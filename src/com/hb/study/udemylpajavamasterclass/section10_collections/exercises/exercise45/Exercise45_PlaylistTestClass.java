@@ -8,10 +8,11 @@ import java.util.LinkedList;
 
 public class Exercise45_PlaylistTestClass {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
 
     public static void main(String[] args) {
-
+        execution.setUp();
         ArrayList<Album> albums = new ArrayList<>();
 
         Album album = new Album("Stormbringer", "Deep Purple");
@@ -63,14 +64,10 @@ public class Exercise45_PlaylistTestClass {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
 
 }

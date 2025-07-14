@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InterfacesDeepDiveMainClass {
-    private static ExcecutionUtil execution = executionSetup();
+    public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        execution.setUp();
         Bird bird = new Bird();
         Animal animal = bird;
         FlightEnabled flier = bird;
@@ -56,14 +56,10 @@ public class InterfacesDeepDiveMainClass {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
     private static void inFlight(FlightEnabled flier) {
 

@@ -8,9 +8,10 @@ import java.util.List;
 
 public class StaticNestedAndInnerMainClass {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
-    public static void main(String[] args) {
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
+    public static void main(String[] args) {
+        execution.setUp();
         List<Employee> employees = new ArrayList<>(List.of(
                 new Employee(10001, "Ralph", 2015),
                 new Employee(10005, "Carole", 2021),
@@ -57,14 +58,10 @@ public class StaticNestedAndInnerMainClass {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
     // method to demonstrate local inner/nested class
     public static void addPigLatinName(List<? extends StoreEmployee> list) {

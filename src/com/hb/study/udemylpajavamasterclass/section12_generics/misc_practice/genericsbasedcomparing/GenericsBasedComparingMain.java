@@ -9,9 +9,10 @@ import java.util.Random;
 
 public class GenericsBasedComparingMain {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
-    public static void main(String[] args) {
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
+    public static void main(String[] args) {
+        execution.setUp();
 
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};
@@ -52,14 +53,10 @@ public class GenericsBasedComparingMain {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 }
 
 class StudentGPAComparator implements Comparator<Student> {

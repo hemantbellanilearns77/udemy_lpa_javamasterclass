@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * created by : heman on 11-07-2025, 06:11 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class LambdaAdvancedDemo {
-    private static ExcecutionUtil execution = executionSetup();
+    private static ExcecutionUtil execution = new ExcecutionUtil();
     private static final String[] FIRST_NAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
@@ -29,7 +29,7 @@ public class LambdaAdvancedDemo {
 
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        execution.setUp();
         int loopCounter;
         System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         /*
@@ -57,12 +57,8 @@ public class LambdaAdvancedDemo {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 }

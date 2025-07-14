@@ -13,9 +13,10 @@ record VolleyballPlayer(String name, String position) implements Player {}
 
 public class GenericsBasicsMain {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
-    public static void main(String[] args) {
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
+    public static void main(String[] args) {
+        execution.setUp();
 
         var philly = new Affiliation("city", "Philadelphia, PA",
                 "US");
@@ -73,14 +74,10 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
 
 

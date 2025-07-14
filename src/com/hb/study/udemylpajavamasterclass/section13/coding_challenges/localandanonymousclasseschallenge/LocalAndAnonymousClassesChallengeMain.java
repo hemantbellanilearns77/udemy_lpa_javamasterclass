@@ -21,8 +21,7 @@ import java.util.Random;
 public class LocalAndAnonymousClassesChallengeMain {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
-
+    public static ExcecutionUtil execution = new ExcecutionUtil();
     private static final int maxEmployeeCount = new Random().nextInt(1, (3969 + 1));
 
     private static final String[] FIRST_NAMES = {
@@ -34,10 +33,11 @@ public class LocalAndAnonymousClassesChallengeMain {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
+    private static String[] args;
 
     public static void main(String[] args) {
-
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
+        execution.setUp();
+        LocalAndAnonymousClassesChallengeMain.args = args;
         System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         System.out.println("This program will generate " + maxEmployeeCount + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
@@ -74,14 +74,10 @@ public class LocalAndAnonymousClassesChallengeMain {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
     public static void printOrderedList(List<Employee> employeeList, String sortField) {
         //local class

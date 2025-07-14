@@ -50,7 +50,7 @@ public class DateTimeCarnival {
 
     public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] ignoredArgs) {
-        execution.executionSetup();
+        execution.setUp();
         long millisStart = System.currentTimeMillis();
         Instant instant = Instant.ofEpochMilli(millisStart);
         ZonedDateTime now = ZonedDateTime.now();
@@ -77,11 +77,26 @@ public class DateTimeCarnival {
                 "yyyy年MM月dd日", "yyyy-MM-dd'T'HH:mm:ss", "dd MMM yyyy"
         };
 
-        Locale[] locales = {
+       /* Below usage of new Locale() is deprecated for instantiation from Java 20+ onwards....
+       Locale[] locales = {
                 Locale.UK, Locale.US, Locale.FRANCE, new Locale("hi", "IN"),
                 new Locale("th", "TH"), Locale.JAPAN, Locale.CHINA,
                 new Locale("en", "AU"), new Locale("en", "NZ"),
                 new Locale("de", "DE"), new Locale("ar", "EG"), new Locale("en", "ZA")
+        };*/
+        Locale[] locales = {
+                Locale.UK,
+                Locale.US,
+                Locale.FRANCE,
+                Locale.of("hi", "IN"),
+                Locale.of("th", "TH"),
+                Locale.JAPAN,
+                Locale.CHINA,
+                Locale.of("en", "AU"),
+                Locale.of("en", "NZ"),
+                Locale.of("de", "DE"),
+                Locale.of("ar", "EG"),
+                Locale.of("en", "ZA")
         };
 
         ZoneId[] zones = {
@@ -121,7 +136,7 @@ public class DateTimeCarnival {
         System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR + "\n");
         System.out.println("🛕 Thai Buddhist Calendar:");
         ThaiBuddhistDate thaiDate = ThaiBuddhistDate.from(fromMillis);
-        DateTimeFormatter thaiFormatter = DateTimeFormatter.ofPattern("dd MMMM G yyyy", new Locale("th", "TH"));
+        DateTimeFormatter thaiFormatter = DateTimeFormatter.ofPattern("dd MMMM G yyyy", Locale.of("th", "TH"));
         System.out.println("🇹🇭 Formatted: " + thaiFormatter.format(thaiDate));
 
         System.out.print(CommonConstants.ASTERISKSEPERATORLINESTR + "\n");
@@ -164,7 +179,7 @@ public class DateTimeCarnival {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
 }

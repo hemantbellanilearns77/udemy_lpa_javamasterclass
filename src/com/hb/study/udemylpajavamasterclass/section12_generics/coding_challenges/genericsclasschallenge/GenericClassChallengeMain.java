@@ -6,10 +6,10 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 public class GenericClassChallengeMain {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-
+        execution.setUp();
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
                 new Park("Grand Canyon", "36.1085, -112.0965"),
@@ -38,15 +38,8 @@ public class GenericClassChallengeMain {
         System.out.println(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() + " has: ");
         riverLayer.renderLayer();
         /*
-
-         ******************************************************
+            *****************************************************
          */
-        execution.executionWindDown();
-    }
-
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
+        execution.windDown();
     }
 }

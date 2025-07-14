@@ -5,11 +5,11 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 public class Store {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
 
     public static void main(String[] args) {
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        execution.setUp();
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         System.out.println(regularMeal);
@@ -23,11 +23,7 @@ public class Store {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
-
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }}
+}
+  //}

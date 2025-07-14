@@ -6,19 +6,19 @@ import com.hb.study.udemylpajavamasterclass.global.models.Duration;
 public class ExcecutionUtil {
     private Duration duration;
 
-    public void executionSetup(){
+    public void setUp(){
         duration = new Duration();
         System.out.println("\n" + CommonConstants.EXECUTIONSETUPSSTR);
     }
 
     public void publishBenchmarkingSummary() {
-        System.out.println(CommonConstants.BENCHMARKINGINTROSTR);
+        System.out.println("\n" + CommonConstants.BENCHMARKINGINTROSTR);
         duration.updateDurationFields();
         System.out.println(duration);
     }
-    public void executionWindDown() {
+    public void windDown() {
         publishBenchmarkingSummary();
-        System.out.println(CommonConstants.EXECUTIONENDEDSTR);
+        System.out.println("\n" + CommonConstants.EXECUTIONENDEDSTR);
     }
 }
 

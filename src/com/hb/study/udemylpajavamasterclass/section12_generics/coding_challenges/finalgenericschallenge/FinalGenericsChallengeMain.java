@@ -17,11 +17,11 @@ record Employee(String name) implements QueryItem {
 }
 public class FinalGenericsChallengeMain {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
 
     public static void main(String[] args) {
-        ExcecutionUtil excecutionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        execution.setUp();
 
         QueryList<LPAStudent> queryList = new QueryList<LPAStudent>();
         int maxStudents = 25;
@@ -55,14 +55,10 @@ public class FinalGenericsChallengeMain {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 
     public static void printList(List<?> students) {
 

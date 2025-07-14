@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.global.models;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
@@ -8,7 +7,8 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
  **/
 public class Name {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
     String firstName;
     String lastName;
 
@@ -39,8 +39,7 @@ public class Name {
 
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        execution.setUp();
         /*
          *****************************************************
          */
@@ -49,12 +48,8 @@ public class Name {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 }

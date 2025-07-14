@@ -12,11 +12,11 @@ import java.util.List;
  **/
 public class Exercise49TestClass {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = executionSetup();
+  public static ExcecutionUtil execution = new ExcecutionUtil();
+
     public static void main(String[] args) {
 
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
+        execution.setUp();
         // your code comes in here
 
         List<Album> albums = new ArrayList<>();
@@ -72,12 +72,8 @@ public class Exercise49TestClass {
 
          ******************************************************
          */
-        execution.executionWindDown();
+        execution.windDown();
     }
 
-    public static ExcecutionUtil executionSetup() {
-        ExcecutionUtil executionUtil = new ExcecutionUtil();
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        return executionUtil;
-    }
+  //
 }
