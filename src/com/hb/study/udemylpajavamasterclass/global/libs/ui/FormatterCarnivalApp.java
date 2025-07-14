@@ -33,9 +33,11 @@ public class FormatterCarnivalApp extends JFrame {
         modeCombo = new JComboBox<>(FormatterMode.values());
         localeCombo = new JComboBox<>(Locale.getAvailableLocales());
 
+
         List<ZoneId> zoneList = ZoneLibrary.getGlobalZones();
         String[] zoneIds = zoneList.stream().map(ZoneId::getId).toArray(String[]::new);
         zoneCombo = new JComboBox<>(zoneIds);
+        //zoneCombo.addItem("All");
 
         JButton runButton = new JButton("🎉 Run Demo");
         JButton customPatternButton = new JButton("🎨 Custom Pattern");

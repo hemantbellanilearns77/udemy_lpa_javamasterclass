@@ -4,12 +4,15 @@ package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib;
  * created by : heman on 14-07-2025, 06:36 pm, in the "udemy_lpa_javamasterclass" project
  **/
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class LocaleLibrary {
 
     public static Locale[] getIndianRegionalLocales() {
-        return new Locale[] {
+        return new Locale[]{
                 Locale.of("hi", "IN"), // Hindi
                 Locale.of("mr", "IN"), // Marathi
                 Locale.of("ta", "IN"), // Tamil
@@ -26,7 +29,7 @@ public class LocaleLibrary {
     }
 
     public static Locale[] getGlobalLocales() {
-        return new Locale[] {
+        return new Locale[]{
                 Locale.UK,
                 Locale.US,
                 Locale.FRANCE,
@@ -39,5 +42,14 @@ public class LocaleLibrary {
                 Locale.of("en", "ZA"),
                 Locale.of("hi", "IN")
         };
+    }
+
+    public static Locale[] getAllLocales() {
+        List<Locale> allLocaleList = new ArrayList<>(Arrays.stream(getGlobalLocales()).toList());
+        allLocaleList.addAll(Arrays.stream(getIndianRegionalLocales()).toList());
+
+        Locale[] allLocales = new Locale[allLocaleList.size()];
+        allLocaleList.toArray(allLocales);
+        return allLocales;
     }
 }
