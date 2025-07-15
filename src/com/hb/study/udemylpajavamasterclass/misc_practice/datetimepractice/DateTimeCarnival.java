@@ -29,13 +29,13 @@ public class DateTimeCarnival {
         System.out.println("🎉  Curated by Hemant, The Formatter Maestro 🧵");
         System.out.println("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟\n");*/
 
-        System.out.println(DateTimeUtilLIbConstants.CARNICVALDEMOBANNER);
+        System.out.println(DateTimeUtilLIbConstants.CARNIVALDEMOBANNER);
 
         Locale defaultLocale = Locale.getDefault();
         ZoneId defaultZone = ZoneId.systemDefault();
 
         for (FormatterMode mode : FormatterMode.values()) {
-            FormatterOrchestrator.runMode(mode, defaultLocale, defaultZone, null);
+            CUIModeOrchestrator.runMode(mode, defaultLocale, defaultZone, null);
         }
 
 

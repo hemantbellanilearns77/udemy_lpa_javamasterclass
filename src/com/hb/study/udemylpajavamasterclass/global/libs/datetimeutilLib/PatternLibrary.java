@@ -31,7 +31,7 @@ public class PatternLibrary {
                 "yyyy年MM月dd日", "yyyy-MM-dd'T'HH:mm:ss", "dd MMM yyyy"
         };
     }
-    public static void runLanguagePatterns() {
+    public static void runIndianPatterns() {
         System.out.println("🗣️ LANGUAGE DEMO — Indian Regional Showcase");
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
         ZonedDateTime indiaTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));

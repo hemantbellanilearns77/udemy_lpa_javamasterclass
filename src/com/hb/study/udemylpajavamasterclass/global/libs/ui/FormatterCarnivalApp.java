@@ -2,6 +2,8 @@ package com.hb.study.udemylpajavamasterclass.global.libs.ui;
 
 
 import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.FormatterMode;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.CUIModeOrchestrator;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.GUIModeOrchestrator;
 import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ZoneLibrary;
 
 import javax.swing.*;
@@ -52,7 +54,9 @@ public class FormatterCarnivalApp extends JFrame {
             FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
             Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
             String selectedZoneId = (String) zoneCombo.getSelectedItem();
-            ModeExecutor.runMode(selectedMode, selectedLocale, selectedZoneId, null);
+            //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
+            //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
+            GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, null);
             outputArea.setText(FormatterLogBuffer.getLog());
         });
 
@@ -63,7 +67,9 @@ public class FormatterCarnivalApp extends JFrame {
                 FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
                 Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
                 String selectedZoneId = (String) zoneCombo.getSelectedItem();
-                ModeExecutor.runMode(selectedMode, selectedLocale, selectedZoneId, pattern);
+                //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
+                //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
+                GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, pattern);
                 outputArea.setText(FormatterLogBuffer.getLog());
             }
         });
