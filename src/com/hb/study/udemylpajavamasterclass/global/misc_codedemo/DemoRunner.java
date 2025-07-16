@@ -1,5 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.global.misc_codedemo;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
@@ -17,7 +20,7 @@ public class DemoRunner {
          *****************************************************
          */
 
-        /*// 🔷 Start Demo Session
+        // 🔷 Start Demo Session
         ConsoleStyler.startSection("Core Java Demo Session");
 
         // 📌 Print Header
@@ -45,7 +48,7 @@ public class DemoRunner {
 
         // 🕹️ Loop Demo
         ConsoleStyler.startSection("Loop Sample");
-        for (int i = 0; i < CommonConstants.LOOP_LIMIT; i++) {
+        for (int i = 0; i < CommonConstants.MAX_ITERATION_COUNT; i++) {
             System.out.println("⏱️ Loop step " + (i + 1));
         }
         ConsoleStyler.endSection("Loop Sample");
@@ -60,7 +63,7 @@ public class DemoRunner {
         // 🏁 Wrap up
         System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         System.out.println(CommonConstants.EXECUTIONENDEDSTR);
-        ConsoleStyler.divider();*/
+        ConsoleStyler.divider();
 
 
         /*

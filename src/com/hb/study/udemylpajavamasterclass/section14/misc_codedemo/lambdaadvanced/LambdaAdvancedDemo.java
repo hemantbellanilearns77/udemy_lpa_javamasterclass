@@ -3,6 +3,7 @@ package com.hb.study.udemylpajavamasterclass.section14.misc_codedemo.lambdaadvan
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class LambdaAdvancedDemo {
         AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
 
         /*

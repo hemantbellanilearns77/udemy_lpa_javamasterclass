@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_basics;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 interface Player {
@@ -28,12 +29,12 @@ public class GenericsBasicsMain {
         SportsTeam phillies2 = new SportsTeam("Philadelphia Phillies");
         SportsTeam astros2 = new SportsTeam("Houston Astros");
         scoreResult(phillies2, 5, astros2, 5);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         Team<BaseballPlayer, Affiliation> phillies =
                 new Team<>("Philadelphia Phillies", philly);
         Team<BaseballPlayer, Affiliation> astros = new Team<>("Houston Astros");
         scoreResult(phillies, 11, astros, 9);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         var harper = new BaseballPlayer("B Harper", "Right Fielder");
         var marsh = new BaseballPlayer("B Marsh", "Right Fielder");
         phillies.addTeamMember(harper);
@@ -42,7 +43,7 @@ public class GenericsBasicsMain {
         phillies.addTeamMember(guthrie);
 
         phillies.listTeamMembers();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         SportsTeam afc1 = new SportsTeam ("Adelaide Crows");
         Team<FootballPlayer, String> afc = new Team<>("Adelaide Crows",
@@ -56,17 +57,17 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
         var rory = new FootballPlayer("Rory Laird", "Midfield");
         afc.addTeamMember(rory);
         afc.listTeamMembers();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         Team<VolleyballPlayer, Affiliation> adelaide = new Team<>("Adelaide Storm");
         adelaide.addTeamMember(new VolleyballPlayer("N Roberts", "Setter"));
         adelaide.listTeamMembers();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         var canberra = new Team<VolleyballPlayer, Affiliation>("Canberra Heat");
         canberra.addTeamMember(new VolleyballPlayer("B Black", "Opposite"));
         canberra.listTeamMembers();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         scoreResult(canberra, 0, adelaide, 1);
         //        Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
 

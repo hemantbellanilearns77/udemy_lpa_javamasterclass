@@ -57,7 +57,7 @@ public class ExcecutionUtil {
                 format(benchmarkDTFormatter) + ".");
         System.out.println(CommonConstants.INDENT + "The execution ended at: " + duration.getEndZonedDateTime().
                 format(benchmarkDTFormatter) + ".");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
     }
 
     public void windDown() {

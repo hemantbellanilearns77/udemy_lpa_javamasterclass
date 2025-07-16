@@ -2,6 +2,7 @@ package com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenge
 
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 public class GenericClassChallengeMain {
@@ -19,7 +20,7 @@ public class GenericClassChallengeMain {
         Layer<Park> parkLayer = new Layer<>(nationalUSParks);
         System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() + " has: ");
         parkLayer.renderLayer();
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         var majorUSRivers = new River[]{
                 new River("Mississippi",
                         "47.2160, -95.2348", "29.1566, -89.2495",

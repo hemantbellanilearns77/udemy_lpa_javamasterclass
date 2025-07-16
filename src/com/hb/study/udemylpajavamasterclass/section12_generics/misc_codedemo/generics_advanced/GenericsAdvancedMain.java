@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.LPAStudent;
 import com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.Student;
@@ -35,26 +36,26 @@ public class GenericsAdvancedMain {
         students.add(new LPAStudent());
 //        printList(students);
         printMoreLists(students);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         List<LPAStudent> lpaStudents = new ArrayList<>();
         for (int i = 0; i < studentCount; i++) {
             lpaStudents.add(new LPAStudent());
         }
 //        printList(lpaStudents);
         printMoreLists(lpaStudents);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
         testList(new ArrayList<Integer>(List.of(1, 2, 3)));
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         var queryList = new QueryList<>(lpaStudents);
         var matches = queryList.getMatches(
                 "Course", "Python");
         printMoreLists(matches);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         var students2021 =
                 QueryList.getMatches(students, "YearStarted", "2021");
         printMoreLists(students2021);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 //     QueryList<Employee> employeeList = new QueryList<>();
  	       /*
 

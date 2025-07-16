@@ -25,7 +25,7 @@ public class ConsoleStyler {
          *//*
         execution.windDown();
     }*/
-   /* public static void startSection(String label) {
+    public static void startSection(String label) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         System.out.println("🔷 START: " + label.toUpperCase());
         System.out.println(CommonConstants.DOTTED_LINE);
@@ -38,6 +38,6 @@ public class ConsoleStyler {
     }
 
     public static void divider() {
-        System.out.println(CommonConstants.ASTERISK_LINE);
-    }*/
+        ConsoleStyler.divider();
+    }
 }

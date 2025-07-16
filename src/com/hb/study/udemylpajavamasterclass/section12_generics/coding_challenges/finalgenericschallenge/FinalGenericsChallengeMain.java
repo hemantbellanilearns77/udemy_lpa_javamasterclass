@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.*;
 import com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.util.*;
@@ -30,11 +31,11 @@ public class FinalGenericsChallengeMain {
         }
         System.out.println(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         System.out.println("Ordered");
         queryList.sort(Comparator.naturalOrder());
         printList(queryList);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         System.out.println("Matches");
         var matches = queryList
@@ -43,13 +44,13 @@ public class FinalGenericsChallengeMain {
 
         matches.sort(new LPAStudentComparator());
         printList(matches);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         System.out.println("Ordered");
         matches.sort(null);
         printList(matches);
 
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 //     QueryList<Employee> employeeList = new QueryList<>();
         /*
 

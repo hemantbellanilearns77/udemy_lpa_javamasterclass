@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section13.misc_codedemo.staticnestedandinnerclasses;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class StaticNestedAndInnerMainClass {
         for (Employee e : employees) {
             System.out.println(e);
         }
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         System.out.println("Store Members");
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
@@ -48,10 +49,10 @@ public class StaticNestedAndInnerMainClass {
         for (StoreEmployee e : storeEmployees) {
             System.out.println(e);
         }
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         System.out.println("With Pig Latin Names");
         addPigLatinName(storeEmployees);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
 
         /*

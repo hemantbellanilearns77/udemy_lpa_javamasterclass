@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ public class InterfacesDeepDiveMainClass {
         kmsTraveled = milesTraveled * FlightEnabled.MILES_TO_KM;
         System.out.printf("%.2f kms%n",
                 kmsTraveled);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
         LinkedList<FlightEnabled> fliers = new LinkedList<>();
         fliers.add(bird);
 
@@ -50,7 +51,7 @@ public class InterfacesDeepDiveMainClass {
         triggerFliers(betterFliers);
         flyFliers(betterFliers);
         landFliers(betterFliers);
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        ConsoleStyler.divider();
 
         /*
 
