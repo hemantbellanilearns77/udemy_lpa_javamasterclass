@@ -85,4 +85,34 @@ public class CommonUtils {
         return LocalDate.ofEpochDay(randomDay).format(DateTimeFormatter.ofLocalizedDate(formatStyle));
 
     }
+
+
+   /* private static final Random RANDOM = new Random();
+
+    // Prints a bannered header
+    public static void printBanner(String title) {
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        System.out.println("📌 " + title.toUpperCase());
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+    }
+
+    // Fills an int array with random numbers
+    public static int[] generateIntArray(int length, int bound) {
+        return RANDOM.ints(length, 0, bound).toArray();
+    }
+
+    // Pretty-print array
+    public static void printArray(String label, int[] array) {
+        System.out.println(label + ": " + Arrays.toString(array));
+    }
+
+    // Validate string is not empty or null
+    public static boolean isValidString(String input) {
+        return input != null && !input.trim().isEmpty();
+    }
+
+    // Format double value to two decimals
+    public static String formatDouble(double value) {
+        return new DecimalFormat("#.00").format(value);
+    }*/
 }

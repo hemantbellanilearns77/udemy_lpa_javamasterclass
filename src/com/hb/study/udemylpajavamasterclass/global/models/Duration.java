@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.global.models;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -8,6 +10,8 @@ import java.time.format.FormatStyle;
 
 public class Duration {
     private long startTime;
+    private ZonedDateTime startZoneDateTime;
+    private ZonedDateTime endZonedDateTime;
     private long endTime;
     private long totalExecutionTime;
     private long seconds;
@@ -18,15 +22,34 @@ public class Duration {
     private long hours;
     private long days;
 
-    public Duration(){
+    public Duration() {
         setStartTime(System.currentTimeMillis());
+        Instant startInstant = Instant.ofEpochMilli(this.getStartTime());
+        this.setStartZoneDateTime(ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault()));
     }
+
     public long getStartTime() {
         return startTime;
     }
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
+    }
+
+    public ZonedDateTime getStartZoneDateTime() {
+        return startZoneDateTime;
+    }
+
+    public void setStartZoneDateTime(ZonedDateTime startZoneDateTime) {
+        this.startZoneDateTime = startZoneDateTime;
+    }
+
+    public ZonedDateTime getEndZonedDateTime() {
+        return endZonedDateTime;
+    }
+
+    public void setEndZonedDateTime(ZonedDateTime endZonedDateTime) {
+        this.endZonedDateTime = endZonedDateTime;
     }
 
     public long getEndTime() {
@@ -60,6 +83,7 @@ public class Duration {
     public void setMilliseconds(long milliseconds) {
         this.milliseconds = milliseconds;
     }
+
     public long getMicroSeconds() {
         return microSeconds;
     }
@@ -67,6 +91,7 @@ public class Duration {
     public void setMicroSeconds(long microSeconds) {
         this.microSeconds = microSeconds;
     }
+
     public long getNanoseconds() {
         return nanoseconds;
     }
@@ -74,6 +99,7 @@ public class Duration {
     public void setNanoseconds(long nanoseconds) {
         this.nanoseconds = nanoseconds;
     }
+
     public long getMinutes() {
         return minutes;
     }
@@ -97,8 +123,11 @@ public class Duration {
     public void setDays(long days) {
         this.days = days;
     }
+
     public void updateDurationFields() {
         this.setEndTime(System.currentTimeMillis());
+        Instant endInstant = Instant.ofEpochMilli(this.getEndTime());
+        this.setEndZonedDateTime(ZonedDateTime.ofInstant(endInstant, ZoneId.systemDefault()));
         this.setTotalExecutionTime(this.getEndTime() - this.getStartTime());
         // Convert duration to milliseconds
         this.setMilliseconds(this.getTotalExecutionTime() % 1_000);
@@ -114,57 +143,23 @@ public class Duration {
         // Remaining seconds, minutes, and hours
         this.setSeconds(this.getSeconds() % 60);
         this.setMinutes(this.getMinutes() % 60);
-        this.setHours(this.getHours() %24);
+        this.setHours(this.getHours() % 24);
     }
 
     @Override
     public String toString() {
-        StringBuilder executionInfoPrintable = new StringBuilder(
-        "The Time taken to execute program is:%n%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
-                .formatted(this.getDays(), this.getHours(),
-                        this.getMinutes(),this.getSeconds(),
-                        this.getMilliseconds(), this.getMicroSeconds(), this.getNanoseconds())
+        /*      StringBuilder executionInfoPrintable = new StringBuilder(
+                "The Time taken to execute program is:%n%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
+                        .formatted(this.getDays(), this.getHours(),
+                                this.getMinutes(), this.getSeconds(),
+                                this.getMilliseconds(), this.getMicroSeconds(), this.getNanoseconds())
         );
-        Instant startInstant = Instant.ofEpochMilli(this.getStartTime());
-        Instant endInstant = Instant.ofEpochMilli(this.getEndTime());
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
-        //LocalDateTime dateTime = LocalDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
-        executionInfoPrintable.append("The Execution started at: " + zonedDateTime.format(formatter));
-        //dateTime = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
-        zonedDateTime = ZonedDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        executionInfoPrintable.append("The Execution ended at: " + zonedDateTime.format(formatter));
 
-        return executionInfoPrintable.toString();
-
-        /*System.out.printf("The Time taken to execute program is:%n%d days, %d hours, %d minutes, %d seconds, %d milliseconds, %d nanoseconds%n",
-                this.getDays(), this.getHours(),
-                this.getMinutes(),this.getSeconds(),
-                this.getMilliseconds(), this.getNanoseconds());
-        */
-        /*
-        executionStatsStringBuilder.append("\nExecution started at: " + Instant.ofEpochMilli(duration.getStartTime()).atZone(ZoneId.systemDefault()));
-        executionStatsStringBuilder.append("\nExecution ended at: " + Instant.ofEpochMilli(duration.getEndTime()).atZone(ZoneId.systemDefault()));
-        *//*
-        Instant startInstant = Instant.ofEpochMilli(duration.getStartTime()/1_000_000);
-        Instant endInstant = Instant.ofEpochMilli(duration.getEndTime()/1_000_000);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        LocalDateTime dateTime = LocalDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        executionInfoPrintable.append("\nExecution started at: " + dateTime.format(formatter));
-        dateTime = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
-        executionInfoPrintable.append("\nExecution ended at: " + dateTime.format(formatter));
-      */
-
-        /*return "Duration{" +
-                "startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", totalExecutionTime=" + totalExecutionTime +
-                ", nanoseconds=" + nanoseconds +
-                ", seconds=" + seconds +
-                ", milliseconds=" + milliseconds +
-                ", minutes=" + minutes +
-                ", hours=" + hours +
-                ", days=" + days +
-                '}';*/
+        return executionInfoPrintable.toString();*/
+        return CommonConstants.INDENT +
+        "The Time taken to execute program is:%n%s%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
+                        .formatted( CommonConstants.INDENT, this.getDays(), this.getHours(),
+                                this.getMinutes(), this.getSeconds(),
+                                this.getMilliseconds(), this.getMicroSeconds(), this.getNanoseconds());
     }
 }

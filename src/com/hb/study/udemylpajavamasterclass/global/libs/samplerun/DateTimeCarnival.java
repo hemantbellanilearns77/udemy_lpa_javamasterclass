@@ -2,7 +2,7 @@ package com.hb.study.udemylpajavamasterclass.global.libs.samplerun;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.*;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.constants.DateTimeUtilLIbConstants;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.common.constants.DateTimeUtilLIbConstants;
 
 import java.time.*;
 import java.util.*;
