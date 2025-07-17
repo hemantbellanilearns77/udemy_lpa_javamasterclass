@@ -17,7 +17,7 @@ public class SystemDiagnostics {
 
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         /*
          *****************************************************
          */
@@ -40,7 +40,7 @@ public class SystemDiagnostics {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
     //

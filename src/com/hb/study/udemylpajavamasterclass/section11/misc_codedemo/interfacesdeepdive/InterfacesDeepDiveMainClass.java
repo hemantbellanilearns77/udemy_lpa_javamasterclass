@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -10,7 +9,7 @@ import java.util.List;
 public class InterfacesDeepDiveMainClass {
     public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         Bird bird = new Bird();
         Animal animal = bird;
         FlightEnabled flier = bird;
@@ -57,7 +56,7 @@ public class InterfacesDeepDiveMainClass {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

@@ -17,7 +17,7 @@ public class DemoPrimitivesOperators {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -65,6 +65,6 @@ public class DemoPrimitivesOperators {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

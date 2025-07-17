@@ -19,7 +19,7 @@ public class DemoNetworking {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) throws MalformedURLException {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -46,6 +46,6 @@ public class DemoNetworking {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

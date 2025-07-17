@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section13.misc_codedemo.staticnestedandinnerclasses;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -12,7 +11,7 @@ public class StaticNestedAndInnerMainClass {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         List<Employee> employees = new ArrayList<>(List.of(
                 new Employee(10001, "Ralph", 2015),
                 new Employee(10005, "Carole", 2021),
@@ -59,7 +58,7 @@ public class StaticNestedAndInnerMainClass {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

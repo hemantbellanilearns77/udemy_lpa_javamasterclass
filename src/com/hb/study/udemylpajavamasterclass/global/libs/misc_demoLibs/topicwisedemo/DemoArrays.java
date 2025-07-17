@@ -2,7 +2,6 @@ package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.topicwise
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
@@ -14,7 +13,7 @@ public class DemoArrays {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -40,6 +39,6 @@ public class DemoArrays {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

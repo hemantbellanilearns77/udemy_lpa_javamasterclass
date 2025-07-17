@@ -15,7 +15,7 @@ public class TopicWiseDemoRunner {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -54,7 +54,7 @@ public class TopicWiseDemoRunner {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
     private static void run(String label, Runnable demoMethod)  {

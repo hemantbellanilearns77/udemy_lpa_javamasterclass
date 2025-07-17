@@ -1,7 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge;
 
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -10,7 +9,7 @@ public class GenericClassChallengeMain {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
                 new Park("Grand Canyon", "36.1085, -112.0965"),
@@ -41,6 +40,6 @@ public class GenericClassChallengeMain {
         /*
             *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

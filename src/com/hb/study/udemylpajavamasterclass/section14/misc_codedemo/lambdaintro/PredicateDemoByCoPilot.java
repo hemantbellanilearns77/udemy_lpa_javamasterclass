@@ -34,7 +34,7 @@ public class PredicateDemoByCoPilot {
     }
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         /*
          *****************************************************
          */
@@ -68,6 +68,6 @@ public class PredicateDemoByCoPilot {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

@@ -16,7 +16,7 @@ public class DemoAllIO {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) throws IOException {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -39,7 +39,7 @@ public class DemoAllIO {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }
 

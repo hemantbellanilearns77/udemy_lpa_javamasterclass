@@ -1,7 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.topicwisedemo;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
@@ -13,7 +12,7 @@ public class DemoMathOperations {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -37,6 +36,6 @@ public class DemoMathOperations {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

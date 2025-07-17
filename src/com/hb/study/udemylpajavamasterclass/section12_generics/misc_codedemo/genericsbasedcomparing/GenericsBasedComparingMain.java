@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.genericsbasedcomparing;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -13,7 +12,7 @@ public class GenericsBasedComparingMain {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};
@@ -54,7 +53,7 @@ public class GenericsBasedComparingMain {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

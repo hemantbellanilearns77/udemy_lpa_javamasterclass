@@ -16,7 +16,7 @@ public class Exercise49TestClass {
 
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         // your code comes in here
 
         List<Album> albums = new ArrayList<>();
@@ -72,7 +72,7 @@ public class Exercise49TestClass {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

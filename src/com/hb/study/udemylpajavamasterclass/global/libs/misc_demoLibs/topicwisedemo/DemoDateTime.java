@@ -15,7 +15,7 @@ public class DemoDateTime {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -42,6 +42,6 @@ public class DemoDateTime {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

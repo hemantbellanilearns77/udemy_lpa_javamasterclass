@@ -5,10 +5,8 @@ import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
-public class Duration {
+public class BenchmarkModel {
     private long startTime;
     private ZonedDateTime startZoneDateTime;
     private ZonedDateTime endZonedDateTime;
@@ -22,7 +20,7 @@ public class Duration {
     private long hours;
     private long days;
 
-    public Duration() {
+    public BenchmarkModel() {
         setStartTime(System.currentTimeMillis());
         Instant startInstant = Instant.ofEpochMilli(this.getStartTime());
         this.setStartZoneDateTime(ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault()));
@@ -124,7 +122,7 @@ public class Duration {
         this.days = days;
     }
 
-    public void updateDurationFields() {
+    public void update() {
         this.setEndTime(System.currentTimeMillis());
         Instant endInstant = Instant.ofEpochMilli(this.getEndTime());
         this.setEndZonedDateTime(ZonedDateTime.ofInstant(endInstant, ZoneId.systemDefault()));

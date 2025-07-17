@@ -33,7 +33,7 @@ public class DemoJavaFX extends Application {
          *****************************************************
          *//*
 
-        execution.windDown();
+        execution.finalizeExecution();
     }
     @Override
     public void start(Stage stage) {

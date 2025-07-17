@@ -36,7 +36,7 @@ public class LocalAndAnonymousClassesChallengeMain {
     private static String[] args;
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         LocalAndAnonymousClassesChallengeMain.args = args;
         System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         System.out.println("This program will generate " + maxEmployeeCount + " objects for Employees");
@@ -74,7 +74,7 @@ public class LocalAndAnonymousClassesChallengeMain {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

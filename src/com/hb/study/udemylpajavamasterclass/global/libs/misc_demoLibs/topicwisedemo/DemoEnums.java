@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.topicwisedemo;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -13,7 +12,7 @@ public class DemoEnums {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -31,7 +30,7 @@ public class DemoEnums {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
     enum Day {
         MONDAY("😐"), TUESDAY("😶"), WEDNESDAY("🙂"), THURSDAY("😀"), FRIDAY("🥳"),

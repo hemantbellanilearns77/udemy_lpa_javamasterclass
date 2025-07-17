@@ -17,7 +17,7 @@ public class DemoOOPConcepts {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -44,7 +44,7 @@ public class DemoOOPConcepts {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
     // Base Class

@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.*;
@@ -22,7 +21,7 @@ public class FinalGenericsChallengeMain {
 
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         QueryList<LPAStudent> queryList = new QueryList<LPAStudent>();
         int maxStudents = 25;
@@ -56,7 +55,7 @@ public class FinalGenericsChallengeMain {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

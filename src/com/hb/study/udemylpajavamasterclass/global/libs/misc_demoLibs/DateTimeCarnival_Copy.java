@@ -15,7 +15,7 @@ public class DateTimeCarnival_Copy {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         /*System.out.println("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟");
         System.out.println("🪔  WELCOME TO DATE-TIME CARNIVAL — DIWALI EDITION 🪔");
@@ -34,7 +34,7 @@ public class DateTimeCarnival_Copy {
         }
 
 
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
    /* public static void runFullCarnivalBlast() {

@@ -34,7 +34,7 @@ public class FunkyFilters {
         /*
          *****************************************************
          */
-        execution.setUp();
+        execution.initialize();
         List<String> names = new ArrayList<>();
         Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
 
@@ -76,6 +76,6 @@ public class FunkyFilters {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

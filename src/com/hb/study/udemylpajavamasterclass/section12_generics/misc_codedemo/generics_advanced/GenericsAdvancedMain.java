@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.LPAStudent;
@@ -26,7 +25,7 @@ public class GenericsAdvancedMain {
 
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         int studentCount = new Random().nextInt(1,11);
         System.out.println(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
@@ -61,7 +60,7 @@ public class GenericsAdvancedMain {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

@@ -87,7 +87,7 @@ public class CoreJavaCarnival {
         /*
          *****************************************************
          */
-        //execution.windDown();
+        //execution.finalizeExecution();
     }
 
     public static void printBanner(String label) {

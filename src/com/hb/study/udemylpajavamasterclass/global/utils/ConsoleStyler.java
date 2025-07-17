@@ -22,7 +22,7 @@ public class ConsoleStyler {
         *//*
          *****************************************************
          *//*
-        execution.windDown();
+        execution.finalizeExecution();
     }*/
    // Prints a bannered header
    public static void printBanner(String title) {

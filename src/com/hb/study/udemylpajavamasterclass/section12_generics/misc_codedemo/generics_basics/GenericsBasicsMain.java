@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_basics;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -17,7 +16,7 @@ public class GenericsBasicsMain {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         var philly = new Affiliation("city", "Philadelphia, PA",
                 "US");
@@ -75,7 +74,7 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

@@ -9,17 +9,30 @@ public class CommonConstants {
     public static final String DOTTED_LINE = "·".repeat(126);
     public static final String INDENT = "\t\t\t"; // adjustable for your taste
     public static final String EXECUTIONSETUPSSTR =
-            "⚙️ ".repeat(9) + "🔧 EXECUTION SETUP & BENCHMARK INITIALIZED; OUTPUT BEGINS BELOW 🔧" + "⚙️ ".repeat(9);
+            "⚙️ ".repeat(9) + "🔧 EXECUTION SETUP & BENCHMARK INITIALIZED; OUTPUT BEGINS BELOW 🔧" + " ⚙️".repeat(9);
 
     public static final String EXECUTIONENDEDSTR =
-           "⚙️ ".repeat(16) + " ✅ EXECUTION ENDED ✅ " + "⚙️ ".repeat(16);
+           "⚙️ ".repeat(16) + "✅ EXECUTION ENDED ✅" + " ⚙️".repeat(16);
 
+    // Benchmark Constants
     public static final String BENCHMARKSECTIONHEADER =
             "*".repeat(45) + " 📊 BENCHMARK INFO 📊 " + "*".repeat(45);
 
     public static final String BENCHMARKINSUMMARYSTR =
             INDENT + "📊 BENCHMARK SUMMARY of the above execution:\n";
 
+    public static final String BENCHMARKINSUMMARYDAYSSTR =
+            "%s 🕒 Days: %s%n day(s)";
+    public static final String BENCHMARKINSUMMARYHOURSSSTR =
+            "%s 🕒 Hours: %s%n hour(s)";
+    public static final String BENCHMARKINSUMMARYMINUTESSSTR =
+            "%s 🕒 Minutes: %s%n minute(s)";
+    public static final String BENCHMARKINSUMMARYSECONDSSTR =
+            "%s 🕒 Seconds: %s%n second(s)";
+    public static final String BENCHMARKINSUMMARYMILLISSSTR =
+            "%s 🕒 Milliseconds: %s%n millisecond(s)";
+    public static final String BENCHMARKINSUMMARYNANOSSSTR =
+            "%s 🕒 Nanoseconds: %s%n nanosecond(s)";
     public static final String BENCHMARKINGDETAILSSTR =
             INDENT + "📊 BENCHMARK DETAILS of the above execution:\n";
 

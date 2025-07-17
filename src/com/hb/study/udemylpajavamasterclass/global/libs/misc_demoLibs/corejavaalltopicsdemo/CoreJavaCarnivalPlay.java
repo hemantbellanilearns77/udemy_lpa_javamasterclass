@@ -11,7 +11,7 @@ public class CoreJavaCarnivalPlay {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         /*
          *****************************************************
@@ -21,6 +21,6 @@ public class CoreJavaCarnivalPlay {
         /*
          *****************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }

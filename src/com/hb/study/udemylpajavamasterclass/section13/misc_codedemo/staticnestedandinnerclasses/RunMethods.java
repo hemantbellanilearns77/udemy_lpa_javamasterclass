@@ -18,7 +18,7 @@ public class RunMethods {
         /*
          *****************************************************
          */
-        execution.setUp();
+        execution.initialize();
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
                         "Target"),
@@ -64,7 +64,7 @@ public class RunMethods {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section14.misc_codedemo.lambdaadvanced;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
@@ -30,7 +29,7 @@ public class LambdaAdvancedDemo {
 
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         int loopCounter;
         /*
          *****************************************************
@@ -58,7 +57,7 @@ public class LambdaAdvancedDemo {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
     //

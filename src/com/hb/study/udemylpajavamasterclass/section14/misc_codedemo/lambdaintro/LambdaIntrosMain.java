@@ -33,7 +33,7 @@ public class LambdaIntrosMain {
     private static int namesCount =  new Random().nextInt(1,64);
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         /*
          *****************************************************
          */
@@ -84,7 +84,7 @@ public class LambdaIntrosMain {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

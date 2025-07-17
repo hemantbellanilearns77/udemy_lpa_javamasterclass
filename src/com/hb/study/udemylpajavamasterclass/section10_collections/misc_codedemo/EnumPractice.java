@@ -10,7 +10,7 @@ public class EnumPractice {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 /*        System.out.println("Days of the week are: \n" +
                 Arrays.asList(DayOfTheWeek.values()));
         System.out.println(asteriskSeparatorLine);
@@ -43,7 +43,7 @@ public class EnumPractice {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //

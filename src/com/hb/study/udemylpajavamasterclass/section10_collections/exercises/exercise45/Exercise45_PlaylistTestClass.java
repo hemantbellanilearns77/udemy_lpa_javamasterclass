@@ -12,7 +12,7 @@ public class Exercise45_PlaylistTestClass {
 
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         ArrayList<Album> albums = new ArrayList<>();
 
         Album album = new Album("Stormbringer", "Deep Purple");
@@ -64,7 +64,7 @@ public class Exercise45_PlaylistTestClass {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //
