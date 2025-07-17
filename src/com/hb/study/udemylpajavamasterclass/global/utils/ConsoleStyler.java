@@ -1,7 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
  * created by : heman on 16-07-2025, 01:09 pm, in the "udemy_lpa_javamasterclass" project
@@ -25,6 +24,12 @@ public class ConsoleStyler {
          *//*
         execution.windDown();
     }*/
+   // Prints a bannered header
+   public static void printBanner(String title) {
+       System.out.println(CommonConstants.SECTION_SEPARATOR);
+       System.out.println("📌 " + title.toUpperCase());
+       System.out.println(CommonConstants.SECTION_SEPARATOR);
+   }
     public static void startSection(String label) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         System.out.println("🔷 START: " + label.toUpperCase());
@@ -38,6 +43,10 @@ public class ConsoleStyler {
     }
 
     public static void divider() {
-        ConsoleStyler.divider();
+        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+    }
+
+    public static void styleIt(String styleStr) {
+        System.out.println(styleStr);
     }
 }

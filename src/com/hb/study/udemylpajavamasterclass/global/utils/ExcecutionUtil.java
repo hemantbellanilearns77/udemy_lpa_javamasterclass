@@ -11,37 +11,38 @@ public class ExcecutionUtil {
 
     public void setUp() {
         duration = new Duration();
-        System.out.println("\n" + CommonConstants.EXECUTIONSETUPSSTR);
+        ConsoleStyler.printBanner(CommonConstants.EXECUTIONSETUPSSTR);
     }
 
-    public void publishBenchmarkingInfo() {
-        System.out.println(CommonConstants.BENCHMARKSECTIONHEADER);
+    public void publishBenchmarkInfo() {
+        ConsoleStyler.startSection(CommonConstants.BENCHMARKSECTIONHEADER);
         publishBenchmarkSummary();
         System.out.println((CommonConstants.INDENT + CommonConstants.ASTERISKSEPERATORLINESTRHALF + "\n" ));
         publishBenchMarkDetails();
+        ConsoleStyler.endSection(CommonConstants.BENCHMARKSECTIONHEADER);
     }
 
     private void publishBenchmarkSummary() {
         System.out.println(CommonConstants.BENCHMARKINSUMMARYSTR);
         if (duration.getDays() > 0) {
-            System.out.println("🕒 Days: " + duration.getDays() + " day(s)");
-            System.out.println("🕒 Hours: " + duration.getHours() + " hour(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Days: " + duration.getDays() + " day(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Hours: " + duration.getHours() + " hour(s)");
             return;
         }
         if (duration.getHours() > 0) {
-            System.out.println("🕒 Hours: " + duration.getHours() + " hour(s)");
-            System.out.println("🕒 Minutes: " + duration.getMinutes() + " minute(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Hours: " + duration.getHours() + " hour(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Minutes: " + duration.getMinutes() + " minute(s)");
             return;
         }
         if (duration.getMinutes() > 0) {
-            System.out.println("🕒 Minutes: " + duration.getMinutes() + " minute(s)");
-            System.out.println("🕒 Second: " + duration.getSeconds() + " second(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Minutes: " + duration.getMinutes() + " minute(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Second: " + duration.getSeconds() + " second(s)");
             return;
         }
         if (duration.getSeconds() > 0) {
-            System.out.println("🕒 Second: " + duration.getSeconds() + " second(s)");
-            System.out.println("🕒 Millis: " + duration.getMilliseconds() + " ms");
-            System.out.println("⏱️ Nano  : " + duration.getNanoseconds() + " ns");
+            System.out.println(CommonConstants.INDENT + "🕒 Second: " + duration.getSeconds() + " second(s)");
+            System.out.println(CommonConstants.INDENT + "🕒 Millis: " + duration.getMilliseconds() + " ms");
+            System.out.println(CommonConstants.INDENT + "⏱️ Nano  : " + duration.getNanoseconds() + " ns");
             return;
         }
         System.out.println(CommonConstants.INDENT + "🕒 Millis: " + duration.getMilliseconds() + " ms");
@@ -50,8 +51,7 @@ public class ExcecutionUtil {
     }
 
     private void publishBenchMarkDetails() {
-        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);
-        System.out.println(duration);
+        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);       System.out.println(duration);
         DateTimeFormatter benchmarkDTFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         System.out.println(CommonConstants.INDENT + "The execution started at: " + duration.getStartZoneDateTime().
                 format(benchmarkDTFormatter) + ".");
@@ -62,7 +62,7 @@ public class ExcecutionUtil {
 
     public void windDown() {
         duration.updateDurationFields();
-        publishBenchmarkingInfo();
-        System.out.println(CommonConstants.EXECUTIONENDEDSTR + "\n");
+        publishBenchmarkInfo();
+        ConsoleStyler.printBanner(CommonConstants.EXECUTIONENDEDSTR);
     }
 }

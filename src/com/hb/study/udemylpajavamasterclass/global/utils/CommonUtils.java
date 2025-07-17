@@ -20,12 +20,7 @@ public class CommonUtils {
 
     private static final Random RANDOM = new Random();
 
-    // Prints a bannered header
-    public static void printBanner(String title) {
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("📌 " + title.toUpperCase());
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
-    }
+
 
     // Fills an int array with random numbers
     public static int[] generateIntArray(int length, int bound) {
