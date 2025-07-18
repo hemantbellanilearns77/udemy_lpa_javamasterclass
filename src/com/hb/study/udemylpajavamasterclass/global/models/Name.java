@@ -39,7 +39,7 @@ public class Name {
 
     public static void main(String[] args) {
 
-        execution.setUp();
+        execution.initialize();
         /*
          *****************************************************
          */
@@ -48,7 +48,7 @@ public class Name {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
   //
