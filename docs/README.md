@@ -46,7 +46,7 @@ udemy_lpa_javamasterclass/
 
 ## ⚙️ Technologies Used
 
-- **Java 21** or higher
+- **Java 24** or higher
 - **JUnit 5 (Jupiter)** for modern unit testing
 - **Swing UI** for interactive and colorful demos
 - **SQLite (optional)** for embedded storage
