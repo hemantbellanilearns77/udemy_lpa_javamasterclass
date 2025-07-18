@@ -22,17 +22,17 @@ public class CommonConstants {
             INDENT + "📊 BENCHMARK SUMMARY of the above execution:\n";
 
     public static final String BENCHMARKINSUMMARYDAYSSTR =
-            "%s 🕒 Days: %s%n day(s)";
+            "%s 🕒 Days: %s day(s)%n";
     public static final String BENCHMARKINSUMMARYHOURSSSTR =
-            "%s 🕒 Hours: %s%n hour(s)";
+            "%s 🕒 Hours: %s hour(s)%n";
     public static final String BENCHMARKINSUMMARYMINUTESSSTR =
-            "%s 🕒 Minutes: %s%n minute(s)";
+            "%s 🕒 Minutes: %s minute(s)%n";
     public static final String BENCHMARKINSUMMARYSECONDSSTR =
-            "%s 🕒 Seconds: %s%n second(s)";
+            "%s 🕒 Seconds: %s second(s)%n";
     public static final String BENCHMARKINSUMMARYMILLISSSTR =
-            "%s 🕒 Milliseconds: %s%n millisecond(s)";
+            "%s 🕒 Milliseconds: %s millisecond(s)%n";
     public static final String BENCHMARKINSUMMARYNANOSSSTR =
-            "%s 🕒 Nanoseconds: %s%n nanosecond(s)";
+            "%s 🕒 Nanoseconds: %s nanosecond(s)%n";
     public static final String BENCHMARKINGDETAILSSTR =
             INDENT + "📊 BENCHMARK DETAILS of the above execution:\n";
 
