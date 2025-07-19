@@ -17,7 +17,7 @@ public class ExcecutionUtil {
     public void publishBenchmark() {
         ConsoleStyler.startSection(CommonConstants.BENCHMARKSECTIONHEADER);
         publishBenchmarkSummary();
-        System.out.println((CommonConstants.INDENT + CommonConstants.ASTERISKSEPERATORLINESTRHALF + "\n" ));
+        ConsoleStyler.halfDivider();
         publishBenchmarkDetails();
         ConsoleStyler.endSection(CommonConstants.BENCHMARKSECTIONHEADER);
     }

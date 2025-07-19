@@ -13,13 +13,15 @@ import java.util.stream.Stream;
  **/
 public class ConsoleStyler {
 
-   // Prints a bannered header
-   public static void printBanner(String title) {
-       System.out.println(CommonConstants.SECTION_SEPARATOR);
-       System.out.println("📌 " + title.toUpperCase());
-       System.out.println(CommonConstants.SECTION_SEPARATOR);
-   }
+    // Prints a bannered header
+    public static void printBanner(String title) {
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        System.out.println("📌 " + title.toUpperCase());
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+    }
+
     public static void startSection(String label) {
+        ConsoleStyler.divider();
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         System.out.println("🔷 START: " + label.toUpperCase());
         System.out.println(CommonConstants.DOTTED_LINE);
@@ -29,10 +31,47 @@ public class ConsoleStyler {
         System.out.println(CommonConstants.DOTTED_LINE);
         System.out.println("🏁 END: " + label.toUpperCase());
         System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.divider();
     }
 
     public static void divider() {
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+    }
+
+    public static void halfDivider() {
+        System.out.println(CommonConstants.INDENT + CommonConstants.ASTERISKSEPERATORLINESTRHALF);
+    }
+
+    public static void styleIt(String outputText, boolean showLineNumbers, boolean enableColor) {
+        if (outputText == null || outputText.isBlank()) {
+            System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
+            return;
+        }
+
+        String[] lines = outputText.split("\\R"); // Handles all newline types
+
+        // Optional ANSI coloring
+        String borderColor = enableColor ? "\u001B[35m" : ""; // Magenta
+        String resetColor = enableColor ? "\u001B[0m" : "";
+
+        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
+
+        for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
+            String linePrefix = showLineNumbers ? String.format("[%02d] ", lineCounter + 1) : "» ";
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + lines[lineCounter]);
+        }
+
+        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
+    }
+    public static void styleIt(String outputText) {
+        styleIt(outputText, false, true);
+    }
+    public static void styleIt(String outputText, boolean bothFlags) {
+        styleIt(outputText, bothFlags, bothFlags);
+    }
+
+    public static void startSubSection(String outputText) {
+        styleIt(outputText, false, true);
     }
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
@@ -139,7 +178,7 @@ public class ConsoleStyler {
         }
 
         // 🎨 Styled Output
-        System.out.println(CommonConstants.DOTTED_LINE);
+        //System.out.println(CommonConstants.DOTTED_LINE);
         final AtomicInteger counter = new AtomicInteger(0);
 
 
@@ -155,125 +194,12 @@ public class ConsoleStyler {
             }
         }
 
-        System.out.println(CommonConstants.DOTTED_LINE);
+        //System.out.println(CommonConstants.DOTTED_LINE);
     }
-    /*public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
-        if (input == null) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
 
-        Stream<?> stream;
-
-        // 🧠 Patch for primitive arrays
-        if (input instanceof double[]) {
-            stream = Arrays.stream((double[]) input).boxed();
-        } else if (input instanceof int[]) {
-            stream = Arrays.stream((int[]) input).boxed();
-        } else if (input instanceof long[]) {
-            stream = Arrays.stream((long[]) input).boxed();
-        } else if (input instanceof boolean[]) {
-            stream = IntStream.range(0, ((boolean[]) input).length)
-                    .mapToObj(i -> ((boolean[]) input)[i]);
-        } else if (input instanceof char[]) {
-            stream = IntStream.range(0, ((char[]) input).length)
-                    .mapToObj(i -> ((char[]) input)[i]);
-        }
-
-        // 🧠 Standard containers
-        else if (input instanceof Object[]) {
-            stream = Arrays.stream((Object[]) input);
-        } else if (input instanceof List<?>) {
-            List<?> list = (List<?>) input;
-            if (!list.isEmpty() && list.get(0) instanceof double[]) {
-                stream = list.stream().flatMap(arr -> Arrays.stream((double[]) arr).boxed());
-            } else if (!list.isEmpty() && list.get(0) instanceof Object[]) {
-                stream = list.stream().flatMap(arr -> Arrays.stream((Object[]) arr));
-            } else {
-                stream = list.stream();
-            }
-        } else if (input instanceof Set<?>) {
-            stream = ((Set<?>) input).stream();
-        } else if (input instanceof Stream<?>) {
-            stream = (Stream<?>) input;
-        } else {
-            System.out.println(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
-            return;
-        }
-
-        // 🪄 Format coordinates if input was clearly a List of arrays
-        boolean isCoordinateMode =
-                input instanceof List<?> && !((List<?>) input).isEmpty() &&
-                        (((List<?>) input).get(0) instanceof double[] || ((List<?>) input).get(0) instanceof Object[]);
-
-        List<Object> items = stream
-                .map(obj -> {
-                    if (obj == null) return "null";
-                    if (formatNumbers && obj instanceof Number) {
-                        return String.format("%12s", obj);
-                    }
-                    if (uppercaseStrings && obj instanceof String) {
-                        return ((String) obj).toUpperCase();
-                    }
-                    return obj;
-                })
-                .collect(Collectors.toList());
-
-        if (sort) {
-            try {
-                Collections.sort((List) items); // unchecked cast for sorting
-            } catch (ClassCastException e) {
-                System.out.println(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
-            }
-        }
-
-        if (items.isEmpty()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
-
-        System.out.println(CommonConstants.DOTTED_LINE);
-        AtomicInteger counter = new AtomicInteger(1);
-
-        for (int i = 0; i < items.size(); i += (isCoordinateMode ? 2 : 1)) {
-            if (isCoordinateMode && i + 1 < items.size()) {
-                System.out.printf(CommonConstants.INDENT + "%s [%d] → (%.4f, %.4f)%n",
-                        labelPrefix, counter.getAndIncrement(),
-                        Double.parseDouble(items.get(i).toString()),
-                        Double.parseDouble(items.get(i + 1).toString()));
-            } else {
-                System.out.printf(CommonConstants.INDENT + "%s [%d] %s%n",
-                        labelPrefix, counter.getAndIncrement(), items.get(i));
-            }
-        }
-
-        System.out.println(CommonConstants.DOTTED_LINE);
-    }*/
 
     // Overloaded wrapper with defaults applied
     public static void styleEach(String labelPrefix, Object input) {
         styleEach(labelPrefix, input, false, false, false);
-    }
-
-    public static void styleIt(String outputText, boolean showLineNumbers, boolean enableColor) {
-        if (outputText == null || outputText.isBlank()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
-            return;
-        }
-
-        String[] lines = outputText.split("\\R"); // Handles all newline types
-
-        // Optional ANSI coloring
-        String borderColor = enableColor ? "\u001B[35m" : ""; // Magenta
-        String resetColor = enableColor ? "\u001B[0m" : "";
-
-        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
-
-        for (int i = 0; i < lines.length; i++) {
-            String linePrefix = showLineNumbers ? String.format("[%02d] ", i + 1) : "» ";
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + lines[i]);
-        }
-
-        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
     }
 }

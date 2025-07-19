@@ -5,8 +5,13 @@ import java.util.Random;
 public class CommonConstants {
     // Header & Separators
     public static final String HEADER = "\n" + "📘".repeat(3) + " JAVA EXERCISE SESSION " + "📘".repeat(3);
-    public static final String SECTION_SEPARATOR = "\n" + "-".repeat(126);
+    public static final String SECTION_SEPARATOR = "\n" + "_".repeat(126);
     public static final String DOTTED_LINE = "·".repeat(126);
+    public static final String ASTERISKSEPERATORLINESTRFULL =
+            "*".repeat(126);
+
+    public static final String ASTERISKSEPERATORLINESTRHALF =
+            "*".repeat(126 / 2);
     public static final String INDENT = "\t\t\t"; // adjustable for your taste
     public static final String EXECUTIONSETUPSSTR =
             "⚙️ ".repeat(9) + "🔧 EXECUTION SETUP & BENCHMARK INITIALIZED; OUTPUT BEGINS BELOW 🔧" + " ⚙️".repeat(9);
@@ -35,12 +40,6 @@ public class CommonConstants {
             "%s 🕒 Nanoseconds: %s nanosecond(s)%n";
     public static final String BENCHMARKINGDETAILSSTR =
             INDENT + "📊 BENCHMARK DETAILS of the above execution:\n";
-
-    public static final String ASTERISKSEPERATORLINESTRFULL =
-            "*".repeat(126);
-
-    public static final String ASTERISKSEPERATORLINESTRHALF =
-            "*".repeat(126 / 2);
 
     // Demo Limits
     public static final int MAX_ITERATION_COUNT = new Random().nextInt(1, (3969 + 1));

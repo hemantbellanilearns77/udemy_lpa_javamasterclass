@@ -121,40 +121,6 @@ public class CoreJavaCarnival {
         frame.setVisible(true);
     }
 
-    /*public static void runDBDemo(String name) {
-        System.out.println("\n📂 Connecting to SQLite DB...");
-        String url = "jdbc:sqlite:carnival.db";
-
-        String createTable = "CREATE TABLE IF NOT EXISTS attendees (id INTEGER PRIMARY KEY, name TEXT)";
-        String insertSQL = "INSERT INTO attendees(name) VALUES(?)";
-        String selectSQL = "SELECT * FROM attendees";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement createStmt = conn.prepareStatement(createTable);
-             PreparedStatement insertStmt = conn.prepareStatement(insertSQL);
-             Statement selectStmt = conn.createStatement()) {
-
-            try {
-                createStmt.execute();
-                System.out.println("✅ Table created or already exists.");
-            } catch (SQLException e) {
-                System.out.println("❌ Table creation failed: " + e.getMessage());
-            }
-
-            insertStmt.setString(1, name);
-            insertStmt.executeUpdate();
-
-            System.out.println("🎟️ Attendees:");
-            ResultSet rs = selectStmt.executeQuery(selectSQL);
-            while (rs.next()) {
-                System.out.println(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ DB Error: " + e.getMessage());
-        }
-    }*/
-
     public static void runDBDemo(String name) {
         System.out.println("\n📂 Connecting to SQLite DB...");
         String url = "jdbc:sqlite:carnival.db";
@@ -190,6 +156,7 @@ public class CoreJavaCarnival {
             System.out.println("❌ DB Error: " + e.getMessage());
         }
     }
+
     static class Person {
         protected String name;
 
