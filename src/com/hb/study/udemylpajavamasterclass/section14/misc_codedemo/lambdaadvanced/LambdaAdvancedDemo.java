@@ -9,6 +9,7 @@ import com.hb.study.udemylpajavamasterclass.section14.misc_codedemo.Operation;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 
 public class LambdaAdvancedDemo {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
@@ -29,7 +30,12 @@ public class LambdaAdvancedDemo {
     public static void main(String[] args) {
         execution.initialize();
         List<String> names = new ArrayList<>();
-
+        ConsoleStyler.startSubSection("Count of names as originally in the list (names) is: " + maxElementAndIterationCount
+        + "; and Original List of Guest Names is: ");
+        for (int loopCounter = 0; loopCounter < maxElementAndIterationCount; loopCounter++) {
+            names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
+        }
+        ConsoleStyler.styleEach("Guest", names, false,true, false);
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
         demoConsumerLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
@@ -41,7 +47,6 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
         dmeoFunctionLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
-
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
         demoSupplierLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
@@ -100,10 +105,7 @@ public class LambdaAdvancedDemo {
 
     private static void demoConsumerLambda(List<String> names) {
         ConsoleStyler.startSubSection("Randomly generated List<String> of names (displayed using 'Consumer' Lambda based call to List.foreach()):");
-        ConsoleStyler.styleIt("Count of names as originally in the list (names) is: " + maxElementAndIterationCount);
-        for (int loopCounter = 0; loopCounter < maxElementAndIterationCount; loopCounter++) {
-            names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
-        }
+
         //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
@@ -136,17 +138,25 @@ public class LambdaAdvancedDemo {
     }
 
     private static void demoSupplierLambda(List<String> names) {
-
+        ConsoleStyler.startSubSection("Supplier get() for getting a random int and then using it to generate a sub-array out of names list");
+        int count = (names.size()/2);
+        String[] randomArrayUsingLambda = new String[count];
+        Supplier<Integer> s = () -> new Random().nextInt(0, FIRST_NAMES.length);
+        for(int i=0; i<count; i++){
+            randomArrayUsingLambda[i] = FIRST_NAMES[s.get()];
+        }
+        ConsoleStyler.styleEach("Guest", randomArrayUsingLambda, false,true, false);
     }
 
     private static void demoPredicateLambda(List<String> names) {
+
+        ConsoleStyler.startSubSection("Guests after remove if.... equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
-        ConsoleStyler.styleIt("Guests after remove if.... equalsIgnoreCase(\"ArjunDev\") ", false, true);
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEach("", names, false, true, true);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
-        ConsoleStyler.styleIt("Guests after remove if.... startsWith(\"Ar\") ", false, true);
+        ConsoleStyler.startSubSection("Guests after remove if.... startsWith(\"Ar\") ");
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEach("", names, false, true, true);
 
