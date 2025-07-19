@@ -27,8 +27,9 @@ public class LambdaAdvancedDemo {
     private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
 
 
-    public static void main(String[] args) {
+    public static void main(String[] ignoredArgs) {
         execution.initialize();
+        ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
         ConsoleStyler.startSubSection("Count of names as originally in the list (names) is: " + maxElementAndIterationCount
         + "; and Original List of Guest Names is: ");
@@ -36,6 +37,8 @@ public class LambdaAdvancedDemo {
             names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
         }
         ConsoleStyler.styleEach("Guest", names, false,true, false);
+        ConsoleStyler.endSection("Demonstration Initializations");
+
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
         demoConsumerLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
@@ -47,6 +50,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
         dmeoFunctionLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
+
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
         demoSupplierLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
@@ -55,11 +59,11 @@ public class LambdaAdvancedDemo {
     }
 
     private static void dmeoFunctionLambda(List<String> names) {
-        int value1 = 7;
-        int value2 = 9;
+        int value1 = 77;
+        int value2 = 99;
 
         //Lambda invocation using calculator...
-        var result = calculator((a, b) -> (value1 * value2), value1, value2);
+        var result = calculator((a, b) -> (a * b), value1, value2);
         //value2 = 20; // just to demonstrate that if uncommented this would introduce an error in above lambda expression....
         /* variations of the above lambda call
          int result = calculator((Integer v1, Integer v2) -> {
