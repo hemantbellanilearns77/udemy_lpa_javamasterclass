@@ -11,69 +11,91 @@ import java.util.stream.Stream;
 /**
  * created by : heman on 16-07-2025, 01:09 pm, in the "udemy_lpa_javamasterclass" project
  **/
+
 public class ConsoleStyler {
 
     // Prints a bannered header
     public static void printBanner(String title) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("📌 " + title.toUpperCase());
+        System.out.println("📌 " + (CommonConstants.BOLD + CommonConstants.GREEN +  title.toUpperCase() + CommonConstants.RESET));
         System.out.println(CommonConstants.SECTION_SEPARATOR);
     }
 
     public static void startSection(String label) {
         ConsoleStyler.divider();
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("🔷 START: " + label.toUpperCase());
+        System.out.println("🔷 START: " + CommonConstants.CYAN + CommonConstants.UNDERLINE + label.toUpperCase() + CommonConstants.RESET );
         System.out.println(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
         System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println("🏁 END: " + label.toUpperCase());
+        System.out.println("🏁 END: " + CommonConstants.CYAN + CommonConstants.UNDERLINE + label.toUpperCase() + CommonConstants.RESET );
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         ConsoleStyler.divider();
     }
 
+    public static void startSubSection(String outputText) {
+        styleIt(outputText.toUpperCase(), (CommonConstants.BOLD + CommonConstants.ITALIC + CommonConstants.BLUE),
+                false, true,false);
+
+    }
     public static void divider() {
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
     }
 
     public static void halfDivider() {
-        System.out.println(CommonConstants.INDENT + CommonConstants.ASTERISKSEPERATORLINESTRHALF);
+        System.out.println(CommonConstants.INDENT + CommonConstants.YELLOW + CommonConstants.ASTERISKSEPERATORLINESTRHALF + CommonConstants.RESET);
     }
-
-    public static void styleIt(String outputText, boolean showLineNumbers, boolean enableColor) {
+    public static void styleInfo(String outputText) {
+        styleIt(outputText,(CommonConstants.ITALIC + CommonConstants.RED), false, true, false);
+    }
+    public static void styleIt(String outputText, String textFormatting, boolean allFlags) {
+        styleIt(outputText,textFormatting, allFlags, allFlags, allFlags);
+    }
+    public static void styleIt(String outputText, String textFormatting) {
+        styleIt(outputText,textFormatting, false);
+    }
+    public static void styleIt(String outputText, boolean allFlags) {
+        styleIt(outputText,null, allFlags, allFlags, allFlags);
+    }
+    public static void styleIt(String outputText) {
+        styleIt(outputText, null, false, false, false);
+    }
+    public static void styleIt(String outputText, String textFormatting, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
         if (outputText == null || outputText.isBlank()) {
             System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
             return;
         }
-
+        if(textFormatting == null || textFormatting.isBlank() || textFormatting.isEmpty()) {
+            textFormatting = "";
+        }
         String[] lines = outputText.split("\\R"); // Handles all newline types
 
         // Optional ANSI coloring
-        String borderColor = enableColor ? "\u001B[35m" : ""; // Magenta
-        String resetColor = enableColor ? "\u001B[0m" : "";
+        String borderColor = enableBorderColor ? CommonConstants.MAGENTA : ""; // Magenta
+        String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
         System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
-
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
-            String linePrefix = showLineNumbers ? String.format("[%02d] ", lineCounter + 1) : "» ";
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + lines[lineCounter]);
+            String linePrefix = showLineNumbers ? String.format("%s[%02d]%s", textFormatting, (lineCounter + 1), CommonConstants.RESET) :
+                    String.format("%s%s",textFormatting,showlinePrefix ? ("» "): "");
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + (textFormatting + lines[lineCounter]) + CommonConstants.RESET);
         }
 
         System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
     }
-    public static void styleIt(String outputText, boolean bothFlags) {
-        styleIt(outputText, bothFlags, bothFlags);
+
+
+    // Overloaded wrapper with defaults applied
+    public static void styleEach(String labelPrefix, Object input, boolean allFlags) {
+        styleEach(labelPrefix, input, allFlags, allFlags, allFlags);
     }
 
-    public static void startSubSection(String outputText) {
-        styleIt(outputText.toUpperCase(), false, true);
+    // Overloaded wrapper to just show line numbers, no uppercase, no sorting
+    public static void styleEachAsIs(String labelPrefix, Object input) {
+        styleEach(labelPrefix, input, false);
     }
-    public static void styleInfo(String outputText) {
-        styleIt(outputText, false, true);
-    }
-
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
         if (input == null) {
             System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
@@ -195,11 +217,5 @@ public class ConsoleStyler {
         }
 
         //System.out.println(CommonConstants.DOTTED_LINE);
-    }
-
-
-    // Overloaded wrapper with defaults applied
-    public static void styleEach(String labelPrefix, Object input) {
-        styleEach(labelPrefix, input, false, false, false);
     }
 }

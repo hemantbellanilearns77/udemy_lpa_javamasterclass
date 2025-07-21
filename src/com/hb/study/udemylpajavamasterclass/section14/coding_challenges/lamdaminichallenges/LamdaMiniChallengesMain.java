@@ -1,11 +1,10 @@
 package com.hb.study.udemylpajavamasterclass.section14.coding_challenges.lamdaminichallenges;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
-import java.io.Console;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -35,12 +34,8 @@ public class LamdaMiniChallengesMain {
         /*
          *****************************************************
          */
-
-
-        //iniChallengeOne();
-        miniChallengeTwo();
-
-
+        miniChallengeOne();
+        miniChallengeTwoThroughFive();
         /*
          *****************************************************
          */
@@ -53,13 +48,13 @@ public class LamdaMiniChallengesMain {
             @Override
             public void accept(String sentence) {
                 String[] parts = sentence.split(" ");
-                ConsoleStyler.styleEach("Part: ", parts);
+                ConsoleStyler.styleEachAsIs("Part: ", parts);
             }
         };
         String originalSentence = "I am trying to print the parts of this sentence using a Lambda Expression generated out of an anonymous class";
-        ConsoleStyler.startSubSection("[INITIALIZATION]: \n" + "Original sentence : \"" + originalSentence + "\"");
+        ConsoleStyler.styleInfo("[INITIALIZATION]: \n" + "Original sentence : \"" + originalSentence + "\"");
 
-        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below (using accept() call on Anonymous class : ", false, true);
+        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below (using accept() call on Anonymous class : ");
         printTheParts.accept(originalSentence);
         ConsoleStyler.halfDivider();
 
@@ -70,11 +65,10 @@ public class LamdaMiniChallengesMain {
                 for(String nextWord: sentenceParts) {
                     ConsoleStyler.styleIt("NextPart: "  + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord, false);
             }*/
-            ConsoleStyler.styleEach("Part: ", sentenceParts);
+            ConsoleStyler.styleEachAsIs("Part: ", sentenceParts);
 
         };
-        ConsoleStyler.styleIt("InitaliOriginal sentence divided into 'word parts' now below, (using accept() call on printThePartsLambda Lamda) : ",
-                false, true);
+        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsLambda Lamda) : ");
         printThePartsLambda.accept(originalSentence);
         ConsoleStyler.halfDivider();
 
@@ -83,17 +77,18 @@ public class LamdaMiniChallengesMain {
             AtomicInteger atomicInteger = new AtomicInteger(0);
             Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleIt("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord, false));
         };
-        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ",
-                false, true);
+        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
         printThePartsConcise.accept(originalSentence);
 
         ConsoleStyler.endSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class (Consumer Lambda)");
     }
 
-    public static void miniChallengeTwo() {
-        ConsoleStyler.startSection("Lambda Mini Challenge # 2 : Creating a lambda from an method with return value (Function Lambda)");
-        ConsoleStyler.startSubSection("Here's the method provided \n ");
+    public static void miniChallengeTwoThroughFive() {
+        ConsoleStyler.startSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
         ConsoleStyler.styleInfo("""
+                These 4 challenges are all about creating a lambda from a method with return value 
+                Also create a Target Function, using one of the variations as its arguments and demonstrate it's invocation
+                Here's the method provided \n
                 public static String everySecondChar(String source){
                          StringBuilder returnVal = new StringBuilder();
                          for( int i=0; i<source.length(); i++){
@@ -104,8 +99,18 @@ public class LamdaMiniChallengesMain {
                          return returnVal.toString();
                      }
                 """);
-
-        ConsoleStyler.styleInfo("""
+        ConsoleStyler.startSubSection(""" 
+                Mini Challenge 2, 3: Create Lambda Expressions using the method provided above, and execute the same.""");
+        Function<String, String> stringFunctionLambda = (String s) -> {
+            StringBuilder returnVal = new StringBuilder();
+            for (int i = 0; i < s.length(); i++) {
+                if (i % 2 == 1) {
+                    returnVal.append(s.charAt(i));
+                }
+            }
+            return returnVal.toString();
+        };
+        ConsoleStyler.styleIt("""
                  //The Lambda definition
                  Function<String, String> stringFunctionLambda = (String s) -> {
                             StringBuilder returnVal = new StringBuilder();
@@ -118,37 +123,25 @@ public class LamdaMiniChallengesMain {
                             return returnVal.toString();
                         };
                  //The Lambda call
-                 stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!")
+                 stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
                  and here's the output after lambda call:
-                """);
-        Function<String, String> stringFunctionLambda = (String s) -> {
+                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"), CommonConstants.ITALIC,false);
+
+        ConsoleStyler.halfDivider();
+
+        UnaryOperator<String> unaryStringLambda = (String s) -> {
             StringBuilder returnVal = new StringBuilder();
             for (int i = 0; i < s.length(); i++) {
                 if (i % 2 == 1) {
                     returnVal.append(s.charAt(i));
                 }
             }
-
             return returnVal.toString();
         };
-
-        ConsoleStyler.styleIt(stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"), false);
-        ConsoleStyler.halfDivider();
-
-        UnaryOperator<String> unaryStringLambda = (String s) -> {
-            StringBuilder returnVal = new StringBuilder();
-            for( int i=0; i<s.length(); i++){
-                if(i%2==1){
-                    returnVal.append(s.charAt(i));
-                }
-            }
-
-            return returnVal.toString();
-        };
-        ConsoleStyler.styleInfo("""
-                ALTERNATIVELY:
+        ConsoleStyler.styleIt("""
+                Alternatively, we can use UnaryOperator<String, String> Lambda Function based Lambda Expression
                 //The Lambda definition
-                 UnaryOperator<String, String> unaryStringLambda = (String s) -> {
+                UnaryOperator<String, String> unaryStringLambda = (String s) -> {
                             StringBuilder returnVal = new StringBuilder();
                             for( int i=0; i<s.length(); i++){
                                 if(i%2==1){
@@ -159,29 +152,51 @@ public class LamdaMiniChallengesMain {
                             return returnVal.toString();
                         };
                  //The Lambda call
-                 unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!")
+                 unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                   and here's the output after lambda call:
-                """);
-        ConsoleStyler.styleIt(unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"), false);
+                """ + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"),
+                CommonConstants.ITALIC,false);
+
         ConsoleStyler.halfDivider();
+
         UnaryOperator<String> unaryOperatorConcise = (String s) -> {
             return everySecondChar(s);
         };
-
-        ConsoleStyler.styleInfo("""
-                ALTERNATIVELY:
+        ConsoleStyler.styleIt("""
+                Alternatively, we can create a Lambda Expression based on a concise definition of UnaryOperator<String, String> ( Lambda Function )
                 UnaryOperator<String> unaryOperatorConcise = (String s) -> {
                             return everySecondChar(s);
-                        };                 
+                        };
                  //The Lambda call
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
-                  and here's the output after lambda call:
+                  and here's the output after lambda call: \n
+                """ + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"),
+                CommonConstants.ITALIC,false);
+        ConsoleStyler.halfDivider();
+        ConsoleStyler.startSubSection("""
+                Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
+                which in turn is defined using UnaryOperator<String, String> ( Lambda Function ) and then invoke it...
                 """);
-        ConsoleStyler.styleIt(unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"), false);
-        ConsoleStyler.endSection("Lambda Mini Challenge # 2 : Creating a lambda from an method with return value (Function Lambda)");
 
+        String result = everySecondChar(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
+        ConsoleStyler.styleIt("""
+                Here's the definition of that Target Function: an overloaded version of everySecondChar
+                public static String everySecondChar(Function<String,String> function, String source ){
+                    return function.apply(source);
+                }
+                // Then invoked it, with source string
+                result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
+                and here's the output after lambda call:\n
+                """ + result, CommonConstants.ITALIC,false);
+        ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
-    public static String everySecondChar(String source){
+
+    public static void miniChallengeSixSevenEight() {
+        ConsoleStyler.startSection("Lambda Mini Challenge # 6,7,8 : Supplier Lambda variations");
+        ConsoleStyler.endSection("Lambda Mini Challenge # 6,7,8 : Supplier Lambda variations");
+    }
+
+    public static String everySecondChar(String source) {
         StringBuilder returnVal = new StringBuilder();
         for (int i = 0; i < source.length(); i++) {
             if (i % 2 == 1) {
@@ -189,6 +204,10 @@ public class LamdaMiniChallengesMain {
             }
         }
         return returnVal.toString();
+    }
+
+    public static String everySecondChar(Function<String, String> function, String source) {
+        return function.apply(source);
     }
     /*public static void demoFunction() {
         ConsoleStyler.startSection("Demonstration of XYZ Concept....");

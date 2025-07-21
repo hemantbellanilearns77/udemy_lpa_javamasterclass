@@ -22,7 +22,8 @@ public class ExcecutionUtil {
         ConsoleStyler.endSection(CommonConstants.BENCHMARKSECTIONHEADER);
     }
     private void publishBenchmarkSummary() {
-        System.out.println(CommonConstants.BENCHMARKINSUMMARYSTR);
+        //System.out.println(CommonConstants.BENCHMARKINSUMMARYSTR);
+        ConsoleStyler.startSubSection(CommonConstants.BENCHMARKINSUMMARYSTR);
         if (benchmarkModel.getDays() > 0) {
             System.out.printf(CommonConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
                     CommonConstants.INDENT, benchmarkModel.getDays()));
@@ -54,7 +55,9 @@ public class ExcecutionUtil {
     }
 
     private void publishBenchmarkDetails() {
-        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);       System.out.println(benchmarkModel);
+        //System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);
+        ConsoleStyler.startSubSection(CommonConstants.BENCHMARKINGDETAILSSTR);
+        System.out.println(benchmarkModel);
         DateTimeFormatter benchmarkDTFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         System.out.println(CommonConstants.INDENT + "The execution started at: " + benchmarkModel.getStartZoneDateTime().
                 format(benchmarkDTFormatter) + ".");

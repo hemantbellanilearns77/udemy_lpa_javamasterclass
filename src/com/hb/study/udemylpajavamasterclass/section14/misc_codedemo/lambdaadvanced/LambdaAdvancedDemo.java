@@ -31,15 +31,15 @@ public class LambdaAdvancedDemo {
         execution.initialize();
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
-        ConsoleStyler.startSubSection("Count of names as originally in the list (names) is: " + maxElementAndIterationCount
-        + "; and Original List of Guest Names is: ");
+        ConsoleStyler.styleInfo("Count of names as originally in the list (names) is: " + maxElementAndIterationCount
+                + "; and Original List of Guest Names is: ");
         for (int loopCounter = 0; loopCounter < maxElementAndIterationCount; loopCounter++) {
             names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
         }
-        ConsoleStyler.styleEach("Guest", names, false,true, false);
+        ConsoleStyler.styleEachAsIs("Guest", names);
         ConsoleStyler.endSection("Demonstration Initializations");
 
-        /*ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
+        ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
         demoConsumerLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
 
@@ -51,7 +51,7 @@ public class LambdaAdvancedDemo {
         dmeoFunctionLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
 
-        ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");*/
+        ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
         demoSupplierLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
 
@@ -61,7 +61,8 @@ public class LambdaAdvancedDemo {
     private static void dmeoFunctionLambda(List<String> names) {
         int value1 = 77;
         int value2 = 99;
-
+        ConsoleStyler.startSubSection("""
+                Demonstrating Binary Function Lambda using Binary Function:""");
         //Lambda invocation using calculator...
         var result = calculator((a, b) -> (a * b), value1, value2);
         //value2 = 20; // just to demonstrate that if uncommented this would introduce an error in above lambda expression....
@@ -75,21 +76,21 @@ public class LambdaAdvancedDemo {
         int result = calculator((a,b) -> {int c = a*b; return c;}, 7,9); // using return ad curly braces
          */
 
-        ConsoleStyler.startSubSection("""
+        ConsoleStyler.styleIt("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""" + result);
+                Final Result from calculator:""" + result,false);
         ConsoleStyler.halfDivider();
         //Lambda invocation using anotherCalculator i.e. the BinaryOperator (out of box from java.util package) Functional Interface...
         int anotherResult = anotherCalculator((a, b) -> (value1 * value2), value1, value2);
-        ConsoleStyler.startSubSection("""
+        ConsoleStyler.styleIt("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from anotherCalculator:""" + anotherResult);
+                Final Result from anotherCalculator:""" + anotherResult,false);
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.startSubSection("Names after replace all (Unary Function Lambda Demo)");
         names.replaceAll(name-> "The name: " + name + " has " + name.length() + " characters" );
         //names.forEach(name -> ConsoleStyler.styleIt(name, true, false));
-        ConsoleStyler.styleEach("", names, false,true, true);
+        ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.startSubSection("Demonstrating Binary Function Lambda using Arrays.setAll");
@@ -113,7 +114,7 @@ public class LambdaAdvancedDemo {
         //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
-        ConsoleStyler.styleEach("Guest", names);
+        ConsoleStyler.styleEach("Guest", names, false);
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
                 "based call to List.foreach()):");
@@ -170,14 +171,14 @@ public class LambdaAdvancedDemo {
 
     public static <T> T calculator(Operation<T> function, T value1, T value2) {
         T result = function.operate(value1, value2);
-        ConsoleStyler.styleIt("Result (inside calculator method): " + result, false, true);
+        ConsoleStyler.styleIt("Result (inside calculator method): " + result, false);
         return result;
     }
 
     // This one uses an out of box, Java Core BinaryOperator Functional Interface
     public static <T> T anotherCalculator(BinaryOperator<T> function, T value1, T value2) {
         T result = function.apply(value1, value2);
-        ConsoleStyler.styleIt("Result (inside anotherCalculator method): " + result, false, true);
+        ConsoleStyler.styleIt("Result (inside anotherCalculator method): " + result,false);
         return result;
     }
 
