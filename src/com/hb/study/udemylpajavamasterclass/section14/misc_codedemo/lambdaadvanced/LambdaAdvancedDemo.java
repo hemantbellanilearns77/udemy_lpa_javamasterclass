@@ -39,7 +39,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.styleEach("Guest", names, false,true, false);
         ConsoleStyler.endSection("Demonstration Initializations");
 
-        ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
+        /*ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
         demoConsumerLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
 
@@ -51,7 +51,7 @@ public class LambdaAdvancedDemo {
         dmeoFunctionLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Function and BiFunction Lambda");
 
-        ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
+        ConsoleStyler.startSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");*/
         demoSupplierLambda(names);
         ConsoleStyler.endSection("Demonstration of Lambda Categories : Supplier and BiSupplier Lambda");
 
@@ -145,9 +145,11 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.startSubSection("Supplier get() for getting a random int and then using it to generate a sub-array out of names list");
         int count = (names.size()/2);
         String[] randomArrayUsingLambda = new String[count];
-        Supplier<Integer> s = () -> new Random().nextInt(0, FIRST_NAMES.length);
+        Supplier<Integer> supplier  = () -> new Random().nextInt(0, FIRST_NAMES.length);
         for(int i=0; i<count; i++){
-            randomArrayUsingLambda[i] = FIRST_NAMES[s.get()];
+            // both below are valid lambda invocations of category Supplier with use of get() implementation
+            randomArrayUsingLambda[i] = FIRST_NAMES[supplier.get()]; // more readable and s is more reusable...
+            //randomArrayUsingLambda[i] = FIRST_NAMES[((Supplier<Integer>) () -> new Random().nextInt(0, FIRST_NAMES.length)).get()];
         }
         ConsoleStyler.styleEach("Guest", randomArrayUsingLambda, false,true, false);
     }

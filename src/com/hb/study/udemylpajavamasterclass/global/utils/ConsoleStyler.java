@@ -63,14 +63,14 @@ public class ConsoleStyler {
 
         System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
     }
-    public static void styleIt(String outputText) {
-        styleIt(outputText, false, true);
-    }
     public static void styleIt(String outputText, boolean bothFlags) {
         styleIt(outputText, bothFlags, bothFlags);
     }
 
     public static void startSubSection(String outputText) {
+        styleIt(outputText.toUpperCase(), false, true);
+    }
+    public static void styleInfo(String outputText) {
         styleIt(outputText, false, true);
     }
 

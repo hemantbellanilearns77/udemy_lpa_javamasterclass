@@ -1,9 +1,6 @@
-package com.hb.study.udemylpajavamasterclass.global;
+package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 /**
  * created by : heman on 16-07-2025, 01:13 pm, in the "udemy_lpa_javamasterclass" project
