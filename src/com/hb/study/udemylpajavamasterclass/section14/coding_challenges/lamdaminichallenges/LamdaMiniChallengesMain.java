@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section14.coding_challenges.lamdaminichallenges;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
@@ -53,9 +52,9 @@ public class LamdaMiniChallengesMain {
             }
         };
         String originalSentence = "I am trying to print the parts of this sentence using a Lambda Expression generated out of an anonymous class";
-        ConsoleStyler.styleInfo("[INITIALIZATION]: \n" + "Original sentence : \"" + originalSentence + "\"");
-
-        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below (using accept() call on Anonymous class : ");
+        ConsoleStyler.styleInitializationInfo("[INITIALIZATION]: \n" + "Original sentence is: \n\"" + originalSentence + "\"");
+        ConsoleStyler.halfDivider();
+        ConsoleStyler.startSection("Original sentence after being divided into 'word parts' using accept() call on Anonymous class is as below: ");
         printTheParts.accept(originalSentence);
         ConsoleStyler.halfDivider();
 
@@ -69,16 +68,16 @@ public class LamdaMiniChallengesMain {
             ConsoleStyler.styleEachAsIs("Part: ", sentenceParts);
 
         };
-        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsLambda Lamda) : ");
+        ConsoleStyler.startSubSection("Original sentence divided into 'word parts' using accept() call on printThePartsLambda Lambda is as below: ");
         printThePartsLambda.accept(originalSentence);
         ConsoleStyler.halfDivider();
 
         //OR
         Consumer<String> printThePartsConcise = sentence -> {
             AtomicInteger atomicInteger = new AtomicInteger(0);
-            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleIt("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord, false));
+            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleIt("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
         };
-        ConsoleStyler.styleIt("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
+        ConsoleStyler.startSubSection("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
         printThePartsConcise.accept(originalSentence);
 
         ConsoleStyler.endSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class (Consumer Lambda)");
@@ -86,8 +85,8 @@ public class LamdaMiniChallengesMain {
 
     public static void miniChallengeTwoThroughFive() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
-        ConsoleStyler.styleInfo("""
-                These 4 challenges are all about creating a lambda from a method with return value 
+        ConsoleStyler.styleInitializationInfo("""
+                These 4 mini-challenges are all about creating a lambda from a method with return value 
                 Also create a Target Function, using one of the variations as its arguments and demonstrate it's invocation
                 Here's the method provided \n
                 public static String everySecondChar(String source){
@@ -100,6 +99,7 @@ public class LamdaMiniChallengesMain {
                          return returnVal.toString();
                      }
                 """);
+        ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection(""" 
                 Mini Challenge 2, 3: Create Lambda Expressions using the method provided above, and execute the same.""");
         Function<String, String> stringFunctionLambda = (String s) -> {
@@ -111,7 +111,7 @@ public class LamdaMiniChallengesMain {
             }
             return returnVal.toString();
         };
-        ConsoleStyler.styleIt("""
+        ConsoleStyler.styleSubSectionInfo("""
                  //The Lambda definition
                  Function<String, String> stringFunctionLambda = (String s) -> {
                             StringBuilder returnVal = new StringBuilder();
@@ -126,7 +126,7 @@ public class LamdaMiniChallengesMain {
                  //The Lambda call
                  stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
                  and here's the output after lambda call:
-                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"), SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
+                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
 
         ConsoleStyler.halfDivider();
 
@@ -139,7 +139,7 @@ public class LamdaMiniChallengesMain {
             }
             return returnVal.toString();
         };
-        ConsoleStyler.styleIt("""
+        ConsoleStyler.styleSubSectionInfo("""
                 Alternatively, we can use UnaryOperator<String, String> Lambda Function based Lambda Expression
                 //The Lambda definition
                 UnaryOperator<String, String> unaryStringLambda = (String s) -> {
@@ -154,25 +154,26 @@ public class LamdaMiniChallengesMain {
                         };
                  //The Lambda call
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
-                  and here's the output after lambda call:
-                """ + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"),
-                SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
+                """);
+        ConsoleStyler.styleIt("Here's the output after lambda call:\n"
+        + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
 
-        ConsoleStyler.halfDivider();
+ConsoleStyler.halfDivider();
 
-        UnaryOperator<String> unaryOperatorConcise = (String s) -> {
-            return everySecondChar(s);
-        };
-        ConsoleStyler.styleIt("""
+UnaryOperator<String> unaryOperatorConcise = (String s) -> {
+    return everySecondChar(s);
+};
+ConsoleStyler.styleSubSectionInfo("""
                 Alternatively, we can create a Lambda Expression based on a concise definition of UnaryOperator<String, String> ( Lambda Function )
                 UnaryOperator<String> unaryOperatorConcise = (String s) -> {
                             return everySecondChar(s);
                         };
                  //The Lambda call
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
-                  and here's the output after lambda call: \n
-                """ + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"),
-                SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
+                """);
+
+        ConsoleStyler.styleIt("Here's the output after lambda call:\n"
+                + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,

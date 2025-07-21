@@ -12,11 +12,31 @@ import java.util.Random;
  * created by : heman on 21-07-2025, 05:39 pm, in the "udemy_lpa_javamasterclass" project
  **/
 public class Theme {
+    public void setBg(BackgroundColor bg) {
+        this.bg = bg;
+    }
+
+    public void setFg(ForegroundColor fg) {
+        this.fg = fg;
+    }
+
+    public void setFormattingElements(List<String> formattingElements) {
+        this.formattingElements = formattingElements;
+    }
+
+    public boolean isHasFormattingElements() {
+        return hasFormattingElements;
+    }
+
+    public void setHasFormattingElements(boolean hasFormattingElements) {
+        this.hasFormattingElements = hasFormattingElements;
+    }
+
     //Object level or Static declarations here...
-    public final BackgroundColor bg;
-    public final ForegroundColor fg;
-    public final List<String> formattingElements;
-    public final boolean hasFormattingElements;
+    private BackgroundColor bg;
+    private ForegroundColor fg;
+    private List<String> formattingElements;
+    private boolean hasFormattingElements;
 
     public BackgroundColor getBg() {
         return bg;
