@@ -76,13 +76,13 @@ public class LambdaAdvancedDemo {
         int result = calculator((a,b) -> {int c = a*b; return c;}, 7,9); // using return ad curly braces
          */
 
-        ConsoleStyler.styleIt("""
+        ConsoleStyler.stylePLainOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
                 Final Result from calculator:""" + result);
         ConsoleStyler.halfDivider();
         //Lambda invocation using anotherCalculator i.e. the BinaryOperator (out of box from java.util package) Functional Interface...
         int anotherResult = anotherCalculator((a, b) -> (value1 * value2), value1, value2);
-        ConsoleStyler.styleIt("""
+        ConsoleStyler.stylePLainOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
                 Final Result from anotherCalculator:""" + anotherResult);
         ConsoleStyler.halfDivider();
@@ -95,13 +95,13 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.startSubSection("Demonstrating Binary Function Lambda using Arrays.setAll");
         String[] stringArray = new String[9];
-        ConsoleStyler.styleIt(Arrays.toString(stringArray));
+        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
         Arrays.fill(stringArray,"STRING");
         ConsoleStyler.startSubSection("String Array after fill is: ");
-        ConsoleStyler.styleIt(Arrays.toString(stringArray));
+        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
         Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i+1) );
         ConsoleStyler.startSubSection("String Array after setAll is: ");
-        ConsoleStyler.styleIt(Arrays.toString(stringArray));
+        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
 
 
@@ -114,7 +114,7 @@ public class LambdaAdvancedDemo {
         //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
-        ConsoleStyler.styleEach("Guest", names, false);
+        ConsoleStyler.styleEachAsIs("Guest", names);
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
                 "based call to List.foreach()):");
@@ -125,10 +125,10 @@ public class LambdaAdvancedDemo {
                 new double[]{45.9239, -111.4983},
                 new double[]{38.8146, -90.1218}
         );
-        coords.forEach(s -> ConsoleStyler.styleIt(Arrays.toString(s)));
+        coords.forEach(s -> ConsoleStyler.stylePLainOutput(Arrays.toString(s)));
         ConsoleStyler.halfDivider();
         BiConsumer<Double, Double> p1 = (lat, lon) ->
-                ConsoleStyler.styleIt("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
+                ConsoleStyler.stylePLainOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
         //BiConsumer<Double, Double> p1 = (lat,lon) -> System.out.printf("[Latitude: %.3f, Longitude: %.3f]%n", lat, lon);
         var firstPoint = coords.getFirst();
         ConsoleStyler.startSubSection("Playing around with BiConsumer Functional Interface ");
@@ -139,7 +139,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.startSubSection("Now with the expanded lambda expression.... ");
         coords.forEach(s -> processPoint(s[0], s[1],
                 (lat, lon) ->
-                        ConsoleStyler.styleIt("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
+                        ConsoleStyler.stylePLainOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
     }
 
     private static void demoSupplierLambda(List<String> names) {
@@ -171,14 +171,14 @@ public class LambdaAdvancedDemo {
 
     public static <T> T calculator(Operation<T> function, T value1, T value2) {
         T result = function.operate(value1, value2);
-        ConsoleStyler.styleIt("Result (inside calculator method): " + result);
+        ConsoleStyler.stylePLainOutput("Result (inside calculator method): " + result);
         return result;
     }
 
     // This one uses an out of box, Java Core BinaryOperator Functional Interface
     public static <T> T anotherCalculator(BinaryOperator<T> function, T value1, T value2) {
         T result = function.apply(value1, value2);
-        ConsoleStyler.styleIt("Result (inside anotherCalculator method): " + result);
+        ConsoleStyler.stylePLainOutput("Result (inside anotherCalculator method): " + result);
         return result;
     }
 

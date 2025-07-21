@@ -75,7 +75,7 @@ public class LamdaMiniChallengesMain {
         //OR
         Consumer<String> printThePartsConcise = sentence -> {
             AtomicInteger atomicInteger = new AtomicInteger(0);
-            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleIt("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
+            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.stylePLainOutput("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
         };
         ConsoleStyler.startSubSection("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
         printThePartsConcise.accept(originalSentence);
@@ -125,9 +125,10 @@ public class LamdaMiniChallengesMain {
                         };
                  //The Lambda call
                  stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
-                 and here's the output after lambda call:
-                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
-
+                 """);
+        ConsoleStyler.stylePLainOutput("""
+            Here's the output after lambda call: \n")
+        """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
 
         UnaryOperator<String> unaryStringLambda = (String s) -> {
@@ -155,7 +156,7 @@ public class LamdaMiniChallengesMain {
                  //The Lambda call
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                 """);
-        ConsoleStyler.styleIt("Here's the output after lambda call:\n"
+        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n"
         + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
 
 ConsoleStyler.halfDivider();
@@ -172,7 +173,7 @@ ConsoleStyler.styleSubSectionInfo("""
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
                 """);
 
-        ConsoleStyler.styleIt("Here's the output after lambda call:\n"
+        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n"
                 + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("""
@@ -181,15 +182,15 @@ ConsoleStyler.styleSubSectionInfo("""
                 """);
 
         String result = everySecondChar(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
-        ConsoleStyler.styleIt("""
+        ConsoleStyler.styleSubSectionInfo("""
                 Here's the definition of that Target Function: an overloaded version of everySecondChar
                 public static String everySecondChar(Function<String,String> function, String source ){
                     return function.apply(source);
                 }
                 // Then invoked it, with source string
-                result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
-                and here's the output after lambda call:\n
-                """ + result, SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
+                result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");                
+                """);
+        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n" + result);
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
 

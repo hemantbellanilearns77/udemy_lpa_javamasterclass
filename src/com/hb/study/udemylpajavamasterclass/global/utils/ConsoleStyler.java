@@ -63,16 +63,16 @@ public class ConsoleStyler {
         styleIt(outputText, SemanticColorRole.SUBSECTION_ITALIC_INFO);
     }
 
-    public static void styleIt(String outputText, SemanticColorRole semanticColorRole, boolean allFlags) {
+    private static void styleIt(String outputText, SemanticColorRole semanticColorRole, boolean allFlags) {
         styleIt(outputText, semanticColorRole, allFlags, allFlags, allFlags);
     }
 
-    public static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
+    private static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
         styleIt(outputText, semanticColorRole, false);
     }
 
-    public static void styleIt(String outputText) {
-        styleIt(outputText, SemanticColorRole.PLAIN_OUTPUT, false, false, false);
+    public static void stylePLainOutput(String outputText) {
+        styleIt(outputText, SemanticColorRole.PLAIN_OUTPUT);
     }
 
     public static void styleIt(String outputText, SemanticColorRole semannticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
@@ -98,14 +98,9 @@ public class ConsoleStyler {
     }
 
 
-    // Overloaded wrapper with defaults applied
-    public static void styleEach(String labelPrefix, Object input, boolean allFlags) {
-        styleEach(labelPrefix, input, allFlags, allFlags, allFlags);
-    }
-
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting
     public static void styleEachAsIs(String labelPrefix, Object input) {
-        styleEach(labelPrefix, input, false);
+        styleEach(labelPrefix, input, false, false, false);
     }
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
@@ -231,34 +226,6 @@ public class ConsoleStyler {
         //System.out.println(CommonConstants.DOTTED_LINE);
     }
 
-
-
-        /*
-          return switch (role) {
-        case ERROR -> new Theme(
-            BackgroundColor.BRIGHT_RED, ForegroundColor.BRIGHT_WHITE);
-
-        case WARNING -> new Theme(
-            BackgroundColor.WARNING_YELLOW, ForegroundColor.BLACK);
-
-        case SECTION_HEADING -> new Theme(
-            BackgroundColor.INDIGO, ForegroundColor.BRIGHT_WHITE);
-
-        case SUBSECTION_HEADING -> new Theme(
-            BackgroundColor.SLATE, ForegroundColor.BRIGHT_WHITE);
-
-        case INITIALIZATION_INFO -> new Theme(
-            BackgroundColor.SKY_BLUE, ForegroundColor.NAVY);
-
-        case OUTPUT_HEADER -> new Theme(
-            BackgroundColor.GOLD, ForegroundColor.BLACK);
-
-        case BENCHMARK_SECTION_HEADER, PROGRAM_BANNER -> new Theme(
-            BackgroundColor.SAPPHIRE, ForegroundColor.BRIGHT_WHITE);
-    };
-         */
-
-
     public static String applyStyling(String text, SemanticColorRole semanticColorRole,
                                       BackgroundColor bgColor, ForegroundColor fgColor, List<String> customFormattingElements ) {
         StringBuilder themedText = new StringBuilder();
@@ -289,15 +256,15 @@ public class ConsoleStyler {
         return themedText.toString();
     }
 
-    public static String applyStyling(String text, SemanticColorRole role) {
+    private static String applyStyling(String text, SemanticColorRole role) {
         return applyStyling(text, role, null,null, null);
     }
 
-    public static String applyStyling(String text, BackgroundColor bgColor, ForegroundColor fgColor, List<String> customFormattingElements ){
+    private static String applyStyling(String text, BackgroundColor bgColor, ForegroundColor fgColor, List<String> customFormattingElements ){
        return applyStyling(text, null, bgColor, fgColor,customFormattingElements);
     }
 
-    public static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
+    private static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
         return switch (role) {
             case ERROR -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, null);
@@ -318,7 +285,7 @@ public class ConsoleStyler {
             case PROGRAM_BANNER -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, List.of(CommonConstants.BOLD));
             default -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, null);
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
         };
     }
 
