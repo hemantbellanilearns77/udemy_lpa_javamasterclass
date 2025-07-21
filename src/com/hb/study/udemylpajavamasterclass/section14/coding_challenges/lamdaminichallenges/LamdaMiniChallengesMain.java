@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section14.coding_challenges.lamdaminichallenges;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
@@ -125,7 +126,7 @@ public class LamdaMiniChallengesMain {
                  //The Lambda call
                  stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
                  and here's the output after lambda call:
-                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"), CommonConstants.ITALIC,false);
+                """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"), SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
 
         ConsoleStyler.halfDivider();
 
@@ -155,7 +156,7 @@ public class LamdaMiniChallengesMain {
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                   and here's the output after lambda call:
                 """ + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"),
-                CommonConstants.ITALIC,false);
+                SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
 
         ConsoleStyler.halfDivider();
 
@@ -171,7 +172,7 @@ public class LamdaMiniChallengesMain {
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
                   and here's the output after lambda call: \n
                 """ + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"),
-                CommonConstants.ITALIC,false);
+                SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
@@ -187,7 +188,7 @@ public class LamdaMiniChallengesMain {
                 // Then invoked it, with source string
                 result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
                 and here's the output after lambda call:\n
-                """ + result, CommonConstants.ITALIC,false);
+                """ + result, SemanticColorRole.SUBSECTION_ITALIC_INFO,false);
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
 

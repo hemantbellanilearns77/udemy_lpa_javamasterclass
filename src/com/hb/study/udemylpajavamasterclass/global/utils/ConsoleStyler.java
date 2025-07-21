@@ -1,6 +1,10 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.constants.BackgroundColor;
+import com.hb.study.udemylpajavamasterclass.global.constants.ForegroundColor;
+import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
+import com.hb.study.udemylpajavamasterclass.global.models.Theme;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,70 +21,77 @@ public class ConsoleStyler {
     // Prints a bannered header
     public static void printBanner(String title) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("📌 " + (CommonConstants.BOLD + CommonConstants.GREEN +  title.toUpperCase() + CommonConstants.RESET));
+        System.out.printf( applyStyling(SemanticColorRole.PROGRAM_BANNER,"📌 " + title.toUpperCase() ));
         System.out.println(CommonConstants.SECTION_SEPARATOR);
     }
 
     public static void startSection(String label) {
         ConsoleStyler.divider();
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("🔷 START: " + CommonConstants.CYAN + CommonConstants.UNDERLINE + label.toUpperCase() + CommonConstants.RESET );
+        System.out.println(applyStyling(SemanticColorRole.SECTION_HEADING, "🔷 START: " + label.toUpperCase()));
         System.out.println(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
         System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println("🏁 END: " + CommonConstants.CYAN + CommonConstants.UNDERLINE + label.toUpperCase() + CommonConstants.RESET );
+        System.out.println(applyStyling(SemanticColorRole.SECTION_HEADING, "🏁 END: " + label.toUpperCase()));
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         ConsoleStyler.divider();
     }
 
     public static void startSubSection(String outputText) {
-        styleIt(outputText.toUpperCase(), (CommonConstants.BOLD + CommonConstants.ITALIC + CommonConstants.BLUE),
-                false, true,false);
+        styleIt(outputText.toUpperCase(), SemanticColorRole.SUBSECTION_HEADING,
+                false, true, false);
 
     }
+
     public static void divider() {
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
     }
 
     public static void halfDivider() {
-        System.out.println(CommonConstants.INDENT + CommonConstants.YELLOW + CommonConstants.ASTERISKSEPERATORLINESTRHALF + CommonConstants.RESET);
+        System.out.println(CommonConstants.INDENT + ForegroundColor.BRIGHT_YELLOW.getAnsiCode() + CommonConstants.ASTERISKSEPERATORLINESTRHALF + CommonConstants.RESET);
     }
+
     public static void styleInfo(String outputText) {
-        styleIt(outputText,(CommonConstants.ITALIC + CommonConstants.RED), false, true, false);
+        styleIt(outputText, SemanticColorRole.INITIALIZATION_INFO);
     }
-    public static void styleIt(String outputText, String textFormatting, boolean allFlags) {
-        styleIt(outputText,textFormatting, allFlags, allFlags, allFlags);
+
+    public static void styleIt(String outputText, SemanticColorRole semanticColorRole, boolean allFlags) {
+        styleIt(outputText, semanticColorRole, allFlags, allFlags, allFlags);
     }
-    public static void styleIt(String outputText, String textFormatting) {
-        styleIt(outputText,textFormatting, false);
+
+    public static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
+        styleIt(outputText, semanticColorRole, false);
     }
+
     public static void styleIt(String outputText, boolean allFlags) {
-        styleIt(outputText,null, allFlags, allFlags, allFlags);
+        styleIt(outputText, null, allFlags, allFlags, allFlags);
     }
+
     public static void styleIt(String outputText) {
         styleIt(outputText, null, false, false, false);
     }
-    public static void styleIt(String outputText, String textFormatting, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
+
+    public static void styleIt(String outputText, SemanticColorRole semannticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
         if (outputText == null || outputText.isBlank()) {
             System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
             return;
         }
-        if(textFormatting == null || textFormatting.isBlank() || textFormatting.isEmpty()) {
-            textFormatting = "";
+        if (semannticRole == null || semannticRole.name().isBlank() || semannticRole.name().isEmpty()) {
+            semannticRole = SemanticColorRole.PLAIN_OUTPUT;
         }
         String[] lines = outputText.split("\\R"); // Handles all newline types
 
         // Optional ANSI coloring
-        String borderColor = enableBorderColor ? CommonConstants.MAGENTA : ""; // Magenta
+        String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; // Magenta
         String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
         System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
-            String linePrefix = showLineNumbers ? String.format("%s[%02d]%s", textFormatting, (lineCounter + 1), CommonConstants.RESET) :
-                    String.format("%s%s",textFormatting,showlinePrefix ? ("» "): "");
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + (textFormatting + lines[lineCounter]) + CommonConstants.RESET);
+            String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
+            String lineToPrint = linePrefix + lines[lineCounter];
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(semannticRole, lineToPrint));
         }
 
         System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
@@ -96,6 +107,7 @@ public class ConsoleStyler {
     public static void styleEachAsIs(String labelPrefix, Object input) {
         styleEach(labelPrefix, input, false);
     }
+
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
         if (input == null) {
             System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
@@ -218,4 +230,79 @@ public class ConsoleStyler {
 
         //System.out.println(CommonConstants.DOTTED_LINE);
     }
+
+
+
+        /*
+          return switch (role) {
+        case ERROR -> new Theme(
+            BackgroundColor.BRIGHT_RED, ForegroundColor.BRIGHT_WHITE);
+
+        case WARNING -> new Theme(
+            BackgroundColor.WARNING_YELLOW, ForegroundColor.BLACK);
+
+        case SECTION_HEADING -> new Theme(
+            BackgroundColor.INDIGO, ForegroundColor.BRIGHT_WHITE);
+
+        case SUBSECTION_HEADING -> new Theme(
+            BackgroundColor.SLATE, ForegroundColor.BRIGHT_WHITE);
+
+        case INITIALIZATION_INFO -> new Theme(
+            BackgroundColor.SKY_BLUE, ForegroundColor.NAVY);
+
+        case OUTPUT_HEADER -> new Theme(
+            BackgroundColor.GOLD, ForegroundColor.BLACK);
+
+        case BENCHMARK_SECTION_HEADER, PROGRAM_BANNER -> new Theme(
+            BackgroundColor.SAPPHIRE, ForegroundColor.BRIGHT_WHITE);
+    };
+         */
+
+
+    public static String applyStyling(SemanticColorRole role, String text, List<String> customFormattingElements) {
+        StringBuilder themedText = new StringBuilder();
+
+        Theme theme = getThemeFor(role, customFormattingElements);
+        themedText.append(theme.getCombinedAnsi());
+        if (theme.isHavingFormattingELements()) {
+            for (String nextFormtString : theme.getFormattingElements()) {
+                themedText.append(nextFormtString);
+            }
+        }
+        themedText.append(text).append(CommonConstants.RESET);// Reset code
+        return themedText.toString();
+    }
+
+    public static String applyStyling(SemanticColorRole role, String text) {
+        return applyStyling(role, text, null);
+    }
+    public static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
+        return switch (role) {
+            case ERROR -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
+            case WARNING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BLACK, customFormattingElements);
+            case SECTION_HEADING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE));
+            case SUBSECTION_HEADING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
+            case INITIALIZATION_INFO -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, List.of(CommonConstants.BOLD));
+            case SUBSECTION_ITALIC_INFO -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.ITALIC));
+            case OUTPUT_HEADER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.WHITE, null);
+            case BENCHMARK_SECTION_HEADER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.SAPPHIRE, null);
+            case PROGRAM_BANNER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, null);
+
+            case CUSTOM -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.WHITE,
+                    customFormattingElements);
+            default -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, null);
+        };
+    }
+
 }
