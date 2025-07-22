@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;

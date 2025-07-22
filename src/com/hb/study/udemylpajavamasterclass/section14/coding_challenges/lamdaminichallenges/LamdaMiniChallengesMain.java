@@ -1,6 +1,5 @@
 package com.hb.study.udemylpajavamasterclass.section14.coding_challenges.lamdaminichallenges;
 
-import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
@@ -9,6 +8,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
@@ -34,13 +34,17 @@ public class LamdaMiniChallengesMain {
         /*
          *****************************************************
          */
-        miniChallengeOne();
-        miniChallengeTwoThroughFive();
+        //miniChallengeOne();
+        //miniChallengeTwoToFive();
+        miniChallenge();
         /*
          *****************************************************
          */
         execution.finalizeExecution();
     }
+
+
+
 
     public static void miniChallengeOne() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class....");
@@ -75,7 +79,7 @@ public class LamdaMiniChallengesMain {
         //OR
         Consumer<String> printThePartsConcise = sentence -> {
             AtomicInteger atomicInteger = new AtomicInteger(0);
-            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.stylePLainOutput("NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
+            Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleOutput(null, "NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
         };
         ConsoleStyler.startSubSection("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
         printThePartsConcise.accept(originalSentence);
@@ -83,7 +87,7 @@ public class LamdaMiniChallengesMain {
         ConsoleStyler.endSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class (Consumer Lambda)");
     }
 
-    public static void miniChallengeTwoThroughFive() {
+    public static void miniChallengeTwoToFive() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
         ConsoleStyler.styleInitializationInfo("""
                 These 4 mini-challenges are all about creating a lambda from a method with return value 
@@ -111,24 +115,24 @@ public class LamdaMiniChallengesMain {
             }
             return returnVal.toString();
         };
-        ConsoleStyler.styleSubSectionInfo("""
-                 //The Lambda definition
-                 Function<String, String> stringFunctionLambda = (String s) -> {
-                            StringBuilder returnVal = new StringBuilder();
-                            for( int i=0; i<s.length(); i++){
-                                if(i%2==1){
-                                    returnVal.append(s.charAt(i));
-                                }
-                            }
+        ConsoleStyler.styleExecutionInsight("""
+                //The Lambda definition
+                Function<String, String> stringFunctionLambda = (String s) -> {
+                           StringBuilder returnVal = new StringBuilder();
+                           for( int i=0; i<s.length(); i++){
+                               if(i%2==1){
+                                   returnVal.append(s.charAt(i));
+                               }
+                           }
                 
-                            return returnVal.toString();
-                        };
-                 //The Lambda call
-                 stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
-                 """);
-        ConsoleStyler.stylePLainOutput("""
-            Here's the output after lambda call: \n")
-        """ + stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
+                           return returnVal.toString();
+                       };
+                //The Lambda call
+                stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!");
+                """);
+        ConsoleStyler.styleOutput("""
+                    Here's the output after lambda call")
+                """ ,stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
 
         UnaryOperator<String> unaryStringLambda = (String s) -> {
@@ -140,7 +144,7 @@ public class LamdaMiniChallengesMain {
             }
             return returnVal.toString();
         };
-        ConsoleStyler.styleSubSectionInfo("""
+        ConsoleStyler.styleExecutionInsight("""
                 Alternatively, we can use UnaryOperator<String, String> Lambda Function based Lambda Expression
                 //The Lambda definition
                 UnaryOperator<String, String> unaryStringLambda = (String s) -> {
@@ -156,15 +160,15 @@ public class LamdaMiniChallengesMain {
                  //The Lambda call
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                 """);
-        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n"
-        + unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
+        ConsoleStyler.styleOutput("Here's the output after lambda call:"
+                ,unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
 
-ConsoleStyler.halfDivider();
+        ConsoleStyler.halfDivider();
 
-UnaryOperator<String> unaryOperatorConcise = (String s) -> {
-    return everySecondChar(s);
-};
-ConsoleStyler.styleSubSectionInfo("""
+        UnaryOperator<String> unaryOperatorConcise = (String s) -> {
+            return everySecondChar(s);
+        };
+        ConsoleStyler.styleExecutionInsight("""
                 Alternatively, we can create a Lambda Expression based on a concise definition of UnaryOperator<String, String> ( Lambda Function )
                 UnaryOperator<String> unaryOperatorConcise = (String s) -> {
                             return everySecondChar(s);
@@ -173,8 +177,8 @@ ConsoleStyler.styleSubSectionInfo("""
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
                 """);
 
-        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n"
-                + unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
+        ConsoleStyler.styleOutput("Here's the output after lambda call:"
+                , unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSubSection("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
@@ -182,7 +186,7 @@ ConsoleStyler.styleSubSectionInfo("""
                 """);
 
         String result = everySecondChar(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
-        ConsoleStyler.styleSubSectionInfo("""
+        ConsoleStyler.styleExecutionInsight("""
                 Here's the definition of that Target Function: an overloaded version of everySecondChar
                 public static String everySecondChar(Function<String,String> function, String source ){
                     return function.apply(source);
@@ -190,7 +194,7 @@ ConsoleStyler.styleSubSectionInfo("""
                 // Then invoked it, with source string
                 result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");                
                 """);
-        ConsoleStyler.stylePLainOutput("Here's the output after lambda call:\n" + result);
+        ConsoleStyler.styleOutput("Here's the output after lambda call:", result);
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
 
@@ -212,12 +216,34 @@ ConsoleStyler.styleSubSectionInfo("""
     public static String everySecondChar(Function<String, String> function, String source) {
         return function.apply(source);
     }
-    /*public static void demoFunction() {
-        ConsoleStyler.startSection("Demonstration of XYZ Concept....");
-        ConsoleStyler.startSubSection("Subsection 1.... ");
+    private static void miniChallenge() {
+
+        ConsoleStyler.startSection("Mini Challenge 6: Supplier Interface");
+        /*ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this section demo"); // optional
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("Subsection 2.... ");
-        ConsoleStyler.endSection("Demonstration of XYZ Concept....");
-    }*/
+        ConsoleStyler.startSubSection("Welcome to the subsection X"); // optional
+        ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection section X demo"); // optional
+        ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
+        *//* for simply printing elements , no sorting, no uppercase, no formatting on numbers etc...
+            ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ",List<String>);
+        *//*
+        *//* for printing elements and has all options:  sorting, uppercase, formatting on numbers etc...
+            ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ",List<String>);
+        *//*
+        //ConsoleStyler.styleIt(custom styling... );
+        ConsoleStyler.stylePLainOutput("Plain output "); // plain output
+        ConsoleStyler.halfDivider();//This is required only if there is another subsection....*/
+        ConsoleStyler.styleInitializationInfo("The objective is to create a supplier of string \"I Love Java\" "); // optional
+
+        Supplier<String> stringSupplier = () -> ("I Love Java");
+        String iLoveJava = stringSupplier.get();
+        ConsoleStyler.styleExecutionInsight("""
+                The below code was used :
+                Supplier<String> stringSupplier = () -> ("I Love Java");
+                String iLoveJava = stringSupplier.get();
+                """); // optional
+
+        ConsoleStyler.styleOutput("String iLoveJava is now initialized to: " , iLoveJava );
+    }
 
 }

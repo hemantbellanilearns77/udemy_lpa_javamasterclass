@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.datetimepractice;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo.datetimepractice;
 
 import java.time.Instant;
 import java.time.ZoneId;

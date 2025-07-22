@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.corejavaalltopicsdemo;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo.corejavaalltopicsdemo;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 

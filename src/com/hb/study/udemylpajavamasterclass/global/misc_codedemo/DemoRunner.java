@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
@@ -20,6 +20,17 @@ public class DemoRunner {
         /*
          *****************************************************
          */
+
+        demoFunction();
+
+
+        /*
+         *****************************************************
+         */
+        execution.finalizeExecution();
+    }
+
+    private static void demoFunction() {
         ConsoleStyler.divider();
         System.out.println("Banner printed below");
         ConsoleStyler.printBanner(CommonConstants.EXECUTIONSETUPSSTR);
@@ -68,11 +79,5 @@ public class DemoRunner {
         System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
         System.out.println(CommonConstants.EXECUTIONENDEDSTR);
         ConsoleStyler.divider();
-
-
-        /*
-         *****************************************************
-         */
-        execution.finalizeExecution();
     }
 }

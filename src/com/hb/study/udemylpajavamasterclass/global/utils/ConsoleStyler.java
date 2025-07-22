@@ -59,23 +59,22 @@ public class ConsoleStyler {
     public static void styleInitializationInfo(String outputText) {
         styleIt(outputText, SemanticColorRole.INITIALIZATION_INFO);
     }
-    public static void styleSubSectionInfo(String outputText) {
-        styleIt(outputText, SemanticColorRole.SUBSECTION_ITALIC_INFO);
-    }
-
-    private static void styleIt(String outputText, SemanticColorRole semanticColorRole, boolean allFlags) {
-        styleIt(outputText, semanticColorRole, allFlags, allFlags, allFlags);
+    public static void styleExecutionInsight(String outputText) {
+        styleIt(outputText, SemanticColorRole.ITALICIZED_EXECUTION_INSIGHT);
     }
 
     private static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
-        styleIt(outputText, semanticColorRole, false);
+        styleIt(outputText, semanticColorRole, false, false, false);
     }
 
-    public static void stylePLainOutput(String outputText) {
-        styleIt(outputText, SemanticColorRole.PLAIN_OUTPUT);
+    public static void styleOutput(String outputHeading,String outputText) {
+        if(outputHeading!=null && outputHeading.isBlank()){
+            styleIt(outputHeading,SemanticColorRole.OUTPUT_HEADING);
+        }
+        styleIt(outputText, null);
     }
 
-    public static void styleIt(String outputText, SemanticColorRole semannticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
+    public static void styleIt(String outputText, SemanticColorRole semanticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
         if (outputText == null || outputText.isBlank()) {
             System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
             return;
@@ -91,7 +90,7 @@ public class ConsoleStyler {
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
             String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
             String lineToPrint = linePrefix + lines[lineCounter];
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint,semannticRole));
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
 
         System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
@@ -266,24 +265,24 @@ public class ConsoleStyler {
 
     private static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
         return switch (role) {
-            case ERROR -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, null);
-            case WARNING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.ORANGE, customFormattingElements);
+            case PROGRAM_BANNER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, List.of(CommonConstants.BOLD));
+            case BENCHMARK_SECTION_HEADER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.SAPPHIRE, null);
             case SECTION_HEADING -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE));
             case SUBSECTION_HEADING -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
             case INITIALIZATION_INFO -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_BLUE, List.of(CommonConstants.BOLD));
-            case SUBSECTION_ITALIC_INFO -> new Theme(
+            case ITALICIZED_EXECUTION_INSIGHT -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.ITALIC));
-            case OUTPUT_HEADER -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.WHITE, null);
-            case BENCHMARK_SECTION_HEADER -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.SAPPHIRE, null);
-            case PROGRAM_BANNER -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, List.of(CommonConstants.BOLD));
+            case OUTPUT_HEADING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.SKY_BLUE, List.of(CommonConstants.UNDERLINE));
+            case ERROR -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, null);
+            case WARNING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.ORANGE, customFormattingElements);
             default -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
         };

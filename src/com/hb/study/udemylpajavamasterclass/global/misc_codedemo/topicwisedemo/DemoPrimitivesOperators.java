@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.topicwisedemo;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo.topicwisedemo;
 
 /**
  * Demonstrates primitive types, variables, and basic operators in Java

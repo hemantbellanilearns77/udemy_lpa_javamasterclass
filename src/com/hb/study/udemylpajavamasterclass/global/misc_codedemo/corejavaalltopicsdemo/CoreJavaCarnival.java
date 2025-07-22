@@ -1,17 +1,11 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.corejavaalltopicsdemo;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo.corejavaalltopicsdemo;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.sql.*;
 
