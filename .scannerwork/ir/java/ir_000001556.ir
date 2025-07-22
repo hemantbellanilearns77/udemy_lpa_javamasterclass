@@ -1,0 +1,18 @@
+
+
+0int|this ( "hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.PrinterpagesPrinted! (1"int"U+
+)
+ ("	#binop <#2<:Bboolean&"$
+ ( * (
+2
+ ("8.
+,
+ (!"#set-field# pagesPrinted:"2
+0
+ (-"#get-field# pagesPrinted:Bint"
+ 
+ (-"	#binop +#2+:.
+,
+ (-"#set-field# pagesPrinted:"
+
+ (*šD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/coding_challenges/encapsulationchallenge/Printer.java

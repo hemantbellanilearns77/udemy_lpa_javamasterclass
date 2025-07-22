@@ -1,0 +1,98 @@
+
+®com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.LPAStudent#matchFieldValue(Ljava/lang/String;Ljava/lang/String;)ZÆ
+£D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section12_generics/coding_challenges/finalgenericschallenge/model/LPAStudent.java (""startingBlock*¬
+2 ("µ
+≤
+& (=	
+%1int"/java.lang.Integer#parseInt(Ljava/lang/String;)I*1
+
+__unknown_file ("
+java.lang.Integer*7
+
+__unknown_file (
+
+valuejava.lang.Stringg
+e
+ (=
+%2boolean"	__compare*
+# (%
+<=*
+ ("
+""*
+& (=
+	
+%1int"
+ (>
+""*Ä
+3 (ËÂ
+ (9
+%0boolean"6java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z*;
+
+__unknown_file (
+
+	fieldNamejava.lang.String*/
+
+__unknown_file (
+percentComplete2$equalsIgnoreCase(Ljava/lang/String;)*
+2
+1*˙
+startingBlock" (Bê
+ç
+ (
+%4"
+__annotate*2
+
+__unknown_file (
+java.lang.Override*;
+
+__unknown_file (
+
+	fieldNamejava.lang.String]
+[
+* (3
+	fieldNamejava.lang.String"__annotation*"
+
+__unknown_file (
+
+%4å
+â
+ (
+%5"
+__annotate*2
+
+__unknown_file (
+java.lang.Override*7
+
+__unknown_file (
+
+valuejava.lang.StringY
+W
+< (A
+valuejava.lang.String"__annotation*"
+
+__unknown_file (
+
+%5*
+3*Ç
+1 (ﬁ
+€
+ (6
+%3boolean"•com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.Student#matchFieldValue(Ljava/lang/String;Ljava/lang/String;)Z*"
+
+__unknown_file (
+""*;
+
+__unknown_file (
+
+	fieldNamejava.lang.String*7
+
+__unknown_file (
+
+valuejava.lang.String"
+ (7
+"":)
+# (4
+	fieldNamejava.lang.String:%
+5 (A
+valuejava.lang.StringBus
+qcom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.LPAStudentHX

@@ -1,0 +1,202 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185150381*java2.B…
+}
+xsrc/com/hb/study/udemylpajavamasterclass/section11/coding_challenges/interfacechallenge_mappableandgeojson/Mappable.java2
+
+package4
+k
+fcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson5
+t
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable7
+
+	interface8
+
+access9
+
+public10
+
+simple name11
+
+Mappable12
+É
+}com.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable.JSON_PROPERTY14
+
+field15
+
+JSON_PROPERTY16
+ì
+åcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getLabel()Ljava/lang/String;18
+
+method19
+
+getLabel20
+Ú
+Îcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getShape()Lcom/hb/study/udemylpajavamasterclass/section11/coding_challenges/interfacechallenge_mappableandgeojson/Geometry;22
+
+getShape23
+u
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Geometry25
+
+unknown26
+
+returns27
+
+
+uses28
+î
+çcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getMarker()Ljava/lang/String;30
+
+	getMarker31
+ë
+äcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#toJSON()Ljava/lang/String;33
+
+toJSON34
+
+
+references35
+
+calls36
+
+Ècom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#mapIt(Lcom/hb/study/udemylpajavamasterclass/section11/coding_challenges/interfacechallenge_mappableandgeojson/Mappable;)V38
+
+mapIt39
+
+	has param40
+
+is type41J
+
+1
+12Z
+
+3	
+354j€
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+10
+
+
+11
+16
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+37:
+373819 *
+1 (26:3B
+	
+9
+10
+
+
+11
+39
+@
+21:
+212219 *
+1	 	(26:3B
+	
+9
+10
+
+
+11
+23
+@
+17:
+171819 *
+1 (26:3B
+	
+9
+10
+
+
+11
+20
+@
+32:
+323319 *
+1 (26:3B
+	
+9
+10
+
+
+11
+34
+
+24
+242526
+@
+29:
+293019 *
+1
+ 
+(26:3B
+	
+9
+10
+
+
+11
+31r©
+
+212427*
+1	 	(
+
+212428*
+1	 	(
+
+322427*
+1 ($
+
+32635*
+1 ($
+
+322136*
+1 ($
+
+32635*
+1( (0
+
+321736*
+1( (0
+
+32635*
+14 (=
+
+322936*
+14 (=
+
+37640*
+1 (
+
+37641*
+1  ((
+
+37628*
+1 (
+
+371335*
+1 ()
+
+371335*
+1 ()
+
+37635*
+14 (<
+
+373236*
+1= (C

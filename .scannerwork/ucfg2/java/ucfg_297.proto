@@ -1,0 +1,28 @@
+
+pcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.Ford#accelerate()Ljava/lang/String;
+’D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/exercises/exercise40/Exercise40MainClass.javaq q("1* 
+1r r(ÑÎ
+r r(
+%0java.lang.Class",java.lang.Object#getClass()Ljava/lang/Class;*q
+
+__unknown_file (US
+Qcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.Ford2
+getClass()ž›
+r r()
+%1java.lang.String"1java.lang.Class#getSimpleName()Ljava/lang/String;*3
+
+__unknown_file (
+
+%0java.lang.Class2getSimpleName()v
+t
+r r(>
+%2java.lang.String"__concat*$
+r r()
+
+%1java.lang.String* 
+r, r(>
+ -> accelerate()"$
+r r(?
+
+%2java.lang.StringBUS
+Qcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.FordH

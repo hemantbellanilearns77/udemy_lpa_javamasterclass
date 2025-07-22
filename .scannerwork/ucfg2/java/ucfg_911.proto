@@ -1,0 +1,184 @@
+
+wcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#printPages(I)I•
+öD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/coding_challenges/encapsulationchallenge/Printer.java, ,("4"5*˜
+29 9(^
+\
+97 9(N
+
+%14int"__calculate*
+9J 9(K
+/*
+97 9(I
+""*
+9L 9(N2
+f
+d
+9 9(O
+
+%15int"__calculate*
+94 9(5
+-*
+9 9(3
+""*
+96 9(O
+
+
+%14int–
+Õ
+9 9(P
+%16void"com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#setTonerPercentage(I)V*à
+
+__unknown_file (lj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer*(
+
+__unknown_file (
+
+
+%15int«
+ƒ
+: :(/
+%17void"|com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#setPagesPrinted(I)V*à
+
+__unknown_file (lj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer*"
+
+__unknown_file (
+""*
+1*µ
+33! 3(0]
+[
+3! 3(5	
+%6int"__calculate*
+31 3(2
+**
+3! 3(0
+""*
+33 3(52
+Q
+O
+4 4(
+%7java.io.PrintStream"__id*"
+
+__unknown_file (
+""Ñ
+Å
+4 4(e
+%8java.lang.String"__concat*?
+4 4(P31
+/The number of sheets that could be printed is: *
+4S 4(e
+""ç
+ä
+4 5(<
+%9java.lang.String"__concat*$
+4 4(e
+
+%8java.lang.String*6
+5 5(<*(
+& because printer ran out of toner ... ÿ’
+4 5(=
+%10void"0java.io.PrintStream#println(Ljava/lang/String;)V*7
+
+__unknown_file (
+
+%7java.io.PrintStream*4
+
+__unknown_file (
+
+%9java.lang.String2println(Ljava/lang/String;)`
+^
+6 6(J
+
+%11int"__calculate*
+64 6(5
+-*
+6 6(3
+""*
+66 6(J
+""–
+Õ
+6 6(K
+%12void"com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#setTonerPercentage(I)V*à
+
+__unknown_file (lj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer*(
+
+__unknown_file (
+
+
+%11int«
+ƒ
+7 7(/
+%13void"|com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#setPagesPrinted(I)V*à
+
+__unknown_file (lj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer*"
+
+__unknown_file (
+""*
+1*‹
+42 2(]
+[
+2$ 2(;	
+%4int"__calculate*
+27 2(8
+/*
+2$ 2(6
+""*
+29 2(;2
+f
+d
+2 2(<
+%5boolean"	__compare*
+2! 2("
+<*
+2 2( 
+""*
+2# 2(<
+	
+%4int*
+2
+3*±
+5/ /(Q
+O
+/ /(
+%0java.io.PrintStream"__id*"
+
+__unknown_file (
+""⁄◊
+/ /(9
+
+%1void"0java.io.PrintStream#println(Ljava/lang/String;)V*7
+
+__unknown_file (
+
+%0java.io.PrintStream*7
+
+__unknown_file (
+Printing in duplex mode2println(Ljava/lang/String;)]
+[
+01 0(?	
+%2int"__calculate*
+0= 0(>
+/*
+01 0(=
+""*
+0> 0(?2ç
+ä
+0' 0(@
+%3double"java.lang.Math#ceil(D)D*.
+
+__unknown_file ("
+java.lang.Math*'
+
+__unknown_file (
+	
+%2int*
+4*!
+1< <(!"
+< <("
+"": 
+
+__unknown_file (
+""Blj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.PrinterHX

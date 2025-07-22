@@ -1,0 +1,21 @@
+
+$", hitPoints="java.lang.String
+	"Player{"java.lang.String
+"name='"java.lang.String
+'}'char
+"", weapon='"java.lang.String
+#
+", strength="java.lang.String
+'\''char^thisH H("Jcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise48.Player"¥7
+5
+J J("#get-field# name:Bjava.lang.String9
+7
+K K(%"#get-field# weapon:Bjava.lang.String/
+-
+L! L(*	"#get-field# hitPoints:Bint.
+,
+M  M(("#get-field# strength:Bint>
+<
+I N("	#binop +#2+:	
+Bjava.lang.String
+I N(*|D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section11/exercises/exercise48/Player.java

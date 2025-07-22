@@ -1,0 +1,199 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185149793*java2.Bè	
+d
+_src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/exercises/exercise37/Rectangle.java2
+
+package4
+Q
+Lcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise375
+[
+Vcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle7
+
+
+class8
+
+access9
+
+public10
+
+simple name11
+
+	Rectangle12
+b
+\com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle.width14
+
+field15
+
+private16
+
+width17
+c
+]com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle.length19
+
+length20
+h
+bcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle#<init>(DD)V22
+
+method23
+
+calls24
+
+
+uses25
+
+
+references26
+g
+acom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle#getArea()D28
+
+getArea29
+h
+bcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle#getWidth()D31
+
+unknown32
+i
+ccom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise37.Rectangle#getLength()D34
+
+getWidth35
+
+	getLength36J
+
+1
+12Z
+
+3	
+354j«
+@
+33:
+333423 *
+1 (26:3B
+	
+9
+10
+
+
+11
+36
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+16
+
+
+11
+17
+@
+18:
+181915 *
+1 (26:3B
+	
+9
+16
+
+
+11
+20
+@
+27:
+272823 *
+1 (26:3B
+	
+9
+10
+
+
+11
+29
+@
+30:
+303123 *
+1 (26:3B
+	
+9
+10
+
+
+11
+35
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+21:
+212223 *
+1 (26:3B
+	
+9
+10
+
+
+11
+12rˆ
+
+21624*
+1 (
+
+21625*
+1	 (
+
+21626*
+1	 (
+
+211326*
+1 (
+
+21625*
+1		 	(
+
+21626*
+1		 	(
+
+211826*
+1	 	(
+
+21625*
+1 (
+
+21626*
+1 (
+
+211326*
+1 (
+
+21625*
+1 (
+
+21626*
+1 (
+
+211826*
+1 (
+
+27626*
+1 (
+
+273024*
+1 (
+
+27626*
+1 ('
+
+273324*
+1 ('
+
+301326*
+1 (
+
+331826*
+1 (

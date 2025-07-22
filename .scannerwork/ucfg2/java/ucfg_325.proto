@@ -1,0 +1,88 @@
+
+ëcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item#getName()Ljava/lang/String;≤
+ßD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/coding_challenges/oopmasterchallenge_billburgerchallenge/Item.java ("4*º
+2 (œ
+Ã
+ (
+%4java.lang.String"__id*°
+
+__unknown_file (Ñ*Åw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item"
+sizeg
+e
+ (
+%5java.lang.String"__concat*$
+ (
+
+%4java.lang.String*
+ (
+ œ
+Ã
+  ($
+%6java.lang.String"__id*°
+
+__unknown_file (Ñ*Åw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item"
+namez
+x
+ ($
+%7java.lang.String"__concat*$
+ (
+
+%5java.lang.String*$
+  ($
+
+%6java.lang.String"$
+ (%
+
+%7java.lang.String*≠
+3# ('œ
+Ã
+# ('
+%2java.lang.String"__id*°
+
+__unknown_file (Ñ*Åw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item"
+type√¿
+# (7
+%3boolean",java.lang.String#equals(Ljava/lang/Object;)Z*4
+
+__unknown_file (
+
+%2java.lang.String*%
+
+__unknown_file (	
+DRINK2equals(Ljava/lang/Object;)*
+2
+1*¨
+4 (œ
+Ã
+ (
+%0java.lang.String"__id*°
+
+__unknown_file (Ñ*Åw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item"
+type¬ø
+ (
+%1boolean",java.lang.String#equals(Ljava/lang/Object;)Z*4
+
+__unknown_file (
+
+%0java.lang.String*$
+
+__unknown_file (
+SIDE2equals(Ljava/lang/Object;)*
+2
+3*Ö
+1 (œ
+Ã
+ (
+%8java.lang.String"__id*°
+
+__unknown_file (Ñ*Åw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.Item"
+name"$
+ (
+
+%8java.lang.StringByw
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge.ItemH

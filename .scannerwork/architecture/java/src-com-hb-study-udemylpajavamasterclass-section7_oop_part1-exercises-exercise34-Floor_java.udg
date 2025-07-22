@@ -1,0 +1,254 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185150566*java2.BÃ
+
+`
+[src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/exercises/exercise34/Floor.java2
+
+package4
+Q
+Lcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise345
+W
+Rcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor7
+
+
+class8
+
+access9
+
+public10
+
+simple name11
+
+Floor12
+^
+Xcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor.width14
+
+field15
+
+private16
+
+width17
+_
+Ycom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor.length19
+
+length20
+d
+^com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#getWidth()D22
+
+method23
+
+getWidth24
+
+
+references25
+e
+_com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#setWidth(D)V27
+
+setWidth28
+
+
+uses29
+e
+_com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#getLength()D31
+
+	getLength32
+f
+`com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#setLength(D)V34
+
+	setLength35
+d
+^com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#<init>(DD)V37
+
+calls38
+c
+]com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise34.Floor#getArea()D40
+
+getArea41J
+
+1
+12Z
+
+3	
+354jÀ
+@
+33:
+333423 *
+1 (26:3B
+	
+9
+10
+
+
+11
+35
+@
+30:
+303123 *
+1 (26:3B
+	
+9
+10
+
+
+11
+32
+@
+26:
+262723 *
+1 (26:3B
+	
+9
+10
+
+
+11
+28
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+16
+
+
+11
+17
+@
+36:
+363723 *
+1 (26:3B
+	
+9
+10
+
+
+11
+12
+@
+18:
+181915 *
+1 (26:3B
+	
+9
+16
+
+
+11
+20
+@
+21:
+212223 *
+1	 	(26:3B
+	
+9
+10
+
+
+11
+24
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+39:
+394023 *
+1& &(26:3B
+	
+9
+10
+
+
+11
+41r»
+
+211325*
+1
+ 
+(
+
+26629*
+1	 (
+
+26625*
+1	 (
+
+261325*
+1 (
+
+301825*
+1 (
+
+33629*
+1	 (
+
+33625*
+1	 (
+
+331825*
+1 (
+
+36638*
+1 (
+
+36629*
+1 (
+
+36625*
+1 (
+
+361325*
+1 (
+
+36629*
+1 (
+
+36625*
+1 (
+
+361325*
+1 (
+
+36629*
+1   (
+
+36625*
+1   (
+
+361825*
+1   (
+
+36629*
+1" "(
+
+36625*
+1" "(
+
+361825*
+1" "(
+
+39629*
+1* *(
+
+39625*
+1* *(
+
+391325*
+1* *(
+
+39629*
+1* *(!
+
+39625*
+1* *(!
+
+391825*
+1*" *((

@@ -1,0 +1,211 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185164104*java2.B…
+p
+ksrc/com/hb/study/udemylpajavamasterclass/section7_oop_part1/misc_codedemo/inheriranceexample/MainClass.java2
+
+package4
+]
+Xcom.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample5
+g
+bcom.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.MainClass7
+
+
+class8
+
+access9
+
+public10
+
+simple name11
+
+	MainClass12
+ƒ
+}com.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.MainClass#main([Ljava/lang/String;)V14
+
+method15
+
+
+main16
+e
+_com.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.Animal18
+
+unknown19
+
+is type20
+
+
+uses21
+
+calls22
+
+
+references23
+í
+æcom.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.MainClass#doAnimalStuff(Lcom/hb/study/udemylpajavamasterclass/section7_oop_part1/misc_codedemo/inheriranceexample/Animal;Ljava/lang/String;)V25
+!
+Recovered#typeBindingLDog;027
+c
+]com.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.Fish29
+
+private30
+
+doAnimalStuff31
+
+	has param32
+r
+lcom.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.Animal#makeNoise()V34
+
+ycom.hb.study.udemylpajavamasterclass.section7_oop_part1.misc_codedemo.inheriranceexample.Animal#move(Ljava/lang/String;)V36J
+
+1
+12Z
+
+3	
+354j£
+
+26
+262719
+
+35
+353619
+
+28
+282919
+@
+24:
+242515 *
+1$ $(26:3B
+	
+9
+30
+
+
+11
+31
+
+17
+171819
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+10
+
+
+11
+16
+
+33
+333419
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12rõ
+
+131720*
+1 ("
+
+131721*
+1	 (
+
+131722*
+1) (/
+
+13623*
+1	 (
+
+132422*
+1	 (
+
+132620*
+1 (
+
+132621*
+1	 (
+
+13623*
+1		 	(
+
+132422*
+1		 	(
+
+132620*
+1 (
+
+132621*
+1	 (
+
+13623*
+1	 (
+
+132422*
+1	 (
+
+132620*
+1 (
+
+132621*
+1	 (
+
+13623*
+1	 (
+
+132422*
+1	 (
+
+132620*
+1 (
+
+132621*
+1	 (
+
+13623*
+1	 (
+
+132422*
+1	 (
+
+132820*
+1 (
+
+132821*
+1	 (
+
+132822*
+1 (
+
+13623*
+1	 (
+
+132422*
+1	 (
+
+241732*
+1$( $(.
+
+241720*
+1$/ $(5
+
+241721*
+1$( $(.
+
+241723*
+1%	 %(
+
+243322*
+1% %(
+
+241723*
+1&	 &(
+
+243522*
+1& &(

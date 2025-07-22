@@ -24,10 +24,6 @@ public class Theme {
         this.formattingElements = formattingElements;
     }
 
-    public boolean isHasFormattingElements() {
-        return hasFormattingElements;
-    }
-
     public void setHasFormattingElements(boolean hasFormattingElements) {
         this.hasFormattingElements = hasFormattingElements;
     }
@@ -50,7 +46,7 @@ public class Theme {
         return formattingElements;
     }
 
-    public boolean isHavingFormattingELements() {
+    public boolean isHavingFormattingElements() {
         return hasFormattingElements;
     }
 

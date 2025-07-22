@@ -1,0 +1,38 @@
+
+Çcom.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.Student#toString()Ljava/lang/String;¢
+óD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section12_generics/misc_codedemo/generics_advanced/model/Student.java ("1*Ä
+1 (Ω
+∫
+* (.
+%0java.lang.String"__id*è
+
+__unknown_file (s*qg
+ecom.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.Student"
+nameø
+º
+0 (6
+%1java.lang.String"__id*ë
+
+__unknown_file (u*sg
+ecom.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.Student"
+course»≈
+ (D
+%2java.lang.String"Ajava.lang.String#formatted([Ljava/lang/Object;)Ljava/lang/String;*.
+
+__unknown_file (
+%-15s %-15s %d*4
+
+__unknown_file (
+
+%0java.lang.String*4
+
+__unknown_file (
+
+%1java.lang.String*"
+
+__unknown_file (
+""2formatted([Ljava/lang/Object;)"$
+ (E
+
+%2java.lang.StringBig
+ecom.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_advanced.model.StudentH

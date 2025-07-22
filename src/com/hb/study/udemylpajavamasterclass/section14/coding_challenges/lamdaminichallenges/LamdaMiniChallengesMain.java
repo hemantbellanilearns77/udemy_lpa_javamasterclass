@@ -34,17 +34,14 @@ public class LamdaMiniChallengesMain {
         /*
          *****************************************************
          */
-        //miniChallengeOne();
-        //miniChallengeTwoToFive();
-        miniChallenge();
+        miniChallengeOne();
+        miniChallengeTwoToFive();
+        miniChallengeSixAndSeven();
         /*
          *****************************************************
          */
         execution.finalizeExecution();
     }
-
-
-
 
     public static void miniChallengeOne() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class....");
@@ -132,7 +129,7 @@ public class LamdaMiniChallengesMain {
                 """);
         ConsoleStyler.styleOutput("""
                     Here's the output after lambda call")
-                """ ,stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
+                """, stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
 
         UnaryOperator<String> unaryStringLambda = (String s) -> {
@@ -161,7 +158,7 @@ public class LamdaMiniChallengesMain {
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                 """);
         ConsoleStyler.styleOutput("Here's the output after lambda call:"
-                ,unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
+                , unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
 
         ConsoleStyler.halfDivider();
 
@@ -198,11 +195,6 @@ public class LamdaMiniChallengesMain {
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
 
-    public static void miniChallengeSixSevenEight() {
-        ConsoleStyler.startSection("Lambda Mini Challenge # 6,7,8 : Supplier Lambda variations");
-        ConsoleStyler.endSection("Lambda Mini Challenge # 6,7,8 : Supplier Lambda variations");
-    }
-
     public static String everySecondChar(String source) {
         StringBuilder returnVal = new StringBuilder();
         for (int i = 0; i < source.length(); i++) {
@@ -216,34 +208,39 @@ public class LamdaMiniChallengesMain {
     public static String everySecondChar(Function<String, String> function, String source) {
         return function.apply(source);
     }
-    private static void miniChallenge() {
 
-        ConsoleStyler.startSection("Mini Challenge 6: Supplier Interface");
-        /*ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this section demo"); // optional
-        ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("Welcome to the subsection X"); // optional
-        ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection section X demo"); // optional
-        ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
-        *//* for simply printing elements , no sorting, no uppercase, no formatting on numbers etc...
-            ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ",List<String>);
-        *//*
-        *//* for printing elements and has all options:  sorting, uppercase, formatting on numbers etc...
-            ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ",List<String>);
-        *//*
-        //ConsoleStyler.styleIt(custom styling... );
-        ConsoleStyler.stylePLainOutput("Plain output "); // plain output
-        ConsoleStyler.halfDivider();//This is required only if there is another subsection....*/
-        ConsoleStyler.styleInitializationInfo("The objective is to create a supplier of string \"I Love Java\" "); // optional
+    private static void miniChallengeSixAndSeven() {
 
-        Supplier<String> stringSupplier = () -> ("I Love Java");
-        String iLoveJava = stringSupplier.get();
+        ConsoleStyler.startSection("Mini Challenge 6 and 7: Supplier Interface");
+
+        ConsoleStyler.styleInitializationInfo("""
+                The objective is to create a supplier of string "I Love Java"
+                 amd to use it to assign to a variable supplierResult and print the same"""); // optional
+
+        Supplier<String> iLoveJava = () -> ("I Love Java");
+        Supplier<String> iLoveJava2 = () -> {
+            return "I Love Java";
+        };
+
         ConsoleStyler.styleExecutionInsight("""
                 The below code was used :
-                Supplier<String> stringSupplier = () -> ("I Love Java");
-                String iLoveJava = stringSupplier.get();
+                 Supplier<String> iLoveJava = () -> ("I Love Java");
+                 Supplier<String> iLoveJava2 = () -> {return "I Love Java";};
+                 String supplierResult = iLoveJava.get();
+                 supplierResult = iLoveJava2.get();
+                 ConsoleStyler.styleOutput("String iLoveJava and iLoveJava2 were initialized using Supplier<String>.get() to: " ,
+                                 iLoveJava.get() + " and " + iLoveJava2.get() );
                 """); // optional
+        String supplierResult = iLoveJava.get();
 
-        ConsoleStyler.styleOutput("String iLoveJava is now initialized to: " , iLoveJava );
+        ConsoleStyler.styleOutput("String iLoveJava was initialized using Supplier<String>.get() to: ",
+                supplierResult);
+        supplierResult = iLoveJava2.get();
+        ConsoleStyler.styleOutput("String iLoveJava was initialized using Supplier<String>.get() to: ",
+                supplierResult);
+        ConsoleStyler.halfDivider();
+        ConsoleStyler.endSection("Mini Challenge 6 and 7: Supplier Interface");
+
     }
 
 }

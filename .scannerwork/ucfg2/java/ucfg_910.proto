@@ -1,0 +1,50 @@
+
+ucom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer#addToner(I)I¥
+šD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/coding_challenges/encapsulationchallenge/Printer.java" "("3*€
+2% %(Q
+O
+% %(
+%2java.io.PrintStream"__id*"
+
+__unknown_file (
+""‰†
+% %(h
+
+%3void"0java.io.PrintStream#println(Ljava/lang/String;)V*7
+
+__unknown_file (
+
+%2java.io.PrintStream*f
+
+__unknown_file (JH
+FCannot add this much to toner, as it will exceed the permissible limit2println(Ljava/lang/String;)"
+& &(
+""*Ü
+3$ $(_
+]
+$ $(-	
+%0int"__calculate*
+$  $(!
++*
+$ $(
+""*
+$" $(-
+""d
+b
+$ $(3
+%1boolean"	__compare*
+$. $(/
+>*
+$ $(-
+	
+%0int*
+$0 $(32d*
+2
+1*!
+1( (("
+) )($
+"": 
+
+__unknown_file (
+""Blj
+hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.PrinterHX

@@ -1,0 +1,28 @@
+
+vcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.Mitsubishi#accelerate()Ljava/lang/String;
+’D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/exercises/exercise40/Exercise40MainClass.javaM M("1*¦
+1N N(×Ô
+N N(
+%0java.lang.Class",java.lang.Object#getClass()Ljava/lang/Class;*w
+
+__unknown_file ([Y
+Wcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.Mitsubishi2
+getClass()ž›
+N N()
+%1java.lang.String"1java.lang.Class#getSimpleName()Ljava/lang/String;*3
+
+__unknown_file (
+
+%0java.lang.Class2getSimpleName()v
+t
+N N(>
+%2java.lang.String"__concat*$
+N N()
+
+%1java.lang.String* 
+N, N(>
+ -> accelerate()"$
+N N(?
+
+%2java.lang.StringB[Y
+Wcom.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40.MitsubishiH

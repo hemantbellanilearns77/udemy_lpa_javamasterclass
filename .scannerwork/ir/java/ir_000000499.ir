@@ -1,0 +1,13 @@
+
+
+2intgthis ("Scom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise36.Circlejava.lang.Math"ß/
+-
+ (("#get-field# radius:Bdouble>
+<
+ (,"
+java.lang.Mathpow(DD)D*2pow:Bdouble+
+)
+/ (6"#get-field# PI:Bdouble/
+-
+ (6"#dependent-value#:Bdouble
+ (8*…D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/exercises/exercise36/Circle.java

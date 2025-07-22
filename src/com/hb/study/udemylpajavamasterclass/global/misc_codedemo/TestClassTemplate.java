@@ -6,7 +6,7 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import java.util.Random;
 
 /**
- * created by : heman on 22-07-2025, 07:53 am, in the "udemy_lpa_javamasterclass" project
+ * created by : heman on 22-07-2025, 09:11 am, in the "udemy_lpa_javamasterclass" project
  **/
 public class TestClassTemplate {
 
@@ -29,7 +29,6 @@ public class TestClassTemplate {
         execution.finalizeExecution();
     }
 
-    //demoFunction
     public static void demoFunction() {
         ConsoleStyler.startSection("Welcome to Demo Section"); // required
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this section demo"); // optional
@@ -44,7 +43,7 @@ public class TestClassTemplate {
             ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ",List<String>);
         */
         //ConsoleStyler.styleIt(custom styling... );
-        ConsoleStyler.styleOutput("Output Heading","Plain output "); //  output
+        ConsoleStyler.styleOutput("Output Heading", "Plain output "); //  output
         ConsoleStyler.halfDivider();//This is required only if there is another subsection....
 
         ConsoleStyler.startSubSection("Welcome to the subsection Y"); // optional
@@ -55,5 +54,7 @@ public class TestClassTemplate {
          * No call to method halfDivider() if this is the last-sub-section...
          */
         ConsoleStyler.endSection("End of Section, Thanks for trying this out"); // required
+        ConsoleStyler.divider();
+        ;
     }
 }

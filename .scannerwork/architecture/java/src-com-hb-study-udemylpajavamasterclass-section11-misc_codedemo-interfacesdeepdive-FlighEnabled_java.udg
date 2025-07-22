@@ -1,0 +1,193 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185152192*java2.BŒ
+j
+esrc/com/hb/study/udemylpajavamasterclass/section11/misc_codedemo/interfacesdeepdive/FlighEnabled.java2
+
+package4
+T
+Ocom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive5
+b
+]com.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled7
+
+	interface8
+
+access9
+
+	protected10
+
+simple name11
+
+FlightEnabled12
+o
+icom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled.MILES_TO_KM14
+
+field15
+
+public16
+
+MILES_TO_KM17
+o
+icom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled.KM_TO_MILES19
+
+KM_TO_MILES20
+n
+hcom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled#takeOff()V22
+
+method23
+
+takeOff24
+k
+ecom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled#land()V26
+
+
+land27
+j
+dcom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled#fly()V29
+	
+fly30
+­
+¦com.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightEnabled#transition(Lcom/hb/study/udemylpajavamasterclass/section11/misc_codedemo/interfacesdeepdive/FlightStages;)Lcom/hb/study/udemylpajavamasterclass/section11/misc_codedemo/interfacesdeepdive/FlightStages;32
+
+
+transition33
+b
+\com.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightStages35
+
+unknown36
+
+returns37
+
+	has param38
+
+
+uses39
+
+is type40
+
+
+references41
+Ð
+Écom.hb.study.udemylpajavamasterclass.section11.misc_codedemo.interfacesdeepdive.FlightStages#getNextStage()Lcom/hb/study/udemylpajavamasterclass/section11/misc_codedemo/interfacesdeepdive/FlightStages;43
+
+calls44J
+
+1
+12Z
+
+3	
+354jï
+@
+21:
+212223 *
+1 (	26:3B
+	
+9
+16
+
+
+11
+24
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+16
+
+
+11
+17
+@
+28:
+282923 *
+1
+ 
+(	26:3B
+	
+9
+16
+
+
+11
+30
+
+34
+343536
+@
+18:
+181915 *
+1 (26:3B
+	
+9
+16
+
+
+11
+20
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+25:
+252623 *
+1	 	(	26:3B
+	
+9
+16
+
+
+11
+27
+@
+31:
+313223 *
+1 (26:3B
+	
+9
+16
+
+
+11
+33
+
+42
+424336rŽ
+
+313437*
+1 (
+
+313438*
+1% (1
+
+313439*
+1 (
+
+313440*
+12 (7
+
+313439*
+1% (1
+
+313440*
+1 (
+
+313439*
+1	 (
+
+313437*
+1" ('
+
+313441*
+1" ('
+
+314244*
+1( (4

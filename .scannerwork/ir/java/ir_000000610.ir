@@ -1,0 +1,43 @@
+
+
+1int
+"tied"java.lang.String
+"beat"java.lang.String
+	"lost to"java.lang.Stringtthis# #("`com.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_basics.SportsTeamourScore# #('"int
+theirScore#) #(7"int"‹4
+2
+% %("message"#id#:Bjava.lang.String+
+)
+& &(!"	#binop >#2>:Bboolean&"$
+& &(! *& &(
+2)
+ )("À/
+-
+' '("#get-field# totalWins:Bint"
+ 
+' '(	"	#binop +#2+:+
+)
+' '(
+"#set-field# totalWins:	4
+2
+( ((message"#id#:Bjava.lang.String"Y-
++
+) )()"
+#binop ==#2==:Bboolean&"$
+) )() *) )(2,
+ ,("À/
+-
+* *("#get-field# totalTies:Bint"
+ 
+* *("	#binop +#2+:+
+)
+* *("#set-field# totalTies:4
+2
++ +(message"#id#:Bjava.lang.String"Ž1
+/
+- -("#get-field# totalLosses:Bint"
+ 
+- -("	#binop +#2+:-
++
+- -("#set-field# totalLosses:"#*message"-*message
+0 0(*’D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section12_generics/misc_codedemo/generics_basics/SportsTeam.java
