@@ -22,3 +22,27 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# IntelliJ project files
+.idea/
+*.iml
+
+# SonarScanner temp folder
+.scannerwork/
+
+# Maven output
+/target/
+
+# Logs, caches, and runtime traces
+*.log
+*.tmp
+*.bak
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Diagnostic or CLI artifacts (optional — based on your tooling)
+*.report.txt
+*.diagnostics.log
+*.coverage.txt
