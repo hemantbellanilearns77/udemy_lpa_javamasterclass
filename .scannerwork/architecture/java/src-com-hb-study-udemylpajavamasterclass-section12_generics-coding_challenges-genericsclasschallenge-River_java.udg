@@ -1,0 +1,141 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185159789*java2.Bº
+t
+osrc/com/hb/study/udemylpajavamasterclass/section12_generics/coding_challenges/genericsclasschallenge/River.java2
+
+package4
+e
+`com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge5
+k
+fcom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge.River7
+
+
+class8
+
+access9
+
+public10
+
+simple name11
+
+River12
+k
+ecom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge.Line14
+
+unknown15
+
+extends16
+
+
+uses17
+q
+kcom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge.River.name19
+
+field20
+
+private21
+
+
+name22
+œ
+•com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge.River#<init>(Ljava/lang/String;[Ljava/lang/String;)V24
+
+method25
+
+calls26
+
+
+references27
+Š
+ƒcom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge.River#toString()Ljava/lang/String;29
+
+toString30J
+
+1
+12Z
+
+3	
+354j•
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+18:
+181920 *
+1 (26:3B
+	
+9
+21
+
+
+11
+22
+@
+28:
+282925 *
+1 (26:3B
+	
+9
+10
+
+
+11
+30
+@
+23:
+232425 *
+1 (26:3B
+	
+9
+10
+
+
+11
+12
+
+13
+131415r‰
+
+61316*
+1 ( 
+
+61317*
+1 ( 
+
+23626*
+1 (
+
+231327*
+1		 	(
+
+231326*
+1		 	(
+
+231326*
+1		 	(
+
+23617*
+1
+	 
+(
+
+23627*
+1
+	 
+(
+
+231827*
+1
+ 
+(
+
+281827*
+1 (

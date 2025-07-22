@@ -1,0 +1,47 @@
+
+òcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.Node#setPrevious(Lcom/hb/study/udemylpajavamasterclass/section11/exercises/exercise47/ListItem;)Lcom/hb/study/udemylpajavamasterclass/section11/exercises/exercise47/ListItem;„
+zD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section11/exercises/exercise47/Node.java ("startingBlock*ˆ
+startingBlock (+Ë
+È
+ (
+%1"
+__annotate*2
+
+__unknown_file (
+java.lang.Override*v
+
+__unknown_file (Z
+X
+listItemLcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItem™
+–
+" (*X
+listItemLcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItem"__annotation*"
+
+__unknown_file (
+
+%1*
+1*¹
+1 ( å
+â
+ ( XJ
+Hcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.Node"
+
+leftLink"__id*v
+
+__unknown_file (Z
+X
+listItemLcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItemß
+Ü
+ (R
+%0Lcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItem"__id*v
+
+__unknown_file (Z*XJ
+Hcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.Node"
+
+leftLink"`
+ (T
+R
+%0Lcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItem:d
+ (*X
+listItemLcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.ListItemBLJ
+Hcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise47.Node

@@ -1,0 +1,70 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185158247*java2.BÙ
+[
+Vsrc/com/hb/study/udemylpajavamasterclass/section11/exercises/exercise48/ISaveable.java2
+
+package4
+H
+Ccom.hb.study.udemylpajavamasterclass.section11.exercises.exercise485
+R
+Mcom.hb.study.udemylpajavamasterclass.section11.exercises.exercise48.ISaveable7
+
+	interface8
+
+access9
+
+public10
+
+simple name11
+
+	ISaveable12
+k
+ecom.hb.study.udemylpajavamasterclass.section11.exercises.exercise48.ISaveable#write()Ljava/util/List;14
+
+method15
+
+write16
+k
+ecom.hb.study.udemylpajavamasterclass.section11.exercises.exercise48.ISaveable#read(Ljava/util/List;)V18
+
+
+read19J
+
+1
+12Z
+
+3	
+354j¿
+@
+17:
+171815 *
+1 (	26:3B
+	
+9
+10
+
+
+11
+19
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+13:
+131415 *
+1 (	26:3B
+	
+9
+10
+
+
+11
+16

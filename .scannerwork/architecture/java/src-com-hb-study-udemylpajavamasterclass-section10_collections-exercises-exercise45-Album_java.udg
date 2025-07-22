@@ -1,0 +1,347 @@
+
+1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185142050*java2.BÂ
+c
+^src/com/hb/study/udemylpajavamasterclass/section10_collections/exercises/exercise45/Album.java2
+
+package4
+T
+Ocom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise455
+Z
+Ucom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album7
+
+
+class8
+
+access9
+
+public10
+
+simple name11
+
+Album12
+`
+Zcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album.name14
+
+field15
+
+private16
+
+
+name17
+b
+\com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album.artist19
+
+artist20
+a
+[com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album.songs22
+
+songs23
+Z
+Tcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Song25
+
+unknown26
+
+
+uses27
+Š
+ƒcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#<init>(Ljava/lang/String;Ljava/lang/String;)V29
+
+method30
+
+calls31
+
+
+references32
+y
+scom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#addSong(Ljava/lang/String;D)Z34
+
+addSong35
+
+returns36
+Ï
+Ècom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#findSong(Ljava/lang/String;)Lcom/hb/study/udemylpajavamasterclass/section10_collections/exercises/exercise45/Song;38
+
+findSong39
+
+is type40
+w
+qcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Song#getTitle()Ljava/lang/String;42
+ƒ
+}com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#addToPlayList(ILjava/util/LinkedList;)Z44
+
+addToPlayList45
+•
+Žcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#addToPlayList(Ljava/lang/String;Ljava/util/LinkedList;)Z47
+x
+rcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Album#toString()Ljava/lang/String;49
+
+toString50
+w
+qcom.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45.Song#toString()Ljava/lang/String;52J
+
+1
+12Z
+
+3	
+354jÉ
+@
+28:
+282930 *
+1 (26:3B
+	
+9
+10
+
+
+11
+12
+@
+21:
+212215 *
+1
+ 
+(26:3B
+	
+9
+16
+
+
+11
+23
+9
+64
+678 *
+1 (:3B
+	
+9
+10
+
+
+11
+12
+@
+13:
+131415 *
+1 (26:3B
+	
+9
+16
+
+
+11
+17
+
+51
+515226
+@
+37:
+373830 *
+1 (26:3B
+	
+9
+16
+
+
+11
+39
+@
+48:
+484930 *
+19 9(26:3B
+	
+9
+10
+
+
+11
+50
+
+41
+414226
+@
+43:
+434430 *
+1% %(26:3B
+	
+9
+10
+
+
+11
+45
+@
+46:
+464730 *
+1/ /(26:3B
+	
+9
+10
+
+
+11
+45
+@
+18:
+181915 *
+1	 	(26:3B
+	
+9
+16
+
+
+11
+20
+
+24
+242526
+@
+33:
+333430 *
+1 (26:3B
+	
+9
+10
+
+
+11
+35rÑ	
+
+212427*
+1
+ 
+(
+
+28631*
+1 (
+
+28627*
+1	 (
+
+28632*
+1	 (
+
+281332*
+1 (
+
+28627*
+1	 (
+
+28632*
+1	 (
+
+281832*
+1 (
+
+28627*
+1	 (
+
+28632*
+1	 (
+
+282132*
+1 (
+
+282427*
+1$ ((
+
+332436*
+1 (
+
+33632*
+1 (
+
+333731*
+1 (
+
+332132*
+1 (
+
+332132*
+1 (
+
+332431*
+1 (
+
+372436*
+1 (
+
+372427*
+1 (
+
+372440*
+1 (
+
+372427*
+1 (
+
+372132*
+1! (&
+
+372432*
+1 (
+
+374131*
+1 (%
+
+432427*
+1%> %(B
+
+432132*
+1(' ((,
+
+432132*
+1(' ((,
+
+432436*
+1) )(
+
+432132*
+1) )(
+
+432132*
+1) )(
+
+462427*
+1/; /(?
+
+462440*
+11 1(
+
+462427*
+11	 1(
+
+462436*
+11 1($
+
+46632*
+11 1($
+
+463731*
+11 1($
+
+481332*
+1<7 <(;
+
+481832*
+1=  =(&
+
+482132*
+1?0 ?(5
+
+482132*
+1?0 ?(5
+
+482432*
+1@B @(G
+
+485131*
+1@Y @(a
+
+482436*
+1@B @(G
+
+482132*
+1@B @(G
+
+482132*
+1@B @(G

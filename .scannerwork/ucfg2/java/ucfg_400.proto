@@ -1,0 +1,27 @@
+
+__sonar_lambda_14$’
+‡D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section14/misc_codedemo/lambdaintro/FunkyFilters.java7+ 7(D"1*‹
+173 7(7vt
+73 7(@
+
+%26int"java.lang.String#length()I*6
+
+__unknown_file (
+
+namejava.lang.String2length()f
+d
+73 7(D
+%27boolean"	__compare*
+7A 7(B
+>*
+73 7(@
+
+
+%26int*
+7C 7(D2"
+73 7(D
+
+%27boolean:$
+7+ 7(/
+namejava.lang.StringB 
+java.util.function.Predicate

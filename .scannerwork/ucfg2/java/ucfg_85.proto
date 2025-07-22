@@ -1,0 +1,47 @@
+
+ëcom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.Student#compareTo(Lcom/hb/study/udemylpajavamasterclass/section12_generics/coding_challenges/finalgenericschallenge/model/Student;)I«
+ D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section12_generics/coding_challenges/finalgenericschallenge/model/Student.java4 4("startingBlock*¿
+startingBlock4 4(#ç
+ä
+3 3(
+%2"
+__annotate*2
+
+__unknown_file (
+java.lang.Override*‘
+
+__unknown_file (u
+s
+oncom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.Student´
+±
+4! 4("s
+oncom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.Student"__annotation*"
+
+__unknown_file (
+
+%2*
+1*›
+15 5(®
+«
+5 5()
+%0java.lang.Integer"/java.lang.Integer#valueOf(I)Ljava/lang/Integer;*1
+
+__unknown_file ("
+java.lang.Integer*"
+
+__unknown_file (
+""ÆÃ
+5 5(@	
+%1int"1java.lang.Integer#compareTo(Ljava/lang/Integer;)I*5
+
+__unknown_file (
+
+%0java.lang.Integer*"
+
+__unknown_file (
+""2compareTo(Ljava/lang/Integer;)"
+5 5(A
+"":
+4 4("s
+oncom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.StudentBrp
+ncom.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.finalgenericschallenge.model.StudentHX

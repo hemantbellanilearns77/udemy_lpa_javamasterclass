@@ -1,0 +1,42 @@
+
+äcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#toJSON()Ljava/lang/String;¨
+°D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section11/coding_challenges/interfacechallenge_mappableandgeojson/Mappable.java ("1*£
+1 (Sêç
+ (%u
+%0ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Geometry"Îcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getShape()Lcom/hb/study/udemylpajavamasterclass/section11/coding_challenges/interfacechallenge_mappableandgeojson/Geometry;*è
+
+__unknown_file (sq
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable2
+getShape()“œ
+' (1
+%1java.lang.String"åcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getLabel()Ljava/lang/String;*è
+
+__unknown_file (sq
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable2
+getLabel()‘—
+3 (>
+%2java.lang.String"çcom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable#getMarker()Ljava/lang/String;*è
+
+__unknown_file (sq
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable2getMarker()Æ´
+ (?
+%3java.lang.String"Ajava.lang.String#formatted([Ljava/lang/Object;)Ljava/lang/String;*"
+
+__unknown_file (
+""*ì
+
+__unknown_file (w
+u
+%0ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Geometry*4
+
+__unknown_file (
+
+%1java.lang.String*4
+
+__unknown_file (
+
+%2java.lang.String2formatted([Ljava/lang/Object;)"$
+ (@
+
+%3java.lang.StringBsq
+ocom.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.MappableH

@@ -1,0 +1,29 @@
+
+
+
+0intythis
+ 
+("ecom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Vehicle$name
+ 
+("java.lang.String$size
+  
+(+"java.lang.String"currentVelocity
+- 
+(@"int#currentDirection
+B 
+(V"intmaxSpeed
+X 
+(d"int"ñ&
+$
+ ("#set-field# name:&
+$
+ ("#set-field# size:1
+/
+ (.	"#set-field# currentVelocity:2
+0
+ (!"#set-field# currentDirection:
+*
+(
+ ( "#set-field# maxSpeed:
+
+ (*—D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/coding_challenges/oopsbasicschallenge/Vehicle.java

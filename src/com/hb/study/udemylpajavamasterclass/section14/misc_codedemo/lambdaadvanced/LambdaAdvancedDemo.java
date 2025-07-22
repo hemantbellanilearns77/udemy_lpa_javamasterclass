@@ -76,15 +76,15 @@ public class LambdaAdvancedDemo {
         int result = calculator((a,b) -> {int c = a*b; return c;}, 7,9); // using return ad curly braces
          */
 
-        ConsoleStyler.stylePLainOutput("""
+        ConsoleStyler.styleOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""" + result);
+                Final Result from calculator:""",Integer.toString(result));
         ConsoleStyler.halfDivider();
         //Lambda invocation using anotherCalculator i.e. the BinaryOperator (out of box from java.util package) Functional Interface...
         int anotherResult = anotherCalculator((a, b) -> (value1 * value2), value1, value2);
-        ConsoleStyler.stylePLainOutput("""
+        ConsoleStyler.styleOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from anotherCalculator:""" + anotherResult);
+                Final Result from anotherCalculator:""", Integer.toString(anotherResult));
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.startSubSection("Names after replace all (Unary Function Lambda Demo)");
@@ -95,13 +95,13 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.startSubSection("Demonstrating Binary Function Lambda using Arrays.setAll");
         String[] stringArray = new String[9];
-        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput("String Array:" , Arrays.toString(stringArray));
         Arrays.fill(stringArray,"STRING");
         ConsoleStyler.startSubSection("String Array after fill is: ");
-        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
         Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i+1) );
         ConsoleStyler.startSubSection("String Array after setAll is: ");
-        ConsoleStyler.stylePLainOutput(Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
 
 
@@ -125,10 +125,10 @@ public class LambdaAdvancedDemo {
                 new double[]{45.9239, -111.4983},
                 new double[]{38.8146, -90.1218}
         );
-        coords.forEach(s -> ConsoleStyler.stylePLainOutput(Arrays.toString(s)));
+        coords.forEach(s -> ConsoleStyler.styleOutput(null, Arrays.toString(s)));
         ConsoleStyler.halfDivider();
         BiConsumer<Double, Double> p1 = (lat, lon) ->
-                ConsoleStyler.stylePLainOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
+                ConsoleStyler.styleOutput(null,"[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
         //BiConsumer<Double, Double> p1 = (lat,lon) -> System.out.printf("[Latitude: %.3f, Longitude: %.3f]%n", lat, lon);
         var firstPoint = coords.getFirst();
         ConsoleStyler.startSubSection("Playing around with BiConsumer Functional Interface ");
@@ -139,7 +139,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.startSubSection("Now with the expanded lambda expression.... ");
         coords.forEach(s -> processPoint(s[0], s[1],
                 (lat, lon) ->
-                        ConsoleStyler.stylePLainOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
+                        ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
     }
 
     private static void demoSupplierLambda(List<String> names) {
@@ -171,14 +171,14 @@ public class LambdaAdvancedDemo {
 
     public static <T> T calculator(Operation<T> function, T value1, T value2) {
         T result = function.operate(value1, value2);
-        ConsoleStyler.stylePLainOutput("Result (inside calculator method): " + result);
+        ConsoleStyler.styleOutput("Result (inside calculator method): ", (String) result);
         return result;
     }
 
     // This one uses an out of box, Java Core BinaryOperator Functional Interface
     public static <T> T anotherCalculator(BinaryOperator<T> function, T value1, T value2) {
         T result = function.apply(value1, value2);
-        ConsoleStyler.stylePLainOutput("Result (inside anotherCalculator method): " + result);
+        ConsoleStyler.styleOutput("Result (inside anotherCalculator method): ", (String) result);
         return result;
     }
 

@@ -1,0 +1,25 @@
+
+
+0int
+1"Invalid data for seconds("java.lang.String
+;%"), must be a positive integer value"java.lang.String
+60intseconds+ (6"int"K+
+)
+ ("	#binop <#2<:Bboolean"
+ ( * (
+"I5
+3
+ (;"	#binop +#2+:Bjava.lang.String
+ (<"è0
+.
+ ("minutes"	#binop /#2/:Bint'
+%
+! (-	"	#binop /#2/:Bint'
+%
+/ (;
+"	#binop %#2%:BintÏ
+Ì
+ (<"”
+icom.hb.study.udemylpajavamasterclass.section5_buildingblocks.coding_challenges.SecondsAndMinutesChallenge'getDurationString(II)Ljava/lang/String;2getDurationString:	
+Bjava.lang.String
+ (=*›D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section5_buildingblocks/coding_challenges/SecondsAndMinutesChallenge.java

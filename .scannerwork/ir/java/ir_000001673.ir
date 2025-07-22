@@ -1,0 +1,34 @@
+
+
+0int
+0.0doublefthis! !("Rcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise33.Point"Ê+
+)
+" "(distance"#id#:Bdouble'
+%
+#! #('"#get-field# x:Bint'
+%
+# #('"	#binop -#2-:Bint'
+%
+#, #(2"#get-field# x:Bint'
+%
+#* #(2"	#binop -#2-:Bint'
+%
+# #(3	"	#binop *#2*:Bint'
+%
+#9 #(?
+"#get-field# y:Bint'
+%
+#7 #(?"	#binop -#2-:
+Bint'
+%
+#D #(J"#get-field# y:Bint'
+%
+#B #(J"	#binop -#2-:Bint'
+%
+#6 #(K"	#binop *#2*:Bint'
+%
+# #(K"	#binop +#2+:	BintH
+F
+# #(Ldistance"
+java.lang.Mathsqrt(D)D*2sqrt:Bdouble
+$ $(*„D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/exercises/exercise33/Point.java

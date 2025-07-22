@@ -1,0 +1,15 @@
+nthis ("Zcom.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise35.ComplexNumberreal ("double	imaginary! (1"double"Ž-
++
+ ("#get-field# real:Bdouble"
+ 
+ ("	#binop +#2+:&
+$
+ ("#set-field# real:2
+0
+ (#"#get-field# imaginary:Bdouble"
+ 
+ (#"	#binop +#2+:+
+)
+ (#	"#set-field# imaginary:
+
+ (*ŒD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section7_oop_part1/exercises/exercise35/ComplexNumber.java

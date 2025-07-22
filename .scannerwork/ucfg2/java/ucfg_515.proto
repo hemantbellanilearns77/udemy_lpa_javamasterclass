@@ -1,0 +1,38 @@
+
+…com.hb.study.udemylpajavamasterclass.section14.misc_codedemo.lambdaintro.PredicateDemoByCoPilot$StartsWithA#test(Ljava/lang/String;)Zœ
+‘D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section14/misc_codedemo/lambdaintro/PredicateDemoByCoPilot.java ("startingBlock*†
+startingBlock ((‹
+ˆ
+ (
+%1"
+__annotate*2
+
+__unknown_file (
+java.lang.Override*6
+
+__unknown_file (
+
+namejava.lang.StringX
+V
+# ('
+namejava.lang.String"__annotation*"
+
+__unknown_file (
+
+%1*
+1*í
+1   (ÉÆ
+   ('
+%0boolean"0java.lang.String#startsWith(Ljava/lang/String;)Z*6
+
+__unknown_file (
+
+namejava.lang.String*!
+
+__unknown_file (
+A2startsWith(Ljava/lang/String;)"
+   ((
+"":$
+ ('
+namejava.lang.StringBom
+kcom.hb.study.udemylpajavamasterclass.section14.misc_codedemo.lambdaintro.PredicateDemoByCoPilot$StartsWithAHX

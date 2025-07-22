@@ -1,0 +1,59 @@
+
+vcom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal#toString()Ljava/lang/String;ñ
+ãD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section13/coding_challenges/innerclasschallenge/Meal.java" "("1*ë
+1# #(&å
+â
+#1 #(@f
+%0`com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Burger"__id*é
+
+__unknown_file (r*p[
+Ycom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal"
+theBurgerInMealâ
+Ü
+#B #(Pd
+%1^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item"__id*ç
+
+__unknown_file (q*o[
+Ycom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal"
+theDrinkInMealà
+Ö
+#R #(_d
+%2^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item"__id*å
+
+__unknown_file (p*n[
+Ycom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal"
+theSideInMealâÜ
+$ $()
+%3double"ecom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal#getTotal()D*y
+
+__unknown_file (][
+Ycom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal2
+getTotal()©¶
+# $(*
+%4java.lang.String"Ajava.lang.String#formatted([Ljava/lang/Object;)Ljava/lang/String;*5
+
+__unknown_file (
+%s%n%s%n%s%n%26s$%.2f*Ñ
+
+__unknown_file (h
+f
+%0`com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Burger*Ç
+
+__unknown_file (f
+d
+%1^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item*Ç
+
+__unknown_file (f
+d
+%2^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item*+
+
+__unknown_file (
+Total Due: **
+
+__unknown_file (
+
+%3double2formatted([Ljava/lang/Object;)"$
+# $(+
+
+%4java.lang.StringB][
+Ycom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.MealH

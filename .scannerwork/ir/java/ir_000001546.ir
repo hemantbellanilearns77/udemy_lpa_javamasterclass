@@ -1,0 +1,14 @@
+
+
+2int
+
+1intvthis ("bcom.hb.study.udemylpajavamasterclass.section12_generics.misc_codedemo.generics_basics.BaseballTeam"Ç1
+/
+   ("#get-field# totalLosses:Bint'
+%
+   ("	#binop *#2*:Bint/
+-
+ #  (,"#get-field# totalTies:Bint(
+&
+   (0"	#binop +#2+:Bint
+   (1*”D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section12_generics/misc_codedemo/generics_basics/BaseballTeam.java

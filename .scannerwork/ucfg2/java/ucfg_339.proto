@@ -1,0 +1,51 @@
+
+{com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item#toString()Ljava/lang/String;–
+‹D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section13/coding_challenges/innerclasschallenge/Meal.java< <("1*Ì
+1= =(#¶
+³
+=. =(2
+%0java.lang.String"__id*ˆ
+
+__unknown_file (l*j`
+^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item"
+type¶
+³
+=4 =(8
+%1java.lang.String"__id*ˆ
+
+__unknown_file (l*j`
+^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item"
+nameÑ
+Î
+> >(3
+%2double"lcom.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item#getPrice(DD)D*~
+
+__unknown_file (b"`
+^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$Item*"
+
+__unknown_file (
+""*"
+
+__unknown_file (
+""ÐÍ
+= >(4
+%3java.lang.String"Ajava.lang.String#formatted([Ljava/lang/Object;)Ljava/lang/String;*.
+
+__unknown_file (
+%10s%15s $%.2f*4
+
+__unknown_file (
+
+%0java.lang.String*4
+
+__unknown_file (
+
+%1java.lang.String**
+
+__unknown_file (
+
+%2double2formatted([Ljava/lang/Object;)"$
+= >(5
+
+%3java.lang.StringBb`
+^com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge.Meal$ItemH
