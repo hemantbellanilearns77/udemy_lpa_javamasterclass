@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global;
+package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
@@ -13,7 +13,7 @@ public class DemoRunner {
 
     //Object level or Static declarations here...
     public static ExcecutionUtil execution = new ExcecutionUtil();
-
+    private static final String HEADER = "\n" + "📘".repeat(3) + " JAVA EXERCISE SESSION " + "📘".repeat(3);
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 

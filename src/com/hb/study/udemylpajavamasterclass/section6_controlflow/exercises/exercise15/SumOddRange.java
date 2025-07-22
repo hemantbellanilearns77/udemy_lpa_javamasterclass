@@ -19,7 +19,7 @@ public class SumOddRange {
     sumOdd(100, -100); → should return -1
     sumOdd(100, 1000); → should return 247500
      */
-    public static void main(String[] args) {
+    public static void main(String[] ignoredArgs) {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
@@ -29,7 +29,7 @@ public class SumOddRange {
             System.out.print("Enter the range of numbers between whom the sum of odd number is required " +
                     "(Example: 1, 100): " );
             userInput = scanner.nextLine();
-            // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string
+            // removes all whitespace characters (i.e. spaces, tabs, newlines etc. ), from string
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
             if(userInputWithoutBlanks.equalsIgnoreCase("exit")) { continue ; }
             System.out.println("userInput was:" + userInput + ",userInputWithoutBlanks is:" + userInputWithoutBlanks);

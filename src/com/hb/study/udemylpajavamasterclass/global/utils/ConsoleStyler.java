@@ -1,6 +1,10 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.constants.BackgroundColor;
+import com.hb.study.udemylpajavamasterclass.global.constants.ForegroundColor;
+import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
+import com.hb.study.udemylpajavamasterclass.global.models.Theme;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,28 +15,92 @@ import java.util.stream.Stream;
 /**
  * created by : heman on 16-07-2025, 01:09 pm, in the "udemy_lpa_javamasterclass" project
  **/
+
 public class ConsoleStyler {
 
-   // Prints a bannered header
-   public static void printBanner(String title) {
-       System.out.println(CommonConstants.SECTION_SEPARATOR);
-       System.out.println("📌 " + title.toUpperCase());
-       System.out.println(CommonConstants.SECTION_SEPARATOR);
-   }
-    public static void startSection(String label) {
+    // Prints a bannered header
+    public static void printBanner(String title) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println("🔷 START: " + label.toUpperCase());
+        System.out.printf( applyStyling("📌 " + title.toUpperCase(),SemanticColorRole.PROGRAM_BANNER  ));
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+    }
+    public static void startSection(String label) {
+        ConsoleStyler.divider();
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        System.out.println(
+                applyStyling("🔷 START: ",  null, ForegroundColor.BRIGHT_CYAN,null) +
+                applyStyling(label.toUpperCase(),SemanticColorRole.SECTION_HEADING));
         System.out.println(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
         System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println("🏁 END: " + label.toUpperCase());
+        //System.out.println(applyStyling("🏁 END: " + label.toUpperCase(),SemanticColorRole.SECTION_HEADING));
+        System.out.println(
+                applyStyling("🏁 END: ",  null, ForegroundColor.BRIGHT_CYAN,null) +
+                        applyStyling(label.toUpperCase(),SemanticColorRole.SECTION_HEADING));
         System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.divider();
     }
 
+    public static void startSubSection(String outputText) {
+        styleIt(outputText.toUpperCase(), SemanticColorRole.SUBSECTION_HEADING,
+                false, true, false);
+
+    }
     public static void divider() {
         System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+    }
+
+    public static void halfDivider() {
+        System.out.println(CommonConstants.INDENT + ForegroundColor.BRIGHT_YELLOW.getAnsiCode() + CommonConstants.ASTERISKSEPERATORLINESTRHALF + CommonConstants.RESET);
+    }
+
+    public static void styleInitializationInfo(String outputText) {
+        styleIt(outputText, SemanticColorRole.INITIALIZATION_INFO);
+    }
+    public static void styleSubSectionInfo(String outputText) {
+        styleIt(outputText, SemanticColorRole.SUBSECTION_ITALIC_INFO);
+    }
+
+    private static void styleIt(String outputText, SemanticColorRole semanticColorRole, boolean allFlags) {
+        styleIt(outputText, semanticColorRole, allFlags, allFlags, allFlags);
+    }
+
+    private static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
+        styleIt(outputText, semanticColorRole, false);
+    }
+
+    public static void stylePLainOutput(String outputText) {
+        styleIt(outputText, SemanticColorRole.PLAIN_OUTPUT);
+    }
+
+    public static void styleIt(String outputText, SemanticColorRole semannticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
+        if (outputText == null || outputText.isBlank()) {
+            System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
+            return;
+        }
+
+        String[] lines = outputText.split("\\R"); // Handles all newline types
+
+        // Optional ANSI coloring
+        String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; // Magenta
+        String resetColor = enableBorderColor ? CommonConstants.RESET : "";
+
+        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
+        for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
+            String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
+            String lineToPrint = linePrefix + lines[lineCounter];
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint,semannticRole));
+        }
+
+        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
+    }
+
+
+    // Overloaded wrapper to just show line numbers, no uppercase, no sorting
+    public static void styleEachAsIs(String labelPrefix, Object input) {
+        styleEach(labelPrefix, input, false, false, false);
     }
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
@@ -139,7 +207,7 @@ public class ConsoleStyler {
         }
 
         // 🎨 Styled Output
-        System.out.println(CommonConstants.DOTTED_LINE);
+        //System.out.println(CommonConstants.DOTTED_LINE);
         final AtomicInteger counter = new AtomicInteger(0);
 
 
@@ -155,125 +223,70 @@ public class ConsoleStyler {
             }
         }
 
-        System.out.println(CommonConstants.DOTTED_LINE);
+        //System.out.println(CommonConstants.DOTTED_LINE);
     }
-    /*public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
-        if (input == null) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
 
-        Stream<?> stream;
+    public static String applyStyling(String text, SemanticColorRole semanticColorRole,
+                                      BackgroundColor bgColor, ForegroundColor fgColor, List<String> customFormattingElements ) {
+        StringBuilder themedText = new StringBuilder();
+        Theme theme = null;
 
-        // 🧠 Patch for primitive arrays
-        if (input instanceof double[]) {
-            stream = Arrays.stream((double[]) input).boxed();
-        } else if (input instanceof int[]) {
-            stream = Arrays.stream((int[]) input).boxed();
-        } else if (input instanceof long[]) {
-            stream = Arrays.stream((long[]) input).boxed();
-        } else if (input instanceof boolean[]) {
-            stream = IntStream.range(0, ((boolean[]) input).length)
-                    .mapToObj(i -> ((boolean[]) input)[i]);
-        } else if (input instanceof char[]) {
-            stream = IntStream.range(0, ((char[]) input).length)
-                    .mapToObj(i -> ((char[]) input)[i]);
-        }
-
-        // 🧠 Standard containers
-        else if (input instanceof Object[]) {
-            stream = Arrays.stream((Object[]) input);
-        } else if (input instanceof List<?>) {
-            List<?> list = (List<?>) input;
-            if (!list.isEmpty() && list.get(0) instanceof double[]) {
-                stream = list.stream().flatMap(arr -> Arrays.stream((double[]) arr).boxed());
-            } else if (!list.isEmpty() && list.get(0) instanceof Object[]) {
-                stream = list.stream().flatMap(arr -> Arrays.stream((Object[]) arr));
-            } else {
-                stream = list.stream();
+        if(semanticColorRole!= null && !(semanticColorRole.name().isBlank())){
+            theme = getThemeFor(semanticColorRole, customFormattingElements);
+            if(customFormattingElements!=null && !customFormattingElements.isEmpty()){
+                List<String> temp = theme.getFormattingElements();
+                temp.addAll(customFormattingElements);
+                theme.setFormattingElements(temp);
             }
-        } else if (input instanceof Set<?>) {
-            stream = ((Set<?>) input).stream();
-        } else if (input instanceof Stream<?>) {
-            stream = (Stream<?>) input;
         } else {
-            System.out.println(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
-            return;
-        }
-
-        // 🪄 Format coordinates if input was clearly a List of arrays
-        boolean isCoordinateMode =
-                input instanceof List<?> && !((List<?>) input).isEmpty() &&
-                        (((List<?>) input).get(0) instanceof double[] || ((List<?>) input).get(0) instanceof Object[]);
-
-        List<Object> items = stream
-                .map(obj -> {
-                    if (obj == null) return "null";
-                    if (formatNumbers && obj instanceof Number) {
-                        return String.format("%12s", obj);
-                    }
-                    if (uppercaseStrings && obj instanceof String) {
-                        return ((String) obj).toUpperCase();
-                    }
-                    return obj;
-                })
-                .collect(Collectors.toList());
-
-        if (sort) {
-            try {
-                Collections.sort((List) items); // unchecked cast for sorting
-            } catch (ClassCastException e) {
-                System.out.println(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
+            if(bgColor==null) {bgColor =BackgroundColor.NEUTRAL;}
+            if(fgColor==null) {fgColor =ForegroundColor.WHITE;}
+            theme = new Theme(bgColor, fgColor, customFormattingElements);
+            if(customFormattingElements!=null && !customFormattingElements.isEmpty()){
+                theme.setFormattingElements(customFormattingElements);
             }
         }
-
-        if (items.isEmpty()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
-
-        System.out.println(CommonConstants.DOTTED_LINE);
-        AtomicInteger counter = new AtomicInteger(1);
-
-        for (int i = 0; i < items.size(); i += (isCoordinateMode ? 2 : 1)) {
-            if (isCoordinateMode && i + 1 < items.size()) {
-                System.out.printf(CommonConstants.INDENT + "%s [%d] → (%.4f, %.4f)%n",
-                        labelPrefix, counter.getAndIncrement(),
-                        Double.parseDouble(items.get(i).toString()),
-                        Double.parseDouble(items.get(i + 1).toString()));
-            } else {
-                System.out.printf(CommonConstants.INDENT + "%s [%d] %s%n",
-                        labelPrefix, counter.getAndIncrement(), items.get(i));
+        themedText.append(theme.getCombinedAnsi());
+        if (theme.isHavingFormattingELements()) {
+            for (String nextFormtString : theme.getFormattingElements()) {
+                themedText.append(nextFormtString);
             }
         }
-
-        System.out.println(CommonConstants.DOTTED_LINE);
-    }*/
-
-    // Overloaded wrapper with defaults applied
-    public static void styleEach(String labelPrefix, Object input) {
-        styleEach(labelPrefix, input, false, false, false);
+        themedText.append(text).append(CommonConstants.RESET);// Reset code
+        return themedText.toString();
     }
 
-    public static void styleIt(String outputText, boolean showLineNumbers, boolean enableColor) {
-        if (outputText == null || outputText.isBlank()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
-            return;
-        }
-
-        String[] lines = outputText.split("\\R"); // Handles all newline types
-
-        // Optional ANSI coloring
-        String borderColor = enableColor ? "\u001B[35m" : ""; // Magenta
-        String resetColor = enableColor ? "\u001B[0m" : "";
-
-        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
-
-        for (int i = 0; i < lines.length; i++) {
-            String linePrefix = showLineNumbers ? String.format("[%02d] ", i + 1) : "» ";
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + linePrefix + lines[i]);
-        }
-
-        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────" + resetColor);
+    private static String applyStyling(String text, SemanticColorRole role) {
+        return applyStyling(text, role, null,null, null);
     }
+
+    private static String applyStyling(String text, BackgroundColor bgColor, ForegroundColor fgColor, List<String> customFormattingElements ){
+       return applyStyling(text, null, bgColor, fgColor,customFormattingElements);
+    }
+
+    private static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
+        return switch (role) {
+            case ERROR -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, null);
+            case WARNING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.ORANGE, customFormattingElements);
+            case SECTION_HEADING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE));
+            case SUBSECTION_HEADING -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
+            case INITIALIZATION_INFO -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_BLUE, List.of(CommonConstants.BOLD));
+            case SUBSECTION_ITALIC_INFO -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.ITALIC));
+            case OUTPUT_HEADER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.WHITE, null);
+            case BENCHMARK_SECTION_HEADER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.SAPPHIRE, null);
+            case PROGRAM_BANNER -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, List.of(CommonConstants.BOLD));
+            default -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
+        };
+    }
+
 }

@@ -3,10 +3,21 @@ package com.hb.study.udemylpajavamasterclass.global.constants;
 import java.util.Random;
 
 public class CommonConstants {
+    // ANSI escape codes
+    public static final String RESET = "\u001B[0m";
+    public static final String BOLD = "\u001B[1m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String ITALIC = "\u001B[3m"; // ANSI code for italics
+
     // Header & Separators
     public static final String HEADER = "\n" + "📘".repeat(3) + " JAVA EXERCISE SESSION " + "📘".repeat(3);
-    public static final String SECTION_SEPARATOR = "\n" + "-".repeat(126);
+    public static final String SECTION_SEPARATOR = "\n" + "_".repeat(126);
     public static final String DOTTED_LINE = "·".repeat(126);
+    public static final String ASTERISKSEPERATORLINESTRFULL =
+            "*".repeat(126);
+
+    public static final String ASTERISKSEPERATORLINESTRHALF =
+            "*".repeat(126 / 2);
     public static final String INDENT = "\t\t\t"; // adjustable for your taste
     public static final String EXECUTIONSETUPSSTR =
             "⚙️ ".repeat(9) + "🔧 EXECUTION SETUP & BENCHMARK INITIALIZED; OUTPUT BEGINS BELOW 🔧" + " ⚙️".repeat(9);
@@ -17,9 +28,10 @@ public class CommonConstants {
     // Benchmark Constants
     public static final String BENCHMARKSECTIONHEADER =
             "*".repeat(45) + " 📊 BENCHMARK INFO 📊 " + "*".repeat(45);
-
     public static final String BENCHMARKINSUMMARYSTR =
-            INDENT + "📊 BENCHMARK SUMMARY of the above execution:\n";
+            "📊 " + UNDERLINE + "BENCHMARK SUMMARY" + RESET + " of the above execution:\n";
+    public static final String BENCHMARKINGDETAILSSTR =
+            "📊 " + UNDERLINE + "BENCHMARK DETAILS" + RESET + " of the above execution:\n";
 
     public static final String BENCHMARKINSUMMARYDAYSSTR =
             "%s 🕒 Days: %s day(s)%n";
@@ -33,14 +45,6 @@ public class CommonConstants {
             "%s 🕒 Milliseconds: %s millisecond(s)%n";
     public static final String BENCHMARKINSUMMARYNANOSSSTR =
             "%s 🕒 Nanoseconds: %s nanosecond(s)%n";
-    public static final String BENCHMARKINGDETAILSSTR =
-            INDENT + "📊 BENCHMARK DETAILS of the above execution:\n";
-
-    public static final String ASTERISKSEPERATORLINESTRFULL =
-            "*".repeat(126);
-
-    public static final String ASTERISKSEPERATORLINESTRHALF =
-            "*".repeat(126 / 2);
 
     // Demo Limits
     public static final int MAX_ITERATION_COUNT = new Random().nextInt(1, (3969 + 1));
@@ -66,9 +70,6 @@ public class CommonConstants {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
+
     private CommonConstants() {} // Prevent instantiation
-
-
-
-
 }
