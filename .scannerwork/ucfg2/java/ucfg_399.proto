@@ -1,19 +1,0 @@
-
-__sonar_lambda_13$’
-‡D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section14/misc_codedemo/lambdaintro/FunkyFilters.java4( 4(D"1*ø
-140 4(4ÊÇ
-40 4(D
-%24boolean"0java.lang.String#startsWith(Ljava/lang/String;)Z*6
-
-__unknown_file (
-
-namejava.lang.String*!
-
-__unknown_file (
-A2startsWith(Ljava/lang/String;)"
-40 4(D
-
-%24boolean:$
-4( 4(,
-namejava.lang.StringB 
-java.util.function.Predicate

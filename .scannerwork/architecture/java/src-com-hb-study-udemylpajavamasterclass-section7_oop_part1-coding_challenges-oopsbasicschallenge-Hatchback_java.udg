@@ -1,196 +1,0 @@
-
-1.0/hemantbellanilearns77_udemy_lpa_javamasterclassJavaFrontend"1753185160768*java2.Bá
-u
-psrc/com/hb/study/udemylpajavamasterclass/section7_oop_part1/coding_challenges/oopsbasicschallenge/Hatchback.java2
-
-package4
-b
-]com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge5
-l
-gcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback7
-
-
-class8
-
-access9
-
-	protected10
-
-simple name11
-
-	Hatchback12
-g
-acom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Car14
-
-unknown15
-
-extends16
-
-
-uses17
-w
-qcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback.brandName19
-
-field20
-
-private21
-
-	brandName22
-x
-rcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback.carSegment24
-
-
-carSegment25
-∆
-øcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback#<init>(Ljava/lang/String;Ljava/lang/String;IIIIIILjava/lang/String;Ljava/lang/String;)V27
-
-method28
-
-public29
-
-calls30
-
-
-references31
-v
-pcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback#move(I)V33
-
-
-move34
-}
-wcom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback#changeGears(I)V36
-
-changeGears37
-u
-ocom.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge.Hatchback#stop()V39
-
-
-stop40J
-
-1
-12Z
-
-3	
-354j€
-@
-38:
-383928 *
-1 (26:3B
-	
-9
-29
-
-
-11
-40
-@
-23:
-232420 *
-1 (26:3B
-	
-9
-21
-
-
-11
-25
-
-13
-131415
-9
-64
-678 *
-1 (:3B
-	
-9
-10
-
-
-11
-12
-@
-35:
-353628 *
-1 (26:3B
-	
-9
-29
-
-
-11
-37
-@
-26:
-262728 *
-1 (26:3B
-	
-9
-29
-
-
-11
-12
-@
-18:
-181920 *
-1 (26:3B
-	
-9
-21
-
-
-11
-22
-@
-32:
-323328 *
-1 (26:3B
-	
-9
-29
-
-
-11
-34rΩ
-
-61316*
-1 (
-
-61317*
-1 (
-
-26630*
-1 (
-
-261331*
-1	 (
-
-261330*
-1	 (
-
-261330*
-1	 (
-
-26617*
-1		 	(
-
-26631*
-1		 	(
-
-261831*
-1	 	(
-
-26617*
-1
-	 
-(
-
-26631*
-1
-	 
-(
-
-262331*
-1
- 
-(

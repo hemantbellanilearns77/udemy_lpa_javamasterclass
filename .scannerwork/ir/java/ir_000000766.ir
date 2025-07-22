@@ -1,41 +1,0 @@
-
-
-3int
-
-0int
-
-2int
-falseboolean
-trueboolean
-
-1intwholeNumber" (1"int"‚+
-)
- (loopCounter"#id#:Bint+
-)
- ("	#binop <#2<:Bboolean&"$
- ( * (
-2 ("
- (";'
-%
-   ( divisor"#id#:Bint
-  $("¶*
-wholeNumber
-*	divisor'
-%
- -  (:"	#binop /#2/:
-Bint-
-+
- "  (:"
-#binop <=#2<=:	Bboolean "
-  $( *   (HP"x'
-%
-! !(("	#binop %#2%:
-	Bint-
-+
-! !(-"
-#binop ==#2==:Bboolean"
-! !(- *! !("	"
-" "(!""5+
-)
- <  (Edivisor"	#binop +#2+:	"	
-& &(*’D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section6_controlflow/coding_challenges/PrimeNumberChallenge.java

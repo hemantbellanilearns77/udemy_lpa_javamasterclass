@@ -1,20 +1,0 @@
-
-'", pagesPrinted="java.lang.String
-("tonerPercentage="java.lang.String
-	'}'char
-!", duplex="java.lang.String
- 
-"Printer{"java.lang.String|this	 	("hcom.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge.Printer"é5
-3
-% (4"#get-field# tonerPercentage:Bint0
-.
- ($"#get-field# duplex:Bboolean2
-0
-$ (0"#get-field# pagesPrinted:Bint:
-8
-
- (
-"	#binop +#2+:	Bjava.lang.String
-
- (
-*šD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section8_oop_part2/coding_challenges/encapsulationchallenge/Printer.java

@@ -1,40 +1,0 @@
-
-;%"), must be a positive integer value"java.lang.String
-3"), must be between 0 and 59"java.lang.String
-
-0int
-"h "java.lang.String
-trueboolean
-	59int
-"s"java.lang.String
-"m "java.lang.String
-60int
-1"Invalid data for seconds("java.lang.String
-1"Invalid data for minutes("java.lang.Stringminutes+ (6"intseconds8 (C"int"K+
-)
- ("	#binop <#2<:Bboolean"
- ( * (
-"I5
-3
- (;"	#binop +#2+:Bjava.lang.String
- (<"E+
-)
- ("	#binop <#2<:Bboolean"
- ( P"?+
-)
- ('
-"	#binop >#2>:	Bboolean
- ('"2*
-"
- (' * (
-"I5
-3
-  !(3"	#binop +#2+:Bjava.lang.String
-  !(4"·.
-,
-$ $( hours"	#binop /#2/:Bint9
-7
-& &(+remainingMinutes"	#binop %#2%:Bint8
-6
-( ((E"	#binop +#2+:Bjava.lang.String
-( ((F*›D:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section5_buildingblocks/coding_challenges/SecondsAndMinutesChallenge.java

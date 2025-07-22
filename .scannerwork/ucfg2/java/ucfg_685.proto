@@ -1,23 +1,0 @@
-
-__sonar_lambda_42$ù
-êD:/GitHubRepos/udemy_lpa_javamasterclass/src/com/hb/study/udemylpajavamasterclass/section14/misc_codedemo/lambdaadvanced/LambdaAdvancedDemo.java• •(4"1*˝
-1
-• •(#Ã…
-
-• •(4
-%7boolean"0java.lang.String#startsWith(Ljava/lang/String;)Z*6
-
-__unknown_file (
-
-namejava.lang.String*"
-
-__unknown_file (
-Ar2startsWith(Ljava/lang/String;)"
-
-• •(4
-
-%7boolean:&
-
-• •(
-namejava.lang.StringB 
-java.util.function.Predicate

@@ -1,7 +1,0 @@
-organization=hemantbellanilearns77
-projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass
-serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.65585
-dashboardUrl=https://sonarcloud.io/dashboard?id=hemantbellanilearns77_udemy_lpa_javamasterclass
-ceTaskId=AZgx-2PbePsZWqEqHCEI
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZgx-2PbePsZWqEqHCEI
