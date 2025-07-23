@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core;
 
 /**
  * created by : heman on 14-07-2025, 06:40 pm, in the "udemy_lpa_javamasterclass" project
@@ -44,7 +44,7 @@ public class NumberUtils {
     }
     public static void runGlobalCurrencyAndNumber() {
         System.out.println("💱 CURRENCY & NUMBER FORMAT — Global Round");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
 
         double sample = 1234567.89;
 

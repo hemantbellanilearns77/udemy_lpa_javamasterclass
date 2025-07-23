@@ -29,7 +29,7 @@ public class Exercise45_PlaylistTestClass {
        // System.out.println("The album 'Stormbringer' looks like below: \n" + album ) ;
         System.out.println(album) ;
 
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
         album.addSong("I put the finger on you", 3.25);
@@ -43,7 +43,7 @@ public class Exercise45_PlaylistTestClass {
         albums.add(album);
         //System.out.println("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
         System.out.println(album) ;
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         LinkedList<Song> playList = new LinkedList<>();
         albums.get(0).addToPlayList("You can't do it right", playList);
@@ -59,7 +59,7 @@ public class Exercise45_PlaylistTestClass {
             System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
         /*
 
          ******************************************************

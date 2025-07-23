@@ -179,7 +179,7 @@ public class CoreJavaCarnival {
                     System.out.println(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
                 }
             }
-            ConsoleStyler.startSubSection(" Just Playing around");
+            ConsoleStyler.styleIntro(" Just Playing around");
             // Playing around
             viewTableDescription(url, firstTableName);
 

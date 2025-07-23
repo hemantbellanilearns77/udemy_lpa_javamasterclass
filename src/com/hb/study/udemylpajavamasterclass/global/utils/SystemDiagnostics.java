@@ -1,7 +1,6 @@
-package com.hb.study.udemylpajavamasterclass.global.misc_codedemo;
+package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.Map;
 import java.util.Properties;
@@ -21,13 +20,22 @@ public class SystemDiagnostics {
         /*
          *****************************************************
          */
+
+        demoSystemDiagnostics();
+        /*
+
+         ******************************************************
+         */
+        execution.finalizeExecution();
+    }
+    public static void demoSystemDiagnostics(){
         System.out.println("=== 🌍 System Properties ===");
 
         Properties props = System.getProperties();
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
             System.out.printf("%-40s : %s%n", entry.getKey(), entry.getValue());
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
         System.out.println("\n=== 🌐 Environment Variables ===");
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> entry : env.entrySet()) {
@@ -35,13 +43,6 @@ public class SystemDiagnostics {
         }
 
         System.out.println("\n✅ Diagnostics Complete.");
-
-        /*
-
-         ******************************************************
-         */
-        execution.finalizeExecution();
     }
-
     //
 }
