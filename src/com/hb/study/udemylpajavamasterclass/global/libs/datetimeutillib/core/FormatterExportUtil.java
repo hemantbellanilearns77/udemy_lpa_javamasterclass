@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import java.util.*;
@@ -16,7 +16,7 @@ public class FormatterExportUtil {
     }
 
     public static void logSeparator() {
-        log.add("\n" + CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        log.add("\n" + CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
     }
 
     public static void exportMarkdown(String filename) {

@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ui;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.ui;
 
 /**
  * created by : heman on 14-07-2025, 08:50 pm, in the "udemy_lpa_javamasterclass" project

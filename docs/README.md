@@ -98,7 +98,7 @@ src/global/models/           → test/global/tests/models/ src/global/utils/    
 ### 🛠️ Manual CLI (if needed):
 ```bash
 javac -cp "lib/*" src/com/hb/study/.../DemoRunner.java
-java -cp "lib/*:src" com.hb.study.udemylpajavamasterclass.global.misc_codedemo.DemoRunner
+java -cp "lib/*:src" com.hb.study.udemylpajavamasterclass.global.misc_codedemo.demo_stubs.DemoRunner
 ```
 ---
 ## 🌈 Evolution Timeline

@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.misc_codedemo;
+package com.hb.study.udemylpajavamasterclass.global.misc_codedemo.demo_stubs;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * created by : heman on 22-07-2025, 09:11 am, in the "udemy_lpa_javamasterclass" project
  **/
-public class TestClassTemplate {
+public class DemoClassTemplate {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
@@ -33,7 +33,7 @@ public class TestClassTemplate {
         ConsoleStyler.startSection("Welcome to Demo Section"); // required
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this section demo"); // optional
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("Welcome to the subsection X"); // optional
+        ConsoleStyler.styleIntro("Welcome to the subsection X"); // optional
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection section X demo"); // optional
         ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
         /* for simply printing elements , no sorting, no uppercase, no formatting on numbers etc...
@@ -46,7 +46,7 @@ public class TestClassTemplate {
         ConsoleStyler.styleOutput("Output Heading", "Plain output "); //  output
         ConsoleStyler.halfDivider();//This is required only if there is another subsection....
 
-        ConsoleStyler.startSubSection("Welcome to the subsection Y"); // optional
+        ConsoleStyler.styleIntro("Welcome to the subsection Y"); // optional
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection Y demo"); // optional
         ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
         /*

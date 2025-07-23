@@ -1,9 +1,9 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ui;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.ui;
 
 
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core.FormatterMode;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.controller.GUIModeOrchestrator;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core.ZoneLibrary;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core.FormatterMode;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.controller.GUIModeOrchestrator;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core.ZoneLibrary;
 
 import javax.swing.*;
 import java.awt.*;

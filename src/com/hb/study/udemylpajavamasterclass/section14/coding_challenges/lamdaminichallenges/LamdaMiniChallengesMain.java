@@ -69,7 +69,7 @@ public class LamdaMiniChallengesMain {
             ConsoleStyler.styleEachAsIs("Part: ", sentenceParts);
 
         };
-        ConsoleStyler.startSubSection("Original sentence divided into 'word parts' using accept() call on printThePartsLambda Lambda is as below: ");
+        ConsoleStyler.styleIntro("Original sentence divided into 'word parts' using accept() call on printThePartsLambda Lambda is as below: ");
         printThePartsLambda.accept(originalSentence);
         ConsoleStyler.halfDivider();
 
@@ -78,7 +78,7 @@ public class LamdaMiniChallengesMain {
             AtomicInteger atomicInteger = new AtomicInteger(0);
             Arrays.asList(sentence.split(" ")).forEach(nextWord -> ConsoleStyler.styleOutput(null, "NextWordPart" + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord));
         };
-        ConsoleStyler.startSubSection("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
+        ConsoleStyler.styleIntro("Original sentence divided into 'word parts' now below, (using accept() call on printThePartsConcise Lambda) : ");
         printThePartsConcise.accept(originalSentence);
 
         ConsoleStyler.endSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class (Consumer Lambda)");
@@ -101,7 +101,7 @@ public class LamdaMiniChallengesMain {
                      }
                 """);
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection(""" 
+        ConsoleStyler.styleIntro(""" 
                 Mini Challenge 2, 3: Create Lambda Expressions using the method provided above, and execute the same.""");
         Function<String, String> stringFunctionLambda = (String s) -> {
             StringBuilder returnVal = new StringBuilder();
@@ -177,7 +177,7 @@ public class LamdaMiniChallengesMain {
         ConsoleStyler.styleOutput("Here's the output after lambda call:"
                 , unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("""
+        ConsoleStyler.styleIntro("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
                 which in turn is defined using UnaryOperator<String, String> ( Lambda Function ) and then invoke it...
                 """);

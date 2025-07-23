@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 
@@ -33,7 +33,7 @@ public class PatternLibrary {
     }
     public static void runIndianPatterns() {
         System.out.println("🗣️ LANGUAGE DEMO — Indian Regional Showcase");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         ZonedDateTime indiaTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
 
         for (Locale locale : LocaleLibrary.getIndianRegionalLocales()) {
@@ -43,13 +43,13 @@ public class PatternLibrary {
                 System.out.printf("📍 %-25s → %s\n", pattern, result);
                 FormatterExportUtil.logEntry("LangDemo:" + pattern, locale.toString(), result);
             }
-            System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+            System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         }
     }
 
     public static void runGlobalPatterns() {
         System.out.println("🎨 GLOBAL PATTERN SHOWCASE");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         ZonedDateTime now = ZonedDateTime.now();
 
         for (Locale locale : LocaleLibrary.getGlobalLocales()) {
