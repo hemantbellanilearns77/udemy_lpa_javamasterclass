@@ -6,7 +6,7 @@ package com.hb.study.udemylpajavamasterclass.global.models;
 public enum SemanticColorRole {
     PROGRAM_BANNER,
     SECTION_HEADING,
-    SUBSECTION_HEADING,
+    INTRO_TEXT,
     INITIALIZATION_INFO,
     ITALICIZED_EXECUTION_INSIGHT,
     //tbd

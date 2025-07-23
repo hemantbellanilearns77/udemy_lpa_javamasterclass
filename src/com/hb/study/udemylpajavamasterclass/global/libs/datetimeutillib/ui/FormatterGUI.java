@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ui;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.ui;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 
@@ -12,6 +12,6 @@ public class FormatterGUI {
         System.out.println("🕉️ VEDIC MODE — (Coming Soon - Placeholder)");
         System.out.println("📅 Traditional Indian calendar formatting to be implemented...");
         System.out.println("📅 Lunar calendars · Vikram Samvat · Shaka Samvat · Panchang Exploration");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
     }
 }

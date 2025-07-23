@@ -1,9 +1,9 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.controller;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.controller;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core.DTFormatterUtils;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core.FormatterMode;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ui.FormatterLogBuffer;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core.DTFormatterUtils;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core.FormatterMode;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.ui.FormatterLogBuffer;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -47,6 +47,6 @@ public class CUIModeOrchestrator {
             FormatterLogBuffer.append("🎨 Custom Pattern [" + customPattern + "] → " + result);
         }
 
-        FormatterLogBuffer.append("\n" + CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        FormatterLogBuffer.append("\n" + CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
     }
 }

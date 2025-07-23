@@ -1,11 +1,11 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.core;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.core;
 
 /**
  * created by : heman on 14-07-2025, 06:29 pm, in the "udemy_lpa_javamasterclass" project
  **/
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.ui.FormatterLogBuffer;
+import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.ui.FormatterLogBuffer;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -26,7 +26,7 @@ public class DTFormatterUtils {
     // Add below existing methods
     public static void runMinimalDemo(Locale locale, ZoneId zone) {
         System.out.println("🧃 MINIMAL FORMAT DEMO");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
 
         ZonedDateTime now = ZonedDateTime.now(zone);
         String result = safeFormat(now, "dd MMM yyyy HH:mm:ss z", locale);
@@ -37,7 +37,7 @@ public class DTFormatterUtils {
 
     public static void runFormatStyleCombos(Locale locale, ZoneId zone) {
         System.out.println("🖋️ FORMAT STYLE COMBINATIONS");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
 
         ZonedDateTime now = ZonedDateTime.now(zone);
         for (FormatStyle dateStyle : FormatStyle.values()) {
@@ -73,24 +73,24 @@ public class DTFormatterUtils {
         System.out.println("🕉️ VEDIC MODE — (Coming Soon - Placeholder)");
         System.out.println("📅 Traditional Indian calendar formatting to be implemented...");
         System.out.println("📅 Lunar calendars · Vikram Samvat · Shaka Samvat · Panchang Exploration");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
     }
 
     public static void runCurrencyAndNumbers() {
         System.out.println("💱 CURRENCY & NUMBER FORMATTING DEMO");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         double sample = 1234567.89;
         for (Locale locale : LocaleLibrary.getGlobalLocales()) {
             System.out.printf("🌐 %s\n", locale.getDisplayName());
             System.out.println("💰 Currency: " + NumberUtils.formatCurrency(sample, locale));
             System.out.println("🔢 Number  : " + NumberUtils.formatNumber(sample, locale));
-            System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+            System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         }
     }
 
     public static void runTraditionalCalendars() {
         System.out.println("🗓️ TRADITIONAL CALENDARS — Japan & Thailand");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         ZonedDateTime now = ZonedDateTime.now();
         JapaneseDate japaneseDate = JapaneseDate.from(now);
         ThaiBuddhistDate thaiDate = ThaiBuddhistDate.from(now);
@@ -120,7 +120,7 @@ public class DTFormatterUtils {
     }*/
     public static void runPatternFiesta() {
         System.out.println("🎨 PATTERN FIESTA — Demo of a lot of Pattern variations ");
-        System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         PatternLibrary.runIndianPatterns();
         PatternLibrary.runGlobalPatterns();
     }

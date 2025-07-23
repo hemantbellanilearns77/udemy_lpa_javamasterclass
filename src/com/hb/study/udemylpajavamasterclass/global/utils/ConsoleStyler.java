@@ -28,35 +28,36 @@ public class ConsoleStyler {
     public static void startSection(String label) {
         ConsoleStyler.divider();
         System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, null) +
+        System.out.println(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
         System.out.println(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
         System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, null) +
+        System.out.println(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
         System.out.println(CommonConstants.SECTION_SEPARATOR);
         ConsoleStyler.divider();
     }
 
-    public static void startSubSection(String outputText) {
-        styleIt(outputText.toUpperCase(), SemanticColorRole.SUBSECTION_HEADING,
+    public static void styleIntro(String outputText) {
+        styleIt(outputText.toUpperCase(), SemanticColorRole.INTRO_TEXT,
                 false, true, false);
 
     }
 
     public static void divider() {
-        System.out.println(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.ASTERISKSEPERATORLINESTRFULL + CommonConstants.RESET);
+        System.out.println(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void halfDivider() {
-        System.out.println(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.ASTERISKSEPERATORLINESTRHALF + CommonConstants.RESET);
+        System.out.println(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void styleInitializationInfo(String outputText) {
-        styleIt(outputText, SemanticColorRole.INITIALIZATION_INFO);
+        styleIt((CommonConstants.INITIALIZATIONS_INFO + System.lineSeparator() + outputText),
+                SemanticColorRole.INITIALIZATION_INFO,false,true,false);
     }
 
     public static void styleExecutionInsight(String outputText) {
@@ -70,8 +71,9 @@ public class ConsoleStyler {
     public static void styleOutput(String outputHeading, String outputText) {
         if (outputHeading != null && !outputHeading.isBlank()) {
             styleIt(outputHeading, SemanticColorRole.OUTPUT_HEADING);
+        } if(outputText!= null && !outputText.isBlank()) {
+            styleIt(outputText, null);
         }
-        styleIt(outputText, null);
     }
 
     public static void styleIt(String outputText, SemanticColorRole semanticRole,  boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
@@ -83,7 +85,7 @@ public class ConsoleStyler {
         String[] lines = outputText.split("\\R"); // Handles all newline types
 
         // Optional ANSI coloring
-        String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; // Magenta
+        String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; //
         String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
         System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────" + resetColor);
@@ -263,21 +265,21 @@ public class ConsoleStyler {
             case PROGRAM_BANNER -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_GREEN, List.of(CommonConstants.BOLD));
             case BENCHMARK_SECTION_HEADER -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.SAPPHIRE, null);
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE, CommonConstants.BOLD));
             case SECTION_HEADING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE));
-            case SUBSECTION_HEADING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, null);
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.UNDERLINE, CommonConstants.BOLD));
+            case INTRO_TEXT -> new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.BOLD));
             case INITIALIZATION_INFO -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_BLUE, List.of(CommonConstants.BOLD));
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD));
             case ITALICIZED_EXECUTION_INSIGHT -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.ITALIC));
             case OUTPUT_HEADING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.TURQUOISE, List.of(CommonConstants.BOLD));
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.BOLD));
             case ERROR -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_RED, null);
             case WARNING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.ORANGE, customFormattingElements);
+                    BackgroundColor.NEUTRAL, ForegroundColor.ORANGE, null);
             case null, default -> new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, null);
         };

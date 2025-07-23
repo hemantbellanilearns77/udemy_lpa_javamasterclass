@@ -61,7 +61,7 @@ public class LambdaAdvancedDemo {
     private static void dmeoFunctionLambda(List<String> names) {
         int value1 = 77;
         int value2 = 99;
-        ConsoleStyler.startSubSection("""
+        ConsoleStyler.styleIntro("""
                 Demonstrating Binary Function Lambda using Binary Function:""");
         //Lambda invocation using calculator...
         var result = calculator((a, b) -> (a * b), value1, value2);
@@ -87,20 +87,20 @@ public class LambdaAdvancedDemo {
                 Final Result from anotherCalculator:""", Integer.toString(anotherResult));
         ConsoleStyler.halfDivider();
 
-        ConsoleStyler.startSubSection("Names after replace all (Unary Function Lambda Demo)");
+        ConsoleStyler.styleIntro("Names after replace all (Unary Function Lambda Demo)");
         names.replaceAll(name-> "The name: " + name + " has " + name.length() + " characters" );
         //names.forEach(name -> ConsoleStyler.styleIt(name, true, false));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
 
-        ConsoleStyler.startSubSection("Demonstrating Binary Function Lambda using Arrays.setAll");
+        ConsoleStyler.styleIntro("Demonstrating Binary Function Lambda using Arrays.setAll");
         String[] stringArray = new String[9];
         ConsoleStyler.styleOutput("String Array:" , Arrays.toString(stringArray));
         Arrays.fill(stringArray,"STRING");
-        ConsoleStyler.startSubSection("String Array after fill is: ");
+        ConsoleStyler.styleIntro("String Array after fill is: ");
         ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
         Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i+1) );
-        ConsoleStyler.startSubSection("String Array after setAll is: ");
+        ConsoleStyler.styleIntro("String Array after setAll is: ");
         ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
 
@@ -109,14 +109,14 @@ public class LambdaAdvancedDemo {
     }
 
     private static void demoConsumerLambda(List<String> names) {
-        ConsoleStyler.startSubSection("Randomly generated List<String> of names (displayed using 'Consumer' Lambda based call to List.foreach()):");
+        ConsoleStyler.styleIntro("Randomly generated List<String> of names (displayed using 'Consumer' Lambda based call to List.foreach()):");
 
         //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
         ConsoleStyler.styleEachAsIs("Guest", names);
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
+        ConsoleStyler.styleIntro("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
                 "based call to List.foreach()):");
         var coords = Arrays.asList(
                 new double[]{47.2160, -95.2348},
@@ -131,19 +131,19 @@ public class LambdaAdvancedDemo {
                 ConsoleStyler.styleOutput(null,"[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
         //BiConsumer<Double, Double> p1 = (lat,lon) -> System.out.printf("[Latitude: %.3f, Longitude: %.3f]%n", lat, lon);
         var firstPoint = coords.getFirst();
-        ConsoleStyler.startSubSection("Playing around with BiConsumer Functional Interface ");
+        ConsoleStyler.styleIntro("Playing around with BiConsumer Functional Interface ");
         processPoint(firstPoint[0], firstPoint[1], p1);
         ConsoleStyler.halfDivider();
         coords.forEach(s -> processPoint(s[0], s[1], p1));
         ConsoleStyler.halfDivider();
-        ConsoleStyler.startSubSection("Now with the expanded lambda expression.... ");
+        ConsoleStyler.styleIntro("Now with the expanded lambda expression.... ");
         coords.forEach(s -> processPoint(s[0], s[1],
                 (lat, lon) ->
                         ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
     }
 
     private static void demoSupplierLambda(List<String> names) {
-        ConsoleStyler.startSubSection("Supplier get() for getting a random int and then using it to generate a sub-array out of names list");
+        ConsoleStyler.styleIntro("Supplier get() for getting a random int and then using it to generate a sub-array out of names list");
         int count = (names.size()/2);
         String[] randomArrayUsingLambda = new String[count];
         Supplier<Integer> supplier  = () -> new Random().nextInt(0, FIRST_NAMES.length);
@@ -157,13 +157,13 @@ public class LambdaAdvancedDemo {
 
     private static void demoPredicateLambda(List<String> names) {
 
-        ConsoleStyler.startSubSection("Guests after remove if.... equalsIgnoreCase(\"ArjunDev\") ");
+        ConsoleStyler.styleIntro("Guests after remove if.... equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
-        ConsoleStyler.startSubSection("Guests after remove if.... startsWith(\"Ar\") ");
+        ConsoleStyler.styleIntro("Guests after remove if.... startsWith(\"Ar\") ");
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEachAsIs("", names);
 

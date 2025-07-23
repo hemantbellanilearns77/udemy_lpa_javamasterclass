@@ -49,7 +49,7 @@ public class PredicateDemoByCoPilot {
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         // Pass the custom Predicate implementation
         //names.removeIf(new StartsWithA());
@@ -62,7 +62,7 @@ public class PredicateDemoByCoPilot {
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
-        System.out.print(CommonConstants.ASTERISKSEPERATORLINESTRFULL);
+        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         /*
 

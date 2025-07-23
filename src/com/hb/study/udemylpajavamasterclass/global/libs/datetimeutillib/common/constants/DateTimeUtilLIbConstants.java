@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.common.constants;
+package com.hb.study.udemylpajavamasterclass.global.libs.datetimeutillib.common.constants;
 
 /**
  * created by : heman on 14-07-2025, 10:04 pm, in the "udemy_lpa_javamasterclass" project
