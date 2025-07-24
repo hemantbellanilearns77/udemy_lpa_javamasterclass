@@ -5,43 +5,24 @@ A vibrant companion project built while pursuing the [_Java Programming Mastercl
 ---
 
 ## 🗂️ Project Structure Overview
-udemy_lpa_javamasterclass/
-├── src/
-│   └── com/
-│       └── hb/
-│           └── study/
-│               └── udemylpajavamasterclass/
-│                   ├── global/                     # Shared resources
-│                   │   ├── constants/
-│                   │   ├── libs/
-│                   │   ├── models/
-│                   │   ├── utils/
-│                   │   └── DemoRunner.java         # App entry point
-│                   ├── section3_firststeps/        # Practice modules
-│                   │   ├── coding_challenges/
-│                   │   ├── exercises/
-│                   │   └── misc_codedemo/
-│                   └── section4_basics/            # Fundamental concepts
-│                       ├── coding_challenges/
-│                       ├── exercises/
-│                       └── misc_codedemo/
-│                           ├── exploringbasicoperators/
-│                           └── firstfewclasses/
-├── test/                              # Unit tests with JUnit 5
-│   └── com/
-│       └── hb/
-│           └── study/
-│               └── udemylpajavamasterclass/
-│                   └── tests/
-│                       ├── utils/
-│                       ├── models/
-│                       └── formatter/
-├── lib/                               # External libraries (if any)
-├── doc/                               # Design notes, guides, and documentation
-├── carnival.db                        # Optional local database
-├── assets/                            # UI graphics, icons, splash art
-└── README.md                          # Your carnival’s guidepost
-
+project-root/
+├── src/                          # Main Java source code
+│   ├── main/                    # Main logic (if you want to mirror Maven convention)
+│   └── test/                    # Test files, if applicable
+├── resources/                   # Configs, sample inputs, log settings, etc.
+├── data/                        # Demo databases, mock data, or CSVs
+├── fileio-dump/                 # Output dumps from FileIO experiments
+├── reports/                     # Static analysis reports: sonar, checkstyle, PMD
+│   ├── sonar/
+│   ├── checkstyle/
+│   └── pmd/
+├── utils/                       # Utility scripts, one-off diagnostic tools
+├── docs/                        # Documentation: FSD, BSD, SDD, diagrams
+├── lib/                         # External JARs, if any
+├── scripts/                     # CLI helpers or setup/validation scripts
+├── .idea/                       # IntelliJ-specific configs (auto-generated)
+├── .gitignore                   # Project-level exclusions
+└── README.md                    # Overview, setup instructions, etc.
 ---
 
 ## ⚙️ Technologies Used
@@ -98,7 +79,7 @@ src/global/models/           → test/global/tests/models/ src/global/utils/    
 ### 🛠️ Manual CLI (if needed):
 ```bash
 javac -cp "lib/*" src/com/hb/study/.../DemoRunner.java
-java -cp "lib/*:src" com.hb.study.udemylpajavamasterclass.global.misc_codedemo.demo_stubs.DemoRunner
+java -cp "lib/*:src" com.hb.study.udemylpajavamasterclass.demo_stubs.misc_utils.DemoRunner
 ```
 ---
 ## 🌈 Evolution Timeline
