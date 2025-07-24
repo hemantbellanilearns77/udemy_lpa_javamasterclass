@@ -1,9 +1,6 @@
 # Compiled class file
 *.class
 
-# Log file
-*.log
-
 # BlueJ files
 *.ctxt
 
@@ -46,3 +43,17 @@ Thumbs.db
 *.report.txt
 *.diagnostics.log
 *.coverage.txt
+
+# Build-Reports
+reports/
+
+# Backup or test artifacts
+*.swp
+*.old
+
+# IntelliJ build artifacts
+/out/
+
+#sonar-project.properties
+sonar-project.properties
+
