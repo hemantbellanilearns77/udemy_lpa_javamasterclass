@@ -9,7 +9,7 @@ project-root/
 ├── src/                          # Main Java source code
 │   ├── main/                    # Main logic (if you want to mirror Maven convention)
 │   └── test/                    # Test files, if applicable
-├── resources/                   # Configs, sample inputs, log settings, etc.
+├── config/                      # Configs, sample inputs, log settings, etc.
 ├── data/                        # Demo databases, mock data, or CSVs
 ├── fileio-dump/                 # Output dumps from FileIO experiments
 ├── reports/                     # Static analysis reports: sonar, checkstyle, PMD
