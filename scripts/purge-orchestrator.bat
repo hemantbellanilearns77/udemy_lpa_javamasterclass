@@ -47,7 +47,7 @@ echo.
 echo %CYAN%=== PURGE SUMMARY ===%RESET%
 echo %summary%
 echo.
-echo %MAGENTA%Dry-Run Mode: %DRY_RUN%   |   Log: %logFile%%RESET%
+echo %MAGENTA%Dry-Run Mode: %DRY_RUN% ^| Log: %logFile%%RESET%
 echo %GREEN%? All tools scanned successfully%RESET%
 goto :eof
 
@@ -68,7 +68,7 @@ set /a count=0
 set /a archived=0
 
 :: Archive excess files only (ignore folders)
-for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*"') do (
+for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*" 2^>nul') do (
     set /a count+=1
     if !count! GTR %maxFiles% (
         if exist "%srcDir%\%%F" (
@@ -83,15 +83,21 @@ for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*"') do (
     )
 )
 
-echo %YELLOW%--- [%name%] Cleanup Phase (> %retentionDays%d) ---%RESET%
+echo %YELLOW%--- [%name%] Cleanup Phase (Older than %retentionDays%d) ---%RESET%
 set /a deleted=0
 
 :: Delete aged files only (ignore folders)
-for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*"') do (
+for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*" 2^>nul') do (
     if exist "%archDir%\%%F" (
-        for /f %%A in ('powershell -command "(Get-Date) - (Get-Item \"%archDir%\%%F\").LastWriteTime"') do (
-            set "age=%%A"
-            for /f %%B in ('powershell -command "([timespan]::Parse(\"!age!\")).TotalDays"') do set "ageDays=%%B"
+        set "ageDays="
+
+        :: Flattened PowerShell evaluation with safe escaping
+        for /f %%A in ('powershell -command "[timespan]::Parse(((Get-Date) - (Get-Item \"%archDir%\%%F\").LastWriteTime).ToString()).TotalDays"') do (
+            set "ageDays=%%A"
+        )
+
+        :: Defensive age check
+        if defined ageDays (
             if !ageDays! GEQ %retentionDays% (
                 echo [DELETE] %%F (Age: !ageDays!d)
                 echo [%name%][DELETE] %%F (Age: !ageDays!d) >> "%logFile%"
@@ -101,12 +107,16 @@ for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*"') do (
                 echo [RETAIN] %%F (Age: !ageDays!d)
                 echo [%name%][RETAIN] %%F (Age: !ageDays!d) >> "%logFile%"
             )
+        ) else (
+            echo [SKIP] %%F (Could not evaluate age)
+            echo [%name%][SKIP] %%F (Unknown age) >> "%logFile%"
         )
     )
 )
 
-:: Update summary (with safe newlines)
-set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%"
+:: Update summary (linebreak-safe)
+set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%
+"
 echo. >> "%logFile%"
 echo. >> "%logFile%"
 goto :eof
