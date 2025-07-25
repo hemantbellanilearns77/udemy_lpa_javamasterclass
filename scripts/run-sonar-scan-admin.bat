@@ -185,9 +185,9 @@ if !PMD_COUNT! GEQ 100 (
 echo ===================================================
 echo 🌀 Scan Summary — Branch: !BRANCH_NAME!
 echo 🔍 Log Path: !logPath! -- %timestamp%
-echo 🕒 Start:    !startTime!
-echo 🕒 End:      !endTime!
-echo ⏱️ Duration: !durationMinutes! minutes
+echo 🕒 Start:    %startTime%
+echo 🕒 End:      %endTime%
+echo ⏱️ Duration: %durationMinutes% minutes
 echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
 echo ✅ PMD Violations:        !PMD_COUNT!
 if "!warn!"=="true" (
@@ -200,9 +200,9 @@ echo ===================================================
     echo ================== SCAN SUMMARY ==================
     echo 🌀 Branch: !BRANCH_NAME!
     echo 🔍 Log Path :   !logPath! -- %timestamp%
-    echo 🕒 Start:    !startTime!
-    echo 🕒 End:      !endTime!
-    echo ⏱️ Duration: !durationMinutes! minutes
+    echo 🕒 Start:    %startTime%
+    echo 🕒 End:      %endTime%
+    echo ⏱️ Duration: %durationMinutes% minutes
     echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
     echo ✅ PMD:        !PMD_COUNT!
     if "!warn!"=="true" (
