@@ -10,18 +10,10 @@ set "originalDir=%CD%"
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 
 :: Timestamp Setup
-for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
-for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"') do (
-    set "rawScanTime=%%x"
-)
-set "scanTime=!rawScanTime!"  & REM ✅ Delayed expansion reassign
-
-:: Timestamp Setup
-for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
+for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
 for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"') do (
     call set scanTime=%%x
 )
-echo 🧪 Final Timestamp: !scanTime!
 
 :: Extract Branch Name
 set BRANCH_NAME=
@@ -30,7 +22,7 @@ for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project
     set "BRANCH_NAME=!BRANCH_NAME: =!"
 )
 
-:: 🔍 Debug checks (optional)
+:: Debug checks (optional)
 echo 🧪 Final Timestamp: !scanTime!
 echo 🧪 Branch Name:     !BRANCH_NAME!
 
@@ -139,6 +131,11 @@ if /I "%DRY_RUN%"=="true" (
     exit /b 0
 )
 
+:: Capture Start Time
+for /f %%t in ('powershell -Command "Get-Date -Format ''HH:mm:ss''"') do (
+    call set startTime=%%t
+)
+
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 call sonar-scanner ^
@@ -150,6 +147,16 @@ call sonar-scanner ^
   "-Dsonar.java.pmd.reportPaths=!pmdReportPath!" ^
   > "!logPath!" 2>&1
 
+:: Capture End Time
+for /f %%t in ('powershell -Command "Get-Date -Format ''HH:mm:ss''"') do (
+    call set endTime=%%t
+)
+
+:: Compute Duration (in minutes)
+for /f %%d in ('powershell -Command "[timespan]::Parse('%endTime%').Subtract([timespan]::Parse('%startTime%')).TotalMinutes"') do (
+    call set durationMinutes=%%d
+)
+
 echo ✅ Scan complete. Log saved to: !logPath!
 
 :: Count Violations
@@ -159,17 +166,34 @@ set /a PMD_COUNT=0
 for /f %%X in ('findstr /c:"<error " "!checkstyleReportPath!"') do (
     set /a CHECKSTYLE_COUNT+=1
 )
-
 for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a PMD_COUNT+=1
+)
+
+:: Warning Thresholds
+set warn=false
+if %durationMinutes% GEQ 5 (
+    set warn=true
+)
+if !CHECKSTYLE_COUNT! GEQ 1000 (
+    set warn=true
+)
+if !PMD_COUNT! GEQ 100 (
+    set warn=true
 )
 
 :: Final Banner
 echo ===================================================
 echo 🌀 Scan Summary — Branch: !BRANCH_NAME!
 echo 🔍 Log Path: !logPath! -- %timestamp%
+echo 🕒 Start:    %startTime%
+echo 🕒 End:      %endTime%
+echo ⏱️ Duration: %durationMinutes% minutes
 echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
 echo ✅ PMD Violations:        !PMD_COUNT!
+if "!warn!"=="true" (
+    echo ⚠️  Warning: High violation count or long scan duration
+)
 echo ===================================================
 
 :: Mirror to Log File
@@ -177,8 +201,14 @@ echo ===================================================
     echo ================== SCAN SUMMARY ==================
     echo 🌀 Branch: !BRANCH_NAME!
     echo 🔍 Log Path :   !logPath! -- %timestamp%
+    echo 🕒 Start:    %startTime%
+    echo 🕒 End:      %endTime%
+    echo ⏱️ Duration: %durationMinutes% minutes
     echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
     echo ✅ PMD:        !PMD_COUNT!
+    if "!warn!"=="true" (
+        echo ⚠️  Warning: High violation count or long scan duration
+    )
     echo ===================================================
 ) >> "!logPath!"
 
