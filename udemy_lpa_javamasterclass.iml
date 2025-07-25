@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/reports" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.scannerwork" />
     </content>
     <orderEntry type="jdk" jdkName="24" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />

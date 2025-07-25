@@ -1,3 +1,5 @@
+package com.hb.study.misc_utils.demo_stubs;
+
 /**
  * created by : heman on 24-07-2025, 04:02 pm, in the "Default (Template) Project" project
  **///TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
