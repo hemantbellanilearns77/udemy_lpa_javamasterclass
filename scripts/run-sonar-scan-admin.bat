@@ -16,6 +16,13 @@ for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"'
 )
 set "scanTime=!rawScanTime!"  & REM ✅ Delayed expansion reassign
 
+:: Timestamp Setup
+for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
+for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"') do (
+    call set scanTime=%%x
+)
+echo 🧪 Final Timestamp: !scanTime!
+
 :: Extract Branch Name
 set BRANCH_NAME=
 for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project.properties') do (
@@ -160,7 +167,7 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
 :: Final Banner
 echo ===================================================
 echo 🌀 Scan Summary — Branch: !BRANCH_NAME!
-echo 🔍 Time: !scanTime!
+echo 🔍 Log Path: !logPath! -- %timestamp%
 echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
 echo ✅ PMD Violations:        !PMD_COUNT!
 echo ===================================================
@@ -169,7 +176,7 @@ echo ===================================================
 (
     echo ================== SCAN SUMMARY ==================
     echo 🌀 Branch: !BRANCH_NAME!
-    echo 🔍 Time:   !scanTime!
+    echo 🔍 Log Path :   !logPath! -- %timestamp%
     echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
     echo ✅ PMD:        !PMD_COUNT!
     echo ===================================================
