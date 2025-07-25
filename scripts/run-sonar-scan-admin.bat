@@ -1,59 +1,75 @@
 @echo off
+setlocal EnableDelayedExpansion
+
 echo ===================================================
-echo ☕ SonarCloud Scan Initiator — Stage Branch (Preflight + Preview)
+echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight + Preview)
 echo ===================================================
 
-:: === Preserve Original Working Directory ===
+:: Preserve Original Working Directory
 set "originalDir=%CD%"
-
-:: === Navigate to Project Root ===
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 
-:: === Generate Timestamp ===
+:: Timestamp Setup
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
+for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"') do (
+    set "rawScanTime=%%x"
+)
+set "scanTime=!rawScanTime!"  & REM ✅ Delayed expansion reassign
 
-:: === Config Toggles ===
+:: Extract Branch Name
+set BRANCH_NAME=
+for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project.properties') do (
+    set "BRANCH_NAME=%%B"
+    set "BRANCH_NAME=!BRANCH_NAME: =!"
+)
+
+:: 🔍 Debug checks (optional)
+echo 🧪 Final Timestamp: !scanTime!
+echo 🧪 Branch Name:     !BRANCH_NAME!
+
+:: Config Toggles
 set ENABLE_JACOCO=true
 set STRICT_REPORT_CHECK=false
+set DRY_RUN=false
 
-:: === Path Definitions ===
+:: Paths
 set junitPaths=reports\junit\latest,misc_utils\reports\junit
 set jacocoPaths=reports\jacoco\latest.exec,misc_utils\reports\jacoco.exec
-set logFolder=logs\sonar-scan-logs
-set logPath=%logFolder%\sonar-scan-%timestamp%.log
+set logFolder=logs\sonar-scan
+set logPath=%logFolder%\sonar-%timestamp%.log
 
-:: === Locate and Normalize Checkstyle + PMD Reports ===
-for %%F in (reports\checkstyle\checkstyle-*.xml) do (
-    set "checkstyleReportPath=%%F"
+:: Locate Checkstyle Report
+set checkstyleReportPath=
+for /f "delims=" %%F in ('dir /b /a:-d /o-d reports\checkstyle\checkstyle-*.xml') do (
+    set "checkstyleReportPath=reports\checkstyle\%%F"
+    goto :foundCheckstyle
 )
-for %%F in (reports\pmd\pmd-*.xml) do (
-    set "pmdReportPath=%%F"
+:foundCheckstyle
+
+:: Locate PMD Report
+set pmdReportPath=
+for /f "delims=" %%F in ('dir /b /a:-d /o-d reports\pmd\pmd-*.xml') do (
+    set "pmdReportPath=reports\pmd\%%F"
+    goto :foundPMD
 )
+:foundPMD
 
-set "checkstyleReportPath=%checkstyleReportPath:\=/%"
-set "pmdReportPath=%pmdReportPath:\=/%"
-
-:: === Inject Token ===
+:: Inject Sonar Token
 set SONAR_TOKEN=6a22ba096673bafdca4fd3d92332fdf222cf8cad
 
-:: === Create Log Directory If Missing ===
-if not exist "%logFolder%" (
-    mkdir "%logFolder%"
-)
+:: Create Log Folder
+if not exist "%logFolder%" mkdir "%logFolder%"
 
-:: === Preflight Report Checks ===
+:: Preflight Report Checks
 echo 🔍 Validating report paths...
-
-setlocal enabledelayedexpansion
 set failed=false
 
-if not exist "%checkstyleReportPath%" (
-    echo ❌ Checkstyle XML missing: %checkstyleReportPath%
+if not exist "!checkstyleReportPath!" (
+    echo ❌ Checkstyle report missing: !checkstyleReportPath!
     set failed=true
 )
-
-if not exist "%pmdReportPath%" (
-    echo ❌ PMD report missing: %pmdReportPath%
+if not exist "!pmdReportPath!" (
+    echo ❌ PMD report missing: !pmdReportPath!
     set failed=true
 )
 
@@ -84,19 +100,16 @@ if /I "%ENABLE_JACOCO%"=="true" (
 )
 
 if "!failed!"=="true" (
-    echo 🛑 Abort: Required reports missing.
+    echo 🛑 Aborting scan: Required reports missing.
+    cd /d "%originalDir%"
     pause
     exit /b 1
 )
 
-endlocal
-
-:: === Preview Report Files ===
+:: Preview Reports
 echo ------------------------------------------
-echo 📄 Checkstyle:
-echo   ↳ %checkstyleReportPath%
-echo 📄 PMD:
-echo   ↳ %pmdReportPath%
+echo 📄 Checkstyle:   !checkstyleReportPath!
+echo 📄 PMD:          !pmdReportPath!
 echo 📄 JUnit Paths:
 for %%p in (%junitPaths:,= %) do (
     echo   ↳ %%p
@@ -111,20 +124,56 @@ if /I "%ENABLE_JACOCO%"=="true" (
 )
 echo ------------------------------------------
 
-:: === Launch Scanner ===
-echo 🚀 Running SonarCloud scan (stage)...
+:: Dry Run Check
+if /I "%DRY_RUN%"=="true" (
+    echo 🚧 Dry-run mode enabled — skipping SonarCloud push
+    cd /d "%originalDir%"
+    pause
+    exit /b 0
+)
 
+:: Launch Scanner
+echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 call sonar-scanner ^
   "-Dsonar.token=%SONAR_TOKEN%" ^
   "-Dsonar.projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass" ^
   "-Dsonar.organization=hemantbellanilearns77" ^
-  "-Dsonar.branch.name=stage" ^
-  "-Dsonar.java.checkstyle.reportPaths=%checkstyleReportPath%" ^
-  "-Dsonar.java.pmd.reportPaths=%pmdReportPath%" ^
-  > "%logPath%" 2>&1
+  "-Dsonar.branch.name=!BRANCH_NAME!" ^
+  "-Dsonar.java.checkstyle.reportPaths=!checkstyleReportPath!" ^
+  "-Dsonar.java.pmd.reportPaths=!pmdReportPath!" ^
+  > "!logPath!" 2>&1
 
-echo ✅ Scan complete. Log saved to: %logPath%
+echo ✅ Scan complete. Log saved to: !logPath!
 
-:: === Restore Original Directory ===
+:: Count Violations
+set /a CHECKSTYLE_COUNT=0
+set /a PMD_COUNT=0
+
+for /f %%X in ('findstr /c:"<error " "!checkstyleReportPath!"') do (
+    set /a CHECKSTYLE_COUNT+=1
+)
+
+for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
+    set /a PMD_COUNT+=1
+)
+
+:: Final Banner
+echo ===================================================
+echo 🌀 Scan Summary — Branch: !BRANCH_NAME!
+echo 🔍 Time: !scanTime!
+echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
+echo ✅ PMD Violations:        !PMD_COUNT!
+echo ===================================================
+
+:: Mirror to Log File
+(
+    echo ================== SCAN SUMMARY ==================
+    echo 🌀 Branch: !BRANCH_NAME!
+    echo 🔍 Time:   !scanTime!
+    echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
+    echo ✅ PMD:        !PMD_COUNT!
+    echo ===================================================
+) >> "!logPath!"
+
 cd /d "%originalDir%"
 pause
