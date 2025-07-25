@@ -1,86 +1,135 @@
 @echo off
-echo ===================================================
-echo 🐾 PMD Static Analysis — Text + XML Reports
-echo ===================================================
+setlocal EnableDelayedExpansion
 
-:: === Preserve Original Directory ===
+:: === Preserve original directory ===
 set "originalDir=%CD%"
-
-:: === Navigate to Project Root ===
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 
-:: === Generate Timestamp ===
-for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set timestamp=%%i
+:: === Timestamp ===
+for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
+    set "timestamp=%%i"
+)
 
-:: === CONFIGURATION ===
-set "PMD_BIN=D:\Tools\pmd-dist-7.15.0-bin\pmd-bin-7.15.0\bin\pmd.bat"
-set "RULESET=config\pmd\pmd-ruleset.xml"
-set "REPORT_DIR=reports\pmd"
-set "LOG_DIR=logs\pmd-logs"
-set "REPORT_TXT=%REPORT_DIR%\pmd-%timestamp%-report.txt"
-set "REPORT_XML=%REPORT_DIR%\pmd-%timestamp%-report.xml"
-set "LOG_PATH=%LOG_DIR%\pmd-log-%timestamp%.txt"
-
-:: === DISCOVER MODULES ===
-set "SOURCE_DIRS="
-set "MODULE_PATHS=misc_utils\src\main\java src\main\java"
-
-echo 🔎 Checking valid source modules...
-for %%P in (%MODULE_PATHS%) do (
-    if exist "%%P" (
-        echo 🟢 Found: %%P
-        if not defined SOURCE_DIRS (
-            set "SOURCE_DIRS=%%P"
-        ) else (
-            set "SOURCE_DIRS=!SOURCE_DIRS!,%%P"
-        )
+:: === PMD setup ===
+set "PMD_HOME=D:\Tools\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
+set "CLASSPATH="
+for %%F in ("%PMD_HOME%\lib\*.jar") do (
+    if defined CLASSPATH (
+        set "CLASSPATH=!CLASSPATH!;%%~fF"
     ) else (
-        echo ⚪ Skipped (not found): %%P
+        set "CLASSPATH=%%~fF"
     )
 )
 
-:: === VALIDATION ===
-if not exist "%RULESET%" (
-    echo ❌ PMD ruleset not found at: %RULESET%
-    cd /d "%originalDir%"
-    pause
-    exit /b 1
+:: === Rule and output paths ===
+set "RULESET=config\pmd\pmd-ruleset.xml"
+set "REPORT_DIR=reports\pmd"
+set "LOG_DIR=logs\pmd-scan-logs"
+set "REPORT_TXT=%REPORT_DIR%\pmd-%timestamp%-report.txt"
+set "REPORT_XML=%REPORT_DIR%\pmd-%timestamp%-report.xml"
+set "LOG_PATH=%LOG_DIR%\pmd-%timestamp%.log"
+
+:: === Resolve absolute report paths ===
+for %%F in ("%REPORT_TXT%") do set "REPORT_TXT_FULL=%%~fF"
+for %%F in ("%REPORT_XML%") do set "REPORT_XML_FULL=%%~fF"
+
+:: === Define modules ===
+set "MODULE_PATHS=misc_utils\src\main\java src\main\java"
+set "SOURCE_DIRS="
+echo Scanning source modules...
+for %%P in (%MODULE_PATHS%) do (
+    set "tempPath=D:\GitHubRepos\udemy_lpa_javamasterclass\%%P"
+    if exist "!tempPath!" (
+        echo   ? Found: !tempPath!
+        for /f %%C in ('dir /b /s "!tempPath!\*.java" ^| find /c /v ""') do (
+            echo     ? %%C Java files in module
+        )
+        if defined SOURCE_DIRS (
+            set "SOURCE_DIRS=!SOURCE_DIRS!,!tempPath!"
+        ) else (
+            set "SOURCE_DIRS=!tempPath!"
+        )
+    ) else (
+        echo   ? Skipped: !tempPath!
+    )
 )
 
-if not defined SOURCE_DIRS (
-    echo ❌ No valid source directories found. Aborting PMD scan.
+:: === Validations ===
+if "!SOURCE_DIRS!"=="" (
+    echo ERROR: No valid source directories found.
     cd /d "%originalDir%"
     pause
-    exit /b 1
+    exit /b
+)
+
+if not exist "%RULESET%" (
+    echo ERROR: Ruleset file missing � %RULESET%
+    cd /d "%originalDir%"
+    pause
+    exit /b
 )
 
 if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 
-:: === EXECUTION ===
-echo 🔍 Running PMD Text Analysis...
-call "%PMD_BIN%" check ^
-  -d "%SOURCE_DIRS%" ^
-  -R "%RULESET%" ^
-  --no-progress ^
-  -f text ^
-  -r "%REPORT_TXT%" ^
+:: === Diagnostics ===
+echo.
+echo ===== DIAGNOSTICS =====
+echo CLASSPATH: !CLASSPATH!
+echo SOURCE_DIRS: !SOURCE_DIRS!
+echo TEXT REPORT: !REPORT_TXT_FULL!
+echo XML REPORT:  !REPORT_XML_FULL!
+echo =======================
+echo.
+
+:: === Run PMD Text ===
+echo Running PMD Text Analysis...
+java -cp "!CLASSPATH!" net.sourceforge.pmd.cli.PmdCli check ^
+  --no-cache ^
+  --dir "!SOURCE_DIRS!" ^
+  --rulesets "%RULESET%" ^
+  --format text ^
+  --report-file "!REPORT_TXT_FULL!" ^
   > "%LOG_PATH%" 2>&1
 
-echo ✅ Text report saved: %REPORT_TXT%
-
-echo 📄 Generating PMD XML Report...
-call "%PMD_BIN%" check ^
-  -d "%SOURCE_DIRS%" ^
-  -R "%RULESET%" ^
-  --no-progress ^
-  -f xml ^
-  -r "%REPORT_XML%" ^
+:: === Run PMD XML ===
+echo Running PMD XML Analysis...
+java -cp "!CLASSPATH!" net.sourceforge.pmd.cli.PmdCli check ^
+  --no-cache ^
+  --dir "!SOURCE_DIRS!" ^
+  --rulesets "%RULESET%" ^
+  --format xml ^
+  --report-file "!REPORT_XML_FULL!" ^
   >> "%LOG_PATH%" 2>&1
 
-echo 📦 XML report for SonarCloud saved: %REPORT_XML%
-echo 📝 Execution log saved to: %LOG_PATH%
+:: === Validate Reports ===
+echo.
+if exist "!REPORT_TXT_FULL!" (
+    echo ? Text report generated.
+) else (
+    echo ? Missing text report!
+)
 
-:: === Restore Original Directory ===
+if exist "!REPORT_XML_FULL!" (
+    echo ? XML report generated.
+) else (
+    echo ? Missing XML report!
+)
+
+:: === Violation Summary ===
+if exist "!REPORT_TXT_FULL!" (
+    echo.
+    echo ===== VIOLATION SUMMARY =====
+    set "violationCount=0"
+    for /f "usebackq delims=" %%L in ("!REPORT_TXT_FULL!") do (
+        set /a violationCount+=1
+    )
+    echo Total Violations: !violationCount!
+    echo =============================
+)
+
+:: === Wrap-up ===
+echo.
+echo Execution log saved: %LOG_PATH%
 cd /d "%originalDir%"
 pause
