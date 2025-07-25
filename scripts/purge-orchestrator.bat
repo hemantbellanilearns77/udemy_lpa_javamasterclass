@@ -7,7 +7,7 @@ cd /d "%~dp0\.."
 :: === CONFIGURATION ===
 set "maxFiles=9"
 set "retentionDays=365"
-set "DRY_RUN=1"
+set "DRY_RUN=0"
 
 :: === ANSI Coloring ===
 for /f %%i in ('powershell -command "$Host.UI.SupportsVirtualTerminal"') do set "ansi=%%i"
@@ -56,7 +56,7 @@ echo %CYAN%=== PURGE SUMMARY ===%RESET%
 echo %summary%
 echo.
 echo %MAGENTA%Dry-Run Mode: %DRY_RUN% ^| Log: %logFile%%RESET%
-echo %GREEN%? All tools scanned successfully%RESET%
+echo %GREEN%? All tools scanned with duration tracking%RESET%
 goto :eof
 
 :: ===============================
@@ -68,7 +68,12 @@ set "srcDir=%~2"
 set "archDir=%~3"
 
 echo.
-echo %YELLOW%--- [%name%] Archival Phase ---%RESET%
+echo %CYAN%=== [%name%] ===%RESET%
+
+:: === Start time ===
+for /f %%t in ('powershell -command "[System.Diagnostics.Stopwatch]::StartNew().Elapsed.TotalSeconds"') do set "startSec=%%t"
+
+echo %YELLOW%--- Archival Phase ---%RESET%
 
 if not exist "%archDir%" mkdir "%archDir%"
 set /a count=0
@@ -87,7 +92,7 @@ for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*" 2^>nul') do (
     )
 )
 
-echo %YELLOW%--- [%name%] Cleanup Phase (Older than %retentionDays%d) ---%RESET%
+echo %YELLOW%--- Cleanup Phase (Older than %retentionDays%d) ---%RESET%
 set /a deleted=0
 
 for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*" 2^>nul') do (
@@ -98,7 +103,19 @@ for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*" 2^>nul') do (
     call :handleCleanup "%%F" "!ageDays!" "%name%"
 )
 
-set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%"
+if %deleted%==0 (
+    echo [INFO] No files older than %retentionDays%d were found in %archDir%
+    echo [%name%][INFO] Cleanup skipped: no eligible files >> "%logFile%"
+)
+
+:: === Duration tracking ===
+for /f %%t in ('powershell -command "[Math]::Round(([System.Diagnostics.Stopwatch]::StartNew().Elapsed.TotalSeconds - %startSec%),2)"') do set "duration=%%t"
+echo [DURATION] %name% scanned in %duration%s >> "%logFile%"
+echo %MAGENTA%[DURATION] %name% scanned in %duration%s%RESET%
+
+:: === Append summary line ===
+set "summary=%summary%%name%: Archived=%archived%, Deleted=%deleted%%RESET%"
+set "summary=%summary%"
 echo. >> "%logFile%"
 echo. >> "%logFile%"
 goto :eof
@@ -107,6 +124,7 @@ goto :eof
 :: === SUBROUTINE: handleCleanup ===
 :: ===============================
 :handleCleanup
+echo [DEBUG] file='%file%' age='%age%' label='%label%' >> "%logFile%"
 setlocal enabledelayedexpansion
 set "file=%~1"
 set "age=%~2"
