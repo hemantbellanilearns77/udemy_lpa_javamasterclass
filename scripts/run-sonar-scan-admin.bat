@@ -3,6 +3,9 @@ echo ===================================================
 echo ☕ SonarCloud Scan Initiator — Stage Branch (Preflight + Preview)
 echo ===================================================
 
+:: === Preserve Original Working Directory ===
+set "originalDir=%CD%"
+
 :: === Navigate to Project Root ===
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 
@@ -12,121 +15,116 @@ for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm"') do se
 :: === Config Toggles ===
 set ENABLE_JACOCO=true
 set STRICT_REPORT_CHECK=false
-REM Future upgrade: set ENABLE_PREVIEW=true
 
 :: === Path Definitions ===
 set junitPaths=reports\junit\latest,misc_utils\reports\junit
 set jacocoPaths=reports\jacoco\latest.exec,misc_utils\reports\jacoco.exec
-set checkstyleReport=reports\checkstyle\checkstyle-*.txt
-set pmdReport=reports\pmd\pmd-*.xml
 set logFolder=logs\sonar-scan-logs
 set logPath=%logFolder%\sonar-scan-%timestamp%.log
 
-:: === Token Injection ===
+:: === Locate and Normalize Checkstyle + PMD Reports ===
+for %%F in (reports\checkstyle\checkstyle-*.xml) do (
+    set "checkstyleReportPath=%%F"
+)
+for %%F in (reports\pmd\pmd-*.xml) do (
+    set "pmdReportPath=%%F"
+)
+
+set "checkstyleReportPath=%checkstyleReportPath:\=/%"
+set "pmdReportPath=%pmdReportPath:\=/%"
+
+:: === Inject Token ===
 set SONAR_TOKEN=6a22ba096673bafdca4fd3d92332fdf222cf8cad
 
-:: === Create Log Directory If Needed ===
+:: === Create Log Directory If Missing ===
 if not exist "%logFolder%" (
     mkdir "%logFolder%"
 )
 
-:: === Preflight Check: Report Paths Validation ===
-echo 🔍 Validating report paths before scan...
+:: === Preflight Report Checks ===
+echo 🔍 Validating report paths...
 
 setlocal enabledelayedexpansion
 set failed=false
 
-:: === Check Checkstyle ===
-for %%F in (%checkstyleReport%) do (
-    if not exist "%%F" (
-        echo ❌ Checkstyle report missing: %%F
-        set failed=true
-    )
+if not exist "%checkstyleReportPath%" (
+    echo ❌ Checkstyle XML missing: %checkstyleReportPath%
+    set failed=true
 )
 
-:: === Check PMD ===
-for %%F in (%pmdReport%) do (
-    if not exist "%%F" (
-        echo ❌ PMD report missing: %%F
-        set failed=true
-    )
+if not exist "%pmdReportPath%" (
+    echo ❌ PMD report missing: %pmdReportPath%
+    set failed=true
 )
 
-:: === Optional: JUnit Reports Check ===
 for %%p in (%junitPaths:,= %) do (
     if not exist "%%p" (
         if /I "%STRICT_REPORT_CHECK%"=="true" (
-            echo ❌ JUnit report path missing: %%p
+            echo ❌ JUnit missing: %%p
             set failed=true
         ) else (
-            echo ℹ️ Optional: JUnit report path missing: %%p — skipping test result injection.
+            echo ℹ️ Optional JUnit missing: %%p
         )
     )
 )
 
-:: === Optional: JaCoCo Reports Check ===
 if /I "%ENABLE_JACOCO%"=="true" (
     for %%p in (%jacocoPaths:,= %) do (
         if not exist "%%p" (
             if /I "%STRICT_REPORT_CHECK%"=="true" (
-                echo ❌ JaCoCo report path missing: %%p
+                echo ❌ JaCoCo exec missing: %%p
                 set failed=true
             ) else (
-                echo ℹ️ Optional: JaCoCo exec missing: %%p — skipping coverage injection.
+                echo ℹ️ Optional JaCoCo missing: %%p
             )
         )
     )
 ) else (
-    echo 🚫 JaCoCo coverage DISABLED
+    echo 🚫 JaCoCo DISABLED
 )
 
-:: === Abort if core reports failed ===
 if "!failed!"=="true" (
-    echo 🛑 One or more required reports are missing. Aborting scan.
+    echo 🛑 Abort: Required reports missing.
     pause
     exit /b 1
 )
 
 endlocal
 
-:: === Preview Matched Reports ===
+:: === Preview Report Files ===
 echo ------------------------------------------
-echo 🔍 Previewing matched report files...
-
-echo 📄 Checkstyle Reports:
-dir /b %checkstyleReport%
-
-echo 📄 PMD Reports:
-dir /b %pmdReport%
-
-echo 📄 JUnit Report Folders:
+echo 📄 Checkstyle:
+echo   ↳ %checkstyleReportPath%
+echo 📄 PMD:
+echo   ↳ %pmdReportPath%
+echo 📄 JUnit Paths:
 for %%p in (%junitPaths:,= %) do (
     echo   ↳ %%p
     if exist "%%p" dir /b "%%p"
 )
-
 if /I "%ENABLE_JACOCO%"=="true" (
-    echo 📄 JaCoCo Files:
+    echo 📄 JaCoCo Execs:
     for %%p in (%jacocoPaths:,= %) do (
         echo   ↳ %%p
         if exist "%%p" dir /b "%%p"
     )
-) else (
-    echo 🚫 JaCoCo disabled. Skipping preview.
 )
 echo ------------------------------------------
 
-:: === Launch Sonar Scanner ===
-echo 🚀 Launching SonarCloud scan for 'stage'...
+:: === Launch Scanner ===
+echo 🚀 Running SonarCloud scan (stage)...
 
 call sonar-scanner ^
   "-Dsonar.token=%SONAR_TOKEN%" ^
   "-Dsonar.projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass" ^
   "-Dsonar.organization=hemantbellanilearns77" ^
   "-Dsonar.branch.name=stage" ^
-  "-Dsonar.java.checkstyle.reportPaths=%checkstyleReport%" ^
-  "-Dsonar.java.pmd.reportPaths=%pmdReport%" ^
+  "-Dsonar.java.checkstyle.reportPaths=%checkstyleReportPath%" ^
+  "-Dsonar.java.pmd.reportPaths=%pmdReportPath%" ^
   > "%logPath%" 2>&1
 
-echo ✅ Scan completed. Output saved to: %logPath%
+echo ✅ Scan complete. Log saved to: %logPath%
+
+:: === Restore Original Directory ===
+cd /d "%originalDir%"
 pause

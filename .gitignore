@@ -60,3 +60,5 @@ sonar-project.properties
 .pmd-cache.bin
 .pmd-baseline.bin
 
+/logs
+/logs
