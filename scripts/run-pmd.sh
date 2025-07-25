@@ -10,7 +10,8 @@ REPORT_XML="$REPORT_DIR/pmd-$TIMESTAMP-report.xml"
 
 # === DISCOVER MODULES ===
 SOURCE_DIRS=""
-MODULE_PATHS=("misc_utils/src/main/java" "../src/main/java")
+# MODULE_PATHS=("misc_utils/src/main/java" "../src/main/java")
+MODULE_PATHS=("../misc_utils/src/main/java" "../src/main/java")
 
 echo "🔎 Checking available modules for PMD scan..."
 for path in "${MODULE_PATHS[@]}"; do
