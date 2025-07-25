@@ -22,7 +22,6 @@ for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project
     set "BRANCH_NAME=!BRANCH_NAME: =!"
 )
 
-:: Debug checks (optional)
 echo 🧪 Final Timestamp: !scanTime!
 echo 🧪 Branch Name:     !BRANCH_NAME!
 
@@ -153,7 +152,7 @@ for /f %%t in ('powershell -Command "Get-Date -Format ''HH:mm:ss''"') do (
 )
 
 :: Compute Duration (in minutes)
-for /f %%d in ('powershell -Command "[timespan]::Parse('%endTime%').Subtract([timespan]::Parse('%startTime%')).TotalMinutes"') do (
+for /f %%d in ('powershell -Command "[timespan]::Parse('!endTime!').Subtract([timespan]::Parse('!startTime!')).TotalMinutes"') do (
     call set durationMinutes=%%d
 )
 
@@ -172,7 +171,7 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
 
 :: Warning Thresholds
 set warn=false
-if %durationMinutes% GEQ 5 (
+if !durationMinutes! GEQ 5 (
     set warn=true
 )
 if !CHECKSTYLE_COUNT! GEQ 1000 (
@@ -186,9 +185,9 @@ if !PMD_COUNT! GEQ 100 (
 echo ===================================================
 echo 🌀 Scan Summary — Branch: !BRANCH_NAME!
 echo 🔍 Log Path: !logPath! -- %timestamp%
-echo 🕒 Start:    %startTime%
-echo 🕒 End:      %endTime%
-echo ⏱️ Duration: %durationMinutes% minutes
+echo 🕒 Start:    !startTime!
+echo 🕒 End:      !endTime!
+echo ⏱️ Duration: !durationMinutes! minutes
 echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
 echo ✅ PMD Violations:        !PMD_COUNT!
 if "!warn!"=="true" (
@@ -201,9 +200,9 @@ echo ===================================================
     echo ================== SCAN SUMMARY ==================
     echo 🌀 Branch: !BRANCH_NAME!
     echo 🔍 Log Path :   !logPath! -- %timestamp%
-    echo 🕒 Start:    %startTime%
-    echo 🕒 End:      %endTime%
-    echo ⏱️ Duration: %durationMinutes% minutes
+    echo 🕒 Start:    !startTime!
+    echo 🕒 End:      !endTime!
+    echo ⏱️ Duration: !durationMinutes! minutes
     echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
     echo ✅ PMD:        !PMD_COUNT!
     if "!warn!"=="true" (
