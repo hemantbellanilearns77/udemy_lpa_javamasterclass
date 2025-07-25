@@ -67,13 +67,13 @@ if not exist "%archDir%" mkdir "%archDir%"
 set /a count=0
 set /a archived=0
 
-:: Archive excess files, protect directories
+:: Archive excess files only (ignore folders)
 for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*"') do (
     set /a count+=1
     if !count! GTR %maxFiles% (
         if exist "%srcDir%\%%F" (
-            echo [ARCHIVE] %%F ¡÷ %archDir%
-            echo [%name%][ARCHIVE] %%F ¡÷ %archDir% >> "%logFile%"
+            echo [ARCHIVE] %%F ? %archDir%
+            echo [%name%][ARCHIVE] %%F ? %archDir% >> "%logFile%"
             if %DRY_RUN%==0 move "%srcDir%\%%F" "%archDir%\%%F"
             set /a archived+=1
         )
@@ -86,7 +86,7 @@ for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*"') do (
 echo %YELLOW%--- [%name%] Cleanup Phase (> %retentionDays%d) ---%RESET%
 set /a deleted=0
 
-:: Safely delete aged files only
+:: Delete aged files only (ignore folders)
 for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*"') do (
     if exist "%archDir%\%%F" (
         for /f %%A in ('powershell -command "(Get-Date) - (Get-Item \"%archDir%\%%F\").LastWriteTime"') do (
@@ -105,6 +105,8 @@ for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*"') do (
     )
 )
 
-:: Update summary
-set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%~n%~n"
+:: Update summary (with safe newlines)
+set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%"
+echo. >> "%logFile%"
+echo. >> "%logFile%"
 goto :eof
