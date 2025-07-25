@@ -6,8 +6,8 @@ A vibrant companion project built while pursuing the [_Java Programming Mastercl
 
 ## 🗂️ Project Structure Overview
 project-root/
-├── src/                          # Main Java source code
-│   ├── main/                    # Main logic (if you want to mirror Maven convention)
+├── src/                          # com.hb.study.misc_utils.demo_stubs.Main Java source code
+│   ├── main/                    # com.hb.study.misc_utils.demo_stubs.Main logic (if you want to mirror Maven convention)
 │   └── test/                    # Test files, if applicable
 ├── config/                      # Configs, sample inputs, log settings, etc.
 ├── data/                        # Demo databases, mock data, or CSVs

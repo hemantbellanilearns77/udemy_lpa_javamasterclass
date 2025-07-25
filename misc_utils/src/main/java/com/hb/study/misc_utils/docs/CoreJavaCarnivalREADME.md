@@ -10,7 +10,7 @@ Welcome to the **Core Java Carnival**, an all-in-one showcase of Java fundamenta
 
 | File                          | Description                                              |
 |-------------------------------|----------------------------------------------------------|
-| `CoreJavaCarnival.java`       | Main showcase file demonstrating core Java concepts      |
+| `CoreJavaCarnival.java`       | com.hb.study.misc_utils.demo_stubs.Main showcase file demonstrating core Java concepts      |
 | `CoreJavaCarnivalPlay.java`   | Launcher file to execute the carnival program            |
 
 ---
