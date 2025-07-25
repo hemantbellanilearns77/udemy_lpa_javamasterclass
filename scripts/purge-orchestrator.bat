@@ -31,6 +31,11 @@ set "logDir=logs\purge-logs"
 if not exist "%logDir%" mkdir "%logDir%"
 set "logFile=%logDir%\purge-%ts%.txt"
 
+:: === Create age-check script ===
+set "ageScript=%temp%\get-age.ps1"
+echo param([string]$filePath) > "%ageScript%"
+echo Write-Output ([int](([DateTime]::Now - (Get-Item $filePath).LastWriteTime).TotalDays)) >> "%ageScript%"
+
 :: === Summary Bucket ===
 set "summary="
 
@@ -41,6 +46,9 @@ call :purgeModule "Checkstyle Reports" "reports\checkstyle"     "purged\reports\
 call :purgeModule "Sonar Logs"         "logs\sonar-scan"        "purged\logs\sonar-scan"
 call :purgeModule "Sonar Reports"      "reports\sonar-scan"     "purged\reports\sonar-scan"
 call :purgeModule "Purge Logs"         "logs\purge-logs"        "purged\logs\purge-logs"
+
+:: === Clean up ===
+del "%ageScript%" >nul 2>&1
 
 :: === Summary Panel ===
 echo.
@@ -62,21 +70,17 @@ set "archDir=%~3"
 echo.
 echo %YELLOW%--- [%name%] Archival Phase ---%RESET%
 
-:: Create archive path if not exists
 if not exist "%archDir%" mkdir "%archDir%"
 set /a count=0
 set /a archived=0
 
-:: Archive excess files only (ignore folders)
 for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*" 2^>nul') do (
     set /a count+=1
     if !count! GTR %maxFiles% (
-        if exist "%srcDir%\%%F" (
-            echo [ARCHIVE] %%F ? %archDir%
-            echo [%name%][ARCHIVE] %%F ? %archDir% >> "%logFile%"
-            if %DRY_RUN%==0 move "%srcDir%\%%F" "%archDir%\%%F"
-            set /a archived+=1
-        )
+        echo [ARCHIVE] %%F ? %archDir%
+        echo [%name%][ARCHIVE] %%F ? %archDir% >> "%logFile%"
+        if %DRY_RUN%==0 move "%srcDir%\%%F" "%archDir%\%%F"
+        set /a archived+=1
     ) else (
         echo [KEEP] %%F
         echo [%name%][KEEP] %%F >> "%logFile%"
@@ -86,37 +90,42 @@ for /f "delims=" %%F in ('dir /b /a:-d /o-n "%srcDir%\*" 2^>nul') do (
 echo %YELLOW%--- [%name%] Cleanup Phase (Older than %retentionDays%d) ---%RESET%
 set /a deleted=0
 
-:: Delete aged files only (ignore folders)
 for /f "delims=" %%F in ('dir /b /a:-d "%archDir%\*" 2^>nul') do (
-    if exist "%archDir%\%%F" (
-        set "ageDays="
-
-        :: Flattened PowerShell evaluation with safe escaping
-        for /f %%A in ('powershell -command "[timespan]::Parse(((Get-Date) - (Get-Item \"%archDir%\%%F\").LastWriteTime).ToString()).TotalDays"') do (
-            set "ageDays=%%A"
-        )
-
-        :: Defensive age check
-        if defined ageDays (
-            if !ageDays! GEQ %retentionDays% (
-                echo [DELETE] %%F (Age: !ageDays!d)
-                echo [%name%][DELETE] %%F (Age: !ageDays!d) >> "%logFile%"
-                if %DRY_RUN%==0 del "%archDir%\%%F"
-                set /a deleted+=1
-            ) else (
-                echo [RETAIN] %%F (Age: !ageDays!d)
-                echo [%name%][RETAIN] %%F (Age: !ageDays!d) >> "%logFile%"
-            )
-        ) else (
-            echo [SKIP] %%F (Could not evaluate age)
-            echo [%name%][SKIP] %%F (Unknown age) >> "%logFile%"
-        )
+    set "ageDays="
+    for /f %%A in ('powershell -ExecutionPolicy Bypass -File "%ageScript%" "%archDir%\%%F"') do (
+        set "ageDays=%%A"
     )
+    call :handleCleanup "%%F" "!ageDays!" "%name%"
 )
 
-:: Update summary (linebreak-safe)
-set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%
-"
+set "summary=%summary%%name%: Archived=!archived!, Deleted=!deleted!%RESET%"
 echo. >> "%logFile%"
 echo. >> "%logFile%"
+goto :eof
+
+:: ===============================
+:: === SUBROUTINE: handleCleanup ===
+:: ===============================
+:handleCleanup
+setlocal enabledelayedexpansion
+set "file=%~1"
+set "age=%~2"
+set "label=%~3"
+
+if defined age (
+    if !age! GEQ %retentionDays% (
+        echo [DELETE] !file! (Age: !age!d)
+        echo [%label%][DELETE] !file! (Age: !age!d) >> "%logFile%"
+        if %DRY_RUN%==0 del "%archDir%\!file!"
+        endlocal & set /a deleted+=1
+    ) else (
+        echo [RETAIN] !file! (Age: !age!d)
+        echo [%label%][RETAIN] !file! (Age: !age!d) >> "%logFile%"
+        endlocal
+    )
+) else (
+    echo [SKIP] !file! (Could not evaluate age)
+    echo [%label%][SKIP] !file! (Unknown age) >> "%logFile%"
+    endlocal
+)
 goto :eof
