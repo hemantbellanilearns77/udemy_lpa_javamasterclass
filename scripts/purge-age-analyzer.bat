@@ -54,8 +54,8 @@ for /r "%root%" %%F in (.) do (
             for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '%%~fX').CreationTime).Hours"') do set /a age=%%A
 
             :: Verbose output
-            REM echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
-            REM echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
+            echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
+            echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
             echo. >> "%logFile%"
 
             set /a total+=1
@@ -87,6 +87,13 @@ for /r "%root%" %%F in (.) do (
 
 call :colorEcho "[BOTH MODES] Grand Total: !grandTotal!, Older than !purgeAge! hours " RED
 echo [BOTH MODES] Grand Total: !grandTotal!, Older than !purgeAge! hours
+
+:: === FINAL RECYCLE BIN COUNT ===
+for /f %%R in ('powershell -NoProfile -Command "((New-Object -ComObject Shell.Application).NameSpace(10).Items()).Count"') do set "recycleCount=%%R"
+
+call :colorEcho "Files currently in Recycle Bin: !recycleCount!" CYAN
+echo Files currently in Recycle Bin: !recycleCount! >> "%logFile%"
+
 echo === FILE AGE ANALYSIS COMPLETED IN !mode! MODE === >> "%logFile%"
 echo === DONE === >> "%logFile%"
 goto :eof
