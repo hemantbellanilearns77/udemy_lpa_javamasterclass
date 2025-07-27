@@ -1,9 +1,10 @@
-package com.hb.study.udemylpajavamasterclass.misc_practice.datetimepractice;
+package com.hb.study.demo_stubs.datetimepractice;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.CUIModeOrchestrator;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.FormatterMode;
-import com.hb.study.udemylpajavamasterclass.global.libs.datetimeutilLib.constants.DateTimeUtilLIbConstants;
+import com.hb.study.libs.datetimeutillib.controller.CUIModeOrchestrator;
+import com.hb.study.libs.datetimeutillib.core.FormatterMode;
+import com.hb.study.libs.datetimeutillib.common.constants.DateTimeUtilLIbConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.ZoneId;
@@ -14,7 +15,7 @@ public class DateTimeCarnival_Copy {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
 
         /*System.out.println("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟");
         System.out.println("🪔  WELCOME TO DATE-TIME CARNIVAL — DIWALI EDITION 🪔");
@@ -30,9 +31,9 @@ public class DateTimeCarnival_Copy {
 
         for (FormatterMode mode : FormatterMode.values()) {
             CUIModeOrchestrator.runMode(mode, defaultLocale, defaultZone, null);
-            System.out.println(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
+            ConsoleStyler.divider();
         }
-        execution.windDown();
+        execution.finalizeExecution();
     }
 
 }

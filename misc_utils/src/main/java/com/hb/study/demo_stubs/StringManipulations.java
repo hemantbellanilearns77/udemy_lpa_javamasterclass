@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.misc_practice;
+package com.hb.study.demo_stubs;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -14,7 +14,7 @@ public class StringManipulations {
     //Object level or Static declarations here...
     public static ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-        execution.setUp();
+        execution.initialize();
         /*
          *****************************************************
          */
@@ -33,6 +33,6 @@ public class StringManipulations {
 
          ******************************************************
          */
-        execution.windDown();
+        execution.finalizeExecution();
     }
 }
