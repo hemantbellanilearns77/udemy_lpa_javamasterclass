@@ -61,3 +61,7 @@ sonar-project.properties
 .pmd-baseline.bin
 
 /logs
+/purged/
+/purge-logs/
+/archived/
+/archival-logs/
