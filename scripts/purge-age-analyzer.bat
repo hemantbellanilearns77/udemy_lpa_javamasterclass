@@ -100,12 +100,16 @@ goto :eof
 
 :: === Subroutine to Color Echo ===
 :colorEcho
-:: %1 = message, %2 = RED or GREEN
+:: %1 = message, %2 = RED or GREEN or CYAN
 setlocal
 if /i "%~2"=="RED" (
     powershell -command "Write-Host '%~1' -ForegroundColor Red"
-) else (
+) else if /i "%~2"=="GREEN" (
     powershell -command "Write-Host '%~1' -ForegroundColor Green"
+) else if /i "%~2"=="CYAN" (
+    powershell -command "Write-Host '%~1' -ForegroundColor Cyan"
+) else (
+    powershell -command "Write-Host '%~1'" -ForegroundColor White"
 )
 endlocal
 goto :eof
