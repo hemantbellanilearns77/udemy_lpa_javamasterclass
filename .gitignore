@@ -62,3 +62,6 @@ sonar-project.properties
 
 /logs
 /purged/
+/purge-logs/
+/archived/
+/archival-logs/
