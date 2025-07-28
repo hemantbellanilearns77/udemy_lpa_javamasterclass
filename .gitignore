@@ -23,6 +23,7 @@ replay_pid*
 # IntelliJ project files
 .idea/
 *.iml
+udemy_lpa_javamasterclass.iml
 
 # SonarScanner temp folder
 .scannerwork/
