@@ -1,4 +1,4 @@
-package com.hb.study.udemy.lpa.globalcommon.misc_practice;
+package com.hb.study.demo_stubs;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

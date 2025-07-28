@@ -1,4 +1,4 @@
-package com.hb.study.common;
+package com.hb.study.demo_stubs;
 import java.util.*;
 public class RandomNumberOddEven {
     public static void main(String[] args) {

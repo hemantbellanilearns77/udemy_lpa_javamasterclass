@@ -1,4 +1,4 @@
-package com.hb.study.common;
+package com.hb.study.demo_stubs;
 public class HelloWorld {
     public static void main(String [] args) {
         System.out.println("Hello World , hi there");

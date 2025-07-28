@@ -1,5 +1,4 @@
-package com.hb.study.udemy.lpa.globalcommon.misc_practice;
-
+package com.hb.study.demo_stubs;
 /*To convert nanoseconds returned by `System.nanoTime()` to a human-readable date and time format in Java, you need to keep in mind that `System.nanoTime()` returns the current value of the running Java Virtual Machine's high-resolution time source, which is not related to any specific date or time. Instead, you typically use `System.currentTimeMillis()` to get the current time in milliseconds since the epoch (January 1, 1970, 00:00:00 GMT).
 
         However, if you want to convert a duration in nanoseconds to a human-readable format, you can do that by converting the nanoseconds to milliseconds and then formatting it. Below is a Java program that demonstrates how to convert a duration in nanoseconds to a human-readable date and time format.

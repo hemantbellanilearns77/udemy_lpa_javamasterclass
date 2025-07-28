@@ -1,4 +1,4 @@
-package com.hb.study.udemy.lpa.globalcommon.misc_practice;
+package com.hb.study.demo_stubs;
 /*To convert `System.getCurrentMillis()` to a full `FormatStyle` date-time format in Java, you can use the `java.time` package, which provides a modern date and time API. Here's how you can do it:
 
         1. Get the current milliseconds using `System.currentTimeMillis()`.
