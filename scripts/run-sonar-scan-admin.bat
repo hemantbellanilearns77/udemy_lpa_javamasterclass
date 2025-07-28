@@ -4,16 +4,15 @@ setlocal EnableDelayedExpansion
 echo ===================================================
 echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight + Preview)
 echo ===================================================
-
+:: Capture Start Time
+for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set startTime=%%t
+timeout /t 3 >nul
 :: Preserve Original Working Directory
 set "originalDir=%CD%"
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 
 :: Timestamp Setup
 for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
-for /f %%x in ('powershell -Command "Get-Date -Format ''dd-MMM-yyyy HH:mm:ss''"') do (
-    call set scanTime=%%x
-)
 
 :: Extract Branch Name
 set BRANCH_NAME=
@@ -22,7 +21,6 @@ for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project
     set "BRANCH_NAME=!BRANCH_NAME: =!"
 )
 
-echo 🧪 Final Timestamp: !scanTime!
 echo 🧪 Branch Name:     !BRANCH_NAME!
 
 :: Config Toggles
@@ -130,10 +128,8 @@ if /I "%DRY_RUN%"=="true" (
     exit /b 0
 )
 
-:: Capture Start Time
-for /f %%t in ('powershell -Command "Get-Date -Format ''HH:mm:ss''"') do (
-    call set startTime=%%t
-)
+
+
 
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
@@ -145,16 +141,6 @@ call sonar-scanner ^
   "-Dsonar.java.checkstyle.reportPaths=!checkstyleReportPath!" ^
   "-Dsonar.java.pmd.reportPaths=!pmdReportPath!" ^
   > "!logPath!" 2>&1
-
-:: Capture End Time
-for /f %%t in ('powershell -Command "Get-Date -Format ''HH:mm:ss''"') do (
-    call set endTime=%%t
-)
-
-:: Compute Duration (in minutes)
-for /f %%d in ('powershell -Command "[timespan]::Parse('!endTime!').Subtract([timespan]::Parse('!startTime!')).TotalMinutes"') do (
-    call set durationMinutes=%%d
-)
 
 echo ✅ Scan complete. Log saved to: !logPath!
 
@@ -180,6 +166,13 @@ if !CHECKSTYLE_COUNT! GEQ 1000 (
 if !PMD_COUNT! GEQ 100 (
     set warn=true
 )
+:: Capture End Time
+for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
+
+:: Compute Duration (in minutes)
+for /f %%d in ('powershell -command "[math]::Round((New-TimeSpan -Start '!startTime!' -End '!endTime!').TotalMinutes, 2)"') do set durationMinutes=%%d
+
+
 
 :: Final Banner
 echo ===================================================
@@ -200,9 +193,9 @@ echo ===================================================
     echo ================== SCAN SUMMARY ==================
     echo 🌀 Branch: !BRANCH_NAME!
     echo 🔍 Log Path :   !logPath! -- %timestamp%
-    echo 🕒 Start:    %startTime%
-    echo 🕒 End:      %endTime%
-    echo ⏱️ Duration: %durationMinutes% minutes
+    echo 🕒 Start:    !startTime!
+    echo 🕒 End:      !endTime!
+    echo ⏱️ Duration: !durationMinutes! minutes
     echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
     echo ✅ PMD:        !PMD_COUNT!
     if "!warn!"=="true" (

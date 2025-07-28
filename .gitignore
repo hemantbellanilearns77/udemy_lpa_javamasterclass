@@ -54,8 +54,6 @@ reports/
 # IntelliJ build artifacts
 /out/
 
-#sonar-project.properties
-sonar-project.properties
 # PMD scan artifacts
 .pmd-cache.bin
 .pmd-baseline.bin
