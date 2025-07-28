@@ -30,7 +30,7 @@ set DRY_RUN=false
 
 :: Paths
 set junitPaths=reports\junit\latest,misc_utils\reports\junit
-set jacocoPaths=reports\jacoco\latest.exec,misc_utils\reports\jacoco.exec
+set jacocoPaths=reports\jacoco\jacoco-latest.exec
 set logFolder=logs\sonar-scan
 set logPath=%logFolder%\sonar-%timestamp%.log
 

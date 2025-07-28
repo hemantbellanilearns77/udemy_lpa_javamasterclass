@@ -37,7 +37,7 @@ for /r "%root%" %%F in (.) do (
         set "folder=%%~fF"
         set /a total=0
         set /a old=0
-		set /a purgeAge=16
+		set /a purgeAge=9
         echo [Folder: !folder!]
         echo [Folder: !folder!] >> "%logFile%"
 
@@ -51,7 +51,7 @@ for /r "%root%" %%F in (.) do (
             for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '%%~fX').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
 
             :: Get age in hours (as per latest logic)
-            for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '%%~fX').CreationTime).Hours"') do set /a age=%%A
+            for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '%%~fX').CreationTime).Hours"') do set /a age=%%A/24
 
             :: Verbose output
             echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
