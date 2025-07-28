@@ -29,7 +29,8 @@ set STRICT_REPORT_CHECK=false
 set DRY_RUN=false
 
 :: Paths
-set junitPaths=reports\junit\latest,misc_utils\reports\junit
+REM set junitPaths=reports\junit\latest,misc_utils\reports\junit
+set junitPaths=reports\junit\latest
 set jacocoPaths=reports\jacoco\jacoco-latest.exec
 set logFolder=logs\sonar-scan
 set logPath=%logFolder%\sonar-%timestamp%.log

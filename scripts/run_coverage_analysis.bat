@@ -90,6 +90,18 @@ if not exist "%REPORT_DIR%\%execFile%" (
     exit /b 1
 )
 
+echo ?? Creating JUnit reports folder...
+mkdir "%PROJECT_ROOT%\reports\junit\latest" >nul 2>&1
+mkdir "%PROJECT_ROOT%\misc_utils\reports\junit" >nul 2>&1
+
+echo ?? Running tests with JaCoCo agent and JUnit ConsoleLauncher
+java -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
+     -jar "%JUNIT_CONSOLE_JAR%" ^
+     --scan-class-path "%OUT_DIR%\misc_utils;%OUT_DIR%\udemy_lpa_javamasterclass" ^
+     --reports-dir="%PROJECT_ROOT%\reports\junit\latest" ^
+     --details=tree
+
+
 :: ========== REPORT GENERATION ==========
 echo ?? Generating XML and HTML reports...
 java -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
