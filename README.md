@@ -1,107 +1,63 @@
-# 🎓 Java Masterclass Practice Suite by Hemant
+# Java Masterclass Practice — Tim Buchalka Course
 
-A vibrant companion project built while pursuing the [_Java Programming Masterclass_ by Tim Buchalka (LPA)](https://www.udemy.com/course/java-the-complete-java-developer-course/). This Core Java app captures Hemant’s learning journey—from exercises and challenges to whimsical formatting demos and testing frameworks—with help from **Copilot by Microsoft** along the way.
+This repository is a personal practice workspace maintained by **Hemant Bellani**, a senior AEM engineer and former Solution Architect with over 14 years of experience delivering Adobe Experience Manager solutions.
 
----
+## 🎯 Purpose
 
-## 🗂️ Project Structure Overview
-project-root/
-├── src/                         # com.hb.study.misc_utils.demo_stubs.Main Java source code
-│   ├── main/                    # com.hb.study.misc_utils.demo_stubs.Main logic (if you want to mirror Maven convention)
-│   └── test/                    # Test files, if applicable
-├── config/                      # Configs, sample inputs, log settings, etc.
-├── data/                        # Demo databases, mock data, or CSVs
-├── fileio-dump/                 # Output dumps from FileIO experiments
-├── reports/                     # Static analysis reports: sonar, checkstyle, PMD
-│   ├── sonar/
-│   ├── checkstyle/
-│   └── pmd/
-├── utils/                       # Utility scripts, one-off diagnostic tools
-├── docs/                        # Documentation: FSD, BSD, SDD, diagrams
-├── lib/                         # External JARs, if any
-├── scripts/                     # CLI helpers or setup/validation scripts
-├── .idea/                       # IntelliJ-specific configs (auto-generated)
-├── .gitignore                   # Project-level exclusions
-└── README.md                    # Overview, setup instructions, etc.
----
+While my core expertise lies in enterprise-scale AEM solutions, I am currently deepening my command of **core and advanced Java** through structured hands-on exercises. This work supports both my long-term interest in Java development and my upcoming **Oracle Java SE 11 Developer Certification (1Z0-819)**.
 
-## ⚙️ Technologies Used
+The code here is largely based on the "Java Programming Masterclass for Software Developers" by Tim Buchalka on Udemy, with custom enhancements and organization to align with my learning goals.
 
-- **Java 24** or higher
-- **JUnit 5 (Jupiter)** for modern unit testing
-- **Swing UI** for interactive and colorful demos
-- **SQLite (optional)** for embedded storage
-- **IntelliJ IDEA** as primary IDE
+## 📁 Repository Structure
 
----
-
-## 🎪 Featured Components
-
-### 🎭 FormatterCarnival
-- Locale and timezone preview demos
-- GUI combo boxes with “All” options
-- Built for both creativity and utility
-
-### 🧩 Global Utilities
-- Common constants and libraries
-- Reusable models and format handlers
-
-### 📚 Section Modules
-- `section3_firststeps` and `section4_basics` reflect course progression
-- Each contains:
-    - 💻 `coding_challenges`: Hands-on practice tasks
-    - 📖 `exercises`: Guided assignments from the course
-    - 🔍 `misc_codedemo`: Mini demos and experimentations
-
----
-
-## 🧪 Testing Strategy
-
-Organized using mirrored packages and themed naming:
-src/global/models/           → test/global/tests/models/ src/global/utils/            → test/global/tests/utils/ src/formatterCarnival/...    → test/global/tests/formatter/
-
-
-- Written in **JUnit 5**
-- Naming patterns like `ZoneCarnivalTest` and `OperatorsFestTest` to match the playful theme
-- Easy to extend with mock inputs and modular test utilities
-
-> ✅ All tests are designed to be run directly in IntelliJ’s test runner.
-
----
-
-## 🎯 How to Run
-
-### 💻 With IntelliJ:
-1. Clone or open the project
-2. Run `DemoRunner.java` from `global/`
-3. Execute test suites from the `test/` folder
-
-### 🛠️ Manual CLI (if needed):
-```bash
-javac -cp "lib/*" src/com/hb/study/.../DemoRunner.java
-java -cp "lib/*:src" com.hb.study.udemylpajavamasterclass.demo_stubs.misc_utils.DemoRunner
 ```
----
-## 🌈 Evolution Timeline
+udemy_lpa_javamasterclass/
+├── 01_FirstSteps/              # Basics: variables, methods, control flow
+├── 02_OOP/                     # Classes, inheritance, polymorphism
+├── 03_ArraysListsAutoboxing/  # Arrays, collections, boxing/unboxing
+├── 04_InterfacesAbstract/     # Interfaces, abstract classes, polymorphic patterns
+├── 05_InnerClassesLambdas/    # Inner classes, functional interfaces, lambdas
+├── 06_JavaFXProjects/         # GUI projects (if applicable)
+├── 07_Concurrency/            # Threads, race conditions, synchronization
+├── 08_IO_NIO/                 # File I/O, NIO.2 APIs
+├── 09_Regex_Databases/        # RegEx, JDBC, database examples
+├── 10_UnitTesting/            # JUnit tests (planned)
+├── 11_OCP_ExamPrep/           # Practice aligned with Oracle's OCP 1Z0-819 objectives
+└── README.md
+```
 
-| Phase         | Milestone                                                                 |
-|---------------|---------------------------------------------------------------------------|
-| 🎓 Learning    | Developed alongside the *Java Masterclass by Tim Buchalka (LPA)*         |
-| 🤝 Integration | Integrated practice modules, coding challenges, and formatter utilities  |
-| 🤖 Discovery   | Discovered **Copilot by Microsoft** to accelerate learning and structure |
-| 🎡 Expansion   | Created bonus demos like **FormatterCarnival** and **CoreJavaDemoCarnival** |
-| 🧪 Refactoring | Introduced **JUnit 5** for structured testing and utility verification    |
-| 🏗️ Growth      | Structured sections, enhanced UI, and added thematic module separation    |
-| 🔮 Future       | Planning REST API integration, locale-aware demos, and lesson mapping    |
+## 🛠 Work in Progress
 
+This is a **live practice repository**. Expect gradual refinements, structural reorganizations, and topic-specific enhancements over time. I follow a strict logging and archival policy for all auto-generated reports and tooling scripts used (e.g., PMD, Checkstyle, Sonar).
 
+## 🔒 Repo Status
 
+This repo was previously private and is now public to:
+- Keep track of my progress
+- Share learning methods
+- Showcase consistency in Java skill-building beyond AEM
 
-👤 Author
-Hemant is a meticulous and imaginative Java developer who combines technical mastery with expressive design. His style blends vibrant theming, modular utilities, and exploratory learning—all reflected in this app’s architecture.
+## 🧪 Setup Instructions
 
-💡 Future Ideas
-- REST-powered version of FormatterCarnival
-- Locale-aware demos with cultural formatting
-- Instructor tools or lesson flow simulato
-- Dashboard to toggle practice modules interactively
+- Ensure you have **Java 11** or newer installed
+- Open any folder in your IDE (e.g., IntelliJ, Eclipse) or compile via CLI:  
+  ```bash
+  javac SomeFile.java
+  java SomeFile
+  ```
+- Some folders (e.g., `IO_NIO`, `Concurrency`) may have dependencies on standard Java libraries or package structures. Adjust classpaths as needed.
+
+## 📅 Study Focus
+
+I dedicate ~30 hours/week (Mon–Fri) on this learning path, balancing Java practice with certification prep.
+
+## 👨‍💻 About Me
+
+Hemant Bellani — [LinkedIn](mailto:hemantbellanilearns77@gmail.com)  
+AEM Developer since 2008 | Former Solution Architect | Now diving deep into core Java.
+
+## 📄 Disclaimer
+
+This repository is maintained for educational and personal growth purposes only. It does not intend to infringe upon or copy protected content, and any references or exercises are based on publicly accessible material from the Udemy course I am following. No material here should be interpreted as commercial reuse or misrepresentation.
+
+This is an open repository meant for showcasing consistency and learning — not for redistribution or plagiarism of course material.
