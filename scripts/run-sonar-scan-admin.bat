@@ -24,7 +24,7 @@ for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project
 echo 🧪 Branch Name:     !BRANCH_NAME!
 
 :: Config Toggles
-set ENABLE_JACOCO=true
+set ENABLE_JACOCO=false
 set STRICT_REPORT_CHECK=false
 set DRY_RUN=false
 
@@ -138,6 +138,7 @@ call sonar-scanner ^
   "-Dsonar.branch.name=!BRANCH_NAME!" ^
   "-Dsonar.java.checkstyle.reportPaths=!checkstyleReportPath!" ^
   "-Dsonar.java.pmd.reportPaths=!pmdReportPath!" ^
+  "-Dsonar.junit.reportPaths=D:\GitHubRepos\udemy_lpa_javamasterclass\reports\junit\latest" ^
   > "!logPath!" 2>&1
 
 echo ✅ Scan complete. Log saved to: !logPath!
