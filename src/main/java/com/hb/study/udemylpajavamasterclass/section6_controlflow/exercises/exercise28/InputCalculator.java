@@ -3,27 +3,31 @@ package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exer
 import java.util.Scanner;
 
 public class InputCalculator {
-    public static void main(String[] args) {
+    public static void main(String[] ignoredArgs) {
         inputThenPrintSumAndAverage();
     }
 
     public static void inputThenPrintSumAndAverage(){
         Scanner scanner = new Scanner(System.in);
-        String nextInput = "";
-        int nextNum = 0;
+        String nextInput;
+        int nextNum;
         int sum = 0;
         long roundedAverage = 0;
-        double actualAverage = 0.0;
+        double actualAverage;
         int numberCount = 0;
         while(true) {
-            //System.out.println("Please enter the next number or any other character to quit: ");
+            System.out.println("Please enter the next number or type 'exit' to quit: ");
             nextInput = scanner.nextLine();
+            // Check if the user wants to exit
+            if (nextInput.equalsIgnoreCase("exit")) {
+                break;
+            }
             try {
                 nextNum = Integer.parseInt(nextInput);
                 sum += nextNum;
                 numberCount++;
                 actualAverage = (double) sum/numberCount;
-                roundedAverage = (long) Math.round(actualAverage);
+                roundedAverage = Math.round(actualAverage);
 
             } catch (NumberFormatException nfe) {
                 //System.out.println("Actual average is: " + actualAverage);
