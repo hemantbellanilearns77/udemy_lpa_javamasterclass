@@ -18,7 +18,7 @@ public class InputCalculator {
         while(true) {
             System.out.println("Please enter the next number or type 'exit' to quit: ");
             nextInput = scanner.nextLine();
-            // Check if the user wants to exit
+            // Check if the user wants to exit - did this to fix Sonar blocker
             if (nextInput.equalsIgnoreCase("exit")) {
                 break;
             }
