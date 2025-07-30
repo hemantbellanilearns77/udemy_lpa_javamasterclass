@@ -4,18 +4,21 @@ import java.util.Scanner;
 
 public class MinMaxNumberChallenge {
 
-    public static void main(String[] args) {
+    public static void main(String[] ignoredArgs) {
 
         double maxNumber = 0.0;
         double minNumber = 0.0;
         String nextInput;
-        double nextDecimalNumber = 0.0;
+        double nextDecimalNumber;
         int numberOfDecimalsScreened = 0;
         Scanner scanner = new Scanner(System.in);
         while(true) {
             try {
-                System.out.println("Please enter the next decimal number or any other character to quit: ");
+                System.out.println("Please enter the next decimal number or exit to quit: ");
                 nextInput = scanner.nextLine();
+                if (nextInput.equalsIgnoreCase("exit")){
+                    break;
+                }
                 nextDecimalNumber = Double.parseDouble(nextInput);
                 numberOfDecimalsScreened++;
                if(numberOfDecimalsScreened == 1){
