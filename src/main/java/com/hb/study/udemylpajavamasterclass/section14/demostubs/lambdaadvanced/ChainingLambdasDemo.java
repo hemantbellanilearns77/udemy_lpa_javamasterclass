@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.sectiontemplate.demostubs;
+package com.hb.study.udemylpajavamasterclass.section14.demostubs.lambdaadvanced;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
