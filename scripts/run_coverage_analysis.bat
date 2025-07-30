@@ -1,137 +1,121 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-:: ========== CONFIG ==========
-set "JAVA_HOME=%ProgramFiles%\Java\jdk-17"
+:: ==============================
+:: CONFIGURATION
+:: ==============================
+set "JAVA_HOME=C:\Program Files\Java\jdk-24\"
 set "JACOCO_AGENT_JAR=D:\Tools\jacoco-0.8.13\lib\jacocoagent.jar"
 set "JACOCO_CLI_JAR=D:\Tools\jacoco-0.8.13\lib\jacococli.jar"
 set "JUNIT_CONSOLE_JAR=D:\Tools\junit-console\junit-platform-console-standalone-1.13.0.jar"
 
-set "PROJECT_ROOT=%~dp0.."
-set "SRC_DIR=src\main\java;misc_utils\src\main\java"
+set "PROJECT_ROOT=D:\GitHubRepos\udemy_lpa_javamasterclass"
+set "OUT_PROD_DIR=%PROJECT_ROOT%\out\production"
+set "OUT_TEST_DIR=%PROJECT_ROOT%\out\test"
 set "REPORT_DIR=%PROJECT_ROOT%\reports\jacoco"
 set "LOG_DIR=%PROJECT_ROOT%\logs\jacoco-logs"
-set "OUT_DIR=%PROJECT_ROOT%\out\production"
+set "JUNIT_REPORT_DIR=%PROJECT_ROOT%\reports\junit\latest"
 
-:: ========== TIMESTAMP ==========
+:: ==============================
+:: TIMESTAMP AND FILE NAMES
+:: ==============================
 for /f %%T in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set "ts=%%T"
 set "execFile=jacoco-%ts%.exec"
 set "xmlFile=jacoco-%ts%.xml"
 set "htmlDir=report-%ts%"
 set "logFile=%LOG_DIR%\jacoco-%ts%.txt"
 
-:: ========== FLAGS ==========
-set "skipCompile=false"
-set "cleanOutDir=true"
+:: ==============================
+:: FLAGS
+:: ==============================
+set "compileRequested=false"
 for %%x in (%*) do (
-    if "%%x"=="--skip-compile" (
-        set "skipCompile=true"
-        set "cleanOutDir=false"
-    )
+    if "%%x"=="--plscompile" set "compileRequested=true"
 )
 
-:: ========== INIT ==========
-if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
-if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
-if not exist "%OUT_DIR%\misc_utils" mkdir "%OUT_DIR%\misc_utils"
-if not exist "%OUT_DIR%\udemy_lpa_javamasterclass" mkdir "%OUT_DIR%\udemy_lpa_javamasterclass"
+:: ==============================
+:: START LOGGING
+:: ==============================
+echo ================================================= >> "%logFile%"
+echo ⚡ JaCoCo Coverage Script Run @ %ts% >> "%logFile%"
+echo ================================================= >> "%logFile%"
 
-:: ========== LOGGING ==========
-(
-echo =======================================
-echo ?? Start Time: %ts%
-echo :: JaCoCo Coverage Script Run Started
-echo =======================================
-
-:: ========== CLEAN ==========
-if "!cleanOutDir!"=="true" (
-    echo ?? Cleaning out/production folders
-    rmdir /s /q "%OUT_DIR%" >nul 2>&1
-    mkdir "%OUT_DIR%\misc_utils"
-    mkdir "%OUT_DIR%\udemy_lpa_javamasterclass"
+:: ==============================
+:: VALIDATE REQUIRED DIRECTORIES
+:: ==============================
+if not exist "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" (
+    echo ❌ ERROR: Missing production classes >> "%logFile%"
+    exit /b 1
 )
+if not exist "%OUT_TEST_DIR%\udemy_lpa_javamasterclass" (
+    echo ❌ ERROR: Missing test classes >> "%logFile%"
+    exit /b 1
+)
+if not exist "%JUNIT_REPORT_DIR%" mkdir "%JUNIT_REPORT_DIR%"
 
-:: ========== COMPILE ==========
-if "!skipCompile!"=="true" (
-    echo ??  Skipping compilation phase --skip-compile
+:: ==============================
+:: CLEAN + COMPILE (if requested)
+:: ==============================
+if "!compileRequested!"=="true" (
+    echo ⚙ Cleaning old class files... >> "%logFile%"
+    rmdir /s /q "%OUT_PROD_DIR%" >nul 2>&1
+    rmdir /s /q "%OUT_TEST_DIR%" >nul 2>&1
+    mkdir "%OUT_PROD_DIR%\udemy_lpa_javamasterclass"
+    mkdir "%OUT_TEST_DIR%\udemy_lpa_javamasterclass"
+
+    echo ✍ Compiling production code... >> "%logFile%"
+    for /R "%PROJECT_ROOT%\src\main\java" %%f in (*.java) do javac -d "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" "%%f"
+
+    echo ✍ Compiling test code... >> "%logFile%"
+    for /R "%PROJECT_ROOT%\src\test\java" %%f in (*.java) do javac -d "%OUT_TEST_DIR%\udemy_lpa_javamasterclass" -cp "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" "%%f"
 ) else (
-    echo ?? Compiling misc_utils
-    for /R "%PROJECT_ROOT%\misc_utils\src\main\java" %%f in (*.java) do (
-        javac -d "%OUT_DIR%\misc_utils" "%%f"
-    )
-
-    echo ?? Compiling udemy_lpa_javamasterclass...
-    for /R "%PROJECT_ROOT%\src\main\java" %%f in (*.java) do (
-        javac -d "%OUT_DIR%\udemy_lpa_javamasterclass" "%%f"
-    )
+    echo ❎ Skipping compilation -- no switch provided >> "%logFile%"
 )
 
-:: ========== DETECT TEST FOLDERS ==========
-set "testClassPath="
-if exist "%PROJECT_ROOT%\src\test\java" (
-    set "testClassPath=%PROJECT_ROOT%\src\test\java"
-)
-if exist "%PROJECT_ROOT%\misc_utils\src\test\java" (
-    if defined testClassPath (
-        set "testClassPath=!testClassPath!;%PROJECT_ROOT%\misc_utils\src\test\java"
-    ) else (
-        set "testClassPath=%PROJECT_ROOT%\misc_utils\src\test\java"
-    )
-)
+:: ==============================
+:: RUN TESTS WITH JACOCO AGENT
+:: ==============================
+echo 🔎 Running tests with JaCoCo agent... >> "%logFile%"
+"%JAVA_HOME%\bin\java" -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
+    -jar "%JUNIT_CONSOLE_JAR%" ^
+	--class-path "%OUT_PROD_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_PROD_DIR%\misc_utils;%OUT_TEST_DIR%\misc_utils" ^
+    --scan-class-path "%OUT_PROD_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_PROD_DIR%\misc_utils;%OUT_TEST_DIR%\misc_utils" ^
+    --reports-dir="%JUNIT_REPORT_DIR%" --details=tree >> "%logFile%" 2>&1
 
-:: ========== TEST EXECUTION ==========
-echo ?? Running tests with JaCoCo agent
-java -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
-     -jar "%JUNIT_CONSOLE_JAR%" ^
-     --scan-class-path "%OUT_DIR%\misc_utils;%OUT_DIR%\udemy_lpa_javamasterclass"
-
+:: ==============================
+:: VALIDATE COVERAGE OUTPUT
+:: ==============================
 if not exist "%REPORT_DIR%\%execFile%" (
-    echo ? JaCoCo exec file not found Aborting
+    echo ❌ Coverage file not generated >> "%logFile%"
     exit /b 1
 )
 
-echo ?? Creating JUnit reports folder...
-mkdir "%PROJECT_ROOT%\reports\junit\latest" >nul 2>&1
-mkdir "%PROJECT_ROOT%\misc_utils\reports\junit" >nul 2>&1
+:: ==============================
+:: GENERATE JACOCO REPORTS
+:: ==============================
+echo ✏ Generating XML and HTML reports... >> "%logFile%"
+"%JAVA_HOME%\bin\java" -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
+    --classfiles "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" ^
+    --sourcefiles "%PROJECT_ROOT%\src\main\java" ^
+    --xml "%REPORT_DIR%\%xmlFile%" ^
+    --html "%REPORT_DIR%\%htmlDir%" >> "%logFile%" 2>&1
 
-echo ?? Running tests with JaCoCo agent and JUnit ConsoleLauncher
-java -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
-     -jar "%JUNIT_CONSOLE_JAR%" ^
-     --scan-class-path "%OUT_DIR%\misc_utils;%OUT_DIR%\udemy_lpa_javamasterclass" ^
-     --reports-dir="%PROJECT_ROOT%\reports\junit\latest" ^
-     --details=tree
+copy /Y "%REPORT_DIR%\%xmlFile%" "%REPORT_DIR%\jacoco-latest.xml" >nul
+copy /Y "%REPORT_DIR%\%execFile%" "%REPORT_DIR%\jacoco-latest.exec" >nul
 
+:: ==============================
+:: FINAL SUMMARY
+:: ==============================
+echo ✅ Coverage XML: %xmlFile% >> "%logFile%"
+echo ✅ Coverage HTML: %htmlDir%\index.html >> "%logFile%"
+echo ✅ Exec File: %execFile% >> "%logFile%"
+echo ✅ Log File: %logFile% >> "%logFile%"
 
-:: ========== REPORT GENERATION ==========
-echo ?? Generating XML and HTML reports...
-java -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
-     --classfiles "%OUT_DIR%" ^
-     --sourcefiles "%PROJECT_ROOT%\src\main\java" ^
-     --sourcefiles "%PROJECT_ROOT%\misc_utils\src\main\java" ^
-     --xml "%REPORT_DIR%\%xmlFile%" ^
-     --html "%REPORT_DIR%\%htmlDir%"
+echo ⏱ End Time: %ts% >> "%logFile%"
+echo ================================================= >> "%logFile%"
 
-:: ========== FINALIZE ==========
-copy /y "%REPORT_DIR%\%xmlFile%" "%REPORT_DIR%\jacoco-latest.xml" >nul
-copy /y "%REPORT_DIR%\%execFile%" "%REPORT_DIR%\jacoco-latest.exec" >nul
-
-:: ========== SUMMARY ==========
-echo ? Coverage XML:   %xmlFile%
-echo ? Coverage HTML:  %htmlDir%\index.html
-echo ? Exec Data File: %execFile%
-echo ? Log File:       %logFile%
-
-echo ---------------- Summary ----------------
-for /f "tokens=*" %%L in ('findstr /c:"<counter type=" "%REPORT_DIR%\%xmlFile%"') do (
-    echo %%L | findstr /i "INSTRUCTION LINE BRANCH METHOD CLASS"
-)
-echo ----------------------------------------
-
-echo ?? End Time: %ts%
-echo =======================================
-) > "%logFile%" 2>&1
-
-:: ========== ECHO SUMMARY TO CONSOLE ==========
-type "%logFile%" | findstr /r /c:"^?" /c:"^??" /c:"^??" /c:"^--.*--"
+:: Show filtered summary on console (optional)
+echo.
+type "%logFile%" | findstr /C:"✅" /C:"❌" /C:"⚙" /C:"⏱" /C:"✏" /C:"❎"
 
 endlocal
