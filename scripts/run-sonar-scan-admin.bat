@@ -24,7 +24,7 @@ for /f "tokens=2 delims==" %%B in ('findstr /i "sonar.branch.name" sonar-project
 echo 🧪 Branch Name:     !BRANCH_NAME!
 
 :: Config Toggles
-set ENABLE_JACOCO=false
+set ENABLE_JACOCO=true
 set STRICT_REPORT_CHECK=false
 set DRY_RUN=false
 
