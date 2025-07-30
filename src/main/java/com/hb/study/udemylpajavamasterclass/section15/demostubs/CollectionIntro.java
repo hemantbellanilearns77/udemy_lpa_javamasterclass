@@ -38,7 +38,7 @@ public class CollectionIntro {
 
         String[] names = {"Anna", "Bob", "Carol", "David", "Edna"};
         list.addAll(Arrays.asList(names));
-        System.out.println(list);
+       ConsoleStyler.styleEachAsIs("Name -> " , names);
 
         list.add("Fred");
         list.addAll(Arrays.asList("George", "Gary", "Grace"));
