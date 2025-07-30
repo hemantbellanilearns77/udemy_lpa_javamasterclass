@@ -129,9 +129,6 @@ if /I "%DRY_RUN%"=="true" (
     exit /b 0
 )
 
-
-
-
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 call sonar-scanner ^
