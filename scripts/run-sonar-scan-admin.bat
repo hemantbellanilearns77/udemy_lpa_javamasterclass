@@ -131,7 +131,8 @@ if /I "%DRY_RUN%"=="true" (
 
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-call sonar-scanner ^
+call sonar-scanner -X ^
+  "-Dsonar.verbose=true" ^
   "-Dsonar.token=%SONAR_TOKEN%" ^
   "-Dsonar.projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass" ^
   "-Dsonar.organization=hemantbellanilearns77" ^
