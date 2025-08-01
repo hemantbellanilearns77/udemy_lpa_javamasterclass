@@ -19,6 +19,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: List directory structure for debug
+        run: dir /s /b
+        shell: cmd
+
       - name: Run Checkstyle Script
-        run: .\scripts\run_checkstyle.bat
+        run: scripts\run-checkstyle.bat
         shell: cmd
