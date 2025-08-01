@@ -23,6 +23,11 @@ jobs:
         run: dir /s /b
         shell: cmd
 
+      - name: Download Checkstyle JAR
+        run: |
+          mkdir tools\checkstyle
+          curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+
       - name: Run Checkstyle Script
         run: scripts\run-checkstyle.bat
-        shell: cmd
+
