@@ -19,7 +19,7 @@ public class MethodReferencesChallenge {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
     private static final Random random = new Random();
 
     private record Person(String first) {

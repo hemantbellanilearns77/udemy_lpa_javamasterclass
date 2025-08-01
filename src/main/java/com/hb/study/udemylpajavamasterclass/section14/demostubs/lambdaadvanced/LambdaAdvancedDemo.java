@@ -1,5 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section14.demostubs.lambdaadvanced;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
@@ -24,16 +25,16 @@ public class LambdaAdvancedDemo {
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
 
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
 
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
-        ConsoleStyler.styleInitializationInfo("Count of names as originally in the list (names) is: " + maxElementAndIterationCount
+        ConsoleStyler.styleInitializationInfo("Count of names as originally in the list (names) is: " + CommonConstants.MAX_ITERATION_COUNT
                 + "; and Original List of Guest Names is: ");
-        for (int loopCounter = 0; loopCounter < maxElementAndIterationCount; loopCounter++) {
+        for (int loopCounter = 0; loopCounter < CommonConstants.MAX_ITERATION_COUNT; loopCounter++) {
             names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
         }
         ConsoleStyler.styleEachAsIs("Guest", names);

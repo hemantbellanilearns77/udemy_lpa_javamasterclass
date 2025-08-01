@@ -26,7 +26,7 @@ public class LamdaMiniChallengesMain {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();

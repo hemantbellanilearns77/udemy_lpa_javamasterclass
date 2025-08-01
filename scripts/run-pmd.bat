@@ -27,7 +27,7 @@ set "REPORT_DIR=reports\pmd"
 set "LOG_DIR=logs\pmd-scan-logs"
 set "REPORT_TXT=%REPORT_DIR%\pmd-%timestamp%-report.txt"
 set "REPORT_XML=%REPORT_DIR%\pmd-%timestamp%-report.xml"
-set "LOG_PATH=%LOG_DIR%\pmd-%timestamp%.log"
+set "LOG_PATH=%LOG_DIR%\pmd-%timestamp%.txt"
 
 :: === Resolve absolute report paths ===
 for %%F in ("%REPORT_TXT%") do set "REPORT_TXT_FULL=%%~fF"

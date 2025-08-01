@@ -19,7 +19,7 @@ public class DemoConsoleFormatting {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
     // ANSI escape codes
     public static final String RESET = "\u001B[0m";
     public static final String BOLD = "\u001B[1m";

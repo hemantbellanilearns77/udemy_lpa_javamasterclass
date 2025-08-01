@@ -15,7 +15,7 @@ public class ChainingLambdasDemo {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();

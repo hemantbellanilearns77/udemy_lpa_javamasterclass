@@ -62,7 +62,7 @@ public class Theme {
         this.hasFormattingElements = (this.formattingElements!=null && !this.formattingElements.isEmpty());
     }
 
-    private static final int maxElementAndIterationCount = new Random().nextInt(1, (63 + 1));
+     
     public String getCombinedAnsi() {
         return bg.getAnsiCode() + fg.getAnsiCode();
     }
