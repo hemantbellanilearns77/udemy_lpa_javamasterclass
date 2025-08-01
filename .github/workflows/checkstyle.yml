@@ -20,4 +20,5 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Checkstyle Script
-        run: cmd /c scripts/run_checkstyle.bat
+        run: .\scripts\run_checkstyle.bat
+        shell: cmd
