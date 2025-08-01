@@ -103,7 +103,6 @@ public class ConsoleStyler {
         System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
     }
 
-
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting
     public static void styleEachAsIs(String labelPrefix, Object input) {
         styleEach(labelPrefix, input, false, false, false);
@@ -213,6 +212,7 @@ public class ConsoleStyler {
         }
 
         // 🎨 Styled Output
+        StringBuilder styledOutputBuilder = new StringBuilder();
         final AtomicInteger counter = new AtomicInteger(0);
         for (int i = 0; i < formattedItems.size(); i += (isTupleMode ? tupleSize : 1)) {
             final int tupleStart = i;
@@ -220,12 +220,17 @@ public class ConsoleStyler {
                 final String tuple = IntStream.range(0, tupleSize)
                         .mapToObj(j -> formattedItems.get(tupleStart + j).toString())
                         .collect(Collectors.joining(", "));
-                System.out.printf(CommonConstants.INDENT + "%s [%d] → (%s)%n",
+                styledOutputBuilder.append("%s%s [%d] → (%s)%n".formatted(CommonConstants.INDENT, labelPrefix,counter.getAndIncrement(),tuple));
+                /*
+                    System.out.printf(CommonConstants.INDENT + "%s [%d] → (%s)%n",
                         labelPrefix, counter.getAndIncrement(), tuple);
+                        */
             } else {
-                System.out.printf(CommonConstants.INDENT + "%s [%d] %s%n", labelPrefix, counter.getAndIncrement(), formattedItems.get(i));
+                styledOutputBuilder.append("%s [%d] %s%s".formatted( labelPrefix,counter.getAndIncrement(),formattedItems.get(i),"\t"));
+                //System.out.printf(CommonConstants.INDENT + "%s [%d] %s%n", labelPrefix, counter.getAndIncrement(), formattedItems.get(i));
             }
         }
+        ConsoleStyler.styleOutput(null, styledOutputBuilder.toString());
     }
 
     public static String applyStyling(String text, SemanticColorRole semanticColorRole,

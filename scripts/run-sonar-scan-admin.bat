@@ -52,7 +52,7 @@ for /f "delims=" %%F in ('dir /b /a:-d /o-d reports\pmd\pmd-*.xml') do (
 :foundPMD
 
 :: Inject Sonar Token
-set SONAR_TOKEN=6a22ba096673bafdca4fd3d92332fdf222cf8cad
+REM set SONAR_TOKEN=not-sharing it here... 
 
 :: Create Log Folder
 if not exist "%logFolder%" mkdir "%logFolder%"
