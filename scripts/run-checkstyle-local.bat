@@ -8,20 +8,20 @@ echo ===================================================
 :: === Set working directory ===
 cd /d "%~dp0.."
 set "REPO_ROOT=%CD%"
-
+echo REPO_ROOT ------------  !REPO_ROOT!
 :: === Timestamp ===
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
     set "timestamp=%%i"
 )
 
 :: === Paths ===
-set "CHECKSTYLE_JAR=tools\checkstyle\checkstyle-10.26.1-all.jar"
-set "RULESET=config\checkstyle\checkstyle.xml"
-set "REPORT_DIR=reports\checkstyle"
-set "LOG_DIR=logs\checkstyle-logs"
-set "REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.xml"
+set "CHECKSTYLE_JAR=%REPO_ROOT%\tools\checkstyle\checkstyle-10.26.1-all\checkstyle-10.26.1-all.jar"
+set "RULESET=%REPO_ROOT%\config\checkstyle\checkstyle.xml"
+set "REPORT_DIR=%REPO_ROOT%\reports\checkstyle"
+set "LOG_DIR=%REPO_ROOT%\logs\checkstyle-logs"
+set "REPORT_PATH=%REPORT_DIR%\checkstyle-%timestamp%.xml"
 set "LOG_PATH=%LOG_DIR%\checkstyle-log-%timestamp%.txt"
-
+echo CHECKSTYLE_JAR ------------  !CHECKSTYLE_JAR! 
 :: === Create folders if missing ===
 if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
