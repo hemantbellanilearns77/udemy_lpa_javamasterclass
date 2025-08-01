@@ -5,10 +5,9 @@ echo ===================================================
 echo ?? Checkstyle Scanner — XML Output for SonarCloud
 echo ===================================================
 
-:: === Preserve original directory ===
-set "originalDir=%CD%"
-REM cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
+:: === Set working directory ===
 cd /d "%~dp0.."
+set "REPO_ROOT=%CD%"
 
 :: === Timestamp ===
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
@@ -16,7 +15,6 @@ for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do
 )
 
 :: === Paths ===
-REM set "CHECKSTYLE_JAR=D:\Tools\checkstyle-10.26.1-all\checkstyle-10.26.1-all.jar"
 set "CHECKSTYLE_JAR=tools\checkstyle\checkstyle-10.26.1-all.jar"
 set "RULESET=config\checkstyle\checkstyle.xml"
 set "REPORT_DIR=reports\checkstyle"
@@ -31,14 +29,10 @@ if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 :: === Validate ruleset and jar ===
 if not exist "%RULESET%" (
     echo ? Ruleset not found: %RULESET%
-    cd /d "%originalDir%"
-    pause
     exit /b 1
 )
 if not exist "%CHECKSTYLE_JAR%" (
     echo ? Checkstyle JAR missing: %CHECKSTYLE_JAR%
-    cd /d "%originalDir%"
-    pause
     exit /b 1
 )
 
@@ -48,7 +42,7 @@ set "SOURCE_DIRS="
 echo.
 echo ?? Scanning source modules...
 for %%P in (%MODULE_PATHS%) do (
-    set "tempPath=D:\GitHubRepos\udemy_lpa_javamasterclass\%%P"
+    set "tempPath=!REPO_ROOT!\%%P"
     if exist "!tempPath!" (
         echo   ? Found: !tempPath!
         for /f %%C in ('dir /b /s "!tempPath!\*.java" ^| find /c /v ""') do (
@@ -67,8 +61,6 @@ for %%P in (%MODULE_PATHS%) do (
 :: === Validation ===
 if "!SOURCE_DIRS!"=="" (
     echo ? No valid Java source directories found.
-    cd /d "%originalDir%"
-    pause
     exit /b 1
 )
 
@@ -108,16 +100,12 @@ if exist "%REPORT_PATH%" (
 )
 
 :: === Optional Threshold Exit ===
-:: Uncomment to activate exit-on-violation threshold
 :: set "maxViolations=10"
 :: if !violationCount! GEQ !maxViolations! (
 ::     echo ? Violation threshold exceeded: !violationCount! = !maxViolations!
-::     cd /d "%originalDir%"
 ::     exit /b 1
 :: )
 
 :: === Wrap-up ===
 echo.
 echo ?? Execution log saved: %LOG_PATH%
-cd /d "%originalDir%"
-pause
