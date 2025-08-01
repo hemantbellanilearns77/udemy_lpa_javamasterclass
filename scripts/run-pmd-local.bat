@@ -3,18 +3,15 @@ setlocal EnableDelayedExpansion
 
 :: === Preserve original directory ===
 set "originalDir=%CD%"
-REM cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
-cd /d "%~dp0.."
-set "REPO_ROOT=%CD%"
-echo REPO_ROOT ------------  !REPO_ROOT!
-echo originalDir is --------------- !originalDir!
+cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
+
 :: === Timestamp ===
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
     set "timestamp=%%i"
 )
 
 :: === PMD setup ===
-set "PMD_HOME=!REPO_ROOT!\tools\pmd\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
+set "PMD_HOME=D:\Tools\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
 set "CLASSPATH="
 for %%F in ("%PMD_HOME%\lib\*.jar") do (
     if defined CLASSPATH (
@@ -25,12 +22,12 @@ for %%F in ("%PMD_HOME%\lib\*.jar") do (
 )
 
 :: === Rule and output paths ===
-set "RULESET=!REPO_ROOT!\config\pmd\pmd-ruleset.xml"
-set "REPORT_DIR=!REPO_ROOT!\reports\pmd"
-set "LOG_DIR=!REPO_ROOT!\logs\pmd-scan-logs"
-set "REPORT_TXT=%REPORT_DIR%\pmd-report-%timestamp%.txt"
-set "REPORT_XML=%REPORT_DIR%\pmd-report-%timestamp%.xml"
-set "LOG_PATH=%LOG_DIR%\pmd-log-%timestamp%.txt"
+set "RULESET=config\pmd\pmd-ruleset.xml"
+set "REPORT_DIR=reports\pmd"
+set "LOG_DIR=logs\pmd-scan-logs"
+set "REPORT_TXT=%REPORT_DIR%\pmd-%timestamp%-report.txt"
+set "REPORT_XML=%REPORT_DIR%\pmd-%timestamp%-report.xml"
+set "LOG_PATH=%LOG_DIR%\pmd-%timestamp%.txt"
 
 :: === Resolve absolute report paths ===
 for %%F in ("%REPORT_TXT%") do set "REPORT_TXT_FULL=%%~fF"
@@ -41,7 +38,7 @@ set "MODULE_PATHS=misc_utils\src\main\java src\main\java"
 set "SOURCE_DIRS="
 echo Scanning source modules...
 for %%P in (%MODULE_PATHS%) do (
-    set "tempPath=!REPO_ROOT!\%%P"
+    set "tempPath=D:\GitHubRepos\udemy_lpa_javamasterclass\%%P"
     if exist "!tempPath!" (
         echo   ? Found: !tempPath!
         for /f %%C in ('dir /b /s "!tempPath!\*.java" ^| find /c /v ""') do (
@@ -78,13 +75,9 @@ if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 :: === Diagnostics ===
 echo.
 echo ===== DIAGNOSTICS =====
-echo CLASSPATH: HIDDEN TEMORARILY 
-REM !CLASSPATH!
-echo===================================================================================================================
+echo CLASSPATH: !CLASSPATH!
 echo SOURCE_DIRS: !SOURCE_DIRS!
-echo===================================================================================================================
 echo TEXT REPORT: !REPORT_TXT_FULL!
-echo===================================================================================================================
 echo XML REPORT:  !REPORT_XML_FULL!
 echo =======================
 echo.
@@ -110,8 +103,6 @@ java -cp "!CLASSPATH!" net.sourceforge.pmd.cli.PmdCli check ^
   >> "%LOG_PATH%" 2>&1
 
 :: === Validate Reports ===
-echo Checking for txt Report at: !REPORT_TXT_FULL!
-echo Checking for xml Report at: !REPORT_XML_FULL!
 echo.
 if exist "!REPORT_TXT_FULL!" (
     echo ? Text report generated.
