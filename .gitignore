@@ -58,7 +58,7 @@ reports/
 # PMD scan artifacts
 .pmd-cache.bin
 .pmd-baseline.bin
-
+.env
 /logs
 /purged/
 /purge-logs/

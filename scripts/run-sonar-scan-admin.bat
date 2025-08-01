@@ -128,7 +128,9 @@ if /I "%DRY_RUN%"=="true" (
     pause
     exit /b 0
 )
-
+for /f "tokens=1,2 delims==" %%a in (.env) do (
+  if "%%a"=="SONAR_TOKEN" set SONAR_TOKEN=%%b
+)
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 call sonar-scanner -X ^
