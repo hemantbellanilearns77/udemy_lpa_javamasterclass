@@ -132,14 +132,7 @@ if /I "%DRY_RUN%"=="true" (
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 call sonar-scanner -X ^
-  "-Dsonar.verbose=true" ^
   "-Dsonar.token=%SONAR_TOKEN%" ^
-  "-Dsonar.projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass" ^
-  "-Dsonar.organization=hemantbellanilearns77" ^
-  "-Dsonar.branch.name=!BRANCH_NAME!" ^
-  "-Dsonar.java.checkstyle.reportPaths=!checkstyleReportPath!" ^
-  "-Dsonar.java.pmd.reportPaths=!pmdReportPath!" ^
-  "-Dsonar.junit.reportPaths=D:\GitHubRepos\udemy_lpa_javamasterclass\reports\junit\latest" ^
   > "!logPath!" 2>&1
 
 echo ✅ Scan complete. Log saved to: !logPath!
