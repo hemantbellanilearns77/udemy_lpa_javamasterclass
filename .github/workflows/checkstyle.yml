@@ -1,0 +1,23 @@
+name: Run Checkstyle
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  checkstyle:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run Checkstyle Script
+        run: cmd /c scripts/run_checkstyle.bat
