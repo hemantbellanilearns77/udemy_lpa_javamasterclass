@@ -47,6 +47,10 @@ This repo was previously private and is now public to:
   ```
 - Some folders (e.g., `IO_NIO`, `Concurrency`) may have dependencies on standard Java libraries or package structures. Adjust classpaths as needed.
 
+## Badge
+
+[![Run Checkstyle](https://github.com/hemantbellanilearns77/udemy_lpa_javamasterclass/actions/workflows/checkstyle.yml/badge.svg)](https://github.com/hemantbellanilearns77/udemy_lpa_javamasterclass/actions/workflows/checkstyle.yml)
+
 ## 📅 Study Focus
 
 I dedicate ~30 hours/week (Mon–Fri) on this learning path, balancing Java practice with certification prep.
