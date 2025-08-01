@@ -14,7 +14,7 @@ public class ColorGenerator {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-     
+
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -25,13 +25,14 @@ public class ColorGenerator {
          */
         //your own code here; recommended to divide in function calls
         generateColors(false);
+        generateBrilliantColors(false);
         /*
          *****************************************************
          */
         execution.finalizeExecution();
     }
 
-    /*private static void generateColors() {
+    private static void generateBrilliantColors(boolean showColorPreview) {
 
         Random random = new Random();
         int count = 0;
@@ -58,9 +59,14 @@ public class ColorGenerator {
             String completeString = name + "(\"" + code + "\"),";
 
             System.out.println(completeString);
+            // 🌈 Optional visual preview (uncomment to display while generating)
+            if(showColorPreview) {
+                String liveAnsi = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                System.out.println(liveAnsi + "█ " + name + "\u001B[0m");
+            }
             count++;
         }
-    }*/
+    }
     private static void generateColors(boolean showColorPreview) {
         Random random = new Random();
         Set<String> seenPatterns = new HashSet<>();

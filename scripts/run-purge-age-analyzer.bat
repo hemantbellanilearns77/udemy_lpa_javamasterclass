@@ -16,8 +16,8 @@ if /i "%1"=="--execute" set "mode=EXECUTE"
 echo MODE: !mode!
 
 :: === CONFIG ===
-set "root=D:\Temp\dummyJavaProject\archived"
-set "logDir=D:\Temp\dummyJavaProject\purge-logs"
+set "root=D:\GitHubRepos\udemy_lpa_javamasterclass\archived" 
+set "logDir=D:\GitHubRepos\udemy_lpa_javamasterclass\purge-logs"
 
 if not exist "%logDir%" mkdir "%logDir%"
 

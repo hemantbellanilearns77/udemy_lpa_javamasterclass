@@ -77,8 +77,6 @@ for %%R in (logs reports) do (
                             if not exist "!destDir!" md "!destDir!"
                             move /Y "!srcPath!" "!destPath!" >nul
                         )
-
-                        
                         set "archivedList=!archivedList!!fileName!, "
                     )
                 )
