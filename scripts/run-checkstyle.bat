@@ -7,7 +7,8 @@ echo ===================================================
 
 :: === Preserve original directory ===
 set "originalDir=%CD%"
-cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
+REM cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
+cd /d "%~dp0.."
 
 :: === Timestamp ===
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
@@ -15,7 +16,8 @@ for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do
 )
 
 :: === Paths ===
-set "CHECKSTYLE_JAR=D:\Tools\checkstyle-10.26.1-all\checkstyle-10.26.1-all.jar"
+REM set "CHECKSTYLE_JAR=D:\Tools\checkstyle-10.26.1-all\checkstyle-10.26.1-all.jar"
+set "CHECKSTYLE_JAR=tools\checkstyle\checkstyle-10.26.1-all.jar"
 set "RULESET=config\checkstyle\checkstyle.xml"
 set "REPORT_DIR=reports\checkstyle"
 set "LOG_DIR=logs\checkstyle-logs"
