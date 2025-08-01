@@ -17,13 +17,13 @@ public class CollectionIntro {
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-        ConsoleStyler.startSection("""
-                This class demonstratively introduces Collections framework at a very high level."""); // required
+        ConsoleStyler.startSection("This class demonstratively introduces Collections framework at a very high level."); // required
         ConsoleStyler.styleInitializationInfo("""
                 A collection of first names has been initialized and
                 a String Array along with
                 a few other local variables"""); // optional
-
+        final String LABELPREFIX_NAME = "Name -> ";
+        final String GARY = "Gary";
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Demonstrating a few basic calls on methods of Collection Interface"); // optional
 
@@ -33,30 +33,25 @@ public class CollectionIntro {
                 Demonstrating basic add and addAll of elements to the Collection
                 """);
         list.addAll(Arrays.asList(names));
-        ConsoleStyler.styleEachAsIs("Name -> " , names);
+        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
 
         list.add("Fred");
-        list.addAll(Arrays.asList("George", "Gary", "Grace"));
-        ConsoleStyler.styleEachAsIs("Name -> " , names);
+        list.addAll(Arrays.asList("George", GARY, "Grace"));
+        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
         ConsoleStyler.styleOutput(null, """
-        Gary is in the list?""" + list.contains("Gary"));
+        Gary is in the list?""" + list.contains(GARY));
         ConsoleStyler.halfDivider();
 
-        ConsoleStyler.styleExecutionInsight("""
-                Demonstrating removeif(filter is true) of elements to the Collection
-                """);
+        ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");
         list.removeIf(s -> s.charAt(0) == 'G');
-        ConsoleStyler.styleEachAsIs("Name -> " , names);
+        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
         ConsoleStyler.styleOutput(null, """
-        Gary is in the list?""" + list.contains("Gary"));
+        Gary is in the list?""" + list.contains(GARY));
 
         ConsoleStyler.halfDivider();
-        ConsoleStyler.styleExecutionInsight("""
-                Demonstrating removeif(filter is true) of elements to the Collection
-                """);
+        ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");
 
-        ConsoleStyler.endSection("""
-                This class demonstratively introduces Collections framework at a very high level."""); // required
+        ConsoleStyler.endSection("This class demonstratively introduces Collections framework at a very high level."); // required
         execution.finalizeExecution();
     }
 }
