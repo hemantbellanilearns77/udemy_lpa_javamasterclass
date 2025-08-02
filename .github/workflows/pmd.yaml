@@ -22,8 +22,7 @@ jobs:
       - name: Download and Extract PMD
         run: |
           curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-          mkdir tools\pmd\pmd-dist-7.15.0-bin
-          tar -xf pmd.zip -C tools\pmd\pmd-dist-7.15.0-bin
+          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd\pmd-dist-7.15.0-bin'"
         shell: cmd
 
       - name: Verify PMD Directory
