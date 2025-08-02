@@ -1,144 +1,90 @@
 @echo off
-setlocal EnableDelayedExpansion
+setlocal enabledelayedexpansion
 
-:: === Preserve original directory ===
-set "originalDir=%CD%"
-REM cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
-cd /d "%~dp0.."
+:: === CONFIGURATION ===
+cd /d %~dp0..
 set "REPO_ROOT=%CD%"
-echo REPO_ROOT ------------  !REPO_ROOT!
-echo originalDir is --------------- !originalDir!
-:: === Timestamp ===
-for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do (
-    set "timestamp=%%i"
-)
+set "PMD_HOME=%REPO_ROOT%\tools\pmd\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
+set "SRC_DIRS=%REPO_ROOT%\misc_utils\src\main\java,%REPO_ROOT%\src\main\java"
+set "RULESET=%REPO_ROOT%\config\pmd\pmd-ruleset.xml"
 
-:: === PMD setup ===
-set "PMD_HOME=!REPO_ROOT!\tools\pmd\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
-set "CLASSPATH="
-for %%F in ("%PMD_HOME%\lib\*.jar") do (
-    if defined CLASSPATH (
-        set "CLASSPATH=!CLASSPATH!;%%~fF"
-    ) else (
-        set "CLASSPATH=%%~fF"
-    )
-)
+:: === TIMESTAMP ===
+for /f "tokens=1-2 delims= " %%a in ('echo %DATE% %TIME%') do set TS=%%a--%%b
+set "TS=%TS::=-%"
+set "TS=%TS:/=-%"
+set "TS=%TS: =0%"
+set "TS=%TS:.=-%"
 
-:: === Rule and output paths ===
-set "RULESET=!REPO_ROOT!\config\pmd\pmd-ruleset.xml"
-set "REPORT_DIR=!REPO_ROOT!\reports\pmd"
-set "LOG_DIR=!REPO_ROOT!\logs\pmd-scan-logs"
-set "REPORT_TXT=%REPORT_DIR%\pmd-report-%timestamp%.txt"
-set "REPORT_XML=%REPORT_DIR%\pmd-report-%timestamp%.xml"
-set "LOG_PATH=%LOG_DIR%\pmd-log-%timestamp%.txt"
+:: === OUTPUT PATHS ===
+set "REPORTS_DIR=%REPO_ROOT%\reports\pmd"
+set "LOGS_DIR=%REPO_ROOT%\logs\pmd-analysis-logs"
+set "TEXT_REPORT=%REPORTS_DIR%\pmd-report-%TS%.txt"
+set "XML_REPORT=%REPORTS_DIR%\pmd-report-%TS%-report.xml"
+set "LOG_FILE=%LOGS_DIR%\pmd-log-%TS%.txt"
 
-:: === Resolve absolute report paths ===
-for %%F in ("%REPORT_TXT%") do set "REPORT_TXT_FULL=%%~fF"
-for %%F in ("%REPORT_XML%") do set "REPORT_XML_FULL=%%~fF"
+if not exist "%REPORTS_DIR%" mkdir "%REPORTS_DIR%"
+if not exist "%LOGS_DIR%" mkdir "%LOGS_DIR%"
 
-:: === Define modules ===
-set "MODULE_PATHS=misc_utils\src\main\java src\main\java"
-set "SOURCE_DIRS="
-echo Scanning source modules...
-for %%P in (%MODULE_PATHS%) do (
-    set "tempPath=!REPO_ROOT!\%%P"
-    if exist "!tempPath!" (
-        echo   ? Found: !tempPath!
-        for /f %%C in ('dir /b /s "!tempPath!\*.java" ^| find /c /v ""') do (
-            echo     ? %%C Java files in module
-        )
-        if defined SOURCE_DIRS (
-            set "SOURCE_DIRS=!SOURCE_DIRS!,!tempPath!"
-        ) else (
-            set "SOURCE_DIRS=!tempPath!"
-        )
-    ) else (
-        echo   ? Skipped: !tempPath!
-    )
-)
+:: === CLASSPATH (Wildcard) ===
+set "CLASSPATH=%PMD_HOME%\lib\*"
 
-:: === Validations ===
-if "!SOURCE_DIRS!"=="" (
-    echo ERROR: No valid source directories found.
-    cd /d "%originalDir%"
-    pause
-    exit /b
-)
-
-if not exist "%RULESET%" (
-    echo ERROR: Ruleset file missing — %RULESET%
-    cd /d "%originalDir%"
-    pause
-    exit /b
-)
-
-if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
-if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
-
-:: === Diagnostics ===
+:: === DIAGNOSTICS ===
 echo.
-echo ===== DIAGNOSTICS =====
-echo CLASSPATH: HIDDEN TEMORARILY 
-REM !CLASSPATH!
-echo===================================================================================================================
-echo SOURCE_DIRS: !SOURCE_DIRS!
-echo===================================================================================================================
-echo TEXT REPORT: !REPORT_TXT_FULL!
-echo===================================================================================================================
-echo XML REPORT:  !REPORT_XML_FULL!
-echo =======================
+echo ===== PMD LOCAL ANALYSIS =====
+echo REPO_ROOT:   %REPO_ROOT%
+echo PMD_HOME:    %PMD_HOME%
+echo CLASSPATH:   %CLASSPATH%
+echo SOURCE DIRS: %SRC_DIRS%
+echo RULESET:     %RULESET%
+echo TEXT REPORT: %TEXT_REPORT%
+echo XML REPORT:  %XML_REPORT%
+echo ===========================================
 echo.
 
-:: === Run PMD Text ===
+:: === RUN PMD ANALYSIS (TEXT) ===
 echo Running PMD Text Analysis...
-java -cp "!CLASSPATH!" net.sourceforge.pmd.cli.PmdCli check ^
-  --no-cache ^
-  --dir "!SOURCE_DIRS!" ^
+java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+  --no-progress ^
   --rulesets "%RULESET%" ^
+  --dir "%SRC_DIRS%" ^
   --format text ^
-  --report-file "!REPORT_TXT_FULL!" ^
-  > "%LOG_PATH%" 2>&1
-
-:: === Run PMD XML ===
+  --report-file "%TEXT_REPORT%" ^
+  > "%LOG_FILE%" 2>&1
+:: === RUN PMD ANALYSIS (XML) ===
 echo Running PMD XML Analysis...
-java -cp "!CLASSPATH!" net.sourceforge.pmd.cli.PmdCli check ^
-  --no-cache ^
-  --dir "!SOURCE_DIRS!" ^
+java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+  --no-progress ^
   --rulesets "%RULESET%" ^
+  --dir "%SRC_DIRS%" ^
   --format xml ^
-  --report-file "!REPORT_XML_FULL!" ^
-  >> "%LOG_PATH%" 2>&1
-
-:: === Validate Reports ===
-echo Checking for txt Report at: !REPORT_TXT_FULL!
-echo Checking for xml Report at: !REPORT_XML_FULL!
+  --report-file "%XML_REPORT%" ^
+  >> "%LOG_FILE%" 2>&1
+:: === FINAL CHECKS ===
 echo.
-if exist "!REPORT_TXT_FULL!" (
-    echo ? Text report generated.
+if exist "%TEXT_REPORT%" (
+    echo ? Text report generated at: %TEXT_REPORT%
 ) else (
-    echo ? Missing text report!
+    echo ? Text report missing
 )
 
-if exist "!REPORT_XML_FULL!" (
-    echo ? XML report generated.
+if exist "%XML_REPORT%" (
+    echo ? XML report generated at: %XML_REPORT%
 ) else (
-    echo ? Missing XML report!
+    echo ? XML report missing
 )
 
 :: === Violation Summary ===
-if exist "!REPORT_TXT_FULL!" (
+if exist "!TEXT_REPORT!" (
     echo.
     echo ===== VIOLATION SUMMARY =====
     set "violationCount=0"
-    for /f "usebackq delims=" %%L in ("!REPORT_TXT_FULL!") do (
+    for /f "usebackq delims=" %%L in ("!TEXT_REPORT!") do (
         set /a violationCount+=1
     )
     echo Total Violations: !violationCount!
     echo =============================
 )
-
-:: === Wrap-up ===
 echo.
-echo Execution log saved: %LOG_PATH%
-cd /d "%originalDir%"
-pause
+echo Log file (if redirected): %LOG_FILE%
+echo Done.
+endlocal
