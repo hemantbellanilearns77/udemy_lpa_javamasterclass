@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 :: === SETUP ===
 cd /d %~dp0..
 set "REPO_ROOT=%CD%"
-set "PMD_HOME=%REPO_ROOT%\tools\pmd\pmd-dist-7.15.0-bin\pmd-bin-7.15.0"
+set "PMD_HOME=%REPO_ROOT%\tools\pmd\pmd-bin-7.15.0"
 set "SRC_DIRS=%REPO_ROOT%\misc_utils\src\main\java,%REPO_ROOT%\src\main\java"
 set "RULESET=%REPO_ROOT%\config\pmd\pmd-ruleset.xml"
 
