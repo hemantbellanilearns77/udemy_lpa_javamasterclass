@@ -26,7 +26,16 @@ if not exist "%REPORTS_DIR%" mkdir "%REPORTS_DIR%"
 if not exist "%LOGS_DIR%" mkdir "%LOGS_DIR%"
 
 :: === CLASSPATH (Wildcard) ===
-set "CLASSPATH=%PMD_HOME%\lib\*"
+REM set "CLASSPATH=%PMD_HOME%\lib\*"
+:: Construct classpath manually (already done in working script)
+set CLASSPATH=
+for %%J in ("%PMD_HOME%\lib\*.jar") do (
+    if defined CLASSPATH (
+        set CLASSPATH=!CLASSPATH!;%%~fJ
+    ) else (
+        set CLASSPATH=%%~fJ
+    )
+)
 
 :: === DIAGNOSTICS ===
 echo.
