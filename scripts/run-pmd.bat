@@ -26,29 +26,50 @@ mkdir "%REPORTS_DIR%" 2>nul
 mkdir "%LOGS_DIR%" 2>nul
 
 :: === CLASSPATH BUILD ===
-set CLASSPATH=
-for %%J in ("%PMD_HOME%\lib\*.jar") do (
-    if defined CLASSPATH (
-        set CLASSPATH=!CLASSPATH!;%%~fJ
-    ) else (
-        set CLASSPATH=%%~fJ
-    )
-)
+REM set CLASSPATH=
+REM for %%J in ("%PMD_HOME%\lib\*.jar") do (
+    REM if defined CLASSPATH (
+        REM set CLASSPATH=!CLASSPATH!;%%~fJ
+    REM ) else (
+        REM set CLASSPATH=%%~fJ
+    REM )
+REM )
 
 :: === DIAGNOSTICS ===
 echo ===== PMD ANALYSIS START =====
 echo REPO_ROOT:   %REPO_ROOT%
 echo PMD_HOME:    %PMD_HOME%
-echo CLASSPATH:   %CLASSPATH%
+REM echo CLASSPATH:   %CLASSPATH%
+echo CLASSPATH:   using PMD wrapper script – no longer needed
 echo SOURCE DIRS: %SRC_DIRS%
 echo RULESET:     %RULESET%
 echo TEXT REPORT: %TEXT_REPORT%
 echo XML REPORT:  %XML_REPORT%
 echo ===========================================
 
-:: === PMD TEXT REPORT ===
+REM :: === PMD TEXT REPORT ===
+REM echo Running PMD Text Analysis...
+REM java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+  REM --no-progress ^
+  REM --rulesets "%RULESET%" ^
+  REM --dir "%SRC_DIRS%" ^
+  REM --format text ^
+  REM --report-file "%TEXT_REPORT%" ^
+  REM > "%LOG_FILE%" 2>&1
+
+REM :: === PMD XML REPORT ===
+REM echo Running PMD XML Analysis...
+REM java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+  REM --no-progress ^
+  REM --rulesets "%RULESET%" ^
+  REM --dir "%SRC_DIRS%" ^
+  REM --format xml ^
+  REM --report-file "%XML_REPORT%" ^
+  REM >> "%LOG_FILE%" 2>&1
+  
+:: === RUN PMD ANALYSIS (TEXT) ===
 echo Running PMD Text Analysis...
-java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+call "%PMD_HOME%\bin\pmd.bat" check ^
   --no-progress ^
   --rulesets "%RULESET%" ^
   --dir "%SRC_DIRS%" ^
@@ -56,15 +77,16 @@ java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
   --report-file "%TEXT_REPORT%" ^
   > "%LOG_FILE%" 2>&1
 
-:: === PMD XML REPORT ===
+:: === RUN PMD ANALYSIS (XML) ===
 echo Running PMD XML Analysis...
-java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
+call "%PMD_HOME%\bin\pmd.bat" check ^
   --no-progress ^
   --rulesets "%RULESET%" ^
   --dir "%SRC_DIRS%" ^
   --format xml ^
   --report-file "%XML_REPORT%" ^
   >> "%LOG_FILE%" 2>&1
+
 
 :: === CHECK OUTPUT ===
 echo.
