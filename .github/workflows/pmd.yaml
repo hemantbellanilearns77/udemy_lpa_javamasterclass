@@ -19,10 +19,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Download and Extract PMD
+      - name: Download PMD ZIP
+        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+        shell: bash
+
+      - name: Extract PMD ZIP
         run: |
-          curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd\pmd-dist-7.15.0-bin'"
+          mkdir -p tools/pmd
+          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
         shell: cmd
 
       - name: Verify PMD Directory
