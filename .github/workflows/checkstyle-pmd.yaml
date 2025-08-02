@@ -1,0 +1,82 @@
+name: Checkstyle + PMD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  static-analysis:
+    name: Static Code Analysis
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # Setup Java
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      ##########################
+      # DOWNLOAD: Checkstyle
+      ##########################
+      - name: 📦 Download Checkstyle
+        run: |
+          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar
+          mkdir tools\checkstyle
+          move checkstyle.jar tools\checkstyle\checkstyle.jar
+
+      ##########################
+      # DOWNLOAD: PMD
+      ##########################
+      - name: 📦 Download and Extract PMD
+        run: |
+          curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+          mkdir tools\pmd
+          tar -xf pmd.zip -C tools\pmd
+
+      ##########################
+      # RUN: Checkstyle Analysis
+      ##########################
+      - name: 🧼 Run Checkstyle
+        run: scripts\run-checkstyle.bat
+
+      ##########################
+      # RUN: PMD Analysis
+      ##########################
+      - name: 🔍 Run PMD
+        run: scripts\run-pmd.bat
+
+      ##########################
+      # UPLOAD: Reports as Artifacts
+      ##########################
+      - name: ⬆️ Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-analysis-reports
+          path: |
+            reports\checkstyle\*.*
+            reports\pmd\*.*
+            logs\checkstyle-logs\*.*
+            logs\pmd-analysis-logs\*.*
+
+      ##########################
+      # SUMMARY: Violation Table
+      ##########################
+      - name: 📊 Post Violation Summary
+        shell: bash
+        run: |
+          echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+
+          CHECKSTYLE_COUNT=$(find reports/checkstyle -name "*.txt" -exec cat {} \; | wc -l)
+          PMD_COUNT=$(find reports/pmd -name "*-report.txt" -exec cat {} \; | wc -l)
+
+          echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
+          echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Violations  | $CHECKSTYLE_COUNT+$PMD_COUNT      |" >> $GITHUB_STEP_SUMMARY
