@@ -30,11 +30,7 @@ REM set "CLASSPATH=%PMD_HOME%\lib\*"
 :: Construct classpath manually (already done in working script)
 set CLASSPATH=
 for %%J in ("%PMD_HOME%\lib\*.jar") do (
-    if defined CLASSPATH (
-        set CLASSPATH=!CLASSPATH!;%%~fJ
-    ) else (
-        set CLASSPATH=%%~fJ
-    )
+    call set "CLASSPATH=%%CLASSPATH%%;%%~fJ"
 )
 
 :: === DIAGNOSTICS ===
