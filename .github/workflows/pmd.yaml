@@ -23,13 +23,13 @@ jobs:
         run: dir /s /b
         shell: cmd
 
-      - name: Download PMD CLI (v7.15.0)
+      - name: Download PMD
         run: |
           mkdir tools\pmd
-          curl -L -o tools\pmd\pmd-dist.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-          powershell -Command "Expand-Archive -Path tools\pmd\pmd-dist.zip -DestinationPath tools\pmd"
+          curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+          tar -xf pmd.zip -C tools\pmd
 
-      - name: Run PMD Analysis Script
+      - name: Run PMD Analysis
         run: scripts\run-pmd.bat
 
       - name: Upload PMD Reports
@@ -37,5 +37,6 @@ jobs:
         with:
           name: pmd-reports
           path: |
-            reports\pmd
-            logs\pmd-analysis-logs
+            reports/pmd
+            logs/pmd-analysis-logs
+      
