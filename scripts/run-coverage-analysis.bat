@@ -47,25 +47,25 @@ if "!compileNeeded!"=="true" (
 
     echo ? Compiling udemy_lpa_javamasterclass  >> "%logFile%"
     dir /s /b "%PROJECT_ROOT%\src\main\java\*.java" > sources_main_master.txt
-    "%JAVA_HOME%\bin\javac" --enable-preview --release 17 -encoding UTF-8 -d "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_main_master.txt >> "%logFile%" 2>&1
+    "%JAVA_HOME%\bin\javac" --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_main_master.txt >> "%logFile%" 2>&1
 
     echo ? Compiling misc_utils depends on masterclass >> "%logFile%"
     dir /s /b "%PROJECT_ROOT%\misc_utils\src\main\java\*.java" > sources_main_misc.txt
-    "%JAVA_HOME%\bin\javac" --enable-preview --release 17 -encoding UTF-8 -d "%OUT_PROD_DIR%\misc_utils" -cp "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_main_misc.txt >> "%logFile%" 2>&1
+    "%JAVA_HOME%\bin\javac" --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD_DIR%\misc_utils" -cp "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_main_misc.txt >> "%logFile%" 2>&1
 
     echo ? Compiling udemy_lpa_javamasterclass TEST classes  >> "%logFile%"
     dir /s /b "%PROJECT_ROOT%\src\test\java\*.java" > sources_test_master.txt
-    "%JAVA_HOME%\bin\javac" --enable-preview --release 17 -encoding UTF-8 -d "%OUT_TEST_DIR%\udemy_lpa_javamasterclass" -cp "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_test_master.txt >> "%logFile%" 2>&1
+    "%JAVA_HOME%\bin\javac" --enable-preview --release 24 -encoding UTF-8 -d "%OUT_TEST_DIR%\udemy_lpa_javamasterclass" -cp "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_test_master.txt >> "%logFile%" 2>&1
 
     echo ? Compiling misc_utils TEST classes  >> "%logFile%"
     dir /s /b "%PROJECT_ROOT%\misc_utils\src\test\java\*.java" > sources_test_misc.txt
-    "%JAVA_HOME%\bin\javac" --enable-preview --release 17 -encoding UTF-8 -d "%OUT_TEST_DIR%\misc_utils" -cp "%OUT_PROD_DIR%\misc_utils;%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_test_misc.txt >> "%logFile%" 2>&1
+    "%JAVA_HOME%\bin\javac" --enable-preview --release 24 -encoding UTF-8 -d "%OUT_TEST_DIR%\misc_utils" -cp "%OUT_PROD_DIR%\misc_utils;%OUT_PROD_DIR%\udemy_lpa_javamasterclass" @sources_test_misc.txt >> "%logFile%" 2>&1
 ) else (
     echo ? Using precompiled class files >> "%logFile%"
 )
 
 :: ========== RUN TESTS ==========
-"%JAVA_HOME%\bin\java" --enable-preview -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
+"%JAVA_HOME%\bin\java" --enable-preview --release 24 -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
     -jar "%JUNIT_CONSOLE_JAR%" ^
     --class-path "%OUT_PROD_DIR%\udemy_lpa_javamasterclass;%OUT_PROD_DIR%\misc_utils;%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
     --scan-class-path "%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
@@ -77,7 +77,7 @@ if not exist "%REPORT_DIR%\%execFile%" (
 )
 
 :: ========== GENERATE REPORT ==========
-"%JAVA_HOME%\bin\java" --enable-preview -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
+"%JAVA_HOME%\bin\java" --enable-preview --release 24 -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
     --classfiles "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" ^
     --classfiles "%OUT_PROD_DIR%\misc_utils" ^
     --sourcefiles "%PROJECT_ROOT%\src\main\java" ^
