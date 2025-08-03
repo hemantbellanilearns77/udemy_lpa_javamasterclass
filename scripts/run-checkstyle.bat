@@ -19,7 +19,8 @@ set "CHECKSTYLE_JAR=tools\checkstyle\checkstyle-10.26.1-all.jar"
 set "RULESET=config\checkstyle\checkstyle.xml"
 set "REPORT_DIR=reports\checkstyle"
 set "LOG_DIR=logs\checkstyle-logs"
-set "REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.xml"
+set "TEXT_REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.txt"
+set "XML_REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.xml"
 set "LOG_PATH=%LOG_DIR%\checkstyle-log-%timestamp%.txt"
 
 :: === Create folders if missing ===
@@ -64,32 +65,51 @@ if "!SOURCE_DIRS!"=="" (
     exit /b 1
 )
 
-:: === Run Checkstyle ===
+:: === Run Checkstyle - Text ===
+echo.
+echo ?? Running Checkstyle...
+java -jar "%CHECKSTYLE_JAR%" ^
+  -c "%RULESET%" ^
+  -f txt ^
+  -o "%TEXT_REPORT_PATH%" ^
+  !SOURCE_DIRS! ^
+  > "%LOG_PATH%" 2>&1
+  
+:: === Run Checkstyle - XML ===
 echo.
 echo ?? Running Checkstyle...
 java -jar "%CHECKSTYLE_JAR%" ^
   -c "%RULESET%" ^
   -f xml ^
-  -o "%REPORT_PATH%" ^
+  -o "%XML_REPORT_PATH%" ^
   !SOURCE_DIRS! ^
   > "%LOG_PATH%" 2>&1
 
-:: === Confirm report ===
+:: === Confirm text report ===
 echo.
-if exist "%REPORT_PATH%" (
-    echo ? XML report generated: %REPORT_PATH%
+if exist "%XML_REPORT_PATH%" (
+    echo ? XML report generated: %XML_REPORT_PATH%
 ) else (
-    echo ? No report generated!
+    echo ? No XML report generated!
+)
+
+:: === Confirm xml report ===
+echo.
+if exist "%TEXT_REPORT_PATH%" (
+    echo ? TEXT  report generated: %TEXT_REPORT_PATH%
+) else (
+    echo ? No TEXT report generated!
 )
 
 :: === Append log summary ===
 >> "%LOG_PATH%" echo Checkstyle finished at: %timestamp%
->> "%LOG_PATH%" echo Report path: %REPORT_PATH%
+>> "%LOG_PATH%" echo TEXT Report path: %TEXT_REPORT_PATH%
+>> "%LOG_PATH%" echo XML Report path: %XML_REPORT_PATH%
 
 :: === Violation Summary ===
 set "violationCount=0"
-if exist "%REPORT_PATH%" (
-    for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%REPORT_PATH%"`) do (
+if exist "%XML_REPORT_PATH%" (
+    for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%XML_REPORT_PATH%"`) do (
         set /a violationCount+=1
     )
     echo.
