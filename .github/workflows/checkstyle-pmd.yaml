@@ -30,7 +30,7 @@ jobs:
       - name: 📦 Download Checkstyle
         run: |
           mkdir tools\checkstyle
-          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+          curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
       # move checkstyle.jar tools\checkstyle\checkstyle.jar
 
       ##########################
