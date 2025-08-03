@@ -54,20 +54,20 @@ jobs:
 
               echo ✍ Compiling udemy_lpa_javamasterclass
               dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
-              javac --enable-preview --release 17 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
+              javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
 
               echo ✍ Compiling misc_utils
               dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
-              javac --enable-preview --release 17 -encoding UTF-8 -d "%OUT_PROD%\misc_utils" -cp "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_misc.txt
+              javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\misc_utils" -cp "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_misc.txt
 
               echo ✍ Compiling tests (masterclass)
               dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
-              javac --enable-preview --release 17 -encoding UTF-8 -d "%OUT_TEST%\udemy_lpa_javamasterclass" -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils" @sources_test_main.txt
+              javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_TEST%\udemy_lpa_javamasterclass" -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils" @sources_test_main.txt
 
               echo ✍ Compiling tests (misc_utils)
               dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
               if exist sources_test_misc.txt (
-                javac --enable-preview --release 17 -encoding UTF-8 -d "%OUT_TEST%\misc_utils" -cp "%OUT_PROD%\misc_utils;%OUT_PROD%\udemy_lpa_javamasterclass" @sources_test_misc.txt
+                javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_TEST%\misc_utils" -cp "%OUT_PROD%\misc_utils;%OUT_PROD%\udemy_lpa_javamasterclass" @sources_test_misc.txt
               )
 
               del sources_*.txt >nul 2>&1
