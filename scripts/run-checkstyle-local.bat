@@ -19,7 +19,9 @@ set "CHECKSTYLE_JAR=%REPO_ROOT%\tools\checkstyle\checkstyle-10.26.1-all\checksty
 set "RULESET=%REPO_ROOT%\config\checkstyle\checkstyle.xml"
 set "REPORT_DIR=%REPO_ROOT%\reports\checkstyle"
 set "LOG_DIR=%REPO_ROOT%\logs\checkstyle-logs"
-set "REPORT_PATH=%REPORT_DIR%\checkstyle-%timestamp%.xml"
+REM set "REPORT_PATH=%REPORT_DIR%\checkstyle-%timestamp%.xml"
+set "TEXT_REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.txt"
+set "XML_REPORT_PATH=%REPORT_DIR%\checkstyle-report-%timestamp%.xml"
 set "LOG_PATH=%LOG_DIR%\checkstyle-log-%timestamp%.txt"
 echo CHECKSTYLE_JAR ------------  !CHECKSTYLE_JAR! 
 :: === Create folders if missing ===
@@ -64,22 +66,58 @@ if "!SOURCE_DIRS!"=="" (
     exit /b 1
 )
 
-:: === Run Checkstyle ===
+REM :: === Run Checkstyle ===
+REM echo.
+REM echo ?? Running Checkstyle...
+REM java -jar "%CHECKSTYLE_JAR%" ^
+  REM -c "%RULESET%" ^
+  REM -f xml ^
+  REM -o "%REPORT_PATH%" ^
+  REM !SOURCE_DIRS! ^
+  REM > "%LOG_PATH%" 2>&1
+
+REM :: === Confirm report ===
+REM echo.
+REM if exist "%REPORT_PATH%" (
+    REM echo ? XML report generated: %REPORT_PATH%
+REM ) else (
+    REM echo ? No report generated!
+REM )
+
+:: === Run Checkstyle - Text ===
 echo.
-echo ?? Running Checkstyle...
+echo ?? Running Checkstyle - text ...
+java -jar "%CHECKSTYLE_JAR%" ^
+  -c "%RULESET%" ^
+  -f plain ^
+  -o "%TEXT_REPORT_PATH%" ^
+  !SOURCE_DIRS! ^
+  > "%LOG_PATH%" 2>&1
+  
+:: === Run Checkstyle - XML ===
+echo.
+echo ?? Running Checkstyle - xml ...
 java -jar "%CHECKSTYLE_JAR%" ^
   -c "%RULESET%" ^
   -f xml ^
-  -o "%REPORT_PATH%" ^
+  -o "%XML_REPORT_PATH%" ^
   !SOURCE_DIRS! ^
   > "%LOG_PATH%" 2>&1
 
-:: === Confirm report ===
+:: === Confirm text report ===
 echo.
-if exist "%REPORT_PATH%" (
-    echo ? XML report generated: %REPORT_PATH%
+if exist "%XML_REPORT_PATH%" (
+    echo ? XML report generated: %XML_REPORT_PATH%
 ) else (
-    echo ? No report generated!
+    echo ? No XML report generated!
+)
+
+:: === Confirm xml report ===
+echo.
+if exist "%TEXT_REPORT_PATH%" (
+    echo ? TEXT  report generated: %TEXT_REPORT_PATH%
+) else (
+    echo ? No TEXT report generated!
 )
 
 :: === Append log summary ===
@@ -88,8 +126,8 @@ if exist "%REPORT_PATH%" (
 
 :: === Violation Summary ===
 set "violationCount=0"
-if exist "%REPORT_PATH%" (
-    for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%REPORT_PATH%"`) do (
+if exist "%XML_REPORT_PATH%" (
+    for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%XML_REPORT_PATH%"`) do (
         set /a violationCount+=1
     )
     echo.
