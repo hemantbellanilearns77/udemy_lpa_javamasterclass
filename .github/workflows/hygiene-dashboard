@@ -1,4 +1,4 @@
-name: Hygiene Check
+name: hygiene-checks
 
 on:
   push:
