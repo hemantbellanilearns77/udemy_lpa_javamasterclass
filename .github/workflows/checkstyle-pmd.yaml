@@ -89,23 +89,24 @@ jobs:
 
       - name: 📊 Post Violation Summary
         shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
           echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
-
+          
           CHECKSTYLE_COUNT=0
           PMD_COUNT=0
-
+          
+          # Count lines in Checkstyle TXT report that are not just whitespace
           if compgen -G "reports/checkstyle/*.txt" > /dev/null; then
-            CHECKSTYLE_COUNT=$(grep -hv '^\s*$' reports/checkstyle/*.txt | wc -l)
+            CHECKSTYLE_COUNT=$(grep -E "^[^[:space:]]" reports/checkstyle/*.txt | wc -l || echo 0)
           fi
-
-          if compgen -G "reports/pmd/*-report.txt" > /dev/null; then
-            PMD_COUNT=$(grep -hv '^\s*$' reports/pmd/*-report.txt | wc -l)
+          
+          # Count lines in PMD TXT report that begin with a drive letter or letter path (Windows paths)
+          if compgen -G "reports/pmd/*.txt" > /dev/null; then
+            PMD_COUNT=$(grep -E "^[A-Za-z]:" reports/pmd/*.txt | wc -l || echo 0)
           fi
-
+          
           echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
-
+          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
