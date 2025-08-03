@@ -83,9 +83,6 @@ jobs:
             logs\checkstyle-logs\*.*
             logs\pmd-analysis-logs\*.*
 
-      ##########################
-      # SUMMARY: Violation Table
-      ##########################
       - name: 📊 Post Violation Summary
         shell: bash
         run: |
@@ -93,10 +90,10 @@ jobs:
           echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
 
-          CHECKSTYLE_COUNT=$(find reports/checkstyle -name "*.txt" -exec cat {} \; | wc -l)
-          PMD_COUNT=$(find reports/pmd -name "*-report.txt" -exec cat {} \; | wc -l)
+          CHECKSTYLE_COUNT=$(grep -hve '^\s*$' reports/checkstyle/*.txt | wc -l || echo 0)
+          PMD_COUNT=$(grep -hve '^\s*$' reports/pmd/*-report.txt | wc -l || echo 0)
 
           echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
-        # echo "|Total Violations| $CHECKSTYLE_COUNT + $PMD_COUNT " >> $GITHUB_STEP_SUMMARY
+
