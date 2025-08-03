@@ -31,7 +31,7 @@ jobs:
           mkdir tools\checkstyle
           curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
           curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-        shell: cmd
+      
 
       - name: 📦 Extract PMD
         shell: cmd
