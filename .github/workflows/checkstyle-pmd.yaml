@@ -34,8 +34,39 @@ jobs:
       # move checkstyle.jar tools\checkstyle\checkstyle.jar
 
       ##########################
+      # DOWNLOAD: PMD
+      ##########################
+      - name: 📦 Download and Extract PMD
+        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+        shell: bash
+
+      ##########################
+      # EXTRACT: PMD ZIP
+      ##########################
+      - name: 📦 Extract PMD ZIP
+        run: |
+          mkdir -p tools/pmd
+          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
+        shell: cmd
+
+      ##########################
+      # VERIFY DIRECTORY: PMD
+      ##########################
+      - name: 📦 Verify PMD Directory
+        run: dir /s /b tools\pmd
+        shell: cmd
+
+      ##########################
       # RUN: Checkstyle Analysis
       ##########################
       - name: 🧼 Run Checkstyle
         run: scripts\run-checkstyle.bat
+
+
+      ##########################
+      # RUN: Checkstyle Analysis
+      ##########################
+      - name: 🧼 Run PMD Analysis
+        run: scripts\run-pmd.bat
+        shell: cmd
 
