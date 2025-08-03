@@ -70,3 +70,33 @@ jobs:
         run: scripts\run-pmd.bat
         shell: cmd
 
+      ##########################
+      # UPLOAD: Reports as Artifacts
+      ##########################
+      - name: ⬆️ Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-analysis-reports
+          path: |
+            reports\checkstyle\*.*
+            reports\pmd\*.*
+            logs\checkstyle-logs\*.*
+            logs\pmd-analysis-logs\*.*
+
+      ##########################
+      # SUMMARY: Violation Table
+      ##########################
+      - name: 📊 Post Violation Summary
+        shell: bash
+        run: |
+          echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+
+          CHECKSTYLE_COUNT=$(find reports/checkstyle -name "*.txt" -exec cat {} \; | wc -l)
+          PMD_COUNT=$(find reports/pmd -name "*-report.txt" -exec cat {} \; | wc -l)
+
+          echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
+          echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+        # echo "|Total Violations| $CHECKSTYLE_COUNT + $PMD_COUNT " >> $GITHUB_STEP_SUMMARY
