@@ -83,17 +83,29 @@ jobs:
             logs\checkstyle-logs\*.*
             logs\pmd-analysis-logs\*.*
 
+      - name: 🔍 List Generated Reports
+        run: dir reports /s
+        shell: cmd
+
       - name: 📊 Post Violation Summary
         shell: bash
+        working-directory: ${{ github.workspace }}
         run: |
           echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
 
-          CHECKSTYLE_COUNT=$(grep -hve '^\s*$' reports/checkstyle/*.txt | wc -l || echo 0)
-          PMD_COUNT=$(grep -hve '^\s*$' reports/pmd/*-report.txt | wc -l || echo 0)
+          CHECKSTYLE_COUNT=0
+          PMD_COUNT=0
+
+          if compgen -G "reports/checkstyle/*.txt" > /dev/null; then
+            CHECKSTYLE_COUNT=$(grep -hv '^\s*$' reports/checkstyle/*.txt | wc -l)
+          fi
+
+          if compgen -G "reports/pmd/*-report.txt" > /dev/null; then
+            PMD_COUNT=$(grep -hv '^\s*$' reports/pmd/*-report.txt | wc -l)
+          fi
 
           echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
 
