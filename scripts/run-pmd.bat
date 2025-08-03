@@ -75,7 +75,6 @@ call "%PMD_HOME%\bin\pmd.bat" check ^
   --dir "%SRC_DIRS%" ^
   --format text ^
   --report-file "%TEXT_REPORT%" ^
-  > "%LOG_FILE%" 2>&1
 
 :: === RUN PMD ANALYSIS (XML) ===
 echo Running PMD XML Analysis...

@@ -21,7 +21,6 @@ jobs:
           java-version: 24
 
       - name: 📦 Download Required Tools
-        shell: cmd
         run: |
           mkdir tools\jacoco-0.8.13\lib
           curl -L -o tools\jacoco-0.8.13\lib\jacocoagent.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
@@ -31,7 +30,7 @@ jobs:
           mkdir tools\checkstyle
           curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
           curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-      
+        shell: cmd
 
       - name: 📦 Extract PMD
         shell: cmd
