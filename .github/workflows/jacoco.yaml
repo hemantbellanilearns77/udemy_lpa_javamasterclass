@@ -54,24 +54,24 @@ jobs:
               mkdir "%OUT_TEST%\misc_utils"
 
               echo ✍ Compiling udemy_lpa_javamasterclass
-              for /R "%SRC_MAIN%" %%f in (*.java) do @echo %%f >> sources_main.txt
+              dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
 
               echo ✍ Compiling misc_utils
-              for /R "%SRC_MISC%" %%f in (*.java) do @echo %%f >> sources_misc.txt
+              dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
 
               echo ✍ Compiling tests (masterclass)
-              for /R "%TEST_MAIN%" %%f in (*.java) do @echo %%f >> sources_test_main.txt
+              dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
 
               echo ✍ Compiling tests (misc_utils)
               if exist "%TEST_MISC%" (
-                for /R "%TEST_MISC%" %%f in (*.java) do @echo %%f >> sources_test_misc.txt
+                dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
                 javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
               )
 
-              del sources_*.txt
+              del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
             )
           )
 
