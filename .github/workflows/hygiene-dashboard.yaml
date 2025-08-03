@@ -35,8 +35,8 @@ jobs:
       - name: 📦 Extract PMD
         shell: cmd
         run: |
-          mkdir tools\pmd
-          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
+          mkdir -p tools\pmd
+          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
 
       - name: 🧼 Run Checkstyle
         shell: cmd
