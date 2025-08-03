@@ -73,7 +73,7 @@ echo I reached just before run tests
     -jar "%JUNIT_CONSOLE_JAR%" ^
     --class-path "%OUT_PROD_DIR%\udemy_lpa_javamasterclass;%OUT_PROD_DIR%\misc_utils;%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
     --scan-class-path "%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
-    --reports-dir="%JUNIT_REPORT_DIR%" --details=tree >> "%logFile%" 2>&1
+    --reports-dir="%JUNIT_REPORT_DIR%" --details=tree
 
 if not exist "%REPORT_DIR%\%execFile%" (
     echo ? Coverage file not generated >> "%logFile%"
