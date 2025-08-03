@@ -67,17 +67,17 @@ if "!SOURCE_DIRS!"=="" (
 
 :: === Run Checkstyle - Text ===
 echo.
-echo ?? Running Checkstyle...
+echo ?? Running Checkstyle - text ...
 java -jar "%CHECKSTYLE_JAR%" ^
   -c "%RULESET%" ^
-  -f txt ^
+  -f plain ^
   -o "%TEXT_REPORT_PATH%" ^
   !SOURCE_DIRS! ^
   > "%LOG_PATH%" 2>&1
   
 :: === Run Checkstyle - XML ===
 echo.
-echo ?? Running Checkstyle...
+echo ?? Running Checkstyle - xml ...
 java -jar "%CHECKSTYLE_JAR%" ^
   -c "%RULESET%" ^
   -f xml ^
