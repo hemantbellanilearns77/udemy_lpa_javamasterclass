@@ -39,6 +39,7 @@ if not exist "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" (
    echo Hello compileNeeded is: %compileNeeded%
 ) 
 if "!compileNeeded!"=="true" (
+	echo I reached inside true for compileNeeded
     echo ? Compilation triggered >> "%logFile%"
 	echo ? Compilation triggered
     rmdir /s /q "%OUT_PROD_DIR%" 2>nul
@@ -66,7 +67,7 @@ if "!compileNeeded!"=="true" (
 ) else (
     echo ? Using precompiled class files >> "%logFile%"
 )
-
+echo I reached just before run tests
 :: ========== RUN TESTS ==========
 "%JAVA_HOME%\bin\java" --enable-preview --release 24 -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
     -jar "%JUNIT_CONSOLE_JAR%" ^
