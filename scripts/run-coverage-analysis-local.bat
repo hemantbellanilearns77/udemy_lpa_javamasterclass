@@ -1,10 +1,13 @@
 @echo off
 setlocal EnableDelayedExpansion
-
+if not defined JAVA_HOME (
+    echo ❌ ERROR: JAVA_HOME is not set
+    exit /b 1
+)
 cd /d %~dp0..
 set "PROJECT_ROOT=%CD%"
 set "JACOCO_HOME=%PROJECT_ROOT%\tools\jacoco-0.8.13"
-set "JAVA_HOME=C:\Program Files\Java\jdk-24"
+REM set "JAVA_HOME=C:\Program Files\Java\jdk-24"
 set "JACOCO_AGENT_JAR=%JACOCO_HOME%\lib\jacocoagent.jar"
 set "JACOCO_CLI_JAR=%JACOCO_HOME%\lib\jacococli.jar"
 set "JUNIT_CONSOLE_JAR=%PROJECT_ROOT%\tools\junit-console\junit-platform-console-standalone-1.13.0.jar"
