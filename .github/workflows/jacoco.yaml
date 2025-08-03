@@ -29,30 +29,59 @@ jobs:
           curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
         shell: cmd
 
-      - name: 🔧 Compile Classes (only if both outputs missing)
+      - name: 📁 Compile Java Modules if Needed
         shell: cmd
         run: |
-          if not exist out\production\udemy_lpa_javamasterclass (
-          if not exist out\production\misc_utils (
-            echo ⚙ Compiling Java Classes...
-            mkdir out\production\udemy_lpa_javamasterclass
-            mkdir out\production\misc_utils
-            javac -d out\production\udemy_lpa_javamasterclass @sources.txt
-            javac -cp out\production\udemy_lpa_javamasterclass -d out\production\misc_utils @sources-misc.txt
-          ))
+          set "JAVA_HOME=%JAVA_HOME%"
+          set "OUT_PROD=out\production"
+          set "OUT_TEST=out\test"
+          set "SRC_MAIN=src\main\java"
+          set "SRC_MISC=misc_utils\src\main\java"
+          set "TEST_MAIN=src\test\java"
+          set "TEST_MISC=misc_utils\src\test\java"
 
-      - name: 🧪 Run Coverage Script
+          if not exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
+            if not exist "%OUT_PROD%\misc_utils" (
+              echo ⚙ Compilation triggered...
+
+              rmdir /s /q "%OUT_PROD%" >nul 2>&1
+              rmdir /s /q "%OUT_TEST%" >nul 2>&1
+
+              mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
+              mkdir "%OUT_PROD%\misc_utils"
+              mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
+              mkdir "%OUT_TEST%\misc_utils"
+
+              echo ✍ Compiling udemy_lpa_javamasterclass...
+              for /R "%SRC_MAIN%" %%f in (*.java) do @echo %%f >> sources_main.txt
+              javac -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
+
+              echo ✍ Compiling misc_utils...
+              for /R "%SRC_MISC%" %%f in (*.java) do @echo %%f >> sources_misc.txt
+              javac -d "%OUT_PROD%\misc_utils" -cp "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_misc.txt
+
+              echo ✍ Compiling tests...
+              for /R "%TEST_MAIN%" %%f in (*.java) do @echo %%f >> sources_test_main.txt
+              javac -d "%OUT_TEST%\udemy_lpa_javamasterclass" -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils" @sources_test_main.txt
+
+              for /R "%TEST_MISC%" %%f in (*.java) do @echo %%f >> sources_test_misc.txt
+              javac -d "%OUT_TEST%\misc_utils" -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils" @sources_test_misc.txt
+            )
+          )
+
+      - name: 🧪 Run JaCoCo Coverage Analysis
         run: scripts\run-coverage-analysis.bat
+        shell: cmd
 
       - name: 📤 Upload JaCoCo Reports
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-reports
           path: |
-            reports\jacoco
-            logs\jacoco-logs
+            reports/jacoco
+            logs/jacoco-logs
 
-      - name: 📊 Add Coverage Summary
+      - name: 📊 Add Coverage Summary to UI
         shell: pwsh
         run: |
           $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
@@ -74,5 +103,5 @@ jobs:
           echo "| Coverage  | $percent%  |" >> $env:GITHUB_STEP_SUMMARY
 
           if ($percent -lt $env:JACOCO_MIN_COVERAGE) {
-            echo "⚠️ Coverage below threshold!" >> $env:GITHUB_STEP_SUMMARY
+            echo "⚠️ Warning: Coverage $percent% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           }
