@@ -25,9 +25,9 @@ jobs:
       ##########################
       - name: 📦 Download Checkstyle
         run: |
-          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar
           mkdir tools\checkstyle
-          move checkstyle.jar tools\checkstyle\checkstyle.jar
+          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+      # move checkstyle.jar tools\checkstyle\checkstyle.jar
 
       ##########################
       # DOWNLOAD: PMD
