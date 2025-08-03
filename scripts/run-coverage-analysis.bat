@@ -69,7 +69,7 @@ if "!compileNeeded!"=="true" (
 )
 echo I reached just before run tests
 :: ========== RUN TESTS ==========
-"%JAVA_HOME%\bin\java" --enable-preview --release 24 -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
+"%JAVA_HOME%\bin\java" --enable-preview -javaagent:"%JACOCO_AGENT_JAR%"=destfile="%REPORT_DIR%\%execFile%" ^
     -jar "%JUNIT_CONSOLE_JAR%" ^
     --class-path "%OUT_PROD_DIR%\udemy_lpa_javamasterclass;%OUT_PROD_DIR%\misc_utils;%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
     --scan-class-path "%OUT_TEST_DIR%\udemy_lpa_javamasterclass;%OUT_TEST_DIR%\misc_utils" ^
@@ -81,7 +81,7 @@ if not exist "%REPORT_DIR%\%execFile%" (
 )
 
 :: ========== GENERATE REPORT ==========
-"%JAVA_HOME%\bin\java" --enable-preview --release 24 -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
+"%JAVA_HOME%\bin\java" --enable-preview -jar "%JACOCO_CLI_JAR%" report "%REPORT_DIR%\%execFile%" ^
     --classfiles "%OUT_PROD_DIR%\udemy_lpa_javamasterclass" ^
     --classfiles "%OUT_PROD_DIR%\misc_utils" ^
     --sourcefiles "%PROJECT_ROOT%\src\main\java" ^
