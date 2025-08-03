@@ -93,20 +93,32 @@ jobs:
           echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
-          
+
           CHECKSTYLE_COUNT=0
           PMD_COUNT=0
-          
-          # Count lines in Checkstyle TXT report that are not just whitespace
+
           if compgen -G "reports/checkstyle/*.txt" > /dev/null; then
             CHECKSTYLE_COUNT=$(grep -E "^[^[:space:]]" reports/checkstyle/*.txt | wc -l || echo 0)
           fi
-          
-          # Count lines in PMD TXT report that begin with a drive letter or letter path (Windows paths)
+
           if compgen -G "reports/pmd/*.txt" > /dev/null; then
             PMD_COUNT=$(grep -E "^[A-Za-z]:" reports/pmd/*.txt | wc -l || echo 0)
           fi
-          
+
+          TOTAL=$((CHECKSTYLE_COUNT + PMD_COUNT))
+
           echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total Violations:** \`$TOTAL\`" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$TOTAL" -le 50 ]; then
+            echo "**✅ Clean! Great job keeping code quality high.**" >> $GITHUB_STEP_SUMMARY
+          elif [ "$TOTAL" -le 100 ]; then
+            echo "**⚠️ Moderate issues found — consider refactoring.**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**❌ High number of violations — review and clean up.**" >> $GITHUB_STEP_SUMMARY
+          fi
+      
