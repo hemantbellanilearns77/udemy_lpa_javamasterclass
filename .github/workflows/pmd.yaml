@@ -1,0 +1,46 @@
+#name: Run PMD
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  pmd:
+#    runs-on: windows-latest
+#
+#    steps:
+#      - name: Checkout Code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Download PMD ZIP
+#        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+#        shell: bash
+#
+#      - name: Extract PMD ZIP
+#        run: |
+#          mkdir -p tools/pmd
+#          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
+#        shell: cmd
+#
+#      - name: Verify PMD Directory
+#        run: dir /s /b tools\pmd
+#        shell: cmd
+#
+#      - name: Run PMD Analysis
+#        run: scripts\run-pmd.bat
+#        shell: cmd
+#
+#      - name: Upload PMD Reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: pmd-reports
+#          path: |
+#            reports/pmd
+#            logs/pmd-analysis-logs

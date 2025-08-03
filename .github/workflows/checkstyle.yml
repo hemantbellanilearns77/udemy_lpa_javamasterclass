@@ -1,0 +1,41 @@
+#name: Run Checkstyle
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  checkstyle:
+#    runs-on: windows-latest
+#
+#    steps:
+#      - name: Checkout Code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: List directory structure for debug
+#        run: dir /s /b
+#        shell: cmd
+#
+#      - name: Download Checkstyle JAR
+#        run: |
+#          mkdir tools\checkstyle
+#          curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+#
+#      - name: Run Checkstyle Script
+#        run: scripts\run-checkstyle.bat
+#
+#      - name: Upload Checkstyle Report
+#        uses: actions/upload-artifact@v4
+#        with:
+#            name: checkstyle-reports
+#            path: |
+#              reports/checkstyle
+#              logs/checkstyle-logs
+#
