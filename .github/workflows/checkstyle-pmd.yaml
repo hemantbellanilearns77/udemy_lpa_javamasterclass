@@ -1,0 +1,124 @@
+#name: Checkstyle + PMD
+#
+#on:
+#  push:
+#    branches: [main]
+#
+#jobs:
+#  static-analysis:
+#    name: Static Code Analysis
+#    runs-on: windows-latest
+#
+#    steps:
+#      - name: 📥 Checkout Code
+#        uses: actions/checkout@v4
+#
+#      # Setup Java
+#      - name: ☕ Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: '17'
+#
+#      - name: List directory structure for debug
+#        run: dir /s /b
+#        shell: cmd
+#
+#      ##########################
+#      # DOWNLOAD: Checkstyle
+#      ##########################
+#      - name: 📦 Download Checkstyle
+#        run: |
+#          mkdir tools\checkstyle
+#          curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+#      # move checkstyle.jar tools\checkstyle\checkstyle.jar
+#
+#      ##########################
+#      # DOWNLOAD: PMD
+#      ##########################
+#      - name: 📦 Download and Extract PMD
+#        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+#        shell: bash
+#
+#      ##########################
+#      # EXTRACT: PMD ZIP
+#      ##########################
+#      - name: 📦 Extract PMD ZIP
+#        run: |
+#          mkdir -p tools/pmd
+#          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
+#        shell: cmd
+#
+#      ##########################
+#      # VERIFY DIRECTORY: PMD
+#      ##########################
+#      - name: 📦 Verify PMD Directory
+#        run: dir /s /b tools\pmd
+#        shell: cmd
+#
+#      ##########################
+#      # RUN: Checkstyle Analysis
+#      ##########################
+#      - name: 🧼 Run Checkstyle
+#        run: scripts\run-checkstyle.bat
+#
+#
+#      ##########################
+#      # RUN: Checkstyle Analysis
+#      ##########################
+#      - name: 🧼 Run PMD Analysis
+#        run: scripts\run-pmd.bat
+#        shell: cmd
+#
+#      ##########################
+#      # UPLOAD: Reports as Artifacts
+#      ##########################
+#      - name: ⬆️ Upload Reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: static-analysis-reports
+#          path: |
+#            reports\checkstyle\*.*
+#            reports\pmd\*.*
+#            logs\checkstyle-logs\*.*
+#            logs\pmd-analysis-logs\*.*
+#
+#      - name: 🔍 List Generated Reports
+#        run: dir reports /s
+#        shell: cmd
+#
+#      - name: 📊 Post Violation Summary
+#        shell: bash
+#        run: |
+#          echo "### 🔎 Static Analysis Violation Summary" >> $GITHUB_STEP_SUMMARY
+#          echo "| Tool        | Violations |" >> $GITHUB_STEP_SUMMARY
+#          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+#
+#          CHECKSTYLE_COUNT=0
+#          PMD_COUNT=0
+#
+#          if compgen -G "reports/checkstyle/*.txt" > /dev/null; then
+#            CHECKSTYLE_COUNT=$(grep -E "^[^[:space:]]" reports/checkstyle/*.txt | wc -l || echo 0)
+#          fi
+#
+#          if compgen -G "reports/pmd/*.txt" > /dev/null; then
+#            PMD_COUNT=$(grep -E "^[A-Za-z]:" reports/pmd/*.txt | wc -l || echo 0)
+#          fi
+#
+#          TOTAL=$((CHECKSTYLE_COUNT + PMD_COUNT))
+#
+#          echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
+#          echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
+#          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
+#
+#          echo "" >> $GITHUB_STEP_SUMMARY
+#          echo "**Total Violations:** \`$TOTAL\`" >> $GITHUB_STEP_SUMMARY
+#
+#          if [ "$TOTAL" -le 50 ]; then
+#            echo "**✅ Clean! Great job keeping code quality high.**" >> $GITHUB_STEP_SUMMARY
+#          elif [ "$TOTAL" -le 100 ]; then
+#            echo "**⚠️ Moderate issues found — consider refactoring.**" >> $GITHUB_STEP_SUMMARY
+#          else
+#            echo "**❌ High number of violations — review and clean up.**" >> $GITHUB_STEP_SUMMARY
+#          fi
+#
