@@ -1,15 +1,15 @@
-name: hygiene-checks
+name: Hygiene Checks
 
 on:
   push:
     branches: [main]
 
 jobs:
-  hygiene-checks:
-    name: Static Code Analysis and Code Coverage Analysis
+  static-analysis:
+    name: Static Code Analysis
     runs-on: windows-latest
     env:
-        JACOCO_MIN_COVERAGE: 80
+          JACOCO_MIN_COVERAGE: 80
 
     steps:
       - name: 📥 Checkout Code
@@ -123,15 +123,6 @@ jobs:
           else
             echo "**❌ High number of violations — review and clean up.**" >> $GITHUB_STEP_SUMMARY
           fi
-
- - name: 🧾 Checkout Code
-        uses: actions/checkout@v4
-
-      - name: ☕ Setup JDK 24
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 24
 
       - name: 📦 Download JaCoCo + JUnit Console
         run: |
