@@ -78,5 +78,3 @@ jobs:
 
           echo "| Checkstyle  | $CHECKSTYLE_COUNT       |" >> $GITHUB_STEP_SUMMARY
           echo "| PMD         | $PMD_COUNT       |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------------|------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Total Violations  | $CHECKSTYLE_COUNT+$PMD_COUNT      |" >> $GITHUB_STEP_SUMMARY
