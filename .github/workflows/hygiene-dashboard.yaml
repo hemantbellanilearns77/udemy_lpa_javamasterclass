@@ -21,7 +21,6 @@ jobs:
           java-version: 24
 
       - name: 📦 Download Required Tools
-        shell: cmd
         run: |
           mkdir tools\jacoco-0.8.13\lib
           curl -L -o tools\jacoco-0.8.13\lib\jacocoagent.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
@@ -36,8 +35,8 @@ jobs:
       - name: 📦 Extract PMD
         shell: cmd
         run: |
-          mkdir tools\pmd
-          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
+          mkdir -p tools\pmd
+          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools/pmd'"
 
       - name: 🧼 Run Checkstyle
         shell: cmd
