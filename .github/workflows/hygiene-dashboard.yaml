@@ -15,6 +15,7 @@ jobs:
       PMD_MAX_VIOLATIONS: 63
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SKIP_ECHO: false
 
     steps:
       - name: 📥 Checkout Code
@@ -268,3 +269,8 @@ jobs:
         run: |
           echo === POST-CLEANUP DIRECTORY TREE ===
           dir /s /b
+
+      - name: 🗣️ Say Hello (unless skipped)
+        if: env.SKIP_ECHO != 'true'
+        run: echo Hello, world!
+        shell: cmd
