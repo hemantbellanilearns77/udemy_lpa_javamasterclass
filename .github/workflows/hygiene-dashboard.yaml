@@ -185,5 +185,14 @@ jobs:
           } else {
             echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
           }
+          - name: 🧹 Full Cleanup
+              shell: cmd
+              run: |
+                echo Cleaning up temp artifacts...
+                rmdir /s /q out >nul 2>&1
+                rmdir /s /q logs >nul 2>&1
+                rmdir /s /q reports >nul 2>&1
+                del /q sources_*.txt >nul 2>&1
+                echo ✅ Cleanup done.  
       
 
