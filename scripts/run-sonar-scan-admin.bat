@@ -136,7 +136,7 @@ for /f "tokens=1,2 delims==" %%a in (.env) do (
 )
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-call sonar-scanner -X "-Dsonar.token=%SONAR_TOKEN%"
+call ../tools/sonar-scanner -X "-Dsonar.token=%SONAR_TOKEN%"
 
 echo ✅ Scan complete. Log saved to: !logPath!
 
