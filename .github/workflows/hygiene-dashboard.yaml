@@ -129,12 +129,7 @@ jobs:
             reports/**
             logs/**
 
-      - name: 🔍 Run SonarCloud Analysis
-        if: success() && env.SONAR_TOKEN != ''
-        run: scripts\run-sonar-scan.bat
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: cmd
+
 
       ##########################
       # SUMMARY SECTION
