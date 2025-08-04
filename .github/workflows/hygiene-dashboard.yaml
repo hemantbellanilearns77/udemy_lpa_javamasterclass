@@ -136,7 +136,7 @@ jobs:
         if: success()
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: scripts\run-sonar-scan.bat
+        run: scripts\run-sonar-scan-admin.bat
         shell: cmd
 
       ##########################
