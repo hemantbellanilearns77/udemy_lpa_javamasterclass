@@ -23,7 +23,7 @@ jobs:
 
       # ───── SETUP TOOLS ──────────────────────────
 
-      - name: 📦 Download Tools: Checkstyle, PMD, JaCoCo, JUnit
+      - name: 📦 Download Tools Checkstyle, PMD, JaCoCo, JUnit
         run: |
           mkdir tools\checkstyle
           curl -L -o tools\checkstyle\checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
