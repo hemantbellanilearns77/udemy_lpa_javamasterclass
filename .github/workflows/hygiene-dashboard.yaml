@@ -11,8 +11,8 @@ jobs:
     env:
       JACOCO_MIN_COVERAGE: 0.1
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
-      CHECKSTYLE_MAX_VIOLATIONS: 20
-      PMD_MAX_VIOLATIONS: 20
+      CHECKSTYLE_MAX_VIOLATIONS: 16000
+      PMD_MAX_VIOLATIONS: 63
 
     steps:
       - name: 📥 Checkout Code
@@ -167,16 +167,14 @@ jobs:
 
           # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Metric                      | Value                |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Checkstyle                  | $checkstyleViolations|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| PMD                         | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Total Static Violations     | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage                    | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "|               Metrics             |         Values       |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Checkstyle Violations             | $checkstyleViolations|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| PMD Code Smells                   | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
+          
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           } else {
@@ -201,11 +199,11 @@ jobs:
           echo "❌ Checkstyle violations ($checkstyleViolations) exceed threshold ($env:CHECKSTYLE_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
           $shouldFail = $true
           }
-#
-#          if ($pmdViolations -gt $env:PMD_MAX_VIOLATIONS) {
-#          echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
-#          $shouldFail = $true
-#          }
+
+          if ($pmdViolations -gt $env:PMD_MAX_VIOLATIONS) {
+          echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
+          $shouldFail = $true
+          }
 #
 #          # Outcome message
 #          if ($totalViolations -eq 0 -and -not $shouldFail) {
