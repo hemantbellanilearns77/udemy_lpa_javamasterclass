@@ -129,6 +129,16 @@ jobs:
             reports/**
             logs/**
 
+      ################################
+          # RUN SONAR CLOUD ANALYSIS
+      ################################
+      - name: 🔎 Run SonarCloud Scan (via batch)
+        if: success()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: scripts\run-sonar-scan.bat
+        shell: cmd
+
       ##########################
       # SUMMARY SECTION
       ##########################
