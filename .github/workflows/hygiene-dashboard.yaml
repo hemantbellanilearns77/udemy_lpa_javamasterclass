@@ -6,7 +6,7 @@ on:
 
 jobs:
   hygiene-checks:
-    name: Run Checkstyle + PMD + JaCoCo
+    name: Run Checkstyle + PMD + JaCoCo + SonarCloud
     runs-on: windows-latest
     env:
       JACOCO_MIN_COVERAGE: 0.1
@@ -16,33 +16,19 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
-      - name: ☕ Setup JDK 24 (for JaCoCo + Compilation)
+      - name: ☕ Setup JDK 24
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 24
 
-      ##########################
-      # DOWNLOAD TOOLS
-      ##########################
-
-      - name: 📦 Download Checkstyle
+      # Tools: Checkstyle, PMD, JaCoCo
+      - name: 📦 Download Tools
         run: |
           mkdir tools\checkstyle
           curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
-
-      - name: 📦 Download and Extract PMD
-        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-        shell: bash
-
-      - name: 📦 Extract PMD
-        run: |
-          mkdir tools\pmd
+          curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
           powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
-        shell: cmd
-
-      - name: 📦 Download JaCoCo + JUnit Console
-        run: |
           mkdir tools\jacoco-0.8.13\lib
           curl -L -o tools\jacoco-0.8.13\lib\jacocoagent.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
           curl -L -o tools\jacoco-0.8.13\lib\jacococli.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.13/org.jacoco.cli-0.8.13-nodeps.jar
@@ -50,10 +36,7 @@ jobs:
           curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
         shell: cmd
 
-      ##########################
-      # RUN STATIC ANALYSIS
-      ##########################
-
+      # Run Static Analysis
       - name: 🧼 Run Checkstyle
         run: scripts\run-checkstyle.bat
 
@@ -61,10 +44,7 @@ jobs:
         run: scripts\run-pmd.bat
         shell: cmd
 
-      ##########################
-      # COMPILE + JACOCO
-      ##########################
-
+      # Compile and Run JaCoCo
       - name: 🛠️ Compile Java Modules if Needed
         shell: cmd
         run: |
@@ -76,38 +56,24 @@ jobs:
           set "TEST_MAIN=src\test\java"
           set "TEST_MISC=misc_utils\src\test\java"
           set "JUNIT_JAR=tools\junit-console\junit-platform-console-standalone-1.13.0.jar"
-
           if not exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
             if not exist "%OUT_PROD%\misc_utils" (
-              echo ⚙ Compilation triggered
-
               rmdir /s /q "%OUT_PROD%" >nul 2>&1
               rmdir /s /q "%OUT_TEST%" >nul 2>&1
-
               mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
               mkdir "%OUT_PROD%\misc_utils"
               mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
               mkdir "%OUT_TEST%\misc_utils"
-
-              echo ✍ Compiling udemy_lpa_javamasterclass
               dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-
-              echo ✍ Compiling misc_utils
               dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-
-              echo ✍ Compiling tests (masterclass)
               dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
-
-              echo ✍ Compiling tests (misc_utils)
               if exist "%TEST_MISC%" (
                 dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
                 javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
               )
-
-              del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
             )
           )
 
@@ -115,10 +81,7 @@ jobs:
         run: scripts\run-coverage-analysis.bat
         shell: cmd
 
-      ##########################
-      # UPLOAD REPORTS
-      ##########################
-
+      # Upload Reports
       - name: ⬆️ Upload All Reports
         uses: actions/upload-artifact@v4
         with:
@@ -127,25 +90,40 @@ jobs:
             reports/**
             logs/**
 
-      ##########################
-      # SUMMARY SECTION
-      ##########################
+      # Run SonarCloud Analysis
+      - name: 🔎 Run SonarCloud Scan
+        if: success()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner -X ^
+            -Dsonar.projectKey=hemantbellanilearns77_udemy_lpa_javamasterclass ^
+            -Dsonar.organization=hemantbellanilearns77 ^
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} ^
+            -Dsonar.sources=src/main/java,misc_utils/src/main/java ^
+            -Dsonar.tests=src/test/java ^
+            -Dsonar.java.binaries=out/production/udemy_lpa_javamasterclass,out/production/misc_utils ^
+            -Dsonar.java.libraries=out/production/udemy_lpa_javamasterclass,out/production/misc_utils ^
+            -Dsonar.java.test.binaries=out/test/udemy_lpa_javamasterclass ^
+            -Dsonar.java.test.libraries=out/test/udemy_lpa_javamasterclass ^
+            -Dsonar.java.coveragePlugin=jacoco ^
+            -Dsonar.junit.reportPaths=reports/junit/latest ^
+            -Dsonar.coverage.jacoco.xmlReportPaths=reports/jacoco/jacoco-latest.xml ^
+            -Dsonar.jacoco.reportPaths=reports/jacoco/jacoco-latest.exec ^
+            -Dsonar.sonar.java.checkstyle.reportPaths=reports/checkstyle/checkstyle-*.txt ^
+            -Dsonar.java.pmd.reportPaths=reports/pmd/pmd-*.xml
+          
 
-      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo)
+      # Summary Section
+      - name: 📊 Add Hygiene Summary
         shell: pwsh
         run: |
-          # Parse JaCoCo XML
           $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
           $missed = [int]$xml.Node.missed
           $covered = [int]$xml.Node.covered
           $total = $missed + $covered
-          if ($total -gt 0) {
-            $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
-          } else {
-            $jacocoCoverage = 0
-          }
+          $jacocoCoverage = if ($total -gt 0) { [math]::Round(100 * $covered / $total, 2) } else { 0 }
 
-          # Parse Checkstyle violations
           $checkstyleViolations = 0
           if (Test-Path "reports/checkstyle") {
             Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
@@ -153,7 +131,6 @@ jobs:
             }
           }
 
-          # Parse PMD violations
           $pmdViolations = 0
           if (Test-Path "reports/pmd") {
             Get-ChildItem reports/pmd/*.txt | ForEach-Object {
@@ -163,7 +140,6 @@ jobs:
 
           $totalViolations = $checkstyleViolations + $pmdViolations
 
-          # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "| Metric       | Value        |" >> $env:GITHUB_STEP_SUMMARY
           echo "|--------------|--------------|" >> $env:GITHUB_STEP_SUMMARY
@@ -171,25 +147,9 @@ jobs:
           echo "| PMD          | $pmdViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Violations   | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage     | $jacocoCoverage%   |" >> $env:GITHUB_STEP_SUMMARY
+          echo "**🌀 SonarCloud scan has completed.**" >> $env:GITHUB_STEP_SUMMARY
 
-          if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
-            echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
-          } else {
-            echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          }
-
-          if ($totalViolations -eq 0) {
-            echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          } elseif ($totalViolations -lt $env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
-            echo "**🟡 Moderate Violations — please review.**" >> $env:GITHUB_STEP_SUMMARY
-          } else {
-            echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
-          }
-
-       ##########################
-           # SUMMARY SECTION
-       ##########################
-
+      # Final Cleanup
       - name: 🧹 Full Cleanup
         shell: cmd
         run: |
@@ -198,5 +158,4 @@ jobs:
           rmdir /s /q logs >nul 2>&1
           rmdir /s /q reports >nul 2>&1
           del /q sources_*.txt >nul 2>&1
-          echo ✅ Cleanup done 
-
+          echo ✅ Cleanup done
