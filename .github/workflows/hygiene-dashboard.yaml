@@ -13,6 +13,8 @@ jobs:
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
       CHECKSTYLE_MAX_VIOLATIONS: 16000
       PMD_MAX_VIOLATIONS: 63
+      SONAR_ORG: hemantbellanilearns77_udemy_lpa_javamasterclass
+      SONAR_PROJECT_KEY: hemantbellanilearns77
 
     steps:
       - name: 📥 Checkout Code
@@ -139,6 +141,7 @@ jobs:
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
           mkdir tools/sonar-scanner
           unzip sonar-scanner.zip -d tools/sonar-scanner
+          mv tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows-x64 tools/sonar-scanner/sonar-scanner-7.1.0.4889
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
           
@@ -196,13 +199,21 @@ jobs:
           echo "| PMD Code Smells                   | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
+         
+          # === SonarCloud Dashboard Link ===
+          $org = $env:SONAR_ORG
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $branch = "${{ github.ref_name }}"
+          $sonarUrl = "https://sonarcloud.io/dashboard?id=$projectKey&branch=$branch"
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "🔗 [View full SonarCloud Report]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
           
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           } else {
             echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
           }
-        
+          
           if ($totalViolations -eq 0) {
             echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
           } elseif ($totalViolations -lt $env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
