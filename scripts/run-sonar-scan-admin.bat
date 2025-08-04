@@ -10,7 +10,10 @@ timeout /t 3 >nul
 :: Preserve Original Working Directory
 set "originalDir=%CD%"
 cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
-
+:: === Set working directory ===
+cd /d "%~dp0.."
+set "REPO_ROOT=%CD%"
+echo REPO_ROOT %REPO_ROOT%
 :: Timestamp Setup
 for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
 
