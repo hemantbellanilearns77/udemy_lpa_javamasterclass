@@ -129,7 +129,19 @@ jobs:
             reports/**
             logs/**
 
-      ################################
+      ##########################
+      # DOWNLOAD SONAR-SCANNER
+      ##########################
+
+      - name: 📦 Download and Setup SonarScanner 7.1.0.4889
+        shell: bash
+        run: |
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
+          unzip sonar-scanner.zip -d tools
+          echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
+          echo "$PWD/tools/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
+          
+          ################################
           # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: 🔎 Run SonarCloud Scan (via batch)
