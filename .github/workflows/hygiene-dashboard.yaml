@@ -173,6 +173,8 @@ jobs:
 
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
+          } else {
+            echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
           }
 
           if ($totalViolations -eq 0) {
