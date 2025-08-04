@@ -13,8 +13,8 @@ jobs:
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
       CHECKSTYLE_MAX_VIOLATIONS: 16000
       PMD_MAX_VIOLATIONS: 63
-      SONAR_ORG: hemantbellanilearns77_udemy_lpa_javamasterclass
-      SONAR_PROJECT_KEY: hemantbellanilearns77
+      SONAR_ORG: ${{ vars.SONAR_ORG }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
 
     steps:
       - name: 📥 Checkout Code
@@ -141,7 +141,7 @@ jobs:
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
           mkdir tools/sonar-scanner
           unzip sonar-scanner.zip -d tools/sonar-scanner
-        #mv tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows-x64 tools/sonar-scanner/sonar-scanner-7.1.0.4889
+#          mv tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows-x64 tools/sonar-scanner/sonar-scanner-7.1.0.4889
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
           
