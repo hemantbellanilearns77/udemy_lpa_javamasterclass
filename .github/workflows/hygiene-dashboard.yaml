@@ -2,7 +2,7 @@ name: Hygiene Checks
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   hygiene-checks:
@@ -127,6 +127,13 @@ jobs:
             reports/**
             logs/**
 
+      - name: 🔍 Run SonarCloud Analysis
+        if: success() && env.SONAR_TOKEN != ''
+        run: scripts\run-sonar-scan.bat
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: cmd
+
       ##########################
       # SUMMARY SECTION
       ##########################
@@ -140,25 +147,25 @@ jobs:
           $covered = [int]$xml.Node.covered
           $total = $missed + $covered
           if ($total -gt 0) {
-            $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
+          $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
           } else {
-            $jacocoCoverage = 0
+          $jacocoCoverage = 0
           }
 
           # Parse Checkstyle violations
           $checkstyleViolations = 0
           if (Test-Path "reports/checkstyle") {
-            Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
-              $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
-            }
+          Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
+           $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
+          }
           }
 
           # Parse PMD violations
           $pmdViolations = 0
           if (Test-Path "reports/pmd") {
-            Get-ChildItem reports/pmd/*.txt | ForEach-Object {
-              $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
-            }
+          Get-ChildItem reports/pmd/*.txt | ForEach-Object {
+           $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
+          }
           }
 
           $totalViolations = $checkstyleViolations + $pmdViolations
@@ -173,24 +180,47 @@ jobs:
           echo "| Coverage     | $jacocoCoverage%   |" >> $env:GITHUB_STEP_SUMMARY
 
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
-            echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
+          echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           } else {
-            echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
+          echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
           }
 
           if ($totalViolations -eq 0) {
-            echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
+          echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
           } elseif ($totalViolations -lt $env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
-            echo "**🟡 Moderate Violations — please review.**" >> $env:GITHUB_STEP_SUMMARY
+          echo "**🟡 Moderate Violations — please review.**" >> $env:GITHUB_STEP_SUMMARY
           } else {
-            echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
+          echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
           }
-
-       ##########################
-           # CLEANUP SECTION
-       ##########################
-
+          # Optional: Add Sonar summary if available
+          $sonarLog = "logs/sonar-scan/sonar-*.txt"
+          if (Test-Path $sonarLog) {
+          $sonarLines = Get-Content (Get-Item $sonarLog | Sort-Object LastWriteTime -Descending | Select-Object -First 1)
+          $summaryLine = $sonarLines | Select-String "Scan Summary — Branch" -Context 0,10
+          if ($summaryLine) {
+           echo "" >> $env:GITHUB_STEP_SUMMARY
+           echo "### ☁️ SonarCloud Summary" >> $env:GITHUB_STEP_SUMMARY
+           $summaryLine.Context.PostContext | ForEach-Object {
+             echo $_ >> $env:GITHUB_STEP_SUMMARY
+           }
+          }
+          }
+          
+          ##########################
+          # CLEANUP SECTION
+          ##########################
+          
+          #      - name: 🧹 Full Cleanup
+          #        shell: cmd
+          #        run: |
+          #          echo Cleaning up temp artifacts
+          #          rmdir /s /q out >nul 2>&1
+          #          rmdir /s /q logs >nul 2>&1
+          #          rmdir /s /q reports >nul 2>&1
+          #          del /q sources_*.txt >nul 2>&1
+          #          echo ✅ Cleanup done 
       - name: 🧹 Full Cleanup
+        if: success()
         shell: cmd
         run: |
           echo Cleaning up temp artifacts
@@ -198,5 +228,6 @@ jobs:
           rmdir /s /q logs >nul 2>&1
           rmdir /s /q reports >nul 2>&1
           del /q sources_*.txt >nul 2>&1
-          echo ✅ Cleanup done 
+          echo ✅ Cleanup done
+
 
