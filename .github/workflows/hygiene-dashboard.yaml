@@ -187,7 +187,7 @@ jobs:
           }
 
        ##########################
-           # SUMMARY SECTION
+           # CLEANUP SECTION
        ##########################
 
       - name: 🧹 Full Cleanup
