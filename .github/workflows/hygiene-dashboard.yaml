@@ -204,6 +204,10 @@ jobs:
           echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
           $shouldFail = $true
           }
+          if ($shouldFail) {
+            echo "**❌ Failing due to threshold violations.**" >> $env:GITHUB_STEP_SUMMARY
+            exit 1
+          }
 #
 #          # Outcome message
 #          if ($totalViolations -eq 0 -and -not $shouldFail) {
