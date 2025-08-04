@@ -2,7 +2,7 @@ name: Hygiene Checks
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   hygiene-checks:
@@ -11,6 +11,8 @@ jobs:
     env:
       JACOCO_MIN_COVERAGE: 0.1
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
+      CHECKSTYLE_MAX_VIOLATIONS: 20
+      PMD_MAX_VIOLATIONS: 20
 
     steps:
       - name: 📥 Checkout Code
@@ -185,9 +187,34 @@ jobs:
           } else {
             echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
           }
+          $shouldFail = $false
           
-          ##########################
-        # SUMMARY SECTION
+          if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
+          echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
+          $shouldFail = $true
+          }
+
+          if ($checkstyleViolations -gt $env:CHECKSTYLE_MAX_VIOLATIONS) {
+          echo "❌ Checkstyle violations ($checkstyleViolations) exceed threshold ($env:CHECKSTYLE_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
+          $shouldFail = $true
+          }
+  
+          if ($pmdViolations -gt $env:PMD_MAX_VIOLATIONS) {
+          echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
+          $shouldFail = $true
+          }
+  
+          # Outcome message
+          if ($totalViolations -eq 0 -and -not $shouldFail) {
+          echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
+          } elseif ($shouldFail) {
+          echo "**❌ Failing due to threshold violations.**" >> $env:GITHUB_STEP_SUMMARY
+          exit 1
+          } else {
+            echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
+          }
+      ##########################
+      # SUMMARY SECTION
       ##########################
 
       - name: 🧹 Full Cleanup
