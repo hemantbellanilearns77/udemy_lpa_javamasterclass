@@ -11,7 +11,7 @@ import java.util.Set;
  * created by : heman on 24-07-2025, 09:39 am, in the "udemy_lpa_javamasterclass" project
  **/
 public class ColorGenerator {
-
+    public static final Random random = new Random();
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
@@ -25,7 +25,11 @@ public class ColorGenerator {
          */
         //your own code here; recommended to divide in function calls
         generateColors(false);
+        ConsoleStyler.halfDivider();
         generateBrilliantColors(false);
+        ConsoleStyler.halfDivider();
+        generateSpecificTypeColors(true);
+        ConsoleStyler.halfDivider();
         /*
          *****************************************************
          */
@@ -34,7 +38,7 @@ public class ColorGenerator {
 
     private static void generateBrilliantColors(boolean showColorPreview) {
 
-        Random random = new Random();
+
         int count = 0;
 
         while (count < 270) {
@@ -100,7 +104,9 @@ public class ColorGenerator {
             count++;
         }
     }
-            /*// Pastels: Soft, high-intensity tones
+
+    public static void generateSpecificTypeColors(boolean showColorPreview) {
+        // Pastels: Soft, high-intensity tones
         for (int r = 180; r <= 255; r += 15) {
             for (int g = 180; g <= 255; g += 15) {
                 for (int b = 180; b <= 255; b += 15) {
@@ -134,5 +140,6 @@ public class ColorGenerator {
                     System.out.println(name + "(\"" + code + "\"),");
                 }
             }
-        }*/
+        }
+    }
 }
