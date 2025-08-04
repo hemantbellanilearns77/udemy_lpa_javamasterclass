@@ -167,13 +167,16 @@ jobs:
 
           # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Metric       | Value        |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|--------------|--------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Checkstyle   | $checkstyleViolations     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| PMD          | $pmdViolations     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Violations   | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage     | $jacocoCoverage%   |" >> $env:GITHUB_STEP_SUMMARY
-
+          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Metric                      | Value                |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Checkstyle                  | $checkstyleViolations|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| PMD                         | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Total Static Violations     | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage                    | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           } else {
@@ -193,11 +196,11 @@ jobs:
           echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           $shouldFail = $true
           }
-#
-#          if ($checkstyleViolations -gt $env:CHECKSTYLE_MAX_VIOLATIONS) {
-#          echo "❌ Checkstyle violations ($checkstyleViolations) exceed threshold ($env:CHECKSTYLE_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
-#          $shouldFail = $true
-#          }
+
+          if ($checkstyleViolations -gt $env:CHECKSTYLE_MAX_VIOLATIONS) {
+          echo "❌ Checkstyle violations ($checkstyleViolations) exceed threshold ($env:CHECKSTYLE_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
+          $shouldFail = $true
+          }
 #
 #          if ($pmdViolations -gt $env:PMD_MAX_VIOLATIONS) {
 #          echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
