@@ -10,6 +10,7 @@ jobs:
     runs-on: windows-latest
     env:
       JACOCO_MIN_COVERAGE: 0.1
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
 
     steps:
       - name: 📥 Checkout Code
@@ -179,7 +180,7 @@ jobs:
 
           if ($totalViolations -eq 0) {
             echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          } elseif ($totalViolations -lt 50) {
+          } elseif ($totalViolations -lt $env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
             echo "**🟡 Moderate Violations — please review.**" >> $env:GITHUB_STEP_SUMMARY
           } else {
             echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
