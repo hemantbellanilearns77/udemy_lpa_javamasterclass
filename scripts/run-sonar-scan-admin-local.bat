@@ -133,9 +133,17 @@ for /f "tokens=1,2 delims==" %%a in (.env) do (
 )
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-call sonar-scanner -X ^
-  "-Dsonar.token=%SONAR_TOKEN%" ^
-  > "!logPath!" 2>&1
+set "SCANNER=%REPO_ROOT%\tools\sonar-scanner-cli\bin\sonar-scanner.bat"
+if exist "%SCANNER%" (
+  REM call "%SCANNER%" -X "-Dsonar.token=%SONAR_TOKEN%"
+  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%" > "!logPath!" 2>&1
+) else (
+  echo ❌ sonar-scanner.bat not found at %SCANNER%
+  exit /b 1
+)
+  REM call sonar-scanner -X ^
+  REM "-Dsonar.token=%SONAR_TOKEN%" ^
+  REM > "!logPath!" 2>&1
 
 echo ✅ Scan complete. Log saved to: !logPath!
 

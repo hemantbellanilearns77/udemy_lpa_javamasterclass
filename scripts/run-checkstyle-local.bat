@@ -15,7 +15,7 @@ for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do
 )
 
 :: === Paths ===
-set "CHECKSTYLE_JAR=%REPO_ROOT%\tools\checkstyle\checkstyle-10.26.1-all\checkstyle-10.26.1-all.jar"
+set "CHECKSTYLE_JAR=%REPO_ROOT%\tools\checkstyle\checkstyle-10.26.1-all.jar"
 set "RULESET=%REPO_ROOT%\config\checkstyle\checkstyle.xml"
 set "REPORT_DIR=%REPO_ROOT%\reports\checkstyle"
 set "LOG_DIR=%REPO_ROOT%\logs\checkstyle-logs"

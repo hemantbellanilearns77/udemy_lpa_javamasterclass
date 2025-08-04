@@ -247,7 +247,7 @@ jobs:
           }
 
       ##########################
-      # SUMMARY SECTION
+      # FULL CLEANUP
       ##########################
 
       - name: 🧹 Full Cleanup
@@ -260,3 +260,11 @@ jobs:
           del /q sources_*.txt >nul 2>&1
           echo ✅ Cleanup done 
 
+      ##########################
+      # CLEANUP VERIFICATION
+      ##########################
+      - name: 📂 List Remaining Files
+        shell: cmd
+        run: |
+          echo === POST-CLEANUP DIRECTORY TREE ===
+          dir /s /b
