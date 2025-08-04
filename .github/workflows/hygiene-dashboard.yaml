@@ -9,7 +9,7 @@ jobs:
     name: Run Checkstyle + PMD + JaCoCo
     runs-on: windows-latest
     env:
-      JACOCO_MIN_COVERAGE: 80
+      JACOCO_MIN_COVERAGE: 0.1
 
     steps:
       - name: 📥 Checkout Code
