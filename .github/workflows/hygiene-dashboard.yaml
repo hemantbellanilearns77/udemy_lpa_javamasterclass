@@ -303,7 +303,7 @@ jobs:
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           body: |
             Hygiene Summary:
-            - ✅ Checkstyle Violations: vars.$CHECKSTYLE_VIOLATIONS
-            - ✅ PMD Violations: vars.PMD_VIOLATIONS
-            - ✅ Code Coverage: vars.JACOCO_COVERAGE_PERCENT%
-            - "🔗 [View full SonarCloud Report](vars.SONARCLOUD_DASHBOARD_URL)"
+            - ✅ Checkstyle Violations: ${{ vars.CHECKSTYLE_VIOLATIONS }} 
+            - ✅ PMD Violations: ${{ vars.PMD_VIOLATIONS }}
+            - ✅ Code Coverage: ${{ vars.JACOCO_COVERAGE_PERCENT }} %
+            - "🔗 [View full SonarCloud Report](${{ vars.SONARCLOUD_DASHBOARD_URL }})" 
