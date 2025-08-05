@@ -160,6 +160,7 @@ jobs:
       ##########################
 
       - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo)
+        id: metrics
         shell: pwsh
         run: |
           # Parse JaCoCo XML
@@ -214,6 +215,11 @@ jobs:
           echo "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
           echo "SONARCLOUD_DASHBOARD_URL=$sonarUrl" >> $GITHUB_ENV
           
+          echo "checkstyleCount=$checkstyleViolations" >> $GITHUB_OUTPUT 
+          echo "pmdCount=$pmdViolations" >> $GITHUB_OUTPUT
+          echo "jacocoPercent=$jacocoCoverage%" >> $GITHUB_OUTPUT
+          echo "sonarURL=$sonarUrl" >> $GITHUB_OUTPUT
+          
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
           } else {
@@ -252,8 +258,15 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
+
+      - name: Export to GitHub env
+        run: |
+          echo "CHECKSTYLE_VIOLATIONS=${{ steps.metrics.outputs.checkstyleCount }}" >> $GITHUB_ENV
+          echo "PMD_VIOLATIONS=${{ steps.metrics.outputs.pmdCount }}" >> $GITHUB_ENV
+          echo "JACOCO_COVERAGE_PERCENT=${{ steps.metrics.outputs.jacocoPercent }}" >> $GITHUB_ENV
+          echo "SONARCLOUD_DASHBOARD_URL=${{ steps.metrics.outputs.sonarURL }}" >> $GITHUB_ENV
           
-      ##########################
+          ##########################
       # FULL CLEANUP
       ##########################
 
