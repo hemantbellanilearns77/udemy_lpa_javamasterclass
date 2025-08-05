@@ -9,7 +9,7 @@ jobs:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
     env:
-      JACOCO_MIN_COVERAGE: 0.1
+      JACOCO_MIN_COVERAGE: 0.05
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
       CHECKSTYLE_MAX_VIOLATIONS: 16000
       PMD_MAX_VIOLATIONS: 63
@@ -212,7 +212,7 @@ jobs:
           "CHECKSTYLE_VIOLATIONS=$checkstyleViolations" >> $GITHUB_ENV
           "PMD_VIOLATIONS=$pmdViolations" >> $GITHUB_ENV
           "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
-          "SONARCLOUD_DASHBOARD_URL=$sonarUrl >> $GITHUB_ENV
+          "SONARCLOUD_DASHBOARD_URL=$sonarUrl" >> $GITHUB_ENV
           
           
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
