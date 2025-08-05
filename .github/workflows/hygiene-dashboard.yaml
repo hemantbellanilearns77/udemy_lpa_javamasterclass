@@ -285,6 +285,14 @@ jobs:
         run: echo Hello, world!
         shell: cmd
 
+      - name: 📦 Extract Commit Info
+        id: commit_info
+        run: |
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "COMMIT_MSG=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
+          echo "COMMIT_AUTHOR=$(git log -1 --pretty='%an')" >> $GITHUB_ENV
+          echo "COMMIT_DATE=$(git log -1 --date=iso-local --pretty='%cd')" >> $GITHUB_ENV
+
       ##########################
       # Email Success Summary
       ##########################
@@ -315,6 +323,14 @@ jobs:
             <li>✅ PMD Violations: <strong>${{ env.PMD_VIOLATIONS }}</strong></li>
             <li>✅ Code Coverage: <strong>${{ env.JACOCO_COVERAGE_PERCENT }}</strong></li>
             <li>🔗 <a href="${{ env.SONARCLOUD_DASHBOARD_URL }}">View full SonarCloud Report</a></li>
+            </ul>
+            
+             <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
+            <ul>
+            <li><strong>SHA:</strong> <code>${{ env.SHORT_SHA }}</code></li>
+            <li><strong>Message:</strong> <em>${{ env.COMMIT_MSG }}</em></li>
+            <li><strong>Author:</strong> ${{ env.COMMIT_AUTHOR }}</li>
+            <li><strong>Date:</strong> ${{ env.COMMIT_DATE }}</li>
             </ul>
           
             <hr>
