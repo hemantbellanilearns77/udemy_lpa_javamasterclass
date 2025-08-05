@@ -48,17 +48,13 @@ public class ColorGenerator {
             int b = random.nextInt(256);
 
             // 🎨 Skip overly dark tones (low luminance)
-            double luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-            if (luminance < 100) continue;
-
+            // and
             // 🚫 Skip bland grays (low contrast between RGB channels)
-            if (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) continue;
+            double luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            if ( (luminance < 100) || (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) ) continue;
 
             // 🧵 Optional semantic prefix (can be expanded later)
-
             String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
-                    ;
-
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
             //String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
             String code = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format("%d;%d;%dm", r, g, b); // correctly escaped

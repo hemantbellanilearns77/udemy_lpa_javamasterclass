@@ -209,6 +209,10 @@ jobs:
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🔗 [View full SonarCloud Report]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
           
+          echo "CHECKSTYLE_VIOLATIONS=$checkstyleViolations" >> $GITHUB_ENV
+          echo "PMD_VIOLATIONS=$pmdViolations" >> $GITHUB_ENV
+          echo "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
+          echo "SONARCLOUD_DASHBOARD_URL=$sonarUrl" >> $GITHUB_ENV
           
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
@@ -248,17 +252,7 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
-      ####################################################
-      # Export summary vars to GitHub env
-      ####################################################
-
-      - name: Export summary vars to GitHub env
-        run: |
-          echo "CHECKSTYLE_VIOLATIONS=$checkstyleViolations" >> $GITHUB_ENV
-          echo "PMD_VIOLATIONS=$pmdViolations" >> $GITHUB_ENV
-          echo "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
-          echo "SONARCLOUD_DASHBOARD_URL=$sonarUrl" >> $GITHUB_ENV
-        shell: bash
+          
       ##########################
       # FULL CLEANUP
       ##########################
