@@ -288,10 +288,10 @@ jobs:
       - name: 📦 Extract Commit Info
         id: commit_info
         run: |
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "COMMIT_MSG=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
-          echo "COMMIT_AUTHOR=$(git log -1 --pretty='%an')" >> $GITHUB_ENV
-          echo "COMMIT_DATE=$(git log -1 --date=iso-local --pretty='%cd')" >> $GITHUB_ENV
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "COMMIT_MSG=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+          echo "COMMIT_AUTHOR=$(git log -1 --pretty='%an')" >> $GITHUB_OUTPUT
+          echo "COMMIT_DATE=$(git log -1 --date=iso-local --pretty='%cd')" >> $GITHUB_OUTPUT
 
       ##########################
       # Email Success Summary
@@ -304,6 +304,10 @@ jobs:
           PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
           JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
           SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
+          SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
+          COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
+          COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
+          COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
         with:
           server_address: smtp.gmail.com
           server_port: 465
