@@ -20,25 +20,18 @@ public class ColorGenerator {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        // main method initializations.... 
-        /*
-         *****************************************************
-         */
-        //your own code here; recommended to divide in function calls
+
         generateColors(false);
         ConsoleStyler.halfDivider();
         generateBrilliantColors(false);
         ConsoleStyler.halfDivider();
         generateSpecificTypeColors(true);
         ConsoleStyler.halfDivider();
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 
     private static void generateBrilliantColors(boolean showColorPreview) {
-
 
         int count = 0;
 
@@ -56,7 +49,6 @@ public class ColorGenerator {
             // 🧵 Optional semantic prefix (can be expanded later)
             String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
-            //String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
             String code = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format("%d;%d;%dm", r, g, b); // correctly escaped
             String completeString = name + "(\"" + code + "\"),";
 

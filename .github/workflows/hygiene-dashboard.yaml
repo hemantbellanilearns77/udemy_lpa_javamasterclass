@@ -292,7 +292,7 @@ jobs:
       - name: 📬 Email Summary
         uses: dawidd6/action-send-mail@v3
         env:
-          CHECKSTYLE_VIOLATIONS: 25
+          CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
           PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
           JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
           SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
@@ -301,18 +301,24 @@ jobs:
           server_port: 465
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
-          subject: GitHub Hygiene Summary - ${{ github.repository }}
+          subject: ✅ Java MasterClass Hygiene Check Report — ${{ github.repository }} (main)
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
-          body: |
-            Dear Recipient,
-            A GitHub Hygiene Check ( CheckStyle + PMD + Jacoco + Sonar ) workflow just executed on the ${{ github.repository }} repository successfully. 
-            
-            Here is the Hygiene Summary:
-            - ✅ Checkstyle Violations: ${{ env.CHECKSTYLE_VIOLATIONS }} 
-            - ✅ PMD Violations: ${{ env.PMD_VIOLATIONS }}
-            - ✅ Code Coverage: ${{ env.JACOCO_COVERAGE_PERCENT }} %
-            - "🔗 [View full SonarCloud Report](${{ env.SONARCLOUD_DASHBOARD_URL }})" 
-            
-            
-            P.S.> This is an automated message from a Github Workflow's Email Step. Please do not reply to this email.
+          html_body: |
+            <p>Hi Hemant,</p>
+
+            <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
+          
+            <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
+            <ul>
+            <li>✅ Checkstyle Violations: <strong>${{ env.CHECKSTYLE_VIOLATIONS }}</strong></li>
+            <li>✅ PMD Violations: <strong>${{ env.PMD_VIOLATIONS }}</strong></li>
+            <li>✅ Code Coverage: <strong>${{ env.JACOCO_COVERAGE_PERCENT }}</strong></li>
+            <li>🔗 <a href="${{ env.SONARCLOUD_DASHBOARD_URL }}">View full SonarCloud Report</a></li>
+            </ul>
+          
+            <hr>
+            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
+            Please do not reply.</em></p>
+
+
