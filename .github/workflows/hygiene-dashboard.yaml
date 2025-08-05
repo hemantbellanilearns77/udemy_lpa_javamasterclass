@@ -259,12 +259,7 @@ jobs:
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
 
-      - name: Export to GitHub env
-        run: |
-          echo "CHECKSTYLE_VIOLATIONS=${{ steps.metrics.outputs.checkstyleCount }}" >> $GITHUB_ENV
-          echo "PMD_VIOLATIONS=${{ steps.metrics.outputs.pmdCount }}" >> $GITHUB_ENV
-          echo "JACOCO_COVERAGE_PERCENT=${{ steps.metrics.outputs.jacocoPercent }}" >> $GITHUB_ENV
-          echo "SONARCLOUD_DASHBOARD_URL=${{ steps.metrics.outputs.sonarURL }}" >> $GITHUB_ENV
+
           
           ##########################
       # FULL CLEANUP
@@ -300,6 +295,11 @@ jobs:
 
       - name: 📬 Email Summary
         uses: dawidd6/action-send-mail@v3
+        env:
+          CHECKSTYLE_VIOLATIONS: 25
+          PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
+          JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
+          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
         with:
           server_address: smtp.gmail.com
           server_port: 465
