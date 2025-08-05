@@ -18,6 +18,13 @@ jobs:
       SKIP_ECHO: false
 
     steps:
+
+      - name: ⏱️ Capture Job Start Time
+        id: start_time
+        run:
+            echo "start=$(date +%s)" >> $GITHUB_OUTPUT
+        shell: bash
+
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
@@ -313,8 +320,17 @@ jobs:
           "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
           "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
-      
-      
+
+      - name: ⏱️ Compute Job Duration
+        id: duration
+        run: |
+          end=$(date +%s)
+          start=${{ steps.start_time.outputs.start }}
+          duration=$((end - start))
+          mins=$((duration / 60))
+          secs=$((duration % 60))
+          echo "formatted=${mins}m ${secs}s" >> $GITHUB_OUTPUT
+        shell: bash
 
       ##########################
       # Email Success Summary
@@ -343,7 +359,7 @@ jobs:
             <p>Hi Hemant,</p>
             
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-            
+            <p>⏱️ <strong>Job Duration:</strong> ${{ steps.duration.outputs.formatted }}</p>
             <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
             <ul>
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
@@ -351,6 +367,7 @@ jobs:
               <li>✅ Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
               <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
             </ul>
+            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             
             <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
             <ul>
@@ -360,6 +377,8 @@ jobs:
               <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
               <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
             </ul>
+            
+            
             
             <hr>
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
