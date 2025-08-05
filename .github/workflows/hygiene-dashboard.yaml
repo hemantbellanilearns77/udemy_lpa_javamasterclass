@@ -200,6 +200,7 @@ jobs:
           echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
           
+          
           # === SonarCloud Dashboard Link ===
           $org = $env:SONAR_ORG
           $projectKey = $env:SONAR_PROJECT_KEY
@@ -207,6 +208,12 @@ jobs:
           $sonarUrl = "https://sonarcloud.io/dashboard?id=$projectKey&branch=$branch"
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🔗 [View full SonarCloud Report]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
+          
+          "CHECKSTYLE_VIOLATIONS=$checkstyleViolations" >> $GITHUB_ENV
+          "PMD_VIOLATIONS=$pmdViolations" >> $GITHUB_ENV
+          "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
+          "SONARCLOUD_DASHBOARD_URL=$sonarUrl >> $GITHUB_ENV
+          
           
           if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
             echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
@@ -274,3 +281,24 @@ jobs:
         if: env.SKIP_ECHO != 'true'
         run: echo Hello, world!
         shell: cmd
+
+      ##########################
+      # Email Success Summary
+      ##########################
+
+      - name: 📬 Email Summary
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: GitHub Hygiene Summary - ${{ github.repository }}
+          to: hemantbellanilearns77@gmail.com
+          from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
+          body: |
+            Hygiene Summary:
+            - ✅ Checkstyle Violations: vars.$CHECKSTYLE_VIOLATIONS
+            - ✅ PMD Violations: vars.PMD_VIOLATIONS
+            - ✅ Code Coverage: vars.JACOCO_COVERAGE_PERCENT%
+            - "🔗 [View full SonarCloud Report](vars.SONARCLOUD_DASHBOARD_URL)"
