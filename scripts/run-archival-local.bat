@@ -1,13 +1,16 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+cd /d "%~dp0.."
 :: ===== CONFIG =====
 set "rootPath=%~1"
-if "%rootPath%"=="" set "rootPath=D:\GitHubRepos\udemy_lpa_javamasterclass"
+if "%rootPath%"=="" set "rootPath=%CD%"
 
+set "runMode=DRY-RUN"
 set "runMode=%~2"
 if "%runMode%"=="" set "runMode=DRY-RUN"
 
+:: ===== LAST 9 to be retained =====
 set "retention=9"
 set "archiveRoot=%rootPath%\archived"
 
@@ -19,6 +22,8 @@ set "logPath=%logDir%\archival-log-%ts%.txt"
 
 echo === ARCHIVAL SCRIPT STARTED (%runMode%) === >> "%logPath%"
 echo === ARCHIVAL SCRIPT STARTED (%runMode%) and logging to: %logPath%
+echo runMode     : %runMode%
+echo runMode     : %runMode% >> "%logPath%"
 echo RootPath    : %rootPath% >> "%logPath%"
 echo ArchivePath : %archiveRoot% >> "%logPath%"
 echo LogFile     : %logPath% >> "%logPath%"

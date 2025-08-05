@@ -9,7 +9,7 @@ echo ===================================================
 set "originalDir=%CD%"
 cd /d "%~dp0.."
 set "REPO_ROOT=%CD%"
-echo REPO_ROOT ------------  !REPO_ROOT!
+REM echo REPO_ROOT ------------  !REPO_ROOT!
 
 :: === Parse Skip Flags ===
 set skip_checkstyle=false
@@ -80,67 +80,76 @@ echo 📊 Generating Hygiene Summary... >> "%hygieneLogPath%"
 
 setlocal EnableDelayedExpansion
 
+
+
+:: Locate Checkstyle Report
+set checkstyleReportPath=
+for /f "delims=" %%F in ('dir /b /a:-d /o-d reports\checkstyle\checkstyle-*.xml') do (
+    set "checkstyleReportPath=reports\checkstyle\%%F"
+    goto :foundCheckstyle
+)
+:foundCheckstyle
+
+
+:: Locate PMD Report
+set pmdReportPath=
+for /f "delims=" %%F in ('dir /b /a:-d /o-d reports\pmd\pmd-*.xml') do (
+    set "pmdReportPath=reports\pmd\%%F"
+    goto :foundPMD
+)
+:foundPMD
+
+:: Validating Report findings
+echo ?? Validating report paths...
+set failed=false
+
+if not exist "!checkstyleReportPath!" (
+    echo ? Checkstyle report missing: !checkstyleReportPath!
+    set failed=true
+)
+if not exist "!pmdReportPath!" (
+    echo ? PMD report missing: !pmdReportPath!
+    set failed=true
+)
 :: --- Checkstyle Violation Count ---
-set checkstyleCount=0
-if exist "reports\checkstyle\*.txt" (
-    for %%F in (reports\checkstyle\*.txt) do (
-        for /f %%V in ('find /v /c "" ^< "%%F"') do set /a checkstyleCount+=%%V
-    )
+set /a checkstyleCount=0
+for /f %%X in ('findstr /c:"<error " "!checkstyleReportPath!"') do (
+    set /a checkstyleCount+=1
 )
-
 :: --- PMD Violation Count ---
-set pmdCount=0
-if exist "reports\pmd\*.txt" (
-    for %%F in (reports\pmd\*.txt) do (
-        for /f %%V in ('find /c ":" ^< "%%F"') do set /a pmdCount+=%%V
-    )
+set /a pmdCount=0
+for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
+    set /a pmdCount+=1
 )
-
 
 :: --- JaCoCo Coverage via PowerShell ---
-set "jacocoSummary=Unavailable"
+if exist "reports\jacoco\jacoco-latest.xml" ( 
+    for /f %%i in ('powershell -nologo -noprofile -Command "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'INSTRUCTION' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N2}%%' -f (($cov * 100.0) / $t) } else { '0%%'} } else { '	 Jacoco report missing' }" ') do (
+        set "jacocoTemp=%%i"
+    )
+)
+if defined jacocoTemp (
+    set "jacocoSummary=%jacocoTemp%"
+)
+REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary%
+REM echo ?? OutsideDo Code Coverage (JaCoCo): !jacocoSummary!
 
-REM if exist "reports\jacoco\jacoco-latest.xml" (
-  REM powershell -nologo -noprofile -Command ^
-    REM "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'INSTRUCTION' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N2}%%' -f (($cov * 100.0) / $t) } else { '0%%' } } else { 'Unavailable' }" ^
-    REM > jacoco_coverage.tmp
- REM echo jacoco_coverage.tmp %jacoco_coverage.tmp%
-  REM set /p jacocoSummary=<%jacoco_coverage.tmp%
-  REM del jacoco_coverage.tmp >nul 2>&1
-REM )
-powershell -nologo -noprofile -file scripts\parse-jacoco-report.ps1
-powershell -nologo -noprofile -file scripts\parse-jacoco-report.ps1 > jacoco_coverage.tmp
-set /p jacocoSummary=<jacoco_coverage.tmp
-set "jacocoSummary=Unavailable"
-
-REM if exist "reports\jacoco\jacoco-latest.xml" (
-  REM powershell -nologo -noprofile -Command ^
-    REM "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'INSTRUCTION' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N2}%%' -f (($cov * 100.0) / $t) } else { '0%%' } } else { 'Unavailable' }" ^
-    REM > jacoco_coverage.tmp
-
-  REM if exist jacoco_coverage.tmp (
-    REM set /p jacocoSummary=<jacoco_coverage.tmp
-    REM del jacoco_coverage.tmp >nul 2>&1
-  REM )
-REM )
-
-
-endlocal
+echo ?? Final Summary
+echo Checkstyle Violations: !checkstyleCount!
+echo PMD Violations:        !pmdCount!
+echo Code Coverage - JaCoCo: !jacocoSummary!
 
 :: --- Summary Output ---
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 echo 🧪 Hygiene Summary — %timestamp% >> "%hygieneLogPath%"
 echo Checkstyle Violations: !checkstyleCount! >> "%hygieneLogPath%"
 echo PMD Violations:        !pmdCount! >> "%hygieneLogPath%"
-echo Code Coverage - JaCoCo: !jacocoSummary! >> "%hygieneLogPath%"
+echo Code Coverage - JaCoCo: %jacocoSummary%  >> "%hygieneLogPath%"
 echo --------------------------------------------------- >> "%hygieneLogPath%"
-
+endlocal
 echo 🎯 All hygiene steps complete. Composite log:
 echo %hygieneLogPath%
 
 :: === Restore Original Directory ===
 cd /d "%originalDir%"
-
-pause
-
 
