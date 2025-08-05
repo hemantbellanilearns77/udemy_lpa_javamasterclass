@@ -55,8 +55,9 @@ public class ColorGenerator {
             if (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) continue;
 
             // 🧵 Optional semantic prefix (can be expanded later)
-            String prefix = (luminance > 200) ? "PASTEL" :
-                    (r > 200 && g < 100) ? "NEON" : "DASH";
+
+            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
+                    ;
 
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
             //String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
@@ -86,8 +87,7 @@ public class ColorGenerator {
             if (luminance < 100) continue;
             if (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) continue;
 
-            String prefix = (luminance > 200) ? "PASTEL" :
-                    (r > 200 && g < 100) ? "NEON" : "DASH";
+            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
 
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
             String literal = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format("%d;%d;%dm", r, g, b);
@@ -142,5 +142,9 @@ public class ColorGenerator {
                 }
             }
         }
+    }
+
+    private static String getSemanticPrefix(int r, int g, int b) {
+        return (r > 200 && g < 100) ? "NEON" : "DASH";
     }
 }
