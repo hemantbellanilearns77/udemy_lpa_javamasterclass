@@ -209,18 +209,8 @@ jobs:
           $sonarUrl = "https://sonarcloud.io/dashboard?id=$projectKey&branch=$branch"
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🔗 [View full SonarCloud Report]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
-          
-#          echo "CHECKSTYLE_VIOLATIONS=$checkstyleViolations" >> $GITHUB_ENV
-#          echo "PMD_VIOLATIONS=$pmdViolations" >> $GITHUB_ENV
-#          echo "JACOCO_COVERAGE_PERCENT=$jacocoCoverage%" >> $GITHUB_ENV
-#          echo "SONARCLOUD_DASHBOARD_URL=$sonarUrl" >> $GITHUB_ENV
-          
-          # echo "checkstyleCount=$checkstyleViolations" >> $GITHUB_OUTPUT
-          # echo "pmdCount=$pmdViolations" >> $GITHUB_OUTPUT
-          # echo "jacocoPercent=$jacocoCoverage%" >> $GITHUB_OUTPUT
-          #echo "sonarURL=$sonarUrl" >> $GITHUB_OUTPUT
-
           echo "" >> $env:GITHUB_STEP_SUMMARY
+          
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
