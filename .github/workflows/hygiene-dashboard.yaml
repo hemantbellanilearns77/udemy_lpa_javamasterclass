@@ -302,8 +302,14 @@ jobs:
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           body: |
-            Hygiene Summary:
-            - ✅ Checkstyle Violations: ${{ vars.CHECKSTYLE_VIOLATIONS }} 
-            - ✅ PMD Violations: ${{ vars.PMD_VIOLATIONS }}
-            - ✅ Code Coverage: ${{ vars.JACOCO_COVERAGE_PERCENT }} %
-            - "🔗 [View full SonarCloud Report](${{ vars.SONARCLOUD_DASHBOARD_URL }})" 
+            Dear Recipient,
+            A GitHub Hygiene Check ( CheckStyle + PMD + Jacoco + Sonar ) workflow just executed on the ${{ github.repository }} repository successfully. 
+            
+            Here is the Hygiene Summary:
+            - ✅ Checkstyle Violations: ${{ env.CHECKSTYLE_VIOLATIONS }} 
+            - ✅ PMD Violations: ${{ env.PMD_VIOLATIONS }}
+            - ✅ Code Coverage: ${{ env.JACOCO_COVERAGE_PERCENT }} %
+            - "🔗 [View full SonarCloud Report](${{ env.SONARCLOUD_DASHBOARD_URL }})" 
+            
+            
+            P.S.> This is an automated message from a Github Workflow's Email Step. Please do not reply to this email.
