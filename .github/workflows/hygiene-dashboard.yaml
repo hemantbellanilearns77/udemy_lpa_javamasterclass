@@ -285,27 +285,35 @@ jobs:
         run: echo Hello, world!
         shell: cmd
 
-      - name: 📦 Extract Commit Info
+      - name: 📦 Extract Commit Info (Windows PowerShell)
         id: commit_info
+        shell: pwsh
         run: |
-          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          echo "FULL_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          echo "COMMIT_MSG=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
-          echo "COMMIT_AUTHOR=$(git log -1 --pretty='%an')" >> $GITHUB_OUTPUT
-          echo "COMMIT_DATE=$(git log -1 --date=iso-local --pretty='%cd')" >> $GITHUB_OUTPUT
+          $shortSha = git rev-parse --short HEAD
+          $fullSha = git rev-parse HEAD
+          $msg = git log -1 --pretty=%s
+          $author = git log -1 --pretty='%an'
+          $date = git log -1 --date=iso-local --pretty='%cd'
 
-          commit_ts=$(git log -1 --pretty=%ct)
-          now_ts=$(date +%s)
-          delta_sec=$((now_ts - commit_ts))
-          delta_min=$((delta_sec / 60))
-          if [ "$delta_min" -lt 1 ]; then
-            ago="Just now"
-          elif [ "$delta_min" -eq 1 ]; then
-            ago="1 minute ago"
-          else
-            ago="$delta_min minutes ago"
-          fi
-          echo "COMMIT_AGO=$ago" >> $GITHUB_OUTPUT
+          $commitTs = git log -1 --pretty=%ct
+          $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
+          $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
+
+          if ($deltaMin -lt 1) {
+            $ago = "Just now"
+          } elseif ($deltaMin -eq 1) {
+            $ago = "1 minute ago"
+          } else {
+            $ago = "$deltaMin minutes ago"
+          }
+
+          "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
+          "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
+          "COMMIT_MSG=$msg" >> $env:GITHUB_OUTPUT
+          "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
+          "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
+          "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
+      
       
 
       ##########################
