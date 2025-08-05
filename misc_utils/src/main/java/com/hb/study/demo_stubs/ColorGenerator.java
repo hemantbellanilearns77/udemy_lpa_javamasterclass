@@ -14,7 +14,8 @@ public class ColorGenerator {
     public static final Random random = new Random();
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-
+    private static final String COLOR_CODE_ESCAPE_SEQUENCE_ONE = "\u001B[38;2";
+    private static final String COLOR_CODE_ESCAPE_SEQUENCE_TWO = "\\u001B[38;2;";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -58,14 +59,14 @@ public class ColorGenerator {
                     (r > 200 && g < 100) ? "NEON" : "DASH";
 
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
-            //String code = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
-            String code = String.format("\\u001B[38;2;%d;%d;%dm", r, g, b); // correctly escaped
+            //String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
+            String code = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format("%d;%d;%dm", r, g, b); // correctly escaped
             String completeString = name + "(\"" + code + "\"),";
 
             System.out.println(completeString);
             // 🌈 Optional visual preview (uncomment to display while generating)
             if(showColorPreview) {
-                String liveAnsi = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE+ String.format(";%d;%d;%dm", r, g, b);
                 System.out.println(liveAnsi + "█ " + name + "\u001B[0m");
             }
             count++;
@@ -89,7 +90,7 @@ public class ColorGenerator {
                     (r > 200 && g < 100) ? "NEON" : "DASH";
 
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
-            String literal = String.format("\\u001B[38;2;%d;%d;%dm", r, g, b);
+            String literal = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format("%d;%d;%dm", r, g, b);
             String enumLine = name + "(\"" + literal + "\"),";
 
             if (!seenPatterns.add(enumLine)) continue; // adds and checks uniqueness in one go
@@ -98,7 +99,7 @@ public class ColorGenerator {
 
             // 🌈 Optional visual preview (uncomment to display while generating)
             if(showColorPreview) {
-                String liveAnsi = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
                 System.out.println(liveAnsi + "█ " + name + "\u001B[0m");
             }
             count++;
@@ -111,7 +112,7 @@ public class ColorGenerator {
             for (int g = 180; g <= 255; g += 15) {
                 for (int b = 180; b <= 255; b += 15) {
                     String name = String.format("PASTEL_%d_%d_%d", r, g, b);
-                    String code = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                    String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
                     System.out.println(name + "(\"" + code + "\"),");
                 }
             }
@@ -124,7 +125,7 @@ public class ColorGenerator {
                 for (int b : neonValues) {
                     if ((r + g + b) > 500 || (r == 255 && g == 20 && b == 147)) { // heuristics for punchy neons
                         String name = String.format("NEON_%d_%d_%d", r, g, b);
-                        String code = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                        String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
                         System.out.println(name + "(\"" + code + "\"),");
                     }
                 }
@@ -136,7 +137,7 @@ public class ColorGenerator {
             for (int g = 0; g <= 80; g += 20) {
                 for (int b = 20; b <= 100; b += 20) {
                     String name = String.format("MIDNIGHT_%d_%d_%d", r, g, b);
-                    String code = String.format("\u001B[38;2;%d;%d;%dm", r, g, b);
+                    String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(";%d;%d;%dm", r, g, b);
                     System.out.println(name + "(\"" + code + "\"),");
                 }
             }
