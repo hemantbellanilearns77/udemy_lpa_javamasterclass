@@ -289,9 +289,24 @@ jobs:
         id: commit_info
         run: |
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "FULL_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           echo "COMMIT_MSG=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
           echo "COMMIT_AUTHOR=$(git log -1 --pretty='%an')" >> $GITHUB_OUTPUT
           echo "COMMIT_DATE=$(git log -1 --date=iso-local --pretty='%cd')" >> $GITHUB_OUTPUT
+
+          commit_ts=$(git log -1 --pretty=%ct)
+          now_ts=$(date +%s)
+          delta_sec=$((now_ts - commit_ts))
+          delta_min=$((delta_sec / 60))
+          if [ "$delta_min" -lt 1 ]; then
+            ago="Just now"
+          elif [ "$delta_min" -eq 1 ]; then
+            ago="1 minute ago"
+          else
+            ago="$delta_min minutes ago"
+          fi
+          echo "COMMIT_AGO=$ago" >> $GITHUB_OUTPUT
+      
 
       ##########################
       # Email Success Summary
@@ -318,27 +333,27 @@ jobs:
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           html_body: |
             <p>Hi Hemant,</p>
-
+            
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-          
+            
             <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
             <ul>
-            <li>✅ Checkstyle Violations: <strong>${{ env.CHECKSTYLE_VIOLATIONS }}</strong></li>
-            <li>✅ PMD Violations: <strong>${{ env.PMD_VIOLATIONS }}</strong></li>
-            <li>✅ Code Coverage: <strong>${{ env.JACOCO_COVERAGE_PERCENT }}</strong></li>
-            <li>🔗 <a href="${{ env.SONARCLOUD_DASHBOARD_URL }}">View full SonarCloud Report</a></li>
+              <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
+              <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
+              <li>✅ Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+              <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
             </ul>
             
-             <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
+            <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
             <ul>
-            <li><strong>SHA:</strong> <code>${{ env.SHORT_SHA }}</code></li>
-            <li><strong>Message:</strong> <em>${{ env.COMMIT_MSG }}</em></li>
-            <li><strong>Author:</strong> ${{ env.COMMIT_AUTHOR }}</li>
-            <li><strong>Date:</strong> ${{ env.COMMIT_DATE }}</li>
+              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
+              <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
+              <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
+              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
+              <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
             </ul>
-          
+            
             <hr>
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
             Please do not reply.</em></p>
-
 
