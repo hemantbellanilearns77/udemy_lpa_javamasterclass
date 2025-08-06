@@ -21,9 +21,8 @@ jobs:
 
       - name: ⏱️ Capture Job Start Time
         id: start_time
-        run:
-          echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
         shell: bash
+        run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
 
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -322,55 +321,26 @@ jobs:
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
 
 
-      - name: ⏱️ Compute Job Duration
-        id: duration
-        run: |
-          endTime=$(date +%s)
-          startTime=${{ steps.start_time.outputs.startTime }}          
-          
-          duration=$((endTime - startTime))
-          mins=$((duration / 60))
-          secs=$((duration % 60))
-          
-          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).DateTime
-          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).DateTime
-          
-          $startTime = $startDT.ToString("yyyy-MM-dd HH:mm:ss")
-          $endTime = $endDT.ToString("yyyy-MM-dd HH:mm:ss")
-          
-          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
-          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
-          echo "formattedDuration=${mins}m ${secs}s" >> $GITHUB_OUTPUT
-
-        shell: bash
-
-
-
-      - name: 🕒 Export Start/End Time for Email
-        id: timing
+      - name: ⏱️ Calculate Duration and Export Timing
+        id: calculate-duration-and-export-timing
         shell: pwsh
         env:
-          START_EPOCH: ${{ steps.duration.outputs.startTime }}
+          START_EPOCH: ${{ steps.start_time.outputs.startTime }}
         run: |
           $startEpoch = [int]$env:START_EPOCH
           $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-          
-          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).DateTime
-          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).DateTime
-          
-          $startTime = $startDT.ToString("yyyy-MM-dd HH:mm:ss")
-          $endTime = $endDT.ToString("yyyy-MM-dd HH:mm:ss")
-          
-          $duration = New-TimeSpan -Start $startDT -End $endDT
-          $durationStr = "{0}m {1}s" -f $duration.Minutes, $duration.Seconds
-          
-          echo "START_TIME=$startTime" >> $env:GITHUB_ENV
-          echo "END_TIME=$endTime" >> $env:GITHUB_ENV
-          echo "DURATION=$durationStr" >> $env:GITHUB_ENV
-          
-          echo "startTime=$startTime" >> $GITHUB_OUTPUT
-          echo "endTime=$endTime" >> $GITHUB_OUTPUT
-          echo "duration=$durationStr" >> $GITHUB_OUTPUT
+      
+          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+      
+          $durationSec = $endEpoch - $startEpoch
+          $mins = [math]::Floor($durationSec / 60)
+          $secs = $durationSec % 60
+          $durationFormatted = "{0}m {1}s" -f $mins, $secs
+      
+          echo "startTime=$startDT" >> $env:GITHUB_OUTPUT
+          echo "endTime=$endDT" >> $env:GITHUB_OUTPUT
+          echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
 
 
       ##########################
