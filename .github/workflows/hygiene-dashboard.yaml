@@ -22,7 +22,7 @@ jobs:
       - name: ⏱️ Capture Job Start Time
         id: start_time
         run:
-            echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
+          echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: 📥 Checkout Code
@@ -152,8 +152,8 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
           
-      ################################
-          # RUN SONAR CLOUD ANALYSIS
+          ################################
+        # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: 🔎 Run SonarCloud Scan (via batch)
         if: success()
@@ -261,8 +261,8 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
-
-
+          
+          
           
           ##########################
       # FULL CLEANUP
@@ -320,7 +320,7 @@ jobs:
           "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
           "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
-      
+
 
       - name: ⏱️ Compute Job Duration
         id: duration
@@ -338,82 +338,89 @@ jobs:
         id: timing
         shell: pwsh
         run: |
+          # Convert start time from GitHub to integer epoch
           $startEpoch = $env:GITHUB_RUN_STARTED
           $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-
-          $startTime = (Get-Date -Date ([System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch))).ToString("yyyy-MM-dd HH:mm:ss")
-          $endTime = (Get-Date -Date ([System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch))).ToString("yyyy-MM-dd HH:mm:ss")
-
-          $duration = New-TimeSpan -Start $startTime -End $endTime
+          
+          # Convert Unix timestamps to DateTime
+          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).DateTime
+          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).DateTime
+          
+          # Format the timestamps
+          $startTime = $startDT.ToString("yyyy-MM-dd HH:mm:ss")
+          $endTime = $endDT.ToString("yyyy-MM-dd HH:mm:ss")
+          
+          # Calculate duration
+          $duration = New-TimeSpan -Start $startDT -End $endDT
           $durationStr = "{0}m {1}s" -f $duration.Minutes, $duration.Seconds
-
+          
+          # Export to environment + outputs
           echo "START_TIME=$startTime" >> $env:GITHUB_ENV
           echo "END_TIME=$endTime" >> $env:GITHUB_ENV
           echo "DURATION=$durationStr" >> $env:GITHUB_ENV
-
+          
           echo "startTime=$startTime" >> $GITHUB_OUTPUT
           echo "endTime=$endTime" >> $GITHUB_OUTPUT
           echo "duration=$durationStr" >> $GITHUB_OUTPUT
-
-
-      ##########################
-      # Email Success Summary
-      ##########################
-
-      - name: 📬 Email Summary
-        uses: dawidd6/action-send-mail@v3
-        env:
-          CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
-          PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
-          JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
-          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
-          SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
-          COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
-          COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
-          COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASS }}
-          subject: ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} — Java MasterClass Hygiene Check for ${{ github.repository }} (main)
           
-          to: hemantbellanilearns77@gmail.com
-          from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
-          html_body: |
-            <p>Hi Hemant,</p>
-            
-            <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-            <p>
-              <ul>
-                <li>⏱️ <strong>Start Time:</strong>${{ steps.timing.outputs.startTime }}</li> 
-                <li>⏱️ <strong>End Time:</strong>${{ steps.timing.outputs.endTime }}</li>
-                <li>⏱️ <strong>Job Duration:</strong>${{ steps.timing.outputs.duration }}</li>
-              </ul>
-            </p>            
-            ⏱️ 
-            ${{ steps.start_time.outputs.start }}
-            <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
-            <ul>
-              <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
-              <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>✅ Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
-              <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
-            </ul>
-            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
-            
-            <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
-            <ul>
-              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
-              <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
-              <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
-              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-            </ul>
-            
-            
-            
-            <hr>
-            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p>
+          ##########################
+          # Email Success Summary
+          ##########################
+
+          - name: 📬 Email Summary
+            uses: dawidd6/action-send-mail@v3
+            env:
+              CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
+              PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
+              JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
+              SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
+              SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
+              COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
+              COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
+              COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
+            with:
+              server_address: smtp.gmail.com
+              server_port: 465
+              username: ${{ secrets.SMTP_USER }}
+              password: ${{ secrets.SMTP_PASS }}
+              subject: ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} — Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+              
+              to: hemantbellanilearns77@gmail.com
+              from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
+              html_body: |
+                <p>Hi Hemant,</p>
+                
+                <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
+                <p>
+                  <ul>
+                    <li>⏱️ <strong>Start Time:</strong>${{ steps.timing.outputs.startTime }}</li> 
+                    <li>⏱️ <strong>End Time:</strong>${{ steps.timing.outputs.endTime }}</li>
+                    <li>⏱️ <strong>Job Duration:</strong>${{ steps.timing.outputs.duration }}</li>
+                  </ul>
+                </p>            
+                ⏱️ 
+                ${{ steps.start_time.outputs.start }}
+                <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
+                <ul>
+                  <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
+                  <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
+                  <li>✅ Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+                  <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
+                </ul>
+                <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
+                
+                <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
+                <ul>
+                  <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
+                  <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
+                  <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
+                  <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
+                  <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
+                </ul>
+                
+                
+                
+                <hr>
+                <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
+                Please do not reply.</em></p>
 
