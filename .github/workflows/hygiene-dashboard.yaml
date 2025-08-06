@@ -164,20 +164,18 @@ jobs:
       ##########################
       # FETCH SONARCLOUD INFO
       ##########################
-      - name: 🧠 Fetch SonarCloud Issue Count
+      - name: 🧠 Fetch SonarCloud Issues (Hardcoded)
         id: sonar_issues
         shell: pwsh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: ${{ vars.SONAR_ORG }}
-          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
         run: |
+          # Encode token
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
-          $org = $env:SONAR_ORG
-          $projectKey = $env:SONAR_PROJECT_KEY
-          $url = "https://sonarcloud.io/api/issues/search?organization=$org&componentKeys=$projectKey"
+          # Fully hardcoded URL
+          $url = "https://sonarcloud.io/api/issues/search?organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
 
           Write-Host "Calling SonarCloud API: $url"
           try {
@@ -191,9 +189,7 @@ jobs:
             Write-Error "❌ Failed to fetch SonarCloud issues. $_"
             exit 1
           }
-
-
-
+      
       ##########################
       # SUMMARY SECTION
       ##########################
