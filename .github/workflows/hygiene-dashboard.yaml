@@ -260,8 +260,22 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
-      
-      
+
+      ##########################
+      # FETCH SONARCLOUD INFO
+      ##########################
+
+      - name: 🔍 Fetch SonarCloud Issue Count
+        id: sonar_issues
+        run: |
+          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=issues")
+
+          issueCount=$(echo "$response" | jq -r '.component.measures[] | select(.metric=="issues") | .value')
+
+          echo "SONARCLOUD_ISSUE_COUNT=$issueCount" >> $GITHUB_ENV
+          echo "sonarIssues=$issueCount" >> $GITHUB_OUTPUT
+        shell: bash
 
       ##########################
       # FULL CLEANUP
@@ -377,6 +391,7 @@ jobs:
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
               <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
               <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssues }}</strong></li>
               <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
             </ul>
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
