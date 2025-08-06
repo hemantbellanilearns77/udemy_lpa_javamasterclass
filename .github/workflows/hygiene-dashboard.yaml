@@ -376,6 +376,9 @@ jobs:
                 <li>⏱️ <strong>Start Time:</strong>${{ steps.duration.outputs.startTime }}</li> 
                 <li>⏱️ <strong>End Time:</strong>${{ steps.duration.outputs.endTime }}</li>
                 <li>⏱️ <strong>Job Duration:</strong>${{ steps.duration.outputs.formattedDuration }}</li>
+                <li>⏱️ <strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+                <li>⏱️ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+                <li>⏱️ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
               </ul>
             </p>            
             ⏱️ 
