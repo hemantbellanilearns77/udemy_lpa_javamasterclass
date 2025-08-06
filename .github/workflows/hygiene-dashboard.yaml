@@ -175,7 +175,7 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           # Fully hardcoded URL
-          $url = "https://sonarcloud.io/api/issues/search?organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
 
           Write-Host "Calling SonarCloud API: $url"
           try {
@@ -189,7 +189,7 @@ jobs:
             Write-Error "❌ Failed to fetch SonarCloud issues. $_"
             exit 1
           }
-      
+
       ##########################
       # SUMMARY SECTION
       ##########################
