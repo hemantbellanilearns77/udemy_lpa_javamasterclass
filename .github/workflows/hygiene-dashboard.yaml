@@ -284,7 +284,8 @@ jobs:
         shell: cmd
         run: |
           echo === POST-CLEANUP DIRECTORY TREE ===
-          dir /s /b
+#         dir /s /b
+          echo Hello, world!
 
       - name: 🗣️ Say Hello (unless skipped)
         if: env.SKIP_ECHO != 'true'
