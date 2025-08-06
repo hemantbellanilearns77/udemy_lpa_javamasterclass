@@ -9,13 +9,11 @@ public class OverloadingChallenge {
     public static double convertToCentimeters(int feet, int inches) {
 
         int feetToInches  = (feet * 12);
-        int totalInches = feetToInches + inches;
-        double conversionResult  = convertToCentimeters(totalInches);
-        return conversionResult;
+        int totalInches = (feetToInches + inches);
+        return convertToCentimeters(totalInches);
     }
     public static double convertToCentimeters(int inches) {
 
-        double conversionResult = inches * 2.54;
-        return conversionResult;
+        return (inches * 2.54);
     }
 }
