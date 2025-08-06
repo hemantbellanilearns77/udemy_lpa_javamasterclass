@@ -371,15 +371,7 @@ jobs:
             <p>Hi Hemant,</p>
             
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-            <p>
-              <ul>
-                <li>⏱️ <strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li>⏱️ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li>⏱️ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
-              </ul>
-            </p>            
             
-            ${{ steps.start_time.outputs.start }}
             <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
             <ul>
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
