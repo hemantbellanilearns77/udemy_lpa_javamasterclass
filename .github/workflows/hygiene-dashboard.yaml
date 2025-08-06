@@ -170,7 +170,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
+          # Encode token (no colon)
+          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
@@ -195,6 +196,7 @@ jobs:
             Write-Error "❌ API call failed: $_"
             exit 1
           }
+      
       
 
       ##########################
