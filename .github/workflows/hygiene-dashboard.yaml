@@ -260,8 +260,22 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
-      
-      
+
+      ##########################
+      # FETCH SONARCLOUD INFO
+      ##########################
+
+      - name: 🔍 Fetch SonarCloud Issue Count
+        id: sonar_issues
+        run: |
+          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=issues")
+
+          issueCount=$(echo "$response" | jq -r '.component.measures[] | select(.metric=="issues") | .value')
+
+          echo "SONARCLOUD_ISSUE_COUNT=$issueCount" >> $GITHUB_ENV
+          echo "sonarIssues=$issueCount" >> $GITHUB_OUTPUT
+        shell: bash
 
       ##########################
       # FULL CLEANUP
@@ -370,13 +384,14 @@ jobs:
           html_body: |
             <p>Hi Hemant,</p>
             
-            <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
+            <p>A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was successfully completed on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
             
             <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
             <ul>
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
               <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>✅ Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+              <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssues }}</strong></li>
               <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
             </ul>
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
@@ -387,12 +402,15 @@ jobs:
               <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
               <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
+              <li><strong>🔗 View Commit:</strong>
+                  <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
+              </li>
             </ul>
-            <p>🧑‍💻 <strong>GitHub Hygiene Check - Job Info:</strong></p>
+            <p><strong>🕒 Job Execution:</strong></p>
              <ul>
-                <li>⏱️ <strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li>⏱️ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li>⏱️ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
               </ul>
             <hr>
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
