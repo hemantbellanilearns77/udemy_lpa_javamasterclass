@@ -54,11 +54,12 @@ public class ColorGenerator {
             String code = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b); // correctly escaped
             String completeString = name + "(\"" + code + "\"),";
 
-            System.out.println(completeString);
+            ConsoleStyler.styleOutput(null,completeString);
             // 🌈 Optional visual preview (uncomment to display while generating)
             if(showColorPreview) {
                 String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE+ String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
-                System.out.println(liveAnsi + "█ " + name + "\u001B[0m");
+
+                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + "\u001B[0m");
             }
             count++;
         }
@@ -85,12 +86,13 @@ public class ColorGenerator {
 
             if (!seenPatterns.add(enumLine)) continue; // adds and checks uniqueness in one go
 
-            System.out.println(enumLine);
+            ConsoleStyler.styleOutput(null,enumLine);
 
             // 🌈 Optional visual preview (uncomment to display while generating)
             if(showColorPreview) {
                 String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
-                System.out.println(liveAnsi + "█ " + name + "\u001B[0m");
+
+                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + "\u001B[0m");
             }
             count++;
         }
@@ -103,7 +105,7 @@ public class ColorGenerator {
                 for (int b = 180; b <= 255; b += 15) {
                     String name = String.format("PASTEL_%d_%d_%d", r, g, b);
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
-                    System.out.println(name + "(\"" + code + "\"),");
+                    ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                 }
             }
         }
@@ -116,7 +118,7 @@ public class ColorGenerator {
                     if ((r + g + b) > 500 || (r == 255 && g == 20 && b == 147)) { // heuristics for punchy neons
                         String name = String.format("NEON_%d_%d_%d", r, g, b);
                         String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
-                        System.out.println(name + "(\"" + code + "\"),");
+                        ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                     }
                 }
             }
@@ -128,7 +130,7 @@ public class ColorGenerator {
                 for (int b = 20; b <= 100; b += 20) {
                     String name = String.format("MIDNIGHT_%d_%d_%d", r, g, b);
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
-                    System.out.println(name + "(\"" + code + "\"),");
+                    ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                 }
             }
         }
