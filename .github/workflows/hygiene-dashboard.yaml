@@ -15,7 +15,7 @@ jobs:
       PMD_MAX_VIOLATIONS: 63
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-      SKIP_ECHO: false
+      SKIP_ECHO: true
 
     steps:
 
