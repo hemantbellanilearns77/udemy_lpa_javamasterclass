@@ -328,6 +328,7 @@ jobs:
           endTime=$(date +%s)
           echo "endTime=${endTime}" >> $GITHUB_OUTPUT
           startTime=${{ steps.start_time.outputs.startTime }}
+          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
           duration=$((endTime - startTime))
           mins=$((duration / 60))
           secs=$((duration % 60))
@@ -335,36 +336,34 @@ jobs:
         shell: bash
 
 
+
       - name: 🕒 Export Start/End Time for Email
         id: timing
         shell: pwsh
+        env:
+          START_EPOCH: ${{ steps.duration.outputs.startTime }}
         run: |
-          # Convert start time from GitHub to integer epoch
-          $startEpoch = $env:GITHUB_RUN_STARTED
+          $startEpoch = [int]$env:START_EPOCH
           $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-
-          # Convert Unix timestamps to DateTime
+          
           $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).DateTime
           $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).DateTime
-
-          # Format the timestamps
+          
           $startTime = $startDT.ToString("yyyy-MM-dd HH:mm:ss")
           $endTime = $endDT.ToString("yyyy-MM-dd HH:mm:ss")
-
-          # Calculate duration
+          
           $duration = New-TimeSpan -Start $startDT -End $endDT
           $durationStr = "{0}m {1}s" -f $duration.Minutes, $duration.Seconds
-
-          # Export to environment + outputs
+          
           echo "START_TIME=$startTime" >> $env:GITHUB_ENV
           echo "END_TIME=$endTime" >> $env:GITHUB_ENV
           echo "DURATION=$durationStr" >> $env:GITHUB_ENV
-
+          
           echo "startTime=$startTime" >> $GITHUB_OUTPUT
           echo "endTime=$endTime" >> $GITHUB_OUTPUT
           echo "duration=$durationStr" >> $GITHUB_OUTPUT
-          
-          
+
+
       ##########################
       # Email Success Summary
       ##########################
