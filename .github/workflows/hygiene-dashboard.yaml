@@ -187,6 +187,7 @@ jobs:
             "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
           } catch {
             Write-Error "❌ Failed to fetch SonarCloud issues. $_"
+            Write-Host "Response: $($_.Exception.Response.Content.ReadAsStringAsync().Result)"
             exit 1
           }
 
