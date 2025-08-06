@@ -16,6 +16,5 @@ public class OperatorsChallenge {
         } else {
             System.out.println("Got some remainder");
         }
-
     }
 }
