@@ -3,15 +3,15 @@ package com.hb.study.demo_stubs;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
  * created by : heman on 24-07-2025, 09:39 am, in the "udemy_lpa_javamasterclass" project
  **/
 public class ColorGenerator {
-    public static final Random random = new Random();
+    public static final SecureRandom secureRandom = new SecureRandom();
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String COLOR_CODE_ESCAPE_SEQUENCE_ONE = "\u001B[38;2";
@@ -36,9 +36,9 @@ public class ColorGenerator {
         int count = 0;
 
         while (count < 270) {
-            int r = random.nextInt(256);
-            int g = random.nextInt(256);
-            int b = random.nextInt(256);
+            int r = secureRandom.nextInt(256);
+            int g = secureRandom.nextInt(256);
+            int b = secureRandom.nextInt(256);
 
             // 🎨 Skip overly dark tones (low luminance)
             // and
@@ -62,14 +62,14 @@ public class ColorGenerator {
         }
     }
     private static void generateColors(boolean showColorPreview) {
-        Random random = new Random();
+
         Set<String> seenPatterns = new HashSet<>();
         int count = 0;
 
         while (count < 630) {
-            int r = random.nextInt(256);
-            int g = random.nextInt(256);
-            int b = random.nextInt(256);
+            int r = secureRandom.nextInt(256);
+            int g = secureRandom.nextInt(256);
+            int b = secureRandom.nextInt(256);
 
             double luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
             if (luminance < 100) continue;

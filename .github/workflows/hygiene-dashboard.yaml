@@ -170,8 +170,8 @@ jobs:
         shell: pwsh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: ${{ vars.SONAR_ORG }}
-          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+          SONAR_ORG: $env:SONAR_ORG
+          SONAR_PROJECT_KEY: $env:SONAR_PROJECT_KEY
         run: |
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
