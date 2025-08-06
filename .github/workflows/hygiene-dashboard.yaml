@@ -326,13 +326,22 @@ jobs:
         id: duration
         run: |
           endTime=$(date +%s)
-          echo "endTime=${endTime}" >> $GITHUB_OUTPUT
-          startTime=${{ steps.start_time.outputs.startTime }}
-          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
+          startTime=${{ steps.start_time.outputs.startTime }}          
+          
           duration=$((endTime - startTime))
           mins=$((duration / 60))
           secs=$((duration % 60))
+          
+          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).DateTime
+          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).DateTime
+          
+          $startTime = $startDT.ToString("yyyy-MM-dd HH:mm:ss")
+          $endTime = $endDT.ToString("yyyy-MM-dd HH:mm:ss")
+          
+          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
+          echo "startTime=${startTime}" >> $GITHUB_OUTPUT
           echo "formattedDuration=${mins}m ${secs}s" >> $GITHUB_OUTPUT
+
         shell: bash
 
 
@@ -394,9 +403,9 @@ jobs:
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
             <p>
               <ul>
-                <li>⏱️ <strong>Start Time:</strong>${{ steps.timing.outputs.startTime }}</li> 
-                <li>⏱️ <strong>End Time:</strong>${{ steps.timing.outputs.endTime }}</li>
-                <li>⏱️ <strong>Job Duration:</strong>${{ steps.timing.outputs.duration }}</li>
+                <li>⏱️ <strong>Start Time:</strong>${{ steps.duration.outputs.startTime }}</li> 
+                <li>⏱️ <strong>End Time:</strong>${{ steps.duration.outputs.endTime }}</li>
+                <li>⏱️ <strong>Job Duration:</strong>${{ steps.duration.outputs.formattedDuration }}</li>
               </ul>
             </p>            
             ⏱️ 
