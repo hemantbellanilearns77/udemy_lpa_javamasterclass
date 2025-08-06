@@ -164,32 +164,34 @@ jobs:
       ##########################
       # FETCH SONARCLOUD INFO
       ##########################
-
-      - name: 📊 Fetch Total Issues from SonarCloud
+      - name: 🧠 Fetch SonarCloud Issue Count
         id: sonar_issues
         shell: pwsh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORG: $env:SONAR_ORG
-          SONAR_PROJECT_KEY: $env:SONAR_PROJECT_KEY
+          SONAR_ORG: ${{ vars.SONAR_ORG }}
+          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
         run: |
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
-          
-          
-          $uri = "https://sonarcloud.io/api/issues/search?organization=$org&componentKeys=$projectKey"
-          Write-Host "Calling SonarCloud API: $uri"
+
+          $org = $env:SONAR_ORG
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $url = "https://sonarcloud.io/api/issues/search?organization=$org&componentKeys=$projectKey"
+
+          Write-Host "Calling SonarCloud API: $url"
           try {
-            $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
             $totalIssues = $response.total
-            Write-Host "Total Issues Found: $totalIssues"
-          
+            Write-Host "✅ Total SonarCloud Issues: $totalIssues"
+
             "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
             "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
           } catch {
             Write-Error "❌ Failed to fetch SonarCloud issues. $_"
             exit 1
           }
+
 
 
       ##########################
