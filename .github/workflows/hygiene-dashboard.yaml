@@ -165,17 +165,24 @@ jobs:
       # FETCH SONARCLOUD INFO
       ##########################
 
-      - name: 🔍 Fetch SonarCloud Issue Count
+      - name: 📊 Fetch Total Issues from SonarCloud
         id: sonar_issues
+        shell: pwsh
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
         run: |
-          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=issues")
+          $headers = @{
+            Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
+          }
+          
+          $url = "https://sonarcloud.io/api/issues/search?componentKeys=$env:SONAR_PROJECT_KEY"
+          $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+          
+          $totalIssues = $response.total
+          "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
+          "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
 
-          issueCount=$(echo "$response" | jq -r '.component.measures[] | select(.metric=="issues") | .value')
-
-          echo "SONARCLOUD_ISSUE_COUNT=$issueCount" >> $GITHUB_ENV
-          echo "sonarIssues=$issueCount" >> $GITHUB_OUTPUT
-        shell: bash
       ##########################
       # SUMMARY SECTION
       ##########################
@@ -212,7 +219,8 @@ jobs:
           }
 
           $totalViolations = $checkstyleViolations + $pmdViolations
-          $sonarIssues = ${{ steps.sonar_issues.outputs.sonarIssues }}
+          $sonarIssues = ${{ steps.sonar_issues.outputs.sonarIssueCount }}
+          echo "$sonarIssues" $sonarIssues
           # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "|               **Metrics**         |      **Values**      |" >> $env:GITHUB_STEP_SUMMARY
@@ -221,7 +229,7 @@ jobs:
           echo "| PMD Code Smells                   | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| SonarCloud Total Issues           | $sonarIssues         |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| SonarCloud Total Issues           | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
           
           
           # === SonarCloud Dashboard Link ===
@@ -391,7 +399,7 @@ jobs:
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
               <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
               <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
-              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssues }}</strong></li>
+              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
               <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
             </ul>
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
