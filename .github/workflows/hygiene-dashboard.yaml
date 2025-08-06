@@ -325,7 +325,8 @@ jobs:
       - name: ⏱️ Compute Job Duration
         id: duration
         run: |
-          echo "endTime=$(date +%s)" >> $GITHUB_OUTPUT
+          endTime=$(date +%s)
+          echo "endTime=${endTime}" >> $GITHUB_OUTPUT
           startTime=${{ steps.start_time.outputs.startTime }}
           duration=$((endTime - startTime))
           mins=$((duration / 60))
@@ -363,7 +364,7 @@ jobs:
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
             <p>
               <ul>
-                <li>⏱️ <strong>Start Time:</strong> ${{ steps.start_time.outputs.starTime }}/li> 
+                <li>⏱️ <strong>Start Time:</strong> ${{ steps.start_time.outputs.starTime }}</li> 
                 <li>⏱️ <strong>End Time:</strong> ${{ steps.duration.outputs.endTime }}/li>
                 <li>⏱️ <strong>Job Duration:</strong> ${{ steps.duration.outputs.formattedDuration }}/li>
               </ul>
