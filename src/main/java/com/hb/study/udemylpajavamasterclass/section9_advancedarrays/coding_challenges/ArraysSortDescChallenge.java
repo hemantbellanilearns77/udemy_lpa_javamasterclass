@@ -1,5 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section9_advancedarrays.coding_challenges;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -29,9 +30,9 @@ public class ArraysSortDescChallenge {
 
     private static int[] getRandomArray(int length){
         int[] randomIntArray = new int[length];
-        Random random = new Random(1);
-        for(int loopCounter=0; loopCounter<length;loopCounter++) {
-            randomIntArray[loopCounter] = random.nextInt(100);
+        SecureRandom secureRandomRandom  = new SecureRandom();
+        for(int loopCounter=1; loopCounter<length;loopCounter++) {
+            randomIntArray[loopCounter] = secureRandomRandom.nextInt(100);
         }
         return randomIntArray;
     }
