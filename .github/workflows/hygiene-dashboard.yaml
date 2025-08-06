@@ -278,13 +278,12 @@ jobs:
           echo ✅ Cleanup done 
 
       ##########################
-      # CLEANUP VERIFICATION
+      # CLEANUP VERIFICATION dir /s /b
       ##########################
       - name: 📂 List Remaining Files
         shell: cmd
         run: |
           echo === POST-CLEANUP DIRECTORY TREE ===
-#         dir /s /b
           echo Hello, world!
 
       - name: 🗣️ Say Hello (unless skipped)
