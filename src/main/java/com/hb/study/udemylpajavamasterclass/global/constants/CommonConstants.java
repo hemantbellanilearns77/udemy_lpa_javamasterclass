@@ -1,8 +1,10 @@
 package com.hb.study.udemylpajavamasterclass.global.constants;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class CommonConstants {
+    public static final SecureRandom secureRandom = new SecureRandom();
     // ANSI escape codes
     public static final String RESET = "\u001B[0m";
     public static final String BOLD = "\u001B[1m";
@@ -50,7 +52,7 @@ public class CommonConstants {
     public static final String INITIALIZATIONS_INFO = "INITIALIZATIONS : " ;
 
     // Demo Limits
-    public static final int MAX_ITERATION_COUNT = new Random().nextInt(1, (3969 + 1));
+    public static final int MAX_ITERATION_COUNT = secureRandom.nextInt(1, (3969 + 1));
     public static final int ARRAY_LENGTH = 15;
     public static final int COLLECTION_DEMO_SIZE = 20;
     public static final int STRING_SAMPLE_LIMIT = 5;
