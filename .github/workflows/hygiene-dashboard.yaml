@@ -22,7 +22,7 @@ jobs:
       - name: ⏱️ Capture Job Start Time
         id: start_time
         run:
-            echo "start=$(date +%s)" >> $GITHUB_OUTPUT
+            echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: 📥 Checkout Code
@@ -320,16 +320,17 @@ jobs:
           "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
           "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
+      
 
       - name: ⏱️ Compute Job Duration
         id: duration
         run: |
-          end=$(date +%s)
-          start=${{ steps.start_time.outputs.start }}
-          duration=$((end - start))
+          echo "endTime=$(date +%s)" >> $GITHUB_OUTPUT
+          startTime=${{ steps.start_time.outputs.startTime }}
+          duration=$((endTime - startTime))
           mins=$((duration / 60))
           secs=$((duration % 60))
-          echo "formatted=${mins}m ${secs}s" >> $GITHUB_OUTPUT
+          echo "formattedDuration=${mins}m ${secs}s" >> $GITHUB_OUTPUT
         shell: bash
 
       ##########################
@@ -360,7 +361,17 @@ jobs:
             <p>Hi Hemant,</p>
             
             <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) has just executed successfully on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-            <p>⏱️ <strong>Job Duration:</strong> ${{ steps.duration.outputs.formatted }}</p>
+            <p>
+              <ul>
+                <li>⏱️ <strong>Start Time:</strong> ${{ steps.start_time.outputs.starTime }}/li> 
+                <li>⏱️ <strong>End Time:</strong> ${{ steps.duration.outputs.endTime }}/li>
+                <li>⏱️ <strong>Job Duration:</strong> ${{ steps.duration.outputs.formattedDuration }}/li>
+              </ul>
+            </p>
+            
+            
+            ⏱️ 
+            ${{ steps.start_time.outputs.start }}
             <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
             <ul>
               <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>

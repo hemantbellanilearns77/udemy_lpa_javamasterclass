@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.classeschallenge_bankaccount;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.UUID;
 
 /**
@@ -14,7 +16,7 @@ public class Account {
 
     public Account() { // Default Constructor
         this(0.00,"Unknown Customer","Unknown Customer Email Address","Unknown Customer Phone Number");
-        System.out.println("Empty constructor called!");
+        ConsoleStyler.styleOutput(null,"Empty constructor called!" );
     }
 
 
@@ -25,13 +27,12 @@ public class Account {
         setCustomerName(customerName);
         setCustomerEmail(customerEmail);
         setCustomerPhoneNumber(customerPhoneNumber);
-        System.out.println("Account constructor with 4 arguments called");
-
+        ConsoleStyler.styleOutput(null,"Account constructor with 4 arguments called");
     }
     public Account(String customerName,
                    String customerEmail, String customerPhoneNumber) {
         this(0.00, customerName, customerEmail, customerPhoneNumber);
-        System.out.println("Account constructor with 3  called");
+        ConsoleStyler.styleOutput(null,"Account constructor with 3 arguments called");
 
     }
 
@@ -77,18 +78,18 @@ public class Account {
 
     public void withdrawFunds(double withdrawAmount){
         if( (this.getBalance() - withdrawAmount) < 0) {
-            System.out.println("Insufficient Balance to support withdrawal.... ");
-            System.out.println("You only have Rs. " + balance + " in your account");
+            ConsoleStyler.styleOutput(null,"Insufficient Balance to support withdrawal.... ");
+            ConsoleStyler.styleOutput(null,"You only have Rs. " + balance + " in your account");
         } else {
             this.setBalance(this.getBalance() - withdrawAmount);
-            System.out.println("Amount successfully withdrawn: Rs. " + withdrawAmount +
+            ConsoleStyler.styleOutput(null,"Amount successfully withdrawn: Rs. " + withdrawAmount +
                     "; The account balance after withdrawal is: Rs. " + balance);
         }
     }
 
     public void depositFunds(double depositAmount) {
         this.balance = this.balance + depositAmount;
-        System.out.println("Amount successfully deposited: Rs. " + depositAmount +
+        ConsoleStyler.styleOutput(null,"Amount successfully deposited: Rs. " + depositAmount +
                 "; The account balance after deposit is: Rs. " + balance);
     }
 }
