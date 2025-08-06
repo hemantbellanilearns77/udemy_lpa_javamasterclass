@@ -162,10 +162,25 @@ jobs:
         shell: cmd
 
       ##########################
+      # FETCH SONARCLOUD INFO
+      ##########################
+
+      - name: 🔍 Fetch SonarCloud Issue Count
+        id: sonar_issues
+        run: |
+          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=issues")
+
+          issueCount=$(echo "$response" | jq -r '.component.measures[] | select(.metric=="issues") | .value')
+
+          echo "SONARCLOUD_ISSUE_COUNT=$issueCount" >> $GITHUB_ENV
+          echo "sonarIssues=$issueCount" >> $GITHUB_OUTPUT
+        shell: bash
+      ##########################
       # SUMMARY SECTION
       ##########################
 
-      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo)
+      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
         id: metrics
         shell: pwsh
         run: |
@@ -197,7 +212,7 @@ jobs:
           }
 
           $totalViolations = $checkstyleViolations + $pmdViolations
-
+          $sonarIssues = ${{ steps.sonar_issues.outputs.sonarIssues }}
           # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "|               **Metrics**         |      **Values**      |" >> $env:GITHUB_STEP_SUMMARY
@@ -206,6 +221,7 @@ jobs:
           echo "| PMD Code Smells                   | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| SonarCloud Total Issues           | $sonarIssues         |" >> $env:GITHUB_STEP_SUMMARY
           
           
           # === SonarCloud Dashboard Link ===
@@ -260,22 +276,6 @@ jobs:
           } else {
             echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
           }
-
-      ##########################
-      # FETCH SONARCLOUD INFO
-      ##########################
-
-      - name: 🔍 Fetch SonarCloud Issue Count
-        id: sonar_issues
-        run: |
-          response=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=issues")
-
-          issueCount=$(echo "$response" | jq -r '.component.measures[] | select(.metric=="issues") | .value')
-
-          echo "SONARCLOUD_ISSUE_COUNT=$issueCount" >> $GITHUB_ENV
-          echo "sonarIssues=$issueCount" >> $GITHUB_OUTPUT
-        shell: bash
 
       ##########################
       # FULL CLEANUP
