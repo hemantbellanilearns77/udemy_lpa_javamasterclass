@@ -285,7 +285,7 @@ jobs:
           
           
           
-          # === Writing table ===
+        # === Writing table ===
                echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
                echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
                echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
