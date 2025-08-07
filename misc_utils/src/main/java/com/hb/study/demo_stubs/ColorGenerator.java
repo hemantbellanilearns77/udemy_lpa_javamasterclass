@@ -99,17 +99,30 @@ public class ColorGenerator {
     }
 
     public static void generateSpecificTypeColors(boolean showColorPreview) {
-        // Pastels: Soft, high-intensity tones
-        for (int r = 180; r <= 255; r += 15) {
-            for (int g = 180; g <= 255; g += 15) {
-                for (int b = 180; b <= 255; b += 15) {
-                    String name = String.format("PASTEL_%d_%d_%d", r, g, b);
+        generatePastels(showColorPreview);
+
+        generateNeons(showColorPreview);
+
+        generateMidnights(showColorPreview);
+    }
+
+    private static void generateMidnights(boolean showColorPreview) {
+        // Midnights: Low-key, atmospheric tones
+        for (int r = 0; r <= 80; r += 20) {
+            for (int g = 0; g <= 80; g += 20) {
+                for (int b = 20; b <= 100; b += 20) {
+                    String name = String.format("MIDNIGHT_%d_%d_%d", r, g, b);
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                     ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
+                    if(showColorPreview) {
+                        ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                    }
                 }
             }
         }
+    }
 
+    private static void generateNeons(boolean showColorPreview) {
         // Neons: Vivid tones, accent pops
         int[] neonValues = {255, 0, 128, 64, 192};
         for (int r : neonValues) {
@@ -119,18 +132,26 @@ public class ColorGenerator {
                         String name = String.format("NEON_%d_%d_%d", r, g, b);
                         String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                         ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
+                        if(showColorPreview) {
+                            ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                        }
                     }
                 }
             }
         }
+    }
 
-// Midnights: Low-key, atmospheric tones
-        for (int r = 0; r <= 80; r += 20) {
-            for (int g = 0; g <= 80; g += 20) {
-                for (int b = 20; b <= 100; b += 20) {
-                    String name = String.format("MIDNIGHT_%d_%d_%d", r, g, b);
+    private static void generatePastels(boolean showColorPreview) {
+        // Pastels: Soft, high-intensity tones
+        for (int r = 180; r <= 255; r += 15) {
+            for (int g = 180; g <= 255; g += 15) {
+                for (int b = 180; b <= 255; b += 15) {
+                    String name = String.format("PASTEL_%d_%d_%d", r, g, b);
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                     ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
+                    if(showColorPreview) {
+                        ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                    }
                 }
             }
         }
