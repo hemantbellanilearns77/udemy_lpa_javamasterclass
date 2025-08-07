@@ -282,13 +282,10 @@ jobs:
           $major = Fetch-SonarSeverity "MAJOR"
           $minor = Fetch-SonarSeverity "MINOR"
           $info = Fetch-SonarSeverity "INFO"
-          
-          
-          $projectKey = $env:SONAR_PROJECT_KEY
-          $branch = "${{ github.ref_name }}"
-          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
-          
+               
+               
+
+        # === Writing table ===
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
           echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
@@ -303,22 +300,30 @@ jobs:
           echo "| 🟡 MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
-          echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          
           echo "" >> $env:GITHUB_STEP_SUMMARY
+
+        # === SonarCloud Dashboard Link ===
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $branch = "${{ github.ref_name }}"
+          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
+          echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY     
+          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
+          echo "🔗 [View SonarCloud Open Issues - Severity Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
           
-          
-          
-          "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "jacocoPercent=$jacocoCoverage" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
+          # === Output variables ===                    
+               
+         "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       ##########################
       # FULL CLEANUP
