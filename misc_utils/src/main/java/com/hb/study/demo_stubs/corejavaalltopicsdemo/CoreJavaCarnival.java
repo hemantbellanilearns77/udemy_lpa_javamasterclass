@@ -228,7 +228,7 @@ public class CoreJavaCarnival {
         }
 
         public void introduce() {
-            System.out.println("🙋 Hi, I'm " + name);
+            System.out.println("\"\\u200D\" Hi, I'm " + name);
         }
     }
 
@@ -242,7 +242,7 @@ public class CoreJavaCarnival {
 
         @Override
         public void introduce() {
-            System.out.println("🧑‍💼 Hi, I'm " + name + ", Employee ID: " + id);
+            System.out.println("🧑\"\\u200D\" Hi, I'm " + name + ", Employee ID: " + id);
         }
     }
 
