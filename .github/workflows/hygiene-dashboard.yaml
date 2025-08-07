@@ -300,7 +300,6 @@ jobs:
                echo "| 🟡 MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
                echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
                echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
-               
                echo "" >> $env:GITHUB_STEP_SUMMARY
           
           # === SonarCloud Dashboard Link ===
