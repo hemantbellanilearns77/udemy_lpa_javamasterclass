@@ -128,7 +128,7 @@ public class ColorGenerator {
         for (int r : neonValues) {
             for (int g : neonValues) {
                 for (int b : neonValues) {
-                    if ((r + g + b) > 500 || (r == 255 && g == 20 && b == 147)) { // heuristics for punchy neons
+                    if (isHeuristicSatisfied(r,g,b)) { // heuristics for punchy neons
                         String name = String.format("NEON_%d_%d_%d", r, g, b);
                         String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                         ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
@@ -139,6 +139,11 @@ public class ColorGenerator {
                 }
             }
         }
+    }
+
+    private static boolean isHeuristicSatisfied(int r, int g, int b) {
+
+        return ( ((r + g + b) > 500 )|| (r == 255 && g == 20 && b == 147));
     }
 
     private static void generatePastels(boolean showColorPreview) {
