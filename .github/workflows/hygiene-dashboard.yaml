@@ -164,38 +164,45 @@ jobs:
       ##########################
       # FETCH SONARCLOUD INFO
       ##########################
-      
+      - name: 🧠 Fetch SonarCloud Issue Count (OPEN)
+        id: sonar_issues
+        shell: pwsh
+        run: |
+          # Confirm if token is passed
+          if (-not $env:SONAR_TOKEN) {
+            Write-Error "❌ SONAR_TOKEN is empty!"
+            exit 1
+          }
 
-    
+          # Encode token correctly (with colon!)
+          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
+          Write-Host "🔐 Encoded Auth: $encodedAuth"
 
-      - name: 🧠 Fetch SonarCloud Issues via wget
-        shell: bash
+          $headers = @{ Authorization = "Basic $encodedAuth" }
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+
+          Write-Host "📡 Calling SonarCloud API: $url"
+
+          try {
+            $response = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+            $body = $response.Content
+
+            if ($body -match '"total"\s*:\s*(\d+)') {
+              $totalIssues = $matches[1]
+              Write-Host "✅ Total SonarCloud Issues (OPEN): $totalIssues"
+              "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
+              "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
+            } else {
+              Write-Error "❌ Could not extract issue count from response body: $body"
+              exit 1
+            }
+          } catch {
+            Write-Error "❌ API call failed: $_"
+            exit 1
+          }
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          # Compose Basic Auth header
-          AUTH_HEADER="Authorization: Basic $(echo -n "$SONAR_TOKEN:" | base64)"
-          
-          # Target URL
-          URL="https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
-          
-          echo "Calling SonarCloud API: $URL"
-          
-          # Fetch response using wget and store to a file
-          wget --header="$AUTH_HEADER" -O response.json "$URL"
-          
-          # Extract the "total" field from the JSON response
-          TOTAL_ISSUES=$(grep -o '"total"[[:space:]]*:[[:space:]]*[0-9]*' response.json | grep -o '[0-9]*')
-          
-          if [ -n "$TOTAL_ISSUES" ]; then
-            echo "✅ Total SonarCloud Issues (OPEN): $TOTAL_ISSUES"
-            echo "sonarIssueCount=$TOTAL_ISSUES" >> $GITHUB_ENV
-            echo "sonarIssueCount=$TOTAL_ISSUES" >> $GITHUB_OUTPUT
-          else
-            echo "❌ Could not extract issue count from response."
-            cat response.json
-            exit 1
-          fi
+
 
       ##########################
       # SUMMARY SECTION
