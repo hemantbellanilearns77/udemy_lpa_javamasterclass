@@ -306,9 +306,11 @@ jobs:
           echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           
+          
+          
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "jacocoPercent=$jacocoCoverage" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -317,9 +319,6 @@ jobs:
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
-      
-      
-      
 
       ##########################
       # FULL CLEANUP
