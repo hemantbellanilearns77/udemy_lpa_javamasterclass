@@ -285,7 +285,7 @@ jobs:
           
           
           
-          # === Writing table ===
+        # === Writing table ===
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
           echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
@@ -302,14 +302,14 @@ jobs:
           echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           
-          # === SonarCloud Dashboard Link ===
+        # === SonarCloud Dashboard Link ===
           $projectKey = $env:SONAR_PROJECT_KEY
           $branch = "${{ github.ref_name }}"
           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
           echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
-          echo "🔗 [View SonarCloud Open Issues - Severity Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
-          
+          echo "🔗 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
+               
           # === Output variables ===                    
           
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
