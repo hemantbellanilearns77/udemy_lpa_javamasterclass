@@ -287,7 +287,7 @@ jobs:
           $projectKey = $env:SONAR_PROJECT_KEY
           $branch = "${{ github.ref_name }}"
           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-          #sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
+          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
 
           # Build table
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
@@ -318,6 +318,7 @@ jobs:
           "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "$sonarOverallCodeDashBoardUrl=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "$sonarOpenIssuesDashboardUrl=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       
 
       ##########################
