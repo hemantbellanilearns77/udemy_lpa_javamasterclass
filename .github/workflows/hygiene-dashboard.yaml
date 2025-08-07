@@ -161,9 +161,9 @@ jobs:
         run: scripts\run-sonar-scan-admin.bat
         shell: cmd
 
-          ##########################
+      ##########################
           # FETCH SONARCLOUD INFO
-          ##########################
+      ##########################
 
 
       - name: 🧠 Fetch SonarCloud Issue Count (OPEN)
@@ -192,8 +192,8 @@ jobs:
             if ($body -match '"total"\s*:\s*(\d+)') {
               $totalIssues = $matches[1]
               Write-Host "✅ Total SonarCloud Issues (OPEN): $totalIssues"
-              "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
-              "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
+              echo "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
+              echo "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
             } else {
               Write-Error "❌ Could not extract issue count from response body: $body"
               exit 1
@@ -243,17 +243,16 @@ jobs:
           }
 
           $totalViolations = $checkstyleViolations + $pmdViolations
-          $sonarIssues = ${{ steps.sonar_issues.outputs.sonarIssueCount }}
-          echo "$sonarIssues" $sonarIssues
+         
           # Write summary
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-          echo "|               **Metrics**         |      **Values**      |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-----------------------------------|----------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Checkstyle Violations             | $checkstyleViolations|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| PMD Code Smells                   | $pmdViolations       |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Total (PMD=CHECKSTYLE) Violations | $totalViolations     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage                          | $jacocoCoverage%     |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| SonarCloud Total Issues           | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|               **Metrics**           |      **Values**                                   |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------------------|---------------------------------------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Checkstyle Violations               | $checkstyleViolations                             |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| PMD Code Smells                     | $pmdViolations                                    |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Total (PMD=CHECKSTYLE) Violations   | $totalViolations                                  |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage                            | $jacocoCoverage%                                  |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| SonarCloud Total Issues             | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
           
           
           # === SonarCloud Dashboard Link ===
