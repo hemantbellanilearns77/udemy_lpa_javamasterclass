@@ -287,7 +287,7 @@ jobs:
           $projectKey = $env:SONAR_PROJECT_KEY
           $branch = "${{ github.ref_name }}"
           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-          #sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
+          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
 
           # Build table
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
@@ -317,7 +317,8 @@ jobs:
           "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "$sonarOverallCodeDashBoardUrl=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       
 
       ##########################
@@ -421,7 +422,8 @@ jobs:
           CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
           PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
           JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
-          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarURL }}
+          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
+          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.$sonarOpenIssuesDashboardURL }}
           SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
           COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
           COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
@@ -449,7 +451,7 @@ jobs:
               <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
               <li>📉 Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
               <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
-              <li>🔗 <a href="${{ steps.metrics.outputs.$sonarOverallCodeDashBoardUrl }}">View SonarCloud Overall Code Dashboard</a></li>
+              <li>🔗 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
           
             <p>🛑 <strong>SonarCloud Severity Breakdown:</strong></p>
@@ -459,7 +461,7 @@ jobs:
             <li>🟡 MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
             <li>🔵 MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
             <li>⚪ INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
-            <li>🔗 <a href=""${{ steps.metrics.outputs.$sonarOpenIssuesDashboardUrl }}">View SonarCloud Issues Breakdown</a></li>
+            <li>🔗 <a href=""${{ steps.metrics.outputs.$sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
             </ul>
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
