@@ -162,7 +162,7 @@ jobs:
         shell: cmd
 
       ##########################
-          # FETCH SONARCLOUD INFO
+       # FETCH SONARCLOUD INFO
       ##########################
 
 
@@ -192,8 +192,7 @@ jobs:
             if ($body -match '"total"\s*:\s*(\d+)') {
               $totalIssues = $matches[1]
               Write-Host "✅ Total SonarCloud Issues (OPEN): $totalIssues"
-              echo "sonarIssueCount=$totalIssues" >> $env:GITHUB_ENV
-              echo "sonarIssueCount=$totalIssues" >> $GITHUB_OUTPUT
+              "sonarIssueCount=$totalIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             } else {
               Write-Error "❌ Could not extract issue count from response body: $body"
               exit 1
