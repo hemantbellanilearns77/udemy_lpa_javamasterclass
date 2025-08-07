@@ -423,7 +423,7 @@ jobs:
           PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
           JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
           SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.$sonarOpenIssuesDashboardURL }}
+          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
           SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
           COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
           COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
