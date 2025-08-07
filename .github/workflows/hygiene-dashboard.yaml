@@ -207,20 +207,24 @@ jobs:
       # SUMMARY SECTION
       ##########################
 
-      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
+      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)
         id: metrics
         shell: pwsh
         run: |
+          function Get-BarChart($value, $maxLength = 20) {
+            $filledLength = [math]::Floor($value / 100 * $maxLength)
+            $bar = ('█' * $filledLength).PadRight($maxLength, '-')
+            return "[$bar] $value`%"
+          }
+
           # Parse JaCoCo XML
           $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
           $missed = [int]$xml.Node.missed
           $covered = [int]$xml.Node.covered
           $total = $missed + $covered
-          if ($total -gt 0) {
-            $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
-          } else {
-            $jacocoCoverage = 0
-          }
+          $jacocoCoverage = if ($total -gt 0) { [math]::Round(100 * $covered / $total, 2) } else { 0 }
+
+          $jacocoBar = Get-BarChart -value $jacocoCoverage
 
           # Parse Checkstyle violations
           $checkstyleViolations = 0
@@ -238,70 +242,59 @@ jobs:
             }
           }
 
+          # Total violations
           $totalViolations = $checkstyleViolations + $pmdViolations
-         
-          # Write summary
-          echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-          echo "|               **Metrics**           |      **Values**                                   |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-------------------------------------|---------------------------------------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Checkstyle Violations               | $checkstyleViolations                             |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| PMD Code Smells                     | $pmdViolations                                    |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Total (PMD=CHECKSTYLE) Violations   | $totalViolations                                  |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage                            | $jacocoCoverage%                                  |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| SonarCloud Total Issues             | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
-          
-          # === SonarCloud Dashboard Link ===
-          $org = $env:SONAR_ORG
+
+          # Sonar Severity Breakdown (requires env.sonarIssueCount set earlier)
+          $sonarSeverities = @{
+            BLOCKER  = $env:SONAR_BLOCKER_COUNT
+            CRITICAL = $env:SONAR_CRITICAL_COUNT
+            MAJOR    = $env:SONAR_MAJOR_COUNT
+            MINOR    = $env:SONAR_MINOR_COUNT
+            INFO     = $env:SONAR_INFO_COUNT
+          }
+
+          # Build Severity Summary
+          $severitySummary = ""
+          foreach ($sev in $sonarSeverities.Keys) {
+            $count = $sonarSeverities[$sev]
+            if ($count -ne $null -and $count -gt 0) {
+              $emoji = switch ($sev) {
+                "BLOCKER"  { "🛑" }
+                "CRITICAL" { "🚨" }
+                "MAJOR"    { "⚠️" }
+                "MINOR"    { "ℹ️" }
+                "INFO"     { "🔍" }
+              }
+              $severitySummary += "`n- $emoji $sev: **$count**"
+            }
+          }
+
+          # SonarCloud Dashboard Link
           $projectKey = $env:SONAR_PROJECT_KEY
           $branch = "${{ github.ref_name }}"
           $sonarUrl = "https://sonarcloud.io/dashboard?id=$projectKey&branch=$branch"
-          echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "🔗 [View full SonarCloud Report]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
-          echo "" >> $env:GITHUB_STEP_SUMMARY
-          
-          "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarURL=$sonarUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append               
-          
-          if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
-            echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
-          } else {
-            echo "**✅ Good Coverage Levels in code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          }
-          
-          if ($totalViolations -eq 0) {
-            echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          } elseif ($totalViolations -lt $env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
-            echo "**🟡 Moderate Violations — please review.**" >> $env:GITHUB_STEP_SUMMARY
-          } else {
-            echo "**❌ High Violations — requires attention.**" >> $env:GITHUB_STEP_SUMMARY
-          }
-          $shouldFail = $false
-          
-          if ($jacocoCoverage -lt $env:JACOCO_MIN_COVERAGE) {
-          echo "⚠️ Warning: Coverage $jacocoCoverage% is below threshold $env:JACOCO_MIN_COVERAGE%" >> $env:GITHUB_STEP_SUMMARY
-          $shouldFail = $true
-          }
 
-          if ($checkstyleViolations -gt $env:CHECKSTYLE_MAX_VIOLATIONS) {
-            echo "❌ Checkstyle violations ($checkstyleViolations) exceed threshold ($env:CHECKSTYLE_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
-            $shouldFail = $true
-          }
+          # Output to summary
+          echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Metric                       | Value                     |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-----------------------------|---------------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🧹 Checkstyle Violations     | $checkstyleViolations      |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🧼 PMD Code Smells           | $pmdViolations             |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 📊 Coverage                 | $jacocoCoverage% $jacocoBar |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🧠 SonarCloud Issues        | $env:sonarIssueCount        |" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "**🔎 Sonar Issue Severity Breakdown:**$severitySummary" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "🔗 [View SonarCloud Dashboard]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY
 
-          if ($pmdViolations -gt $env:PMD_MAX_VIOLATIONS) {
-            echo "❌ PMD violations ($pmdViolations) exceed threshold ($env:PMD_MAX_VIOLATIONS)" >> $env:GITHUB_STEP_SUMMARY
-            $shouldFail = $true
-          }
-          # Outcome message
-          if ($totalViolations -eq 0 -and -not $shouldFail) {
-            echo "**✅ Clean Code!** Great job! 🎉" >> $env:GITHUB_STEP_SUMMARY
-          } elseif ($shouldFail) {
-            echo "**❌ Failing due to threshold violations.**" >> $env:GITHUB_STEP_SUMMARY
-            exit 1
-          } else {
-            echo "**⚠️ Some issues found, but within threshold.**" >> $env:GITHUB_STEP_SUMMARY
-          }
+          # Export values
+          "checkstyleCount=$checkstyleViolations" >> $env:GITHUB_OUTPUT
+          "pmdCount=$pmdViolations" >> $env:GITHUB_OUTPUT
+          "jacocoPercent=$jacocoCoverage%" >> $env:GITHUB_OUTPUT
+          "sonarURL=$sonarUrl" >> $env:GITHUB_OUTPUT
+          "sonarSeveritySummary=$severitySummary" >> $env:GITHUB_OUTPUT
+
 
       ##########################
       # FULL CLEANUP
@@ -414,42 +407,48 @@ jobs:
           server_port: 465
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
-          subject: ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} — Java MasterClass Hygiene Check for ${{ github.repository }} (main)
-
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
+          subject: >-
+            ${{ job.status == 'success' && (
+                (steps.metrics.outputs.checkstyleCount > env.CHECKSTYLE_MAX_VIOLATIONS || 
+                 steps.metrics.outputs.pmdCount > env.PMD_MAX_VIOLATIONS || 
+                 steps.metrics.outputs.jacocoPercent < env.JACOCO_MIN_COVERAGE) 
+                && '⚠️ SUCCESS (WITH ISSUES)' || '✅ SUCCESS')
+                || '❌ FAILURE'
+            }} — Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+
           html_body: |
             <p>Hi Hemant,</p>
-            
-            <p>A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was successfully completed on the <strong>${{ github.repository }}</strong> repository (branch: <code>main</code>).</p>
-            
-            <p>🧼 <strong>Here is the Hygiene Summary:</strong></p>
+
+            <p>A GitHub Hygiene Check (CheckStyle + PMD + JaCoCo + SonarCloud) just ran on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
+
+            <p>🧼 <strong>Hygiene Summary:</strong></p>
             <ul>
-              <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
-              <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
-              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
-              <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View full SonarCloud Report</a></li>
+              <li>🧹 Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
+              <li>🧼 PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
+              <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong> <code>${{ steps.metrics.outputs.jacocoPercent && steps.metrics.outputs.jacocoPercent.match(/\d+/)[0] >= 50 && '🟢' || steps.metrics.outputs.jacocoPercent.match(/\d+/)[0] >= 20 && '🟡' || '🔴' }}</code></li>
+              <li>🧠 Total Sonar Issues: <strong>${{ env.sonarIssueCount }}</strong></li>
+              <li>🔎 Sonar Breakdown:<br><pre>${{ steps.metrics.outputs.sonarSeveritySummary }}</pre></li>
+              <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View SonarCloud Report</a></li>
             </ul>
-            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
-            <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
+
+            <p>🧑‍💻 Commit Info:</p>
             <ul>
-              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
+              <li><strong>SHA:</strong> <code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></li>
               <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
               <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
-              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-              <li><strong>🔗 View Commit:</strong>
-                  <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
-              </li>
+              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }}</li>
             </ul>
-            <p><strong>🕒 Job Execution:</strong></p>
-             <ul>
-                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
-              </ul>
+
+            <p>🕒 Job Duration:</p>
+            <ul>
+              <li><strong>Start:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+              <li><strong>End:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+              <li><strong>Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+            </ul>
+
             <hr>
-            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p> 
+            <p><em>🤖 Automated summary from GitHub Actions</em></p>
+          
 

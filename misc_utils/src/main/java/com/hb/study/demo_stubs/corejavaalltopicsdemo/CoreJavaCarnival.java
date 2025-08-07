@@ -1,11 +1,18 @@
 package com.hb.study.demo_stubs.corejavaalltopicsdemo;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -15,30 +22,27 @@ import java.sql.*;
 public class CoreJavaCarnival {
 
     //Object level or Static declarations here...
-    //public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
-        //execution.setUp();
-
-        /*
-         *****************************************************
-         */
+        execution.initialize();
 
 
-        /*ConsoleStyler.printBanner("CORE JAVA CARNIVAL");
+        ConsoleStyler.printBanner("CORE JAVA CARNIVAL");
         ConsoleStyler.startSection(" \uD83D\uDD37 Primitives and Operators");
         // 🔷 Primitives and Operators
         int a = 10, b = 5;
-        ConsoleStyler.styleIt("Addition: " + (a + b), true, false);
-        ConsoleStyler.styleIt("Multiplication: " + (a * b), true, false);
-        ConsoleStyler.styleIt("Is A greater than B? " + (a > b), true, false);
+
+        ConsoleStyler.styleOutput("Addition: " ,  Integer.toString((a + b)));
+        ConsoleStyler.styleOutput("Multiplication: "  , Integer.toString((a * b)) );
+        ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString((a > b)) );
         ConsoleStyler.endSection(" \uD83D\uDD37 Primitives and Operators");
 
 
         ConsoleStyler.startSection(" \uD83D\uDCCC Control Flow");
         // 📌 Control Flow
         for (int i = 0; i < 3; i++) {
-            ConsoleStyler.styleIt("🎠 Loop Step " + (i + 1), true, false);
+            ConsoleStyler.styleOutput("🎠 Loop Step " ,Integer.toString((i + 1)));
         }
         ConsoleStyler.endSection(" \uD83D\uDCCC Control Flow");
 
@@ -47,8 +51,9 @@ public class CoreJavaCarnival {
         // 🧮 Arrays & Collections
         int[] nums = {5, 8, 2, 9, 4};
         System.out.println("Array: " + Arrays.toString(nums));
+
         List<String> animals = Arrays.asList("Tiger", "Zebra", "Panda");
-        animals.forEach(animal -> ConsoleStyler.styleIt("🐾 " + animal, false));
+        animals.forEach(animal -> ConsoleStyler.styleOutput("🐾 " ,  animal ));
         ConsoleStyler.endSection(" \uD83E\uDDEE Arrays & Collections");
 
 
@@ -56,7 +61,7 @@ public class CoreJavaCarnival {
         ConsoleStyler.startSection(" \uD83E\uDDF5 String ops");
         // 🧵 String ops
         String welcome = "Welcome to Java";
-        ConsoleStyler.styleIt("Uppercase: " + welcome.toUpperCase());
+        ConsoleStyler.styleOutput("Uppercase: ",welcome.toUpperCase());
         ConsoleStyler.endSection(" \uD83E\uDDF5 String ops");
 
 
@@ -105,7 +110,7 @@ public class CoreJavaCarnival {
         // 📂 File Output
         writeToFile("logs/carnival_log.txt", "Session for " + name + " completed 🎯");
         ConsoleStyler.endSection(" \uD83D\uDCC2 File Output");
-        */
+
 
         ConsoleStyler.startSection(" \uD83D\uDDC4\uFE0F DB Demo");
         // 🗄️ DB Demo
@@ -115,10 +120,8 @@ public class CoreJavaCarnival {
 
         ConsoleStyler.printBanner("THANK YOU");
 
-        /*
-         *****************************************************
-         */
-        //execution.finalizeExecution();
+
+        execution.finalizeExecution();
     }
 
     public static void writeToFile(String fileName, String content) {
