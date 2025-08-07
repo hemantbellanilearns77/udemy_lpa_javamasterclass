@@ -151,7 +151,7 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
 
-        ################################
+      ################################
         # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: 🔎 Run SonarCloud Scan (via batch)
@@ -164,7 +164,6 @@ jobs:
       ##########################
        # FETCH SONARCLOUD INFO
       ##########################
-
 
       - name: 🧠 Fetch SonarCloud Issue Count (OPEN)
         id: sonar_issues
@@ -203,8 +202,6 @@ jobs:
           }
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
 
       ##########################
       # SUMMARY SECTION
@@ -320,19 +317,27 @@ jobs:
           del /q sources_*.txt >nul 2>&1
           echo ✅ Cleanup done 
 
-      ##########################
-      # CLEANUP VERIFICATION dir /s /b
-      ##########################
+      ###################################################################
+      # CLEANUP VERIFICATION using (dir /s /b this is disabled for now)
+      ##################################################################
       - name: 📂 List Remaining Files
         shell: cmd
         run: |
           echo === POST-CLEANUP DIRECTORY TREE ===
           echo Hello, world!
 
+      ###################################################################
+      # DEMONSTRATES, FLAG BASED EXECUTION
+      ##################################################################
+
       - name: 🗣️ Say Hello (unless skipped)
         if: env.SKIP_ECHO != 'true'
         run: echo Hello, world!
         shell: cmd
+
+      ##########################
+      # EXTRACT COMMIT STATS
+      ##########################
 
       - name: 📦 Extract Commit Info (Windows PowerShell)
         id: commit_info
@@ -363,6 +368,9 @@ jobs:
           "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
 
+      ###############################
+      # Calculate Execution Metrics
+      ##############################
 
       - name: ⏱️ Calculate Duration and Export Timing
         id: calculate-duration-and-export-timing
