@@ -283,13 +283,13 @@ jobs:
           $minor = Fetch-SonarSeverity "MINOR"
           $info = Fetch-SonarSeverity "INFO"
           
-          # SonarCloud Dashboard Link
+
           $projectKey = $env:SONAR_PROJECT_KEY
           $branch = "${{ github.ref_name }}"
           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
           $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
 
-          # Build table
+
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
           echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
@@ -304,10 +304,9 @@ jobs:
           echo "| 🟡 MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
-          echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY          
-          
+          echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
 
-          # Export
+
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
