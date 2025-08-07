@@ -150,8 +150,8 @@ jobs:
           unzip sonar-scanner.zip -d tools/sonar-scanner
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
-          
-      ################################
+
+        ################################
         # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: 🔎 Run SonarCloud Scan (via batch)
@@ -161,9 +161,11 @@ jobs:
         run: scripts\run-sonar-scan-admin.bat
         shell: cmd
 
-      ##########################
-      # FETCH SONARCLOUD INFO
-      ##########################
+          ##########################
+          # FETCH SONARCLOUD INFO
+          ##########################
+
+
       - name: 🧠 Fetch SonarCloud Issue Count (OPEN)
         id: sonar_issues
         shell: pwsh
@@ -184,7 +186,7 @@ jobs:
           Write-Host "📡 Calling SonarCloud API: $url"
 
           try {
-            $response = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+            $response = Invoke-WebRequest -Uri $url -Method Get
             $body = $response.Content
 
             if ($body -match '"total"\s*:\s*(\d+)') {
@@ -202,6 +204,7 @@ jobs:
           }
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
 
       ##########################
@@ -372,15 +375,15 @@ jobs:
         run: |
           $startEpoch = [int]$env:START_EPOCH
           $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-      
+          
           $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
           $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-      
+          
           $durationSec = $endEpoch - $startEpoch
           $mins = [math]::Floor($durationSec / 60)
           $secs = $durationSec % 60
           $durationFormatted = "{0}m {1}s" -f $mins, $secs
-      
+          
           echo "startTime=$startDT" >> $env:GITHUB_OUTPUT
           echo "endTime=$endDT" >> $env:GITHUB_OUTPUT
           echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
