@@ -289,19 +289,6 @@ jobs:
           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
           $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey""
           
-          
-          "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
-          
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
           echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
@@ -317,8 +304,19 @@ jobs:
           echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
           echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
-      
-      
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          
+          "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
       
       
       
