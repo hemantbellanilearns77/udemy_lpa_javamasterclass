@@ -253,7 +253,6 @@ jobs:
           echo "| Coverage                            | $jacocoCoverage%                                  |" >> $env:GITHUB_STEP_SUMMARY
           echo "| SonarCloud Total Issues             | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
           
-          
           # === SonarCloud Dashboard Link ===
           $org = $env:SONAR_ORG
           $projectKey = $env:SONAR_PROJECT_KEY
