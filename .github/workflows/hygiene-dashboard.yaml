@@ -282,6 +282,11 @@ jobs:
           $major = Fetch-SonarSeverity "MAJOR"
           $minor = Fetch-SonarSeverity "MINOR"
           $info = Fetch-SonarSeverity "INFO"
+          
+          # SonarCloud Dashboard Link
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $branch = "${{ github.ref_name }}"
+          $sonarUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
 
           # Build table
           echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
@@ -298,6 +303,9 @@ jobs:
           echo "| 🟡 MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "🔗 [View SonarCloud Dashboard]($sonarUrl)" >> $env:GITHUB_STEP_SUMMARY          
+          
 
           # Export
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -450,6 +458,7 @@ jobs:
             <li>🟡 MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
             <li>🔵 MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
             <li>⚪ INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+            <li>🔗 <a href="${{ steps.metrics.outputs.sonarURL }}">View SonarCloud Report</a></li>
             </ul>
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
