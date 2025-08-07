@@ -97,10 +97,10 @@ public class ColorGenerator {
     }
 
     private static boolean isSkippable(double luminance, int r, int g, int b, Set<String> seenPatterns, String enumLine) {
-        return (luminance < 100) ||
-                ((Math.abs(r - g) < 10 && Math.abs(g - b) < 10)) ||
+        return (luminance < 100 ||
+                (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) ||
                 // adds and checks uniqueness in one go
-                (!seenPatterns.add(enumLine));
+                !seenPatterns.add(enumLine));
     }
 
 
