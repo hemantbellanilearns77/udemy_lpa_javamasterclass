@@ -47,15 +47,9 @@ public class DemoConsoleFormatting {
     public static final String WHITE_BG = "\u001B[47m";
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-        // main method initializations.... 
-        /*
-         *****************************************************
-         */
-        //your own code here; recommended to divide in function calls
+
         demoConsoleColorFormatting();
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 
@@ -78,7 +72,7 @@ public class DemoConsoleFormatting {
                 System.out.println(); // New line after every 16 colors
             }
         }
-        /*System.out.println(BOLD + "This is bold text" + RESET);
+        System.out.println(BOLD + "This is bold text" + RESET);
         System.out.println(UNDERLINE + "This is underlined text" + RESET);
         System.out.println(ITALIC + "This is italic text" + RESET);
         System.out.println(RED + "This is red text" + RESET);
@@ -97,6 +91,6 @@ public class DemoConsoleFormatting {
         System.out.println(BLUE_BG + WHITE + "This is white text on blue background" + RESET);
         System.out.println(MAGENTA_BG + WHITE + "This is white text on magenta background" + RESET);
         System.out.println(CYAN_BG + BLACK + "This is black text on cyan background" + RESET);
-        System.out.println(WHITE_BG + BLACK + "This is black text on white background" + RESET);*/
+        System.out.println(WHITE_BG + BLACK + "This is black text on white background" + RESET);
     }
 }
