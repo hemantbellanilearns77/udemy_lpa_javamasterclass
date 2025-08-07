@@ -136,7 +136,7 @@ public class CoreJavaCarnival {
     public static void launchSwingUI() {
         JFrame frame = new JFrame("🎨 Java Carnival UI");
         frame.setSize(400, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JLabel label = new JLabel("Welcome to Java UI Carnival!", SwingConstants.CENTER);
         JButton button = new JButton("Click Me 🎯");
