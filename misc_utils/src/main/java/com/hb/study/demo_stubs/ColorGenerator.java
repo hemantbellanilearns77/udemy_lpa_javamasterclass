@@ -18,6 +18,7 @@ public class ColorGenerator {
     private static final String COLOR_CODE_ESCAPE_SEQUENCE_TWO = "\\u001B[38;2;";
     private static final String FORMAT_SPECIFIER_STRING_ONE = ";%d;%d;%dm";
     private static final String FORMAT_SPECIFIER_STRING_TWO =  "%d;%d;%dm";
+    public static final String ANSICOLORPREVIEWSUFFIX = "\u001B[0m";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -49,7 +50,7 @@ public class ColorGenerator {
             if ( (luminance < 100) || (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) ) continue;
 
             // 🧵 Optional semantic prefix (can be expanded later)
-            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
+            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g);
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
             String code = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b); // correctly escaped
             String completeString = name + "(\"" + code + "\"),";
@@ -59,7 +60,7 @@ public class ColorGenerator {
             if(showColorPreview) {
                 String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE+ String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
 
-                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + "\u001B[0m");
+                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + ANSICOLORPREVIEWSUFFIX);
             }
             count++;
         }
@@ -75,16 +76,13 @@ public class ColorGenerator {
             int b = secureRandom.nextInt(256);
 
             double luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-            if (luminance < 100) continue;
-            if (Math.abs(r - g) < 10 && Math.abs(g - b) < 10) continue;
 
-            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g, b);
+            String prefix = (luminance > 200) ? "PASTEL" : getSemanticPrefix(r, g);
 
             String name = String.format("%s_%d_%d_%d", prefix, r, g, b);
             String literal = COLOR_CODE_ESCAPE_SEQUENCE_TWO + String.format(FORMAT_SPECIFIER_STRING_TWO, r, g, b);
             String enumLine = name + "(\"" + literal + "\"),";
-
-            if (!seenPatterns.add(enumLine)) continue; // adds and checks uniqueness in one go
+            if (isSkippable(luminance, r, g, b, seenPatterns, enumLine) ) continue;
 
             ConsoleStyler.styleOutput(null,enumLine);
 
@@ -92,11 +90,19 @@ public class ColorGenerator {
             if(showColorPreview) {
                 String liveAnsi = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
 
-                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + "\u001B[0m");
+                ConsoleStyler.styleOutput(null,liveAnsi + "█ " + name + ANSICOLORPREVIEWSUFFIX);
             }
             count++;
         }
     }
+
+    private static boolean isSkippable(double luminance, int r, int g, int b, Set<String> seenPatterns, String enumLine) {
+        return (luminance < 100) ||
+                ((Math.abs(r - g) < 10 && Math.abs(g - b) < 10)) ||
+                // adds and checks uniqueness in one go
+                (!seenPatterns.add(enumLine));
+    }
+
 
     public static void generateSpecificTypeColors(boolean showColorPreview) {
         generatePastels(showColorPreview);
@@ -115,7 +121,7 @@ public class ColorGenerator {
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                     ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                     if(showColorPreview) {
-                        ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                        ConsoleStyler.styleOutput(null,code + "█ " + name + ANSICOLORPREVIEWSUFFIX);
                     }
                 }
             }
@@ -133,7 +139,7 @@ public class ColorGenerator {
                         String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                         ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                         if(showColorPreview) {
-                            ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                            ConsoleStyler.styleOutput(null,code + "█ " + name + ANSICOLORPREVIEWSUFFIX);
                         }
                     }
                 }
@@ -155,14 +161,14 @@ public class ColorGenerator {
                     String code = COLOR_CODE_ESCAPE_SEQUENCE_ONE + String.format(FORMAT_SPECIFIER_STRING_ONE, r, g, b);
                     ConsoleStyler.styleOutput(null,name + "(\"" + code + "\"),");
                     if(showColorPreview) {
-                        ConsoleStyler.styleOutput(null,code + "█ " + name + "\u001B[0m");
+                        ConsoleStyler.styleOutput(null,code + "█ " + name + ANSICOLORPREVIEWSUFFIX);
                     }
                 }
             }
         }
     }
 
-    private static String getSemanticPrefix(int r, int g, int b) {
+    private static String getSemanticPrefix(int r, int g) {
         return (r > 200 && g < 100) ? "NEON" : "DASH";
     }
 }
