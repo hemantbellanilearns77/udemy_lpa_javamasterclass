@@ -9,7 +9,7 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 public class DemoEnums {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();

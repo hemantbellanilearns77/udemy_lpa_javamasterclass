@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class DateTimeCarnival_Copy {
 
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize();

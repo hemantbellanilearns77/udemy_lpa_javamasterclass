@@ -7,71 +7,12 @@ import java.util.*;
 
 @SuppressWarnings("ALL")
 public class Part1 {
-   /* private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-
-        boolean flag = true;
-        ArrayList<String> groceries = new ArrayList<>();
-        while (flag) {
-            printActions();
-            switch (Integer.parseInt(scanner.nextLine())) {
-                case 1 -> addItems(groceries);
-                case 2 -> removeItems(groceries);
-                default -> flag = false;
-            }
-            groceries.sort(Comparator.naturalOrder());
-            ConsoleStyler.styleOutput(groceries);
-        }
-    }
-
-    private static void addItems(ArrayList<String> groceries) {
-
-        ConsoleStyler.styleOutput("Add item(s) [separate items by comma]:");
-        String[] items = scanner.nextLine().split(",");
-//        groceries.addAll(List.of(items));
-
-        for (String i: items) {
-            String trimmed = i.trim();
-            if (groceries.indexOf(trimmed) < 0) {
-                groceries.add(trimmed);
-            }
-        }
-    }
-
-    private static void removeItems(ArrayList<String> groceries) {
-
-        ConsoleStyler.styleOutput("Remove item(s) [separate items by comma]:");
-        String[] items = scanner.nextLine().split(",");
-
-        for (String i: items) {
-            String trimmed = i.trim();
-            groceries.remove(trimmed);
-        }
-    }
-    private static void printActions() {
-
-        String textBlock = """
-                Available actions:
-                                
-                0 - to shut down
-                                
-                1 - to add item(s) to list (comma delimited list)
-                                
-                2 - to remove any items (comma delimited list)
-                                
-                Enter a number for which action you want to do:""";
-        System.out.print(textBlock + " ");
-    }*/
-
-    public static String asteriskSeparatorLine =  "*".repeat(153) + "\n";
-    public static String programOutputBegins = "\n" + "*".repeat(54) + " The Output of " + Part1.class.getSimpleName() + " is as below " + "*".repeat(54) + "\n";
     public static void main(String[] args) {
         int userInput;
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<String> groceries = new ArrayList<>();
-        ConsoleStyler.styleOutput(programOutputBegins);
         do {
             printMenuOfActions();
             try {
@@ -90,7 +31,7 @@ public class Part1 {
                 }
             } catch (InputMismatchException inputMismatchException) {
                 ConsoleStyler.styleOutput("Invalid Input, try again... here's the menu again");
-                ConsoleStyler.styleOutput(asteriskSeparatorLine);
+                ConsoleStyler.divider();
                 userInput = 5;
                 printMenuOfActions();
                 continue;
@@ -99,18 +40,18 @@ public class Part1 {
                 ConsoleStyler.styleOutput("Grocery list is empty right now... ");
             } else if(userInput != 0 ){
                 groceries.sort(Comparator.naturalOrder());
-                ConsoleStyler.styleOutput(asteriskSeparatorLine);
+                ConsoleStyler.divider();
                 ConsoleStyler.styleOutput("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
-                ConsoleStyler.styleOutput(asteriskSeparatorLine);
+                ConsoleStyler.divider();
             }
         } while(!(userInput == 0));
         if(groceries.isEmpty()) {
             ConsoleStyler.styleOutput("You ended up with an empty grocery list");
         } else {
             groceries.sort(Comparator.naturalOrder());
-            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.divider();
             ConsoleStyler.styleOutput("Your final grocery list, sorted(in natural order) is:\n " + groceries);
-            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.divider();
         }
 
     }
@@ -120,9 +61,9 @@ public class Part1 {
             ConsoleStyler.styleOutput("Grocery list is empty right now... ");
         } else {
             groceries.sort(Comparator.naturalOrder());
-            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.divider();
             ConsoleStyler.styleOutput("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
-            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.divider();
         }
     }
 
@@ -138,8 +79,6 @@ public class Part1 {
                 groceryList.add(inputItem.trim());
             }
         }
-        //ConsoleStyler.styleOutput(groceryList);
-        //ConsoleStyler.styleOutput(asteriskSeparatorLine);
     }
 
     private static void removeGroceryItems(ArrayList<String> groceryList ) {

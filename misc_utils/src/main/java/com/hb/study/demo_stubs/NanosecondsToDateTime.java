@@ -33,7 +33,7 @@ public class NanosecondsToDateTime {
 
 
         // Convert nanoseconds to milliseconds
-        // Output the results
+        // Output the resul
         long milliseconds = nanoseconds / 1_000_000;
         ConsoleStyler.styleOutput("MillisecondsL " + milliseconds);
         ConsoleStyler.styleOutput("Nanoseconds: " + nanoseconds);
