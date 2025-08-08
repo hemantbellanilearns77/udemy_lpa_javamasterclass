@@ -6,6 +6,7 @@ import com.hb.study.udemylpajavamasterclass.global.constants.ForegroundColor;
 import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.models.Theme;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -117,97 +118,68 @@ public class ConsoleStyler {
 
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
-        if (input == null) {
-            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
+        if (input == null) { styleOutput(CommonConstants.INDENT + "⚠️ No items to display."); return; }
         labelPrefix = (labelPrefix == null || labelPrefix.isBlank()) ? "" : (labelPrefix + ": ");
         final List<Object> items = new ArrayList<>();
         boolean isTupleMode = false;
         int tupleSize = -1;
 
-        // 🔍 Type Normalization
         switch (input) {
-            case double[] arr -> {
-                tupleSize = arr.length;
-                for (double val : arr) items.add(val);
-                isTupleMode = true;
-            }
-            case double[][] array2D -> {
-                tupleSize = array2D[0].length;
-                for (final double[] tuple : array2D) {
-                    for (final double val : tuple) items.add(val);
-                }
-                isTupleMode = true;
-            }
-            case double[][][] array3D -> {
-                tupleSize = array3D[0][0].length;
-                for (final double[][] group : array3D) {
-                    for (final double[] tuple : group) {
-                        for (final double val : tuple) items.add(val);
-                    }
-                }
-                isTupleMode = true;
-            }
+            case double[] arr      -> { tupleSize = arr.length; addArray(arr, items); isTupleMode = true; }
+            case double[][] arr2   -> { tupleSize = arr2[0].length; for (double[] a : arr2) addArray(a, items); isTupleMode = true; }
+            case double[][][] arr3 -> { tupleSize = arr3[0][0].length; for (double[][] g : arr3) for (double[] a : g) addArray(a, items); isTupleMode = true; }
 
-            // 🧠 Other primitive types
-            case int[] arr -> {
-                for (final int val : arr) items.add(val);
-            }
-            case long[] arr -> {
-                for (final long val : arr) items.add(val);
-            }
-            case boolean[] arr -> {
-                for (final boolean val : arr) items.add(val);
-            }
-            case char[] arr -> {
-                for (final char val : arr) items.add(val);
-            }
+            case int[] arr         -> addArray(arr, items);
+            case long[] arr        -> addArray(arr, items);
+            case boolean[] arr     -> addArray(arr, items);
+            case char[] arr        -> addArray(arr, items);
 
-            // 🧠 Containers
-            case Object[] objects -> items.addAll(Arrays.asList(objects));
-            case List<?> list -> {
-                if (!list.isEmpty() && list.get(0) instanceof double[]) {
-                    isTupleMode = true;
-                    tupleSize = ((double[]) list.get(0)).length;
-                    for (final Object o : list) {
-                        for (final double v : (double[]) o) items.add(v);
-                    }
-                } else if (!list.isEmpty() && list.get(0) instanceof Object[]) {
-                    isTupleMode = true;
-                    tupleSize = ((Object[]) list.get(0)).length;
-                    for (final Object o : list) {
-                        items.addAll(Arrays.asList((Object[]) o));
-                    }
-                } else {
-                    items.addAll(list);
-                }
+            case Object[] objs     -> items.addAll(Arrays.asList(objs));
+            case List<?> list      -> {
+                int ts = handleList(list, items);
+                if (ts >= 0) { isTupleMode = true; tupleSize = ts; }
             }
-            case Set<?> objects -> items.addAll(objects);
-            case Stream<?> stream -> stream.forEach(items::add);
-            default -> {
-                styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
-                return;
-            }
+            case Set<?> set        -> items.addAll(set);
+            case Stream<?> stream  -> stream.forEach(items::add);
+            default -> { styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName()); return; }
         }
-        // 🚫 Empty check
-        if (items.isEmpty()) {
-            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
-        // 💎 Format pass
+
+        if (items.isEmpty()) { styleOutput(CommonConstants.INDENT + "⚠️ No items to display."); return; }
         final List<Object> formattedItems = getFormattedItems(formatNumbers, uppercaseStrings, items);
 
-        // 🔍 Sorting
         if (sort) {
-            try {
-                Collections.sort((List) formattedItems);
-            } catch (ClassCastException e) {
-                styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
-            }
+            try { Collections.sort((List) formattedItems); }
+            catch (ClassCastException e) { styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items"); }
         }
-        // 🎨 Styled Output
-        styleOutput(null,  getStyledInput(labelPrefix, formattedItems, isTupleMode, tupleSize) );
+
+        styleOutput(null, getStyledInput(labelPrefix, formattedItems, isTupleMode, tupleSize));
+    }
+
+    /* Helper: add any (primitive or object) array's elements to items */
+    private static void addArray(Object array, List<Object> items) {
+        int len = Array.getLength(array);
+        for (int i = 0; i < len; i++) items.add(Array.get(array, i));
+    }
+
+    /*
+     * Returns tupleSize >= 0 when the list is a list-of-arrays (double[] or Object[]),
+     * or -1 when it's a normal list (in which case items are appended).
+     */
+    private static int handleList(List<?> list, List<Object> items) {
+        if (list == null || list.isEmpty()) return -1;
+        Object first = list.get(0);
+        if (first instanceof double[]) {
+            int size = ((double[]) first).length;
+            for (Object o : list) addArray(o, items);   // each o is double[]
+            return size;
+        }
+        if (first instanceof Object[]) {
+            int size = ((Object[]) first).length;
+            for (Object o : list) items.addAll(Arrays.asList((Object[]) o)); // each o is Object[]
+            return size;
+        }
+        items.addAll(list);
+        return -1;
     }
 
     private static String getStyledInput(String labelPrefix, List<Object> formattedItems, boolean isTupleMode, int tupleSize) {
