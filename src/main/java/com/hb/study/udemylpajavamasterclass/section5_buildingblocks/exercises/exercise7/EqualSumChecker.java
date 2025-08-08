@@ -1,10 +1,13 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise7;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class EqualSumChecker {
     public static void main(String[] args) {
-        System.out.println(hasEqualSum(1, 1, 1));
-        System.out.println(hasEqualSum(1, 1, 2));
-        System.out.println(hasEqualSum(1, -1, 0));
+        ConsoleStyler.styleOutput(Boolean.toString(hasEqualSum(1, 1, 1)));
+        ConsoleStyler.styleOutput(Boolean.toString(hasEqualSum(1, 1, 2)));
+        ConsoleStyler.styleOutput(Boolean.toString(hasEqualSum(1, -1, 0)));
+
 
     }
     public static boolean hasEqualSum(int firstNumber, int secondNumber, int thirdNumber ) {

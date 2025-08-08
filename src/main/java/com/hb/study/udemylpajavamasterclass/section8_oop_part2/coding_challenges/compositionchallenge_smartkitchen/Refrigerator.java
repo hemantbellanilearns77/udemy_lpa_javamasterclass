@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.compositionchallenge_smartkitchen;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Refrigerator {
 
     private boolean hasWorkToDo;
@@ -12,7 +14,7 @@ public class Refrigerator {
     }
     public void orderFood(){
         if(hasWorkToDo) {
-            System.out.println("Ordering food.....");
+            ConsoleStyler.styleOutput("Ordering food.....");
             this.setHasWorkToDo(false);
         }
     }

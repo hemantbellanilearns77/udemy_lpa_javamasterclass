@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.demostubs.abstractclassesdeepdive;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 abstract class Mammal extends Animal {
 
     public Mammal(String type, String size, double weight) {
@@ -10,7 +12,7 @@ abstract class Mammal extends Animal {
     public void move(String speed) {
 
         System.out.print(getExplicitType() + " ");
-        System.out.println( speed.equals("slow") ? "walks" : "runs");
+        ConsoleStyler.styleOutput( speed.equals("slow") ? "walks" : "runs");
     }
 
     public abstract void shedHair();

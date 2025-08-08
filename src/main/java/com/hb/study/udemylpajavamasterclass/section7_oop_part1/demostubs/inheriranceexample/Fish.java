@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.inheriranceexample;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Fish extends Animal{
     private int gills;
     private int fins;
@@ -11,11 +13,11 @@ public class Fish extends Animal{
     }
 
     public void moveMuscles(){
-        System.out.println("muscles moving");
+        ConsoleStyler.styleOutput("muscles moving");
     }
 
     public void moveBackFin(){
-        System.out.println("Back Fin moving");
+        ConsoleStyler.styleOutput("Back Fin moving");
     }
 
     @Override
@@ -25,7 +27,7 @@ public class Fish extends Animal{
         if(speed == "fast"){
             moveBackFin();
         }
-        System.out.println();
+
     }
 
     @Override

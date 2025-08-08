@@ -1,10 +1,12 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise8;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class TeenNumberChecker {
     public static void main(String[] args) {
-        System.out.println(hasTeen(9, 99, 19));
-        System.out.println(hasTeen(23, 15, 42));
-        System.out.println(hasTeen(22, 23, 34));
+        ConsoleStyler.styleOutput(Boolean.toString(hasTeen(9, 99, 19)));
+        ConsoleStyler.styleOutput(Boolean.toString(hasTeen(23, 15, 42)));
+        ConsoleStyler.styleOutput(Boolean.toString(hasTeen(22, 23, 34)));
 
     }
 

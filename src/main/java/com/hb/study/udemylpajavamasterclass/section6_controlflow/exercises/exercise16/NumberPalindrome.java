@@ -1,15 +1,17 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise16;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class NumberPalindrome {
 
     public static void main(String[] args) {
 
-        /*System.out.println("Is 10 a palindrome? : " + isPalindrome(10));
-        System.out.println("Is 121 a palindrome? : " + isPalindrome(121));
-        System.out.println("Is 456 a palindrome? : " + isPalindrome(456));
-        System.out.println("Is 12021 a palindrome? : " + isPalindrome(12021));*/
+        /*ConsoleStyler.styleOutput("Is 10 a palindrome? : " + isPalindrome(10));
+        ConsoleStyler.styleOutput("Is 121 a palindrome? : " + isPalindrome(121));
+        ConsoleStyler.styleOutput("Is 456 a palindrome? : " + isPalindrome(456));
+        ConsoleStyler.styleOutput("Is 12021 a palindrome? : " + isPalindrome(12021));*/
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
@@ -23,16 +25,16 @@ public class NumberPalindrome {
 
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
                     clearScreen();
-                    System.out.println("\n\nExiting the input screen .... thanks for your attempts and inputs.... ");
+                    ConsoleStyler.styleOutput("\n\nExiting the input screen .... thanks for your attempts and inputs.... ");
 
                 continue ;
             } else {
-                System.out.println("userInput was:" + userInput + ", userInputWithoutBlanks is:" + userInputWithoutBlanks);
+                ConsoleStyler.styleOutput("userInput was:" + userInput + ", userInputWithoutBlanks is:" + userInputWithoutBlanks);
                 // Checking if user input number is Palindrome or not?
                 try{
-                    System.out.println("Is " + userInputWithoutBlanks + " a palindrome? : " + isPalindrome(Integer.parseInt(userInputWithoutBlanks)));
+                    ConsoleStyler.styleOutput("Is " + userInputWithoutBlanks + " a palindrome? : " + isPalindrome(Integer.parseInt(userInputWithoutBlanks)));
                 } catch(NumberFormatException nfe) {
-                    System.out.println("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
+                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
                     continue;
                 }
             }
@@ -59,10 +61,10 @@ public class NumberPalindrome {
         // palindrome if num and reverse are equal
         if(numToEvaluate == reverse) {
 
-            //System.out.println(numToEvaluate + " is Palindrome");
+            //ConsoleStyler.styleOutput(numToEvaluate + " is Palindrome");
             palindromeFound = true;
         }/* else {
-            //System.out.println(numToEvaluate + " is not Palindrome");
+            //ConsoleStyler.styleOutput(numToEvaluate + " is not Palindrome");
             palindromeFound = false;
         }*/
         return  palindromeFound ;
@@ -76,7 +78,7 @@ public class NumberPalindrome {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         } catch (Exception e) {
-            System.out.println("Error clearing screen: " + e.getMessage());
+            ConsoleStyler.styleOutput("Error clearing screen: " + e.getMessage());
         }
     }
 }

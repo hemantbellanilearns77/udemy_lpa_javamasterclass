@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise38;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Bed {
 
      private String style;
@@ -38,6 +40,6 @@ public class Bed {
      }
 
      public void make() {
-          System.out.println("the bed is being made");
+          ConsoleStyler.styleOutput("the bed is being made");
      }
 }

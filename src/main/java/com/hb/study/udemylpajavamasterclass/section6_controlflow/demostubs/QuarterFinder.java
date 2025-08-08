@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.demostubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ public class QuarterFinder {
 
         // Validate input to allow only month names (no numbers or special characters)
         if (!validMonths.contains(month)) {
-            System.out.println("Invalid input! Please enter a valid month name (e.g., January, February, etc.).");
+            ConsoleStyler.styleOutput("Invalid input! Please enter a valid month name (e.g., January, February, etc.).");
         } else {
             // Enhanced switch statement to determine the quarter
             String quarter = switch (month) {
@@ -33,7 +35,7 @@ public class QuarterFinder {
                 default -> "Unexpected error!"; // Should never reach here
             };
 
-            System.out.println("The month " + capitalize(month) + " falls in the " + quarter + ".");
+            ConsoleStyler.styleOutput("The month " + capitalize(month) + " falls in the " + quarter + ".");
         }
 
         scanner.close();

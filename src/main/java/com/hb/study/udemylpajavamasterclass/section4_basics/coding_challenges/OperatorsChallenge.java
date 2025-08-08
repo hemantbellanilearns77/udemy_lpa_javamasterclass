@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section4_basics.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class OperatorsChallenge {
     public static void main(String[] args) {
         double myFirstValue = 20.0d;
@@ -7,14 +9,14 @@ public class OperatorsChallenge {
 //      The below was earlier used without parenthesis to demonstrate operator parenthesis
 //      double myValuesTotal = myFirstValue + mySecondValue * 100.00d;
         double myValuesTotal = (myFirstValue + mySecondValue) * 100.00d;
-        System.out.println("myValuesTotal : " + myValuesTotal);
+        ConsoleStyler.styleOutput("myValuesTotal : " + myValuesTotal);
         double theRemainder = myValuesTotal % 40.00d;
-        System.out.println("theRemainder : " + theRemainder);
+        ConsoleStyler.styleOutput("theRemainder : " + theRemainder);
         boolean isNoRemainder = (theRemainder == 0) ? true : false;
         if(isNoRemainder) {
-            System.out.println("There's no remainder");
+            ConsoleStyler.styleOutput("There's no remainder");
         } else {
-            System.out.println("Got some remainder");
+            ConsoleStyler.styleOutput("Got some remainder");
         }
     }
 }

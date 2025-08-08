@@ -1,14 +1,17 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise5;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class LeapYear {
     public static void main(String[] args) {
-        System.out.println(isLeapYear(1924));
-        System.out.println(isLeapYear(-1600));
-        System.out.println(isLeapYear(1600));
-        System.out.println(isLeapYear(2017));
-        System.out.println(isLeapYear(2000));
-        System.out.println(isLeapYear(1900));
-        System.out.println(isLeapYear(-1200));
+        String emptyString = "";
+        ConsoleStyler.styleOutput(isLeapYear(1924) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(-1600) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(1600) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(2017) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(2000) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(1900) + emptyString);
+        ConsoleStyler.styleOutput(isLeapYear(-1200) + emptyString);
     }
 
     public static boolean isLeapYear(int year){

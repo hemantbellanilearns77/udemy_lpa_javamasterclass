@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.inheriranceexample;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Dog extends Animal{
     private String earShape;
     private String tailShape;
@@ -28,7 +30,7 @@ public class Dog extends Animal{
 
     @Override
     public void move(String speed){
-        System.out.println("move invoked on Dog Object!");
+        ConsoleStyler.styleOutput("move invoked on Dog Object!");
 
         if(speed.equalsIgnoreCase("slow")) {
             walk();
@@ -37,35 +39,34 @@ public class Dog extends Animal{
            run();
            bark();
        }
-        System.out.println();
+
     }
 
     @Override
     public void makeNoise(){
-        System.out.println("makeNoise invoked on Dog Object!");
+        ConsoleStyler.styleOutput("makeNoise invoked on Dog Object!");
 
         if(type == "Wolf" ) {
-            System.out.println("ow woooo !");
+            ConsoleStyler.styleOutput("ow woooo !");
         } else {
             bark();
         }
-        System.out.println();
     }
 
     private void bark(){
-        System.out.println("Woof! Woof! Woof! Woof! Woof! Woof!  ");
+        ConsoleStyler.styleOutput("Woof! Woof! Woof! Woof! Woof! Woof!  ");
     }
 
     private void run(){
-        System.out.println("Dog running!");
+        ConsoleStyler.styleOutput("Dog running!");
     }
 
     private void walk(){
-        System.out.println("Dog walking!");
+        ConsoleStyler.styleOutput("Dog walking!");
     }
 
     private void wagTail(){
-        System.out.println("Tail Wagging!");
+        ConsoleStyler.styleOutput("Tail Wagging!");
     }
 
 

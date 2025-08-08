@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.classeschallenge_bankaccount;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MainClass {
     public static void main(String[] args) {
         Account myAccount = new Account();
@@ -16,21 +18,21 @@ public class MainClass {
         myAccount.withdrawFunds(54.46);
         myAccount.withdrawFunds(54.45);
 
-        System.out.println("Details of Account : \n");
-        System.out.println("Customer Name : " + myAccount.getCustomerName());
-        System.out.println("Customer Account Number : " + myAccount.getAccountNumber());
-        System.out.println("Customer Name : " + myAccount.getCustomerEmail());
-        System.out.println("Customer Name : " + myAccount.getCustomerPhoneNumber());
+        ConsoleStyler.styleOutput("Details of Account : \n");
+        ConsoleStyler.styleOutput("Customer Name : " + myAccount.getCustomerName());
+        ConsoleStyler.styleOutput("Customer Account Number : " + myAccount.getAccountNumber());
+        ConsoleStyler.styleOutput("Customer Name : " + myAccount.getCustomerEmail());
+        ConsoleStyler.styleOutput("Customer Name : " + myAccount.getCustomerPhoneNumber());
 
         Account anotherAccount = new Account(
                 900000000,
                 "Hemant Bellani",
                 "hemantbellani@gmail.com",
                 "98117860808");
-        System.out.println("Details of Another Account : \n");
-        System.out.println("Customer Name : " + anotherAccount.getCustomerName());
-        System.out.println("Customer Account Number : " + anotherAccount.getAccountNumber());
-        System.out.println("Customer Name : " + anotherAccount.getCustomerEmail());
-        System.out.println("Customer Name : " + anotherAccount.getCustomerPhoneNumber());
+        ConsoleStyler.styleOutput("Details of Another Account : \n");
+        ConsoleStyler.styleOutput("Customer Name : " + anotherAccount.getCustomerName());
+        ConsoleStyler.styleOutput("Customer Account Number : " + anotherAccount.getAccountNumber());
+        ConsoleStyler.styleOutput("Customer Name : " + anotherAccount.getCustomerEmail());
+        ConsoleStyler.styleOutput("Customer Name : " + anotherAccount.getCustomerPhoneNumber());
     }
 }

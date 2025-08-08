@@ -4,6 +4,7 @@ package com.hb.study.libs.datetimeutillib.core;
  * created by : heman on 14-07-2025, 06:40 pm, in the "udemy_lpa_javamasterclass" project
  **/
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -43,8 +44,8 @@ public class NumberUtils {
         }
     }
     public static void runGlobalCurrencyAndNumber() {
-        System.out.println("💱 CURRENCY & NUMBER FORMAT — Global Round");
-        System.out.println(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.styleOutput("💱 CURRENCY & NUMBER FORMAT — Global Round");
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
 
         double sample = 1234567.89;
 

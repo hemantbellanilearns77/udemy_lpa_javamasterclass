@@ -33,7 +33,7 @@ public class DemoNetworking {
         try (
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
             String line = reader.readLine();
-            System.out.println("🌐 First line from site: " + line);
+            ConsoleStyler.styleOutput("🌐 First line from site: " + line);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

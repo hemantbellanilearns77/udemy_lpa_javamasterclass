@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.demostubs.computerfactory_composition_example;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class ComputerCase extends Monitor{
 
     private String powerSupply;
@@ -15,7 +17,7 @@ class ComputerCase extends Monitor{
     }
 
     public void pressPowerButton(){
-        System.out.println("Power Button Pressed....");
+        ConsoleStyler.styleOutput("Power Button Pressed....");
     }
 
     @Override

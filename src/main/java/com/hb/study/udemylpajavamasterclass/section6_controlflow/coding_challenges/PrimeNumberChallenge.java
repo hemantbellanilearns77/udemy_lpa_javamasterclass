@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class PrimeNumberChallenge {
     public static void main(String[] args) {
 
@@ -9,15 +11,15 @@ public class PrimeNumberChallenge {
                 primeNumbersCounter++;
                 System.out.print(wholeNumberCounter + ", ");
                 if(primeNumbersCounter == 3){
-                    System.out.println("Since we found 3 Prime numbers, so exiting... ");
+                    ConsoleStyler.styleOutput("Since we found 3 Prime numbers, so exiting... ");
                     break;
                 } else {
-                    //System.out.println(wholeNumberCounter + " IS NOT A Prime Number, but a Composite Number or 0 or 1");
+                    //ConsoleStyler.styleOutput(wholeNumberCounter + " IS NOT A Prime Number, but a Composite Number or 0 or 1");
                     continue;
                 }
             }
         }
-            System.out.println("\nThe total count of Prime Numbers found are: " + primeNumbersCounter);
+            ConsoleStyler.styleOutput("\nThe total count of Prime Numbers found are: " + primeNumbersCounter);
         }
 
 

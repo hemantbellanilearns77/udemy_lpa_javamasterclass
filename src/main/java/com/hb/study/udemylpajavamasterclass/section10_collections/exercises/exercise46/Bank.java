@@ -1,6 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise46;
 
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 
 public class Bank {
@@ -63,23 +65,23 @@ public class Bank {
 
 
     public boolean listCustomers(String branchName, boolean printTransactions) {
-        //System.out.println("\n\t\t"+name+"\n");
+        //ConsoleStyler.styleOutput("\n\t\t"+name+"\n");
         boolean branchExists = false;
         Branch branch = findBranch(branchName);
         if (branch != null) {
             branchExists = true;
             int customerCounter = 1;
-            System.out.println("Customer details for branch " + branch.getName() + " ("+name+")");
+            ConsoleStyler.styleOutput("Customer details for branch " + branch.getName() + " ("+name+")");
             ArrayList<Customer> branchCustomers = branch.getCustomers();
             for (var customer : branch.getCustomers()) {
-                //System.out.println("Customer: " + customer.getName() + "[" + (customerCounter) + "]");
+                //ConsoleStyler.styleOutput("Customer: " + customer.getName() + "[" + (customerCounter) + "]");
                 System.out.printf("Customer: %s[%d]%n", customer.getName(), customerCounter);
                 customerCounter++;
                 if (printTransactions) {
-                    System.out.println("Transactions");
+                    ConsoleStyler.styleOutput("Transactions");
                     int transactionCounter = 1;
                     for (var transaction : customer.getTransactions()) {
-                        //System.out.println("[" + (transactionCounter) + "] Amount " + transaction);
+                        //ConsoleStyler.styleOutput("[" + (transactionCounter) + "] Amount " + transaction);
                         System.out.printf("[%d] Amount %4.2f", transactionCounter, transaction);
                         transactionCounter++;
                     }

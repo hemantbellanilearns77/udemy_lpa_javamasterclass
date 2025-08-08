@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.demostubs.interfacesdeepdive;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 interface FlightEnabled {
 
     double MILES_TO_KM = 1.60934;
@@ -10,10 +12,10 @@ interface FlightEnabled {
     void fly();
 
     default FlightStages transition(FlightStages stage){
-      /*  System.out.println("transition not implemented on " + getClass().getSimpleName());
+      /*  ConsoleStyler.styleOutput("transition not implemented on " + getClass().getSimpleName());
         return null;*/
         FlightStages nextStage = stage.getNextStage();
-        System.out.println("Transitioning from " + stage + " to " + nextStage);
+        ConsoleStyler.styleOutput("Transitioning from " + stage + " to " + nextStage);
         return nextStage;
     }
 

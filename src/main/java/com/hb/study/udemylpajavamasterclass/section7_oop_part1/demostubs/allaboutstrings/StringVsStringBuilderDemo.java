@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.allaboutstrings;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class StringVsStringBuilderDemo {
     public static void main(String[] args) {
         String stringObject = "Hello" + " World";
@@ -20,28 +22,28 @@ public class StringVsStringBuilderDemo {
         StringBuilder builderPlus = new StringBuilder("Hello" + " World");
         builderPlus.append(" and Goodbye");
 
-        System.out.println("************************************************************************************************");
-        System.out.println("**** Some Method calls on StringBuilder ****");
+        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.styleOutput("**** Some Method calls on StringBuilder ****");
 
         builderPlus.deleteCharAt(16).insert(16, 'g');
-        System.out.println(builderPlus);
+        ConsoleStyler.styleOutput(builderPlus.toString());
         builderPlus.replace(16, 17, "G");
-        System.out.println(builderPlus);
+        ConsoleStyler.styleOutput(builderPlus.toString());
         builderPlus.reverse().setLength(7);
-        System.out.println(builderPlus.reverse());
+        ConsoleStyler.styleOutput(builderPlus.reverse().toString());
     }
     public static void printInformation(String stringObj) {
-        System.out.println("The String that's needed to be printed is: " + stringObj);
-        System.out.println("The length of String that's needed to be printed is: " + stringObj.length());
-        System.out.println("************************************************************************************************");
+        ConsoleStyler.styleOutput("The String that's needed to be printed is: " + stringObj);
+        ConsoleStyler.styleOutput("The length of String that's needed to be printed is: " + stringObj.length());
+        ConsoleStyler.styleOutput("************************************************************************************************");
 
     }
     public static void printInformation (StringBuilder stringBuilder){
-        System.out.println("The StringBuilder that's needed to be printed is: " + stringBuilder);
-        System.out.println("The length of StringBuilder that's needed to be printed is: " + stringBuilder.length());
-        System.out.println("The Capacity of StringBuilder that's needed to be printed is:" + stringBuilder.capacity());
+        ConsoleStyler.styleOutput("The StringBuilder that's needed to be printed is: " + stringBuilder);
+        ConsoleStyler.styleOutput("The length of StringBuilder that's needed to be printed is: " + stringBuilder.length());
+        ConsoleStyler.styleOutput("The Capacity of StringBuilder that's needed to be printed is:" + stringBuilder.capacity());
 
-        System.out.println("************************************************************************************************");
+        ConsoleStyler.styleOutput("************************************************************************************************");
 
     }
 

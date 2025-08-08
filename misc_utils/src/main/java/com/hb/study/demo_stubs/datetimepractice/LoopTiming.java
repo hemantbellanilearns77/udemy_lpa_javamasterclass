@@ -1,5 +1,8 @@
 package com.hb.study.demo_stubs.datetimepractice;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -82,7 +85,7 @@ public class LoopTiming {
             // Simulate some work
             count++;
         }
-        System.out.println(count);
+        ConsoleStyler.styleOutput(count  + CommonConstants.EMPTYSTRING);
         // End time
         long endTime = System.currentTimeMillis();
 
@@ -110,10 +113,10 @@ public class LoopTiming {
 
         //LocalDateTime dateTime = LocalDateTime.ofInstant(startInstant,ZoneId.systemDefault());
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
-        System.out.println("Execution started at: " + zonedDateTime.format(formatter));
+        ConsoleStyler.styleOutput("Execution started at: " + zonedDateTime.format(formatter));
         //dateTime = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
         zonedDateTime = ZonedDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        System.out.println("Execution ended at: " + zonedDateTime.format(formatter));
+        ConsoleStyler.styleOutput("Execution ended at: " + zonedDateTime.format(formatter));
         // Print the result
         System.out.printf("Overall Time taken to loop %d times: %d days, %d hours, %d minutes, %d seconds, %d milliseconds%n",
                           count, days, hours, minutes, seconds, milliseconds);

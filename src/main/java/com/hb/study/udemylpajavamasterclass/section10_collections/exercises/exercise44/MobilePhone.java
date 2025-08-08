@@ -1,6 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise44;
 
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 
 public class MobilePhone {
@@ -29,7 +31,7 @@ public class MobilePhone {
    /* public boolean addNewContact(Contact contact) {
 
         if (findContact(contact.getName()) >= 0) {
-            System.out.println("Contact is already on file");
+            ConsoleStyler.styleOutput("Contact is already on file");
             return false;
         }
         myContacts.add(contact);
@@ -91,7 +93,7 @@ public class MobilePhone {
                 pribtContactsTextBlock.append(listOrderNumber + ". "
                         + nextContact.getName() + " -> " + nextContact.getPhoneNumber() + "\n");
             }
-            System.out.println(pribtContactsTextBlock.toString());
+            ConsoleStyler.styleOutput(pribtContactsTextBlock.toString());
         }
     }
 }

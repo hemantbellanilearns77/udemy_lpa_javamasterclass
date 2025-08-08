@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MealOrder {
 
     private Burger burger;
@@ -41,7 +43,7 @@ public class MealOrder {
             drink.printItem();
             side.printItem();
         }
-        System.out.println("-".repeat(30));
+        ConsoleStyler.styleOutput("-".repeat(30));
         Item.printItem("TOTAL PRICE", getTotalPrice());
     }
 

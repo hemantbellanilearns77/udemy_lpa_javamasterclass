@@ -1,13 +1,15 @@
 package com.hb.study.demo_stubs;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.*;
 public class RandomNumberOddEven {
     public static void main(String[] args) {
         Integer randomInteger = new Random().nextInt(1, 100);
-        System.out.println("RandomInteger is: " + randomInteger);
+        ConsoleStyler.styleOutput("RandomInteger is: " + randomInteger);
         if ((randomInteger % 2) != 0) {
-            System.out.println("RandomInteger is ODD ");
+            ConsoleStyler.styleOutput("RandomInteger is ODD ");
         } else {
-            System.out.println("RandomInteger is EVEN ");
+            ConsoleStyler.styleOutput("RandomInteger is EVEN ");
         }
     }
 }

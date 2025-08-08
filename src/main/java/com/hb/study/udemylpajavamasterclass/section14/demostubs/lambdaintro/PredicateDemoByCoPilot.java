@@ -3,6 +3,7 @@ package com.hb.study.udemylpajavamasterclass.section14.demostubs.lambdaintro;
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -40,12 +41,12 @@ public class PredicateDemoByCoPilot {
          */
         List<String> names = new ArrayList<>();
         Name generatedFullName;
-        System.out.println("Original (unfiltered) name count is: " + namesCount);
+        ConsoleStyler.styleOutput("Original (unfiltered) name count is: " + namesCount);
         for(int i = 0; i < namesCount; i++) {
             generatedFullName = new Name(CommonUtils.generateRandomName());
             names.add(generatedFullName.getFirstName());
         }
-        System.out.println("The list of names as originally generated is: ");
+        ConsoleStyler.styleOutput("The list of names as originally generated is: ");
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
@@ -56,9 +57,9 @@ public class PredicateDemoByCoPilot {
         //or use lambda to remove names that start with 'A'
         names.removeIf(name -> name.startsWith("A"));
         namesCount = names.size();
-        System.out.println("Now (filtered) name count is: " + namesCount);
+        ConsoleStyler.styleOutput("Now (filtered) name count is: " + namesCount);
 
-        System.out.println("The list of names as after removing the names that start with \'A\' is: ");
+        ConsoleStyler.styleOutput("The list of names as after removing the names that start with \'A\' is: ");
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }

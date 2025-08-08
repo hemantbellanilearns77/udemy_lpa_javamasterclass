@@ -5,6 +5,8 @@ write a java program to demonstrate using enhanced switch statement which prints
 Certainly! Below is a Java program that demonstrates the use of the enhanced switch statement to determine the current quarter of the year based on the name of the month provided as input. The program also validates the input to ensure it contains only the name of a calendar month.
 */
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class MonthToQuarter {
@@ -15,7 +17,7 @@ public class MonthToQuarter {
 
         // Validate input
         if (!isValidMonth(month)) {
-            System.out.println("Invalid input. Please enter a valid month name.");
+            ConsoleStyler.styleOutput("Invalid input. Please enter a valid month name.");
             return;
         }
 
@@ -28,7 +30,7 @@ public class MonthToQuarter {
             default -> "Unknown quarter"; // This case should never be reached due to validation
         };
 
-        System.out.println("The month of " + month + " is in " + quarter + ".");
+        ConsoleStyler.styleOutput("The month of " + month + " is in " + quarter + ".");
     }
 
     // Method to validate if the input is a valid month name

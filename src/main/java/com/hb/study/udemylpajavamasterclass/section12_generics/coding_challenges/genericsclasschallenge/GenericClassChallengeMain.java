@@ -17,7 +17,7 @@ public class GenericClassChallengeMain {
         };
 
         Layer<Park> parkLayer = new Layer<>(nationalUSParks);
-        System.out.println(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() + " has: ");
+        ConsoleStyler.styleOutput(Park.class.getSimpleName() + " " + parkLayer.getClass().getSimpleName() + " has: ");
         parkLayer.renderLayer();
         ConsoleStyler.divider();
         var majorUSRivers = new River[]{
@@ -35,7 +35,7 @@ public class GenericClassChallengeMain {
                         "40.4708, -105.8286", "31.7811, -114.7724"),
                 new River("Delaware",
                         "42.2026, -75.00836", "39.4955, -75.5592"));
-        System.out.println(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() + " has: ");
+        ConsoleStyler.styleOutput(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() + " has: ");
         riverLayer.renderLayer();
         /*
             *****************************************************

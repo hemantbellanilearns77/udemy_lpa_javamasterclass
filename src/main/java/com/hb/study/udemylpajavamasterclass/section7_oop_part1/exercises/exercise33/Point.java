@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise33;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Point {
     public int getX() {
         return x;
@@ -21,11 +23,11 @@ public class Point {
     private int y;
 
     public Point() {
-        System.out.println("The no args constructor");
+        ConsoleStyler.styleOutput("The no args constructor");
     }
 
     public Point(int x, int y){
-        System.out.println("Constructor with arguments.....");
+        ConsoleStyler.styleOutput("Constructor with arguments.....");
         this.x = x;
         this.y = y;
     }

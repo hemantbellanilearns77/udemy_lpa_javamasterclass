@@ -56,7 +56,7 @@ public class DemoOOPConcepts {
         }
 
         public void speak() {
-            System.out.println("🐾 " + name + " makes a sound.");
+            ConsoleStyler.styleOutput("🐾 " + name + " makes a sound.");
         }
     }
 
@@ -69,7 +69,7 @@ public class DemoOOPConcepts {
 
         @Override
         public void speak() {
-            System.out.println("🦁 " + name + " roars like royalty!");
+            ConsoleStyler.styleOutput("🦁 " + name + " roars like royalty!");
         }
     }
 }

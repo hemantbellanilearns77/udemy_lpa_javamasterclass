@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.coding_challenges.abstractclasschallenge_storefront;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Furniture extends ProductForSale {
 
     public Furniture(String type, double price, String description) {
@@ -9,8 +11,8 @@ public class Furniture extends ProductForSale {
     @Override
     public void showDetails() {
 
-        System.out.println("This " + type + " was manufactured in North Carolina");
+        ConsoleStyler.styleOutput("This " + type + " was manufactured in North Carolina");
         System.out.printf("The price of the piece is $%6.2f %n", price);
-        System.out.println(description);
+        ConsoleStyler.styleOutput(description);
     }
 }

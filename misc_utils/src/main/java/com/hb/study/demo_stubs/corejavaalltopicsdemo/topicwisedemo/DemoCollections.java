@@ -31,7 +31,7 @@ public class DemoCollections {
         guests.add("Bob");
         guests.add("Charlie");
         for (String guest : guests) {
-            System.out.println("🎫 Guest: " + guest);
+            ConsoleStyler.styleOutput("🎫 Guest: " + guest);
         }
         ConsoleStyler.endSection("List Example");
 
@@ -39,7 +39,7 @@ public class DemoCollections {
         Map<Integer, String> seatMap = new HashMap<>();
         seatMap.put(101, "Alice");
         seatMap.put(102, "Bob");
-        System.out.println("🪑 Seat 101: " + seatMap.get(101));
+        ConsoleStyler.styleOutput("🪑 Seat 101: " + seatMap.get(101));
         ConsoleStyler.endSection("Map Example");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

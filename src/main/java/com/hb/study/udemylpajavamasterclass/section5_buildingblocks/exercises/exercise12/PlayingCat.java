@@ -1,10 +1,13 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise12;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class PlayingCat {
     public static void main(String[] args) {
-        System.out.println(isCatPlaying(true, 10));
-        System.out.println(isCatPlaying(false, 36));
-        System.out.println(isCatPlaying(false, 35));
+        ConsoleStyler.styleOutput(isCatPlaying(true, 10) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(isCatPlaying(false, 36) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(isCatPlaying(false, 35) + CommonConstants.EMPTYSTRING);
     }
 
     public static boolean isCatPlaying(boolean summer, int temperature) {

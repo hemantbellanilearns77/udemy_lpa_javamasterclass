@@ -17,14 +17,14 @@ public class DateTimeCarnival_Copy {
     public static void main(String[] args) {
         execution.initialize();
 
-        /*System.out.println("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟");
-        System.out.println("🪔  WELCOME TO DATE-TIME CARNIVAL — DIWALI EDITION 🪔");
-        System.out.println("🌏  A FESTIVAL OF FORMATS · CELEBRATING CULTURES IN CODE  🎆");
-        System.out.println("✨  Java Locale Magic · Traditional Calendars · Currency Flair ✨");
-        System.out.println("🎉  Curated by Hemant, The Formatter Maestro 🧵");
-        System.out.println("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟\n");*/
+        /*ConsoleStyler.styleOutput("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟");
+        ConsoleStyler.styleOutput("🪔  WELCOME TO DATE-TIME CARNIVAL — DIWALI EDITION 🪔");
+        ConsoleStyler.styleOutput("🌏  A FESTIVAL OF FORMATS · CELEBRATING CULTURES IN CODE  🎆");
+        ConsoleStyler.styleOutput("✨  Java Locale Magic · Traditional Calendars · Currency Flair ✨");
+        ConsoleStyler.styleOutput("🎉  Curated by Hemant, The Formatter Maestro 🧵");
+        ConsoleStyler.styleOutput("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟\n");*/
 
-        System.out.println(DateTimeUtilLIbConstants.CARNIVALDEMOBANNER);
+        ConsoleStyler.styleOutput(DateTimeUtilLIbConstants.CARNIVALDEMOBANNER);
 
         Locale defaultLocale = Locale.getDefault();
         ZoneId defaultZone = ZoneId.systemDefault();

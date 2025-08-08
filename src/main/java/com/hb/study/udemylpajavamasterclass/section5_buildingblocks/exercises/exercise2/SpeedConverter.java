@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise2;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SpeedConverter {
     public static void main(String[] args) {
         double testValueKilometersPerHour = 1.5;
@@ -14,10 +16,10 @@ public class SpeedConverter {
     }
     public static void printConversion(double kilometersPerHour) {
         if (kilometersPerHour >= 0) {
-                System.out.println(kilometersPerHour + " km/h = "
+                ConsoleStyler.styleOutput(kilometersPerHour + " km/h = "
                         + toMilesPerHour(kilometersPerHour) + " mi/h");
                 return;
         }
-        System.out.println("Invalid Value");
+        ConsoleStyler.styleOutput("Invalid Value");
     }
 }

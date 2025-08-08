@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.constructorchallengeexercise;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Customer {
 
     private String name;
@@ -27,16 +29,16 @@ public class Customer {
 
     public Customer() { // No Args Constructor
         this("Default", 400000, "Default@email.com");
-        System.out.println("Empty Constructor invoked");
+        ConsoleStyler.styleOutput("Empty Constructor invoked");
     }
 
     public Customer(String name, String emailaddress) {
         this(name, 400000, emailaddress);
-        System.out.println("Constructor with 2 arguments invoked");
+        ConsoleStyler.styleOutput("Constructor with 2 arguments invoked");
     }
 
     public Customer(String name, double credit_limit, String emailaddress) { // All args constructor
-        System.out.println("All-args constructor with all 3 arguments invoked");
+        ConsoleStyler.styleOutput("All-args constructor with all 3 arguments invoked");
         this.name = name;
         this.credit_limit = credit_limit;
         this.emailaddress = emailaddress;

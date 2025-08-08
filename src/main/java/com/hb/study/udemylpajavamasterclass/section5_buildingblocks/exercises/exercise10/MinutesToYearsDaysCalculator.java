@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise10;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MinutesToYearsDaysCalculator {
     public static void main(String[] args) {
         printYearsAndDays(525600);
@@ -9,7 +11,7 @@ public class MinutesToYearsDaysCalculator {
 
     public static void printYearsAndDays(long minutes) {
         if(minutes < 0) {
-            System.out.println("Invalid Value");
+            ConsoleStyler.styleOutput("Invalid Value");
             return;
         }
 
@@ -17,6 +19,6 @@ public class MinutesToYearsDaysCalculator {
         long remainingMinutes = minutes % (60*24*365);
         long days = remainingMinutes / (60*24);
 
-        System.out.println(minutes + " min = " + years + " y and " + days +" d " );
+        ConsoleStyler.styleOutput(minutes + " min = " + years + " y and " + days +" d " );
     }
 }

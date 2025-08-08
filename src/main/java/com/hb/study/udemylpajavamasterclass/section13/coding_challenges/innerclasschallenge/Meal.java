@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section13.coding_challenges.innerclasschallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class Meal {
         this.conversionRate = conversionRate;
         theBurgerInMeal = new Burger("Regular");
         theDrinkInMeal = new Item("Coke", "DRINK", 1.5);
-        System.out.println(theDrinkInMeal.name);
+        ConsoleStyler.styleOutput(theDrinkInMeal.name);
         theSideInMeal = new Item("Fries", "SIDE", 2.0);
     }
 
@@ -115,7 +117,7 @@ public class Meal {
                     toppings.add(new Item(topping.name(), "TOPPING",
                             topping.getPrice()));
                 } catch (IllegalArgumentException ie) {
-                    System.out.println("No topping found for " + selectedTopping);
+                    ConsoleStyler.styleOutput("No topping found for " + selectedTopping);
                 }
             }
         }

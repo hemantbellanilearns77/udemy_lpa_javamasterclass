@@ -22,7 +22,7 @@ public class DemoEnums {
 
         ConsoleStyler.startSection("Enum Declaration & Usage");
         for (Day day : Day.values()) {
-            System.out.println("📆 Day: " + day + " → Mood: " + day.getMood());
+            ConsoleStyler.styleOutput("📆 Day: " + day + " → Mood: " + day.getMood());
         }
         ConsoleStyler.endSection("Enum Declaration & Usage");
 

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section9_advancedarrays.exercises.exercise42;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Arrays;
 
 public class MinimumElement {
@@ -11,7 +13,7 @@ public class MinimumElement {
     public static int readInteger() {
         int userInputInteger;
         java.util.Scanner scanner = new java.util.Scanner(System.in);
-        System.out.println("Please enter an interger, " +
+        ConsoleStyler.styleOutput("Please enter an interger, " +
                 "which would represents how many elements the user needs to enter");
         userInputInteger = scanner.nextInt();
         return userInputInteger;
@@ -23,7 +25,7 @@ public class MinimumElement {
 
             newArray[i] = scanner.nextInt();
         }
-        System.out.println(Arrays.toString(newArray));
+        ConsoleStyler.styleOutput(Arrays.toString(newArray));
         return newArray;
     }
 

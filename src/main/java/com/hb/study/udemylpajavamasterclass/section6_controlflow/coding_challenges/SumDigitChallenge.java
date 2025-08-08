@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 /*
@@ -19,16 +21,16 @@ public class SumDigitChallenge {
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
             if(userInputWithoutBlanks.equalsIgnoreCase("exit")) { continue ; }
 
-            System.out.println("userInput was: " + userInput); // + ", \nand userInputWithoutBlanks is:" + userInputWithoutBlanks);
+            ConsoleStyler.styleOutput("userInput was: " + userInput); // + ", \nand userInputWithoutBlanks is:" + userInputWithoutBlanks);
             try{
                 sumReceived = sumDigits(Integer.parseInt(userInputWithoutBlanks));
-                System.out.println("The sum of digits of " + userInputWithoutBlanks
+                ConsoleStyler.styleOutput("The sum of digits of " + userInputWithoutBlanks
                         + " is: " + sumReceived);
                 if(sumReceived == -1) {
-                    System.out.println("Invalid Input : Negative Number is not acceptable, please input a positive integer or 9");
+                    ConsoleStyler.styleOutput("Invalid Input : Negative Number is not acceptable, please input a positive integer or 9");
                 }
             } catch(NumberFormatException nfe){
-                System.out.println("\nSorry Invalid Input !! \nPlease note that haracters other than a positive integer or 0 or " +
+                ConsoleStyler.styleOutput("\nSorry Invalid Input !! \nPlease note that haracters other than a positive integer or 0 or " +
                         "either of these words  (\"exit\" or \"quit\" or \"end\") are  allowed as inputs, " +
                         "so please try again.... ");
                 continue;

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section9_advancedarrays.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
@@ -10,14 +12,14 @@ public class ArraysSortDescChallenge {
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of "
                 + ArraysSortDescChallenge.class.getSimpleName() +
                 " is as below\t\t" + "*".repeat(54);
-        System.out.println(programOutputBegins);
+        ConsoleStyler.styleOutput(programOutputBegins);
         int[] intArrayToSort = getRandomArray(7);
-        System.out.println("Original Array is: " + Arrays.toString(intArrayToSort));
+        ConsoleStyler.styleOutput("Original Array is: " + Arrays.toString(intArrayToSort));
         Arrays.sort(intArrayToSort);
-        System.out.println("Original Array, when sorted in Ascending Order is:  " + Arrays.toString(intArrayToSort));
+        ConsoleStyler.styleOutput("Original Array, when sorted in Ascending Order is:  " + Arrays.toString(intArrayToSort));
         int[] descendingSortedArray = getDesceningSortedArray(intArrayToSort);
-        System.out.println("Original Array, when sorted in Descending Order is:  " + Arrays.toString(descendingSortedArray));
-        System.out.println(asteriskSeparatorLine);
+        ConsoleStyler.styleOutput("Original Array, when sorted in Descending Order is:  " + Arrays.toString(descendingSortedArray));
+        ConsoleStyler.styleOutput(asteriskSeparatorLine);
     }
 
     private static int[] getDesceningSortedArray(int[] intArrayToSort) {

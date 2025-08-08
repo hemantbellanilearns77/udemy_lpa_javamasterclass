@@ -1,12 +1,15 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise14;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class NumberOfDaysInMonth {
     public static void main(String[] args) {
-        System.out.println(getDaysInMonth(1, 2020));
-        System.out.println(getDaysInMonth(2, 2020));
-        System.out.println(getDaysInMonth(2, 2018));
-        System.out.println(getDaysInMonth(-1, 2020));
-        System.out.println(getDaysInMonth(1, -2020));
+        ConsoleStyler.styleOutput(getDaysInMonth(1, 2020) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(getDaysInMonth(2, 2020)  + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(getDaysInMonth(2, 2018)  + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(getDaysInMonth(-1, 2020)  + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(getDaysInMonth(1, -2020)  + CommonConstants.EMPTYSTRING);
     }
     public static int getDaysInMonth(int month, int year) {
         int monthDays = -1;

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.demostubs.computerfactory_composition_example;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class Monitor extends Product{
     private int size;
     private String resolution;
@@ -25,7 +27,7 @@ class Monitor extends Product{
     }
 
     public void drawPixelAt(int x, int y, String color){
-        System.out.println(String.format("Drawing Pixel at %d %d %s", x, y, color));
+        ConsoleStyler.styleOutput(String.format("Drawing Pixel at %d %d %s", x, y, color));
     }
 
 }

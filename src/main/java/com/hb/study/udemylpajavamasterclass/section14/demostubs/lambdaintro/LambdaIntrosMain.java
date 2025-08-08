@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section14.demostubs.lambdaintro;
 
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 
@@ -34,9 +35,6 @@ public class LambdaIntrosMain {
     public static void main(String[] args) {
 
         execution.initialize();
-        /*
-         *****************************************************
-         */
 
         Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
         List<Person> people = new ArrayList<>(Arrays.asList(
@@ -55,9 +53,9 @@ public class LambdaIntrosMain {
         };
         //one way is this...
         // people.sort(comparatorLastName);
-        System.out.println("Sorted only one level (By First Names)");
+        ConsoleStyler.styleOutput("Sorted only one level (By First Names)");
         people.sort((Person p1, Person p2) -> p1.lastName().compareTo(p2.lastName()));
-        System.out.println(people);
+        ConsoleStyler.styleOutput(people.toString());
 
         interface EnhancedComparator<T> extends Comparator<T> {
             int secondLevel(T o1, T o2);
@@ -76,14 +74,11 @@ public class LambdaIntrosMain {
                 return p1.lastName().compareTo(p2.lastName());
             }
         };
-        System.out.println("Sorted till second level (By FirstName and then Last Name)");
+        ConsoleStyler.styleOutput("Sorted till second level (By FirstName and then Last Name)");
         people.sort(comparatorMixed);
-        System.out.println(people);
+        ConsoleStyler.styleOutput(people.toString());
 
-        /*
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 

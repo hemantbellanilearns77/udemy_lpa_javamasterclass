@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.coding_challenges.genericsclasschallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Arrays;
 
 abstract class Line implements Mappable {
@@ -16,7 +18,7 @@ abstract class Line implements Mappable {
 
     @Override
     public void render() {
-        System.out.println("Render " + this + " as "+
+        ConsoleStyler.styleOutput("Render " + this + " as "+
                           getClass().getSuperclass().getSimpleName().toUpperCase() +
                           " (" + printLocation() + ")");
     }

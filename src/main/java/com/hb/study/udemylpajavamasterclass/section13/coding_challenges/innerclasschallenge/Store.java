@@ -12,11 +12,11 @@ public class Store {
         execution.initialize();
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
-        System.out.println(regularMeal);
+        ConsoleStyler.styleOutput(regularMeal.toString());
         ConsoleStyler.divider();
 
         Meal USRegularMeal = new Meal(0.68);
-        System.out.println(USRegularMeal);
+        ConsoleStyler.styleOutput(USRegularMeal.toString());
 
 
         /*

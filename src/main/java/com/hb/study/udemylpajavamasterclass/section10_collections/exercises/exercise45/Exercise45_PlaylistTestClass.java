@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.exercises.exercise45;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("The gypsy", 4.2);
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
-       // System.out.println("The album 'Stormbringer' looks like below: \n" + album ) ;
-        System.out.println(album) ;
+       // ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: \n" + album ) ;
+        ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING) ;
 
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
         album = new Album("For those about to rock", "AC/DC");
@@ -41,8 +42,8 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        //System.out.println("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
-        System.out.println(album) ;
+        //ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
+        ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING) ;
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         LinkedList<Song> playList = new LinkedList<>();
@@ -53,10 +54,10 @@ public class Exercise45_PlaylistTestClass {
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-        System.out.println("Playlist:" ) ;
-        System.out.println("Track No. Title: Duration");
+        ConsoleStyler.styleOutput("Playlist:" ) ;
+        ConsoleStyler.styleOutput("Track No. Title: Duration");
         for(int loopCounter = 0; loopCounter < playList.size(); loopCounter++ ){
-            System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
+            ConsoleStyler.styleOutput((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);

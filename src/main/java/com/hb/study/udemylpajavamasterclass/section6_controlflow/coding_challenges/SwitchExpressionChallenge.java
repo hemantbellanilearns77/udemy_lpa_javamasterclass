@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SwitchExpressionChallenge {
     public static String dayOfTheWeek;
 
@@ -13,16 +15,16 @@ public class SwitchExpressionChallenge {
         printDayOfTheWeek(6);
         printDayOfTheWeek(7);*/
 
-        System.out.println("The day " + 0 + " is " + printDayOfTheWeek(0));
-        System.out.println("The day " + 1 + " is " + printDayOfTheWeek(1));
-        System.out.println("The day " + 2 + " is " + printDayOfTheWeek(2));
-        System.out.println("The day " + 3 + " is " + printDayOfTheWeek(3));
-        System.out.println("The day " + 4 + " is " + printDayOfTheWeek(4));
-        System.out.println("The day " + 5 + " is " + printDayOfTheWeek(5));
-        System.out.println("The day " + 6 + " is " + printDayOfTheWeek(6));
-        System.out.println("The day " + 7 + " is " + printDayOfTheWeek(7));
+        ConsoleStyler.styleOutput("The day " + 0 + " is " + printDayOfTheWeek(0));
+        ConsoleStyler.styleOutput("The day " + 1 + " is " + printDayOfTheWeek(1));
+        ConsoleStyler.styleOutput("The day " + 2 + " is " + printDayOfTheWeek(2));
+        ConsoleStyler.styleOutput("The day " + 3 + " is " + printDayOfTheWeek(3));
+        ConsoleStyler.styleOutput("The day " + 4 + " is " + printDayOfTheWeek(4));
+        ConsoleStyler.styleOutput("The day " + 5 + " is " + printDayOfTheWeek(5));
+        ConsoleStyler.styleOutput("The day " + 6 + " is " + printDayOfTheWeek(6));
+        ConsoleStyler.styleOutput("The day " + 7 + " is " + printDayOfTheWeek(7));
 
-        System.out.println("--------------------------------------------------");
+        ConsoleStyler.styleOutput("--------------------------------------------------");
         printWeekDay(0);
         printWeekDay(1);
         printWeekDay(2);
@@ -35,7 +37,7 @@ public class SwitchExpressionChallenge {
     }
 
     /*public static void printDayOfTheWeek(int day) {
-        //System.out.println("\nInside printDayOfTheWeekMethod");
+        //ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
         dayOfTheWeek = switch (day) {
             case 0 -> "Sunday";
             case 1 -> "Monday";
@@ -46,11 +48,11 @@ public class SwitchExpressionChallenge {
             case 6 -> "Saturday";
             default -> "Invalid Day";
         };
-        System.out.println("The day " + day + " is " + dayOfTheWeek);
+        ConsoleStyler.styleOutput("The day " + day + " is " + dayOfTheWeek);
     }*/
 
     public static String printDayOfTheWeek(int day) {
-        //System.out.println("\nInside printDayOfTheWeekMethod");
+        //ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
         String dayOfWeek;
         return switch (day) {
             case 0 -> { dayOfWeek = "Sunday"; yield dayOfWeek;}
@@ -65,7 +67,7 @@ public class SwitchExpressionChallenge {
     }
 
     public static void printWeekDay(int day) {
-        //System.out.println("Inside printDayOfTheWeekMethod");
+        //ConsoleStyler.styleOutput("Inside printDayOfTheWeekMethod");
         if (day == 0)
             dayOfTheWeek = "Sunday";
         else if (day == 1)
@@ -82,6 +84,6 @@ public class SwitchExpressionChallenge {
             dayOfTheWeek = "Saturday";
         else
             dayOfTheWeek = "Invalid Day";
-        System.out.println("The day " + day + " is " + dayOfTheWeek);
+        ConsoleStyler.styleOutput("The day " + day + " is " + dayOfTheWeek);
     }
 }

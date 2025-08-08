@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.demostubs.interfacesdeepdive;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class Satellite implements OrbitEarth {
 
     FlightStages stage = FlightStages.GROUNDED;
@@ -29,7 +31,7 @@ class Satellite implements OrbitEarth {
 
     public void transition(String description) {
 
-        System.out.println(description);
+        ConsoleStyler.styleOutput(description);
         stage = transition(stage);
         stage.track();
     }

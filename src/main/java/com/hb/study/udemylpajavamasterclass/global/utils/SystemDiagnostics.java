@@ -29,20 +29,20 @@ public class SystemDiagnostics {
         execution.finalizeExecution();
     }
     public static void demoSystemDiagnostics(){
-        System.out.println("=== 🌍 System Properties ===");
+        ConsoleStyler.styleOutput("=== 🌍 System Properties ===");
 
         Properties props = System.getProperties();
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
             System.out.printf("%-40s : %s%n", entry.getKey(), entry.getValue());
         }
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
-        System.out.println("\n=== 🌐 Environment Variables ===");
+        ConsoleStyler.styleOutput("\n=== 🌐 Environment Variables ===");
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> entry : env.entrySet()) {
             System.out.printf("%-30s : %s%n", entry.getKey(), entry.getValue());
         }
 
-        System.out.println("\n✅ Diagnostics Complete.");
+        ConsoleStyler.styleOutput("\n✅ Diagnostics Complete.");
     }
     //
 }

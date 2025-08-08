@@ -27,7 +27,7 @@ public class GenericsAdvancedMain {
 
         execution.initialize();
         int studentCount = new Random().nextInt(1,11);
-        System.out.println(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
+        ConsoleStyler.styleOutput(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
         for (int i = 1; i < studentCount; i++) {
             students.add(new Student());
@@ -67,22 +67,22 @@ public class GenericsAdvancedMain {
 
     public static void printMoreLists(List<? extends Student> students) {
         if(students.size() == 0) {
-            System.out.println("Empty List....  Nothing to print.... ");
+            ConsoleStyler.styleOutput("Empty List....  Nothing to print.... ");
             return;
         }
         for (var student : students) {
-            System.out.println(student);
+            ConsoleStyler.styleOutput(student.toString());
         }
-        System.out.println();
+        ConsoleStyler.styleOutput(students.toString());
     }
 
     public static void testList(List<?> list) {
 
         for (var element : list) {
             if (element instanceof String s) {
-                System.out.println("String: " + s.toUpperCase());
+                ConsoleStyler.styleOutput("String: " + s.toUpperCase());
             } else if (element instanceof Integer i) {
-                System.out.println("Integer: " + i.floatValue());
+                ConsoleStyler.styleOutput("Integer: " + i.floatValue());
             }
         }
     }
@@ -90,22 +90,22 @@ public class GenericsAdvancedMain {
 //    public static void testList(List<String> list) {
 //
 //        for (var element : list) {
-//            System.out.println("String: " + element.toUpperCase());
+//            ConsoleStyler.styleOutput("String: " + element.toUpperCase());
 //        }
 //    }
 //
 //    public static void testList(List<Integer> list) {
 //
 //        for (var element : list) {
-//            System.out.println("Integer: " + element.floatValue());
+//            ConsoleStyler.styleOutput("Integer: " + element.floatValue());
 //        }
 //    }
 
 //    public static <T extends Student> void printList(List<T> students) {
 //
 //        for (var student : students) {
-//            System.out.println(student.getYearStarted() + ": " + student);
+//            ConsoleStyler.styleOutput(student.getYearStarted() + ": " + student);
 //        }
-//        System.out.println();
+//        ConsoleStyler.styleOutput();
 //    }
 }

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.demostubs.generics_basics;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class SportsTeam {
 
     public void listTeamMembers() {
 
-        System.out.println(teamName + " Roster:");
-        System.out.println(teamMembers);
+        ConsoleStyler.styleOutput(teamName + " Roster:");
+        ConsoleStyler.styleOutput(teamMembers.toString());
     }
 
     public int ranking() {

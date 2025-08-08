@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.demostubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class FirstAndLastDigitSum {
     public static void main(String[] args) {
         sumFirstAndLastDigit(0);
@@ -21,9 +23,9 @@ public class FirstAndLastDigitSum {
             }
 
             firstDigit = rem;
-            System.out.println("The first and last digits are:  " + firstDigit + " and " + lastDigit);
+            ConsoleStyler.styleOutput("The first and last digits are:  " + firstDigit + " and " + lastDigit);
             sum = firstDigit + lastDigit;
-            System.out.println("The sum of first and last digits is :  " + (firstDigit + lastDigit));
+            ConsoleStyler.styleOutput("The sum of first and last digits is :  " + (firstDigit + lastDigit));
         }
         return sum;
 

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class WhileLoopChallenge {
     public static void main(String[] args) {
         int loopCounter = 5;
@@ -8,9 +10,9 @@ public class WhileLoopChallenge {
         while(loopCounter <= 20) {
             if(isEvenNumber(loopCounter)) {
                 countOfEvens++;
-                System.out.println(loopCounter + " is the next even number found ");
+                ConsoleStyler.styleOutput(loopCounter + " is the next even number found ");
                 if(countOfEvens == 5){
-                    System.out.println("5 even numbers have been found....");
+                    ConsoleStyler.styleOutput("5 even numbers have been found....");
                     break;
                 }
             } else {
@@ -18,7 +20,7 @@ public class WhileLoopChallenge {
             }
             loopCounter++;
         }
-        System.out.println("Count of Odds between 5 and " + loopCounter + " is : " + countofOdds);
+        ConsoleStyler.styleOutput("Count of Odds between 5 and " + loopCounter + " is : " + countofOdds);
     }
     public static boolean isEvenNumber(int numberToCheck) {
         if( (numberToCheck % 2) != 0 )

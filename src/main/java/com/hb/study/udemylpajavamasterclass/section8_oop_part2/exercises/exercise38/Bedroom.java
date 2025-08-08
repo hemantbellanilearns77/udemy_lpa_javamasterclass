@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise38;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Bedroom {
     private String name;
     private Wall wall1;
@@ -24,7 +26,7 @@ public class Bedroom {
     }
 
     public void makeBed(){
-        System.out.println("the bed is being made");
+        ConsoleStyler.styleOutput("the bed is being made");
         this.bed.make();
     }
 }

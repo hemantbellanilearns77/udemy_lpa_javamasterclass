@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.demostubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -7,12 +9,12 @@ public class ConsoleAndScannerPractice {
     public static void main(String[] args) {
 
         int currentYer = Calendar.getInstance().get(Calendar.YEAR);
-        System.out.println("Current Year is: " + currentYer);
+        ConsoleStyler.styleOutput("Current Year is: " + currentYer);
         try {
-            System.out.println(getInputFromConsole(currentYer));
+            ConsoleStyler.styleOutput(getInputFromConsole(currentYer));
         } catch(NullPointerException npe) {
-            System.out.println("Inside catch.... ");
-            System.out.println(getInputFromScanner(currentYer));
+            ConsoleStyler.styleOutput("Inside catch.... ");
+            ConsoleStyler.styleOutput(getInputFromScanner(currentYer));
         }
     }
 

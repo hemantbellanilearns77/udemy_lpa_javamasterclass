@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.demostubs.computerfactory_composition_example;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class Motherboard extends Monitor{
     private int ramSlots;
     private int cardSlots;
@@ -17,7 +19,7 @@ class Motherboard extends Monitor{
     }
 
     public void loadProgram(String nameOFProgram) {
-        System.out.println("Program Loading..... : "+ nameOFProgram);
+        ConsoleStyler.styleOutput("Program Loading..... : "+ nameOFProgram);
     }
 
     @Override

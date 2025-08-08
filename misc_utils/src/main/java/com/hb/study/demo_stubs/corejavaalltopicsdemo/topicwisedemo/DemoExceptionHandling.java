@@ -24,15 +24,15 @@ public class DemoExceptionHandling {
         try {
             int result = 10 / 0;
         } catch (ArithmeticException e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            ConsoleStyler.styleOutput("❌ Error: " + e.getMessage());
         }
         ConsoleStyler.endSection("Try-Catch Example");
 
         ConsoleStyler.startSection("Finally Block");
         try {
-            System.out.println("🚀 Processing...");
+            ConsoleStyler.styleOutput("🚀 Processing...");
         } finally {
-            System.out.println("✅ Cleanup complete.");
+            ConsoleStyler.styleOutput("✅ Cleanup complete.");
         }
         ConsoleStyler.endSection("Finally Block");
 

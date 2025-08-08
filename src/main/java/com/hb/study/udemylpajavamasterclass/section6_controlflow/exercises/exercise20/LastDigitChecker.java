@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise20;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class LastDigitChecker {
     // write code here.
     public static void main(String[] args) {
@@ -28,7 +30,7 @@ public class LastDigitChecker {
         } else {
             //invalid input
         }
-        System.out.println(sameLastDigitFoundTwiceOrMore);
+        ConsoleStyler.styleOutput(Boolean.toString(sameLastDigitFoundTwiceOrMore));
         return sameLastDigitFoundTwiceOrMore;
     }
     public static boolean isValid (int number) {

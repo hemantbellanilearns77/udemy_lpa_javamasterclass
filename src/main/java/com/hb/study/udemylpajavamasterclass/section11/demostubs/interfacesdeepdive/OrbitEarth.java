@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.demostubs.interfacesdeepdive;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 interface OrbitEarth extends FlightEnabled {
 
     void achieveOrbit();
@@ -7,7 +9,7 @@ interface OrbitEarth extends FlightEnabled {
     private static void log(String description) {
 
         var today = new java.util.Date();
-        System.out.println(today + ": " + description);
+        ConsoleStyler.styleOutput(today + ": " + description);
     }
 
     private void logStage(FlightStages stage, String description) {

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.exercises.exercise47;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SearchTree implements NodeList {
 
     private ListItem root = null;
@@ -46,7 +48,7 @@ public class SearchTree implements NodeList {
                 }
             } else {
                 // equal, so don't add
-                System.out.println(newItem.getValue() + " is already present");
+                ConsoleStyler.styleOutput(newItem.getValue() + " is already present");
                 return false;
             }
         }
@@ -58,7 +60,7 @@ public class SearchTree implements NodeList {
     public boolean removeItem(ListItem item) {
 
         if (item != null) {
-            System.out.println("Deleting item " + item.getValue());
+            ConsoleStyler.styleOutput("Deleting item " + item.getValue());
         }
         ListItem currentItem = this.root;
         ListItem parentItem = currentItem;
@@ -136,7 +138,7 @@ public class SearchTree implements NodeList {
 
         if (root != null) {
             traverse(root.previous()); // to the left of root
-            System.out.println(root.getValue());
+            ConsoleStyler.styleOutput(root.getValue().toString());
             traverse(root.next()); // to the right of root
         }
     }

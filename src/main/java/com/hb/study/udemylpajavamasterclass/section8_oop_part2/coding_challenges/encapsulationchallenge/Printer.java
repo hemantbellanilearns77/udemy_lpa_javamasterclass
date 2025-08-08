@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.encapsulationchallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Printer {
     private int tonerPercentage;
     private boolean duplex;
@@ -34,7 +36,7 @@ public class Printer {
     public int addToner(int tonerAmount) {
 
         if(this.tonerPercentage + tonerAmount > 100) {
-            System.out.println("Cannot add this much to toner, as it will exceed the permissible limit");
+            ConsoleStyler.styleOutput("Cannot add this much to toner, as it will exceed the permissible limit");
             return -1;
         }
         tonerPercentage += tonerAmount;
@@ -44,12 +46,12 @@ public class Printer {
     public int printPages(int pagesToPrint){
         int sheetsToBeConsumed = 0;
         if(duplex) {
-            System.out.println("Printing in duplex mode");
+            ConsoleStyler.styleOutput("Printing in duplex mode");
             sheetsToBeConsumed = (int) Math.ceil(pagesToPrint/2);
         }
         if (this.tonerPercentage < (sheetsToBeConsumed / 10)) {
             sheetsToBeConsumed = tonerPercentage * 10;
-            System.out.println("The number of sheets that could be printed is: " + sheetsToBeConsumed +
+            ConsoleStyler.styleOutput("The number of sheets that could be printed is: " + sheetsToBeConsumed +
                     " because printer ran out of toner ... ");
             setTonerPercentage(this.tonerPercentage - this.tonerPercentage);
             setPagesPrinted(sheetsToBeConsumed);
@@ -81,7 +83,7 @@ public class Printer {
     public int addToner(int tonerAmount) {
         if (tonerAmount > 0 && tonerAmount <= 100) {
             if(this.tonerLevel + tonerAmount > 100) {
-                System.out.println("Cannot add this much to toner, as it will exceed the permissible limit");
+                ConsoleStyler.styleOutput("Cannot add this much to toner, as it will exceed the permissible limit");
                 return -1;
             }
             this.tonerLevel += tonerAmount;
@@ -95,7 +97,7 @@ public class Printer {
     public int printPages(int pagesToPrint){
         int sheetsToBeConsumed = pagesToPrint;
         if(duplex) {
-            System.out.println("Printing in duplex mode");
+            ConsoleStyler.styleOutput("Printing in duplex mode");
             //sheetsToBeConsumed = (int) Math.ceil(pagesToPrint/2);
             sheetsToBeConsumed = (pagesToPrint / 2) + (pagesToPrint % 2);
         }

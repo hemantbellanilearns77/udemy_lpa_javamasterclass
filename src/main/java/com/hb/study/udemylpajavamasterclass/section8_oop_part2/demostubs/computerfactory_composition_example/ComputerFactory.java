@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.demostubs.computerfactory_composition_example;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class ComputerFactory {
     public static void main(String[] args) {
         ComputerCase theCase = new ComputerCase("2208", "Dell", "240" );
@@ -11,8 +13,8 @@ public class ComputerFactory {
        /* thePC.getComputerCase().pressPowerButton();
         thePC.getMotherboard().loadProgram("Operating System");
         thePC.getMonitor().drawPixelAt(35, 35, "blue");*/
-        System.out.println("Your PC has these configurations : \n " + thePC);
-        System.out.println("************************************************************************************************");
+        ConsoleStyler.styleOutput("Your PC has these configurations : \n " + thePC);
+        ConsoleStyler.styleOutput("************************************************************************************************");
         thePC.powerUp();
 
     }

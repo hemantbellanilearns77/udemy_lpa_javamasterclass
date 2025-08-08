@@ -3,6 +3,7 @@ package com.hb.study.udemylpajavamasterclass.section13.coding_challenges.localan
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.LocalDate;
@@ -38,33 +39,33 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static void main(String[] args) {
         execution.initialize();
         LocalAndAnonymousClassesChallengeMain.args = args;
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        System.out.println("This program will generate " + maxEmployeeCount + " objects for Employees");
+        ConsoleStyler.styleOutput(CommonConstants.EXECUTIONSETUPSSTR);
+        ConsoleStyler.styleOutput("This program will generate " + maxEmployeeCount + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
-        System.out.println("Default  listing of Employees (without Details) is: :  ");
-        System.out.println("S.No.\t\t\t\tEmployee Details");
+        ConsoleStyler.styleOutput("Default  listing of Employees (without Details) is: :  ");
+        ConsoleStyler.styleOutput("S.No.\t\t\t\tEmployee Details");
         for (int i = 0; i < employees.size(); i++) {
-            System.out.println((i + 1) + ".\t\t" + employees.get(i).toString());
+            ConsoleStyler.styleOutput((i + 1) + ".\t\t" + employees.get(i).toString());
         }
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
-        System.out.println("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
+        ConsoleStyler.styleOutput("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
         String sortField;
 
-        System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
+        ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 "default sort order" + " is:");
         printOrderedList(employees, null);
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "fullName";
-        System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
+        ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "yearsWorked";
-        System.out.println("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
+        ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
 
@@ -159,7 +160,7 @@ public class LocalAndAnonymousClassesChallengeMain {
         };
         empDetails.sort(detailedEmpComparatorMixed);
 
-        System.out.println("S.No.\t\t\t\t\tEmployee Details");
+        ConsoleStyler.styleOutput("S.No.\t\t\t\t\tEmployee Details");
         for (int i = 0; i < empDetails.size(); i++) {
             System.out.print((i + 1) + "\t\t" + empDetails.get(i).toString());
         }

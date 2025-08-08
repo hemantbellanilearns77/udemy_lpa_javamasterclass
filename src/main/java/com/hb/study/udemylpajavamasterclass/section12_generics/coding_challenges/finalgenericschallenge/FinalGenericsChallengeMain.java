@@ -28,15 +28,15 @@ public class FinalGenericsChallengeMain {
         for(int loopCounter = 1; loopCounter<=maxStudents; loopCounter++) {
                 queryList.add(new LPAStudent());
         }
-        System.out.println(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
+        ConsoleStyler.styleOutput(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
         ConsoleStyler.divider();
-        System.out.println("Ordered");
+        ConsoleStyler.styleOutput("Ordered");
         queryList.sort(Comparator.naturalOrder());
         printList(queryList);
         ConsoleStyler.divider();
 
-        System.out.println("Matches");
+        ConsoleStyler.styleOutput("Matches");
         var matches = queryList
                 .getMatches("PercentComplete", "50")
                 .getMatches("Course", "Python");
@@ -45,7 +45,7 @@ public class FinalGenericsChallengeMain {
         printList(matches);
         ConsoleStyler.divider();
 
-        System.out.println("Ordered");
+        ConsoleStyler.styleOutput("Ordered");
         matches.sort(null);
         printList(matches);
 
@@ -63,7 +63,7 @@ public class FinalGenericsChallengeMain {
     public static void printList(List<?> students) {
 
         for (var student : students) {
-            System.out.println(student);
+            ConsoleStyler.styleOutput(student.toString());
         }
     }
 }

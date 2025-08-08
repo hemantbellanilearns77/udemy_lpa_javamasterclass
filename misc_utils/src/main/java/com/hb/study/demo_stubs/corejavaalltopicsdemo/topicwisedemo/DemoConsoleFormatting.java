@@ -1,5 +1,6 @@
 package com.hb.study.demo_stubs.corejavaalltopicsdemo.topicwisedemo;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.Random;
@@ -56,41 +57,41 @@ public class DemoConsoleFormatting {
     //demoFunction
     public static void demoConsoleColorFormatting() {
         // Print foreground colors
-        System.out.println("Foreground Colors:");
+        ConsoleStyler.styleOutput("Foreground Colors:");
         for (int i = 0; i < 256; i++) {
             System.out.printf("\u001B[38;5;%dmColor %3d  \u001B[0m", i, i);
             if ((i + 1) % 16 == 0) {
-                System.out.println(); // New line after every 16 colors
+                ConsoleStyler.halfDivider(); // New line after every 16 colors
             }
         }
 
-        System.out.println("\nBackground Colors:");
+        ConsoleStyler.styleOutput("\nBackground Colors:");
         // Print background colors
         for (int i = 0; i < 256; i++) {
             System.out.printf("\u001B[48;5;%dmColor %3d  \u001B[0m", i, i);
             if ((i + 1) % 16 == 0) {
-                System.out.println(); // New line after every 16 colors
+                ConsoleStyler.halfDivider(); // New line after every 16 colors
             }
         }
-        System.out.println(BOLD + "This is bold text" + RESET);
-        System.out.println(UNDERLINE + "This is underlined text" + RESET);
-        System.out.println(ITALIC + "This is italic text" + RESET);
-        System.out.println(RED + "This is red text" + RESET);
-        System.out.println(GREEN + "This is green text" + RESET);
-        System.out.println(YELLOW + "This is yellow text" + RESET);
-        System.out.println(BLUE + "This is blue text" + RESET);
-        System.out.println(MAGENTA + "This is magenta text" + RESET);
-        System.out.println(CYAN + "This is cyan text" + RESET);
-        System.out.println(WHITE + "This is white text" + RESET);
+        ConsoleStyler.styleOutput(BOLD + "This is bold text" + RESET);
+        ConsoleStyler.styleOutput(UNDERLINE + "This is underlined text" + RESET);
+        ConsoleStyler.styleOutput(ITALIC + "This is italic text" + RESET);
+        ConsoleStyler.styleOutput(RED + "This is red text" + RESET);
+        ConsoleStyler.styleOutput(GREEN + "This is green text" + RESET);
+        ConsoleStyler.styleOutput(YELLOW + "This is yellow text" + RESET);
+        ConsoleStyler.styleOutput(BLUE + "This is blue text" + RESET);
+        ConsoleStyler.styleOutput(MAGENTA + "This is magenta text" + RESET);
+        ConsoleStyler.styleOutput(CYAN + "This is cyan text" + RESET);
+        ConsoleStyler.styleOutput(WHITE + "This is white text" + RESET);
 
         // Demonstrating background colors
-        System.out.println(BLACK_BG + WHITE + "This is white text on black background" + RESET);
-        System.out.println(RED_BG + BLACK + "This is black text on red background" + RESET);
-        System.out.println(GREEN_BG + BLACK + "This is black text on green background" + RESET);
-        System.out.println(YELLOW_BG + BLACK + "This is black text on yellow background" + RESET);
-        System.out.println(BLUE_BG + WHITE + "This is white text on blue background" + RESET);
-        System.out.println(MAGENTA_BG + WHITE + "This is white text on magenta background" + RESET);
-        System.out.println(CYAN_BG + BLACK + "This is black text on cyan background" + RESET);
-        System.out.println(WHITE_BG + BLACK + "This is black text on white background" + RESET);
+        ConsoleStyler.styleOutput(BLACK_BG + WHITE + "This is white text on black background" + RESET);
+        ConsoleStyler.styleOutput(RED_BG + BLACK + "This is black text on red background" + RESET);
+        ConsoleStyler.styleOutput(GREEN_BG + BLACK + "This is black text on green background" + RESET);
+        ConsoleStyler.styleOutput(YELLOW_BG + BLACK + "This is black text on yellow background" + RESET);
+        ConsoleStyler.styleOutput(BLUE_BG + WHITE + "This is white text on blue background" + RESET);
+        ConsoleStyler.styleOutput(MAGENTA_BG + WHITE + "This is white text on magenta background" + RESET);
+        ConsoleStyler.styleOutput(CYAN_BG + BLACK + "This is black text on cyan background" + RESET);
+        ConsoleStyler.styleOutput(WHITE_BG + BLACK + "This is black text on white background" + RESET);
     }
 }

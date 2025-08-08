@@ -59,9 +59,9 @@ public class TopicWiseDemoRunner {
 
     private static void run(String label, Runnable demoMethod)  {
         ConsoleStyler.divider();
-        System.out.println("🚀 Launching: " + label);
+        ConsoleStyler.styleOutput("🚀 Launching: " + label);
         demoMethod.run();
-        System.out.println("✅ Completed: " + label);
+        ConsoleStyler.styleOutput("✅ Completed: " + label);
         ConsoleStyler.divider();
     }
 }

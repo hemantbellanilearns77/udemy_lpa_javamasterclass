@@ -1,5 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section13.demostubs.staticnestedandinnerclasses;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -26,10 +27,10 @@ public class StaticNestedAndInnerMainClass {
                 .reversed());
 
         for (Employee e : employees) {
-            System.out.println(e);
+            ConsoleStyler.styleOutput(e  + CommonConstants.EMPTYSTRING);
         }
         ConsoleStyler.divider();
-        System.out.println("Store Members");
+        ConsoleStyler.styleOutput("Store Members");
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
                         "Target"),
@@ -46,10 +47,10 @@ public class StaticNestedAndInnerMainClass {
         storeEmployees.sort(comparator);
 
         for (StoreEmployee e : storeEmployees) {
-            System.out.println(e);
+            ConsoleStyler.styleOutput(e  + CommonConstants.EMPTYSTRING);
         }
         ConsoleStyler.divider();
-        System.out.println("With Pig Latin Names");
+        ConsoleStyler.styleOutput("With Pig Latin Names");
         addPigLatinName(storeEmployees);
         ConsoleStyler.divider();
 
@@ -100,7 +101,7 @@ public class StaticNestedAndInnerMainClass {
 
         newList.sort(null);
         for (var dEmployee : newList) {
-            System.out.println(dEmployee.originalInstance.getName() + " "
+            ConsoleStyler.styleOutput(dEmployee.originalInstance.getName() + " "
                     + dEmployee.pigLatinName);
         }
     }

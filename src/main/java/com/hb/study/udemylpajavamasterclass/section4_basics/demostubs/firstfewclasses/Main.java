@@ -1,8 +1,10 @@
 package com.hb.study.udemylpajavamasterclass.section4_basics.demostubs.firstfewclasses;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Main {
     public static void main(String[] args){
-        System.out.println("******** Inside InterfaceChallengeMainClass Class..... *********");
+        ConsoleStyler.styleOutput("******** Inside InterfaceChallengeMainClass Class..... *********");
 
     }
 }

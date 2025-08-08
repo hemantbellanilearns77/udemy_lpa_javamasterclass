@@ -22,7 +22,7 @@ public class ExcecutionUtil {
         ConsoleStyler.endSection(CommonConstants.BENCHMARKSECTIONHEADER);
     }
     private void publishBenchmarkSummary() {
-        //System.out.println(CommonConstants.BENCHMARKINSUMMARYSTR);
+        //ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINSUMMARYSTR);
         ConsoleStyler.styleIntro(CommonConstants.BENCHMARKINSUMMARYSTR);
         if (benchmarkModel.getDays() > 0) {
             System.out.printf(CommonConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
@@ -32,36 +32,36 @@ public class ExcecutionUtil {
             System.out.printf(CommonConstants.BENCHMARKINSUMMARYHOURSSSTR.formatted(
                     CommonConstants.INDENT, benchmarkModel.getHours()));
 
-            //System.out.println(CommonConstants.INDENT + "🕒 Hours: " + duration.getHours() + " hour(s)");
+            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Hours: " + duration.getHours() + " hour(s)");
         }
         if (benchmarkModel.getMinutes() > 0) {
             System.out.printf(CommonConstants.BENCHMARKINSUMMARYMINUTESSSTR.formatted(
                     CommonConstants.INDENT, benchmarkModel.getMinutes()));
-            //System.out.println(CommonConstants.INDENT + "🕒 Minutes: " + duration.getMinutes() + " minute(s)");
+            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Minutes: " + duration.getMinutes() + " minute(s)");
         }
         if (benchmarkModel.getSeconds() > 0) {
             System.out.printf(CommonConstants.BENCHMARKINSUMMARYSECONDSSTR.formatted(
                     CommonConstants.INDENT, benchmarkModel.getSeconds()));
-            //System.out.println(CommonConstants.INDENT + "🕒 Second: " + duration.getSeconds() + " second(s)");
+            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Second: " + duration.getSeconds() + " second(s)");
         }
         System.out.printf(CommonConstants.BENCHMARKINSUMMARYMILLISSSTR.formatted(
                 CommonConstants.INDENT, benchmarkModel.getMicroSeconds()));
         System.out.printf(CommonConstants.BENCHMARKINSUMMARYNANOSSSTR.formatted(
                 CommonConstants.INDENT, benchmarkModel.getNanoseconds()));
 
-        //System.out.println(CommonConstants.INDENT + "🕒 Milliseconds: " + duration.getMilliseconds() + " ms");
-        //System.out.println(CommonConstants.INDENT + "⏱️ Nanoseconds  : " + duration.getNanoseconds() + " ns");
+        //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Milliseconds: " + duration.getMilliseconds() + " ms");
+        //ConsoleStyler.styleOutput(CommonConstants.INDENT + "⏱️ Nanoseconds  : " + duration.getNanoseconds() + " ns");
 
     }
 
     private void publishBenchmarkDetails() {
-        //System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);
+        //ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINGDETAILSSTR);
         ConsoleStyler.styleIntro(CommonConstants.BENCHMARKINGDETAILSSTR);
-        System.out.println(benchmarkModel);
+        ConsoleStyler.styleOutput(benchmarkModel.toString());
         DateTimeFormatter benchmarkDTFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-        System.out.println(CommonConstants.INDENT + "The execution started at: " + benchmarkModel.getStartZoneDateTime().
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + "The execution started at: " + benchmarkModel.getStartZoneDateTime().
                 format(benchmarkDTFormatter) + ".");
-        System.out.println(CommonConstants.INDENT + "The execution ended at: " + benchmarkModel.getEndZonedDateTime().
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + "The execution ended at: " + benchmarkModel.getEndZonedDateTime().
                 format(benchmarkDTFormatter) + ".");
         ConsoleStyler.divider();
     }

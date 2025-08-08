@@ -1,21 +1,23 @@
 package com.hb.study.udemylpajavamasterclass.section9_advancedarrays.exercises.exercise41;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Arrays;
 
 public class SortedArray {
     public static void main(String[] args) {
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of " + SortedArray.class.getSimpleName() + " is as below\t\t" + "*".repeat(54);
-        System.out.println(programOutputBegins);
+        ConsoleStyler.styleOutput(programOutputBegins);
         int[] unsortedArray = getIntegers(5);
-        System.out.println("unsortedArray is: " + Arrays.toString(unsortedArray));
+        ConsoleStyler.styleOutput("unsortedArray is: " + Arrays.toString(unsortedArray));
         int[] sortedArray = sortIntegers(unsortedArray);
         printArray(sortedArray);
     }
 
     public static void printArray(int[] sortedArray) {
         for(int i=0; i< sortedArray.length;i++){
-            System.out.println("Element "+ i + " contents " + sortedArray[i]);
+            ConsoleStyler.styleOutput("Element "+ i + " contents " + sortedArray[i]);
         }
     }
 

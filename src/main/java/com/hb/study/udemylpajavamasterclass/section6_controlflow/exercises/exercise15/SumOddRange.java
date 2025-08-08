@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise15;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,11 +34,11 @@ public class SumOddRange {
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc. ), from string
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
             if(userInputWithoutBlanks.equalsIgnoreCase("exit")) { continue ; }
-            System.out.println("userInput was:" + userInput + ",userInputWithoutBlanks is:" + userInputWithoutBlanks);
+            ConsoleStyler.styleOutput("userInput was:" + userInput + ",userInputWithoutBlanks is:" + userInputWithoutBlanks);
             // Extracting the start and end of the range for whom the sum of odd numbers is to be calculated from user input without whitespace characters
             start = Integer.parseInt(userInputWithoutBlanks.substring(0,userInputWithoutBlanks.indexOf(',')));
             end = Integer.parseInt(userInputWithoutBlanks.substring(userInputWithoutBlanks.indexOf(',') +1));
-            System.out.println("Sum of odd numbers between +  " + start + " and " + end + " is: " + sumOdd(start, end));
+            ConsoleStyler.styleOutput("Sum of odd numbers between +  " + start + " and " + end + " is: " + sumOdd(start, end));
         } while(!(userInputWithoutBlanks.equalsIgnoreCase("exit")));
 */
         ArrayList<String> listOfTestCases = new ArrayList<>();
@@ -47,12 +49,12 @@ public class SumOddRange {
         listOfTestCases.add("100, -100");
         listOfTestCases.add("100, 1000");
         for (String nextTestCase : listOfTestCases){
-            System.out.println("Next Test Case is : " + nextTestCase);
+            ConsoleStyler.styleOutput("Next Test Case is : " + nextTestCase);
             nextTestCase = nextTestCase.replaceAll("\\s+", "");
             // Extracting the start and end of the range for whom the sum of odd numbers is to be calculated from user input without whitespace characters
             start = Integer.parseInt(nextTestCase.substring(0,nextTestCase.indexOf(',')));
             end = Integer.parseInt(nextTestCase.substring(nextTestCase.indexOf(',') +1));
-            System.out.println("Sum of odd numbers between +  " + start + " and " + end + " is: " + sumOdd(start, end));
+            ConsoleStyler.styleOutput("Sum of odd numbers between +  " + start + " and " + end + " is: " + sumOdd(start, end));
         }
 
 

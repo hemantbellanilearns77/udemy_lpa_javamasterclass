@@ -1,13 +1,15 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise19;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SharedDigit {
     public static void main(String[] args) {
         System.out.print("Do 12 and 23 have any shared digit?: ");
-        System.out.println(hasSharedDigit(12, 23));
+        ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(12, 23)));
         System.out.print("Do 9 and 99 have any shared digit?: ");
-        System.out.println(hasSharedDigit(9, 99));
+        ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(9, 99)));
         System.out.print("Do 15 and 55 have any shared digit?: ");
-        System.out.println(hasSharedDigit(15, 55));
+        ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(15, 55)));
 }
 
     public static boolean hasSharedDigit (int firstNumber, int secondNumber) {
@@ -22,17 +24,17 @@ public class SharedDigit {
             if( (firstNumOnesDigit == secondNumOnesDigit)
                     || (firstNumOnesDigit == secondNumTensDigit)
             ){
-                System.out.println("Yes, found a shared digit : " + firstNumOnesDigit);
+                ConsoleStyler.styleOutput("Yes, found a shared digit : " + firstNumOnesDigit);
                 sharedDigitsFound = true;
             } else if((firstNumTensDigit == secondNumOnesDigit)
                     || (firstNumTensDigit == secondNumTensDigit)){
-                System.out.println("Yes, found a shared digit : " + firstNumTensDigit);
+                ConsoleStyler.styleOutput("Yes, found a shared digit : " + firstNumTensDigit);
                 sharedDigitsFound = true;
             } else {
-                System.out.println("No Shared Digit found");
+                ConsoleStyler.styleOutput("No Shared Digit found");
             }
         } else {
-            System.out.println("Invalid numbers input... ");
+            ConsoleStyler.styleOutput("Invalid numbers input... ");
         }
     return sharedDigitsFound;
     }
