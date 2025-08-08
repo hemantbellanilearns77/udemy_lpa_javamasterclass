@@ -14,15 +14,10 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 public class DemoPrimitivesOperators {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-
-        /*
-         *****************************************************
-         */
-
         ConsoleStyler.printBanner("PRIMITIVES & OPERATORS");
 
         ConsoleStyler.startSection("Primitive Declarations");
@@ -31,40 +26,37 @@ public class DemoPrimitivesOperators {
         boolean isAvailable = true;
         char grade = 'A';
 
-        System.out.println("Age: " + age);
-        System.out.println("Price: " + price);
-        System.out.println("Available? " + isAvailable);
-        System.out.println("Grade: " + grade);
+        ConsoleStyler.styleOutput("Age: " + age);
+        ConsoleStyler.styleOutput("Price: " + price);
+        ConsoleStyler.styleOutput("Available? " + isAvailable);
+        ConsoleStyler.styleOutput("Grade: " + grade);
         ConsoleStyler.endSection("Primitive Declarations");
 
         ConsoleStyler.startSection("Arithmetic Operators");
         int a = 10, b = 3;
-        System.out.println("Add: " + (a + b));
-        System.out.println("Subtract: " + (a - b));
-        System.out.println("Multiply: " + (a * b));
-        System.out.println("Divide: " + ((double) a / b));
-        System.out.println("Modulus: " + (a % b));
+        ConsoleStyler.styleOutput("Add: " + (a + b));
+        ConsoleStyler.styleOutput("Subtract: " + (a - b));
+        ConsoleStyler.styleOutput("Multiply: " + (a * b));
+        ConsoleStyler.styleOutput("Divide: " + ((double) a / b));
+        ConsoleStyler.styleOutput("Modulus: " + (a % b));
         ConsoleStyler.endSection("Arithmetic Operators");
 
         ConsoleStyler.startSection("Comparison Operators");
-        System.out.println("Is A > B? " + (a > b));
-        System.out.println("Is A == B? " + (a == b));
-        System.out.println("Is A != B? " + (a != b));
+        ConsoleStyler.styleOutput("Is A > B? " + (a > b));
+        ConsoleStyler.styleOutput("Is A == B? " + (a == b));
+        ConsoleStyler.styleOutput("Is A != B? " + (a != b));
         ConsoleStyler.endSection("Comparison Operators");
 
         ConsoleStyler.startSection("Logical Operators");
         boolean isAdult = age >= 18;
         boolean hasTicket = false;
-        System.out.println("Can enter? " + (isAdult && hasTicket));
-        System.out.println("Override entry? " + (isAdult || hasTicket));
-        System.out.println("Ticket denied? " + !hasTicket);
+        ConsoleStyler.styleOutput("Can enter? " + (isAdult && hasTicket));
+        ConsoleStyler.styleOutput("Override entry? " + (isAdult || hasTicket));
+        ConsoleStyler.styleOutput("Ticket denied? " + !hasTicket);
         ConsoleStyler.endSection("Logical Operators");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");
 
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 }
