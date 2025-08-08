@@ -11,6 +11,7 @@ import com.hb.study.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.libs.datetimeutillib.ui.FormatterGUI;
 import com.hb.study.libs.datetimeutillib.ui.FormatterLogBuffer;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,20 +28,20 @@ public class GUIModeOrchestrator {
 
         switch (mode) {
 
-            case MINIMAL_DEMO_MODE -> DTFormatterUtils.runMinimalDemo(locale, zone);
-            case PATTERN_DEMO_FIESTA_MODE -> DTFormatterUtils.runPatternFiesta();
-            case INDIAN_LANGUAGE_PATTERNS_MODE -> DTFormatterUtils.runIndianPatternsShowcase();
-            case GLOBAL_LOCALES_PATTERNS_MODE -> DTFormatterUtils.runGlobalPatternsShowcase();
-            case TRADITIONAL_CALENDARS_MODE -> DTFormatterUtils.runTraditionalCalendars();
-            case CURRENCY_AND_NUMBERS_DEMO_MODE -> DTFormatterUtils.runCurrencyAndNumbers();
-            case FORMAT_STYLES_COMBOS_DEMO_MODE -> DTFormatterUtils.runFormatStyleCombos(locale, zone);
-            case VEDIC_MODE -> DTFormatterUtils.runVedicShowcase();//FormatterGUI.showVedicPlaceholder();
+            case MINIMAL_DEMO_MODE -> DTDemoExecutor.runMinimalDemo(locale, zone);
+            case PATTERN_DEMO_FIESTA_MODE -> DTDemoExecutor.runPatternFiesta();
+            case INDIAN_LANGUAGE_PATTERNS_MODE -> DTDemoExecutor.runIndianPatternsShowcase();
+            case GLOBAL_LOCALES_PATTERNS_MODE -> DTDemoExecutor.runGlobalPatternsShowcase();
+            case TRADITIONAL_CALENDARS_MODE -> DTDemoExecutor.runTraditionalCalendars();
+            case CURRENCY_AND_NUMBERS_DEMO_MODE -> DTDemoExecutor.runCurrencyAndNumbers();
+            case FORMAT_STYLES_COMBOS_DEMO_MODE -> DTDemoExecutor.runFormatStyleCombos(locale, zone);
+            case VEDIC_MODE -> DTDemoExecutor.runVedicShowcase();//FormatterGUI.showVedicPlaceholder();
             case FULL_CARNIVAL_BLAST -> {
-                DTFormatterUtils.runMinimalDemo(locale, zone);
-                DTFormatterUtils.runPatternFiesta();
-                DTFormatterUtils.runTraditionalCalendars();
-                DTFormatterUtils.runCurrencyAndNumbers();
-                DTFormatterUtils.runFormatStyleCombos(locale, zone);
+                DTDemoExecutor.runMinimalDemo(locale, zone);
+                DTDemoExecutor.runPatternFiesta();
+                DTDemoExecutor.runTraditionalCalendars();
+                DTDemoExecutor.runCurrencyAndNumbers();
+                DTDemoExecutor.runFormatStyleCombos(locale, zone);
                 //DTFormatterUtils.runVedicShowcase();
                 FormatterGUI.showVedicPlaceholder();
             }
@@ -49,7 +50,7 @@ public class GUIModeOrchestrator {
         if (customPattern != null) {
             ZonedDateTime now = ZonedDateTime.now();
             String formatted = DTFormatterUtils.safeFormat(now, customPattern, locale);
-            System.out.printf("🎨 Custom Pattern [ %-25s ] → %s\n", customPattern, formatted);
+            ConsoleStyler.styleOutput("🎨 Custom Pattern [ %-25s ] → %s\n".formatted(customPattern, formatted));
             FormatterLogBuffer.append("🎨 Custom Pattern [" + customPattern + "] → " + formatted);
         }
 
