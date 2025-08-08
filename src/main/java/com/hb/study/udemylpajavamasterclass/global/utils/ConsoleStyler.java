@@ -115,6 +115,7 @@ public class ConsoleStyler {
         styleEach(labelPrefix, input, false, false, false);
     }
 
+
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
         if (input == null) {
             styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
@@ -126,82 +127,76 @@ public class ConsoleStyler {
         int tupleSize = -1;
 
         // 🔍 Type Normalization
-        if (input instanceof double[]) {
-            final double[] arr = (double[]) input;
-            tupleSize = arr.length;
-            for (double val : arr) items.add(val);
-            isTupleMode = true;
-        } else if (input instanceof double[][]) {
-            final double[][] array2D = (double[][]) input;
-            tupleSize = array2D[0].length;
-            for (final double[] tuple : array2D) {
-                for (final double val : tuple) items.add(val);
+        switch (input) {
+            case double[] arr -> {
+                tupleSize = arr.length;
+                for (double val : arr) items.add(val);
+                isTupleMode = true;
             }
-            isTupleMode = true;
-        } else if (input instanceof double[][][]) {
-            final double[][][] array3D = (double[][][]) input;
-            tupleSize = array3D[0][0].length;
-            for (final double[][] group : array3D) {
-                for (final double[] tuple : group) {
+            case double[][] array2D -> {
+                tupleSize = array2D[0].length;
+                for (final double[] tuple : array2D) {
                     for (final double val : tuple) items.add(val);
                 }
-            }
-            isTupleMode = true;
-        }
-
-        // 🧠 Other primitive types
-        else if (input instanceof int[]) {
-            final int[] arr = (int[]) input;
-            for (final int val : arr) items.add(val);
-        } else if (input instanceof long[]) {
-            final long[] arr = (long[]) input;
-            for (final long val : arr) items.add(val);
-        } else if (input instanceof boolean[]) {
-            final boolean[] arr = (boolean[]) input;
-            for (final boolean val : arr) items.add(val);
-        } else if (input instanceof char[]) {
-            final char[] arr = (char[]) input;
-            for (final char val : arr) items.add(val);
-        }
-
-        // 🧠 Containers
-        else if (input instanceof Object[]) {
-            items.addAll(Arrays.asList((Object[]) input));
-        } else if (input instanceof List<?>) {
-            final List<?> list = (List<?>) input;
-            if (!list.isEmpty() && list.get(0) instanceof double[]) {
                 isTupleMode = true;
-                tupleSize = ((double[]) list.get(0)).length;
-                for (final Object o : list) {
-                    for (final double v : (double[]) o) items.add(v);
-                }
-            } else if (!list.isEmpty() && list.get(0) instanceof Object[]) {
-                isTupleMode = true;
-                tupleSize = ((Object[]) list.get(0)).length;
-                for (final Object o : list) {
-                    items.addAll(Arrays.asList((Object[]) o));
-                }
-            } else {
-                items.addAll(list);
             }
-        } else if (input instanceof Set<?>) {
-            items.addAll((Set<?>) input);
-        } else if (input instanceof Stream<?>) {
-            ((Stream<?>) input).forEach(items::add);
-        } else {
-            styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
+            case double[][][] array3D -> {
+                tupleSize = array3D[0][0].length;
+                for (final double[][] group : array3D) {
+                    for (final double[] tuple : group) {
+                        for (final double val : tuple) items.add(val);
+                    }
+                }
+                isTupleMode = true;
+            }
+
+            // 🧠 Other primitive types
+            case int[] arr -> {
+                for (final int val : arr) items.add(val);
+            }
+            case long[] arr -> {
+                for (final long val : arr) items.add(val);
+            }
+            case boolean[] arr -> {
+                for (final boolean val : arr) items.add(val);
+            }
+            case char[] arr -> {
+                for (final char val : arr) items.add(val);
+            }
+
+            // 🧠 Containers
+            case Object[] objects -> items.addAll(Arrays.asList(objects));
+            case List<?> list -> {
+                if (!list.isEmpty() && list.get(0) instanceof double[]) {
+                    isTupleMode = true;
+                    tupleSize = ((double[]) list.get(0)).length;
+                    for (final Object o : list) {
+                        for (final double v : (double[]) o) items.add(v);
+                    }
+                } else if (!list.isEmpty() && list.get(0) instanceof Object[]) {
+                    isTupleMode = true;
+                    tupleSize = ((Object[]) list.get(0)).length;
+                    for (final Object o : list) {
+                        items.addAll(Arrays.asList((Object[]) o));
+                    }
+                } else {
+                    items.addAll(list);
+                }
+            }
+            case Set<?> objects -> items.addAll(objects);
+            case Stream<?> stream -> stream.forEach(items::add);
+            default -> {
+                styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
+                return;
+            }
+        }
+        // 🚫 Empty check
+        if (items.isEmpty()) {
+            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
             return;
         }
-
         // 💎 Format pass
-        final List<Object> formattedItems = items.stream()
-                .map(obj -> {
-                    if (obj == null) return "null";
-                    if (formatNumbers && obj instanceof Number) return String.format("%12s", obj);
-                    if (uppercaseStrings && obj instanceof String) return ((String) obj).toUpperCase();
-                    return obj;
-                })
-                .collect(Collectors.toList());
+        final List<Object> formattedItems = getFormattedItems(formatNumbers, uppercaseStrings, items);
 
         // 🔍 Sorting
         if (sort) {
@@ -211,14 +206,11 @@ public class ConsoleStyler {
                 styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
             }
         }
-
-        // 🚫 Empty check
-        if (formattedItems.isEmpty()) {
-            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
-            return;
-        }
-
         // 🎨 Styled Output
+        styleOutput(null,  getStyledInput(labelPrefix, formattedItems, isTupleMode, tupleSize) );
+    }
+
+    private static String getStyledInput(String labelPrefix, List<Object> formattedItems, boolean isTupleMode, int tupleSize) {
         StringBuilder styledOutputBuilder = new StringBuilder();
         final AtomicInteger counter = new AtomicInteger(0);
         for (int i = 0; i < formattedItems.size(); i += (isTupleMode ? tupleSize : 1)) {
@@ -232,7 +224,18 @@ public class ConsoleStyler {
                 styledOutputBuilder.append("%s [%d] %s%s".formatted(labelPrefix, counter.getAndIncrement(), formattedItems.get(i), "\t"));
             }
         }
-        styleOutput(null, styledOutputBuilder.toString());
+        return styledOutputBuilder.toString();
+    }
+
+    private static List<Object> getFormattedItems(boolean formatNumbers, boolean uppercaseStrings, List<Object> items) {
+        return items.stream()
+                .map(obj -> {
+                    if (obj == null) return "null";
+                    if (formatNumbers && obj instanceof Number) return String.format("%12s", obj);
+                    if (uppercaseStrings && obj instanceof String) return ((String) obj).toUpperCase();
+                    return obj;
+                })
+                .collect(Collectors.toList());
     }
 
     public static String applyStyling(String text, SemanticColorRole semanticColorRole,
