@@ -136,8 +136,8 @@ public class ConsoleStyler {
 
             case Object[] objs     -> items.addAll(Arrays.asList(objs));
             case List<?> list      -> {
-                int ts = handleList(list, items);
-                if (ts >= 0) { isTupleMode = true; tupleSize = ts; }
+                tupleSize= handleList(list, items);
+                isTupleMode = tupleSize >= 0;
             }
             case Set<?> set        -> items.addAll(set);
             case Stream<?> stream  -> stream.forEach(items::add);
