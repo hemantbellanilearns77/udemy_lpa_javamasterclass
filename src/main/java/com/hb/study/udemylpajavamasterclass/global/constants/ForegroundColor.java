@@ -711,16 +711,7 @@ public enum ForegroundColor {
         return ansiCode;
     }
 
-    /**
-     * Optional visual preview in terminal.
-     */
-    public void preview(String label) {
-        if (ansiCode != null && !ansiCode.isEmpty()) {
-            ConsoleStyler.styleOutput(ansiCode + "█ " + label + "\u001B[0m");
-        } else {
-            ConsoleStyler.styleOutput("✳️ " + label + " (no ANSI code)");
-        }
-    }
+
 
     // 🚀 Random picker utility
     private static final List<ForegroundColor> RANDOM_POOL =

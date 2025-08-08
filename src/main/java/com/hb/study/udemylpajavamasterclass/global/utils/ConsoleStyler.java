@@ -290,4 +290,26 @@ public class ConsoleStyler {
                     BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, null);
         };
     }
+
+    /**
+     * Optional visual preview in terminal.
+     */
+    public static void getFGColorPreview(String label, ForegroundColor foregroundColor) {
+        if (foregroundColor.getAnsiCode() != null && !foregroundColor.getAnsiCode().isEmpty()) {
+            ConsoleStyler.styleOutput(foregroundColor.getAnsiCode() + "█ " + label + "\u001B[0m");
+        } else {
+            ConsoleStyler.styleOutput("✳️ " + label + " (no ANSI code)");
+        }
+    }
+
+    /**
+     * Optional visual preview in terminal.
+     */
+    public static void getBGColorPreview(String label, BackgroundColor backgroundColor) {
+        if (backgroundColor.getAnsiCode() != null && !backgroundColor.getAnsiCode().isEmpty()) {
+            ConsoleStyler.styleOutput(backgroundColor.getAnsiCode() + "█ " + label + "\u001B[0m");
+        } else {
+            ConsoleStyler.styleOutput("✳️ " + label + " (no ANSI code)");
+        }
+    }
 }
