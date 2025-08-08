@@ -186,7 +186,7 @@ jobs:
           Write-Host "📡 Calling SonarCloud API: $url"
           
           try {
-            Start-Sleep -Seconds -30
+            
             $response = Invoke-WebRequest -Uri $url -Method Get
             $body = $response.Content
 
