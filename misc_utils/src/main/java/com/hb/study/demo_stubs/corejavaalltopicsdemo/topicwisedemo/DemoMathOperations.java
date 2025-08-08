@@ -22,14 +22,14 @@ public class DemoMathOperations {
 
         ConsoleStyler.startSection("Basic Math");
         int a = 5, b = 2;
-        System.out.println("Add: " + (a + b));
-        System.out.println("Multiply: " + (a * b));
+        ConsoleStyler.styleOutput("Add: " + (a + b));
+        ConsoleStyler.styleOutput("Multiply: " + (a * b));
         ConsoleStyler.endSection("Basic Math");
 
         ConsoleStyler.startSection("Using Math Class");
         double val = 16.0;
-        System.out.println("√16: " + Math.sqrt(val));
-        System.out.println("Random (0-1): " + Math.random());
+        ConsoleStyler.styleOutput("√16: " + Math.sqrt(val));
+        ConsoleStyler.styleOutput("Random (0-1): " + Math.random());
         ConsoleStyler.endSection("Using Math Class");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

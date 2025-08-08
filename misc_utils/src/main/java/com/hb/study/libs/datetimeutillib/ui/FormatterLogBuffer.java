@@ -5,6 +5,8 @@ package com.hb.study.libs.datetimeutillib.ui;
  **/
 
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +27,9 @@ public class FormatterLogBuffer {
     }
 
     public static void exportMarkdown() {
-        System.out.println("\n📘 Markdown Export:\n");
+        ConsoleStyler.styleOutput("\n📘 Markdown Export:\n");
         for (String line : lines) {
-            System.out.println("- " + line);
+            ConsoleStyler.styleOutput("- " + line);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class Vehicle {
     private String name;
     private String size;
@@ -16,11 +18,11 @@ class Vehicle {
     }
 
     public void move(){
-        System.out.println("Vehicle.move() called....");
+        ConsoleStyler.styleOutput("Vehicle.move() called....");
     }
 
     public void stop(){
-        System.out.println("Vehicle.stop() called....");
+        ConsoleStyler.styleOutput("Vehicle.stop() called....");
     }
 
 }

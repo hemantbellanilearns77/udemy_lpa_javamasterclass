@@ -1,5 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.section11.coding_challenges.abstractclasschallenge_storefront.Topping;
 
 public class Burger extends Item {
@@ -61,7 +62,7 @@ public class Burger extends Item {
     @Override
     public void printItem() {
         printItemizedList();
-        System.out.println("-".repeat(30));
+        ConsoleStyler.styleOutput("-".repeat(30));
         super.printItem();
     }
 }

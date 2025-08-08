@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public interface Mappable {
 
     String JSON_PROPERTY = """
@@ -17,6 +19,6 @@ public interface Mappable {
     }
 
     static void mapIt(Mappable mappable) {
-        System.out.println(JSON_PROPERTY.formatted(mappable.toJSON()));
+        ConsoleStyler.styleOutput(JSON_PROPERTY.formatted(mappable.toJSON()));
     }
 }

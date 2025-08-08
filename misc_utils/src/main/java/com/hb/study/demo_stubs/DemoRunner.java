@@ -29,7 +29,7 @@ public class DemoRunner {
         ConsoleStyler.startSection("Core Java Demo Session");
 
         // 📌 Print Header
-        System.out.println(CommonConstants.HEADER);
+        ConsoleStyler.styleOutput(CommonConstants.HEADER);
 
         // 📚 String Validation Demo
         ConsoleStyler.startSection("String Validation");
@@ -46,15 +46,15 @@ public class DemoRunner {
 
         // 📊 Benchmarking Simulated Demo
         ConsoleStyler.startSection("Benchmarking");
-        System.out.println(CommonConstants.BENCHMARKSECTIONHEADER);
-        System.out.println(CommonConstants.BENCHMARKINSUMMARYSTR);
-        System.out.println(CommonConstants.BENCHMARKINGDETAILSSTR);
+        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKSECTIONHEADER);
+        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINSUMMARYSTR);
+        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINGDETAILSSTR);
         ConsoleStyler.endSection("Benchmarking");
 
         // 🕹️ Loop Demo
         ConsoleStyler.startSection("Loop Sample");
         for (int i = 0; i < CommonConstants.MAX_ITERATION_COUNT; i++) {
-            System.out.println("⏱️ Loop step " + (i + 1));
+            ConsoleStyler.styleOutput("⏱️ Loop step " + (i + 1));
             ConsoleStyler.styleOutput( null, "⏱️ Loop step " + (i + 1));
         }
         ConsoleStyler.endSection("Loop Sample");

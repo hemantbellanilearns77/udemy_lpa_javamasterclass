@@ -1,12 +1,14 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise9;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class AreaCalculator {
 
     public static void main(String[] args) {
-        System.out.println("area(5.0) : " + area(5.0));
-        System.out.println("area(-1) : " + area(-1));
-        System.out.println("area(5.0, 4.0) : " + area(5.0, 4.0));
-        System.out.println("area(-1.0.-4.0) : " + area(-1.0, 4.0));
+        ConsoleStyler.styleOutput("area(5.0) : " + area(5.0));
+        ConsoleStyler.styleOutput("area(-1) : " + area(-1));
+        ConsoleStyler.styleOutput("area(5.0, 4.0) : " + area(5.0, 4.0));
+        ConsoleStyler.styleOutput("area(-1.0.-4.0) : " + area(-1.0, 4.0));
     }
     public static double area(double radius) {
         double areaOfCircle = -1.0d;

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.polymorphismchallenge_lecture96;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class Car {
     private String name;
     private boolean engine;
@@ -7,7 +9,7 @@ class Car {
     private int wheels;
 
     public Car(int cylinders, String name) {
-        System.out.println("Inside Car() constructor; This car is manufactured with " +
+        ConsoleStyler.styleOutput("Inside Car() constructor; This car is manufactured with " +
                 cylinders + " cylinders " +
                 " and is called " + name) ;
         this.engine = true;
@@ -29,12 +31,12 @@ class Car {
         return name;
     }
     public void startEngine() {
-        System.out.println("startEngine() inside Car class invoked");
+        ConsoleStyler.styleOutput("startEngine() inside Car class invoked");
     }
     public void accelerate() {
-        System.out.println("accelerate() inside Car class invoked");
+        ConsoleStyler.styleOutput("accelerate() inside Car class invoked");
     }
     public void brake(){
-        System.out.println("brake() inside Car class invoked");
+        ConsoleStyler.styleOutput("brake() inside Car class invoked");
     }
 }

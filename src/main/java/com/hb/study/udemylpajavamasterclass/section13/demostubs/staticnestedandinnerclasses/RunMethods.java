@@ -1,5 +1,6 @@
 package com.hb.study.udemylpajavamasterclass.section13.demostubs.staticnestedandinnerclasses;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -71,10 +72,10 @@ public class RunMethods {
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {
 
-        System.out.println("Sorting with Comparator: " + comparator.toString());
+        ConsoleStyler.styleOutput("Sorting with Comparator: " + comparator.toString());
         list.sort(comparator);
         for (var employee : list) {
-            System.out.println(employee);
+            ConsoleStyler.styleOutput(employee.toString());
         }
     }
 }

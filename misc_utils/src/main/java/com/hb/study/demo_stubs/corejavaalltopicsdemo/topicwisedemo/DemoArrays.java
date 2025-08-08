@@ -28,10 +28,10 @@ public class DemoArrays {
 
         ConsoleStyler.startSection("Iteration");
         for (int num : numbers) {
-            System.out.println("🔢 Number: " + num);
+            ConsoleStyler.styleOutput("🔢 Number: " + num);
         }
         for (int i = 0; i < fruits.length; i++) {
-            System.out.println("🍓 Fruit #" + (i + 1) + ": " + fruits[i]);
+            ConsoleStyler.styleOutput("🍓 Fruit #" + (i + 1) + ": " + fruits[i]);
         }
         ConsoleStyler.endSection("Iteration");
 

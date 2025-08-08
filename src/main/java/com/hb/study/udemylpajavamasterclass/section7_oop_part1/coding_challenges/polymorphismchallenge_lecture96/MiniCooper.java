@@ -1,16 +1,18 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.polymorphismchallenge_lecture96;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 class MiniCooper extends Car{
     public MiniCooper(int cylinders, String name) {
         super(cylinders,name);
     }
     public void startEngine() {
-        System.out.println("startEngine() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("startEngine() inside MiniCooper class invoked");
     }
     public void accelerate() {
-        System.out.println("accelerate() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("accelerate() inside MiniCooper class invoked");
     }
     public void brake(){
-        System.out.println("brake() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("brake() inside MiniCooper class invoked");
     }
 }

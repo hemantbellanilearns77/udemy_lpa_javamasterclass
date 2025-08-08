@@ -1,15 +1,17 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise30;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MainClass {
     public static void main(String[] args) {
         SimpleCalculator calculator = new SimpleCalculator();
         calculator.setFirstNumber(5.0);
         calculator.setSecondNumber(4);
-        System.out.println("add= " + calculator.getAdditionResult());
-        System.out.println("subtract= " + calculator.getSubtractionResult());
+        ConsoleStyler.styleOutput("add= " + calculator.getAdditionResult());
+        ConsoleStyler.styleOutput("subtract= " + calculator.getSubtractionResult());
         calculator.setFirstNumber(5.25);
         calculator.setSecondNumber(0);
-        System.out.println("multiply= " + calculator.getMultiplicationResult());
-        System.out.println("divide= " + calculator.getDivisionResult());
+        ConsoleStyler.styleOutput("multiply= " + calculator.getMultiplicationResult());
+        ConsoleStyler.styleOutput("divide= " + calculator.getDivisionResult());
     }
 }

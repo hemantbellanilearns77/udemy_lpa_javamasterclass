@@ -28,14 +28,14 @@ public class DemoDateTime {
         LocalTime time = LocalTime.now();
         LocalDateTime now = LocalDateTime.now();
 
-        System.out.println("📆 Today: " + today);
-        System.out.println("⏰ Time: " + time);
-        System.out.println("🕒 Now: " + now);
+        ConsoleStyler.styleOutput("📆 Today: " + today);
+        ConsoleStyler.styleOutput("⏰ Time: " + time);
+        ConsoleStyler.styleOutput("🕒 Now: " + now);
         ConsoleStyler.endSection("Local DateTime");
 
         ConsoleStyler.startSection("Zoned DateTime");
         ZonedDateTime zoned = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
-        System.out.println("🛫 Zoned: " + zoned);
+        ConsoleStyler.styleOutput("🛫 Zoned: " + zoned);
         ConsoleStyler.endSection("Zoned DateTime");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

@@ -4,6 +4,8 @@ package com.hb.study.demo_stubs;
         However, if you want to convert a duration in nanoseconds to a human-readable format, you can do that by converting the nanoseconds to milliseconds and then formatting it. Below is a Java program that demonstrates how to convert a duration in nanoseconds to a human-readable date and time format.
 
         ```java*/
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,8 +33,8 @@ public class NanosecondsToDateTime {
         String formattedDateTime = dateTime.format(formatter);
 
         // Output the results
-        System.out.println("Nanoseconds: " + nanoseconds);
-        System.out.println("Current Time in Human-Readable Format: " + formattedDateTime);
+        ConsoleStyler.styleOutput("Nanoseconds: " + nanoseconds);
+        ConsoleStyler.styleOutput("Current Time in Human-Readable Format: " + formattedDateTime);
     }
 }
 /*

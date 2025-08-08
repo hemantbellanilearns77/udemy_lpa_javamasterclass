@@ -1,6 +1,8 @@
 package com.hb.study.libs.datetimeutillib.core;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.*;
 /**
  * created by : heman on 14-07-2025, 08:36 pm, in the "udemy_lpa_javamasterclass" project
@@ -20,9 +22,9 @@ public class FormatterExportUtil {
     }
 
     public static void exportMarkdown(String filename) {
-        System.out.println("\n📝 EXPORT LOG — MARKDOWN STYLE");
+        ConsoleStyler.styleOutput("\n📝 EXPORT LOG — MARKDOWN STYLE");
         for (String entry : log) {
-            System.out.println(entry);
+            ConsoleStyler.styleOutput(entry);
         }
     }
 }

@@ -1,13 +1,15 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SecondsAndMinutesChallenge {
     public static void main(String[] args) {
 
-        System.out.println(getDurationString(-3945));  // This is the first test case
-        System.out.println(getDurationString(-65, 45));  // This is the second test case
-        System.out.println(getDurationString(65, 145));
-        System.out.println(getDurationString(65, 45));
-        System.out.println(getDurationString(3945));
+        ConsoleStyler.styleOutput(getDurationString(-3945));  // This is the first test case
+        ConsoleStyler.styleOutput(getDurationString(-65, 45));  // This is the second test case
+        ConsoleStyler.styleOutput(getDurationString(65, 145));
+        ConsoleStyler.styleOutput(getDurationString(65, 45));
+        ConsoleStyler.styleOutput(getDurationString(3945));
     }
 
     public static String getDurationString(int seconds) {

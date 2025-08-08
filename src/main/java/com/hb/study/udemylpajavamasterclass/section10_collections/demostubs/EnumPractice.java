@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.demostubs;
 
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.Random;
@@ -11,13 +12,13 @@ public class EnumPractice {
 
     public static void main(String[] args) {
         execution.initialize();
-/*        System.out.println("Days of the week are: \n" +
+/*        ConsoleStyler.styleOutput("Days of the week are: \n" +
                 Arrays.asList(DayOfTheWeek.values()));
-        System.out.println(asteriskSeparatorLine);
+        ConsoleStyler.styleOutput(asteriskSeparatorLine);
 
         DayOfTheWeek weekDay = getRandomDay();
-        System.out.println("Randomly generated Random Day is: " + weekDay);
-        System.out.println(asteriskSeparatorLine);*/
+        ConsoleStyler.styleOutput("Randomly generated Random Day is: " + weekDay);
+        ConsoleStyler.styleOutput(asteriskSeparatorLine);*/
 
 
         //long loopCounterLimit = new Random().nextLong(4294967296L);     //(Integer.MAX_VALUE-Integer.MIN_VALUE) + 1)
@@ -35,9 +36,9 @@ public class EnumPractice {
                 weekendDaysFound++;
             }*/
         }
-        System.out.println("Total of " + ((loopCounter == 1) ? 0 : loopCounter)  + " iterations were executed... ");
+        ConsoleStyler.styleOutput("Total of " + ((loopCounter == 1) ? 0 : loopCounter)  + " iterations were executed... ");
         long weekendDaysPercentage = Math.round( ((double) weekendDaysFound/ (double) loopCounter) * 100);
-        System.out.println("A total of " + weekendDaysFound + " Weekend Days were found and that's approximately " + weekendDaysPercentage + " %") ;
+        ConsoleStyler.styleOutput("A total of " + weekendDaysFound + " Weekend Days were found and that's approximately " + weekendDaysPercentage + " %") ;
 
         /*
 

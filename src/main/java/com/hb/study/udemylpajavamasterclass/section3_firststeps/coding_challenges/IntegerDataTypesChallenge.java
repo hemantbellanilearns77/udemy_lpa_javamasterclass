@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section3_firststeps.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 /**
  * PrimitiveTypesChallange1
  */
@@ -10,6 +12,6 @@ public class IntegerDataTypesChallenge {
         int intVar = 7777;
 
         long longVar = (50000L + (10L * (byteVar + shortVar + intVar)));
-        System.out.println("Sum of " + 50000 + " with " + 10 + " times sum of byteVar, shortVar and intVar is: " + longVar);
+        ConsoleStyler.styleOutput("Sum of " + 50000 + " with " + 10 + " times sum of byteVar, shortVar and intVar is: " + longVar);
     }
 }

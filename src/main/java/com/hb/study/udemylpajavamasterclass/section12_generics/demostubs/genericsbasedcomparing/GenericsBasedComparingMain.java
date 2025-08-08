@@ -33,21 +33,21 @@ public class GenericsBasedComparingMain {
         }
 
         Arrays.sort(fruit);
-        System.out.println(Arrays.toString(fruit));
-        System.out.println("A:"+(int)'A' + " " + "a:"+(int)'a');
-        System.out.println("B:"+(int)'B' + " " + "b:"+(int)'b');
-        System.out.println("P:"+(int)'P' + " " + "p:"+(int)'p');
+        ConsoleStyler.styleOutput(Arrays.toString(fruit));
+        ConsoleStyler.styleOutput("A:"+(int)'A' + " " + "a:"+(int)'a');
+        ConsoleStyler.styleOutput("B:"+(int)'B' + " " + "b:"+(int)'b');
+        ConsoleStyler.styleOutput("P:"+(int)'P' + " " + "p:"+(int)'p');
         ConsoleStyler.divider();
         Student tim = new Student ("Tim");
         Student [] students = {new Student("Zach"), new Student("Tim"),
                 new Student("Ann"), new Student("Tim")};
 
         Arrays.sort(students);
-        System.out.println(Arrays.toString(students));
-        System.out.println("result = " + tim.compareTo(new Student("TIM")));
+        ConsoleStyler.styleOutput(Arrays.toString(students));
+        ConsoleStyler.styleOutput("result = " + tim.compareTo(new Student("TIM")));
         Comparator<Student> gpaSorter = new StudentGPAComparator();
         Arrays.sort(students, gpaSorter.reversed());
-        System.out.println(Arrays.toString(students));
+        ConsoleStyler.styleOutput(Arrays.toString(students));
         ConsoleStyler.divider();
  	       /*
 

@@ -1,5 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.inheritancechallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MainClass extends Object {
 
     public static void main(String[] args) {
@@ -10,12 +13,12 @@ public class MainClass extends Object {
 
         HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", "16-11-1981",
                 "27-06-2016", 90816, "11-12-2011",350);
-        System.out.println(employee);
+        ConsoleStyler.styleOutput(employee  + CommonConstants.EMPTYSTRING);
         hourlyWageEmployee.terminate(hourlyWageEmployee.getLwd_Date());
-        System.out.println(hourlyWageEmployee);
+        ConsoleStyler.styleOutput(hourlyWageEmployee  + CommonConstants.EMPTYSTRING);
         salariedEmployee.collectPay();
         salariedEmployee.retire();
-        System.out.println(salariedEmployee);
+        ConsoleStyler.styleOutput(salariedEmployee  + CommonConstants.EMPTYSTRING);
       /* String birthDate = "16-11-1981";
         int age = 0;
         int currentYear = Year.now().getValue();
@@ -40,13 +43,13 @@ public class MainClass extends Object {
                 (currentDate < dateOfBirth )) {
             age = age - 1;
         }
-        System.out.println("birthDate is: " + birthDate);
-        System.out.println("currentYear is: " + currentYear);
-        System.out.println("currentYear is: " + currentYear);
-        System.out.println("currentMonth is: " + currentMonth);
-        System.out.println("monthOfBirth is: " + monthOfBirth);
-        System.out.println("currentDate is: " + currentDate);
-        System.out.println("dateOfBirth is: " + dateOfBirth);
-        System.out.println("Calculated age is: " + age);*/
+        ConsoleStyler.styleOutput("birthDate is: " + birthDate);
+        ConsoleStyler.styleOutput("currentYear is: " + currentYear);
+        ConsoleStyler.styleOutput("currentYear is: " + currentYear);
+        ConsoleStyler.styleOutput("currentMonth is: " + currentMonth);
+        ConsoleStyler.styleOutput("monthOfBirth is: " + monthOfBirth);
+        ConsoleStyler.styleOutput("currentDate is: " + currentDate);
+        ConsoleStyler.styleOutput("dateOfBirth is: " + dateOfBirth);
+        ConsoleStyler.styleOutput("Calculated age is: " + age);*/
     }
 }

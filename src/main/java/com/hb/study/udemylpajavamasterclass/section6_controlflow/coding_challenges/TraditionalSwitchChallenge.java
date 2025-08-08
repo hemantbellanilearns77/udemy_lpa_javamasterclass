@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class TraditionalSwitchChallenge {
@@ -7,7 +9,7 @@ public class TraditionalSwitchChallenge {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter an alphabet in range of A-E: ");
         char inputCharacter = scanner.nextLine().charAt(0);
-        System.out.println("The NATO Word for the character " + inputCharacter + " is: " +
+        ConsoleStyler.styleOutput("The NATO Word for the character " + inputCharacter + " is: " +
                 printNATOWord(inputCharacter));
     }
 

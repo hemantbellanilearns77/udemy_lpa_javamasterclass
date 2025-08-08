@@ -10,7 +10,7 @@ public class CommonConstants {
     public static final String BOLD = "\u001B[1m";
     public static final String UNDERLINE = "\u001B[4m";
     public static final String ITALIC = "\u001B[3m"; // ANSI code for italics
-
+    public static final String EMPTYSTRING = "";
     // Header & Separators
     public static final String HEADER = "📘".repeat(3) + " JAVA EXERCISE SESSION " + "📘".repeat(3);
     public static final String SECTION_SEPARATOR = "_".repeat(126);

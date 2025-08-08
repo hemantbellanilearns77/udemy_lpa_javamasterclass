@@ -3,6 +3,7 @@ package com.hb.study.udemylpajavamasterclass.section14.demostubs.lambdaintro;
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemylpajavamasterclass.global.models.Name;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -38,11 +39,11 @@ public class FunkyFilters {
         List<String> names = new ArrayList<>();
         Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
 
-        System.out.println("Original (unfiltered) name count is: " + namesCount);
+        ConsoleStyler.styleOutput("Original (unfiltered) name count is: " + namesCount);
         for(int i = 0; i<namesCount; i++) {
             names.add(generatedFullName.getFirstName());
         }
-        System.out.println("The list of names as originally generated is: ");
+        ConsoleStyler.styleOutput("The list of names as originally generated is: ");
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
@@ -59,9 +60,9 @@ public class FunkyFilters {
 
         names.removeIf(funkyFilter);
         namesCount = names.size();
-        System.out.println("Now (filtered) name count is: " + namesCount);
+        ConsoleStyler.styleOutput("Now (filtered) name count is: " + namesCount);
 
-        System.out.println("The list of names as after removing the names that start with 'A' and having length greater than 5 is: ");
+        ConsoleStyler.styleOutput("The list of names as after removing the names that start with 'A' and having length greater than 5 is: ");
         for(int i=0; i<namesCount; i++) {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }

@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section13.exercises.exercise49;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Exercise49TestClass {
         album.addSong("The gypsy", 4.2);
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
-        System.out.println(album) ;
+        ConsoleStyler.styleOutput(album  + CommonConstants.EMPTYSTRING) ;
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         album = new Album("For those about to rock", "AC/DC");
@@ -46,7 +47,7 @@ public class Exercise49TestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        System.out.println(album) ;
+        ConsoleStyler.styleOutput(album  + CommonConstants.EMPTYSTRING) ;
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         LinkedList<Song> playList = new LinkedList<Song>();
@@ -61,10 +62,10 @@ public class Exercise49TestClass {
         albums.get(1).addToPlayList(10, playList);  // There is no track 10
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
-        System.out.println("Final Playlist:" ) ;
-        System.out.println("Track No. Title: Duration");
+        ConsoleStyler.styleOutput("Final Playlist:" ) ;
+        ConsoleStyler.styleOutput("Track No. Title: Duration");
         for(int loopCounter = 0; loopCounter < playList.size(); loopCounter++ ){
-            System.out.println((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
+            ConsoleStyler.styleOutput((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
 

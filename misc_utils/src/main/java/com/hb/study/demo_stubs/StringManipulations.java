@@ -1,5 +1,6 @@
 package com.hb.study.demo_stubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.LocalDate;
@@ -20,14 +21,14 @@ public class StringManipulations {
          */
         /*String testDateString = "06/07/2021";
         int yearsWorked = Year.now().getValue() - Integer.parseInt(testDateString.substring(testDateString.lastIndexOf('/')+1));
-        System.out.println(yearsWorked);*/
+        ConsoleStyler.styleOutput(yearsWorked);*/
         LocalDate startDate = LocalDate.parse("06/07/2021", DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH));
         LocalDate today = LocalDate.now();
 
         Period period = Period.between(startDate, today);
         int yearsElapsed = period.getYears();
 
-        System.out.println("Years elapsed: " + yearsElapsed);
+        ConsoleStyler.styleOutput("Years elapsed: " + yearsElapsed);
 
         /*
 

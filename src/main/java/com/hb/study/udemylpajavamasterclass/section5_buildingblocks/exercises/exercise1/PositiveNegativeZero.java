@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise1;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class PositiveNegativeZero {
 
     public static void main(String[] args) {
@@ -9,13 +11,13 @@ public class PositiveNegativeZero {
     }
     public static void checkNumber(int number) {
         if(number == 0) {
-            System.out.println("zero");
+            ConsoleStyler.styleOutput("zero");
         } else {
             if(number > 0) {
-                System.out.println("positive");
+                ConsoleStyler.styleOutput("positive");
             }
             else {
-                System.out.println("negative");
+                ConsoleStyler.styleOutput("negative");
             }
         }
     }

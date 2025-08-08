@@ -20,24 +20,24 @@ public class ConsoleStyler {
 
     // Prints a bannered header
     public static void printBanner(String title) {
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.styleOutput(CommonConstants.SECTION_SEPARATOR);
         System.out.printf(applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER));
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.styleOutput(CommonConstants.SECTION_SEPARATOR);
     }
 
     public static void startSection(String label) {
         ConsoleStyler.divider();
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        ConsoleStyler.styleOutput(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.styleOutput(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        System.out.println(CommonConstants.DOTTED_LINE);
+        ConsoleStyler.styleOutput(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
-        System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        ConsoleStyler.styleOutput(CommonConstants.DOTTED_LINE);
+        ConsoleStyler.styleOutput(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.styleOutput(CommonConstants.SECTION_SEPARATOR);
         ConsoleStyler.divider();
     }
 
@@ -48,11 +48,11 @@ public class ConsoleStyler {
     }
 
     public static void divider() {
-        System.out.println(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        ConsoleStyler.styleOutput(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void halfDivider() {
-        System.out.println(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void styleInitializationInfo(String outputText) {
@@ -88,7 +88,7 @@ public class ConsoleStyler {
 
     public static void styleIt(String outputText, SemanticColorRole semanticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
         if (outputText == null || outputText.isBlank()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ [No output to display]");
+            ConsoleStyler.styleOutput(CommonConstants.INDENT + "⚠️ [No output to display]");
             return;
         }
 
@@ -98,16 +98,16 @@ public class ConsoleStyler {
         String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; //
         String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
-        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
 
         //StringBuilder linesToPrint = new StringBuilder();
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
             String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
             String lineToPrint = linePrefix + lines[lineCounter];
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
+            ConsoleStyler.styleOutput(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
-        System.out.println(CommonConstants.INDENT + borderColor + "│ ");
-        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + borderColor + "│ ");
+        ConsoleStyler.styleOutput(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
     }
 
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting
@@ -117,7 +117,7 @@ public class ConsoleStyler {
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
         if (input == null) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
+            ConsoleStyler.styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
             return;
         }
         labelPrefix = (labelPrefix == null || labelPrefix.isBlank()) ? "" : (labelPrefix + ": ");
@@ -189,7 +189,7 @@ public class ConsoleStyler {
         } else if (input instanceof Stream<?>) {
             ((Stream<?>) input).forEach(items::add);
         } else {
-            System.out.println(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
+            ConsoleStyler.styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
             return;
         }
 
@@ -208,13 +208,13 @@ public class ConsoleStyler {
             try {
                 Collections.sort((List) formattedItems);
             } catch (ClassCastException e) {
-                System.out.println(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
+                ConsoleStyler.styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
             }
         }
 
         // 🚫 Empty check
         if (formattedItems.isEmpty()) {
-            System.out.println(CommonConstants.INDENT + "⚠️ No items to display.");
+            ConsoleStyler.styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
             return;
         }
 

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.allaboutstrings;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 /*
     This is generated using Google Gemini.... for practice.
     Can i initialize a String variable in Java with a text block and then use string manipulation methods on it? Please show an example class in java to demonstrate if possible
@@ -18,29 +20,29 @@ package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.allabo
                 """;
 
             // Display the original text block
-            System.out.println("Original Text Block:");
-            System.out.println(textBlock);
+            ConsoleStyler.styleOutput("Original Text Block:");
+            ConsoleStyler.styleOutput(textBlock);
 
             // Using string manipulation methods
             // 1. Trimming whitespace
             String trimmedText = textBlock.trim();
-            System.out.println("\nTrimmed Text:");
-            System.out.println(trimmedText);
+            ConsoleStyler.styleOutput("\nTrimmed Text:");
+            ConsoleStyler.styleOutput(trimmedText);
 
             // 2. Replacing a substring
             String replacedText = textBlock.replace("World", "Java");
-            System.out.println("\nReplaced Text:");
-            System.out.println(replacedText);
+            ConsoleStyler.styleOutput("\nReplaced Text:");
+            ConsoleStyler.styleOutput(replacedText);
 
             // 3. Converting to uppercase
             String upperCaseText = textBlock.toUpperCase();
-            System.out.println("\nUppercase Text:");
-            System.out.println(upperCaseText);
+            ConsoleStyler.styleOutput("\nUppercase Text:");
+            ConsoleStyler.styleOutput(upperCaseText);
 
             // 4. Extracting a substring
             String substring = textBlock.substring(0, 13); // "Hello, World!"
-            System.out.println("\nExtracted Substring:");
-            System.out.println(substring);
+            ConsoleStyler.styleOutput("\nExtracted Substring:");
+            ConsoleStyler.styleOutput(substring);
         }
     }
 /**

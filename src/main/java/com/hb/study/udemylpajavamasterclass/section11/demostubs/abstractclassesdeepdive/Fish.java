@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.demostubs.abstractclassesdeepdive;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Fish extends Animal {
 
     public Fish(String type, String size, double weight) {
@@ -9,9 +11,9 @@ public class Fish extends Animal {
     @Override
     public void move(String speed) {
         if (speed.equals("slow")) {
-            System.out.println(getExplicitType() + " lazily swimming");
+            ConsoleStyler.styleOutput(getExplicitType() + " lazily swimming");
         } else {
-            System.out.println(getExplicitType() + " darting frantically");
+            ConsoleStyler.styleOutput(getExplicitType() + " darting frantically");
         }
 
     }

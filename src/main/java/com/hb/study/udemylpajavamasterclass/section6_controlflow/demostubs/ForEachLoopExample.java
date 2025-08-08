@@ -1,6 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.demostubs;
 
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 
 public class ForEachLoopExample {
@@ -14,9 +16,9 @@ public class ForEachLoopExample {
         fruits.add("Elderberry");
 
         // Use a for-each loop to iterate over the ArrayList
-        System.out.println("Fruits in the list:");
+        ConsoleStyler.styleOutput("Fruits in the list:");
         for (String fruit : fruits) {
-            System.out.println(fruit);
+            ConsoleStyler.styleOutput(fruit);
         }
     }
 }

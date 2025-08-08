@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.global.constants;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -714,9 +716,9 @@ public enum ForegroundColor {
      */
     public void preview(String label) {
         if (ansiCode != null && !ansiCode.isEmpty()) {
-            System.out.println(ansiCode + "█ " + label + "\u001B[0m");
+            ConsoleStyler.styleOutput(ansiCode + "█ " + label + "\u001B[0m");
         } else {
-            System.out.println("✳️ " + label + " (no ANSI code)");
+            ConsoleStyler.styleOutput("✳️ " + label + " (no ANSI code)");
         }
     }
 

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise17;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class FirstLastDigitSum {
@@ -17,17 +19,17 @@ public class FirstLastDigitSum {
 
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
                 clearScreen();
-                System.out.println("\nExiting the input screen .... " +
+                ConsoleStyler.styleOutput("\nExiting the input screen .... " +
                         "thanks for your attempts and inputs.... ");
             } else {
-                System.out.println("userInput was: " + userInput + ";" +
+                ConsoleStyler.styleOutput("userInput was: " + userInput + ";" +
                         "\namd userInputWithoutBlanks is: " + userInputWithoutBlanks);
                 // Checking if user input number is Palindrome or not?
                 try{
-                    System.out.println("Sum of first and last digits of " + userInputWithoutBlanks +
+                    ConsoleStyler.styleOutput("Sum of first and last digits of " + userInputWithoutBlanks +
                             "is: " + sumFirstAndLastDigit (Integer.parseInt(userInputWithoutBlanks)));
                 } catch(NumberFormatException nfe) {
-                    System.out.println("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
+                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
                 }
             }
         } while(!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));
@@ -58,7 +60,7 @@ public class FirstLastDigitSum {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         } catch (Exception e) {
-            System.out.println("Error clearing screen: " + e.getMessage());
+            ConsoleStyler.styleOutput("Error clearing screen: " + e.getMessage());
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.coding_challenges.inheritancechallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class SalariedEmployee extends Employee {
     private double annualSalary;
     private boolean isRetired;
@@ -25,10 +27,10 @@ public class SalariedEmployee extends Employee {
         if(super.getAge() > 70) {
             this.isRetired = true;
             super.terminate(this.getLwd_Date());
-            System.out.println(super.getName() + " is now retired! Wish you a healthy life ahead at " + super.getAge()
+            ConsoleStyler.styleOutput(super.getName() + " is now retired! Wish you a healthy life ahead at " + super.getAge()
                     + " years of age");
         } else {
-            System.out.println("Not yet retirable age");
+            ConsoleStyler.styleOutput("Not yet retirable age");
         }
     }
 

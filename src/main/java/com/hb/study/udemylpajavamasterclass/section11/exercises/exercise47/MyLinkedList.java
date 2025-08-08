@@ -1,5 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section11.exercises.exercise47;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MyLinkedList implements NodeList {
     private ListItem root;
 
@@ -82,11 +85,11 @@ public class MyLinkedList implements NodeList {
     @Override
     public void traverse(ListItem root) {
         if(root == null) {
-            System.out.println("The list is empty");
+            ConsoleStyler.styleOutput("The list is empty");
         } else {
             ListItem nextItem = root;
             while(nextItem != null){
-                System.out.println(nextItem.getValue());
+                ConsoleStyler.styleOutput(nextItem.getValue() + CommonConstants.EMPTYSTRING);
                 nextItem = nextItem.next();
             }
         }

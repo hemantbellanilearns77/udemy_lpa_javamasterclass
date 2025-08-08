@@ -32,7 +32,7 @@ public record Card(Suit suit, String face, int rank) {
         if (cardNumber > 1 && cardNumber < 11) {
             return new Card(suit, String.valueOf(cardNumber), cardNumber - 2);
         }
-        System.out.println("Invalid Numeric card selected");
+        ConsoleStyler.styleOutput("Invalid Numeric card selected");
         return null;
     }
 
@@ -42,7 +42,7 @@ public record Card(Suit suit, String face, int rank) {
         if (charIndex > -1) {
             return new Card(suit, "" + abbrev, charIndex + 9);
         }
-        System.out.println("Invalid Face card selected");
+        ConsoleStyler.styleOutput("Invalid Face card selected");
         return null;
     }
 

@@ -1,17 +1,20 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise25;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class FlourPacker {
 
     // write code here
     public static void main(String[] args) {
-        System.out.println(canPack(1, 0, 4));
-        System.out.println(canPack (1, 0, 5));
-        System.out.println(canPack (0, 5, 4));
-        System.out.println(canPack (2, 2, 11));
-        System.out.println(canPack (-3, 2, 12));
-        System.out.println(canPack(5, 3, 24));
-        System.out.println(canPack(2, 1, 5));
-        System.out.println(canPack(4, 18, 19));
+        ConsoleStyler.styleOutput(canPack(1, 0, 4) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack (1, 0, 5) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack (0, 5, 4) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack (2, 2, 11) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack (-3, 2, 12) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack(5, 3, 24) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack(2, 1, 5) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(canPack(4, 18, 19) + CommonConstants.EMPTYSTRING);
     }
 
     public static boolean canPack (int bigCount, int smallCount, int goal){

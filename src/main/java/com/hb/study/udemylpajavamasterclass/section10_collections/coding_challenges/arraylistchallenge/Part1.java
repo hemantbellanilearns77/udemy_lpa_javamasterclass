@@ -1,5 +1,8 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.coding_challenges.arraylistchallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.*;
 
 @SuppressWarnings("ALL")
@@ -18,13 +21,13 @@ public class Part1 {
                 default -> flag = false;
             }
             groceries.sort(Comparator.naturalOrder());
-            System.out.println(groceries);
+            ConsoleStyler.styleOutput(groceries);
         }
     }
 
     private static void addItems(ArrayList<String> groceries) {
 
-        System.out.println("Add item(s) [separate items by comma]:");
+        ConsoleStyler.styleOutput("Add item(s) [separate items by comma]:");
         String[] items = scanner.nextLine().split(",");
 //        groceries.addAll(List.of(items));
 
@@ -38,7 +41,7 @@ public class Part1 {
 
     private static void removeItems(ArrayList<String> groceries) {
 
-        System.out.println("Remove item(s) [separate items by comma]:");
+        ConsoleStyler.styleOutput("Remove item(s) [separate items by comma]:");
         String[] items = scanner.nextLine().split(",");
 
         for (String i: items) {
@@ -68,7 +71,7 @@ public class Part1 {
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<String> groceries = new ArrayList<>();
-        System.out.println(programOutputBegins);
+        ConsoleStyler.styleOutput(programOutputBegins);
         do {
             printMenuOfActions();
             try {
@@ -76,73 +79,73 @@ public class Part1 {
                 switch(userInput) {
                     case 1 -> { addGroceryItems(groceries); }
                     case 2 -> { removeGroceryItems(groceries);
-                        System.out.println(userInput); }
+                        ConsoleStyler.styleOutput(userInput  + CommonConstants.EMPTYSTRING); }
                     case 3 ->  {
                         printGroceryState(groceries);
                     }
                     default -> {
-                        System.out.println("Sorry, yoy input a number our of acceptable range of inputs (1 or 2 or 3)... " +
+                        ConsoleStyler.styleOutput("Sorry, yoy input a number our of acceptable range of inputs (1 or 2 or 3)... " +
                                 "Please try again by entering the acceptable integer.... ");
                         break; }
                 }
             } catch (InputMismatchException inputMismatchException) {
-                System.out.println("Invalid Input, try again... here's the menu again");
-                System.out.println(asteriskSeparatorLine);
+                ConsoleStyler.styleOutput("Invalid Input, try again... here's the menu again");
+                ConsoleStyler.styleOutput(asteriskSeparatorLine);
                 userInput = 5;
                 printMenuOfActions();
                 continue;
             }
             if(groceries.isEmpty()) {
-                System.out.println("Grocery list is empty right now... ");
+                ConsoleStyler.styleOutput("Grocery list is empty right now... ");
             } else if(userInput != 0 ){
                 groceries.sort(Comparator.naturalOrder());
-                System.out.println(asteriskSeparatorLine);
-                System.out.println("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
-                System.out.println(asteriskSeparatorLine);
+                ConsoleStyler.styleOutput(asteriskSeparatorLine);
+                ConsoleStyler.styleOutput("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
+                ConsoleStyler.styleOutput(asteriskSeparatorLine);
             }
         } while(!(userInput == 0));
         if(groceries.isEmpty()) {
-            System.out.println("You ended up with an empty grocery list");
+            ConsoleStyler.styleOutput("You ended up with an empty grocery list");
         } else {
             groceries.sort(Comparator.naturalOrder());
-            System.out.println(asteriskSeparatorLine);
-            System.out.println("Your final grocery list, sorted(in natural order) is:\n " + groceries);
-            System.out.println(asteriskSeparatorLine);
+            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.styleOutput("Your final grocery list, sorted(in natural order) is:\n " + groceries);
+            ConsoleStyler.styleOutput(asteriskSeparatorLine);
         }
 
     }
 
     private static void printGroceryState(ArrayList<String> groceries) {
         if(groceries.isEmpty()) {
-            System.out.println("Grocery list is empty right now... ");
+            ConsoleStyler.styleOutput("Grocery list is empty right now... ");
         } else {
             groceries.sort(Comparator.naturalOrder());
-            System.out.println(asteriskSeparatorLine);
-            System.out.println("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
-            System.out.println(asteriskSeparatorLine);
+            ConsoleStyler.styleOutput(asteriskSeparatorLine);
+            ConsoleStyler.styleOutput("Your interim grocery list, sorted(in natural order) is:\n " + groceries);
+            ConsoleStyler.styleOutput(asteriskSeparatorLine);
         }
     }
 
     private static void addGroceryItems(ArrayList<String> groceryList ) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Add a comma separated list of grocery items: ");
+        ConsoleStyler.styleOutput("Add a comma separated list of grocery items: ");
         String userInput = scanner.nextLine();
         String[] inputItems = userInput.split(",");
-        //System.out.println(Arrays.toString(inputItems));
+        //ConsoleStyler.styleOutput(Arrays.toString(inputItems));
         for(String inputItem : inputItems) {
             if(!groceryList.contains(inputItem.trim())) {
                 groceryList.add(inputItem.trim());
             }
         }
-        //System.out.println(groceryList);
-        //System.out.println(asteriskSeparatorLine);
+        //ConsoleStyler.styleOutput(groceryList);
+        //ConsoleStyler.styleOutput(asteriskSeparatorLine);
     }
 
     private static void removeGroceryItems(ArrayList<String> groceryList ) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Remove a comma separated list of grocery items: ");
+        ConsoleStyler.styleOutput("Remove a comma separated list of grocery items: ");
         String userInput = scanner.nextLine();
         String [] inputItems = userInput.split(",");
         for(String inputItem : inputItems) {

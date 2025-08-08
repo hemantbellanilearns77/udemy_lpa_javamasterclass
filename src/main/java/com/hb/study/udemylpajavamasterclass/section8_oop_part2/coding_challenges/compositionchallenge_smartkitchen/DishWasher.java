@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.coding_challenges.compositionchallenge_smartkitchen;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class DishWasher {
     private boolean hasWorkToDo;
 
@@ -11,7 +13,7 @@ public class DishWasher {
     }
     public void doDishes(){
         if(hasWorkToDo) {
-            System.out.println("Washing Dishes now.. ");
+            ConsoleStyler.styleOutput("Washing Dishes now.. ");
             this.setHasWorkToDo(false);
         }
     }

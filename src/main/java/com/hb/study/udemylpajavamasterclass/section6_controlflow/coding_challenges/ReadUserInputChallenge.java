@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class ReadUserInputChallenge {
@@ -13,7 +15,7 @@ public class ReadUserInputChallenge {
         String nextNumberInput = "";
 
         while(countOfIntegers < 5) {
-            System.out.println("Enter a Integer # " + (countOfIntegers+1) + " : ");
+            ConsoleStyler.styleOutput("Enter a Integer # " + (countOfIntegers+1) + " : ");
             nextNumberInput = scanner.nextLine();
             nextNumber = isValidInteger(nextNumberInput) ? Integer.parseInt(nextNumberInput)  : -1;
             if(nextNumber == -1) {
@@ -23,7 +25,7 @@ public class ReadUserInputChallenge {
                 countOfIntegers++;
             }
         }
-        System.out.println("The sum of " + countOfIntegers + " integers as input above is : " + sum);
+        ConsoleStyler.styleOutput("The sum of " + countOfIntegers + " integers as input above is : " + sum);
     }
     public static boolean isValidInteger(String nextNumberInput){
 
@@ -32,7 +34,7 @@ public class ReadUserInputChallenge {
         try {
             int nextNumber = Integer.parseInt(nextNumberInput);
         } catch(NumberFormatException numberFormatException){
-            System.out.println("Invalid Input");
+            ConsoleStyler.styleOutput("Invalid Input");
             isValidInt = false;
             return isValidInt;
         }

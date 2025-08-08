@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.demostubs.recordsampleproject;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MainClass {
     public static void main(String[] args) {
         int loopCounter;
@@ -16,8 +18,8 @@ public class MainClass {
                         default -> "Anonymous";
                     },
                     "05-Nov-1985", "Java MasterClass");
-            System.out.println(lpa_jpm_recordStudent);
-            System.out.println("Next id is : " + lpa_jpm_recordStudent.id());
+            ConsoleStyler.styleOutput(lpa_jpm_recordStudent.toString());
+            ConsoleStyler.styleOutput("Next id is : " + lpa_jpm_recordStudent.id());
         }
 
         for(loopCounter = 1; loopCounter <= 5; loopCounter++) {
@@ -32,8 +34,8 @@ public class MainClass {
                         default -> "Anonymous";
                     },
                     "05-Nov-1985", "Java MasterClass");
-            System.out.println(pojoStudent);
-            System.out.println("Next id is : " + pojoStudent.getId());
+            ConsoleStyler.styleOutput(pojoStudent.toString());
+            ConsoleStyler.styleOutput("Next id is : " + pojoStudent.getId());
         }
 
     }

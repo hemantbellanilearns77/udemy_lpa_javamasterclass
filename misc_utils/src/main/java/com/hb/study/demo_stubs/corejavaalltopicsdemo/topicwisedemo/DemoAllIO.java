@@ -27,12 +27,12 @@ public class DemoAllIO {
         ConsoleStyler.startSection("Write to File");
         Path path = Paths.get("sample_output.txt");
         Files.writeString(path, "🎪 Carnival welcomes you, Hemant!");
-        System.out.println("✅ Written to file: " + path);
+        ConsoleStyler.styleOutput("✅ Written to file: " + path);
         ConsoleStyler.endSection("Write to File");
 
         ConsoleStyler.startSection("Read from File");
         String content = Files.readString(path);
-        System.out.println("📖 Read content: " + content);
+        ConsoleStyler.styleOutput("📖 Read content: " + content);
         ConsoleStyler.endSection("Read from File");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

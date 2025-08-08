@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.coding_challenges.linkedlistchallenge;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -13,13 +15,13 @@ public class TestItinerary {
     public static void main(String[] args) {
 
         LinkedList<Town> itinerary = new LinkedList<>();
-        System.out.println(programOutputBegins);
+        ConsoleStyler.styleOutput(programOutputBegins);
 
         createItineray(itinerary);
-        System.out.println("\nThe list before any user performed operation using the Menu is as below:");
+        ConsoleStyler.styleOutput("\nThe list before any user performed operation using the Menu is as below:");
 
-        System.out.println(itinerary);
-        System.out.println(asteriskSeparatorLine);
+        ConsoleStyler.styleOutput(itinerary.toString());
+        ConsoleStyler.styleOutput(asteriskSeparatorLine);
         var iterator = itinerary.listIterator();
         boolean forward = true;
         //executeMenuCommands();
@@ -27,18 +29,18 @@ public class TestItinerary {
         String nextInput;
         do{
             if (!iterator.hasPrevious()) {
-                System.out.println("Originating : " + iterator.next());
+                ConsoleStyler.styleOutput("Originating : " + iterator.next());
                 forward = true;
             }
             if (!iterator.hasNext()) {
-                System.out.println("Final : " + iterator.previous());
+                ConsoleStyler.styleOutput("Final : " + iterator.previous());
                 forward = false;
             }
             printMenu();
             nextInput = scanner.nextLine().trim().toUpperCase();
             switch(nextInput){
                 case "F" ->  {
-                    System.out.println("User wants to go forward");
+                    ConsoleStyler.styleOutput("User wants to go forward");
                     if (!forward) {           // Reversing Direction
                         forward = true;
                         if (iterator.hasNext()) {
@@ -46,12 +48,12 @@ public class TestItinerary {
                         }
                     }
                     if (iterator.hasNext()) {
-                        System.out.println(iterator.next());
+                        ConsoleStyler.styleOutput(iterator.next().toString());
                     }
                     break;
                 }
                 case "B" ->  {
-                    System.out.println("User wants to go backwards");
+                    ConsoleStyler.styleOutput("User wants to go backwards");
                     if (forward) {           // Reversing Direction
                         forward = false;
                         if (iterator.hasPrevious()) {
@@ -60,7 +62,7 @@ public class TestItinerary {
                     }
 
                     if (iterator.hasPrevious()) {
-                        System.out.println(iterator.previous());
+                        ConsoleStyler.styleOutput(iterator.previous().toString());
                     }
                     break;
                 }
@@ -68,7 +70,7 @@ public class TestItinerary {
                 case "M" -> {continue;}
                 case "Q" -> {break;}
                 default -> {
-                    System.out.println("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + "\n");
+                    ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + "\n");
                     break;
                 }
             }
@@ -78,15 +80,15 @@ public class TestItinerary {
     }
 
     private static void listPlaces(LinkedList<Town> itinerary) {
-        System.out.println("User wants to list our the itinerary and its as below: \n ");
-        System.out.println(itinerary);
-        System.out.println(asteriskSeparatorLine);
+        ConsoleStyler.styleOutput("User wants to list our the itinerary and its as below: \n ");
+        ConsoleStyler.styleOutput(itinerary.toString());
+        ConsoleStyler.styleOutput(asteriskSeparatorLine);
     }
 
 
 
     private static void iterateForwards(LinkedList<Town> itinerary) {
-        System.out.println("User wants to go forward.... ");
+        ConsoleStyler.styleOutput("User wants to go forward.... ");
 
     }
 
@@ -103,7 +105,7 @@ public class TestItinerary {
                 case "M" -> {printMenu();}
                 case "Q" -> {break;}
                 default -> {
-                    System.out.println("Sorry, invalid input ");
+                    ConsoleStyler.styleOutput("Sorry, invalid input ");
                     break;}
             }
         } while (!nextInput.equalsIgnoreCase("Q"));
@@ -129,7 +131,7 @@ public class TestItinerary {
         ListIterator<Town> itineraryIterator = itinerary.listIterator();
         Town currentTownAtCursor;
         if(itinerary.contains(townToAdd) || checkIfTownExists(townToAdd, itinerary)) {
-            System.out.println("*Please Note: Duplicate entry attempt found for \'" + townToAdd.town() + "\', so not adding it!");
+            ConsoleStyler.styleOutput("*Please Note: Duplicate entry attempt found for \'" + townToAdd.town() + "\', so not adding it!");
             return;
         } else {
 

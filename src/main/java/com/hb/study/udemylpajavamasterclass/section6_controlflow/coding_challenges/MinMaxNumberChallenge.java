@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.coding_challenges;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class MinMaxNumberChallenge {
@@ -14,7 +16,7 @@ public class MinMaxNumberChallenge {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             try {
-                System.out.println("Please enter the next decimal number or exit to quit: ");
+                ConsoleStyler.styleOutput("Please enter the next decimal number or exit to quit: ");
                 nextInput = scanner.nextLine();
                 if (nextInput.equalsIgnoreCase("exit")){
                     break;
@@ -32,12 +34,12 @@ public class MinMaxNumberChallenge {
                    }
                }
             } catch(NumberFormatException nfe) {
-                System.out.println("Since you entered a non-decimal number character, so exiting");
+                ConsoleStyler.styleOutput("Since you entered a non-decimal number character, so exiting");
                 break;
             }
         }
-        System.out.println("The count of decimal numbers screened to come to max and min values is: " + numberOfDecimalsScreened);
-        System.out.println("The minimum number is: " + minNumber);
-        System.out.println("The maximum number is: " + maxNumber);
+        ConsoleStyler.styleOutput("The count of decimal numbers screened to come to max and min values is: " + numberOfDecimalsScreened);
+        ConsoleStyler.styleOutput("The minimum number is: " + minNumber);
+        ConsoleStyler.styleOutput("The maximum number is: " + maxNumber);
     }
 }

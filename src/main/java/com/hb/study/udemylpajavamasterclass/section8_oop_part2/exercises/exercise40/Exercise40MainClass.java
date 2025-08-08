@@ -1,26 +1,28 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise40;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Exercise40MainClass {
     public static void main(String[] args) {
         Car car = new Car(8, "Base car");
-        System.out.println(car.startEngine());
-        System.out.println(car.accelerate());
-        System.out.println(car.brake());
+        ConsoleStyler.styleOutput(car.startEngine());
+        ConsoleStyler.styleOutput(car.accelerate());
+        ConsoleStyler.styleOutput(car.brake());
 
         Mitsubishi mitsubishi = new Mitsubishi(6, "Out-lander VRX 4WD");
-        System.out.println(mitsubishi.startEngine());
-        System.out.println(mitsubishi.accelerate());
-        System.out.println(mitsubishi.brake());
+        ConsoleStyler.styleOutput(mitsubishi.startEngine());
+        ConsoleStyler.styleOutput(mitsubishi.accelerate());
+        ConsoleStyler.styleOutput(mitsubishi.brake());
 
         Ford ford = new Ford(6, "Ford Falcon");
-        System.out.println(ford.startEngine());
-        System.out.println(ford.accelerate());
-        System.out.println(ford.brake());
+        ConsoleStyler.styleOutput(ford.startEngine());
+        ConsoleStyler.styleOutput(ford.accelerate());
+        ConsoleStyler.styleOutput(ford.brake());
 
         Holden holden = new Holden(6, "Holden Commodore");
-        System.out.println(holden.startEngine());
-        System.out.println(holden.accelerate());
-        System.out.println(holden.brake());
+        ConsoleStyler.styleOutput(holden.startEngine());
+        ConsoleStyler.styleOutput(holden.accelerate());
+        ConsoleStyler.styleOutput(holden.brake());
     }
 }
 class Car {

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section12_generics.demostubs.generics_basics;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,9 @@ public class Team<T extends Player, A> {
     public void listTeamMembers() {
 
         System.out.print(teamName + " Roster:");
-        System.out.println((affiliation == null ? "" : " AFFILIATION: "+ affiliation));
+        ConsoleStyler.styleOutput((affiliation == null ? "" : " AFFILIATION: "+ affiliation));
         for (T t : teamMembers) {
-            System.out.println(t.name());
+            ConsoleStyler.styleOutput(t.name());
         }
     }
 

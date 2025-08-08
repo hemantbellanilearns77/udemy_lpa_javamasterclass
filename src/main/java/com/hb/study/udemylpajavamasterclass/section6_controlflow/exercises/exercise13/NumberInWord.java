@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise13;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class NumberInWord {
@@ -13,17 +15,17 @@ public class NumberInWord {
 
     public static void printNumberInWord (int number) {
         switch(number) {
-            case 0 ->  System.out.println("ZERO");
-            case 1 -> System.out.println("ONE");
-            case 2 -> System.out.println("TWO");
-            case 3 -> System.out.println("THREE");
-            case 4 -> System.out.println("FOUR");
-            case 5 -> System.out.println("FIVE");
-            case 6 -> System.out.println("SIX");
-            case 7 -> System.out.println("SEVEN");
-            case 8 -> System.out.println("EIGHT");
-            case 9 -> System.out.println("NINE");
-            default -> System.out.println("OTHER");
+            case 0 ->  ConsoleStyler.styleOutput("ZERO");
+            case 1 -> ConsoleStyler.styleOutput("ONE");
+            case 2 -> ConsoleStyler.styleOutput("TWO");
+            case 3 -> ConsoleStyler.styleOutput("THREE");
+            case 4 -> ConsoleStyler.styleOutput("FOUR");
+            case 5 -> ConsoleStyler.styleOutput("FIVE");
+            case 6 -> ConsoleStyler.styleOutput("SIX");
+            case 7 -> ConsoleStyler.styleOutput("SEVEN");
+            case 8 -> ConsoleStyler.styleOutput("EIGHT");
+            case 9 -> ConsoleStyler.styleOutput("NINE");
+            default -> ConsoleStyler.styleOutput("OTHER");
         };
     }
 }

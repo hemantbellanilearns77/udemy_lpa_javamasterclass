@@ -1,5 +1,7 @@
 package com.hb.study.demo_stubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,7 +21,7 @@ public class LongToHumanReadableTime {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
         String formattedDateTime = dateTime.format(formatter);
 
-        System.out.println("Long value: " + epochMilli);
-        System.out.println("Human-readable time: " + formattedDateTime);
+        ConsoleStyler.styleOutput("Long value: " + epochMilli);
+        ConsoleStyler.styleOutput("Human-readable time: " + formattedDateTime);
     }
 }

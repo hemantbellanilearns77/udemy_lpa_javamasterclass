@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section10_collections.demostubs;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.LinkedList;
 
 public class PrimitiveTypesAndCollections {
@@ -11,12 +13,12 @@ public class PrimitiveTypesAndCollections {
         //LinkedList<int> linkedList = new LinkedList<int>();
 
         LinkedList<Integer> linkedList = new LinkedList<>();
-        System.out.println(linkedList);
+        ConsoleStyler.styleOutput(linkedList.toString());
         //Deprecated way of boxing
         // Integer boxedInt = new Integer(16);
 
         Integer boxedInt = Integer.valueOf(15); // correct way
-        System.out.println(boxedInt.intValue());
+        ConsoleStyler.styleOutput(""+ boxedInt.intValue());
         Integer anotherBoxedInt = 16;//autoboxing
     }
 }

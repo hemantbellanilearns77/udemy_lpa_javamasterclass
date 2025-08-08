@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section6_controlflow.exercises.exercise28;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.Scanner;
 
 public class InputCalculator {
@@ -16,7 +18,7 @@ public class InputCalculator {
         double actualAverage;
         int numberCount = 0;
         while(true) {
-            System.out.println("Please enter the next number or type 'exit' to quit: ");
+            ConsoleStyler.styleOutput("Please enter the next number or type 'exit' to quit: ");
             nextInput = scanner.nextLine();
             // Check if the user wants to exit - did this to fix Sonar blocker
             if (nextInput.equalsIgnoreCase("exit")) {
@@ -30,8 +32,8 @@ public class InputCalculator {
                 roundedAverage = Math.round(actualAverage);
 
             } catch (NumberFormatException nfe) {
-                //System.out.println("Actual average is: " + actualAverage);
-                System.out.println("SUM = " + sum + " AVG = " + roundedAverage);
+                //ConsoleStyler.styleOutput("Actual average is: " + actualAverage);
+                ConsoleStyler.styleOutput("SUM = " + sum + " AVG = " + roundedAverage);
                 break;
             }
         }

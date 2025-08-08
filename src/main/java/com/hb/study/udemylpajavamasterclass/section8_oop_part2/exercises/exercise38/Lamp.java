@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section8_oop_part2.exercises.exercise38;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Lamp {
     private String style;
     private boolean battery;
@@ -11,7 +13,7 @@ public class Lamp {
         this.globRating = globRating;
     }
     public void turnOn(){
-        System.out.println("Lamp is being turned on.......");
+        ConsoleStyler.styleOutput("Lamp is being turned on.......");
     }
     public int getGlobRating() {
         return this.globRating;

@@ -1,15 +1,17 @@
 package com.hb.study.udemylpajavamasterclass.section5_buildingblocks.exercises.exercise3;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class MegaBytesConverter {
     public static void main(String[] args) {
         printMegaBytesAndKiloBytes(2500);
-        System.out.println("------------------------------------------------------");
+        ConsoleStyler.styleOutput("------------------------------------------------------");
         printMegaBytesAndKiloBytes(-1024);
-        System.out.println("------------------------------------------------------");
+        ConsoleStyler.styleOutput("------------------------------------------------------");
         printMegaBytesAndKiloBytes(0);
-        System.out.println("------------------------------------------------------");
+        ConsoleStyler.styleOutput("------------------------------------------------------");
         printMegaBytesAndKiloBytes(5000);
-        System.out.println("------------------------------------------------------");
+        ConsoleStyler.styleOutput("------------------------------------------------------");
 
     }
 
@@ -17,11 +19,11 @@ public class MegaBytesConverter {
         int megaBytes = 0;
         int remainingKiloBytes = 0;
         if (kiloBytes < 0) {
-            System.out.println("Invalid Value" );
+            ConsoleStyler.styleOutput("Invalid Value" );
         } else {
             megaBytes = kiloBytes / 1024;
             remainingKiloBytes = kiloBytes % 1024;
-            System.out.println(kiloBytes + " KB = "
+            ConsoleStyler.styleOutput(kiloBytes + " KB = "
                     + megaBytes + " MB and " + remainingKiloBytes + " KB");
 
         }

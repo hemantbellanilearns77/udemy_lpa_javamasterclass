@@ -1,12 +1,14 @@
 package com.hb.study.udemylpajavamasterclass.section7_oop_part1.exercises.exercise32;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 public class Wall {
 
     private double width;
     private double height;
 
     public Wall(){
-        System.out.println("The no args constructor");
+        ConsoleStyler.styleOutput("The no args constructor");
         this.height = 0;
         this.width = 0;
     }
@@ -14,7 +16,7 @@ public class Wall {
     public Wall(double width, double height){
         this.height = 0;
         this.width = 0;
-        System.out.println("Constructor with arguments.....");
+        ConsoleStyler.styleOutput("Constructor with arguments.....");
         if(width >= 0) {
             this.width = width;
         }

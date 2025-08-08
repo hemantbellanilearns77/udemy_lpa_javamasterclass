@@ -27,29 +27,29 @@ public class DemoStrings {
         ConsoleStyler.startSection("Basic String Operations");
         String name = "Hemant";
         String greeting = "Hello, " + name + "!";
-        System.out.println(greeting);
-        System.out.println("Length: " + name.length());
-        System.out.println("Uppercase: " + name.toUpperCase());
-        System.out.println("Lowercase: " + name.toLowerCase());
+        ConsoleStyler.styleOutput(greeting);
+        ConsoleStyler.styleOutput("Length: " + name.length());
+        ConsoleStyler.styleOutput("Uppercase: " + name.toUpperCase());
+        ConsoleStyler.styleOutput("Lowercase: " + name.toLowerCase());
         ConsoleStyler.endSection("Basic String Operations");
 
         ConsoleStyler.startSection("String Comparison");
         String a = "Java";
         String b = "java";
-        System.out.println("Equals: " + a.equals(b));
-        System.out.println("Equals Ignore Case: " + a.equalsIgnoreCase(b));
+        ConsoleStyler.styleOutput("Equals: " + a.equals(b));
+        ConsoleStyler.styleOutput("Equals Ignore Case: " + a.equalsIgnoreCase(b));
         ConsoleStyler.endSection("String Comparison");
 
         ConsoleStyler.startSection("String Formatting");
         String formatted = String.format("🎯 %s scored %d points", name, 95);
-        System.out.println(formatted);
+        ConsoleStyler.styleOutput(formatted);
         ConsoleStyler.endSection("String Formatting");
 
         ConsoleStyler.startSection("StringBuilder Usage");
         StringBuilder sb = new StringBuilder();
         sb.append("🎪 Welcome to the Carnival! ");
         sb.append("Enjoy the ride, ").append(name).append("!");
-        System.out.println(sb.toString());
+        ConsoleStyler.styleOutput(sb.toString());
         ConsoleStyler.endSection("StringBuilder Usage");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

@@ -1,5 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.section11.coding_challenges.abstractclasschallenge_storefront;
 
+import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 
 
@@ -23,13 +25,13 @@ public class Store {
 
         listProducts();
 
-        System.out.println("\nOrder 1");
+        ConsoleStyler.styleOutput("\nOrder 1");
         var order1 = new ArrayList<OrderItem>();
         addItemToOrder(order1, 1, 2);
         addItemToOrder(order1, 0, 1);
         printOrder(order1);
 
-        System.out.println("\nOrder 2");
+        ConsoleStyler.styleOutput("\nOrder 2");
         var order2 = new ArrayList<OrderItem>();
         addItemToOrder(order2, 3, 5);
         addItemToOrder(order2, 0, 1);
@@ -40,7 +42,7 @@ public class Store {
     public static void listProducts() {
 
         for (var item : storeFrontInventory) {
-            System.out.println("-".repeat(30));
+            ConsoleStyler.styleOutput("-".repeat(30));
             item.showDetails();
         }
     }
