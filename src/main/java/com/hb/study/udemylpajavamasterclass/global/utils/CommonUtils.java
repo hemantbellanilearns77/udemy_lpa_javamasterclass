@@ -16,11 +16,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * created by : heman on 08-07-2025, 09:27 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class CommonUtils {
-    private static final int nameMaxLength = new Random().nextInt(1, 19);
+
 
     private static final Random RANDOM = new Random();
-
-
+    private static final int nameMaxLength = RANDOM.nextInt(1, 19);
 
     // Fills an int array with random numbers
     public static int[] generateIntArray(int length, int bound) {
@@ -69,10 +68,9 @@ public class CommonUtils {
     public static String generateRandomName(int nameMaxLength) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder sb = new StringBuilder();
-        Random random = new Random();
 
         for (int i = 0; i < nameMaxLength; i++) {
-            int index = random.nextInt(chars.length());
+            int index = RANDOM.nextInt(chars.length());
             sb.append(chars.charAt(index));
         }
         return sb.toString();
@@ -81,10 +79,10 @@ public class CommonUtils {
     public static String generateRandomString() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder sb = new StringBuilder();
-        Random random = new Random();
+
 
         for (int i = 0; i < nameMaxLength; i++) {
-            int index = random.nextInt(chars.length());
+            int index = RANDOM.nextInt(chars.length());
             sb.append(chars.charAt(index));
         }
 
