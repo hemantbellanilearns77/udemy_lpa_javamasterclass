@@ -151,7 +151,7 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
 
-        ################################
+      ################################
         # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: 🔎 Run SonarCloud Scan (via batch)
@@ -169,6 +169,7 @@ jobs:
         id: sonar_issues
         shell: pwsh
         run: |
+           
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
             Write-Error "❌ SONAR_TOKEN is empty!"
@@ -183,8 +184,9 @@ jobs:
           $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
 
           Write-Host "📡 Calling SonarCloud API: $url"
-
+          
           try {
+            Start-Sleep -Seconds -30
             $response = Invoke-WebRequest -Uri $url -Method Get
             $body = $response.Content
 
