@@ -76,6 +76,9 @@ public class ConsoleStyler {
             styleIt(outputText, null);
         }
     }
+    public static void styleOutput(String outputText) {
+        ConsoleStyler.styleOutput(null, outputText);
+    }
 
     public static void styleIt(String outputText, SemanticColorRole semanticRole, boolean showLineNumbers, boolean enableBorderColor, boolean showlinePrefix) {
         if (outputText == null || outputText.isBlank()) {

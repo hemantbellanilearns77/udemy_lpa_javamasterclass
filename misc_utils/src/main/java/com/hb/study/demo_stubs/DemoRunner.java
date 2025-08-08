@@ -22,7 +22,7 @@ public class DemoRunner {
 
     private static void demoFunction() {
         ConsoleStyler.divider();
-        System.out.println("Banner printed below");
+        ConsoleStyler.styleExecutionInsight("Banner printed below");
         ConsoleStyler.printBanner(CommonConstants.EXECUTIONSETUPSSTR);
         ConsoleStyler.divider();
         // 🔷 Start Demo Session
@@ -34,13 +34,13 @@ public class DemoRunner {
         // 📚 String Validation Demo
         ConsoleStyler.startSection("String Validation");
         String testInput = "Hello World";
-        boolean isValid = CommonUtils.isValidString(testInput);
-        System.out.println("Input: '" + testInput + "' → isValid: " + isValid);
+        ConsoleStyler.styleOutput(null, "Input: '" + testInput + "' → isValid: "
+                + CommonUtils.isValidString(testInput));
         ConsoleStyler.endSection("String Validation");
 
         // 🧮 Array Generation + Print
         ConsoleStyler.startSection("Array Generator");
-        int[] randomArray = CommonUtils.generateIntArray(CommonConstants.ARRAY_LENGTH, 100);
+        int[] randomArray = CommonUtils.generateIntArray(CommonConstants.ARRAY_LENGTH, 63);
         CommonUtils.printArray("Generated Array", randomArray);
         ConsoleStyler.endSection("Array Generator");
 
@@ -55,6 +55,7 @@ public class DemoRunner {
         ConsoleStyler.startSection("Loop Sample");
         for (int i = 0; i < CommonConstants.MAX_ITERATION_COUNT; i++) {
             System.out.println("⏱️ Loop step " + (i + 1));
+            ConsoleStyler.styleOutput( null, "⏱️ Loop step " + (i + 1));
         }
         ConsoleStyler.endSection("Loop Sample");
 
@@ -62,12 +63,12 @@ public class DemoRunner {
         ConsoleStyler.startSection("Double Formatter");
         double value = Math.PI;
         String formatted = CommonUtils.formatDouble(value);
-        System.out.println("Formatted PI: " + formatted);
+        ConsoleStyler.styleOutput(null, "Formatted PI: " + formatted);
         ConsoleStyler.endSection("Double Formatter");
 
         // 🏁 Wrap up
-        System.out.println(CommonConstants.EXECUTIONSETUPSSTR);
-        System.out.println(CommonConstants.EXECUTIONENDEDSTR);
+        ConsoleStyler.styleExecutionInsight(CommonConstants.EXECUTIONSETUPSSTR);
+        ConsoleStyler.styleExecutionInsight(CommonConstants.EXECUTIONENDEDSTR);
         ConsoleStyler.divider();
     }
 }

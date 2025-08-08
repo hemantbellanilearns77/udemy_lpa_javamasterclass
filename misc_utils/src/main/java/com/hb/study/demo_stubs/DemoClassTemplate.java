@@ -1,5 +1,6 @@
 package com.hb.study.demo_stubs;
 
+import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
@@ -34,7 +35,7 @@ public class DemoClassTemplate {
             ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ",dummyList);
          //for printing elements and has all options:  sorting, uppercase, formatting on numbers etc...
             ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ",dummyList,true, true, true);
-        //ConsoleStyler.styleIt(custom styling... );
+        ConsoleStyler.styleIt("Output Text", SemanticColorRole.INTRO_TEXT,true, true, true );
         ConsoleStyler.styleOutput("Output Heading", "Plain output "); //  output
         ConsoleStyler.halfDivider();//This is required only if there is another subsection....
 
