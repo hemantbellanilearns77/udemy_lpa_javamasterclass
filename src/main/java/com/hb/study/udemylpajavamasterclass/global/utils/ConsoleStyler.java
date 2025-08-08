@@ -63,7 +63,13 @@ public class ConsoleStyler {
     public static void styleExecutionInsight(String outputText) {
         styleIt(outputText, SemanticColorRole.ITALICIZED_EXECUTION_INSIGHT);
     }
+    public static void styleError(String outputText){
+        styleIt(outputText, SemanticColorRole.ERROR);
+    }
 
+    public static void styleWarning(String outputText){
+        styleIt(outputText, SemanticColorRole.WARNING);
+    }
     private static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
         styleIt(outputText, semanticColorRole, false, false, false);
     }
