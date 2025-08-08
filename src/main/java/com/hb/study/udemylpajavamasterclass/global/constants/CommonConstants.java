@@ -23,7 +23,7 @@ public class CommonConstants {
     public static final String INDENT = "\t\t\t"; // adjustable for your taste
    public static final String NEWLINE = System.lineSeparator();
     public static final String EXECUTIONSETUPSSTR =
-            "⚙️ ".repeat(9) + "🔧 EXECUTION SETUP & BENCHMARK INITIALIZED; OUTPUT BEGINS BELOW 🔧" + " ⚙️".repeat(9);
+            "⚙️ ".repeat(9) + "🔧  EXECUTION BEGINNING & BENCHMARK INITIALIZED 🔧" + " ⚙️".repeat(9);
 
     public static final String EXECUTIONENDEDSTR =
            "⚙️ ".repeat(16) + "✅ EXECUTION ENDED ✅" + " ⚙️".repeat(16);
