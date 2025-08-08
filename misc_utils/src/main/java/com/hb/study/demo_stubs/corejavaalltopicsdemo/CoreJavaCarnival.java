@@ -1,6 +1,7 @@
 package com.hb.study.demo_stubs.corejavaalltopicsdemo;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -11,7 +12,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.sql.*;
@@ -22,7 +22,7 @@ import java.sql.*;
 public class CoreJavaCarnival {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -31,7 +31,8 @@ public class CoreJavaCarnival {
         ConsoleStyler.printBanner("CORE JAVA CARNIVAL");
         ConsoleStyler.startSection(" \uD83D\uDD37 Primitives and Operators");
         // 🔷 Primitives and Operators
-        int a = 10, b = 5;
+        int a = 10;
+        int b = 5;
 
         ConsoleStyler.styleOutput("Addition: " ,  Integer.toString((a + b)));
         ConsoleStyler.styleOutput("Multiplication: "  , Integer.toString((a * b)) );
@@ -50,7 +51,7 @@ public class CoreJavaCarnival {
         ConsoleStyler.startSection(" \uD83E\uDDEE Arrays & Collections");
         // 🧮 Arrays & Collections
         int[] nums = {5, 8, 2, 9, 4};
-        System.out.println("Array: " + Arrays.toString(nums));
+        ConsoleStyler.styleOutput("Array: " + Arrays.toString(nums));
 
         List<String> animals = Arrays.asList("Tiger", "Zebra", "Panda");
         animals.forEach(animal -> ConsoleStyler.styleOutput("🐾 " ,  animal ));
@@ -68,68 +69,55 @@ public class CoreJavaCarnival {
         ConsoleStyler.startSection(" \uD83D\uDCC5 Date API");
         // 📅 Date API
         LocalDate now = LocalDate.now();
-        System.out.println("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD)));
+        ConsoleStyler.styleOutput("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD)));
         ConsoleStyler.endSection(" \uD83D\uDCC5 Date API");
 
 
         ConsoleStyler.startSection(" \uD83E\uDDEA Exception Handling");
         // 🧪 Exception Handling
         try {
-            int result = 100 / 0;
+            b = 0;
+            ConsoleStyler.styleOutput(Integer.toString(a / b));
         } catch (ArithmeticException e) {
-            System.out.println("⚠️ Exception: " + e.getMessage());
+           ConsoleStyler.styleError("⚠️ Exception: " + e.getMessage());
         }
         ConsoleStyler.endSection(" \uD83E\uDDEA Exception Handling");
-
-
         ConsoleStyler.startSection(" \uD83D\uDCDD Scanner Input");
 
         // 📝 Scanner Input
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your name: ");
+        ConsoleStyler.styleOutput("Enter your name: ");
         String name = scanner.nextLine();
-        System.out.println("👋 Hello, " + name);
+        ConsoleStyler.styleOutput("👋 Hello, " + name);
         scanner.close();
         ConsoleStyler.endSection(" \uD83D\uDCDD Scanner Input");
-
-
         ConsoleStyler.startSection(" \uD83D\uDC68\u200D\uD83D\uDCBC OOP Demo");
         // 👨‍💼 OOP Demo
         Person p = new Employee(name, 123);
         p.introduce();
         ConsoleStyler.endSection(" \uD83D\uDC68\u200D\uD83D\uDCBC OOP Demo");
-
-
         ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
         // 🖼️ Swing UI
         //launchSwingUI();
         ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
-
-
         ConsoleStyler.startSection(" \uD83D\uDCC2 File Output");
         // 📂 File Output
         writeToFile("logs/carnival_log.txt", "Session for " + name + " completed 🎯");
         ConsoleStyler.endSection(" \uD83D\uDCC2 File Output");
-
-
         ConsoleStyler.startSection(" \uD83D\uDDC4\uFE0F DB Demo");
         // 🗄️ DB Demo
         runDBDemo();
         ConsoleStyler.endSection(" \uD83D\uDDC4\uFE0F DB Demo");
-
-
         ConsoleStyler.printBanner("THANK YOU");
-
-
         execution.finalizeExecution();
     }
 
     public static void writeToFile(String fileName, String content) {
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.println(content);
-            System.out.println("📂 Written to: " + fileName);
+            ConsoleStyler.styleOutput("📂 Written to: " + fileName);
         } catch (IOException e) {
-            System.out.println("❌ Write Error: " + e.getMessage());
+            ConsoleStyler.styleError("❌ Write Error: " + e.getMessage());
         }
     }
 
@@ -150,36 +138,36 @@ public class CoreJavaCarnival {
     }
 
     public static void runDBDemo() {
-        System.out.println("\n📂 Connecting to SQLite DB...");
+        ConsoleStyler.styleOutput("\n📂 Connecting to SQLite DB...");
         String url = "jdbc:sqlite:db\\carnival.db";
         String firstTableName = "attendees";
         String createTable = "CREATE TABLE IF NOT EXISTS "+ firstTableName + " (id INTEGER PRIMARY KEY, name TEXT)";
         String insertSQL = "INSERT INTO attendees(name) VALUES(?)";
         String selectSQL = "SELECT * FROM attendees";
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your name: ");
+        ConsoleStyler.styleOutput("Enter your name: ");
         String name = scanner.nextLine();
 
         try (Connection conn = DriverManager.getConnection(url)) {
             // ✅ Create table FIRST
             try (Statement stmt = conn.createStatement()) {
                 stmt.execute(createTable);
-                System.out.println("✅ Table ready.");
+                ConsoleStyler.styleOutput("✅ Table ready.");
             }
 
             // 🔽 Insert user
             try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
                 insertStmt.setString(1, name);
                 insertStmt.executeUpdate();
-                System.out.println("🎟️ Inserted attendee: " + name);
+                ConsoleStyler.styleOutput("🎟️ Inserted attendee: " + name);
             }
 
             // 🔍 Read back attendees
             try (Statement selectStmt = conn.createStatement()) {
                 ResultSet rs = selectStmt.executeQuery(selectSQL);
-                System.out.println("🎟️ Attendees:");
+                ConsoleStyler.styleOutput("🎟️ Attendees:");
                 while (rs.next()) {
-                    System.out.println(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
+                    ConsoleStyler.styleOutput(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
                 }
             }
             ConsoleStyler.styleIntro(" Just Playing around");
@@ -187,7 +175,7 @@ public class CoreJavaCarnival {
             viewTableDescription(url, firstTableName);
 
         } catch (SQLException e) {
-            System.out.println("❌ DB Error: " + e.getMessage());
+            ConsoleStyler.styleOutput("❌ DB Error: " + e.getMessage());
         }
     }
 
@@ -198,9 +186,9 @@ public class CoreJavaCarnival {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
-            System.out.println("Table Name: " + tableName);
-            System.out.println("Column Name | Data Type | Not Null | Default Value | Primary Key");
-            System.out.println("-------------------------------------------------------------");
+            ConsoleStyler.styleOutput("Table Name: " + tableName);
+            ConsoleStyler.styleOutput("Column Name | Data Type | Not Null | Default Value | Primary Key");
+            ConsoleStyler.halfDivider();
 
             while (rs.next()) {
                 String columnName = rs.getString("name");
@@ -216,7 +204,7 @@ public class CoreJavaCarnival {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            ConsoleStyler.styleError(e.getMessage());
         }
     }
 
@@ -228,7 +216,7 @@ public class CoreJavaCarnival {
         }
 
         public void introduce() {
-            System.out.println("\"\\u200D\" Hi, I'm " + name);
+            ConsoleStyler.styleOutput("\"\\u200D\" Hi, I'm " + name);
         }
     }
 
@@ -242,7 +230,7 @@ public class CoreJavaCarnival {
 
         @Override
         public void introduce() {
-            System.out.println("🧑\"\\u200D\" Hi, I'm " + name + ", Employee ID: " + id);
+            ConsoleStyler.styleOutput("🧑\"\\u200D\" Hi, I'm " + name + ", Employee ID: " + id);
         }
     }
 
