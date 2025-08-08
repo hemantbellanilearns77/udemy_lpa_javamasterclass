@@ -1,10 +1,12 @@
 package com.hb.study.demo_stubs;
 
+import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -16,13 +18,11 @@ public class StringManipulations {
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
         execution.initialize();
-        /*
-         *****************************************************
-         */
-        /*String testDateString = "06/07/2021";
+
+        String testDateString = "06/07/2021";
         int yearsWorked = Year.now().getValue() - Integer.parseInt(testDateString.substring(testDateString.lastIndexOf('/')+1));
-        ConsoleStyler.styleOutput(yearsWorked);*/
-        LocalDate startDate = LocalDate.parse("06/07/2021", DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH));
+        ConsoleStyler.styleOutput(yearsWorked + CommonConstants.EMPTYSTRING);
+        LocalDate startDate = LocalDate.parse(testDateString, DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD, Locale.ENGLISH));
         LocalDate today = LocalDate.now();
 
         Period period = Period.between(startDate, today);
@@ -30,10 +30,6 @@ public class StringManipulations {
 
         ConsoleStyler.styleOutput("Years elapsed: " + yearsElapsed);
 
-        /*
-
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 }
