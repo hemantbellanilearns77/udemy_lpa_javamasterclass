@@ -1,7 +1,6 @@
 package com.hb.study.demo_stubs.corejavaalltopicsdemo;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
@@ -34,16 +33,16 @@ public class CoreJavaCarnival {
         int a = 10;
         int b = 5;
 
-        ConsoleStyler.styleOutput("Addition: " ,  Integer.toString((a + b)));
-        ConsoleStyler.styleOutput("Multiplication: "  , Integer.toString((a * b)) );
-        ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString((a > b)) );
+        ConsoleStyler.styleOutput("Addition: ", Integer.toString((a + b)));
+        ConsoleStyler.styleOutput("Multiplication: ", Integer.toString((a * b)));
+        ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString((a > b)));
         ConsoleStyler.endSection(" \uD83D\uDD37 Primitives and Operators");
 
 
         ConsoleStyler.startSection(" \uD83D\uDCCC Control Flow");
         // 📌 Control Flow
         for (int i = 0; i < 3; i++) {
-            ConsoleStyler.styleOutput("🎠 Loop Step " ,Integer.toString((i + 1)));
+            ConsoleStyler.styleOutput("🎠 Loop Step ", Integer.toString((i + 1)));
         }
         ConsoleStyler.endSection(" \uD83D\uDCCC Control Flow");
 
@@ -54,32 +53,27 @@ public class CoreJavaCarnival {
         ConsoleStyler.styleOutput("Array: " + Arrays.toString(nums));
 
         List<String> animals = Arrays.asList("Tiger", "Zebra", "Panda");
-        animals.forEach(animal -> ConsoleStyler.styleOutput("🐾 " ,  animal ));
+        animals.forEach(animal -> ConsoleStyler.styleOutput("🐾 ", animal));
         ConsoleStyler.endSection(" \uD83E\uDDEE Arrays & Collections");
-
-
 
         ConsoleStyler.startSection(" \uD83E\uDDF5 String ops");
         // 🧵 String ops
         String welcome = "Welcome to Java";
-        ConsoleStyler.styleOutput("Uppercase: ",welcome.toUpperCase());
+        ConsoleStyler.styleOutput("Uppercase: ", welcome.toUpperCase());
         ConsoleStyler.endSection(" \uD83E\uDDF5 String ops");
-
 
         ConsoleStyler.startSection(" \uD83D\uDCC5 Date API");
         // 📅 Date API
         LocalDate now = LocalDate.now();
         ConsoleStyler.styleOutput("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD)));
         ConsoleStyler.endSection(" \uD83D\uDCC5 Date API");
-
-
         ConsoleStyler.startSection(" \uD83E\uDDEA Exception Handling");
         // 🧪 Exception Handling
         try {
             b = 0;
             ConsoleStyler.styleOutput(Integer.toString(a / b));
         } catch (ArithmeticException e) {
-           ConsoleStyler.styleError("⚠️ Exception: " + e.getMessage());
+            ConsoleStyler.styleError("⚠️ Exception: " + e.getMessage());
         }
         ConsoleStyler.endSection(" \uD83E\uDDEA Exception Handling");
         ConsoleStyler.startSection(" \uD83D\uDCDD Scanner Input");
@@ -98,7 +92,7 @@ public class CoreJavaCarnival {
         ConsoleStyler.endSection(" \uD83D\uDC68\u200D\uD83D\uDCBC OOP Demo");
         ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
         // 🖼️ Swing UI
-        //launchSwingUI();
+        launchSwingUI();
         ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
         ConsoleStyler.startSection(" \uD83D\uDCC2 File Output");
         // 📂 File Output
@@ -141,9 +135,9 @@ public class CoreJavaCarnival {
         ConsoleStyler.styleOutput("\n📂 Connecting to SQLite DB...");
         String url = "jdbc:sqlite:db\\carnival.db";
         String firstTableName = "attendees";
-        String createTable = "CREATE TABLE IF NOT EXISTS "+ firstTableName + " (id INTEGER PRIMARY KEY, name TEXT)";
+        String createTable = "CREATE TABLE IF NOT EXISTS " + firstTableName + " (id INTEGER PRIMARY KEY, name TEXT)";
         String insertSQL = "INSERT INTO attendees(name) VALUES(?)";
-        String selectSQL = "SELECT * FROM attendees";
+        String selectSQL = "SELECT id, name FROM attendees";
         Scanner scanner = new Scanner(System.in);
         ConsoleStyler.styleOutput("Enter your name: ");
         String name = scanner.nextLine();
