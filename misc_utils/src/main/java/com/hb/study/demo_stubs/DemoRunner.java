@@ -12,21 +12,11 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 public class DemoRunner {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
-    private static final String HEADER = "\n" + "📘".repeat(3) + " JAVA EXERCISE SESSION " + "📘".repeat(3);
+
     public static void main(String[] ignoredArgs) {
+        ExcecutionUtil execution = new ExcecutionUtil();
         execution.initialize();
-
-        /*
-         *****************************************************
-         */
-
         demoFunction();
-
-
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
