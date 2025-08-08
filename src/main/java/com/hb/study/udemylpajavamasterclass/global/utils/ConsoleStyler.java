@@ -119,7 +119,7 @@ public class ConsoleStyler {
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
         if (input == null) { styleOutput(CommonConstants.INDENT + "⚠️ No items to display."); return; }
-        labelPrefix = (labelPrefix == null || labelPrefix.isBlank()) ? "" : (labelPrefix + ": ");
+        labelPrefix = getLabelPrefix(labelPrefix);
         final List<Object> items = new ArrayList<>();
         boolean isTupleMode = false;
         int tupleSize = -1;
@@ -153,6 +153,10 @@ public class ConsoleStyler {
         }
 
         styleOutput(null, getStyledInput(labelPrefix, formattedItems, isTupleMode, tupleSize));
+    }
+
+    private static String getLabelPrefix(String labelPrefix) {
+        return (labelPrefix == null || labelPrefix.isBlank()) ? CommonConstants.EMPTYSTRING : (labelPrefix + ": ");
     }
 
     /* Helper: add any (primitive or object) array's elements to items */
