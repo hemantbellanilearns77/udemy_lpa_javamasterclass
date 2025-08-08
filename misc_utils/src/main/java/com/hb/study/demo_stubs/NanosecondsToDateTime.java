@@ -17,7 +17,6 @@ public class NanosecondsToDateTime {
         long nanoseconds = System.nanoTime();
 
         // Convert nanoseconds to milliseconds
-        long milliseconds = nanoseconds / 1_000_000;
 
         // Get the current time in milliseconds since epoch
         long currentTimeMillis = System.currentTimeMillis();
@@ -32,7 +31,11 @@ public class NanosecondsToDateTime {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
         String formattedDateTime = dateTime.format(formatter);
 
+
+        // Convert nanoseconds to milliseconds
         // Output the results
+        long milliseconds = nanoseconds / 1_000_000;
+        ConsoleStyler.styleOutput("MillisecondsL " + milliseconds);
         ConsoleStyler.styleOutput("Nanoseconds: " + nanoseconds);
         ConsoleStyler.styleOutput("Current Time in Human-Readable Format: " + formattedDateTime);
     }
