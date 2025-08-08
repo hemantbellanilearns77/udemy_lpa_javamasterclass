@@ -29,7 +29,7 @@ public class CommonUtils {
 
     // Pretty-print array
     public static void printArray(String label, int[] array) {
-        System.out.println(label + ": " + Arrays.toString(array));
+        ConsoleStyler.styleEachAsIs(null, array);
     }
 
     // Validate string is not empty or null
