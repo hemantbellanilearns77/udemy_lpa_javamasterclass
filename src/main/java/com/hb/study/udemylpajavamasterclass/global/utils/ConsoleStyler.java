@@ -21,25 +21,25 @@ public class ConsoleStyler {
 
     // Prints a bannered header
     public static void printBanner(String title) {
-        styleOutput(CommonConstants.SECTION_SEPARATOR);
-        System.out.printf(applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER));
-        styleOutput(CommonConstants.SECTION_SEPARATOR);
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        System.out.println(applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER) );
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
     }
 
     public static void startSection(String label) {
-        divider();
-        styleOutput(CommonConstants.SECTION_SEPARATOR);
-        styleOutput(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        ConsoleStyler.divider();
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        System.out.println(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        styleOutput(CommonConstants.DOTTED_LINE);
+        System.out.println(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
-        styleOutput(CommonConstants.DOTTED_LINE);
-        styleOutput(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        System.out.println(CommonConstants.DOTTED_LINE);
+        System.out.println(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        styleOutput(CommonConstants.SECTION_SEPARATOR);
-        divider();
+        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        ConsoleStyler.divider();
     }
 
     public static void styleIntro(String outputText) {
@@ -49,11 +49,11 @@ public class ConsoleStyler {
     }
 
     public static void divider() {
-        styleOutput(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        System.out.println(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void halfDivider() {
-        styleOutput(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        System.out.println(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void styleInitializationInfo(String outputText) {
@@ -64,13 +64,15 @@ public class ConsoleStyler {
     public static void styleExecutionInsight(String outputText) {
         styleIt(outputText, SemanticColorRole.ITALICIZED_EXECUTION_INSIGHT);
     }
-    public static void styleError(String outputText){
+
+    public static void styleError(String outputText) {
         styleIt(outputText, SemanticColorRole.ERROR);
     }
 
-    public static void styleWarning(String outputText){
+    public static void styleWarning(String outputText) {
         styleIt(outputText, SemanticColorRole.WARNING);
     }
+
     private static void styleIt(String outputText, SemanticColorRole semanticColorRole) {
         styleIt(outputText, semanticColorRole, false, false, false);
     }
@@ -83,6 +85,7 @@ public class ConsoleStyler {
             styleIt(outputText, null);
         }
     }
+
     public static void styleOutput(String outputText) {
         styleOutput(null, outputText);
     }
@@ -99,16 +102,16 @@ public class ConsoleStyler {
         String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; //
         String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
-        styleOutput(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
 
         //StringBuilder linesToPrint = new StringBuilder();
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
             String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
             String lineToPrint = linePrefix + lines[lineCounter];
-            styleOutput(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
+            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
-        styleOutput(CommonConstants.INDENT + borderColor + "│ ");
-        styleOutput(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        System.out.println(CommonConstants.INDENT + borderColor + "│ ");
+        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
     }
 
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting
@@ -118,38 +121,62 @@ public class ConsoleStyler {
 
 
     public static void styleEach(String labelPrefix, Object input, boolean sort, boolean formatNumbers, boolean uppercaseStrings) {
-        if (input == null) { styleOutput(CommonConstants.INDENT + "⚠️ No items to display."); return; }
+        if (input == null) {
+            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
+            return;
+        }
         labelPrefix = getLabelPrefix(labelPrefix);
         final List<Object> items = new ArrayList<>();
         boolean isTupleMode = false;
         int tupleSize = -1;
 
         switch (input) {
-            case double[] arr      -> { tupleSize = arr.length; addArray(arr, items); isTupleMode = true; }
-            case double[][] arr2   -> { tupleSize = arr2[0].length; for (double[] a : arr2) addArray(a, items); isTupleMode = true; }
-            case double[][][] arr3 -> { tupleSize = arr3[0][0].length; for (double[][] g : arr3) for (double[] a : g) addArray(a, items); isTupleMode = true; }
+            case double[] arr -> {
+                tupleSize = arr.length;
+                addArray(arr, items);
+                isTupleMode = true;
+            }
+            case double[][] arr2 -> {
+                tupleSize = arr2[0].length;
+                for (double[] a : arr2) addArray(a, items);
+                isTupleMode = true;
+            }
+            case double[][][] arr3 -> {
+                tupleSize = arr3[0][0].length;
+                for (double[][] g : arr3) for (double[] a : g) addArray(a, items);
+                isTupleMode = true;
+            }
 
-            case int[] arr         -> addArray(arr, items);
-            case long[] arr        -> addArray(arr, items);
-            case boolean[] arr     -> addArray(arr, items);
-            case char[] arr        -> addArray(arr, items);
+            case int[] arr -> addArray(arr, items);
+            case long[] arr -> addArray(arr, items);
+            case boolean[] arr -> addArray(arr, items);
+            case char[] arr -> addArray(arr, items);
 
-            case Object[] objs     -> items.addAll(Arrays.asList(objs));
-            case List<?> list      -> {
-                tupleSize= handleList(list, items);
+            case Object[] objs -> items.addAll(Arrays.asList(objs));
+            case List<?> list -> {
+                tupleSize = handleList(list, items);
                 isTupleMode = tupleSize >= 0;
             }
-            case Set<?> set        -> items.addAll(set);
-            case Stream<?> stream  -> stream.forEach(items::add);
-            default -> { styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName()); return; }
+            case Set<?> set -> items.addAll(set);
+            case Stream<?> stream -> stream.forEach(items::add);
+            default -> {
+                styleOutput(CommonConstants.INDENT + "⚠️ Unsupported input type: " + input.getClass().getSimpleName());
+                return;
+            }
         }
 
-        if (items.isEmpty()) { styleOutput(CommonConstants.INDENT + "⚠️ No items to display."); return; }
+        if (items.isEmpty()) {
+            styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
+            return;
+        }
         final List<Object> formattedItems = getFormattedItems(formatNumbers, uppercaseStrings, items);
 
         if (sort) {
-            try { Collections.sort((List) formattedItems); }
-            catch (ClassCastException e) { styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items"); }
+            try {
+                Collections.sort((List) formattedItems);
+            } catch (ClassCastException e) {
+                styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
+            }
         }
 
         styleOutput(null, getStyledInput(labelPrefix, formattedItems, isTupleMode, tupleSize));
