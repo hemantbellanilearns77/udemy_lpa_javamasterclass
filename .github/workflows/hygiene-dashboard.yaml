@@ -288,15 +288,19 @@ jobs:
                $moduleName = $parts[0].Trim()
                Write-Output "Now Module Name is : $moduleName"                
                $path = $parts[1].Trim()
-               echo path is $path
+               Write-Output "path is : $path" 
 
           # Coverage per module
                $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/counter[@type='INSTRUCTION']"
-               Write-Output "Module XML is: $moduleXml.Node"
+               Write-Output "Module XML is: $moduleXml"
                if ($moduleXml) {
                  Write-Output "Inside condition: $moduleName"
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
+                 $missedInLoop  = [int]$xml.Node.missed
+                 $coveredInLoop = [int]$xml.Node.covered
+                 Write-Output "Missed In Loop: $missedInLoop"
+                 Write-Output "Covered i Loop: $coveredInLoop" 
                  $mTotal = $mMissed + $mCovered
                  $mCoverage = if ($mTotal -gt 0) { [math]::Round(100 * $mCovered / $mTotal, 2) } else { 0 }
                  Write-Output "Coverage is: $mCoverage"
