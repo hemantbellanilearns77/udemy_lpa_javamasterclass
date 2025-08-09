@@ -220,6 +220,10 @@ jobs:
                $covered = [int]$xml.Node.covered
                $total = $missed + $covered
                $jacocoCoverage = if ($total -gt 0) { [math]::Round(100 * $covered / $total, 2) } else { 0 }
+               Write-Output "At First Parsing Missed: $missed"
+               Write-Output "At First ParsingCovered: $covered"
+               Write-Output "At First ParsingTotal: $total"
+               Write-Output "At First Coverage: $jacocoCoverage"
           
           # ASCII coverage bar
                function Get-AsciiBar($percent) {
@@ -232,6 +236,9 @@ jobs:
                $missed  = [int]$xml.Node.missed
                $covered = [int]$xml.Node.covered
                $jacocoCoverage = if ($missed + $covered -gt 0) { [math]::Round(100 * $covered / ($missed + $covered), 2) } else { 0 }
+               Write-Output "Missed: $missed"
+               Write-Output "Covered: $covered"
+               Write-Output "Total: $jacocoCoverage"
                $coverageEmoji = if ($jacocoCoverage -ge 50) {"🟢"} elseif ($jacocoCoverage -ge 20) {"🟡"} else {"🔴"}
                $coverageBar = Get-AsciiBar $jacocoCoverage
                $coverageBar = Get-AsciiBar $jacocoCoverage
