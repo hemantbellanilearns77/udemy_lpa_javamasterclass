@@ -306,6 +306,7 @@ jobs:
           
           # Sonar per module
           $moduleKey = "${{ env.SONAR_ORG }}_${moduleName}"
+          Write-Host "module key is: : $moduleKey"  
           $mb = Fetch-SonarSeverity "BLOCKER" $moduleKey
           $mc = Fetch-SonarSeverity "CRITICAL" $moduleKey
           $mj = Fetch-SonarSeverity "MAJOR" $moduleKey
