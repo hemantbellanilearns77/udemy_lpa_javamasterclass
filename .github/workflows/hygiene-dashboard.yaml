@@ -139,7 +139,7 @@ jobs:
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
           $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
-          $response = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+          $response = Invoke-WebRequest -Uri $url -Method Get
           if ($response.Content -match '"total"\s*:\s*(\d+)') {
             "sonarIssueCount=$($matches[1])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           } else {
