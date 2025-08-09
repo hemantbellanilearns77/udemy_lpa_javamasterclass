@@ -295,6 +295,10 @@ jobs:
                Write-Output "Module XML is: $moduleXml"
                if ($moduleXml) {
                  Write-Output "Inside condition: $moduleName"
+                 $missedInLoop=0
+                 $coveredInLoop=0
+                 $mTotalInLoop=0
+                 $mCoverageInLoop=0
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
                  $missedInLoop  = [int]$xml.Node.missed
