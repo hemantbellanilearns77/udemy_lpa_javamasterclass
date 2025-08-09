@@ -1,4 +1,4 @@
-package com.hb.study.demo_stubs.datetimepractice;
+package com.hb.study.libs.datetimeutillib.demo_stubs;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
