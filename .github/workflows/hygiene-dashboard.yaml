@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
     env:
       MODULE_PATHS: |
-        udemy_lpa_javamasterclass=src
+        udemy_lpa_javamasterclass=src/main/java
         misc_utils=misc_utils/src/main/java
       JACOCO_MIN_COVERAGE: 0.05
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
@@ -285,12 +285,14 @@ jobs:
                foreach ($line in $moduleLines) {
                $parts = $line -split "="
                $moduleName = $parts[0].Trim()
+               echo moduleName is $moduleName
                $path = $parts[1].Trim()
+               echo path is $path
 
           # Coverage per module
                $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/counter[@type='INSTRUCTION']"
                if ($moduleXml) {
-                 echo inside condition  
+                 echo inside condition  $moduleName
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
                  $mTotal = $mMissed + $mCovered
