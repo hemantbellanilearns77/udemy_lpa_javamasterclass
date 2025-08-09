@@ -291,7 +291,7 @@ jobs:
 
           # Coverage per module
                $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/counter[@type='INSTRUCTION']"
-               Write-Output "Module XML is: $moduleName.Node"
+               Write-Output "Module XML is: $moduleXml.Node"
                if ($moduleXml) {
                  Write-Output "Inside condition: $moduleName"
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
