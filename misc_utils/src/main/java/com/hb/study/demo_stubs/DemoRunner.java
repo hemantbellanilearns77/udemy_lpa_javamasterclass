@@ -23,7 +23,6 @@ public class DemoRunner {
     private static void demoFunction() {
         ConsoleStyler.divider();
         ConsoleStyler.styleExecutionInsight("Banner printed below");
-        ConsoleStyler.printBanner(CommonConstants.EXECUTIONSETUPSSTR);
         ConsoleStyler.divider();
         // 🔷 Start Demo Session
         ConsoleStyler.startSection("Core Java Demo Session");
@@ -44,14 +43,7 @@ public class DemoRunner {
         CommonUtils.printArray("Generated Array", randomArray);
         ConsoleStyler.endSection("Array Generator");
 
-        // 📊 Benchmarking Simulated Demo
-        ConsoleStyler.startSection("Benchmarking");
-        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKSECTIONHEADER);
-        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINSUMMARYSTR);
-        ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINGDETAILSSTR);
-        ConsoleStyler.endSection("Benchmarking");
-
-        // 🕹️ Loop Demo
+          // 🕹️ Loop Demo
         ConsoleStyler.startSection("Loop Sample");
         for (int i = 0; i < CommonConstants.MAX_ITERATION_COUNT; i++) {
             ConsoleStyler.styleOutput("⏱️ Loop step " + (i + 1));
@@ -66,9 +58,5 @@ public class DemoRunner {
         ConsoleStyler.styleOutput(null, "Formatted PI: " + formatted);
         ConsoleStyler.endSection("Double Formatter");
 
-        // 🏁 Wrap up
-        ConsoleStyler.styleExecutionInsight(CommonConstants.EXECUTIONSETUPSSTR);
-        ConsoleStyler.styleExecutionInsight(CommonConstants.EXECUTIONENDEDSTR);
-        ConsoleStyler.divider();
     }
 }

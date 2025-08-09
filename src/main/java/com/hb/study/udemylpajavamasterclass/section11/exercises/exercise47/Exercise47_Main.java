@@ -6,6 +6,6 @@ import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 
 public class Exercise47_Main {
     public static void main(String[] args) {
-        ConsoleStyler.styleOutput(CommonConstants.EXECUTIONSETUPSSTR);
+
     }
 }

@@ -39,7 +39,6 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static void main(String[] args) {
         execution.initialize();
         LocalAndAnonymousClassesChallengeMain.args = args;
-        ConsoleStyler.styleOutput(CommonConstants.EXECUTIONSETUPSSTR);
         ConsoleStyler.styleOutput("This program will generate " + maxEmployeeCount + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 

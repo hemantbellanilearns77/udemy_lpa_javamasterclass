@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
 
-public class TestItinerary {
+public class LinkedListChallenge_Main {
     public static String asteriskSeparatorLine = "*".repeat(153) + "\n";
     public static String programOutputBegins = "\n" + "*".repeat(54) + " The Output of " +
-            TestItinerary.class.getSimpleName() + " is as below " + "*".repeat(54) + "\n";
+            LinkedListChallenge_Main.class.getSimpleName() + " is as below " + "*".repeat(54) + "\n";
 
 
     public static void main(String[] args) {
