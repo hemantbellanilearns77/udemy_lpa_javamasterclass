@@ -18,7 +18,6 @@ jobs:
       SKIP_ECHO: true
 
     steps:
-
       - name: ⏱️ Capture Job Start Time
         id: start_time
         shell: bash
@@ -27,15 +26,11 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
-      - name: ☕ Setup JDK 24 (for JaCoCo + Compilation)
+      - name: ☕ Setup JDK 24
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 24
-
-      ##########################
-      # DOWNLOAD TOOLS
-      ##########################
 
       - name: 📦 Download Checkstyle
         run: |
@@ -61,20 +56,12 @@ jobs:
           curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
         shell: cmd
 
-      ##########################
-      # RUN STATIC ANALYSIS
-      ##########################
-
       - name: 🧼 Run Checkstyle
         run: scripts\run-checkstyle.bat
 
       - name: 🧼 Run PMD
         run: scripts\run-pmd.bat
         shell: cmd
-
-      ##########################
-      # COMPILE + JACOCO
-      ##########################
 
       - name: 🛠️ Compile Java Modules if Needed
         shell: cmd
@@ -91,33 +78,26 @@ jobs:
           if not exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
             if not exist "%OUT_PROD%\misc_utils" (
               echo ⚙ Compilation triggered
-
               rmdir /s /q "%OUT_PROD%" >nul 2>&1
               rmdir /s /q "%OUT_TEST%" >nul 2>&1
-
               mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
               mkdir "%OUT_PROD%\misc_utils"
               mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
               mkdir "%OUT_TEST%\misc_utils"
-
               echo ✍ Compiling udemy_lpa_javamasterclass
               dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-
               echo ✍ Compiling misc_utils
               dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-
               echo ✍ Compiling tests (masterclass)
               dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
               javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
-
               echo ✍ Compiling tests (misc_utils)
               if exist "%TEST_MISC%" (
                 dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
                 javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
               )
-
               del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
             )
           )
@@ -125,10 +105,6 @@ jobs:
       - name: 🧪 Run JaCoCo Coverage
         run: scripts\run-coverage-analysis.bat
         shell: cmd
-
-      ##########################
-      # UPLOAD REPORTS
-      ##########################
 
       - name: ⬆️ Upload All Reports
         uses: actions/upload-artifact@v4
@@ -138,11 +114,7 @@ jobs:
             reports/**
             logs/**
 
-      ##########################
-      # DOWNLOAD SONAR-SCANNER
-      ##########################
-
-      - name: 📦 Download and Setup SonarScanner 7.1.0.4889
+      - name: 📦 Download and Setup SonarScanner
         shell: bash
         run: |
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
@@ -151,343 +123,148 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
 
-        ################################
-        # RUN SONAR CLOUD ANALYSIS
-      ################################
-      - name: 🔎 Run SonarCloud Scan (via batch)
+      - name: 🔎 Run SonarCloud Scan
         if: success()
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: scripts\run-sonar-scan-admin.bat
         shell: cmd
 
-      ##########################
-      # FETCH SONARCLOUD INFO
-      ##########################
-
       - name: 🧠 Fetch SonarCloud Issue Count (OPEN)
         id: sonar_issues
         shell: pwsh
         run: |
           Start-Sleep -Seconds 15
-          
-          # Confirm if token is passed
-          if (-not $env:SONAR_TOKEN) {
-            Write-Error "❌ SONAR_TOKEN is empty!"
-            exit 1
-          }
-
-          # Encode token correctly (with colon!)
+          if (-not $env:SONAR_TOKEN) { Write-Error "❌ SONAR_TOKEN is empty!"; exit 1 }
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
-          Write-Host "🔐 Encoded Auth: $encodedAuth"
-
           $headers = @{ Authorization = "Basic $encodedAuth" }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
-
-          Write-Host "📡 Calling SonarCloud API: $url"
-          
-          try {
-          
-            $response = Invoke-WebRequest -Uri $url -Method Get
-            $body = $response.Content
-
-            if ($body -match '"total"\s*:\s*(\d+)') {
-              $totalIssues = $matches[1]
-              Write-Host "✅ Total SonarCloud Issues (OPEN): $totalIssues"
-              "sonarIssueCount=$totalIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            } else {
-              Write-Error "❌ Could not extract issue count from response body: $body"
-              exit 1
-            }
-          } catch {
-            Write-Error "❌ API call failed: $_"
-            exit 1
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
+          $response = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+          if ($response.Content -match '"total"\s*:\s*(\d+)') {
+            "sonarIssueCount=$($matches[1])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            Write-Error "❌ Could not extract issue count"; exit 1
           }
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      ##########################
-      # SUMMARY SECTION
-      ##########################
-
-      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
+      - name: 📊 Add Hygiene Summary (Module-wise)
         id: metrics
         shell: pwsh
         run: |
-          # Parse JaCoCo XML
+          function Get-AsciiBar($percent) {
+            $blocks = 20
+            $filled = [math]::Round($blocks * $percent / 100)
+            return ('█' * $filled) + ('░' * ($blocks - $filled))
+          }
+          # Overall coverage
           $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
           $missed = [int]$xml.Node.missed
           $covered = [int]$xml.Node.covered
           $total = $missed + $covered
-          if ($total -gt 0) {
-          $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
-          } else {
-          $jacocoCoverage = 0
-          }
-          
-          # ASCII Coverage Bar
-          function Get-AsciiBar($percent) {
-          $blocks = 20
-          $filled = [math]::Round($blocks * $percent / 100)
-          $empty = $blocks - $filled
-          return ('█' * $filled) + ('░' * $empty)
-          }
-          
-          # Sparkline-styled emoji indicator
-          if ($jacocoCoverage -ge 50) {
-          $coverageEmoji = "🟢"
-          } elseif ($jacocoCoverage -ge 20) {
-          $coverageEmoji = "🟡"
-          } else {
-          $coverageEmoji = "🔴"
-          }
-          
+          $jacocoCoverage = if ($total -gt 0) { [math]::Round(100 * $covered / $total, 2) } else { 0 }
           $coverageBar = Get-AsciiBar $jacocoCoverage
-          
-          # Parse Checkstyle
+          $coverageEmoji = if ($jacocoCoverage -ge 50) { "🟢" } elseif ($jacocoCoverage -ge 20) { "🟡" } else { "🔴" }
+          # Module-wise coverage
+          $modules = @{}
+          Get-ChildItem reports\jacoco -Filter "*-coverage.xml" | ForEach-Object {
+            $name = $_.BaseName -replace "-coverage",""
+            try {
+              $xmlMod = Select-Xml -Path $_.FullName -XPath "//report/counter[@type='INSTRUCTION']"
+              $mMiss = [int]$xmlMod.Node.missed
+              $mCov = [int]$xmlMod.Node.covered
+              $mTot = $mMiss + $mCov
+              $mPerc = if ($mTot -gt 0) { [math]::Round(100 * $mCov / $mTot, 2) } else { 0 }
+              $modules[$name] = @{
+                percent = $mPerc
+                bar = Get-AsciiBar $mPerc
+              }
+            } catch { $modules[$name] = @{ percent = 0; bar = Get-AsciiBar 0 } }
+          }
+          # Parse Checkstyle module-wise
           $checkstyleViolations = 0
+          $checkstyleModules = @{}
           if (Test-Path "reports/checkstyle") {
-          Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
-          $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
+            Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
+              $count = (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
+              $checkstyleViolations += $count
+              $checkstyleModules[$_.BaseName] = $count
+            }
           }
-          }
-          
-          # Parse PMD
+          # Parse PMD module-wise
           $pmdViolations = 0
+          $pmdModules = @{}
           if (Test-Path "reports/pmd") {
-          Get-ChildItem reports/pmd/*.txt | ForEach-Object {
-          $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
+            Get-ChildItem reports/pmd/*.txt | ForEach-Object {
+              $count = (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
+              $pmdViolations += $count
+              $pmdModules[$_.BaseName] = $count
+            }
           }
-          }
-          
           $totalViolations = $checkstyleViolations + $pmdViolations
-          
-          # Fetch Sonar severity breakdown
-          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ secrets.SONAR_TOKEN }}:"))
-          $headers = @{ Authorization = "Basic $encodedAuth" }
-          
-          function Fetch-SonarSeverity($severity) {
-          $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
-          try {
-          $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
-          if ($resp.Content -match '"total"\s*:\s*(\d+)') {
-          return $matches[1]
-          } else {
-          return "0"
-          }
-          } catch {
-          return "?"
-          }
-          }
-          
-          $blocker = Fetch-SonarSeverity "BLOCKER"
-          $critical = Fetch-SonarSeverity "CRITICAL"
-          $major = Fetch-SonarSeverity "MAJOR"
-          $minor = Fetch-SonarSeverity "MINOR"
-          $info = Fetch-SonarSeverity "INFO"
-          
-          
-          
-          # === Writing table ===
-          echo "### 🧪 Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-          echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Checkstyle Violations         | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| PMD Violations                | $pmdViolations        |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Total Static Violations       | $totalViolations      |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Code Coverage %               | $jacocoCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage Visual               | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Sonar Issues (Total)          | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🔴 BLOCKER                    | $blocker            |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟠 CRITICAL                   | $critical           |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟡 MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🔵 MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| ⚪ INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
+          # Summary table
+          echo "### 🧪 Hygiene Summary" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Checkstyle Violations | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| PMD Violations | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Total Static Violations | $totalViolations |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Code Coverage % | $jacocoCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage Visual | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
-          
-          # === SonarCloud Dashboard Link ===
-          $projectKey = $env:SONAR_PROJECT_KEY
-          $branch = "${{ github.ref_name }}"
-          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-          echo "🔗 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
-          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
-          echo "🔗 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
-          
-          # === Output variables ===                    
-          
+          echo "#### 📦 Module-wise Coverage" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Module | Coverage % | Visual |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|--------|------------|--------|" >> $env:GITHUB_STEP_SUMMARY
+          foreach ($mod in $modules.Keys) {
+            echo "| $mod | $($modules[$mod].percent)% | <code>$($modules[$mod].bar)</code> |" >> $env:GITHUB_STEP_SUMMARY
+          }
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "#### 📦 Module-wise Violations" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Module | Checkstyle | PMD |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|--------|------------|-----|" >> $env:GITHUB_STEP_SUMMARY
+          foreach ($mod in ($checkstyleModules.Keys + $pmdModules.Keys | Sort-Object -Unique)) {
+            $cs = if ($checkstyleModules.ContainsKey($mod)) { $checkstyleModules[$mod] } else { 0 }
+            $pm = if ($pmdModules.ContainsKey($mod)) { $pmdModules[$mod] } else { 0 }
+            echo "| $mod | $cs | $pm |" >> $env:GITHUB_STEP_SUMMARY
+          }
+          # Outputs for email
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
-      ##########################
-      # FULL CLEANUP
-      ##########################
-
-      - name: 🧹 Full Cleanup
-        shell: cmd
-        run: |
-          echo Cleaning up temp artifacts
-          rmdir /s /q out >nul 2>&1
-          rmdir /s /q logs >nul 2>&1
-          rmdir /s /q reports >nul 2>&1
-          del /q sources_*.txt >nul 2>&1
-          echo ✅ Cleanup done 
-
-      ###################################################################
-      # CLEANUP VERIFICATION using (dir /s /b this is disabled for now)
-      ##################################################################
-      - name: 📂 List Remaining Files
-        shell: cmd
-        run: |
-          echo === POST-CLEANUP DIRECTORY TREE ===
-          echo Hello, world!
-
-      ###################################################################
-      # DEMONSTRATES, FLAG BASED EXECUTION
-      ##################################################################
-
-      - name: 🗣️ Say Hello (unless skipped)
-        if: env.SKIP_ECHO != 'true'
-        run: echo Hello, world!
-        shell: cmd
-
-      ##########################
-      # EXTRACT COMMIT STATS
-      ##########################
-
-      - name: 📦 Extract Commit Info (Windows PowerShell)
-        id: commit_info
-        shell: pwsh
-        run: |
-          $shortSha = git rev-parse --short HEAD
-          $fullSha = git rev-parse HEAD
-          $msg = git log -1 --pretty=%s
-          $author = git log -1 --pretty='%an'
-          $date = git log -1 --date=iso-local --pretty='%cd'
-
-          $commitTs = git log -1 --pretty=%ct
-          $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
-          $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-
-          if ($deltaMin -lt 1) {
-            $ago = "Just now"
-          } elseif ($deltaMin -eq 1) {
-            $ago = "1 minute ago"
-          } else {
-            $ago = "$deltaMin minutes ago"
-          }
-
-          "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
-          "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
-          "COMMIT_MSG=$msg" >> $env:GITHUB_OUTPUT
-          "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
-          "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
-          "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
-
-      ###############################
-      # Calculate Execution Metrics
-      ##############################
-
-      - name: ⏱️ Calculate Duration and Export Timing
-        id: calculate-duration-and-export-timing
-        shell: pwsh
-        env:
-          START_EPOCH: ${{ steps.start_time.outputs.startTime }}
-        run: |
-          $startEpoch = [int]$env:START_EPOCH
-          $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-          
-          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          
-          $durationSec = $endEpoch - $startEpoch
-          $mins = [math]::Floor($durationSec / 60)
-          $secs = $durationSec % 60
-          $durationFormatted = "{0}m {1}s" -f $mins, $secs
-          
-          echo "startTime=$startDT" >> $env:GITHUB_OUTPUT
-          echo "endTime=$endDT" >> $env:GITHUB_OUTPUT
-          echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
-
-
-      ##########################
-      # Email Success Summary
-      ##########################
+          "moduleData=$(ConvertTo-Json $modules -Compress)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "checkstyleModules=$(ConvertTo-Json $checkstyleModules -Compress)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "pmdModules=$(ConvertTo-Json $pmdModules -Compress)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: 📬 Email Summary
         uses: dawidd6/action-send-mail@v3
-        env:
-          CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
-          PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
-          JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
-          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
-          SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
-          COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
-          COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
-          COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
-          subject: >-
-            ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} —
-            Java MasterClass Hygiene Check for ${{ github.repository }} (main)
-            ${{ steps.metrics.outputs.jacocoPercent && steps.metrics.outputs.jacocoPercent < '5' && '(⚠️ Coverage Below Threshold)' || '' }}
-
+          subject: "✅ SUCCESS — Hygiene Check (${{ github.repository }})"
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           html_body: |
             <p>Hi Hemant,</p>
-            <p>A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
-            
-            <p>🧼 <strong>Hygiene Summary:</strong></p>
+            <p>Hygiene check completed on <strong>${{ github.repository }}</strong>.</p>
             <ul>
-              <li>✅ Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
-              <li>✅ PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>📊 Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
-              <li>📉 Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-              <li>🧠 SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
-              <li>🔗 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
+              <li>Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
+              <li>PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
+              <li>Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong> (<code>${{ steps.metrics.outputs.coverageBar }}</code>)</li>
             </ul>
-            
-            <p>🛑 <strong>SonarCloud Severity Breakdown:</strong></p>
-            <ul>
-            <li>🔴 BLOCKER: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-            <li>🟠 CRITICAL: <strong>${{ steps.metrics.outputs.sonarCritical }}</strong></li>
-            <li>🟡 MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
-            <li>🔵 MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
-            <li>⚪ INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
-            <li>🔗 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
-            </ul>
-            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
-            <p>🧑‍💻 <strong>Last Commit Info:</strong></p>
-            <ul>
-              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
-              <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
-              <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
-              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>🔗 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-              <li><strong>🔗 View Commit:</strong>
-                  <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
-              </li>
-            </ul>
-            <p><strong>🕒 Job Execution:</strong></p>
-             <ul>
-                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
-              </ul>
-            <hr>
-            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p> 
-
+            <h4>📦 Module-wise Coverage</h4>
+            <table border="1" cellpadding="4" cellspacing="0">
+              <tr><th>Module</th><th>Coverage %</th><th>Visual</th></tr>
+              {% for mod, data in fromJson(steps.metrics.outputs.moduleData) %}
+              <tr><td>{{ mod }}</td><td>{{ data.percent }}%</td><td><code>{{ data.bar }}</code></td></tr>
+              {% endfor %}
+            </table>
+            <h4>📦 Module-wise Violations</h4>
+            <table border="1" cellpadding="4" cellspacing="0">
+              <tr><th>Module</th><th>Checkstyle</th><th>PMD</th></tr>
+              {% for mod in fromJson(steps.metrics.outputs.checkstyleModules) %}
+              <tr><td>{{ mod }}</td><td>{{ fromJson(steps.metrics.outputs.checkstyleModules)[mod] }}</td><td>{{ fromJson(steps.metrics.outputs.pmdModules)[mod] }}</td></tr>
+              {% endfor %}
+            </table>
