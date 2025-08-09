@@ -169,7 +169,7 @@ public class CoreJavaCarnival {
             viewTableDescription(url, firstTableName);
 
         } catch (SQLException e) {
-            ConsoleStyler.styleOutput("❌ DB Error: " + e.getMessage());
+            ConsoleStyler.styleError("❌ DB Error: " + e.getMessage());
         }
     }
 
@@ -190,11 +190,10 @@ public class CoreJavaCarnival {
                 int notNull = rs.getInt("notnull");
                 String defaultValue = rs.getString("dflt_value");
                 int primaryKey = rs.getInt("pk");
-
-                System.out.printf("%-12s | %-9s | %-8s | %-13s | %-11s%n",
+                ConsoleStyler.styleOutput(("%-12s | %-9s | %-8s | %-13s | %-11s%n").formatted(
                         columnName, dataType, (notNull == 1 ? "Yes" : "No"),
                         (defaultValue != null ? defaultValue : "None"),
-                        (primaryKey == 1 ? "Yes" : "No"));
+                        (primaryKey == 1 ? "Yes" : "No")));
             }
 
         } catch (SQLException e) {

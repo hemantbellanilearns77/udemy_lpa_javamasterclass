@@ -1,6 +1,7 @@
 package com.hb.study.udemylpajavamasterclass.global.utils;
 
 import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemylpajavamasterclass.global.constants.ExecutionConstants;
 import com.hb.study.udemylpajavamasterclass.global.models.BenchmarkModel;
 
 import java.time.format.DateTimeFormatter;
@@ -11,52 +12,45 @@ public class ExcecutionUtil {
 
     public void initialize() {
         benchmarkModel = new BenchmarkModel();
-        ConsoleStyler.printBanner(CommonConstants.EXECUTIONSETUPSSTR);
+        ConsoleStyler.printBanner(ExecutionConstants.EXECUTIONSETUPSSTR);
     }
 
     public void publishBenchmark() {
-        ConsoleStyler.startSection(CommonConstants.BENCHMARKSECTIONHEADER);
+        ConsoleStyler.startSection(ExecutionConstants.BENCHMARKSECTIONHEADER);
         publishBenchmarkSummary();
         ConsoleStyler.halfDivider();
         publishBenchmarkDetails();
-        ConsoleStyler.endSection(CommonConstants.BENCHMARKSECTIONHEADER);
+        ConsoleStyler.endSection(ExecutionConstants.BENCHMARKSECTIONHEADER);
     }
     private void publishBenchmarkSummary() {
-        //ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINSUMMARYSTR);
-        ConsoleStyler.styleIntro(CommonConstants.BENCHMARKINSUMMARYSTR);
+        ConsoleStyler.styleIntro(ExecutionConstants.BENCHMARKINSUMMARYSTR);
         if (benchmarkModel.getDays() > 0) {
-            System.out.printf(CommonConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
-                    CommonConstants.INDENT, benchmarkModel.getDays()));
+            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
+                    benchmarkModel.getDays()));
         }
         if (benchmarkModel.getHours() > 0) {
-            System.out.printf(CommonConstants.BENCHMARKINSUMMARYHOURSSSTR.formatted(
-                    CommonConstants.INDENT, benchmarkModel.getHours()));
+            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYHOURSSSTR.formatted(
+                    benchmarkModel.getHours()));
 
-            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Hours: " + duration.getHours() + " hour(s)");
         }
         if (benchmarkModel.getMinutes() > 0) {
-            System.out.printf(CommonConstants.BENCHMARKINSUMMARYMINUTESSSTR.formatted(
-                    CommonConstants.INDENT, benchmarkModel.getMinutes()));
-            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Minutes: " + duration.getMinutes() + " minute(s)");
+            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYMINUTESSSTR.formatted(
+                    benchmarkModel.getMinutes()));
+
         }
         if (benchmarkModel.getSeconds() > 0) {
-            System.out.printf(CommonConstants.BENCHMARKINSUMMARYSECONDSSTR.formatted(
-                    CommonConstants.INDENT, benchmarkModel.getSeconds()));
-            //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Second: " + duration.getSeconds() + " second(s)");
+            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYSECONDSSTR.formatted(
+                    benchmarkModel.getSeconds()));
         }
-        System.out.printf(CommonConstants.BENCHMARKINSUMMARYMILLISSSTR.formatted(
-                CommonConstants.INDENT, benchmarkModel.getMicroSeconds()));
-        System.out.printf(CommonConstants.BENCHMARKINSUMMARYNANOSSSTR.formatted(
-                CommonConstants.INDENT, benchmarkModel.getNanoseconds()));
-
-        //ConsoleStyler.styleOutput(CommonConstants.INDENT + "🕒 Milliseconds: " + duration.getMilliseconds() + " ms");
-        //ConsoleStyler.styleOutput(CommonConstants.INDENT + "⏱️ Nanoseconds  : " + duration.getNanoseconds() + " ns");
+        System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYMILLISSSTR.formatted(
+                benchmarkModel.getMicroSeconds()));
+        System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYNANOSSSTR.formatted(
+                benchmarkModel.getNanoseconds()));
 
     }
 
     private void publishBenchmarkDetails() {
-        //ConsoleStyler.styleOutput(CommonConstants.BENCHMARKINGDETAILSSTR);
-        ConsoleStyler.styleIntro(CommonConstants.BENCHMARKINGDETAILSSTR);
+        ConsoleStyler.styleIntro(ExecutionConstants.BENCHMARKINGDETAILSSTR);
         ConsoleStyler.styleOutput(benchmarkModel.toString());
         DateTimeFormatter benchmarkDTFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         ConsoleStyler.styleOutput(CommonConstants.INDENT + "The execution started at: " + benchmarkModel.getStartZoneDateTime().
@@ -69,11 +63,7 @@ public class ExcecutionUtil {
     public void finalizeExecution() {
         benchmarkModel.update();
         publishBenchmark();
-        ConsoleStyler.printBanner(CommonConstants.EXECUTIONENDEDSTR);
+        ConsoleStyler.printBanner(ExecutionConstants.EXECUTIONENDEDSTR);
     }
 
-
-    public void windDown() {
-
-    }
 }
