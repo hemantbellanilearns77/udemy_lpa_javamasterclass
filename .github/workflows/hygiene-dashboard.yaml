@@ -252,6 +252,7 @@ jobs:
           # === Sonar severity totals ===
           function Fetch-SonarSeverity($severity, $componentKey) {
           $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$componentKey"
+          Write-Host "?? Calling SonarCloud API: $url"
           try {
           $resp = Invoke-WebRequest -Uri $url -Method Get
           if ($resp.Content -match '"total"\s*:\s*(\d+)') { return $matches[1] } else { return "0" }
