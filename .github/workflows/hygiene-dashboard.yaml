@@ -300,11 +300,18 @@ jobs:
                  $missedInLoop  = [int]$xml.Node.missed
                  $coveredInLoop = [int]$xml.Node.covered
                  Write-Output "Missed In Loop: $missedInLoop"
-                 Write-Output "Covered i Loop: $coveredInLoop" 
+                 Write-Output "Covered in Loop: $coveredInLoop"
+          
+                 $mTotalInLoop = $missedInLoop + $coveredInLoop
+                 Write-Output "Total In Loop: $mTotalInLoop"          
                  $mTotal = $mMissed + $mCovered
+          
                  $mCoverage = if ($mTotal -gt 0) { [math]::Round(100 * $mCovered / $mTotal, 2) } else { 0 }
+                 $mCoverageInLoop = if ($mTotalInLoop -gt 0) { [math]::Round(100 * $coveredInLoop / $mTotalInLoop, 2) } else { 0 }
                  Write-Output "Coverage is: $mCoverage"
+                 Write-Output "Coverage in Loop is: $mCoverageInLoop"
                  $mBar = Get-AsciiBar $mCoverage
+                 $mBarInLopp = Get-AsciiBar $mCoverageInLoop
                  Write-Output "Missed: $mMissed"
                  Write-Output "Covered: $mCovered"
                  Write-Output "Total: $mTotal"
@@ -312,7 +319,7 @@ jobs:
                  $mCoverage = 0
                  $mBar = Get-AsciiBar 0
                }
-                $moduleCoverageTable += "`n| $moduleName | $mCoverage% | <code>$mBar</code> |"
+                $moduleCoverageTable += "`n| $moduleName | $mCoverageInLoop% | <code>$mBarInLopp</code> |"
                }
           
           
