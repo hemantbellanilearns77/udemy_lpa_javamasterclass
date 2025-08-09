@@ -3,8 +3,6 @@ package com.hb.study.demo_stubs.corejavaalltopicsdemo.topicwisedemo;
 import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
 
-import java.util.Random;
-
 /**
  * created by : heman on 21-07-2025, 11:23 am, in the "udemy_lpa_javamasterclass" project
  **/
@@ -12,15 +10,7 @@ public class DemoConsoleFormatting {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final String[] FIRST_NAMES = {
-            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh", "Arijit", "Aishwarya", "Anamika", "Amarjot", "Amritpal"
-    };
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
-     
+
     // ANSI escape codes
     public static final String RESET = "\u001B[0m";
     public static final String BOLD = "\u001B[1m";
