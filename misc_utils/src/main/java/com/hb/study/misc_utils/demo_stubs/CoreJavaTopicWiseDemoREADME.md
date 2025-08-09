@@ -5,7 +5,7 @@ Welcome to the **Core Java Demo Carnival** — a modular, topic-wise showcase cu
 ---
 
 ## 📁 Project Structure
-com.hb.study.udemylpajavamasterclass
+com.hb.study.udemy_lpa_javamasterclass
 └── global
 ├── constants                  # 🔣 Shared constants (e.g., emojis, line styles)
 ├── utils                      # 🎨 Styling & helper utilities (e.g., ConsoleStyler)

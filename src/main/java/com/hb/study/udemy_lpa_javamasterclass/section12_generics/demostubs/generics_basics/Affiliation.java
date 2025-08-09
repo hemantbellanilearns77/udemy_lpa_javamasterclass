@@ -1,0 +1,9 @@
+package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_basics;
+
+record Affiliation(String name, String type, String countryCode) {
+
+    @Override
+    public String toString() {
+        return name + " (" + type + " in " + countryCode + ")";
+    }
+}

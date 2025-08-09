@@ -1,5 +1,5 @@
 package com.hb.study.misc_utils.demo_stubs;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.security.SecureRandom;
 

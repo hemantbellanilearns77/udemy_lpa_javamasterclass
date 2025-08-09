@@ -1,7 +1,7 @@
 package com.hb.study.misc_utils.libs.datetimeutillib.demo_stubs;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.time.Instant;
 import java.time.ZoneId;

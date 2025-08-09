@@ -1,6 +1,6 @@
 package com.hb.study.misc_utils.libs.datetimeutillib.controller;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 
 /**
  * created by : heman on 14-07-2025, 08:50 pm, in the "udemy_lpa_javamasterclass" project
@@ -11,7 +11,7 @@ import com.hb.study.misc_utils.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterGUI;
 import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterLogBuffer;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

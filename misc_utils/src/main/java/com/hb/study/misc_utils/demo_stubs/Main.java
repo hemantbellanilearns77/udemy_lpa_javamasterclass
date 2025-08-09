@@ -1,6 +1,6 @@
 package com.hb.study.misc_utils.demo_stubs;
 
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 /**
  * created by : heman on 24-07-2025, 04:02 pm, in the "Default (Template) Project" project

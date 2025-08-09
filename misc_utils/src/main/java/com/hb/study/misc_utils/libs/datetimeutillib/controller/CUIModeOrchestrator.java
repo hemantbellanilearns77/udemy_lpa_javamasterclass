@@ -1,7 +1,7 @@
 package com.hb.study.misc_utils.libs.datetimeutillib.controller;
 
 import com.hb.study.misc_utils.libs.datetimeutillib.core.DTFormatterUtils;
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterLogBuffer;
 

@@ -3,8 +3,8 @@ package com.hb.study.misc_utils.libs.datetimeutillib.core;
 /**
  * created by : heman on 14-07-2025, 06:40 pm, in the "udemy_lpa_javamasterclass" project
  **/
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.text.NumberFormat;
 import java.util.Locale;

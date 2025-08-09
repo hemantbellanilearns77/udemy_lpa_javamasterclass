@@ -1,7 +1,7 @@
 package com.hb.study.misc_utils.demo_stubs.corejavaalltopicsdemo.topicwisedemo;
 
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 /**
  * created by : heman on 21-07-2025, 11:23 am, in the "udemy_lpa_javamasterclass" project

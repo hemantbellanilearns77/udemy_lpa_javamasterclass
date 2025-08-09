@@ -5,7 +5,7 @@ package com.hb.study.misc_utils.libs.datetimeutillib.ui;
  **/
 
 
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.ArrayList;
 import java.util.List;

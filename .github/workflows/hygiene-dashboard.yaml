@@ -299,6 +299,7 @@ jobs:
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
                  $mTotal = $mMissed + $mCovered
                  $mCoverage = if ($mTotal -gt 0) { [math]::Round(100 * $mCovered / $mTotal, 2) } else { 0 }
+                 Write-Output "Coverage is: $mCoverage"
                  $mBar = Get-AsciiBar $mCoverage
                  Write-Output "Missed: $mMissed"
                  Write-Output "Covered: $mCovered"

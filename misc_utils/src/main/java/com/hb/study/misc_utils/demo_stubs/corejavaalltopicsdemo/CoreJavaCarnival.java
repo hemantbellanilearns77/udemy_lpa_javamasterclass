@@ -1,8 +1,8 @@
 package com.hb.study.misc_utils.demo_stubs.corejavaalltopicsdemo;
 
-import com.hb.study.udemylpajavamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemylpajavamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemylpajavamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import javax.swing.*;
 import java.awt.*;
