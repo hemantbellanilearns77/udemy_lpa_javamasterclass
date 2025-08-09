@@ -319,6 +319,9 @@ jobs:
                echo "| ?? MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
                echo "| ? INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
                echo "" >> $env:GITHUB_STEP_SUMMARY
+               echo "?? **Module-wise Coverage**" >> $env:GITHUB_STEP_SUMMARY
+               echo "$moduleCoverageTable" >> $env:GITHUB_STEP_SUMMARY
+               echo "" >> $env:GITHUB_STEP_SUMMARY
           
           # === SonarCloud Dashboard Link ===
                $projectKey = $env:SONAR_PROJECT_KEY
