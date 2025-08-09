@@ -451,35 +451,22 @@ jobs:
       ##########################
       # Email Success Summary
       ##########################
-
+      # === EMAIL SUMMARY ===
       - name: ?? Email Summary
         uses: dawidd6/action-send-mail@v3
-        env:
-          CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
-          PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
-          JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
-          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
-          SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
-          COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
-          COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
-          COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
           subject: >-
-            ${{ job.status == 'success' && '? SUCCESS' || '? FAILURE' }} —
-            Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+            ${{ job.status == 'success' && '? SUCCESS' || '? FAILURE' }} — Java MasterClass Hygiene Check for ${{ github.repository }} (main)
             ${{ steps.metrics.outputs.jacocoPercent && steps.metrics.outputs.jacocoPercent < '5' && '(?? Coverage Below Threshold)' || '' }}
-
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           html_body: |
             <p>Hi Hemant,</p>
             <p>A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
-            
             <p>?? <strong>Hygiene Summary:</strong></p>
             <ul>
               <li>? Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
@@ -489,16 +476,21 @@ jobs:
               <li>?? SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
               <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
-            
             <p>?? <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-            <li>?? BLOCKER: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-            <li>?? CRITICAL: <strong>${{ steps.metrics.outputs.sonarCritical }}</strong></li>
-            <li>?? MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
-            <li>?? MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
-            <li>? INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
-            <li>?? <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
+              <li>?? BLOCKER: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
+              <li>?? CRITICAL: <strong>${{ steps.metrics.outputs.sonarCritical }}</strong></li>
+              <li>?? MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
+              <li>?? MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
+              <li>? INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+              <li>?? <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
             </ul>
+            <p>?? <strong>Module-wise Coverage:</strong></p>
+            ${{ steps.metrics.outputs.moduleCoverageTable }}
+            <p>?? <strong>Module-wise Violations:</strong></p>
+            ${{ steps.metrics.outputs.moduleViolationTable }}
+            <p>?? <strong>Module-wise Sonar Breakdown:</strong></p>
+            ${{ steps.metrics.outputs.moduleSonarTable }}
             <p>?? <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>????? <strong>Last Commit Info:</strong></p>
             <ul>
@@ -506,18 +498,12 @@ jobs:
               <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
               <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>?? View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-              <li><strong>?? View Commit:</strong>
-                  <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
-              </li>
             </ul>
             <p><strong>?? Job Execution:</strong></p>
-             <ul>
-                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
-              </ul>
+            <ul>
+              <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+              <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+              <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+            </ul>
             <hr>
-            <p><em>?? This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p> 
-
+            <p><em>?? This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
