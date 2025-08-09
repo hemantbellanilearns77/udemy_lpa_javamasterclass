@@ -290,18 +290,18 @@ jobs:
                echo path is $path
 
           # Coverage per module
-               $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath ""//report/counter[@type='INSTRUCTION']//package[contains(@name, '$moduleName')]"
-               echo $moduleXml
+               $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/counter[@type='INSTRUCTION']"
+               Write-Output "Module XML is: $moduleName.node"
                if ($moduleXml) {
-                 echo inside condition  $moduleName
-                 $mMissed = [int]$xml.Node.missed   
-                 $missed  = [int]$xml.Node.missed
-                 $covered = [int]$xml.Node.covered
+                 Write-Output "Inside condition: $moduleName"
+                 $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
                  $mTotal = $mMissed + $mCovered
                  $mCoverage = if ($mTotal -gt 0) { [math]::Round(100 * $mCovered / $mTotal, 2) } else { 0 }
                  $mBar = Get-AsciiBar $mCoverage
-                 echo inside condition and missed, covered, and total are: $mMissed $mCovered $mTotal
+                 Write-Output "Missed: $mMissed"
+                 Write-Output "Covered: $mCovered"
+                 Write-Output "Total: $mTotal"
                } else {
                  $mCoverage = 0
                  $mBar = Get-AsciiBar 0
