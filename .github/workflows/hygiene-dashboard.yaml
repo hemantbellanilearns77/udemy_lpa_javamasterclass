@@ -27,7 +27,7 @@ jobs:
       - name: ?? Checkout Code
         uses: actions/checkout@v4
 
-      ##############################################################################
+        ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
       - name: Setup Java (Temurin)
@@ -197,15 +197,15 @@ jobs:
           }
 
           function Get-AsciiBar($percent) {
-            
+          
             $blocks = 50
             $filled = [math]::Round($blocks * $percent / 100)
             $empty = $blocks - $filled
             return ('█' * $filled) + ('░' * $empty)
           }
-
           
-
+          
+          
           ############################################################
           # === Parse Checkstyle & PMD Reports ===
           ############################################################
@@ -264,7 +264,7 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           function Get-SonarMetric($metricKey) {
-            $url = "https://sonarcloud.io/api/measures/component?component=hemantbellanilearns77_udemy_lpa_javamasterclass&metricKeys=coverage"
+            $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=coverage"
             Write-Host "Coverage Fetch URL is $url"
             try {
               $resp = Invoke-WebRequest -Uri $url -Method Get
@@ -277,8 +277,8 @@ jobs:
           }
 
           $sonarCoverage = Get-SonarMetric "coverage"
-          Write-Host "Coverage as fetched from Sonar is $sonarCoverage"
-          Write-Output "Coverage as fetched from Sonar is " $sonarCoverage
+          Write-Host "Writing to Host Coverage as fetched from Sonar is $sonarCoverage"
+          Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
           if ($sonarCoverage -ge 50) {
             $coverageEmoji = "🟢"
           } elseif ($sonarCoverage -ge 20) {
@@ -287,8 +287,8 @@ jobs:
             $coverageEmoji = "🔴"
           }
           $coverageBar = Get-AsciiBar $sonarCoverage
-            
-
+          
+          
           $sonarCoverage = Get-SonarMetric "coverage"
           if ($sonarCoverage -ge 50) {
             $coverageEmoji = "🟢"
@@ -305,7 +305,7 @@ jobs:
           ###########################################################
            function Fetch-SonarSeverity($severity) {
             $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
-            
+          
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
@@ -336,17 +336,17 @@ jobs:
                 # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
           ###############################################################################
             $packageBreakdown = @()
-            
+          
             $url = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&id=$projectKey&resolved=false&facets=directories&ps=1"
             Write-Output "URL now is " $url
             try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-            
+          
             foreach ($comp in $components) {
             $compKey = $comp.val
-            
+          
             $row = [PSCustomObject]@{
             Module   = $compKey
             BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
@@ -365,7 +365,7 @@ jobs:
           ############################################################
            $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
            $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
-         
+          
           
           ############################################################
                 # === Write Overall Table ===
