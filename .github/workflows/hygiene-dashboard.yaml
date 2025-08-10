@@ -274,8 +274,8 @@ jobs:
           # === Fetch Overall Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
-            $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN,CONFIRMED&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
-            Write-Output "URL is " $url
+            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN,CONFIRMED&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
+            
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
@@ -307,11 +307,11 @@ jobs:
             
             $row = [PSCustomObject]@{
             Module   = $compKey
-            BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
-            HIGH     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=CRITICAL&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
-            MEDIUM   = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MAJOR&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
-            LOW      = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MINOR&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
-            INFO     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=INFO&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+            BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
+            HIGH     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=HIGH&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
+            MEDIUM   = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=MEDIUM&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1"  | ConvertFrom-Json).total
+            LOW      = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=LOW&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
+            INFO     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=INFO&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1"  | ConvertFrom-Json).total
           }
             $packageBreakdown += $row
           }
@@ -359,6 +359,8 @@ jobs:
             foreach ($row in $packageBreakdown) {
               echo "| $($row.Module) | $($row.BLOCKER) | $($row.HIGH) | $($row.MEDIUM) | $($row.LOW) | $($row.INFO) |" >> $env:GITHUB_STEP_SUMMARY
             }
+          } else {
+            Write-Output "No packageBreakdown obtained" $packageBreakdown
           }
         
 
