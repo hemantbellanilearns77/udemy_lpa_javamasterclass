@@ -265,9 +265,9 @@ jobs:
 
           function Get-SonarMetric($metricKey) {
             $url = "https://sonarcloud.io/api/measures/component?component=hemantbellanilearns77_udemy_lpa_javamasterclass&metricKeys=coverage"
-            Write-Output "Coverage URL is " $url
+            Write-Host "Coverage Fetch URL is $url"
             try {
-              $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+              $resp = Invoke-WebRequest -Uri $url -Method Get
               $json = $resp.Content | ConvertFrom-Json
               return $json.component.measures[0].value
             } catch {
@@ -277,6 +277,8 @@ jobs:
           }
 
           $sonarCoverage = Get-SonarMetric "coverage"
+          Write-Host "Coverage as fetched from Sonar is $sonarCoverage"
+          Write-Output "Coverage as fetched from Sonar is " $sonarCoverage
           if ($sonarCoverage -ge 50) {
             $coverageEmoji = "🟢"
           } elseif ($sonarCoverage -ge 20) {
