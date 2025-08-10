@@ -229,6 +229,8 @@ jobs:
           ############################################################
           Start-Sleep -Seconds 27
           
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $branch = "${{ github.ref_name }}"
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
            Write-Error "? SONAR_TOKEN is empty!"
@@ -307,18 +309,19 @@ jobs:
           ############################################################
           $severityLinks = @{
           BLOCKER = "https://sonarcloud.io/project/issues?id=$projectKey&severities=BLOCKER&resolved=false"
-          HIGH    = "https://sonarcloud.io/project/issues?id=$projectKey&severities=CRITICAL&resolved=false"
-          MEDIUM  = "https://sonarcloud.io/project/issues?id=$projectKey&severities=MAJOR&resolved=false"
-          LOW     = "https://sonarcloud.io/project/issues?id=$projectKey&severities=MINOR&resolved=false"
-          INFO    = "https://sonarcloud.io/project/issues?id=$projectKey&severities=INFO&resolved=false"
+          HIGH    = "https://sonarcloud.io/project/issues??impactSeverities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          MEDIUM  = "https://sonarcloud.io/project/issues??impactSeverities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          LOW     = "https://sonarcloud.io/project/issues??impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          INFO    = "https://sonarcloud.io/project/issues??impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           }
           
-          ###########################################################
-          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
-          ###########################################################
+          ###############################################################################
+                # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
+          ###############################################################################
             $packageBreakdown = @()
             
             $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
+            Write-Output "URL now is " $url
             try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
@@ -343,9 +346,6 @@ jobs:
           ############################################################
                 # === Generate URLS ===
           ############################################################
-       
-           $projectKey = $env:SONAR_PROJECT_KEY
-           $branch = "${{ github.ref_name }}"
            $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
            $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
          
