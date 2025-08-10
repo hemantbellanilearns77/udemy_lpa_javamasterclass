@@ -215,7 +215,7 @@ jobs:
         shell: pwsh
         run: |
           # Parse JaCoCo XML
-          $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
+          $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
           $missed = [int]$xml.Node.missed
           $covered = [int]$xml.Node.covered
           $total = $missed + $covered
@@ -227,7 +227,7 @@ jobs:
           
           # ASCII Coverage Bar
           function Get-AsciiBar($percent) {
-          $blocks = 20
+          $blocks = 50
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
           return ('█' * $filled) + ('░' * $empty)
