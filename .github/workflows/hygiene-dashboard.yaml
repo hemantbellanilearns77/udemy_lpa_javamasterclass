@@ -208,8 +208,6 @@ jobs:
 
       ##########################
       # SUMMARY SECTION
-      # $missedInLoop  = [int]$moduleXml.Node.missed
-      # $coveredInLoop = [int]$moduleXml.Node.covered
       ##########################
 
       - name: ?? Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
@@ -293,7 +291,7 @@ jobs:
                Write-Output "path is : $path" 
 
           # Coverage per module
-               $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/counter[@type='INSTRUCTION']"
+               $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/report/counter[@type='INSTRUCTION']"
                Write-Output "Module XML is: $moduleXml"
                if ($moduleXml) {
                  Write-Output "Inside condition: $moduleName"
