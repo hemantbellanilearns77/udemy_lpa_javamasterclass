@@ -562,9 +562,9 @@ jobs:
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
           subject: >-
-            ${{ job.status == 'success' && '? SUCCESS' || '? FAILURE' }} ?
-            Java MasterClass Hygiene Check for ${{ github.repository }} (main)
-            ${{ steps.metrics.outputs.jacocoPercent && steps.metrics.outputs.jacocoPercent < '5' && '(?? Coverage Below Threshold)' || '' }}
+            ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
+            | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+            ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 5 && '(⚠️ Coverage Below Threshold)' || '' }}
 
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
