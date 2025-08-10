@@ -329,33 +329,32 @@ jobs:
           $minor = Fetch-SonarSeverity "MINOR"
           $info = Fetch-SonarSeverity "INFO"
 
-          ############################################################
-          # === Fetch Module/Package Severity Breakdown ===
-          ############################################################
-          $packageBreakdown = @()
-
-          $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
-          try {
+          ###########################################################
+          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
+          ###########################################################
+            $packageBreakdown = @()
+            
+            $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
+            try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-
-            foreach ($comp in $components) {
-              $compKey = $comp.val
-              $row = [PSCustomObject]@{
-                Module   = $compKey
-                BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN&ps=1" -Headers $headers | ConvertFrom-Json).total
-                CRITICAL = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=CRITICAL&componentKeys=$compKey&issueStatuses=OPEN&ps=1" -Headers $headers | ConvertFrom-Json).total
-                MAJOR    = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MAJOR&componentKeys=$compKey&issueStatuses=OPEN&ps=1" -Headers $headers | ConvertFrom-Json).total
-                MINOR    = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MINOR&componentKeys=$compKey&issueStatuses=OPEN&ps=1" -Headers $headers | ConvertFrom-Json).total
-                INFO     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=INFO&componentKeys=$compKey&issueStatuses=OPEN&ps=1" -Headers $headers | ConvertFrom-Json).total
-              }
-              $packageBreakdown += $row
-            }
-          } catch {
-            Write-Host "⚠ Could not fetch package breakdown: $_"
-          }
           
+            foreach ($comp in $components) {
+            $compKey = $comp.val
+            $row = [PSCustomObject]@{
+            Module   = $compKey
+            BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+            HIGH     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=CRITICAL&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+            MEDIUM   = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MAJOR&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+            LOW      = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=MINOR&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+            INFO     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=INFO&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
+          }
+            $packageBreakdown += $row
+          }
+          } catch {
+          Write-Host "⚠ Could not fetch package breakdown: $_"
+          }          
           ############################################################
           # === Generate URLS ===
           ############################################################
