@@ -274,7 +274,7 @@ jobs:
           # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
-            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN&ps=1&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
+            $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN%2CCONFIRMED&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}""
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
@@ -511,9 +511,9 @@ jobs:
             <p>?? <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
             <li>?? BLOCKER: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-            <li>?? CRITICAL: <strong>${{ steps.metrics.outputs.sonarCritical }}</strong></li>
-            <li>?? MAJOR: <strong>${{ steps.metrics.outputs.sonarMajor }}</strong></li>
-            <li>?? MINOR: <strong>${{ steps.metrics.outputs.sonarMinor }}</strong></li>
+            <li>?? HIGH: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
+            <li>?? MEDIUM: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
+            <li>?? LOW: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
             <li>? INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
             <li>?? <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
             </ul>
