@@ -44,6 +44,7 @@ Thumbs.db
 *.report.txt
 *.diagnostics.log
 *.coverage.txt
+*-log*.txt
 
 # Build-Reports
 reports/
