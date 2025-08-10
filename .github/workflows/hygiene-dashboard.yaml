@@ -169,7 +169,7 @@ jobs:
         id: sonar_issues
         shell: pwsh
         run: |
-          Start-Sleep -Seconds 15
+          Start-Sleep -Seconds 27
           
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
@@ -228,21 +228,13 @@ jobs:
           }
 
           function Get-AsciiBar($percent) {
-            $blocks = 20
+            $blocks = 50
             $filled = [math]::Round($blocks * $percent / 100)
             $empty = $blocks - $filled
-            return ('¦' * $filled) + ('¦' * $empty)
+            return ('█' * $filled) + ('░' * $empty)
           }
 
-          if ($jacocoCoverage -ge 50) {
-            $coverageEmoji = "🟢"
-          } elseif ($jacocoCoverage -ge 20) {
-            $coverageEmoji = "🟡"
-          } else {
-            $coverageEmoji = "🔴"
-          }
-
-          $coverageBar = Get-AsciiBar $jacocoCoverage
+          
 
           ############################################################
           # === Parse Checkstyle & PMD Reports ===
@@ -281,6 +273,14 @@ jobs:
           }
 
           $sonarCoverage = Get-SonarMetric "coverage"
+          if ($sonarCoverage -ge 50) {
+            $coverageEmoji = "🟢"
+          } elseif ($sonarCoverage -ge 20) {
+            $coverageEmoji = "🟡"
+          } else {
+            $coverageEmoji = "🔴"
+          }
+          $coverageBar = Get-AsciiBar $sonarCoverage
 
           function Fetch-SonarSeverity($severity) {
             $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
@@ -334,10 +334,10 @@ jobs:
           echo "|--------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
           echo "| Checkstyle Violations   | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Total Static Violations | $totalViolations |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Code Coverage (JaCoCo)  | $jacocoCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Code Coverage (Sonar)   | $sonarCoverage% |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Code Coverage (JaCoCo)  | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+          
           echo "| Sonar Issues (Total)    | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟥 BLOCKER               | $blocker |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 CRITICAL              | $critical |" >> $env:GITHUB_STEP_SUMMARY
