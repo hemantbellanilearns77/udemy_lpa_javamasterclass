@@ -30,21 +30,19 @@ jobs:
       ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
-      - name: Setup JDK 24
-        run: |
-          try {
-            echo "Installing Temurin JDK..."
-            echo "##[group]Temurin Setup"
-            gh workflow run actions/setup-java@v4 \
-              --with "distribution=temurin java-version=24"
-            echo "##[endgroup]"
-          } catch {
-            echo "Temurin failed, trying Zulu..."
-            echo "##[group]Zulu Setup"
-            gh workflow run actions/setup-java@v4 \
-              --with "distribution=zulu java-version=24"
-            echo "##[endgroup]"
-          }
+      - name: Setup Java (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 24
+        continue-on-error: true
+
+      - name: Fallback Setup Java (Zulu)
+        if: failure()
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 24
       
 
       ##########################
