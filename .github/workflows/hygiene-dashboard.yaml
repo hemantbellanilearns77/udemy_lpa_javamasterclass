@@ -9,9 +9,6 @@ jobs:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
     env:
-      MODULE_PATHS: |
-        udemy_lpa_javamasterclass=src/main/java
-        misc_utils=misc_utils/src/main/java
       JACOCO_MIN_COVERAGE: 0.05
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
       CHECKSTYLE_MAX_VIOLATIONS: 16000
@@ -179,13 +176,16 @@ jobs:
             Write-Error "? SONAR_TOKEN is empty!"
             exit 1
           }
+
           # Encode token correctly (with colon!)
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
           Write-Host "?? Encoded Auth: $encodedAuth"
 
           $headers = @{ Authorization = "Basic $encodedAuth" }
           $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+
           Write-Host "?? Calling SonarCloud API: $url"
+          
           try {
           
             $response = Invoke-WebRequest -Uri $url -Method Get
@@ -214,161 +214,118 @@ jobs:
         id: metrics
         shell: pwsh
         run: |
-          # === Parse total coverage ===
+          # Parse JaCoCo XML
+          $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
+          $missed = [int]$xml.Node.missed
+          $covered = [int]$xml.Node.covered
+          $total = $missed + $covered
+          if ($total -gt 0) {
+          $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
+          } else {
+          $jacocoCoverage = 0
+          }
           
-          # ASCII coverage bar
-               function Get-AsciiBar($percent) {
-               $blocks = 100
-               $filled = [math]::Round($blocks * $percent / 100)
-               return ('█' * $filled) + ('░' * ($blocks - $filled))
-               }
-          # Overall JaCoCo coverage
-               $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
-               $missed  = [int]$xml.Node.missed
-               $covered = [int]$xml.Node.covered
-               $total = $missed + $covered
-               $jacocoCoverage = if ($total -gt 0) { [math]::Round(100 * $covered / ($missed + $covered), 2) } else { 0 }
-               Write-Output "Missed: $missed"
-               Write-Output "Covered: $covered"
-               Write-Output "Total: $jacocoCoverage"
-               $coverageEmoji = if ($jacocoCoverage -ge 50) {"🟢"} elseif ($jacocoCoverage -ge 20) {"🟡"} else {"🔴"}
-               $coverageBar = Get-AsciiBar $jacocoCoverage
+          # ASCII Coverage Bar
+          function Get-AsciiBar($percent) {
+          $blocks = 20
+          $filled = [math]::Round($blocks * $percent / 100)
+          $empty = $blocks - $filled
+          return ('¦' * $filled) + ('¦' * $empty)
+          }
+          
+          # Sparkline-styled emoji indicator
+          if ($jacocoCoverage -ge 50) {
+          $coverageEmoji = "??"
+          } elseif ($jacocoCoverage -ge 20) {
+          $coverageEmoji = "??"
+          } else {
+          $coverageEmoji = "??"
+          }
+          
+          $coverageBar = Get-AsciiBar $jacocoCoverage
           
           # Parse Checkstyle
-               $checkstyleViolations = 0
-               if (Test-Path "reports/checkstyle") {
-               Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
-               $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
-               }
-               }
+          $checkstyleViolations = 0
+          if (Test-Path "reports/checkstyle") {
+          Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
+          $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
+          }
+          }
           
           # Parse PMD
-               $pmdViolations = 0
-               if (Test-Path "reports/pmd") {
-               Get-ChildItem reports/pmd/*.txt | ForEach-Object {
-               $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
-               }
-               }
-               
-               $totalViolations = $checkstyleViolations + $pmdViolations
+          $pmdViolations = 0
+          if (Test-Path "reports/pmd") {
+          Get-ChildItem reports/pmd/*.txt | ForEach-Object {
+          $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
+          }
+          }
+          
+          $totalViolations = $checkstyleViolations + $pmdViolations
           
           # Fetch Sonar severity breakdown
-               $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ secrets.SONAR_TOKEN }}:"))
-               $headers = @{ Authorization = "Basic $encodedAuth" }
-               
-               function Fetch-SonarSeverity($severity) {
-               $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
-               try {
-               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
-               if ($resp.Content -match '"total"\s*:\s*(\d+)') {
-               return $matches[1]
-               } else {
-               return "0"
-               }
-               } catch {
-               return "?"
-               }
-               }
-               
-               $blocker = Fetch-SonarSeverity "BLOCKER"
-               $critical = Fetch-SonarSeverity "CRITICAL"
-               $major = Fetch-SonarSeverity "MAJOR"
-               $minor = Fetch-SonarSeverity "MINOR"
-               $info = Fetch-SonarSeverity "INFO"
+          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ secrets.SONAR_TOKEN }}:"))
+          $headers = @{ Authorization = "Basic $encodedAuth" }
           
+          function Fetch-SonarSeverity($severity) {
+          $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
+          try {
+          $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
+          if ($resp.Content -match '"total"\s*:\s*(\d+)') {
+          return $matches[1]
+          } else {
+          return "0"
+          }
+          } catch {
+          return "?"
+          }
+          }
           
-          # === Module-wise metrics ===
-               $moduleCoverageTable = "| Module | Coverage % | Visual |`n|--------|------------|--------|"
-               $moduleLines = $env:MODULE_PATHS -split "`n" | Where-Object { $_ -match "=" }
-               Write-Output "Module Lines: $moduleLines"
-               foreach ($line in $moduleLines) {
-               Write-Output "Iterating over Line: $line"
-               $parts = $line -split "="
-               Write-Output "Parts of Line are: $parts"
-               $moduleName = $parts[0].Trim()
-               Write-Output "Now Module Name is : $moduleName"                
-               $path = $parts[1].Trim()
-               Write-Output "path is : $path" 
-
-          # Coverage per module
-               $moduleXml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//package[contains(@name, '$moduleName')]/report/counter[@type='INSTRUCTION']"
-               Write-Output "Module XML is: $moduleXml"
-               if ($moduleXml) {
-                 Write-Output "Inside condition: $moduleName"
-                 $missedInLoop=0
-                 $coveredInLoop=0
-                 $mTotalInLoop=0
-                 $mCoverageInLoop=0
+          $blocker = Fetch-SonarSeverity "BLOCKER"
+          $critical = Fetch-SonarSeverity "CRITICAL"
+          $major = Fetch-SonarSeverity "MAJOR"
+          $minor = Fetch-SonarSeverity "MINOR"
+          $info = Fetch-SonarSeverity "INFO"
           
-
-                 $missedInLoop  = ($moduleXml.Node.missed | Measure-Object -Sum).Sum
-                 $mCoverageInLoop = ($moduleXml.Node.covered | Measure-Object -Sum).Sum
-
-                 Write-Output "Missed In Loop: $missedInLoop"
-                 Write-Output "Covered in Loop: $coveredInLoop"
-          
-                 $mTotalInLoop = $missedInLoop + $coveredInLoop
-                 Write-Output "Total In Loop: $mTotalInLoop"          
-                 $mTotal = $mMissed + $mCovered
-          
-                 $mCoverage = if ($mTotal -gt 0) { [math]::Round(100 * $mCovered / $mTotal, 2) } else { 0 }
-                 $mCoverageInLoop = if ($mTotalInLoop -gt 0) { [math]::Round(100 * $coveredInLoop / $mTotalInLoop, 2) } else { 0 }
-                 Write-Output "Coverage is: $mCoverage"
-                 Write-Output "Coverage in Loop is: $mCoverageInLoop"
-                 $mBar = Get-AsciiBar $mCoverage
-                 $mBarInLopp = Get-AsciiBar $mCoverageInLoop
-                 Write-Output "Missed: $mMissed"
-                 Write-Output "Covered: $mCovered"
-                 Write-Output "Total: $mTotal"
-               } else {
-                 $mCoverage = 0
-                 $mBar = Get-AsciiBar 0
-               }
-                $moduleCoverageTable += "`n| $moduleName | $mCoverageInLoop% | <code>$mBarInLopp</code> |"
-               }
           
           
           # === Writing table ===
-               echo "### ?? Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
-               echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
-               echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
-               echo "| Checkstyle Violations         | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| PMD Violations                | $pmdViolations        |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| Total Static Violations       | $totalViolations      |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| Code Coverage %               | $jacocoCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| Coverage Visual               | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| Sonar Issues (Total)          | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| ?? BLOCKER                    | $blocker            |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| ?? CRITICAL                   | $critical           |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| ?? MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| ?? MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
-               echo "| ? INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
-               echo "" >> $env:GITHUB_STEP_SUMMARY
-               echo "?? **Module-wise Coverage**" >> $env:GITHUB_STEP_SUMMARY
-               echo "$moduleCoverageTable" >> $env:GITHUB_STEP_SUMMARY
-               echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "### ?? Hygiene Summary (Checkstyle + PMD + JaCoCo)" >> $env:GITHUB_STEP_SUMMARY
+          echo "| **Metric**                     | **Value**        |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------------|------------------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Checkstyle Violations         | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| PMD Violations                | $pmdViolations        |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Total Static Violations       | $totalViolations      |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Code Coverage %               | $jacocoCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Coverage Visual               | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Sonar Issues (Total)          | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ?? BLOCKER                    | $blocker            |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ?? CRITICAL                   | $critical           |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ?? MAJOR                      | $major              |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ?? MINOR                      | $minor              |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ? INFO                       | $info               |" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
           
           # === SonarCloud Dashboard Link ===
-               $projectKey = $env:SONAR_PROJECT_KEY
-               $branch = "${{ github.ref_name }}"
-               $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-               echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
-               $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
-               echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          $projectKey = $env:SONAR_PROJECT_KEY
+          $branch = "${{ github.ref_name }}"
+          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
+          echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
+          echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
           
           # === Output variables ===                    
-               
-               "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-               "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          
+          "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       ##########################
       # FULL CLEANUP
