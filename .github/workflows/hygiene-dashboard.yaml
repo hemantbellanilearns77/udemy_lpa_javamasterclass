@@ -182,7 +182,7 @@ jobs:
           Write-Host "?? Encoded Auth: $encodedAuth"
 
           $headers = @{ Authorization = "Basic $encodedAuth" }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
 
           Write-Host "?? Calling SonarCloud API: $url"
           
@@ -355,7 +355,17 @@ jobs:
           } catch {
             Write-Host "⚠ Could not fetch package breakdown: $_"
           }
-
+          
+          ############################################################
+          # === Generate URLS ===
+          ############################################################
+       
+           $projectKey = $env:SONAR_PROJECT_KEY
+           $branch = "${{ github.ref_name }}"
+           $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
+           $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
+         
+          
           ############################################################
           # === Write Overall Table ===
           ############################################################
@@ -374,6 +384,8 @@ jobs:
           echo "| 🟦 MINOR                 | $minor |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ℹ INFO                  | $info |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
 
           ############################################################
           # === Write Module Breakdown Table ===
@@ -386,6 +398,7 @@ jobs:
               echo "| $($row.Module) | $($row.BLOCKER) | $($row.CRITICAL) | $($row.MAJOR) | $($row.MINOR) | $($row.INFO) |" >> $env:GITHUB_STEP_SUMMARY
             }
           }
+        
 
           ############################################################
           # === Outputs for Email ===
@@ -400,6 +413,8 @@ jobs:
           "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
 
       ##########################
