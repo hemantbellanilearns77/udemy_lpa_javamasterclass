@@ -302,6 +302,16 @@ jobs:
           $medium = Fetch-SonarSeverity "MEDIUM"
           $low = Fetch-SonarSeverity "LOW"
           $info = Fetch-SonarSeverity "INFO"
+          ############################################################
+          # === Generate Severity URLs (global and per module) ===
+          ############################################################
+          $severityLinks = @{
+          BLOCKER = "https://sonarcloud.io/project/issues?id=$projectKey&severities=BLOCKER&resolved=false"
+          HIGH    = "https://sonarcloud.io/project/issues?id=$projectKey&severities=CRITICAL&resolved=false"
+          MEDIUM  = "https://sonarcloud.io/project/issues?id=$projectKey&severities=MAJOR&resolved=false"
+          LOW     = "https://sonarcloud.io/project/issues?id=$projectKey&severities=MINOR&resolved=false"
+          INFO    = "https://sonarcloud.io/project/issues?id=$projectKey&severities=INFO&resolved=false"
+          }
           
           ###########################################################
           # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
@@ -328,10 +338,10 @@ jobs:
             $packageBreakdown += $row
           }
           } catch {
-          Write-Host "⚠ Could not fetch package breakdown: $_"
+              Write-Host "⚠ Could not fetch package breakdown: $_"
           }          
           ############################################################
-          # === Generate URLS ===
+                # === Generate URLS ===
           ############################################################
        
            $projectKey = $env:SONAR_PROJECT_KEY
@@ -341,7 +351,7 @@ jobs:
          
           
           ############################################################
-          # === Write Overall Table ===
+                # === Write Overall Table ===
           ############################################################
           echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**              | **Value** |" >> $env:GITHUB_STEP_SUMMARY
@@ -350,13 +360,13 @@ jobs:
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-          
           echo "| Sonar Issues (Total)    | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟥 BLOCKER              | $blocker |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟧 HIGH                 | $high |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟨 MEDIUM               | $medium |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟦 LOW                  | $low |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| ℹ INFO                 | $info |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟥 BLOCKER              | [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟧 HIGH                 | [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟨 MEDIUM               | [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟦 LOW                  | [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -374,7 +384,26 @@ jobs:
           } else {
             Write-Output "No packageBreakdown obtained" $packageBreakdown
           }
-        
+          
+          ############################################################
+          # === Module Breakdown with clickable module names & severities ===
+          ############################################################
+            if ($packageBreakdown.Count -gt 0) {
+            echo "### 📦 SonarCloud Module/Package Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
+            echo "| Module/Package | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
+            echo "|---------------|---------|------|--------|-----|------|" >> $env:GITHUB_STEP_SUMMARY
+            foreach ($row in $packageBreakdown) {
+                $moduleUrl = "https://sonarcloud.io/project/issues?id=$($row.Module)&resolved=false"
+                $mBlocker  = "[${row.BLOCKER}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=BLOCKER&resolved=false)"
+                $mHigh     = "[${row.HIGH}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=CRITICAL&resolved=false)"
+                $mMedium   = "[${row.MEDIUM}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=MAJOR&resolved=false)"
+                $mLow      = "[${row.LOW}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=MINOR&resolved=false)"
+                $mInfo     = "[${row.INFO}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=INFO&resolved=false)"
+                echo "| [$($row.Module)]($moduleUrl) | $mBlocker | $mHigh | $mMedium | $mLow | $mInfo |" >> $env:GITHUB_STEP_SUMMARY
+              }
+           }
+
+
 
           ############################################################
           # === Outputs for Email ===
@@ -526,14 +555,13 @@ jobs:
               <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
             
-            <p>?? <strong>SonarCloud Severity Breakdown:</strong></p>
+            <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-            <li>?? BLOCKER: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-            <li>?? HIGH: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
-            <li>?? MEDIUM: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
-            <li>?? LOW: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
-            <li>? INFO: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
-            <li>?? <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Issues Breakdown</a></li>
+            <li>🟥 <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">BLOCKER</a>: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
+            <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
+            <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
+            <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
+            <li>ℹ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
             </ul>
             <p>?? <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>????? <strong>Last Commit Info:</strong></p>
