@@ -208,6 +208,8 @@ jobs:
 
       ##########################
       # SUMMARY SECTION
+      # $missedInLoop  = [int]$moduleXml.Node.missed
+      # $coveredInLoop = [int]$moduleXml.Node.covered
       ##########################
 
       - name: ?? Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
@@ -301,8 +303,11 @@ jobs:
                  $mCoverageInLoop=0
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
-                 $missedInLoop  = [int]$moduleXml.Node.missed
-                 $coveredInLoop = [int]$moduleXml.Node.covered
+          
+
+                 $missedInLoop  = ($moduleXml.Node.missed | Measure-Object -Sum).Sum
+                 $coveredInLoop = ($moduleXml.Node.covered | Measure-Object -Sum).Sum
+
                  Write-Output "Missed In Loop: $missedInLoop"
                  Write-Output "Covered in Loop: $coveredInLoop"
           
