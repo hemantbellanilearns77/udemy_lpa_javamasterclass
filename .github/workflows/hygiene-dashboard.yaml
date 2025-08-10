@@ -263,13 +263,15 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           function Get-SonarMetric($metricKey) {
-            $url = "https://sonarcloud.io/api/measures/component?id=$projectKey&metricKeys=$metricKey"
+            $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=$metricKey"
+            Write-Output "Coverage URL is " $url
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
               return $json.component.measures[0].value
             } catch {
-              return "?"
+              Write-Error "⚠ API call failed: $_"
+              exit 1
             }
           }
 
@@ -295,7 +297,8 @@ jobs:
               $json = $resp.Content | ConvertFrom-Json
               return $json.total
             } catch {
-              return "?"
+              Write-Error "⚠ API call failed: $_"
+              exit 1
             }
           }
 
