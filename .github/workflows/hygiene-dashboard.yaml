@@ -360,7 +360,6 @@ jobs:
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Sonar Issues (Total)    | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟥 BLOCKER              | [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 HIGH                 | [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
