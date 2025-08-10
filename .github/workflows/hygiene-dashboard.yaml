@@ -1,4 +1,4 @@
-name: Hygiene Checks Pipeline
+name: 📊 Hygiene Checks Pipeline
 
 on:
   push:
@@ -210,7 +210,7 @@ jobs:
       # SUMMARY SECTION
       ##########################
 
-      - name: ?? Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
+      - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
         id: metrics
         shell: pwsh
         run: |

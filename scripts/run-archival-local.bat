@@ -6,7 +6,7 @@ cd /d "%~dp0.."
 set "rootPath=%~1"
 if "%rootPath%"=="" set "rootPath=%CD%"
 
-set "runMode=DRY-RUN"
+set "runMode=DRY-RUN" 
 set "runMode=%~2"
 if "%runMode%"=="" set "runMode=DRY-RUN"
 
