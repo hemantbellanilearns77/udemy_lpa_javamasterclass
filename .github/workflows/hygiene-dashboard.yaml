@@ -213,7 +213,37 @@ jobs:
       - name: 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
         id: metrics
         shell: pwsh
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          ############################################################
+          # === Fetch SonarCloud Issue Count (OPEN) ===
+          ############################################################
+          Start-Sleep -Seconds 27
+          
+          # Confirm if token is passed
+          if (-not $env:SONAR_TOKEN) {
+           Write-Error "? SONAR_TOKEN is empty!"
+           exit 1
+          }
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+          Write-Host "?? Calling SonarCloud API: $url"
+          try {
+          
+           $response = Invoke-WebRequest -Uri $url -Method Get
+           $body = $response.Content
+          
+           if ($body -match '"total"\s*:\s*(\d+)') {
+             $totalSonarFetchedIssues = $matches[1]
+             Write-Host "? Total SonarCloud Issues (OPEN): $totalIssues"
+           } else {
+             Write-Error "? Could not extract issue count from response body: $body"
+             exit 1
+           }
+          } catch {
+           Write-Error "? API call failed: $_"
+           exit 1
+          }
           ############################################################
           # === Parse JaCoCo XML (Overall) ===
           ############################################################
@@ -334,11 +364,10 @@ jobs:
           echo "|--------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
           echo "| Checkstyle Violations   | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Code Coverage (Sonar)   | $sonarCoverage% |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| Code Coverage (JaCoCo)  | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           
-          echo "| Sonar Issues (Total)    | ${{ steps.sonar_issues.outputs.sonarIssueCount }} |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Sonar Issues (Total)    | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟥 BLOCKER               | $blocker |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 CRITICAL              | $critical |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟨 MAJOR                 | $major |" >> $env:GITHUB_STEP_SUMMARY
@@ -363,7 +392,7 @@ jobs:
           ############################################################
           "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "jacocoPercent=$jacocoCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "totalSonarFetchedIssues=$totalSonarFetchedIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -502,7 +531,7 @@ jobs:
               <li>? PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
               <li>?? Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
               <li>?? Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-              <li>?? SonarCloud Total Issues: <strong>${{ steps.sonar_issues.outputs.sonarIssueCount }}</strong></li>
+              <li>?? SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
               <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
             
