@@ -162,51 +162,6 @@ jobs:
         shell: cmd
 
       ##########################
-      # FETCH SONARCLOUD INFO
-      ##########################
-
-      - name: ?? Fetch SonarCloud Issue Count (OPEN)
-        id: sonar_issues
-        shell: pwsh
-        run: |
-          Start-Sleep -Seconds 27
-          
-          # Confirm if token is passed
-          if (-not $env:SONAR_TOKEN) {
-            Write-Error "? SONAR_TOKEN is empty!"
-            exit 1
-          }
-
-          # Encode token correctly (with colon!)
-          $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:SONAR_TOKEN:"))
-          Write-Host "?? Encoded Auth: $encodedAuth"
-
-          $headers = @{ Authorization = "Basic $encodedAuth" }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=$env:SONAR_ORG&componentKeys=$env:SONAR_PROJECT_KEY"
-
-          Write-Host "?? Calling SonarCloud API: $url"
-          
-          try {
-          
-            $response = Invoke-WebRequest -Uri $url -Method Get
-            $body = $response.Content
-
-            if ($body -match '"total"\s*:\s*(\d+)') {
-              $totalIssues = $matches[1]
-              Write-Host "? Total SonarCloud Issues (OPEN): $totalIssues"
-              "sonarIssueCount=$totalIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            } else {
-              Write-Error "? Could not extract issue count from response body: $body"
-              exit 1
-            }
-          } catch {
-            Write-Error "? API call failed: $_"
-            exit 1
-          }
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      ##########################
       # SUMMARY SECTION
       ##########################
 
@@ -216,34 +171,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ############################################################
-          # === Fetch SonarCloud Issue Count (OPEN) ===
-          ############################################################
-          Start-Sleep -Seconds 27
-          
-          # Confirm if token is passed
-          if (-not $env:SONAR_TOKEN) {
-           Write-Error "? SONAR_TOKEN is empty!"
-           exit 1
-          }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
-          Write-Host "?? Calling SonarCloud API: $url"
-          try {
-          
-           $response = Invoke-WebRequest -Uri $url -Method Get
-           $body = $response.Content
-          
-           if ($body -match '"total"\s*:\s*(\d+)') {
-             $totalSonarFetchedIssues = $matches[1]
-             Write-Host "? Total SonarCloud Issues (OPEN): $totalIssues"
-           } else {
-             Write-Error "? Could not extract issue count from response body: $body"
-             exit 1
-           }
-          } catch {
-           Write-Error "? API call failed: $_"
-           exit 1
-          }
           ############################################################
           # === Parse JaCoCo XML (Overall) ===
           ############################################################
@@ -286,7 +213,37 @@ jobs:
           $totalViolations = $checkstyleViolations + $pmdViolations
 
           ############################################################
-          # === Fetch SonarCloud Overall Metrics ===
+          # === Fetch SonarCloud Issue Count (OPEN) ===
+          ############################################################
+          Start-Sleep -Seconds 27
+          
+          # Confirm if token is passed
+          if (-not $env:SONAR_TOKEN) {
+           Write-Error "? SONAR_TOKEN is empty!"
+           exit 1
+          }
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+          Write-Host "?? Calling SonarCloud API: $url"
+          try {
+          
+           $response = Invoke-WebRequest -Uri $url -Method Get
+           $body = $response.Content
+          
+           if ($body -match '"total"\s*:\s*(\d+)') {
+             $totalSonarFetchedIssues = $matches[1]
+             Write-Host "? Total SonarCloud Issues (OPEN): $totalIssues"
+           } else {
+             Write-Error "? Could not extract issue count from response body: $body"
+             exit 1
+           }
+          } catch {
+           Write-Error "? API call failed: $_"
+           exit 1
+          }
+
+
+          ############################################################
+          # === Fetch SonarCloud Coverage Metrics ===
           ############################################################
           $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ secrets.SONAR_TOKEN }}:"))
           $headers = @{ Authorization = "Basic $encodedAuth" }
@@ -312,7 +269,11 @@ jobs:
           }
           $coverageBar = Get-AsciiBar $sonarCoverage
 
-          function Fetch-SonarSeverity($severity) {
+
+          ###########################################################
+          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
+          ###########################################################
+           function Fetch-SonarSeverity($severity) {
             $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
@@ -324,14 +285,11 @@ jobs:
           }
 
           $blocker = Fetch-SonarSeverity "BLOCKER"
-          $critical = Fetch-SonarSeverity "CRITICAL"
-          $major = Fetch-SonarSeverity "MAJOR"
-          $minor = Fetch-SonarSeverity "MINOR"
+          $high = Fetch-SonarSeverity "HIGH"
+          $medium = Fetch-SonarSeverity "MEDIUM"
+          $low = Fetch-SonarSeverity "LOW"
           $info = Fetch-SonarSeverity "INFO"
-
-          ###########################################################
-          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
-          ###########################################################
+          
             $packageBreakdown = @()
             
             $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
@@ -339,7 +297,7 @@ jobs:
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-          
+            Write-Output
             foreach ($comp in $components) {
             $compKey = $comp.val
             $row = [PSCustomObject]@{
@@ -370,18 +328,18 @@ jobs:
           ############################################################
           echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
           echo "| **Metric**              | **Value** |" >> $env:GITHUB_STEP_SUMMARY
-          echo "|--------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
           echo "| Checkstyle Violations   | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           
           echo "| Sonar Issues (Total)    | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟥 BLOCKER               | $blocker |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟧 CRITICAL              | $critical |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟨 MAJOR                 | $major |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟦 MINOR                 | $minor |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| ℹ INFO                  | $info |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟥 BLOCKER              | $blocker |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟧 HIGH                 | $high |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟨 MEDIUM               | $medium |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟦 LOW                  | $low |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| ℹ INFO                 | $info |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -408,9 +366,9 @@ jobs:
           "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarCritical=$critical" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMajor=$major" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarMinor=$minor" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarHigh=$high" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarLow=$low" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
