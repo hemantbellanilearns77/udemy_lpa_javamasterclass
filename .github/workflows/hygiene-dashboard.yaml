@@ -230,22 +230,22 @@ jobs:
           Start-Sleep -Seconds 27
           
           $projectKey = $env:SONAR_PROJECT_KEY
+          $projectOrg = $env:SONAR_ORG
           $branch = "${{ github.ref_name }}"
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
            Write-Error "? SONAR_TOKEN is empty!"
            exit 1
           }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN&ps=1&organization=hemantbellanilearns77&componentKeys=hemantbellanilearns77_udemy_lpa_javamasterclass"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&organization=hemantbellanilearns77&id=$projectKey&organization==$projectOrg"
           Write-Host "?? Calling SonarCloud API: $url"
           try {
-          
            $response = Invoke-WebRequest -Uri $url -Method Get
            $body = $response.Content
           
            if ($body -match '"total"\s*:\s*(\d+)') {
              $totalSonarFetchedIssues = $matches[1]
-             Write-Host "? Total SonarCloud Issues (OPEN): $totalIssues"
+             Write-Host "? Total SonarCloud Issues (OPEN): $totalSonarFetchedIssues"
            } else {
              Write-Error "? Could not extract issue count from response body: $body"
              exit 1
@@ -263,7 +263,7 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           function Get-SonarMetric($metricKey) {
-            $url = "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=$metricKey"
+            $url = "https://sonarcloud.io/api/measures/component?id=$projectKey&metricKeys=$metricKey"
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
@@ -288,7 +288,7 @@ jobs:
           # === Fetch Overall Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
-            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN,CONFIRMED&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
+            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
             
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
@@ -308,11 +308,11 @@ jobs:
           # === Generate Severity URLs (global and per module) ===
           ############################################################
           $severityLinks = @{
-          BLOCKER = "https://sonarcloud.io/project/issues?id=$projectKey&severities=BLOCKER&resolved=false"
-          HIGH    = "https://sonarcloud.io/project/issues??impactSeverities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          MEDIUM  = "https://sonarcloud.io/project/issues??impactSeverities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          LOW     = "https://sonarcloud.io/project/issues??impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          INFO    = "https://sonarcloud.io/project/issues??impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            BLOCKER = "https://sonarcloud.io/project/issues?impactSeverities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            HIGH    = "https://sonarcloud.io/project/issues?impactSeverities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            MEDIUM  = "https://sonarcloud.io/project/issues?impactSeverities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           }
           
           ###############################################################################
@@ -320,7 +320,7 @@ jobs:
           ###############################################################################
             $packageBreakdown = @()
             
-            $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
+            $url = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&id=$projectKey&resolved=false&facets=directories&ps=1"
             Write-Output "URL now is " $url
             try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
