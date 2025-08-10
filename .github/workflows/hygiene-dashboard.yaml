@@ -271,7 +271,7 @@ jobs:
 
 
           ###########################################################
-          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
+          # === Fetch Overall Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
             $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN%2CCONFIRMED&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}""
@@ -290,6 +290,9 @@ jobs:
           $low = Fetch-SonarSeverity "LOW"
           $info = Fetch-SonarSeverity "INFO"
           
+          ###########################################################
+          # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
+          ###########################################################
             $packageBreakdown = @()
             
             $url = "https://sonarcloud.io/api/issues/search?organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}&resolved=false&facets=componentKeys&ps=1"
@@ -297,10 +300,10 @@ jobs:
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-            Write-Output "Components: $components"
+            
             foreach ($comp in $components) {
             $compKey = $comp.val
-            Write-Output "Component inside loop: $compKey"
+            
             $row = [PSCustomObject]@{
             Module   = $compKey
             BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
