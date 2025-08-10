@@ -581,30 +581,17 @@ jobs:
               <li>🗂 SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
               <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
-            <ul>
-              <li>? Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
-              <li>? PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>?? Code Coverage: <strong>${{ steps.metrics.outputs.sonarCoverage }}</strong></li>
-              <li>?? Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-              <li>🗂 SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
-              <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
-            </ul>
+            
             
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
-            <ul>
-            <li>🟥 <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">BLOCKER</a>: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-            <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
-            <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
-            <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
-            <li>ℹ️ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
-            </ul>
             <ul>
               <li>🟥 <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">BLOCKER</a>: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
               <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
               <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
               <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
-              <li>ℹ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+              <li>ℹ️ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
             </ul>
+            
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>📜 <strong>Last Commit Info:</strong></p>
             <ul>
