@@ -27,11 +27,25 @@ jobs:
       - name: ?? Checkout Code
         uses: actions/checkout@v4
 
-      - name: ?? Setup JDK 24 (for JaCoCo + Compilation)
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 24
+      ##############################################################################
+        # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
+      ##############################################################################
+      - name: Setup JDK 24
+        run: |
+          try {
+            echo "Installing Temurin JDK..."
+            echo "##[group]Temurin Setup"
+            gh workflow run actions/setup-java@v4 \
+              --with "distribution=temurin java-version=24"
+            echo "##[endgroup]"
+          } catch {
+            echo "Temurin failed, trying Zulu..."
+            echo "##[group]Zulu Setup"
+            gh workflow run actions/setup-java@v4 \
+              --with "distribution=zulu java-version=24"
+            echo "##[endgroup]"
+          }
+      
 
       ##########################
       # DOWNLOAD TOOLS
