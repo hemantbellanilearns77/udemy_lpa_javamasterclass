@@ -274,7 +274,7 @@ jobs:
           # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
-            $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN&ps=1&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
+            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN&ps=1&organization=${{ env.SONAR_ORG }}&componentKeys=${{ env.SONAR_PROJECT_KEY }}"
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
               $json = $resp.Content | ConvertFrom-Json
