@@ -263,7 +263,7 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           function Get-SonarMetric($metricKey) {
-            $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=$metricKey"
+            $url = "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=$metricKey"
             Write-Output "Coverage URL is " $url
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
@@ -274,6 +274,17 @@ jobs:
               exit 1
             }
           }
+
+          $sonarCoverage = Get-SonarMetric "coverage"
+          if ($sonarCoverage -ge 50) {
+            $coverageEmoji = "🟢"
+          } elseif ($sonarCoverage -ge 20) {
+            $coverageEmoji = "🟡"
+          } else {
+            $coverageEmoji = "🔴"
+          }
+          $coverageBar = Get-AsciiBar $sonarCoverage
+            
 
           $sonarCoverage = Get-SonarMetric "coverage"
           if ($sonarCoverage -ge 50) {
