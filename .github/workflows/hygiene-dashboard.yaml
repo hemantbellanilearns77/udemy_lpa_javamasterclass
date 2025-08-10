@@ -544,7 +544,7 @@ jobs:
       # Email Success Summary
       ##########################
 
-      - name: ?? Email Summary
+      - name: 📧 Email Summary
         uses: dawidd6/action-send-mail@v3
         env:
           CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
@@ -562,23 +562,31 @@ jobs:
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
           subject: >-
-            ${{ job.status == 'success' && '? SUCCESS' || '? FAILURE' }} ?
-            Java MasterClass Hygiene Check for ${{ github.repository }} (main)
-            ${{ steps.metrics.outputs.jacocoPercent && steps.metrics.outputs.jacocoPercent < '5' && '(?? Coverage Below Threshold)' || '' }}
+            ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
+            | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+            ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 5 && '(⚠️ Coverage Below Threshold)' || '' }}
 
           to: hemantbellanilearns77@gmail.com
           from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
           html_body: |
             <p>Hi Hemant,</p>
-            <p>A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
+            <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
             
-            <p>?? <strong>Hygiene Summary:</strong></p>
+            <p>📊 <strong>Hygiene Summary:</strong></p>
+            <ul>
+              <li>📝 Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
+              <li>🔍 PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
+              <li>📈 Code Coverage: <strong>${{ steps.metrics.outputs.sonarCoverage }}</strong></li>
+              <li>🎯 Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
+              <li>🗂 SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
+              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
+            </ul>
             <ul>
               <li>? Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
               <li>? PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
               <li>?? Code Coverage: <strong>${{ steps.metrics.outputs.sonarCoverage }}</strong></li>
               <li>?? Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-              <li>?? SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
+              <li>🗂 SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
               <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
             </ul>
             
@@ -588,10 +596,17 @@ jobs:
             <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
             <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
             <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
-            <li>ℹ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+            <li>ℹ️ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
             </ul>
-            <p>?? <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
-            <p>????? <strong>Last Commit Info:</strong></p>
+            <ul>
+              <li>🟥 <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">BLOCKER</a>: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
+              <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
+              <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
+              <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
+              <li>ℹ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+            </ul>
+            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
+            <p>📜 <strong>Last Commit Info:</strong></p>
             <ul>
               <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
               <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
@@ -602,13 +617,13 @@ jobs:
                   <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
               </li>
             </ul>
-            <p><strong>?? Job Execution:</strong></p>
+            <p>⏱ <strong>Job Execution:</strong></p>
              <ul>
                 <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
                 <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
               </ul>
             <hr>
-            <p><em>?? This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p> 
+            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
+            Please do not reply.</em></p>
 
