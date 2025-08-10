@@ -238,7 +238,7 @@ jobs:
            Write-Error "⚠ SONAR_TOKEN is empty!"
            exit 1
           }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization==$projectOrg"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization==projectOrg"
           Write-Host "?? Calling SonarCloud API: $url"
           try {
            $response = Invoke-WebRequest -Uri $url -Method Get
@@ -290,6 +290,12 @@ jobs:
           
           
           $sonarCoverage = Get-SonarMetric "coverage"
+          # Ensure only the first numeric value is used
+          if ($sonarCoverage -is [array]) {
+            $sonarCoverage = $sonarCoverage[0]
+          }
+          # Try to cast to a number safely
+          $sonarCoverage = [double]($sonarCoverage -replace '[^0-9\.]', '')
           if ($sonarCoverage -ge 50) {
             $coverageEmoji = "🟢"
           } elseif ($sonarCoverage -ge 20) {
@@ -565,7 +571,7 @@ jobs:
             <ul>
               <li>? Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
               <li>? PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>?? Code Coverage: <strong>${{ steps.metrics.outputs.jacocoPercent }}</strong></li>
+              <li>?? Code Coverage: <strong>${{ steps.metrics.outputs.sonarCoverage }}</strong></li>
               <li>?? Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
               <li>?? SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
               <li>?? <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
