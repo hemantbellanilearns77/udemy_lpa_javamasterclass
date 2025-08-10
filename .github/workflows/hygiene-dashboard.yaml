@@ -238,7 +238,7 @@ jobs:
            Write-Error "⚠ SONAR_TOKEN is empty!"
            exit 1
           }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization==projectOrg"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization=$projectOrg"
           Write-Host "?? Calling SonarCloud API: $url"
           try {
            $response = Invoke-WebRequest -Uri $url -Method Get
@@ -436,13 +436,13 @@ jobs:
           "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarBlockerURL=($($severityLinks.BLOCKER))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarBlockerURL=$($severityLinks.BLOCKER))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarHigh=$high" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarHighURL=$($severityLinks.HIGH))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarMediumURL=$($severityLinks.MEDIUM))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarLow=$low" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarLowhURL=$($severityLinks.LOW))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarLowURL=$($severityLinks.LOW))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarInfoURL=$($severityLinks.INFO))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
