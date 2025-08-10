@@ -230,17 +230,18 @@ jobs:
           $blocks = 20
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
-          return ('¦' * $filled) + ('¦' * $empty)
+          return ('█' * $filled) + ('░' * $empty)
           }
           
           # Sparkline-styled emoji indicator
-          if ($jacocoCoverage -ge 50) {
-          $coverageEmoji = "??"
-          } elseif ($jacocoCoverage -ge 20) {
-          $coverageEmoji = "??"
+          if ($jacocoCoverage -ge 80) {
+              $coverageEmoji = "🟢"
+          } elseif ($jacocoCoverage -ge 50) {
+              $coverageEmoji = "🟡"
           } else {
-          $coverageEmoji = "??"
+              $coverageEmoji = "🔴"
           }
+          
           
           $coverageBar = Get-AsciiBar $jacocoCoverage
           
