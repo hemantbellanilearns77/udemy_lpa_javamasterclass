@@ -49,7 +49,8 @@ public class DemoConsoleFormatting {
         // Print foreground colors
         ConsoleStyler.styleOutput("Foreground Colors:");
         for (int i = 0; i < 256; i++) {
-            System.out.printf("\u001B[38;5;%dmColor %3d  \u001B[0m", i, i);
+            ConsoleStyler.styleOutput( ("\u001B[38;5;%dmColor %3d").formatted(i, i) + RESET );
+
             if ((i + 1) % 16 == 0) {
                 ConsoleStyler.halfDivider(); // New line after every 16 colors
             }
