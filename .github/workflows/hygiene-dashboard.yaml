@@ -301,8 +301,8 @@ jobs:
                  $mCoverageInLoop=0
                  $mMissed = ($moduleXml | Measure-Object -Property Node.missed -Sum).Sum 
                  $mCovered = ($moduleXml | Measure-Object -Property Node.covered -Sum).Sum
-                 $missedInLoop  = [int]$xml.Node.missed
-                 $coveredInLoop = [int]$xml.Node.covered
+                 $missedInLoop  = [int]$moduleXml.Node.missed
+                 $coveredInLoop = [int]$moduleXml.Node.covered
                  Write-Output "Missed In Loop: $missedInLoop"
                  Write-Output "Covered in Loop: $coveredInLoop"
           
