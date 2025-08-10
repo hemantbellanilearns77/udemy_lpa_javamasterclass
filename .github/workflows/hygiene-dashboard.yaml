@@ -297,9 +297,10 @@ jobs:
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-            Write-Output
+            Write-Output "Components: $components"
             foreach ($comp in $components) {
             $compKey = $comp.val
+            Write-Output "Component inside loop: $compKey"
             $row = [PSCustomObject]@{
             Module   = $compKey
             BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?severities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" -Headers $headers | ConvertFrom-Json).total
@@ -349,10 +350,10 @@ jobs:
           ############################################################
           if ($packageBreakdown.Count -gt 0) {
             echo "### 📦 SonarCloud Module/Package Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
-            echo "| Module/Package | BLOCKER | CRITICAL | MAJOR | MINOR | INFO |" >> $env:GITHUB_STEP_SUMMARY
+            echo "| Module/Package | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
             echo "|---------------|---------|----------|-------|-------|------|" >> $env:GITHUB_STEP_SUMMARY
             foreach ($row in $packageBreakdown) {
-              echo "| $($row.Module) | $($row.BLOCKER) | $($row.CRITICAL) | $($row.MAJOR) | $($row.MINOR) | $($row.INFO) |" >> $env:GITHUB_STEP_SUMMARY
+              echo "| $($row.Module) | $($row.BLOCKER) | $($row.HIGH) | $($row.MEDIUM) | $($row.LOW) | $($row.INFO) |" >> $env:GITHUB_STEP_SUMMARY
             }
           }
         
