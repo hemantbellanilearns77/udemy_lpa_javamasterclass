@@ -197,6 +197,7 @@ jobs:
           }
 
           function Get-AsciiBar($percent) {
+            
             $blocks = 50
             $filled = [math]::Round($blocks * $percent / 100)
             $empty = $blocks - $filled
@@ -234,10 +235,10 @@ jobs:
           $branch = "${{ github.ref_name }}"
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
-           Write-Error "? SONAR_TOKEN is empty!"
+           Write-Error "⚠ SONAR_TOKEN is empty!"
            exit 1
           }
-          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&organization=hemantbellanilearns77&id=$projectKey&organization==$projectOrg"
+          $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization==$projectOrg"
           Write-Host "?? Calling SonarCloud API: $url"
           try {
            $response = Invoke-WebRequest -Uri $url -Method Get
@@ -251,7 +252,7 @@ jobs:
              exit 1
            }
           } catch {
-           Write-Error "? API call failed: $_"
+           Write-Error "⚠ API call failed: $_"
            exit 1
           }
 
@@ -263,7 +264,7 @@ jobs:
           $headers = @{ Authorization = "Basic $encodedAuth" }
 
           function Get-SonarMetric($metricKey) {
-            $url = "https://sonarcloud.io/api/measures/component?component=${{ env.SONAR_PROJECT_KEY }}&metricKeys=$metricKey"
+            $url = "https://sonarcloud.io/api/measures/component?component=hemantbellanilearns77_udemy_lpa_javamasterclass&metricKeys=coverage"
             Write-Output "Coverage URL is " $url
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
