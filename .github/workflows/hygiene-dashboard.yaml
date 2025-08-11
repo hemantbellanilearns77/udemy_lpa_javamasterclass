@@ -371,34 +371,7 @@ jobs:
             INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           }
           
-          ###############################################################################
-                # === Fetch Module/Package Severity Breakdown (UI-Aligned) ===
-          ###############################################################################
-            $packageBreakdown = @()
-          
-            $url = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&id=$projectKey&resolved=false&facets=directories&ps=1"
-            Write-Output "URL now is " $url
-            try {
-            $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
-            $json = $resp.Content | ConvertFrom-Json
-            $components = $json.facets | Where-Object { $_.property -eq "componentKeys" } | Select-Object -ExpandProperty values
-          
-            foreach ($comp in $components) {
-            $compKey = $comp.val
-          
-            $row = [PSCustomObject]@{
-            Module   = $compKey
-            BLOCKER  = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=BLOCKER&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
-            HIGH     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=HIGH&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
-            MEDIUM   = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=MEDIUM&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1"  | ConvertFrom-Json).total
-            LOW      = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=LOW&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1" | ConvertFrom-Json).total
-            INFO     = (Invoke-WebRequest -Uri "https://sonarcloud.io/api/issues/search?impactSeverities=INFO&componentKeys=$compKey&issueStatuses=OPEN,CONFIRMED&ps=1"  | ConvertFrom-Json).total
-          }
-            $packageBreakdown += $row
-          }
-          } catch {
-              Write-Host "⚠ Could not fetch package breakdown: $_"
-          }          
+       
           ############################################################
                 # === Generate URLS ===
           ############################################################
@@ -440,26 +413,6 @@ jobs:
             Write-Output "No packageBreakdown obtained" $packageBreakdown
           }
           
-          ############################################################
-          # === Module Breakdown with clickable module names & severities ===
-          ############################################################
-            if ($packageBreakdown.Count -gt 0) {
-            echo "### 📦 SonarCloud Module/Package Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
-            echo "| Module/Package | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
-            echo "|---------------|---------|------|--------|-----|------|" >> $env:GITHUB_STEP_SUMMARY
-            foreach ($row in $packageBreakdown) {
-                $moduleUrl = "https://sonarcloud.io/project/issues?id=$($row.Module)&resolved=false"
-                $mBlocker  = "[${row.BLOCKER}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=BLOCKER&resolved=false)"
-                $mHigh     = "[${row.HIGH}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=CRITICAL&resolved=false)"
-                $mMedium   = "[${row.MEDIUM}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=MAJOR&resolved=false)"
-                $mLow      = "[${row.LOW}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=MINOR&resolved=false)"
-                $mInfo     = "[${row.INFO}](https://sonarcloud.io/project/issues?id=$($row.Module)&severities=INFO&resolved=false)"
-                echo "| [$($row.Module)]($moduleUrl) | $mBlocker | $mHigh | $mMedium | $mLow | $mInfo |" >> $env:GITHUB_STEP_SUMMARY
-              }
-           }
-
-
-
           ############################################################
           # === Outputs for Email ===
           ############################################################
@@ -566,8 +519,8 @@ jobs:
             | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
             ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 5 && '(⚠️ Coverage Below Threshold)' || '' }}
 
-          to: hemantbellanilearns77@gmail.com
-          from: GitHub Hygiene Bot <hemantbellanilearns77@gmail.com>
+          to:  ${{ vars.EMAIL_RECIPIENT }}
+          from: GitHub Hygiene Bot <${{ vars.EMAIL_RECIPIENT }}>
           html_body: |
             <p>Hi Hemant,</p>
             <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
