@@ -14,10 +14,6 @@ public class DemoExceptionHandling {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
-        /*
-         *****************************************************
-         */
-
         ConsoleStyler.printBanner("EXCEPTION HANDLING");
 
         ConsoleStyler.startSection("Try-Catch Example");
@@ -37,9 +33,7 @@ public class DemoExceptionHandling {
         ConsoleStyler.endSection("Finally Block");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 }
