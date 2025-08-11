@@ -1,4 +1,4 @@
-package com.hb.study.udemylpajavamasterclass.global.libs.misc_demoLibs.topicwisedemo;
+package com.hb.study.misc_utils.demo_stubs.corejavaalltopicsdemo.topicwisedemo;
 
 /*
 import javafx.application.Application;
