@@ -22,13 +22,24 @@ public class CoreJavaCarnival {
 
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final String FORMAT_STRING_PREFIX_ONE = "\uD83D\uDD37";
+    private static final String FORMAT_STRING_PREFIX_TWO = "\uD83D\uDCCC";
+    private static final String FORMAT_STRING_PREFIX_THREE = "\uD83E\uDDEE";
+    private static final String FORMAT_STRING_PREFIX_FOUR = "\uD83E\uDDF5";
+    private static final String FORMAT_STRING_PREFIX_FIVE = "\uD83D\uDCC5";
+    private static final String FORMAT_STRING_PREFIX_SIX = "\uD83E\uDDEA";
+    private static final String FORMAT_STRING_PREFIX_SEVEN = "\uD83D\uDCDD";
+    private static final String FORMAT_STRING_PREFIX_EIGHT = "\uD83D\uDC68\u200D\uD83D\uDCBC";
+    private static final String FORMAT_STRING_PREFIX_NINE = "\uD83D\uDDBC\uFE0F";
+    private static final String FORMAT_STRING_PREFIX_TEN = "\uD83D\uDCC2";
+    private static final String FORMAT_STRING_PREFIX_ELEVEN = "\uD83D\uDDC4\uFE0F";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
 
         ConsoleStyler.printBanner("CORE JAVA CARNIVAL");
-        ConsoleStyler.startSection(" \uD83D\uDD37 Primitives and Operators");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_ONE + " Primitives and Operators");
         // 🔷 Primitives and Operators
         int a = 10;
         int b = 5;
@@ -36,38 +47,37 @@ public class CoreJavaCarnival {
         ConsoleStyler.styleOutput("Addition: ", Integer.toString((a + b)));
         ConsoleStyler.styleOutput("Multiplication: ", Integer.toString((a * b)));
         ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString((a > b)));
-        ConsoleStyler.endSection(" \uD83D\uDD37 Primitives and Operators");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_ONE + " Primitives and Operators");
 
-
-        ConsoleStyler.startSection(" \uD83D\uDCCC Control Flow");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_TWO + " Control Flow");
         // 📌 Control Flow
         for (int i = 0; i < 3; i++) {
             ConsoleStyler.styleOutput("🎠 Loop Step ", Integer.toString((i + 1)));
         }
-        ConsoleStyler.endSection(" \uD83D\uDCCC Control Flow");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_TWO + " Control Flow");
 
 
-        ConsoleStyler.startSection(" \uD83E\uDDEE Arrays & Collections");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_THREE + " Arrays & Collections");
         // 🧮 Arrays & Collections
         int[] nums = {5, 8, 2, 9, 4};
         ConsoleStyler.styleOutput("Array: " + Arrays.toString(nums));
 
         List<String> animals = Arrays.asList("Tiger", "Zebra", "Panda");
         animals.forEach(animal -> ConsoleStyler.styleOutput("🐾 ", animal));
-        ConsoleStyler.endSection(" \uD83E\uDDEE Arrays & Collections");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_THREE + " Arrays & Collections");
 
-        ConsoleStyler.startSection(" \uD83E\uDDF5 String ops");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_FOUR + " String ops");
         // 🧵 String ops
         String welcome = "Welcome to Java";
         ConsoleStyler.styleOutput("Uppercase: ", welcome.toUpperCase());
-        ConsoleStyler.endSection(" \uD83E\uDDF5 String ops");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_FOUR + " String ops");
 
-        ConsoleStyler.startSection(" \uD83D\uDCC5 Date API");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_FIVE + " Date API");
         // 📅 Date API
         LocalDate now = LocalDate.now();
         ConsoleStyler.styleOutput("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD)));
-        ConsoleStyler.endSection(" \uD83D\uDCC5 Date API");
-        ConsoleStyler.startSection(" \uD83E\uDDEA Exception Handling");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_FIVE + " Date API");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_SIX + " Exception Handling");
         // 🧪 Exception Handling
         try {
             b = 0;
@@ -75,8 +85,8 @@ public class CoreJavaCarnival {
         } catch (ArithmeticException e) {
             ConsoleStyler.styleError("⚠️ Exception: " + e.getMessage());
         }
-        ConsoleStyler.endSection(" \uD83E\uDDEA Exception Handling");
-        ConsoleStyler.startSection(" \uD83D\uDCDD Scanner Input");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_SIX + " Exception Handling");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_SEVEN + " Scanner Input");
 
         // 📝 Scanner Input
         Scanner scanner = new Scanner(System.in);
@@ -84,24 +94,24 @@ public class CoreJavaCarnival {
         String name = scanner.nextLine();
         ConsoleStyler.styleOutput("👋 Hello, " + name);
         scanner.close();
-        ConsoleStyler.endSection(" \uD83D\uDCDD Scanner Input");
-        ConsoleStyler.startSection(" \uD83D\uDC68\u200D\uD83D\uDCBC OOP Demo");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_SEVEN + " Scanner Input");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_EIGHT + " OOP Demo");
         // 👨‍💼 OOP Demo
         Person p = new Employee(name, 123);
         p.introduce();
-        ConsoleStyler.endSection(" \uD83D\uDC68\u200D\uD83D\uDCBC OOP Demo");
-        ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_EIGHT + " OOP Demo");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_NINE + " Swing UI");
         // 🖼️ Swing UI
         launchSwingUI();
-        ConsoleStyler.startSection(" \uD83D\uDDBC\uFE0F Swing UI");
-        ConsoleStyler.startSection(" \uD83D\uDCC2 File Output");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_NINE + " Swing UI");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_TEN + " File Output");
         // 📂 File Output
         writeToFile("logs/carnival_log.txt", "Session for " + name + " completed 🎯");
-        ConsoleStyler.endSection(" \uD83D\uDCC2 File Output");
-        ConsoleStyler.startSection(" \uD83D\uDDC4\uFE0F DB Demo");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_TEN + " File Output");
+        ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_ELEVEN + " DB Demo");
         // 🗄️ DB Demo
         runDBDemo();
-        ConsoleStyler.endSection(" \uD83D\uDDC4\uFE0F DB Demo");
+        ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_ELEVEN + " DB Demo");
         ConsoleStyler.printBanner("THANK YOU");
         execution.finalizeExecution();
     }

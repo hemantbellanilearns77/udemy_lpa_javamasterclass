@@ -13,15 +13,11 @@ public class DemoMathOperations {
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-
-        /*
-         *****************************************************
-         */
-
         ConsoleStyler.printBanner("MATH OPERATIONS");
 
         ConsoleStyler.startSection("Basic Math");
-        int a = 5, b = 2;
+        int a = 5;
+        int b = 2;
         ConsoleStyler.styleOutput("Add: " + (a + b));
         ConsoleStyler.styleOutput("Multiply: " + (a * b));
         ConsoleStyler.endSection("Basic Math");
@@ -33,9 +29,7 @@ public class DemoMathOperations {
         ConsoleStyler.endSection("Using Math Class");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 }

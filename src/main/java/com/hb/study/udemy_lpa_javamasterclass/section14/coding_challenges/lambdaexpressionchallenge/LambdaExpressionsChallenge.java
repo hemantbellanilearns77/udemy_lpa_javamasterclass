@@ -17,22 +17,11 @@ public class LambdaExpressionsChallenge {
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final Random random = new Random();
-    private static final int maxElementAndIterationCount = random.nextInt(1, (63 + 1));
-
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
-        // main method initializations....
-        //ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        /*
-         *****************************************************
-         */
-        //your own code here; recommended to divide in function calls
-        //demoFunction();
         challengeDemo();
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 

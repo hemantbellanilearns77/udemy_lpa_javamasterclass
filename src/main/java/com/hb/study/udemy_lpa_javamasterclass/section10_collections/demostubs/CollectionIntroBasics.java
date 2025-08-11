@@ -1,32 +1,32 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-
-
 public class CollectionIntroBasics {
-    public static String asteriskSeparatorLine =  "*".repeat(153) + "\n";
-    public static String programOutputBegins = "\n" + "*".repeat(54) + " The Output of " + CollectionIntroBasics.class.getSimpleName() + " is as below " + "*".repeat(54) + "\n";
 
+    private static final ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
-        ConsoleStyler.styleOutput(programOutputBegins);
+
+        execution.initialize();
         introToArrayLists();
 
         arraysVsArrayListsVsLists();
 
-
+        execution.finalizeExecution();
     }
     private static void introToArrayLists() {
+        ConsoleStyler.startSection("Introduction to ArrayLists");
         GroceryItem [] groceryArray = new GroceryItem[3];
         groceryArray[0] = new GroceryItem("Milk");
         groceryArray[1] = new GroceryItem("apples", "PRODUCE",1);
         groceryArray[2] = new GroceryItem("5 Oranges","PRODUCE",5);
         ConsoleStyler.styleOutput("List of items in groceryArray (GrocerItem records) are: \n" + Arrays.toString(groceryArray));
-        ConsoleStyler.styleOutput(asteriskSeparatorLine);
+        ConsoleStyler.halfDivider();
 
         //noinspection rawtypes
         ArrayList objectList = new ArrayList<>();
@@ -35,17 +35,19 @@ public class CollectionIntroBasics {
         //noinspection unchecked
         objectList.add("Yogurt");
         ConsoleStyler.styleOutput("Raw Arraylist (objectList) is: " + objectList);
-        ConsoleStyler.styleOutput(asteriskSeparatorLine);
+        ConsoleStyler.halfDivider();
 
         ArrayList<GroceryItem> groceryList = new ArrayList<>();
         groceryList.add(new GroceryItem("Cheese"));
         groceryList.add(new GroceryItem("Milk"));
         groceryList.add(new GroceryItem("apples", "PRODUCE",1));
         ConsoleStyler.styleOutput("Type Defined Arraylist (groceryList) is: " + groceryList);
-        ConsoleStyler.styleOutput(asteriskSeparatorLine);
+        ConsoleStyler.halfDivider();
+        ConsoleStyler.endSection("Introduction to ArrayLists");
     }
 
     private static void arraysVsArrayListsVsLists(){
+        ConsoleStyler.startSection("Arrays vs ArrayLists");
         ArrayList<String> stringArrayList = new ArrayList<>();
 
         //noinspection ConstantConditions
@@ -66,7 +68,8 @@ public class CollectionIntroBasics {
         ConsoleStyler.styleOutput("\nThe sorted (in natural order) version: " + Arrays.toString(newStringArray));
         newStrArrayList.sort(Comparator.reverseOrder());
         ConsoleStyler.styleOutput("\nThe sorted (reverseOrder) version: " + Arrays.toString(newStringArray));
-        ConsoleStyler.styleOutput(asteriskSeparatorLine);
+        ConsoleStyler.halfDivider();
+        ConsoleStyler.endSection("Arrays vs ArrayLists");
 
     }
 }

@@ -18,9 +18,6 @@ public class DemoAllIO {
     public static void main(String[] ignoredArgs) throws IOException {
         execution.initialize();
 
-        /*
-         *****************************************************
-         */
 
         ConsoleStyler.printBanner("FILE I/O");
 
@@ -36,9 +33,7 @@ public class DemoAllIO {
         ConsoleStyler.endSection("Read from File");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");
-        /*
-         *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 }
