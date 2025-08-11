@@ -402,19 +402,6 @@ jobs:
           echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
 
-          ############################################################
-          # === Write Module Breakdown Table ===
-          ############################################################
-          if ($packageBreakdown.Count -gt 0) {
-            echo "### 📦 SonarCloud Module/Package Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
-            echo "| Module/Package | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
-            echo "|---------------|---------|----------|-------|-------|------|" >> $env:GITHUB_STEP_SUMMARY
-            foreach ($row in $packageBreakdown) {
-              echo "| $($row.Module) | $($row.BLOCKER) | $($row.HIGH) | $($row.MEDIUM) | $($row.LOW) | $($row.INFO) |" >> $env:GITHUB_STEP_SUMMARY
-            }
-          } else {
-            Write-Output "No packageBreakdown obtained" $packageBreakdown
-          }
           
           ############################################################
           # === Outputs for Email ===
@@ -438,8 +425,11 @@ jobs:
           "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
 
+          ###############################################################################
+          # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
+          ###############################################################################
             $packageBreakdown = @()
-          
+            
             # Build map from MODULE_PATHS env variable
             $modulePathMap = @{}
             foreach ($line in ($env:MODULE_PATHS -split "`n")) {
@@ -447,74 +437,73 @@ jobs:
             $parts = $line.Trim() -split "="
             if ($parts.Count -eq 2) {
             $modulePathMap[$parts[1]] = $parts[0]
-            }
-            }
-            }
+          }
+          }
+          }
           
-          # Step 1: Get directory list
+          # Initialize aggregation buckets for each module
+            $moduleAgg = @{}
+            foreach ($pathKey in $modulePathMap.Keys) {
+            $moduleAgg[$modulePathMap[$pathKey]] = @{
+            BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
+          }
+          }
+          
+          # Step 1: Get directory list from SonarCloud
             $facetsUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
+            Write-Output "Fetching directories from $facetsUrl"
             $resp = Invoke-WebRequest -Uri $facetsUrl -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
-          
-            # Step 2: Aggregate counts per module
-            $moduleAgg = @{}
+            
+            # Step 2: Loop through directories and aggregate counts per module
             foreach ($dirObj in $directories) {
             $dir = $dirObj.val
             $matchedModule = $null
+            
             foreach ($pathKey in $modulePathMap.Keys) {
-            # Strict match: directory must start with the mapped path
             if ($dir -like "$pathKey*") {
             $matchedModule = $modulePathMap[$pathKey]
             break
           }
           }
-            if (-not $matchedModule) { continue }
-          
-            $sevCounts = @{
-            BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
-          }
-          
+            
+            if (-not $matchedModule) { continue } # Skip directories not in our mapping
+            
+            # Fetch counts per severity for this directory
             foreach ($sev in @("BLOCKER","CRITICAL","MAJOR","MINOR","INFO")) {
             $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sev&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
             $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total
-          
+            
             switch ($sev) {
-            "BLOCKER"  { $sevCounts["BLOCKER"] = $count }
-            "CRITICAL" { $sevCounts["HIGH"]    = $count }
-            "MAJOR"    { $sevCounts["MEDIUM"]  = $count }
-            "MINOR"    { $sevCounts["LOW"]     = $count }
-            "INFO"     { $sevCounts["INFO"]    = $count }
+            "BLOCKER"  { $moduleAgg[$matchedModule]["BLOCKER"] += $count }
+            "CRITICAL" { $moduleAgg[$matchedModule]["HIGH"]    += $count }
+            "MAJOR"    { $moduleAgg[$matchedModule]["MEDIUM"]  += $count }
+            "MINOR"    { $moduleAgg[$matchedModule]["LOW"]     += $count }
+            "INFO"     { $moduleAgg[$matchedModule]["INFO"]    += $count }
           }
-          }
-          
-            if (-not $moduleAgg.ContainsKey($matchedModule)) {
-            $moduleAgg[$matchedModule] = @{
-            BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
           }
           }
           
-            foreach ($k in $sevCounts.Keys) {
-            $moduleAgg[$matchedModule][$k] += $sevCounts[$k]
-          }
-          }
-          
-          # Step 3: Write to GitHub Summary (with clickable links)
+          # Step 3: Print plain numbers table to GitHub summary
             if ($moduleAgg.Count -gt 0) {
             echo "### 📦 SonarCloud Module Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
             echo "| Module | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
             echo "|--------|---------|------|--------|-----|------|" >> $env:GITHUB_STEP_SUMMARY
             foreach ($mod in $moduleAgg.Keys) {
-            $baseUrl = "https://sonarcloud.io/project/issues?organization=$projectOrg&componentKeys=$projectKey&resolved=false"
-            $mBlocker = "[${($moduleAgg[$mod].BLOCKER)}]($baseUrl&severities=BLOCKER)"
-            $mHigh    = "[${($moduleAgg[$mod].HIGH)}]($baseUrl&severities=CRITICAL)"
-            $mMedium  = "[${($moduleAgg[$mod].MEDIUM)}]($baseUrl&severities=MAJOR)"
-            $mLow     = "[${($moduleAgg[$mod].LOW)}]($baseUrl&severities=MINOR)"
-            $mInfo    = "[${($moduleAgg[$mod].INFO)}]($baseUrl&severities=INFO)"
-            $moduleUrl = "[$mod]($baseUrl)"
-            echo "| $moduleUrl | $mBlocker | $mHigh | $mMedium | $mLow | $mInfo |" >> $env:GITHUB_STEP_SUMMARY
+            $b = $moduleAgg[$mod]
+            echo "| $mod | $($b.BLOCKER) | $($b.HIGH) | $($b.MEDIUM) | $($b.LOW) | $($b.INFO) |" >> $env:GITHUB_STEP_SUMMARY
           }
           }
+          
+          # Step 4: Export results as an output variable for email step
+          # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
+            $emailBreakdown = ($moduleAgg.Keys | ForEach-Object {
+            $b = $moduleAgg[$_]
+            "$_:$($b.BLOCKER),$($b.HIGH),$($b.MEDIUM),$($b.LOW),$($b.INFO)"
+          }) -join ";"
+            
+            echo "EMAIL_BREAKDOWN=$emailBreakdown" >> $env:GITHUB_ENV
 
 
 
