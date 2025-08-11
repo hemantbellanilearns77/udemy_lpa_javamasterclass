@@ -14,13 +14,14 @@ public class DemoExceptionHandling {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
-        ConsoleStyler.printBanner("EXCEPTION HANDLING");
+        ConsoleStyler.styleExecutionInsight("DEMO EXCEPTION HANDLING");
 
         ConsoleStyler.startSection("Try-Catch Example");
         try {
-            int result = 10 / 0;
+
+            ConsoleStyler.styleOutput("Division by Zero: " + 10/0);
         } catch (ArithmeticException e) {
-            ConsoleStyler.styleOutput("❌ Error: " + e.getMessage());
+            ConsoleStyler.styleError("❌ Error: " + e.getMessage());
         }
         ConsoleStyler.endSection("Try-Catch Example");
 
@@ -32,7 +33,7 @@ public class DemoExceptionHandling {
         }
         ConsoleStyler.endSection("Finally Block");
 
-        ConsoleStyler.printBanner("DEMO COMPLETE");
+        ConsoleStyler.styleExecutionInsight("DEMO EXCEPTION HANDLING - COMPLETE");
 
         execution.finalizeExecution();
     }
