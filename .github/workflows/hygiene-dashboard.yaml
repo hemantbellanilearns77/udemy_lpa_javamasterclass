@@ -435,7 +435,87 @@ jobs:
           "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
 
-      ##########################
+          ###############################################################################
+          # === Fetch Module/Package Severity Breakdown using directories facet (Option 2) ===
+          ###############################################################################
+            $packageBreakdown = @()
+            
+            # Step 1: Fetch all directories with issues
+            $dirUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
+          Write-Output "Fetching directories from: $dirUrl"
+            try {
+            $dirResp = Invoke-WebRequest -Uri $dirUrl -Headers $headers -Method Get
+            $dirJson = $dirResp.Content | ConvertFrom-Json
+            $directories = $dirJson.facets[0].values | Select-Object -ExpandProperty val
+            
+            foreach ($dir in $directories) {
+            # Step 2: Get total per severity for this directory
+            $sevMap = @{
+            "BLOCKER" = "BLOCKER"
+            "HIGH"    = "CRITICAL"
+            "MEDIUM"  = "MAJOR"
+            "LOW"     = "MINOR"
+            "INFO"    = "INFO"
+            }
+            
+            $sevCounts = @{}
+            foreach ($sevKey in $sevMap.Keys) {
+            $sevParam = $sevMap[$sevKey]
+            $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevParam&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
+            $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total
+            $sevCounts[$sevKey] = $count
+            }
+            
+            # Map the directory to a "module" name
+            # (Here just using the first path segment as module — adjust as needed)
+            if ($dir -like "*misc_utils*") {
+            $modName = "misc_utils"
+            }
+            else {
+            $modName = "udemy_lpa_javamasterclass"
+            }
+            
+            # Add row
+            $packageBreakdown += [PSCustomObject]@{
+            Module   = $modName
+            DirPath  = $dir
+            BLOCKER  = $sevCounts.BLOCKER
+            HIGH     = $sevCounts.HIGH
+            MEDIUM   = $sevCounts.MEDIUM
+            LOW      = $sevCounts.LOW
+            INFO     = $sevCounts.INFO
+            }
+            }
+          }
+            catch {
+          Write-Host "⚠ Could not fetch package breakdown: $_"
+          }
+          
+          ###############################################################################
+          # === Module Breakdown with clickable module names & severities (Option 2) ===
+          ###############################################################################
+            if ($packageBreakdown.Count -gt 0) {
+            echo "### 📦 SonarCloud Module/Package Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
+            echo "| Module/Package | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
+            echo "|---------------|---------|------|--------|-----|------|" >> $env:GITHUB_STEP_SUMMARY
+            
+            foreach ($row in $packageBreakdown) {
+            # Base module link
+            $moduleUrl = "https://sonarcloud.io/project/issues?directories=$($row.DirPath)&id=$projectKey&resolved=false"
+            
+            # Clickable severity counts
+            $mBlocker = "[$($row.BLOCKER)](https://sonarcloud.io/project/issues?id=$projectKey&directories=$($row.DirPath)&severities=BLOCKER&resolved=false)"
+            $mHigh    = "[$($row.HIGH)](https://sonarcloud.io/project/issues?id=$projectKey&directories=$($row.DirPath)&severities=CRITICAL&resolved=false)"
+            $mMedium  = "[$($row.MEDIUM)](https://sonarcloud.io/project/issues?id=$projectKey&directories=$($row.DirPath)&severities=MAJOR&resolved=false)"
+            $mLow     = "[$($row.LOW)](https://sonarcloud.io/project/issues?id=$projectKey&directories=$($row.DirPath)&severities=MINOR&resolved=false)"
+            $mInfo    = "[$($row.INFO)](https://sonarcloud.io/project/issues?id=$projectKey&directories=$($row.DirPath)&severities=INFO&resolved=false)"
+            
+            echo "| [$($row.Module)]($moduleUrl) | $mBlocker | $mHigh | $mMedium | $mLow | $mInfo |" >> $env:GITHUB_STEP_SUMMARY
+          }
+          }
+
+
+##########################
       # FULL CLEANUP
       ##########################
 
