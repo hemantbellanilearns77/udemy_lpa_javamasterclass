@@ -7,7 +7,7 @@ on:
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
-    runs-on: windows-latest
+    runs-on: windows-2025
     env:
       JACOCO_MIN_COVERAGE: 0.05
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 50
@@ -27,7 +27,40 @@ jobs:
       - name: ?? Checkout Code
         uses: actions/checkout@v4
 
-        ##############################################################################
+      ##########################
+      # EXTRACT COMMIT STATS
+      ##########################
+
+      - name: ?? Extract Commit Info (Windows PowerShell)
+        id: commit_info
+        shell: pwsh
+        run: |
+          $shortSha = git rev-parse --short HEAD
+          $fullSha = git rev-parse HEAD
+          $msg = git log -1 --pretty=%s
+          $author = git log -1 --pretty='%an'
+          $date = git log -1 --date=iso-local --pretty='%cd'
+
+          $commitTs = git log -1 --pretty=%ct
+          $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
+          $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
+
+          if ($deltaMin -lt 1) {
+            $ago = "Just now"
+          } elseif ($deltaMin -eq 1) {
+            $ago = "1 minute ago"
+          } else {
+            $ago = "$deltaMin minutes ago"
+          }
+
+          "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
+          "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
+          "COMMIT_MSG=$msg" >> $env:GITHUB_OUTPUT
+          "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
+          "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
+          "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT  
+
+      ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
       - name: Setup Java (Temurin)
@@ -163,7 +196,7 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
 
-        ################################
+      ################################
         # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: ?? Run SonarCloud Scan (via batch)
@@ -480,39 +513,6 @@ jobs:
         if: env.SKIP_ECHO != 'true'
         run: echo Hello, world!
         shell: cmd
-
-      ##########################
-      # EXTRACT COMMIT STATS
-      ##########################
-
-      - name: ?? Extract Commit Info (Windows PowerShell)
-        id: commit_info
-        shell: pwsh
-        run: |
-          $shortSha = git rev-parse --short HEAD
-          $fullSha = git rev-parse HEAD
-          $msg = git log -1 --pretty=%s
-          $author = git log -1 --pretty='%an'
-          $date = git log -1 --date=iso-local --pretty='%cd'
-
-          $commitTs = git log -1 --pretty=%ct
-          $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
-          $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-
-          if ($deltaMin -lt 1) {
-            $ago = "Just now"
-          } elseif ($deltaMin -eq 1) {
-            $ago = "1 minute ago"
-          } else {
-            $ago = "$deltaMin minutes ago"
-          }
-
-          "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
-          "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
-          "COMMIT_MSG=$msg" >> $env:GITHUB_OUTPUT
-          "COMMIT_AUTHOR=$author" >> $env:GITHUB_OUTPUT
-          "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
-          "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
 
       ###############################
       # Calculate Execution Metrics
