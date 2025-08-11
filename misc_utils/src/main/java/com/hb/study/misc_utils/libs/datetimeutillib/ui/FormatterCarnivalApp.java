@@ -49,32 +49,29 @@ public class FormatterCarnivalApp extends JFrame {
         outputArea.setEditable(false);
 
         runButton.addActionListener(e -> {
-            FormatterLogBuffer.clear();
             FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
             Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
             String selectedZoneId = (String) zoneCombo.getSelectedItem();
             //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
             //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
             GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, null);
-            outputArea.setText(FormatterLogBuffer.getLog());
+            outputArea.setText("TBD");
         });
 
         customPatternButton.addActionListener(e -> {
             String pattern = JOptionPane.showInputDialog(this, "Enter custom date-time pattern:");
             if (pattern != null && !pattern.trim().isEmpty()) {
-                FormatterLogBuffer.clear();
                 FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
                 Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
                 String selectedZoneId = (String) zoneCombo.getSelectedItem();
                 //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
                 //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
                 GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, pattern);
-                outputArea.setText(FormatterLogBuffer.getLog());
+                outputArea.setText("TBD");
             }
         });
 
         exportButton.addActionListener(e -> {
-            FormatterLogBuffer.exportMarkdown();
             JOptionPane.showMessageDialog(this, "Exported to Markdown view (check console)");
         });
 

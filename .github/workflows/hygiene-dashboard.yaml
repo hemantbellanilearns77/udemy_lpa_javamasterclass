@@ -390,8 +390,8 @@ jobs:
           echo "| 🟦 LOW                  | [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "?? [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
-          echo "?? [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
+          echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
 
           ############################################################
           # === Write Module Breakdown Table ===
@@ -585,11 +585,12 @@ jobs:
             
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-              <li>🟥 <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">BLOCKER</a>: <strong>${{ steps.metrics.outputs.sonarBlocker }}</strong></li>
-              <li>🟧 <a href="${{ steps.metrics.outputs.sonarHighUrl }}">HIGH</a>: <strong>${{ steps.metrics.outputs.sonarHigh }}</strong></li>
-              <li>🟨 <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">MEDIUM</a>: <strong>${{ steps.metrics.outputs.sonarMedium }}</strong></li>
-              <li>🟦 <a href="${{ steps.metrics.outputs.sonarLowUrl }}">LOW</a>: <strong>${{ steps.metrics.outputs.sonarLow }}</strong></li>
-              <li>ℹ️ <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">INFO</a>: <strong>${{ steps.metrics.outputs.sonarInfo }}</strong></li>
+              <li>🟥 <strong>BLOCKER: <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }}</a></strong></li>
+              <li>🟧 <strong>HIGH: <a href="${{ steps.metrics.outputs.sonarHighUrl }}">${{ steps.metrics.outputs.sonarHigh }}</a></strong></li>
+              <li>🟨 <strong>MEDIUM: <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">${{ steps.metrics.outputs.sonarMedium }}</a></strong></li>
+              <li>🟦 <strong>LOW: <a href="${{ steps.metrics.outputs.sonarLowUrl }}">${{ steps.metrics.outputs.sonarLow }}</a></strong></li>
+              <li>ℹ️<strong>INFO: <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">${{ steps.metrics.outputs.sonarInfo }}</a></strong></li>
+              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Open Issues Breakdown Dashboard</a></li>
             </ul>
             
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
@@ -599,8 +600,8 @@ jobs:
               <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
               <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>?? View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-              <li><strong>?? View Commit:</strong>
+              <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
+              <li><strong>🌐 View Commit:</strong>
                   <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
               </li>
             </ul>

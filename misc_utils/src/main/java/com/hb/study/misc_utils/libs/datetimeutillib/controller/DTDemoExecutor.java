@@ -4,7 +4,6 @@ import com.hb.study.misc_utils.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.LocaleLibrary;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.NumberUtils;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.PatternLibrary;
-import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterLogBuffer;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
@@ -24,18 +23,17 @@ public class DTDemoExecutor {
     public static void runMinimalDemo(Locale locale, ZoneId zone) {
         ConsoleStyler.styleOutput("🧃 MINIMAL FORMAT DEMO");
 
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.divider();
 
         ZonedDateTime now = ZonedDateTime.now(zone);
         String result = DTFormatterUtils.safeFormat(now, "dd MMM yyyy HH:mm:ss z", locale);
-        System.out.printf("🌍 [%s | %s] → %s\n", locale.getDisplayName(), zone.getId(), result);
-        FormatterLogBuffer.append("🧃 Minimal Format → " + result);
+        ConsoleStyler.styleOutput( "🌍 [%s | %s] → %s".formatted(locale.getDisplayName(), zone.getId(), result) );
     }
 
 
     public static void runFormatStyleCombos(Locale locale, ZoneId zone) {
         ConsoleStyler.styleOutput("🖋️ FORMAT STYLE COMBINATIONS");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.divider();
 
         ZonedDateTime now = ZonedDateTime.now(zone);
         for (FormatStyle dateStyle : FormatStyle.values()) {
@@ -44,8 +42,7 @@ public class DTDemoExecutor {
                     DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(dateStyle, timeStyle)
                             .withLocale(locale);
                     String result = dtf.format(now);
-                    System.out.printf("🧪 [%s/%s] → %s\n", dateStyle, timeStyle, result);
-                    FormatterLogBuffer.append("🧪 " + dateStyle + "/" + timeStyle + " → " + result);
+                    ConsoleStyler.styleOutput( "🧪 [%s/%s] → %s".formatted(dateStyle,timeStyle,result) );
                 } catch (Exception ignored) {}
             }
         }
@@ -54,17 +51,6 @@ public class DTDemoExecutor {
 
     public static void runIndianPatternsShowcase() {
         PatternLibrary.runIndianPatterns();
-       /* ConsoleStyler.styleOutput("🗣️ LANGUAGE DEMO — Indian Regional Showcase");
-        ConsoleStyler.styleOutput(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
-        ZonedDateTime indiaTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
-        for (Locale locale : LocaleLibrary.getIndianRegionalLocales()) {
-            System.out.printf("🔸 Locale: %s\n", locale.getDisplayName(locale));
-            for (String pattern : PatternLibrary.getIndianPatterns()) {
-                String result = DTFormatterUtils.safeFormat(indiaTime, pattern, locale);
-                System.out.printf("📍 %-25s → %s\n", pattern, result);
-            }
-            ConsoleStyler.styleOutput(CommonConstants.ASTERISKSEPERATORLINESTRFULL + "\n");
-        }*/
     }
 
     public static void runVedicShowcase() {
@@ -79,7 +65,7 @@ public class DTDemoExecutor {
         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         double sample = 1234567.89;
         for (Locale locale : LocaleLibrary.getGlobalLocales()) {
-            System.out.printf("🌐 %s\n", locale.getDisplayName());
+            ConsoleStyler.styleOutput("🌐 %s".formatted(locale.getDisplayName()));
             ConsoleStyler.styleOutput("💰 Currency: " + NumberUtils.formatCurrency(sample, locale));
             ConsoleStyler.styleOutput("🔢 Number  : " + NumberUtils.formatNumber(sample, locale));
             ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");

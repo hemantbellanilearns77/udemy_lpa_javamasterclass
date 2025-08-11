@@ -10,7 +10,6 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.misc_utils.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterGUI;
-import com.hb.study.misc_utils.libs.datetimeutillib.ui.FormatterLogBuffer;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.time.ZoneId;
@@ -20,9 +19,12 @@ import java.util.Locale;
 public class GUIModeOrchestrator {
 
     public static void runMode(FormatterMode mode, Locale locale, String zoneId, String customPattern) {
-        FormatterLogBuffer.append("🎭 Running Mode: " + mode.name());
-        FormatterLogBuffer.append("🌐 Locale: " + locale.toString());
-        FormatterLogBuffer.append("🕰️ Zone: " + zoneId + "\n");
+
+        ConsoleStyler.styleInitializationInfo(
+                "🎭 Running Mode: " + mode.name() + "\n"
+                        + "🌐 Locale:  " + locale.toString() + "\n"
+                        + "🌐 Locale: " + zoneId + "\n"
+        );
 
         ZoneId zone = ZoneId.of(zoneId);
 
@@ -51,10 +53,7 @@ public class GUIModeOrchestrator {
             ZonedDateTime now = ZonedDateTime.now();
             String formatted = DTFormatterUtils.safeFormat(now, customPattern, locale);
             ConsoleStyler.styleOutput("🎨 Custom Pattern [ %-25s ] → %s\n".formatted(customPattern, formatted));
-            FormatterLogBuffer.append("🎨 Custom Pattern [" + customPattern + "] → " + formatted);
         }
-
-        FormatterLogBuffer.append("\n" + CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
-
+        ConsoleStyler.divider();
     }
 }
