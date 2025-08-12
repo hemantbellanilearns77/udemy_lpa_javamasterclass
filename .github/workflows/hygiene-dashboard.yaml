@@ -491,7 +491,26 @@ jobs:
           Write-Output "Directories fetched as below:"
           $directories | ForEach-Object { Write-Output " - $($_.val)" }
           
+          # Step 2: Loop through directories and aggregate counts per module
+          foreach ($dirObj in $directories) {
+            
+            $dir = $dirObj.val
+            $matchedModule = $null
+            Write-Output "Next Directory during iteration is: $dir"
+            
+            # check if src of any key in modulePathMap matches the starting string of the current directory 
+            foreach ($pathKey in $modulePathMap.Keys) {
+              if ($dir -like "$pathKey*") {
+                Write-Output "✅ Match: '$dir' starts with '$pathKey'"
+                $matchedModule = $modulePathMap[$pathKey]
+                Write-Output "Matched module: $matchedModule"
+                break
+              }
+            } 
           
+          
+          
+          } # end step 2
 
       ##########################
       # FULL CLEANUP
