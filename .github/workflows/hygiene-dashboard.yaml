@@ -453,7 +453,7 @@ jobs:
             Write-Output "Iterating over modulePathMap next path key is $pathKey"
             $moduleName = $modulePathMap[$pathKey]
             Write-Output "So moduleName is initialized to: $moduleName"
-            if (-not $moduleAgg.ContainsKey($moduleName) -and $null -ne $matchedModule) {
+            if (-not $moduleAgg.ContainsKey($moduleName)) {
               $moduleAgg[$moduleName] = @{
               BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
               }
@@ -517,14 +517,30 @@ jobs:
                 if ($null -ne $moduleAgg[$matchedModule]) {
                   Write-Output "✅ moduleAgg exists. Current contents:"
                   $moduleAgg.GetEnumerator() | ForEach-Object {
-                  $val = $_.Value
-                  if (-not $val) {
-                      Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
-                  } else {
-                      Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
-                  }
-                } # end for each object in moduleAgg
+                    $val = $_.Value
+                    if (-not $val) {
+                        Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+                    } else {
+                        Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                    }
+                  } # end for each object in moduleAgg
                 
+                  # now fetch severity-wise and then aggregate it
+                  if ($null -ne $moduleAgg[$matchedModule]) {
+                    foreach ($sev in @("BLOCKER","CRITICAL","MAJOR","MINOR","INFO")) {
+                      $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sev&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
+                      $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total
+                      Write-Output "count for $sev in $dir is $count fetched with $sevUrl"
+              
+                      switch ($sev) {
+                        "BLOCKER"  { $moduleAgg[$matchedModule]["BLOCKER"] += $count }
+                        "CRITICAL" { $moduleAgg[$matchedModule]["HIGH"]    += $count }
+                        "MAJOR"    { $moduleAgg[$matchedModule]["MEDIUM"]  += $count }
+                        "MINOR"    { $moduleAgg[$matchedModule]["LOW"]     += $count }
+                        "INFO"     { $moduleAgg[$matchedModule]["INFO"]    += $count }
+                       }
+                    }
+                  }
                 
                 } else {
                     Write-Output "⚠ Unexpected: \$moduleAgg['$matchedModule'] is null. Skipping severity count."
