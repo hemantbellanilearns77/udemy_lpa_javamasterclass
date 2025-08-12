@@ -10,6 +10,8 @@ import java.util.Comparator;
 public class CollectionIntroBasics {
 
     private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final String PRODUCE = "PRODUCE";
+
     public static void main(String[] args) {
 
         execution.initialize();
@@ -23,8 +25,8 @@ public class CollectionIntroBasics {
         ConsoleStyler.startSection("Introduction to ArrayLists");
         GroceryItem [] groceryArray = new GroceryItem[3];
         groceryArray[0] = new GroceryItem("Milk");
-        groceryArray[1] = new GroceryItem("apples", "PRODUCE",1);
-        groceryArray[2] = new GroceryItem("5 Oranges","PRODUCE",5);
+        groceryArray[1] = new GroceryItem("apples", PRODUCE,1);
+        groceryArray[2] = new GroceryItem("5 Oranges",PRODUCE,5);
         ConsoleStyler.styleOutput("List of items in groceryArray (GrocerItem records) are: \n" + Arrays.toString(groceryArray));
         ConsoleStyler.halfDivider();
 
@@ -40,7 +42,7 @@ public class CollectionIntroBasics {
         ArrayList<GroceryItem> groceryList = new ArrayList<>();
         groceryList.add(new GroceryItem("Cheese"));
         groceryList.add(new GroceryItem("Milk"));
-        groceryList.add(new GroceryItem("apples", "PRODUCE",1));
+        groceryList.add(new GroceryItem("apples", PRODUCE,1));
         ConsoleStyler.styleOutput("Type Defined Arraylist (groceryList) is: " + groceryList);
         ConsoleStyler.halfDivider();
         ConsoleStyler.endSection("Introduction to ArrayLists");
