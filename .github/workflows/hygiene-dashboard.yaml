@@ -469,6 +469,34 @@ jobs:
           }
           Write-Output "--------------------------------------"
 
+          # Step 1: Get directory list from SonarCloud
+          $facetsUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
+          Write-Output "Fetching directories from $facetsUrl"
+          $resp = Invoke-WebRequest -Uri $facetsUrl -Headers $headers -Method Get
+          $json = $resp.Content | ConvertFrom-Json
+          $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
+          Write-Output "Directories fetched as below:"
+          $directories | ForEach-Object { Write-Output " - $($_.val)" }
+  
+          # Step 2: Loop through directories and aggregate counts per module
+          foreach ($dirObj in $directories) {
+            $dir = $dirObj.val
+            $matchedModule = $null
+            Write-Output "Next Directory during iteration is: $dir"
+            
+            foreach ($pathKey in $modulePathMap.Keys) {
+            if ($dir -like "$pathKey*") {
+              Write-Output "✅ Match: '$dir' starts with '$pathKey'"
+              $matchedModule = $modulePathMap[$pathKey]
+              Write-Output "Matched module: $matchedModule"
+              break
+              }
+            } 
+          
+          if (-not $matchedModule) {
+              Write-Output "⚠ Skipping: '$dir' does not match any configured module"
+            }    
+          }
 
       ##########################
           # FULL CLEANUP
