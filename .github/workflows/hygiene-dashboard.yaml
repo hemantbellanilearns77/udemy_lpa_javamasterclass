@@ -514,23 +514,7 @@ jobs:
             $moduleInfo = $($b.Info)
             Write-Output "columnseparator $mod columnseparator $moduleBlocker columnseparator $moduleHigh columnseparator$moduleMedium columnseparator $moduleLow columnseparator $moduleInfo columnseparator"
             }
-            echo "### 📦 SonarCloud Module Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
-            echo "| Module | BLOCKER | HIGH | MEDIUM | LOW | INFO |" >> $env:GITHUB_STEP_SUMMARY
-            echo "|--------|---------|------|--------|-----|------|" >> $env:GITHUB_STEP_SUMMARY
-            foreach ($mod in $moduleAgg.Keys) {
-            $b = $moduleAgg[$mod]
-            echo "| $mod | $($b.BLOCKER) | $($b.HIGH) | $($b.MEDIUM) | $($b.LOW) | $($b.INFO) |" >> $env:GITHUB_STEP_SUMMARY
-            }
           } #end if
-          
-          # Step 4: Export results as an output variable for email step
-          # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
-            $emailBreakdown = ($moduleAgg.Keys | ForEach-Object {
-            $b = $moduleAgg[$_]
-            "$_:$($b.BLOCKER),$($b.HIGH),$($b.MEDIUM),$($b.LOW),$($b.INFO)"
-          }) -join ";"
-            
-            echo "EMAIL_BREAKDOWN=$emailBreakdown" >> $env:GITHUB_ENV
 
 
 
