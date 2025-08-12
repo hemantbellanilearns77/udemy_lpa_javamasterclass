@@ -531,18 +531,17 @@ jobs:
           Write-Output "|--------|---------|------|--------|-----|------|"
       
           foreach ($mod in $moduleAgg.Keys) {
-            Write-Output "Iterating over modules while printing next module is $mod"
-            $b = $moduleAgg[$mod]
-            
-            $moduleBlocker = $b.BLOCKER
-            $moduleHigh    = $b.HIGH
-            $moduleMedium  = $b.MEDIUM
-            $moduleLow     = $b.LOW
-            $moduleInfo    = $b.INFO
-            
-            # Markdown table row
-            Write-Output "| $mod | $moduleBlocker | $moduleHigh | $moduleMedium | $moduleLow | $moduleInfo |"
-          }
+          Write-Output "Iterating over modules while printing next module is $mod"
+          $b = $moduleAgg[$mod]
+          
+          $moduleBlocker = $b.BLOCKER
+          $moduleHigh    = $b.HIGH
+          $moduleMedium  = $b.MEDIUM
+          $moduleLow     = $b.LOW
+          $moduleInfo    = $b.INFO
+          
+          # Markdown table row
+          Write-Output "| $mod | $moduleBlocker | $moduleHigh | $moduleMedium | $moduleLow | $moduleInfo |"
         }
       }
 
