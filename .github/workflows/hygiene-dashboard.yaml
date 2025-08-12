@@ -482,6 +482,15 @@ jobs:
               Write-Output "--------------------------------------"
           }
           
+          # Step 1: Get directory list from SonarCloud
+          $facetsUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
+          Write-Output "Fetching directories from $facetsUrl"
+          $resp = Invoke-WebRequest -Uri $facetsUrl -Headers $headers -Method Get
+          $json = $resp.Content | ConvertFrom-Json
+          $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
+          Write-Output "Directories fetched as below:"
+          $directories | ForEach-Object { Write-Output " - $($_.val)" }
+          
           
 
       ##########################
