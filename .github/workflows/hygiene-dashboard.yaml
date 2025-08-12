@@ -485,12 +485,12 @@ jobs:
                                    $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
              }
               Write-Output "--------------------------------------"
-          }
+            }
           
           # Step 1: Get directory list from SonarCloud
-          $facetsUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
-          Write-Output "Fetching directories from $facetsUrl"
-          $resp = Invoke-WebRequest -Uri $facetsUrl -Headers $headers -Method Get
+          $dirFacetssUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
+          Write-Output "Fetching directories from: $dirFacetssUrl"
+          $resp = Invoke-WebRequest -Uri $dirFacetssUrl -Headers $headers -Method Get
           $json = $resp.Content | ConvertFrom-Json
           $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
           Write-Output "Directories fetched as below:"
@@ -518,25 +518,21 @@ jobs:
               Write-Output " ⚠ Current Directory does not fall under any configured module so will skip for now flagging it $dir"
               Write-Output " ⚠ Also due to that mismatch $matchedModule is empty"
             } else {
-          
-                if ($null -ne $moduleAgg[$matchedModule]) {
-                  Write-Output "✅ moduleAgg exists. Current contents:"
-                  $moduleAgg.GetEnumerator() | ForEach-Object {
-                    $val = $_.Value
-                    if (-not $val) {
-                        Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
-                    } else {
-                        Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
-                    }
-                  } # end for each object in moduleAgg
-                
-                  # now fetch severity-wise and then aggregate it
+                  if (-not $moduleAgg) {
+                    Write-Output "❌ moduleAgg is NULL"
+                  } else {
+                  Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"  
                   if ($null -ne $moduleAgg[$matchedModule]) {
+                  Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
+                  
+          
+                  # now fetch severity-wise and then aggregate it
+                  
                     foreach ($sev in @("BLOCKER","CRITICAL","MAJOR","MINOR","INFO")) {
                       $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sev&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
                       $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total
                       Write-Output "count for $sev in $dir is $count fetched with $sevUrl"
-              
+          
                       switch ($sev) {
                         "BLOCKER"  { $moduleAgg[$matchedModule]["BLOCKER"] += $count }
                         "CRITICAL" { $moduleAgg[$matchedModule]["HIGH"]    += $count }
@@ -545,11 +541,35 @@ jobs:
                         "INFO"     { $moduleAgg[$matchedModule]["INFO"]    += $count }
                        }
                     }
-                  }
-                
+          
+                   if (-not $moduleAgg) {
+                          Write-Output "❌ moduleAgg is NULL"
+                  }  else {
+                    Write-Output "✅ moduleAgg exists. Current contents:"
+                    $moduleAgg.GetEnumerator() | ForEach-Object {
+                    $val = $_.Value
+                    if (-not $val) {
+                      Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+                    }
+                    else {
+                      Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                    }
+                  } 
+                   # Debug: Print out current aggregate state
+                   Write-Output "----- Current Module Aggregates -----"
+                   foreach ($moduleName in $moduleAgg.Keys) {
+                    $bucket = $moduleAgg[$moduleName]
+                    Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                                         $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+                   }
+                    Write-Output "--------------------------------------"
+                  }          
                 } else {
                     Write-Output "⚠ Unexpected: \$moduleAgg['$matchedModule'] is null. Skipping severity count."
                 }
+              } # end of else of check for $moduleAgg being null
+                
+          
           
           
             } # end of else of matchedModule not being found
