@@ -453,7 +453,12 @@ jobs:
             Write-Output "Iterating over modulePathMap next path key is $pathKey"
             $moduleName = $modulePathMap[$pathKey]
             Write-Output "So moduleName is initialized to: $moduleName"
-            if (-not $moduleAgg.ContainsKey($moduleName)) {
+            if (-not $moduleAgg) {
+                  Write-Output "❌ moduleAgg is NULL"
+            } 
+          
+            if (-not $moduleAgg.ContainsKey($moduleName)) { 
+              
               $moduleAgg[$moduleName] = @{
               BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
               }
