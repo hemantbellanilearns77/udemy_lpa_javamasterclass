@@ -19,6 +19,7 @@ jobs:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SKIP_ECHO: true
+      SONAR_FETCH_SLEEP_TIME: 9
 
     steps:
 
@@ -264,7 +265,7 @@ jobs:
           ############################################################
           # === Fetch SonarCloud Issue Count (OPEN) ===
           ############################################################
-          Start-Sleep -Seconds 27
+          Start-Sleep -Seconds $env:SONAR_FETCH_SLEEP_TIME
           
           $projectKey = $env:SONAR_PROJECT_KEY
           $projectOrg = $env:SONAR_ORG

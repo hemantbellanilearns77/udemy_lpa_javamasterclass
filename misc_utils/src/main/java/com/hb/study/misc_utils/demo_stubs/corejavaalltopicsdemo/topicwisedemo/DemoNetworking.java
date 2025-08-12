@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
@@ -20,32 +21,21 @@ public class DemoNetworking {
 
     public static void main(String[] ignoredArgs) throws MalformedURLException {
         execution.initialize();
-
-        /*
-         *****************************************************
-         */
-
         ConsoleStyler.printBanner("NETWORKING");
 
         ConsoleStyler.startSection("Read from URL");
-
-        URL url = new URL("https://www.oracle.com");
+        URL url = URI.create("https://www.oracle.com").toURL();
         try (
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
             String line = reader.readLine();
             ConsoleStyler.styleOutput("🌐 First line from site: " + line);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch(IllegalArgumentException illegalArgException) {
+            ConsoleStyler.styleError("IllegalArgumentException : " + illegalArgException.getMessage());
+        } catch (IOException ioException) {
+            ConsoleStyler.styleError("IOException : " + ioException.getMessage());
         }
         ConsoleStyler.endSection("Read from URL");
-
         ConsoleStyler.printBanner("DEMO COMPLETE");
-
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 }
