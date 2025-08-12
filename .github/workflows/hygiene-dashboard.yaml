@@ -522,8 +522,32 @@ jobs:
           }
             Write-Output "--------------------------------------"
 
+          if ($moduleAgg.Count -gt 0) {
+          Write-Output "Since aggregated modules have count greater than 0 so will print it ($($moduleAgg.Count))"
+          Write-Output "SonarCloud Module Severity Breakdown"
+          
+          # Markdown table header
+          Write-Output "| Module | BLOCKER | HIGH | MEDIUM | LOW | INFO |"
+          Write-Output "|--------|---------|------|--------|-----|------|"
+      
+          foreach ($mod in $moduleAgg.Keys) {
+            Write-Output "Iterating over modules while printing next module is $mod"
+            $b = $moduleAgg[$mod]
+            
+            $moduleBlocker = $b.BLOCKER
+            $moduleHigh    = $b.HIGH
+            $moduleMedium  = $b.MEDIUM
+            $moduleLow     = $b.LOW
+            $moduleInfo    = $b.INFO
+            
+            # Markdown table row
+            Write-Output "| $mod | $moduleBlocker | $moduleHigh | $moduleMedium | $moduleLow | $moduleInfo |"
+          }
+        }
+      }
 
-      ##########################
+
+##########################
           # FULL CLEANUP
       ##########################
 
