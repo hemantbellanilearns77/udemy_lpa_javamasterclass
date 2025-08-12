@@ -495,8 +495,33 @@ jobs:
           
           if (-not $matchedModule) {
               Write-Output "⚠ Skipping: '$dir' does not match any configured module"
-            }    
+              Write-Output " ⚠ Current Directory does not fall under any configured module so will skip for now flagging it $dir"
+              Write-Output " ⚠ Also due to that mismatch $matchedModule is empty"
+            }
+          foreach ($sev in @("BLOCKER","CRITICAL","MAJOR","MINOR","INFO")) {
+            $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sev&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
+            $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total  
+          
+          Write-Output "[$matchedModule] $sev: $count issues in $dir (URL: $sevUrl)"
+            
+            switch ($sev) {
+            "BLOCKER"  { $moduleAgg[$matchedModule]["BLOCKER"] += $count }
+            "CRITICAL" { $moduleAgg[$matchedModule]["HIGH"]    += $count }
+            "MAJOR"    { $moduleAgg[$matchedModule]["MEDIUM"]  += $count }
+            "MINOR"    { $moduleAgg[$matchedModule]["LOW"]     += $count }
+            "INFO"     { $moduleAgg[$matchedModule]["INFO"]    += $count }
+            }
           }
+          
+          # Debug: Print out current aggregate state
+            Write-Output "----- Current Module Aggregates -----"
+            foreach ($moduleName in $moduleAgg.Keys) {
+            $bucket = $moduleAgg[$moduleName]
+            Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                                   $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+          }
+            Write-Output "--------------------------------------"
+
 
       ##########################
           # FULL CLEANUP

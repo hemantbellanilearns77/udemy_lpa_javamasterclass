@@ -17,10 +17,6 @@ public class TopicWiseDemoRunner {
     public static void main(String[] args) {
         execution.initialize();
 
-        /*
-         *****************************************************
-         */
-
         ConsoleStyler.printBanner("TOPIC-WISE JAVA DEMO RUNNER 🎯");
 
         run("Primitives & Operators", () -> DemoPrimitivesOperators.main(new String[]{}));
@@ -36,24 +32,19 @@ public class TopicWiseDemoRunner {
         run("File I/O", () -> {
             try {
                 DemoAllIO.main(new String[]{});
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (IOException ioException) {
+                ConsoleStyler.styleError("IOException : " + ioException.getMessage());
             }
         });
         run("Networking", () -> {
             try {
                 DemoNetworking.main(new String[]{});
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
+            } catch (MalformedURLException malformedURLException) {
+                ConsoleStyler.styleError("MalformedURLException : " + malformedURLException.getMessage());
             }
         });
-        //run("Advanced Features", () -> DemoAdvancedFeatures.main(new String[]{}));
 
         ConsoleStyler.printBanner("🎉 ALL DEMOS EXECUTED");
-
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
