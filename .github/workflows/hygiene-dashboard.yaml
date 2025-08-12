@@ -502,8 +502,8 @@ jobs:
             $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sev&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=1"
             $count = (Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json).total  
           
-          Write-Output "[$matchedModule] $sev: $count issues in $dir (URL: $sevUrl)"
-            
+          Write-Output ("[{0}] {1}: {2} issues in {3} (URL: {4})" -f $matchedModule, $sev, $count, $dir, $sevUrl)          
+          
             switch ($sev) {
             "BLOCKER"  { $moduleAgg[$matchedModule]["BLOCKER"] += $count }
             "CRITICAL" { $moduleAgg[$matchedModule]["HIGH"]    += $count }
