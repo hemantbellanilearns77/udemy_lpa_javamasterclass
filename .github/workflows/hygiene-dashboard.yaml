@@ -423,6 +423,7 @@ jobs:
           "sonarInfoURL=$($severityLinks.INFO))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          
           ###############################################################################
           # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
           ###############################################################################
@@ -540,14 +541,15 @@ jobs:
           
           # Markdown table row
           Write-Output "| $mod | $moduleBlocker | $moduleHigh | $moduleMedium | $moduleLow | $moduleInfo |"
+          }
+        }
       }
-    }
 
       ##########################
-          # FULL CLEANUP
+      # FULL CLEANUP
       ##########################
 
-      - name: ?? Full Cleanup
+      - name: ??Full Cleanup
         shell: cmd
         run: |
           echo Cleaning up temp artifacts
