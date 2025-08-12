@@ -507,6 +507,30 @@ jobs:
                 break
               }
             } 
+            # double check if any module has matched to account for current directory 
+            if (-not $matchedModule) {
+              Write-Output "⚠ Skipping: '$dir' does not match any configured module"
+              Write-Output " ⚠ Current Directory does not fall under any configured module so will skip for now flagging it $dir"
+              Write-Output " ⚠ Also due to that mismatch $matchedModule is empty"
+            } else {
+                
+                if ($null -ne $moduleAgg[$matchedModule]) {
+                  Write-Output "✅ moduleAgg exists. Current contents:"
+                  $moduleAgg.GetEnumerator() | ForEach-Object {
+                  $val = $_.Value
+                  if (-not $val) {
+                      Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+                  } else {
+                      Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                  }
+                  
+                  
+                } else {
+                    Write-Output "⚠ Unexpected: \$moduleAgg['$matchedModule'] is null. Skipping severity count."
+                }
+                
+          
+            } # end of else of matchedModule not being found
           
           
           
