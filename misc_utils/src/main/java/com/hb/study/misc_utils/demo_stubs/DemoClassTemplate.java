@@ -7,7 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.List;
 
 /**
- * created by : heman on 13-08-2025, 02:15 pm, in the "run-pmd.bat" project
+ * created by : heman on 13-08-2025, 08:01 pm, in the "run-pmd.bat" project
  **/
 public class DemoClassTemplate {
 
@@ -17,7 +17,11 @@ public class DemoClassTemplate {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
+        // main method initializations.... 
+
+        //your own code here; recommended to divide in function calls
         demoFunction();
+
         execution.finalizeExecution();
     }
 
@@ -29,12 +33,11 @@ public class DemoClassTemplate {
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection section X demo"); // optional
         ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
         //for simply printing elements , no sorting, no uppercase, no formatting on numbers etc...
-        ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES) );
+        ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES));
 
         //for printing elements and has all options:  sorting, uppercase, formatting on numbers etc...
-        ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES),true, true,true);
+        ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES), true, true, true);
 
-        //ConsoleStyler.styleIt(custom styling... );
         ConsoleStyler.styleOutput("Output Heading", "Plain output "); //  output
         ConsoleStyler.halfDivider();//This is required only if there is another subsection....
 
