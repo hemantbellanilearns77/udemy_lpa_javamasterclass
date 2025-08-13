@@ -19,7 +19,7 @@ jobs:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SKIP_ECHO: true
-      SONAR_FETCH_SLEEP_TIME: 9
+      SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
 
