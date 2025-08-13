@@ -17,15 +17,7 @@ public class DemoClassTemplate {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        // main method initializations.... 
-        /*
-         *****************************************************
-         */
-        //your own code here; recommended to divide in function calls
         demoFunction();
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
