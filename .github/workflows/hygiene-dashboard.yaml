@@ -401,7 +401,7 @@ jobs:
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
-
+          
           
           ############################################################
           # === Outputs for Email ===
@@ -458,7 +458,7 @@ jobs:
             } 
           
             if (-not $moduleAgg.ContainsKey($moduleName)) { 
-              
+          
               $moduleAgg[$moduleName] = @{
               BLOCKER = 0; HIGH = 0; MEDIUM = 0; LOW = 0; INFO = 0
               }
@@ -498,11 +498,11 @@ jobs:
           
           # Step 2: Loop through directories and aggregate counts per module
           foreach ($dirObj in $directories) {
-            
+          
             $dir = $dirObj.val
             $matchedModule = $null
             Write-Output "Next Directory during iteration is: $dir"
-            
+          
             # check if src of any key in modulePathMap matches the starting string of the current directory 
             foreach ($pathKey in $modulePathMap.Keys) {
               if ($dir -like "$pathKey*") {
@@ -524,13 +524,13 @@ jobs:
                   Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"  
                   if ($null -ne $moduleAgg[$matchedModule]) {
                   Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
-                  
+          
           
                   # now fetch severity-wise and then aggregate it
                     $sevList = "INFO,BLOCKER,MAJOR,MINOR,CRITICAL"
                     $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
                     $response = Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json
-                    
+          
                     # Initialize counts
                     $counts = @{
                     BLOCKER = 0
@@ -539,7 +539,7 @@ jobs:
                     LOW     = 0
                     INFO    = 0
                   }
-                    
+          
                     foreach ($issue in $response.issues) {
                     switch ($issue.severity) {
                     "BLOCKER"  { $counts.BLOCKER++ }
@@ -549,15 +549,15 @@ jobs:
                     "INFO"     { $counts.INFO++ }
                   }
                   }
-                  
+          
                   # Now add to moduleAgg
                     $moduleAgg[$matchedModule]["BLOCKER"] += $counts.BLOCKER
                     $moduleAgg[$matchedModule]["HIGH"]    += $counts.HIGH
                     $moduleAgg[$matchedModule]["MEDIUM"]  += $counts.MEDIUM
                     $moduleAgg[$matchedModule]["LOW"]     += $counts.LOW
                     $moduleAgg[$matchedModule]["INFO"]    += $counts.INFO
-                    
-                    
+          
+          
                 } else {
                     Write-Output "⚠ Unexpected: \$moduleAgg['$matchedModule'] is null. Skipping severity count."
                 }
@@ -597,13 +597,13 @@ jobs:
             echo "|--------|------------|---------|----------|--------|--------|" >> $env:GITHUB_STEP_SUMMARY
             foreach ($mod in $moduleAgg.Keys) {
             $b = $moduleAgg[$mod]
-            
+          
             function Mark($count) {
             if ($count -eq 0) { return "✅ $count" }
             elseif ($count -le 5) { return "🟡 $count" }
             else { return "🔴 $count" }
           }
-            
+          
             echo "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |" >> $env:GITHUB_STEP_SUMMARY
           }
           }
@@ -615,7 +615,7 @@ jobs:
               "${_}:$($b.BLOCKER),$($b.HIGH),$($b.MEDIUM),$($b.LOW),$($b.INFO)"
             }) -join ";"
           
-            
+          
           $emailTable = "<table border='1' cellpadding='5' cellspacing='0'>"
           $emailTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
           
@@ -634,11 +634,11 @@ jobs:
           }
           
           $emailTable += "</table>"
-  
+          
           # Export both plain breakdown and HTML table
           echo "EMAIL_BREAKDOWN=$emailBreakdown" >> $env:GITHUB_ENV
           echo "EMAIL_TABLE=$emailTable" >> $env:GITHUB_ENV 
-          
+      
 
       ##########################
       # FULL CLEANUP
