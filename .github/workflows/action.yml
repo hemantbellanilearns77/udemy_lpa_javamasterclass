@@ -1,0 +1,55 @@
+description: Calculates timing info and generates hygiene summary.
+inputs: {}
+name: Generate Hygiene Summary & Timing
+outputs:
+  checkstyleCount:
+    description: Checkstyle violations
+    value: ${{ steps.generate.outputs.checkstyleCount }}
+  coverageBar:
+    description: Coverage visual bar
+    value: ${{ steps.generate.outputs.coverageBar }}
+  endTime:
+    description: End time of the job
+    value: ${{ steps.generate.outputs.endTime }}
+  formattedDuration:
+    description: Formatted job duration
+    value: ${{ steps.generate.outputs.formattedDuration }}
+  pmdCount:
+    description: PMD violations
+    value: ${{ steps.generate.outputs.pmdCount }}
+  sonarBlocker:
+    description: Blocker issue count
+    value: ${{ steps.generate.outputs.sonarBlocker }}
+  sonarCoverage:
+    description: Coverage percentage
+    value: ${{ steps.generate.outputs.sonarCoverage }}
+  sonarHigh:
+    description: High severity issue count
+    value: ${{ steps.generate.outputs.sonarHigh }}
+  sonarInfo:
+    description: Info severity issue count
+    value: ${{ steps.generate.outputs.sonarInfo }}
+  sonarLow:
+    description: Low severity issue count
+    value: ${{ steps.generate.outputs.sonarLow }}
+  sonarMedium:
+    description: Medium severity issue count
+    value: ${{ steps.generate.outputs.sonarMedium }}
+  sonarOpenIssuesDashboardURL:
+    description: Open issues dashboard URL
+    value: ${{ steps.generate.outputs.sonarOpenIssuesDashboardURL }}
+  sonarOverallCodeDashBoardURL:
+    description: Overall Sonar dashboard URL
+    value: ${{ steps.generate.outputs.sonarOverallCodeDashBoardURL }}
+  startTime:
+    description: Start time of the job
+    value: ${{ steps.generate.outputs.startTime }}
+  totalSonarFetchedIssues:
+    description: Total Sonar issues
+    value: ${{ steps.generate.outputs.totalSonarFetchedIssues }}
+runs:
+  steps:
+  - id: generate
+    run: pwsh "${{ github.action_path }}/main.ps1"
+    shell: pwsh
+  using: composite
