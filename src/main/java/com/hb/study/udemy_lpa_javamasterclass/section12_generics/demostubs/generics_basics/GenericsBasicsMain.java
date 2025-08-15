@@ -12,6 +12,9 @@ record FootballPlayer(String name, String position) implements Player {}
 record VolleyballPlayer(String name, String position) implements Player {}
 
 public class GenericsBasicsMain {
+    private static final String PHILADELPHIA_PHILLIES = "Philadelphia Phillies";
+    private static final String HOUSTON_ASTROS = "Houston Astros";
+    private static final String ADELAIDE_CROWS = "Adelaide Crows";
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
@@ -21,17 +24,17 @@ public class GenericsBasicsMain {
         var philly = new Affiliation("city", "Philadelphia, PA",
                 "US");
 
-        BaseballTeam phillies1 = new BaseballTeam("Philadelphia Phillies");
-        BaseballTeam astros1 = new BaseballTeam("Houston Astros");
+        BaseballTeam phillies1 = new BaseballTeam(PHILADELPHIA_PHILLIES);
+        BaseballTeam astros1 = new BaseballTeam(HOUSTON_ASTROS);
         scoreResult(phillies1, 21, astros1, 5);
 
-        SportsTeam phillies2 = new SportsTeam("Philadelphia Phillies");
-        SportsTeam astros2 = new SportsTeam("Houston Astros");
+        SportsTeam phillies2 = new SportsTeam(PHILADELPHIA_PHILLIES);
+        SportsTeam astros2 = new SportsTeam(HOUSTON_ASTROS);
         scoreResult(phillies2, 5, astros2, 5);
         ConsoleStyler.divider();
         Team<BaseballPlayer, Affiliation> phillies =
-                new Team<>("Philadelphia Phillies", philly);
-        Team<BaseballPlayer, Affiliation> astros = new Team<>("Houston Astros");
+                new Team<>(PHILADELPHIA_PHILLIES, philly);
+        Team<BaseballPlayer, Affiliation> astros = new Team<>(HOUSTON_ASTROS);
         scoreResult(phillies, 11, astros, 9);
         ConsoleStyler.divider();
         var harper = new BaseballPlayer("B Harper", "Right Fielder");
@@ -44,8 +47,8 @@ public class GenericsBasicsMain {
         phillies.listTeamMembers();
         ConsoleStyler.divider();
 
-        SportsTeam afc1 = new SportsTeam ("Adelaide Crows");
-        Team<FootballPlayer, String> afc = new Team<>("Adelaide Crows",
+        SportsTeam afc1 = new SportsTeam (ADELAIDE_CROWS);
+        Team<FootballPlayer, String> afc = new Team<>(ADELAIDE_CROWS,
                 "City of Adelaide, South Australia, in AU");
 /*
 If there was an upperbound defined as Affiliation on the Team's second Type parameter
@@ -68,18 +71,11 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
         canberra.listTeamMembers();
         ConsoleStyler.divider();
         scoreResult(canberra, 0, adelaide, 1);
-        //        Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
+        //Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
 
-        /*
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
-
-  //
-
-
 
     public static void scoreResult(BaseballTeam team1, int t1_score,
                                    BaseballTeam team2, int t2_score) {

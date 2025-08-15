@@ -109,27 +109,29 @@ public class SearchTree implements NodeList {
                 // again, we are deleting the root
                 this.root = item.next();
             }
+        } else performComplexRemoval(item);
+    }
+
+    private static void performComplexRemoval(ListItem item) {
+        // neither left nor right are null, deletion is now a lot trickier!
+        // From the right sub-tree, find the smallest value (i.e., the leftmost).
+        ListItem current = item.next();
+        ListItem leftmostParent = item;
+        while (current.previous() != null) {
+            leftmostParent = current;
+            current = current.previous();
+        }
+        // Now put the smallest value into our node to be deleted
+        item.setValue(current.getValue());
+        // and delete the smallest
+        if (leftmostParent == item) {
+            // there was no leftmost node, so 'current' points to the smallest
+            // node (the one that must now be deleted).
+            item.setNext(current.next());
         } else {
-            // neither left nor right are null, deletion is now a lot trickier!
-            // From the right sub-tree, find the smallest value (i.e., the leftmost).
-            ListItem current = item.next();
-            ListItem leftmostParent = item;
-            while (current.previous() != null) {
-                leftmostParent = current;
-                current = current.previous();
-            }
-            // Now put the smallest value into our node to be deleted
-            item.setValue(current.getValue());
-            // and delete the smallest
-            if (leftmostParent == item) {
-                // there was no leftmost node, so 'current' points to the smallest
-                // node (the one that must now be deleted).
-                item.setNext(current.next());
-            } else {
-                // set the smallest node's parent to point to
-                // the smallest node's right child (which may be null).
-                leftmostParent.setPrevious(current.next());
-            }
+            // set the smallest node's parent to point to
+            // the smallest node's right child (which may be null).
+            leftmostParent.setPrevious(current.next());
         }
     }
 
