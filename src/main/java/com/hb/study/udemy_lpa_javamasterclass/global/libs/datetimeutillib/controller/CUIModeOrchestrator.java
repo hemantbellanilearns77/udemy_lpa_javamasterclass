@@ -32,7 +32,7 @@ public class CUIModeOrchestrator {
             case TRADITIONAL_CALENDARS_MODE -> DTDemoExecutor.runTraditionalCalendars();
             case CURRENCY_AND_NUMBERS_DEMO_MODE -> DTDemoExecutor.runCurrencyAndNumbers();
             case FORMAT_STYLES_COMBOS_DEMO_MODE -> DTDemoExecutor.runFormatStyleCombos(locale, zone);
-            case VEDIC_MODE -> DTDemoExecutor.runVedicShowcase();//FormatterGUI.showVedicPlaceholder();
+            case VEDIC_MODE -> DTDemoExecutor.runVedicShowcase();
             case FULL_CARNIVAL_BLAST -> {
                 DTDemoExecutor.runMinimalDemo(locale, zone);
                 DTDemoExecutor.runPatternFiesta();
