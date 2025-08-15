@@ -9,8 +9,6 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.chrono.JapaneseDate;
-import java.time.chrono.ThaiBuddhistDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
@@ -19,6 +17,9 @@ import java.util.Locale;
  * created by : heman on 08-08-2025, 01:52 pm, in the "run-pmd.bat" project
  **/
 public class DTDemoExecutor {
+    private DTDemoExecutor() {
+
+    }
     // Add below existing methods
     public static void runMinimalDemo(Locale locale, ZoneId zone) {
         ConsoleStyler.styleOutput("🧃 MINIMAL FORMAT DEMO");
@@ -43,7 +44,7 @@ public class DTDemoExecutor {
                             .withLocale(locale);
                     String result = dtf.format(now);
                     ConsoleStyler.styleOutput( "🧪 [%s/%s] → %s".formatted(dateStyle,timeStyle,result) );
-                } catch (Exception ignored) {}
+                } catch (Exception _) {}
             }
         }
     }

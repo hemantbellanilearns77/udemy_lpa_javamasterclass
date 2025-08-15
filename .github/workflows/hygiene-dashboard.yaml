@@ -200,7 +200,7 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
 
-        ################################
+      ################################
         # RUN SONAR CLOUD ANALYSIS
       ################################
       - name: ?? Run SonarCloud Scan (via batch)
