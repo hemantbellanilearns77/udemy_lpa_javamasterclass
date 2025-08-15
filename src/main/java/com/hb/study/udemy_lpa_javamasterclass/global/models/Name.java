@@ -7,15 +7,15 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
  **/
 public class Name {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
 
-    String firstName;
-    String lastName;
+    final String firstName;
+    final String lastName;
 
     public Name(String fullName, String lastName) {
         this.firstName = fullName;
         this.lastName = lastName;
     }
+
     public Name(Name name) {
         this.firstName = name.firstName;
         this.lastName = name.lastName;
@@ -29,12 +29,5 @@ public class Name {
         return lastName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
 }

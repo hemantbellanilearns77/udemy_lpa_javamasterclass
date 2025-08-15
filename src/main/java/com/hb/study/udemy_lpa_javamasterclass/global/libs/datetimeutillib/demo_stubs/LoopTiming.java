@@ -17,26 +17,27 @@ public class LoopTiming {
         demooLoopTimingsByCopilotUsingNano();
         demooLoopTimingsByCopilotUsingCurrentMillis();
     }
-    public static void demooLoopTimingsByCopilotUsingNano(){
-            ConsoleStyler.styleIntro("""
-                    I had asked Copilot
-                    how to calculate how much time in minutes and seconds did a for loop take in Java
-                    and can you add calculation of hours and day to the above?
-                    Certainly! Below is the updated Java code that calculates the time taken by a `for` loop,
-                    including days, hours, minutes, seconds, and milliseconds.
-                    This example uses `System.nanoTime()` for high precision.
-                    ### Using `System.nanoTime()`
-                    ```java
-                    """);
+
+    public static void demooLoopTimingsByCopilotUsingNano() {
+        ConsoleStyler.styleIntro("""
+                I had asked Copilot
+                how to calculate how much time in minutes and seconds did a for loop take in Java
+                and can you add calculation of hours and day to the above?
+                Certainly! Below is the updated Java code that calculates the time taken by a `for` loop,
+                including days, hours, minutes, seconds, and milliseconds.
+                This example uses `System.nanoTime()` for high precision.
+                ### Using `System.nanoTime()`
+                ```java
+                """);
 
         ConsoleStyler.styleIntro("""
-                   Copilot responded:
-                   Certainly! Below is the updated Java code that calculates the time taken by a `for` loop,
-                   ncluding days, hours, minutes, seconds, and milliseconds.
-                   This example uses `System.nanoTime()` for high precision.
-                   ### Using `System.nanoTime()`
-                    ```java
-                   """);
+                Copilot responded:
+                Certainly! Below is the updated Java code that calculates the time taken by a `for` loop,
+                ncluding days, hours, minutes, seconds, and milliseconds.
+                This example uses `System.nanoTime()` for high precision.
+                ### Using `System.nanoTime()`
+                 ```java
+                """);
         // Start time
         long startTime = System.nanoTime();
 
@@ -71,40 +72,40 @@ public class LoopTiming {
 
         // Print the result
         ConsoleStyler.styleOutput("Time taken: %d days, %d hours, %d minutes, %d seconds, %d milliseconds, %d nanoseconds%n"
-                        .formatted(days, hours, minutes, seconds, milliseconds, nanoseconds));
-            /*
+                .formatted(days, hours, minutes, seconds, milliseconds, nanoseconds));
+        /*
 
 
 
 
-*/
+         */
     }
 
-    public static void demooLoopTimingsByCopilotUsingCurrentMillis(){
+    public static void demooLoopTimingsByCopilotUsingCurrentMillis() {
         ConsoleStyler.styleIntro("""
-                   Additionally Copilot also shared the way to do it using :
-
-                    ### Using `System.currentTimeMillis()`
-                   
-                    If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
-                   
-                    ```java
-                    ### Using `System.currentTimeMillis()`
-                   
-                    If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
-                   
-                    ```java
-                   """);
+                Additionally Copilot also shared the way to do it using :
+                
+                 ### Using `System.currentTimeMillis()`
+                
+                 If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
+                
+                 ```java
+                 ### Using `System.currentTimeMillis()`
+                
+                 If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
+                
+                 ```java
+                """);
         // Start time
         long startTime = System.currentTimeMillis();
 
         long count = 0;
         // Your for loop
-        for (int i = new SecureRandom().nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE); i < Integer.MAX_VALUE; i++ ) {
+        for (int i = new SecureRandom().nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE); i < Integer.MAX_VALUE; i++) {
             // Simulate some work
             count++;
         }
-        ConsoleStyler.styleOutput(count  + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(count + CommonConstants.EMPTYSTRING);
         // End time
         long endTime = System.currentTimeMillis();
 
@@ -126,17 +127,17 @@ public class LoopTiming {
         minutes = minutes % 60;
         hours = hours % 24;
 
-        Instant startInstant = Instant.ofEpochMilli(startTime);
-        Instant endInstant = Instant.ofEpochMilli(endTime);
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
 
-        //LocalDateTime dateTime = LocalDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
-        ConsoleStyler.styleOutput("Execution started at: " + zonedDateTime.format(formatter));
-        //dateTime = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault());
-        zonedDateTime = ZonedDateTime.ofInstant(startInstant,ZoneId.systemDefault());
-        ConsoleStyler.styleOutput("Execution ended at: " + zonedDateTime.format(formatter));
+        //Formating Start and End Time using ZonedDateTime Formatting
+        Instant startInstant = Instant.ofEpochMilli(startTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
+        ZonedDateTime zonedStartDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
+        ConsoleStyler.styleOutput("Execution started at: " + zonedStartDateTime.format(formatter));
+
+        Instant endInstant = Instant.ofEpochMilli(endTime);
+        ZonedDateTime zonedEndDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
+        ConsoleStyler.styleOutput("Execution ended at: " + zonedEndDateTime.format(formatter));
+
         // Print the result
 
         ConsoleStyler.styleOutput("OverallTime taken: %d days, %d hours, %d minutes, %d seconds, %d milliseconds, %d nanoseconds%n"

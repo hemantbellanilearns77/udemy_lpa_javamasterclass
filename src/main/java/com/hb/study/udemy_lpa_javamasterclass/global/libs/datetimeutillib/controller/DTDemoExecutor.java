@@ -76,8 +76,6 @@ public class DTDemoExecutor {
         ConsoleStyler.styleOutput("🗓️ TRADITIONAL CALENDARS — Japan & Thailand");
         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         ZonedDateTime now = ZonedDateTime.now();
-        JapaneseDate japaneseDate = JapaneseDate.from(now);
-        ThaiBuddhistDate thaiDate = ThaiBuddhistDate.from(now);
 
         String japanFmt = DTFormatterUtils.safeFormat(now, "GGGG yyyy/MM/dd", Locale.JAPAN);
         String thaiFmt = DTFormatterUtils.safeFormat(now, "dd MMMM G yyyy", Locale.of("th", "TH"));
