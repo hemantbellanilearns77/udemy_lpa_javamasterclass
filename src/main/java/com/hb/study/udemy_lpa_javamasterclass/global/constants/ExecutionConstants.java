@@ -31,4 +31,8 @@ public class ExecutionConstants {
     public static final String BENCHMARKINSUMMARYNANOSSSTR =
             CommonConstants.INDENT + " 🕒 Nanoseconds: %s nanosecond(s)%n";
 
+    private ExecutionConstants(){
+
+    }
+
 }
