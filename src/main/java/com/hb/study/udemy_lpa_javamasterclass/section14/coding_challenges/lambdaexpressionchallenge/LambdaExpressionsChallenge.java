@@ -47,7 +47,7 @@ public class LambdaExpressionsChallenge {
                 "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh"
         };
         ConsoleStyler.styleInitializationInfo("""
-                First Names Array initialized for use in this challenge as below:""");
+                First NamesUtil Array initialized for use in this challenge as below:""");
         ConsoleStyler.styleOutput(null, Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
 
@@ -55,7 +55,7 @@ public class LambdaExpressionsChallenge {
         //Transform names to all uppercase.
         //Arrays.setAll(firstNames, intFunction);
         //ConsoleStyler.styleOutput("""
-        //      "First Names" Array --> Transform to Uppercase""", Arrays.toString(firstNames));
+        //      "First NamesUtil" Array --> Transform to Uppercase""", Arrays.toString(firstNames));
 
         List<String> backedByArray = Arrays.asList(firstNames);
         UnaryOperator<String> allUppercaseUnaryLambda = (s) -> {
@@ -97,7 +97,7 @@ public class LambdaExpressionsChallenge {
             String last = s.substring(s.lastIndexOf(" ") + 1);
             return first.equals(last);
         });*/
-        ConsoleStyler.styleOutput("First Names --> Remove names where first = last", """
+        ConsoleStyler.styleOutput("First NamesUtil --> Remove names where first = last", """
                 """ + Arrays.toString(firstNames));
         //Arrays.asList(firstNames).forEach(s -> ConsoleStyler.styleOutput(null,s));
         //ConsoleStyler.styleEachAsIs(null, newList.toArray() );

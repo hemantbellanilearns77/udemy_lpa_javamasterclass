@@ -4,6 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.util.*;
 
@@ -12,20 +13,10 @@ import java.util.*;
  **/
 public class LambdaIntrosMain {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    private static final String[] FIRST_NAMES = {
-            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
-    };
-
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
 
     record Person (String firstName, String lastName) {
-
         @Override
         public String toString() {
             return firstName + " " + lastName;
@@ -36,11 +27,11 @@ public class LambdaIntrosMain {
 
         execution.initialize();
 
-        Name generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
+        Name generatedFullName = NamesUtil.generateRandomName();
         List<Person> people = new ArrayList<>(Arrays.asList(
                 new LambdaIntrosMain.Person(generatedFullName.getFirstName(),generatedFullName.getLastName())));
         for(int i=0; i<namesCount; i++) {
-            generatedFullName = new Name(CommonUtils.generateRandomName());
+            generatedFullName = NamesUtil.generateRandomName();
             people.add(new Person(generatedFullName.getFirstName(),generatedFullName.getLastName()));
         }
         // Using anonymous class
@@ -53,7 +44,7 @@ public class LambdaIntrosMain {
         };
         //one way is this...
         // people.sort(comparatorLastName);
-        ConsoleStyler.styleOutput("Sorted only one level (By First Names)");
+        ConsoleStyler.styleOutput("Sorted only one level (By First NamesUtil)");
         people.sort((Person p1, Person p2) -> p1.lastName().compareTo(p2.lastName()));
         ConsoleStyler.styleOutput(people.toString());
 

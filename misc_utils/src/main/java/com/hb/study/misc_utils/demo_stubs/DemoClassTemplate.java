@@ -3,6 +3,7 @@ package com.hb.study.misc_utils.demo_stubs;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class DemoClassTemplate {
     }
 
     public static void demoFunction() {
+        NamesUtil namesUtil = new NamesUtil(9);
         ConsoleStyler.startSection("Welcome to Demo Section"); // required
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this section demo"); // optional
         ConsoleStyler.halfDivider();
@@ -33,10 +35,10 @@ public class DemoClassTemplate {
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection section X demo"); // optional
         ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
         //for simply printing elements , no sorting, no uppercase, no formatting on numbers etc...
-        ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES));
+        ConsoleStyler.styleEachAsIs("Label Prefix, like Name/Guest/Part: ", List.of(namesUtil.getDEFAULT_FIRST_NAMES()));
 
         //for printing elements and has all options:  sorting, uppercase, formatting on numbers etc...
-        ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ", List.of(CommonConstants.FIRST_NAMES), true, true, true);
+        ConsoleStyler.styleEach("Label Prefix, like Name/Guest/Part: ", List.of(namesUtil.getDEFAULT_FIRST_NAMES()), true, true, true);
 
         ConsoleStyler.styleOutput("Output Heading", "Plain output "); //  output
         ConsoleStyler.halfDivider();//This is required only if there is another subsection....

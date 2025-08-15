@@ -37,19 +37,4 @@ public class Name {
         this.lastName = lastName;
     }
 
-    public static void main(String[] args) {
-
-        execution.initialize();
-        /*
-         *****************************************************
-         */
-        //your code comes in here
-        /*
-
-         ******************************************************
-         */
-        execution.finalizeExecution();
-    }
-
-  //
 }

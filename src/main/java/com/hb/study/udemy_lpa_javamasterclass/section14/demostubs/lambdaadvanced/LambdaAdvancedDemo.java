@@ -5,8 +5,10 @@ import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 import com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.Operation;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -15,27 +17,15 @@ import java.util.function.Supplier;
 public class LambdaAdvancedDemo {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    private static final String[] FIRST_NAMES = {
-            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh", "Arijit", "Aishwarya", "Anamika", "Amarjot", "Amritpal"
-    };
-
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
-
-     
-
-
+    public static final SecureRandom secureRandom = new SecureRandom();
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
         ConsoleStyler.styleInitializationInfo("Count of names as originally in the list (names) is: " + CommonConstants.MAX_ITERATION_COUNT
-                + "; and Original List of Guest Names is: ");
+                + "; and Original List of Guest NamesUtil is: ");
         for (int loopCounter = 0; loopCounter < CommonConstants.MAX_ITERATION_COUNT; loopCounter++) {
-            names.add(new Name(CommonUtils.generateRandomName(FIRST_NAMES, LAST_NAMES)).getFirstName());
+            names.add(new Name(NamesUtil.generateRandomName()).getFirstName());
         }
         ConsoleStyler.styleEachAsIs("Guest", names);
         ConsoleStyler.endSection("Demonstration Initializations");
@@ -79,7 +69,7 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""",Integer.toString(result));
+                Final Result from calculator:""", Integer.toString(result));
         ConsoleStyler.halfDivider();
         //Lambda invocation using anotherCalculator i.e. the BinaryOperator (out of box from java.util package) Functional Interface...
         int anotherResult = anotherCalculator((a, b) -> (value1 * value2), value1, value2);
@@ -88,23 +78,22 @@ public class LambdaAdvancedDemo {
                 Final Result from anotherCalculator:""", Integer.toString(anotherResult));
         ConsoleStyler.halfDivider();
 
-        ConsoleStyler.styleIntro("Names after replace all (Unary Function Lambda Demo)");
-        names.replaceAll(name-> "The name: " + name + " has " + name.length() + " characters" );
+        ConsoleStyler.styleIntro("NamesUtil after replace all (Unary Function Lambda Demo)");
+        names.replaceAll(name -> "The name: " + name + " has " + name.length() + " characters");
         //names.forEach(name -> ConsoleStyler.styleIt(name, true, false));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.styleIntro("Demonstrating Binary Function Lambda using Arrays.setAll");
         String[] stringArray = new String[9];
-        ConsoleStyler.styleOutput("String Array:" , Arrays.toString(stringArray));
-        Arrays.fill(stringArray,"STRING");
+        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
+        Arrays.fill(stringArray, "STRING");
         ConsoleStyler.styleIntro("String Array after fill is: ");
-        ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
-        Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i+1) );
+        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
+        Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i + 1));
         ConsoleStyler.styleIntro("String Array after setAll is: ");
-        ConsoleStyler.styleOutput("String Array:" ,Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
-
 
 
     }
@@ -129,7 +118,7 @@ public class LambdaAdvancedDemo {
         coords.forEach(s -> ConsoleStyler.styleOutput(null, Arrays.toString(s)));
         ConsoleStyler.halfDivider();
         BiConsumer<Double, Double> p1 = (lat, lon) ->
-                ConsoleStyler.styleOutput(null,"[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
+                ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
         //BiConsumer<Double, Double> p1 = (lat,lon) -> System.out.printf("[Latitude: %.3f, Longitude: %.3f]%n", lat, lon);
         var firstPoint = coords.getFirst();
         ConsoleStyler.styleIntro("Playing around with BiConsumer Functional Interface ");
@@ -145,13 +134,15 @@ public class LambdaAdvancedDemo {
 
     private static void demoSupplierLambda(List<String> names) {
         ConsoleStyler.styleIntro("Supplier get() for getting a random int and then using it to generate a sub-array out of names list");
-        int count = (names.size()/2);
+        NamesUtil namesUtil = new NamesUtil(9);
+        int count = (names.size() / 2);
         String[] randomArrayUsingLambda = new String[count];
-        Supplier<Integer> supplier  = () -> new Random().nextInt(0, FIRST_NAMES.length);
-        for(int i=0; i<count; i++){
+        Supplier<Integer> supplier = () -> secureRandom.nextInt(0, NamesUtil.generateRandomName().getFirstName().length());
+        for (int i = 0; i < count; i++) {
+
             // both below are valid lambda invocations of category Supplier with use of get() implementation
-            randomArrayUsingLambda[i] = FIRST_NAMES[supplier.get()]; // more readable and s is more reusable...
-            //randomArrayUsingLambda[i] = FIRST_NAMES[((Supplier<Integer>) () -> new Random().nextInt(0, FIRST_NAMES.length)).get()];
+            randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES()[supplier.get()]; // more readable and s is more reusable...
+            //randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES[((Supplier<Integer>) () -> secureRandom.nextInt(0, FIRST_NAMES.length)).get()];
         }
         ConsoleStyler.styleEachAsIs("Guest", randomArrayUsingLambda);
     }
