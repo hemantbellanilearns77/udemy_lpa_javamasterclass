@@ -2,7 +2,6 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaadvance
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
@@ -18,6 +17,11 @@ public class LambdaAdvancedDemo {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
     public static final SecureRandom secureRandom = new SecureRandom();
+    private static final String GUESTS_AFTER_REMOVE_IF = "Guests after remove if....";
+    private static final String RESULT = "Result ";
+    private static final String STRING_ARRAY_AFTER = "String Array after";
+    private static final String GUEST_LABEL = "Guest";
+
     public static void main(String[] ignoredArgs) {
         execution.initialize();
         ConsoleStyler.startSection("Demonstration Initializations");
@@ -27,7 +31,7 @@ public class LambdaAdvancedDemo {
         for (int loopCounter = 0; loopCounter < CommonConstants.MAX_ITERATION_COUNT; loopCounter++) {
             names.add(new Name(NamesUtil.generateRandomName()).getFirstName());
         }
-        ConsoleStyler.styleEachAsIs("Guest", names);
+        ConsoleStyler.styleEachAsIs(GUEST_LABEL, names);
         ConsoleStyler.endSection("Demonstration Initializations");
 
         ConsoleStyler.startSection("Demonstration of Lambda Categories : Consumer and BiConsumer Lambda");
@@ -88,10 +92,10 @@ public class LambdaAdvancedDemo {
         String[] stringArray = new String[9];
         ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
         Arrays.fill(stringArray, "STRING");
-        ConsoleStyler.styleIntro("String Array after fill is: ");
+        ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " fill is: ");
         ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
         Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i + 1));
-        ConsoleStyler.styleIntro("String Array after setAll is: ");
+        ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " setAll is: ");
         ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
 
@@ -104,7 +108,7 @@ public class LambdaAdvancedDemo {
         //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
         //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
-        ConsoleStyler.styleEachAsIs("Guest", names);
+        ConsoleStyler.styleEachAsIs(GUEST_LABEL, names);
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
                 "based call to List.foreach()):");
@@ -144,18 +148,18 @@ public class LambdaAdvancedDemo {
             randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES()[supplier.get()]; // more readable and s is more reusable...
             //randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES[((Supplier<Integer>) () -> secureRandom.nextInt(0, FIRST_NAMES.length)).get()];
         }
-        ConsoleStyler.styleEachAsIs("Guest", randomArrayUsingLambda);
+        ConsoleStyler.styleEachAsIs(GUEST_LABEL, randomArrayUsingLambda);
     }
 
     private static void demoPredicateLambda(List<String> names) {
 
-        ConsoleStyler.styleIntro("Guests after remove if.... equalsIgnoreCase(\"ArjunDev\") ");
+        ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
-        ConsoleStyler.styleIntro("Guests after remove if.... startsWith(\"Ar\") ");
+        ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " startsWith(\"Ar\") ");
         //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
         ConsoleStyler.styleEachAsIs("", names);
 
@@ -163,14 +167,14 @@ public class LambdaAdvancedDemo {
 
     public static <T> T calculator(Operation<T> function, T value1, T value2) {
         T result = function.operate(value1, value2);
-        ConsoleStyler.styleOutput("Result (inside calculator method): ", (String) result);
+        ConsoleStyler.styleOutput(RESULT + "(inside calculator method): ", (String) result);
         return result;
     }
 
     // This one uses an out of box, Java Core BinaryOperator Functional Interface
     public static <T> T anotherCalculator(BinaryOperator<T> function, T value1, T value2) {
         T result = function.apply(value1, value2);
-        ConsoleStyler.styleOutput("Result (inside anotherCalculator method): ", (String) result);
+        ConsoleStyler.styleOutput(RESULT + "(inside anotherCalculator method): ", (String) result);
         return result;
     }
 

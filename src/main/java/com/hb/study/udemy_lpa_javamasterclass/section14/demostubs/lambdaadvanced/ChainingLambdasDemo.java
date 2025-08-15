@@ -15,33 +15,27 @@ public class ChainingLambdasDemo {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-     
+    private static final String BUCHALKA = "Buchalka";
+    private static final String S_S_FORMATSPEC_ONE = """
+            %s %s""";
+    private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
+    Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-        ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        // main method initializations.... 
-        /*
-         *****************************************************
-         */
         //your own code here; recommended to divide in function calls
         demoChainingLmbdasANDComparing();
-
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
     public static void demoChainingLmbdasANDComparing() {
-        ConsoleStyler.startSection("Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)"); // required
+        ConsoleStyler.startSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
         ConsoleStyler.styleIntro("""
                 This section firstly demonstrates how to leverage convenience methods,
                 on some of the Functional Interfaces that Java provides out-of-box.
                 and thereafter, it demonstrates how to leverage static convenience methods for enhancing sorting.
                 available from the "Comparator" Functional Interfaces that Java provides out-of-box.
                 These are default methods on functional interfaces
-                
                 """);
         ConsoleStyler.styleInitializationInfo("Only a few Strings were initialized right before their usage in demo");
 
@@ -49,7 +43,7 @@ public class ChainingLambdasDemo {
         Function<String,String> uCase = String::toUpperCase;
         ConsoleStyler.styleOutput(null ,uCase.apply(name));
 
-        Function<String,String> lastName = s -> s.concat(" Buchalka");
+        Function<String,String> lastName = s -> s.concat(" " + BUCHALKA);
         Function<String,String> uCaseLastName = uCase.andThen(lastName);
 
         ConsoleStyler.styleOutput(null ,uCaseLastName.apply(name));
@@ -58,18 +52,18 @@ public class ChainingLambdasDemo {
         ConsoleStyler.styleOutput(null ,uCaseLastName.apply(name));
 
         Function<String,String[]> f0 = uCase
-                .andThen(s -> s.concat(" Buchalka"))
+                .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "));
         ConsoleStyler.styleOutput(null ,Arrays.toString(f0.apply(name)));
 
         Function<String,String> f1 = uCase
-                .andThen(s -> s.concat(" Buchalka"))
+                .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "))
                 .andThen(s -> s[1].toUpperCase() + ", " + s[0]);
         ConsoleStyler.styleOutput(null ,f1.apply(name));
 
         Function<String,Integer> f2 = uCase
-                .andThen(s -> s.concat(" Buchalka"))
+                .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "))
                 .andThen(s -> String.join(", ", s))
                 .andThen(String::length);
@@ -110,29 +104,25 @@ public class ChainingLambdasDemo {
 
         list.sort((o1, o2) -> o1.lastName.compareTo(o2.lastName));
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
-                """
-                %s %s""".formatted(s.firstName(),  s.lastName() ) ));
+                S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName));
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
-                """
-                %s %s""".formatted(s.firstName(),  s.lastName() ) ));
+                S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName)
                 .thenComparing(Person::firstName));
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
-                """
-                %s %s""".formatted(s.firstName(),  s.lastName() ) ));
+                S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName)
                 .thenComparing(Person::firstName).reversed());
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
-                """
-                %s %s""".formatted(s.firstName(),  s.lastName() ) ));
+                S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
-        ConsoleStyler.endSection("Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)"); // required
+        ConsoleStyler.endSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
         ConsoleStyler.divider();
     }
 
