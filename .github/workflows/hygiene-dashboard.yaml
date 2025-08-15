@@ -65,7 +65,7 @@ jobs:
           "COMMIT_DATE=$date" >> $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT  
 
-        ##############################################################################
+      ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
       - name: Setup Java (Temurin)
