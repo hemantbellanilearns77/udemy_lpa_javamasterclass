@@ -18,26 +18,21 @@ public class ChainingLambdasDemo {
     private static final String BUCHALKA = "Buchalka";
     private static final String S_S_FORMATSPEC_ONE = """
             %s %s""";
+    private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
+    Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
 
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-        ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        // main method initializations.... 
-        /*
-         *****************************************************
-         */
+
         //your own code here; recommended to divide in function calls
         demoChainingLmbdasANDComparing();
 
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
     public static void demoChainingLmbdasANDComparing() {
-        ConsoleStyler.startSection("Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)"); // required
+        ConsoleStyler.startSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
         ConsoleStyler.styleIntro("""
                 This section firstly demonstrates how to leverage convenience methods,
                 on some of the Functional Interfaces that Java provides out-of-box.
@@ -131,7 +126,7 @@ public class ChainingLambdasDemo {
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
                 S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
-        ConsoleStyler.endSection("Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)"); // required
+        ConsoleStyler.endSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
         ConsoleStyler.divider();
     }
 
