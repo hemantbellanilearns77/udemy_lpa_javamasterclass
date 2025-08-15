@@ -33,15 +33,10 @@ public class MyLinkedList implements NodeList {
                 } else {
                     if(currentComparisonResult > 0) {
                         newItem.rightLink = currentItem;
-                        if(currentItem.leftLink == null) { // its root....
-                            this.root = newItem;
-                            currentItem.setPrevious(newItem);
-                            itemAdded = true;
+                        if(currentItem.leftLink == null) {
+                            itemAdded = rootItemAdded(newItem, currentItem);
                         } else {
-                            newItem.setPrevious(currentItem.previous());
-                            currentItem.setPrevious(newItem);
-                            newItem.setNext(currentItem);
-                            itemAdded = true;
+                            itemAdded = nonRootItemAdded(newItem, currentItem);
                         }
                     } else { // new newItem is either greater
                         currentItem = currentItem.next();
@@ -49,6 +44,24 @@ public class MyLinkedList implements NodeList {
                 }
             }
         }
+        return itemAdded;
+    }
+
+    private boolean rootItemAdded(ListItem newItem, ListItem currentItem) {
+        boolean itemAdded;
+        // its root....
+        this.root = newItem;
+        currentItem.setPrevious(newItem);
+        itemAdded = true;
+        return itemAdded;
+    }
+
+    private static boolean nonRootItemAdded(ListItem newItem, ListItem currentItem) {
+        boolean itemAdded;
+        newItem.setPrevious(currentItem.previous());
+        currentItem.setPrevious(newItem);
+        newItem.setNext(currentItem);
+        itemAdded = true;
         return itemAdded;
     }
 
@@ -60,16 +73,7 @@ public class MyLinkedList implements NodeList {
         while(currentItem != null) {
             int currentComparisonResult = currentItem.compareTo(itemToRemove);
             if (currentComparisonResult == 0) {
-                // found the item to delete
-                if (currentItem == this.root) {
-                    this.root = currentItem.next();
-                } else {
-                    currentItem.previous().setNext(currentItem.next());
-                    if (currentItem.next() != null) {
-                        currentItem.next().setPrevious(currentItem.previous());
-                    }
-                }
-                itemRemoved = true;
+                itemRemoved = isItemRemoved(currentItem); //method extracted to improve maintainability
                 break;
             } else if (currentComparisonResult < 0) {
                 currentItem = currentItem.next();
@@ -79,6 +83,21 @@ public class MyLinkedList implements NodeList {
                 return itemRemoved;
             }
         }
+        return itemRemoved;
+    }
+
+    private boolean isItemRemoved(ListItem currentItem) {
+        boolean itemRemoved;
+        // found the item to delete
+        if (currentItem == this.root) {
+            this.root = currentItem.next();
+        } else {
+            currentItem.previous().setNext(currentItem.next());
+            if (currentItem.next() != null) {
+                currentItem.next().setPrevious(currentItem.previous());
+            }
+        }
+        itemRemoved = true;
         return itemRemoved;
     }
 
