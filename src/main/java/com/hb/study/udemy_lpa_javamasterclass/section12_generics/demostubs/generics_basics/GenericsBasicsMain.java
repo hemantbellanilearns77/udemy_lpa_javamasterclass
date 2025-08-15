@@ -15,6 +15,7 @@ public class GenericsBasicsMain {
     private static final String PHILADELPHIA_PHILLIES = "Philadelphia Phillies";
     private static final String HOUSTON_ASTROS = "Houston Astros";
     private static final String ADELAIDE_CROWS = "Adelaide Crows";
+    private static final String COMMON_STRING_FORMATTER = "%s %s %s %n";
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
@@ -82,7 +83,7 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
 
         String message = team1.setScore(t1_score, t2_score);
         team2.setScore(t2_score, t1_score);
-        System.out.printf("%s %s %s %n", team1, message, team2);
+        ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 
     public static void scoreResult(SportsTeam team1, int t1_score,
@@ -90,7 +91,7 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
 
         String message = team1.setScore(t1_score, t2_score);
         team2.setScore(t2_score, t1_score);
-        System.out.printf("%s %s %s %n", team1, message, team2);
+        ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 
     public static void scoreResult(Team team1, int t1_score,
@@ -98,6 +99,6 @@ If there was an upperbound defined as Affiliation on the Team's second Type para
 
         String message = team1.setScore(t1_score, t2_score);
         team2.setScore(t2_score, t1_score);
-        System.out.printf("%s %s %s %n", team1, message, team2);
+        ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 }

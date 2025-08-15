@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section9_advancedarrays.demostubs
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -62,11 +63,11 @@ public class ArrayBasics {
 
     private static int[] getRandomArray(int len){
 
-        Random random = new Random();
+        SecureRandom secureRandom = new SecureRandom();
         int[] randomArray = new int[len];
 
         for(int i = 0; i< randomArray.length; i++) {
-            randomArray[i] = random.nextInt(101);
+            randomArray[i] = secureRandom.nextInt(101);
             //randomArray[i] += random.nextInt(101);
 
         }

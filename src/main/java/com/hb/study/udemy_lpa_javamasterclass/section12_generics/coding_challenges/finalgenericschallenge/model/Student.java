@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challen
 
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challenges.finalgenericschallenge.util.*;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class Student implements QueryItem, Comparable<Student> {
@@ -14,17 +15,17 @@ public class Student implements QueryItem, Comparable<Student> {
     private String course;
     private int yearStarted;
 
-    protected static Random random = new Random();
+    protected static SecureRandom secureRandom = new SecureRandom();
 
     private static String[] firstNames = {"Ann", "Bill", "Cathy", "John", "Tim"};
     private static String[] courses = {"C++", "Java", "Python"};
 
     public Student() {
         studentId = LAST_ID++;
-        int lastNameIndex = random.nextInt(65, 91);
-        name = firstNames[random.nextInt(5)] + " " + (char) lastNameIndex;
-        course = courses[random.nextInt(3)];
-        yearStarted = random.nextInt(2018, 2023);
+        int lastNameIndex = secureRandom.nextInt(65, 91);
+        name = firstNames[secureRandom.nextInt(5)] + " " + (char) lastNameIndex;
+        course = courses[secureRandom.nextInt(3)];
+        yearStarted = secureRandom.nextInt(2018, 2023);
     }
 
     @Override

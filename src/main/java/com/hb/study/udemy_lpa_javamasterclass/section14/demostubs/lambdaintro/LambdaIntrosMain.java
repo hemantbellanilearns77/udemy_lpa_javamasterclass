@@ -6,12 +6,14 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
  * created by : heman on 11-07-2025, 11:55 AM, in the "udemy_lpa_javamasterclass" project
  **/
 public class LambdaIntrosMain {
+    public static final SecureRandom secureRandom = new SecureRandom();
     //Object level or Static declarations here...
   public static final ExcecutionUtil execution = new ExcecutionUtil();
 
@@ -22,7 +24,7 @@ public class LambdaIntrosMain {
             return firstName + " " + lastName;
         }
     }
-    private static int namesCount =  new Random().nextInt(1,64);
+    private static int namesCount =  secureRandom.nextInt(1,64);
     public static void main(String[] args) {
 
         execution.initialize();

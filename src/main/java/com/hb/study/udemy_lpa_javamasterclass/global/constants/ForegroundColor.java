@@ -1,8 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.constants;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * created by : heman on 21-07-2025, 05:43 pm, in the "udemy_lpa_javamasterclass" project
@@ -717,10 +717,10 @@ public enum ForegroundColor {
                     .filter(color -> color != NEUTRAL && color.getAnsiCode() != null && !color.getAnsiCode().isEmpty())
                     .toList();
 
-    private static final Random RANDOM = new Random();
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     public static ForegroundColor random() {
-        return RANDOM_POOL.get(RANDOM.nextInt(RANDOM_POOL.size()));
+        return RANDOM_POOL.get(SECURE_RANDOM.nextInt(RANDOM_POOL.size()));
     }
 
 }

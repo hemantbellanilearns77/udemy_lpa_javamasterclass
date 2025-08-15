@@ -3,10 +3,10 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.metho
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.function.UnaryOperator;
 
 /**
@@ -17,7 +17,7 @@ public class MethodReferencesChallenge {
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
      
-    private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     private record Person(String first) {
 
@@ -30,16 +30,8 @@ public class MethodReferencesChallenge {
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
-        // main method initializations.... 
-        // ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
-        /*
-         *****************************************************
-         */
         //your own code here; recommended to divide in function calls
         demoMethodRefernces();
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
@@ -78,7 +70,7 @@ public class MethodReferencesChallenge {
         //IntFunction<String> upperCaseFunction = arrayIndex -> firstNames[arrayIndex].toUpperCase();
 
         UnaryOperator<String> allUppercaseUnaryLambda = String::toUpperCase;
-        List<String> backedByArray = new ArrayList<>(List.of(firstNames));
+
         unaryOperators.add(allUppercaseUnaryLambda);
         // Add a randomly generated middle initial and include a period.
         UnaryOperator<String> addMiddleInitialLsLambda = (s) -> {
@@ -109,7 +101,7 @@ public class MethodReferencesChallenge {
     }
 
     public static char getRandomChar(char startChar, char endChar) {
-        return (char) random.nextInt((int) startChar, (int) endChar + 1);
+        return (char) secureRandom.nextInt((int) startChar, (int) endChar + 1);
     }
 
     private static String getReversedName(String firstName) {

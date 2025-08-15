@@ -5,7 +5,7 @@ public class LPAStudent extends Student {
     private double percentComplete;
 
     public LPAStudent() {
-        percentComplete = random.nextDouble(0, 100.001);
+        percentComplete = secureRandom.nextDouble(0, 100.001);
     }
 
     @Override
