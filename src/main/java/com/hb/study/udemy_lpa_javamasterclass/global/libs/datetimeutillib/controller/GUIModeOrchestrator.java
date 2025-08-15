@@ -7,7 +7,6 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.contr
 
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
-import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.ui.FormatterGUI;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.time.ZoneId;
@@ -42,8 +41,7 @@ public class GUIModeOrchestrator {
                 DTDemoExecutor.runTraditionalCalendars();
                 DTDemoExecutor.runCurrencyAndNumbers();
                 DTDemoExecutor.runFormatStyleCombos(locale, zone);
-                //DTFormatterUtils.runVedicShowcase();
-                FormatterGUI.showVedicPlaceholder();
+                DTDemoExecutor.runVedicShowcase();
             }
         }
 

@@ -13,6 +13,9 @@ import java.util.Locale;
  **/
 
 public class CUIModeOrchestrator {
+    private CUIModeOrchestrator(){
+
+    }
 
     public static void runMode(FormatterMode mode, Locale locale, ZoneId zone, String customPattern) {
         ConsoleStyler.styleInitializationInfo(
@@ -37,7 +40,6 @@ public class CUIModeOrchestrator {
                 DTDemoExecutor.runCurrencyAndNumbers();
                 DTDemoExecutor.runFormatStyleCombos(locale, zone);
                 DTDemoExecutor.runVedicShowcase();
-                //FormatterGUI.showVedicPlaceholder();
             }
         }
         if (customPattern != null) {
