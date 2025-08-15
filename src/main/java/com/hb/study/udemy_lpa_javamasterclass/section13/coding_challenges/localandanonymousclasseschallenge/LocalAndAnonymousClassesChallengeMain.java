@@ -24,14 +24,14 @@ public class LocalAndAnonymousClassesChallengeMain {
 
     //Object level or Static declarations here...
     public static ExcecutionUtil execution = new ExcecutionUtil();
-    private static final int maxEmployeeCount = new Random().nextInt(1, (3969 + 1));
+    private static final int MAX_EMPLOYEE_COUNT = new Random().nextInt(1, (3969 + 1));
 
     private static String[] args;
 
     public static void main(String[] args) {
         execution.initialize();
         LocalAndAnonymousClassesChallengeMain.args = args;
-        ConsoleStyler.styleOutput("This program will generate " + maxEmployeeCount + " objects for Employees");
+        ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
         ConsoleStyler.styleOutput("Default  listing of Employees (without Details) is: :  ");
@@ -155,10 +155,10 @@ public class LocalAndAnonymousClassesChallengeMain {
 
     private static List<Employee> generateEmployeesList() {
         String[] fullName;
-        List<Employee> generatedEmployeesList = new ArrayList<>(maxEmployeeCount);
+        List<Employee> generatedEmployeesList = new ArrayList<>(MAX_EMPLOYEE_COUNT);
         Name generatedFullName;
 
-        for (int listElementCounter = 0; listElementCounter < maxEmployeeCount; listElementCounter++) {
+        for (int listElementCounter = 0; listElementCounter < MAX_EMPLOYEE_COUNT; listElementCounter++) {
             generatedFullName = new Name(NamesUtil.generateRandomName());
             generatedEmployeesList.add(listElementCounter, new Employee(
                     generatedFullName.getFirstName(),
