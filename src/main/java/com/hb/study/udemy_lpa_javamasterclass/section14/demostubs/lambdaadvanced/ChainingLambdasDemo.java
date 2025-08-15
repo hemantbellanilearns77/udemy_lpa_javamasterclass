@@ -21,13 +21,10 @@ public class ChainingLambdasDemo {
     private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
     Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
 
-
     public static void main(String[] ignoredArgs) {
         execution.initialize();
-
         //your own code here; recommended to divide in function calls
         demoChainingLmbdasANDComparing();
-
         execution.finalizeExecution();
     }
 
@@ -39,7 +36,6 @@ public class ChainingLambdasDemo {
                 and thereafter, it demonstrates how to leverage static convenience methods for enhancing sorting.
                 available from the "Comparator" Functional Interfaces that Java provides out-of-box.
                 These are default methods on functional interfaces
-                
                 """);
         ConsoleStyler.styleInitializationInfo("Only a few Strings were initialized right before their usage in demo");
 

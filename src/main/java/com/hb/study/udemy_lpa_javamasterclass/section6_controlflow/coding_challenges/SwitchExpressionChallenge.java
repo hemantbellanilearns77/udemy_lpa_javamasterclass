@@ -3,10 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_chall
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SwitchExpressionChallenge {
+    private static final String THE_DAY = "The day ";
+    private static final String IS = " is ";
     public static String dayOfTheWeek;
 
     public static void main(String[] args) {
-/*        printDayOfTheWeek(0);
+/*      printDayOfTheWeek(0);
         printDayOfTheWeek(1);
         printDayOfTheWeek(2);
         printDayOfTheWeek(3);
@@ -15,16 +17,16 @@ public class SwitchExpressionChallenge {
         printDayOfTheWeek(6);
         printDayOfTheWeek(7);*/
 
-        ConsoleStyler.styleOutput("The day " + 0 + " is " + printDayOfTheWeek(0));
-        ConsoleStyler.styleOutput("The day " + 1 + " is " + printDayOfTheWeek(1));
-        ConsoleStyler.styleOutput("The day " + 2 + " is " + printDayOfTheWeek(2));
-        ConsoleStyler.styleOutput("The day " + 3 + " is " + printDayOfTheWeek(3));
-        ConsoleStyler.styleOutput("The day " + 4 + " is " + printDayOfTheWeek(4));
-        ConsoleStyler.styleOutput("The day " + 5 + " is " + printDayOfTheWeek(5));
-        ConsoleStyler.styleOutput("The day " + 6 + " is " + printDayOfTheWeek(6));
-        ConsoleStyler.styleOutput("The day " + 7 + " is " + printDayOfTheWeek(7));
+        ConsoleStyler.styleOutput(THE_DAY + 0 + IS + printDayOfTheWeek(0));
+        ConsoleStyler.styleOutput(THE_DAY + 1 + IS + printDayOfTheWeek(1));
+        ConsoleStyler.styleOutput(THE_DAY + 2 + IS + printDayOfTheWeek(2));
+        ConsoleStyler.styleOutput(THE_DAY + 3 + IS + printDayOfTheWeek(3));
+        ConsoleStyler.styleOutput(THE_DAY + 4 + IS + printDayOfTheWeek(4));
+        ConsoleStyler.styleOutput(THE_DAY + 5 + IS + printDayOfTheWeek(5));
+        ConsoleStyler.styleOutput(THE_DAY + 6 + IS + printDayOfTheWeek(6));
+        ConsoleStyler.styleOutput(THE_DAY + 7 + IS + printDayOfTheWeek(7));
 
-        ConsoleStyler.styleOutput("--------------------------------------------------");
+        ConsoleStyler.divider();
         printWeekDay(0);
         printWeekDay(1);
         printWeekDay(2);
@@ -84,6 +86,6 @@ public class SwitchExpressionChallenge {
             dayOfTheWeek = "Saturday";
         else
             dayOfTheWeek = "Invalid Day";
-        ConsoleStyler.styleOutput("The day " + day + " is " + dayOfTheWeek);
+        ConsoleStyler.styleOutput(THE_DAY + day + IS + dayOfTheWeek);
     }
 }

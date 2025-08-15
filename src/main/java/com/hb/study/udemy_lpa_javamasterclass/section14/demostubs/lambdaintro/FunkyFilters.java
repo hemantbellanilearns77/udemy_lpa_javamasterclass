@@ -1,15 +1,14 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaintro;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 /**
@@ -17,15 +16,16 @@ import java.util.function.Predicate;
  **/
 public class FunkyFilters {
   //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
+  public static final SecureRandom  secureRandom = new SecureRandom();
 
-    private static int namesCount =  new Random().nextInt(1,64);
+    private static int namesCount =  secureRandom.nextInt(1,64);
 
     public static void main(String[] ignoredArgs) {
 
         execution.initialize();
         List<String> names = new ArrayList<>();
-        Name generatedFullName = new Name(NamesUtil.generateRandomName());
+        Name generatedFullName = NamesUtil.generateRandomName();
 
         ConsoleStyler.styleOutput("Original (unfiltered) name count is: " + namesCount);
         for(int i = 0; i<namesCount; i++) {
@@ -55,10 +55,9 @@ public class FunkyFilters {
             System.out.printf("%d) %-12s%n", (i+1),names.get(i));
         }
         // Apply filter and print matching names
-       /* names.stream()
+        names.stream()
                 .filter(funkyFilter)
-                .forEach(System.out::println); // Output: Charlie
-*/
+                .forEach(ConsoleStyler::styleOutput); // Output: Charlie
         execution.finalizeExecution();
     }
 }

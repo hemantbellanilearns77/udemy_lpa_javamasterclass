@@ -5,13 +5,13 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class MegaBytesConverter {
     public static void main(String[] args) {
         printMegaBytesAndKiloBytes(2500);
-        ConsoleStyler.styleOutput("------------------------------------------------------");
+        ConsoleStyler.halfDivider();
         printMegaBytesAndKiloBytes(-1024);
-        ConsoleStyler.styleOutput("------------------------------------------------------");
+        ConsoleStyler.halfDivider();
         printMegaBytesAndKiloBytes(0);
-        ConsoleStyler.styleOutput("------------------------------------------------------");
+        ConsoleStyler.halfDivider();
         printMegaBytesAndKiloBytes(5000);
-        ConsoleStyler.styleOutput("------------------------------------------------------");
+        ConsoleStyler.halfDivider();
 
     }
 
