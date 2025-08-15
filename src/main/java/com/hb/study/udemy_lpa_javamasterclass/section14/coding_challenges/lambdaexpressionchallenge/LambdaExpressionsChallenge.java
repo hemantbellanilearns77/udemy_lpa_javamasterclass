@@ -18,6 +18,9 @@ public class LambdaExpressionsChallenge {
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final SecureRandom secureRandom = new SecureRandom();
+    private static final String LIST_BACKEDBYARRAY_TRANSFORM_TOUPPERCASE = """
+            List "backedByArray" --> Transform to Uppercase""";
+
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
@@ -64,8 +67,7 @@ public class LambdaExpressionsChallenge {
         };
         // Transform names to all uppercase.
         backedByArray.replaceAll(allUppercaseUnaryLambda);
-        ConsoleStyler.styleOutput("""
-                List "backedByArray" --> Transform to Uppercase""", """
+        ConsoleStyler.styleOutput(LIST_BACKEDBYARRAY_TRANSFORM_TOUPPERCASE, """
                 """ + backedByArray.toString());
 
         ConsoleStyler.halfDivider();

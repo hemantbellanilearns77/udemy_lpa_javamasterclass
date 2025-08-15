@@ -25,7 +25,9 @@ public class LamdaMiniChallengesMain {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
-     
+    private static final String QUICKBROWNFOX_SENTENCE = "The quick brown fox jumps over the lazy dog!";
+    private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
+
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -128,7 +130,7 @@ public class LamdaMiniChallengesMain {
                 """);
         ConsoleStyler.styleOutput("""
                     Here's the output after lambda call")
-                """, stringFunctionLambda.apply("The quick brown fox jumps over the lazy dog!"));
+                """, stringFunctionLambda.apply(QUICKBROWNFOX_SENTENCE));
         ConsoleStyler.halfDivider();
 
         UnaryOperator<String> unaryStringLambda = (String s) -> {
@@ -156,8 +158,8 @@ public class LamdaMiniChallengesMain {
                  //The Lambda call
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                 """);
-        ConsoleStyler.styleOutput("Here's the output after lambda call:"
-                , unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!"));
+        ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL
+                , unaryStringLambda.apply(QUICKBROWNFOX_SENTENCE));
 
         ConsoleStyler.halfDivider();
 
@@ -173,15 +175,15 @@ public class LamdaMiniChallengesMain {
                  unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!")
                 """);
 
-        ConsoleStyler.styleOutput("Here's the output after lambda call:"
-                , unaryOperatorConcise.apply("The quick brown fox jumps over the lazy dog!"));
+        ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL
+                , unaryOperatorConcise.apply(QUICKBROWNFOX_SENTENCE));
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
                 which in turn is defined using UnaryOperator<String, String> ( Lambda Function ) and then invoke it...
                 """);
 
-        String result = everySecondChar(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
+        String result = everySecondChar(unaryOperatorConcise, QUICKBROWNFOX_SENTENCE);
         ConsoleStyler.styleExecutionInsight("""
                 Here's the definition of that Target Function: an overloaded version of everySecondChar
                 public static String everySecondChar(Function<String,String> function, String source ){
@@ -190,7 +192,7 @@ public class LamdaMiniChallengesMain {
                 // Then invoked it, with source string
                 result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");                
                 """);
-        ConsoleStyler.styleOutput("Here's the output after lambda call:", result);
+        ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL, result);
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
     }
 
