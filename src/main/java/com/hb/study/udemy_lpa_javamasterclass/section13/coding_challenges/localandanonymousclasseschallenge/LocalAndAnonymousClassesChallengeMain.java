@@ -7,6 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +25,8 @@ public class LocalAndAnonymousClassesChallengeMain {
 
     //Object level or Static declarations here...
     public static ExcecutionUtil execution = new ExcecutionUtil();
-    private static final int MAX_EMPLOYEE_COUNT = new Random().nextInt(1, (3969 + 1));
+    public static final SecureRandom secureRandom = new SecureRandom();
+    private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
     private static String[] args;
 
