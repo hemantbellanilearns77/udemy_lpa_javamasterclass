@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.utils;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 
 import java.security.SecureRandom;
@@ -28,6 +29,10 @@ public class NamesUtil {
         for (int namesCounter = 0; namesCounter < sizeOfNamesList; namesCounter++) {
             this.namesList.add(generateRandomName());
         }
+    }
+
+    public NamesUtil() {
+        this(CommonConstants.MAX_ITERATION_COUNT);
     }
 
     public List<Name> getNamesList() {
