@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.lambd
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ public class LambdaExpressionsChallenge {
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final SecureRandom secureRandom = new SecureRandom();
-    private static final String LIST_BACKEDBYARRAY_TRANSFORM_TOUPPERCASE = """
-            List "backedByArray" --> Transform to Uppercase""";
+    private static final NamesUtil namesUtil = new NamesUtil();
+    private static final String LIST_BACKED_BY_ARRAY = """
+            List backedByArray -->""";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -30,6 +32,7 @@ public class LambdaExpressionsChallenge {
     }
 
     public static void challengeDemo() {
+        String[] firstNames = namesUtil.getDEFAULT_FIRST_NAMES();
         ConsoleStyler.startSection("Lambda Expressions Challenge Demo - Arrays/ArrayList/Operation Lambda"); // required
         ConsoleStyler.styleIntro("""
                 Challenge Objective:
@@ -47,9 +50,7 @@ public class LambdaExpressionsChallenge {
                 Finally, create a new modifiable ArrayList from your names array, removing any names where the last name equals the first name.
                 Use removeIf with a lambda expression to perform this last operation.
                 """);
-        String[] firstNames = {"Anna", "Bob", "Nitin", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-                "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh"
-        };
+
         ConsoleStyler.styleInitializationInfo("""
                 First NamesUtil Array initialized for use in this challenge as below:""");
         ConsoleStyler.styleOutput(null, Arrays.toString(firstNames));
@@ -67,7 +68,10 @@ public class LambdaExpressionsChallenge {
         };
         // Transform names to all uppercase.
         backedByArray.replaceAll(allUppercaseUnaryLambda);
-        ConsoleStyler.styleOutput(LIST_BACKEDBYARRAY_TRANSFORM_TOUPPERCASE, """
+        ConsoleStyler.styleOutput( LIST_BACKED_BY_ARRAY
+                +
+                """
+                 Transform to Uppercase""", """
                 """ + backedByArray.toString());
 
         ConsoleStyler.halfDivider();
@@ -75,16 +79,20 @@ public class LambdaExpressionsChallenge {
         backedByArray.replaceAll((s) -> {
             return (s + " " + getRandomChar('A', 'Z') + '.');
         });
-        ConsoleStyler.styleOutput("""
-                List "backedByArray" --> Transform to add a middle Initial with a period
+        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY
+                 +
+                """
+                 Transform to add a middle Initial with a period
                 """, """
                 """ + backedByArray.toString());
         ConsoleStyler.halfDivider();
 
         //Add a last name that is the reverse of the first name.
         backedByArray.replaceAll(s -> s += " " + getReversedName(s.split(" ")[0]));
-        ConsoleStyler.styleOutput("""
-                List backedByArray --> Add reversed name as last name
+        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY
+                +
+                """
+                 Add reversed name as last name
                 """, """
                 """ + Arrays.toString(firstNames));
         //Arrays.asList(firstNames).forEach(s -> ConsoleStyler.styleOutput(null,s));
