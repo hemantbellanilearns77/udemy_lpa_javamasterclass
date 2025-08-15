@@ -5,6 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,15 +26,6 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static ExcecutionUtil execution = new ExcecutionUtil();
     private static final int maxEmployeeCount = new Random().nextInt(1, (3969 + 1));
 
-    private static final String[] FIRST_NAMES = {
-            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
-    };
-
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
     private static String[] args;
 
     public static void main(String[] args) {
@@ -67,17 +59,10 @@ public class LocalAndAnonymousClassesChallengeMain {
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
-
-
-
-        /*
-
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 
-  //
+
 
     public static void printOrderedList(List<Employee> employeeList, String sortField) {
         //local class
@@ -174,7 +159,7 @@ public class LocalAndAnonymousClassesChallengeMain {
         Name generatedFullName;
 
         for (int listElementCounter = 0; listElementCounter < maxEmployeeCount; listElementCounter++) {
-            generatedFullName = new Name(CommonUtils.generateRandomName(FIRST_NAMES,LAST_NAMES));
+            generatedFullName = new Name(NamesUtil.generateRandomName());
             generatedEmployeesList.add(listElementCounter, new Employee(
                     generatedFullName.getFirstName(),
                     generatedFullName.getLastName(),

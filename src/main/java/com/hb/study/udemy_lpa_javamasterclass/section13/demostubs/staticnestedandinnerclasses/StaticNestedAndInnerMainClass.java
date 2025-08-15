@@ -50,7 +50,7 @@ public class StaticNestedAndInnerMainClass {
             ConsoleStyler.styleOutput(e  + CommonConstants.EMPTYSTRING);
         }
         ConsoleStyler.divider();
-        ConsoleStyler.styleOutput("With Pig Latin Names");
+        ConsoleStyler.styleOutput("With Pig Latin NamesUtil");
         addPigLatinName(storeEmployees);
         ConsoleStyler.divider();
 

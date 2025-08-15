@@ -40,15 +40,6 @@ public class CommonConstants {
     public static final String SWING_UI_LABEL = "🎨 Swing UI Showcase";
     public static final String JFX_DEMO_LABEL = "🖼️ JavaFX Feature Preview";
 
-    public static final String[] FIRST_NAMES = {
-            "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh"
-    };
-
-    public static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
 
 
     private CommonConstants() {} // Prevent instantiation
