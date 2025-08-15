@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.lambd
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public class LambdaExpressionsChallenge {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
     public static void main(String[] ignoredArgs) {
         execution.initialize();
 
@@ -107,7 +108,7 @@ public class LambdaExpressionsChallenge {
     }
 
     public static char getRandomChar(char startChar, char endChar) {
-        return (char) random.nextInt((int) startChar, (int) endChar + 1);
+        return (char) secureRandom.nextInt((int) startChar, (int) endChar + 1);
     }
 
     private static String getReversedName(String firstName) {

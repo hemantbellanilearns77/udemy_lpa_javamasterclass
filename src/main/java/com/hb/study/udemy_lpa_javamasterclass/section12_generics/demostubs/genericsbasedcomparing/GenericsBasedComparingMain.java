@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.gene
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -70,7 +71,7 @@ class StudentGPAComparator implements Comparator<Student> {
 class Student implements Comparable<Student> {
 
     private static int LAST_ID = 1000;
-    private static Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     String name;
     private int id;
@@ -79,7 +80,7 @@ class Student implements Comparable<Student> {
     public Student(String name) {
         this.name = name;
         id = LAST_ID++;
-        gpa = random.nextDouble(1.0, 4.0);
+        gpa = secureRandom.nextDouble(1.0, 4.0);
     }
 
     @Override

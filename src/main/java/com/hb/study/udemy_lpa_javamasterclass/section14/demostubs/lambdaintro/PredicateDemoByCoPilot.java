@@ -7,6 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,9 +17,10 @@ import java.util.function.Predicate;
  * created by : heman on 11-07-2025, 03:58 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class PredicateDemoByCoPilot {
+    public static final SecureRandom secureRandom = new SecureRandom();
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    private static int namesCount =  new Random().nextInt(1,64);
+    private static int namesCount =  secureRandom.nextInt(1,64);
     // Custom Predicate implementation
     static class StartsWithA implements Predicate<String> {
         @Override
