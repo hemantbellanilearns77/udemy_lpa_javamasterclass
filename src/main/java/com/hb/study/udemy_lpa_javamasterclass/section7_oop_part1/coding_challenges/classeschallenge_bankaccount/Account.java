@@ -22,7 +22,7 @@ public class Account {
 
     public Account(double balance, String customerName,
                    String customerEmail, String customerPhoneNumber) { // All Field  initializations Constructor
-        setAccountNumber(UUID.randomUUID().toString().replaceAll("-",""));
+        setAccountNumber(UUID.randomUUID().toString().replace("-",""));
         setBalance(balance);
         setCustomerName(customerName);
         setCustomerEmail(customerEmail);
