@@ -95,6 +95,7 @@ class Mitsubishi extends Car {
 class Holden extends Car {
     private static final String START_ENGINE = " -> startEngine() ";
     private static final String ACCELERATE = " -> accelerate()";
+    private static final String BRAKE = " -> brake()";
 
     public Holden(int cylinders, String name) {
         super(cylinders, name);
@@ -110,7 +111,7 @@ class Holden extends Car {
     }
     @Override
     public String brake() {
-        return getClass().getSimpleName() + " -> brake()";
+        return getClass().getSimpleName() + BRAKE;
     }
 }
 class Ford extends Car {
