@@ -11,15 +11,16 @@ public class InheritanceChallenge_MainClass extends Object {
 
     private static final String BIRTH_DATE = "16-11-1981";
     private static final String END_DATE = "27-06-2016";
+    private static final String HIRE_DATE = "11-12-2011";
 
     public static void main(String[] args) {
         Employee employee = new Employee("Hemant (Employee)", BIRTH_DATE, END_DATE,
-                 "11-12-2011" );
+                HIRE_DATE);
         SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", BIRTH_DATE,
-                END_DATE, "11-12-2011",1300000, false);
+                END_DATE, HIRE_DATE,1300000, false);
 
         HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", BIRTH_DATE,
-                END_DATE, 90816, "11-12-2011",350);
+                END_DATE, 90816, HIRE_DATE,350);
         ConsoleStyler.styleOutput(employee  + CommonConstants.EMPTYSTRING);
         hourlyWageEmployee.terminate(hourlyWageEmployee.getLwd_Date());
         ConsoleStyler.styleOutput(hourlyWageEmployee  + CommonConstants.EMPTYSTRING);
