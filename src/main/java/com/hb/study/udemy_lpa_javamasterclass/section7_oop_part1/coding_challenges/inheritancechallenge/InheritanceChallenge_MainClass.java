@@ -3,15 +3,21 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
-public class MainClass extends Object {
+import java.time.MonthDay;
+import java.time.Year;
+import java.time.YearMonth;
+
+public class InheritanceChallenge_MainClass extends Object {
+
+    private static final String BIRTH_DATE = "16-11-1981";
 
     public static void main(String[] args) {
-        Employee employee = new Employee("Hemant (Employee)","16-11-1981", "27-06-2016",
+        Employee employee = new Employee("Hemant (Employee)", BIRTH_DATE, "27-06-2016",
                  "11-12-2011" );
-        SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", "16-11-1981",
+        SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", BIRTH_DATE,
                 "27-06-2016", "11-12-2011",1300000, false);
 
-        HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", "16-11-1981",
+        HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", BIRTH_DATE,
                 "27-06-2016", 90816, "11-12-2011",350);
         ConsoleStyler.styleOutput(employee  + CommonConstants.EMPTYSTRING);
         hourlyWageEmployee.terminate(hourlyWageEmployee.getLwd_Date());
@@ -19,7 +25,7 @@ public class MainClass extends Object {
         salariedEmployee.collectPay();
         salariedEmployee.retire();
         ConsoleStyler.styleOutput(salariedEmployee  + CommonConstants.EMPTYSTRING);
-      /* String birthDate = "16-11-1981";
+        String birthDate = BIRTH_DATE;
         int age = 0;
         int currentYear = Year.now().getValue();
         int currentMonth, monthOfBirth = 0;
@@ -50,6 +56,6 @@ public class MainClass extends Object {
         ConsoleStyler.styleOutput("monthOfBirth is: " + monthOfBirth);
         ConsoleStyler.styleOutput("currentDate is: " + currentDate);
         ConsoleStyler.styleOutput("dateOfBirth is: " + dateOfBirth);
-        ConsoleStyler.styleOutput("Calculated age is: " + age);*/
+        ConsoleStyler.styleOutput("Calculated age is: " + age);
     }
 }

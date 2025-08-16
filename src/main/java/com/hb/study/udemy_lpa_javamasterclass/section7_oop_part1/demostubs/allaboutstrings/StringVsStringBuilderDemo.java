@@ -22,7 +22,7 @@ public class StringVsStringBuilderDemo {
         StringBuilder builderPlus = new StringBuilder("Hello" + " World");
         builderPlus.append(" and Goodbye");
 
-        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.divider();
         ConsoleStyler.styleOutput("**** Some Method calls on StringBuilder ****");
 
         builderPlus.deleteCharAt(16).insert(16, 'g');
@@ -35,7 +35,7 @@ public class StringVsStringBuilderDemo {
     public static void printInformation(String stringObj) {
         ConsoleStyler.styleOutput("The String that's needed to be printed is: " + stringObj);
         ConsoleStyler.styleOutput("The length of String that's needed to be printed is: " + stringObj.length());
-        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.divider();
 
     }
     public static void printInformation (StringBuilder stringBuilder){
@@ -43,7 +43,7 @@ public class StringVsStringBuilderDemo {
         ConsoleStyler.styleOutput("The length of StringBuilder that's needed to be printed is: " + stringBuilder.length());
         ConsoleStyler.styleOutput("The Capacity of StringBuilder that's needed to be printed is:" + stringBuilder.capacity());
 
-        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.divider();
 
     }
 
