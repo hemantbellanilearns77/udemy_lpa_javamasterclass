@@ -26,10 +26,14 @@ public class Exercise40MainClass {
     }
 }
 class Car {
+    private static final String ACCELERATE = " -> accelerate()";
     private String name;
     private boolean engine;
     private int cylinders;
     private int wheels;
+    private static final String START_ENGINE = " -> startEngine() ";
+    private static final String BRAKE = " -> brake()";
+
 
     @Override
     public String toString() {
@@ -54,48 +58,55 @@ class Car {
         return name;
     }
     public String startEngine() {
-        return getClass().getSimpleName() + " -> startEngine() ";
+        return getClass().getSimpleName() + START_ENGINE;
 
     }
 
     public String accelerate() {
-        return getClass().getSimpleName() + " -> accelerate()";
+        return getClass().getSimpleName() + ACCELERATE;
     }
 
     public String brake() {
-        return getClass().getSimpleName() + "-> brake()";
+        return getClass().getSimpleName() + BRAKE;
     }
 }
 class Mitsubishi extends Car {
+
+    private static final String START_ENGINE = " -> startEngine() ";
+    private static final String ACCELERATE = " -> accelerate()";
+    private static final String BRAKE = " -> brake()";
+
     public Mitsubishi(int cylinders, String name) {
         super(cylinders, name);
     }
     @Override
     public String startEngine() {
-        return getClass().getSimpleName() + " -> startEngine() ";
-
+        return getClass().getSimpleName() + START_ENGINE;
     }
     @Override
     public String accelerate() {
-        return getClass().getSimpleName() + " -> accelerate()";
+        return getClass().getSimpleName() + ACCELERATE;
     }
     @Override
     public String brake() {
-        return getClass().getSimpleName() + " -> brake()";
+        return getClass().getSimpleName() + BRAKE;
     }
 }
 class Holden extends Car {
+    private static final String START_ENGINE = " -> startEngine() ";
+    private static final String ACCELERATE = " -> accelerate()";
+
     public Holden(int cylinders, String name) {
         super(cylinders, name);
     }
     @Override
     public String startEngine() {
-        return getClass().getSimpleName() + " -> startEngine() ";
+        return getClass().getSimpleName() + START_ENGINE;
 
     }
     @Override
     public String accelerate() {
-        return getClass().getSimpleName() + " -> accelerate()";
+        return getClass().getSimpleName() + ACCELERATE;
     }
     @Override
     public String brake() {
@@ -103,21 +114,25 @@ class Holden extends Car {
     }
 }
 class Ford extends Car {
+    private static final String START_ENGINE = " -> startEngine() ";
+    private static final String ACCELERATE = " -> accelerate()";
+    private static final String BRAKE = " -> brake()";
+
     public Ford(int cylinders, String name) {
         super(cylinders, name);
     }
     @Override
     public String startEngine() {
-        return getClass().getSimpleName() + " -> startEngine() ";
+        return getClass().getSimpleName() + START_ENGINE;
 
     }
     @Override
     public String accelerate() {
-        return getClass().getSimpleName() + " -> accelerate()";
+        return getClass().getSimpleName() + ACCELERATE;
     }
     @Override
     public String brake() {
-        return getClass().getSimpleName() + " -> brake()";
+        return getClass().getSimpleName() + BRAKE;
     }
 }
 
