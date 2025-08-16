@@ -20,63 +20,48 @@ public class FlourPacker {
     public static boolean canPack (int bigCount, int smallCount, int goal){
         int availableTotalCapacity = (bigCount*5) + (smallCount);
         boolean canPackStatus = false;
-        int a,b,c,d,e;
-        int remainingGoal = 0;
 
-        if( !(smallCount<0 || bigCount<0 || goal<0) ){
+        if(shouldCheck(bigCount, smallCount, goal)){
 
             if(goal == availableTotalCapacity) {
                 canPackStatus = true;
             } else if( goal < availableTotalCapacity){
                 if((bigCount == 0) || (smallCount == 0)) {
-                    if(bigCount == 0) {
-                        if(goal <= smallCount){
-                            canPackStatus = true;
-                        }
-                    } else if( goal == (bigCount * 5)){
-                        canPackStatus = true;
-                    }
+                    canPackStatus = checkConditionOne(bigCount, smallCount, goal);
                 } else {
-                    if(  ((goal - smallCount) <= (bigCount*5)) && (((goal - smallCount) % 5) == 0 )) {
-                        canPackStatus = true;
-                    } else if( (((goal-(bigCount*5))) >0) && (((goal-(bigCount*5))) <= smallCount)) {
-                        canPackStatus = true;
-                    } else if( (goal < (bigCount*5)) && ((goal % 5 ) == 0 ) ) {
-                        canPackStatus = true;
-                    } else if( ((bigCount*5) - (goal%5)) <= smallCount) {
-                        canPackStatus = true;
-                    }
+                    canPackStatus = checkConditionTwo(bigCount, smallCount, goal);
                 }
             }
         }
         return canPackStatus;
     }
-}
-/*
-Below is an alternative solution:
-public class FlourPacker {
 
-    private static final int BIG_WEIGHT = 5;
+    private static boolean shouldCheck(int bigCount, int smallCount, int goal) {
+        return !(smallCount < 0 || bigCount < 0 || goal < 0);
+    }
 
-    public static boolean canPack(int bigCount, int smallCount, int goal) {
-
-        if (bigCount < 0 || smallCount < 0 || goal < 0) {
-            return false;
-        }
-
-        boolean result = false;
-        int totalBigWeight = bigCount * BIG_WEIGHT;
-        if (totalBigWeight >= goal) {
-            int remaining = goal % BIG_WEIGHT;
-            if (smallCount >= remaining) {
-                result = true;
+    private static boolean checkConditionOne(int bigCount, int smallCount, int goal) {
+        boolean condtionOneSatisfied = false;
+            if(bigCount == 0) {
+                if(goal <= smallCount){
+                    condtionOneSatisfied = true;
+                }
+            } else if( goal == (bigCount * 5)){
+                condtionOneSatisfied = true;
             }
-        } else {
-            if (smallCount >= goal - totalBigWeight) {
-                result = true;
-            }
+        return condtionOneSatisfied;
+    }
+    private static boolean checkConditionTwo(int bigCount, int smallCount, int goal) {
+        boolean condtionTwoSatisfied = false;
+        if (((goal - smallCount) <= (bigCount * 5)) && (((goal - smallCount) % 5) == 0)) {
+            condtionTwoSatisfied = true;
+        } else if ((((goal - (bigCount * 5))) > 0) && (((goal - (bigCount * 5))) <= smallCount)) {
+            condtionTwoSatisfied = true;
+        } else if ((goal < (bigCount * 5)) && ((goal % 5) == 0)) {
+            condtionTwoSatisfied = true;
+        } else if (((bigCount * 5) - (goal % 5)) <= smallCount) {
+            condtionTwoSatisfied = true;
         }
-        return result;
+        return condtionTwoSatisfied;
     }
 }
- */
