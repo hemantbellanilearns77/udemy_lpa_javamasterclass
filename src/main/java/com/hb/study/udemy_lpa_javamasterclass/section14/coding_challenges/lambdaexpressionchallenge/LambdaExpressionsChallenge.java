@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.lambdaexpressionchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
@@ -56,12 +57,6 @@ public class LambdaExpressionsChallenge {
         ConsoleStyler.styleOutput(null, Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
 
-        //IntFunction<String> intFunction = i -> firstNames[i].toUpperCase();
-        //Transform names to all uppercase.
-        //Arrays.setAll(firstNames, intFunction);
-        //ConsoleStyler.styleOutput("""
-        //      "First NamesUtil" Array --> Transform to Uppercase""", Arrays.toString(firstNames));
-
         List<String> backedByArray = Arrays.asList(firstNames);
         UnaryOperator<String> allUppercaseUnaryLambda = (s) -> {
             return s.toUpperCase();
@@ -69,22 +64,16 @@ public class LambdaExpressionsChallenge {
         // Transform names to all uppercase.
         backedByArray.replaceAll(allUppercaseUnaryLambda);
         ConsoleStyler.styleOutput( LIST_BACKED_BY_ARRAY
-                +
-                """
-                 Transform to Uppercase""", """
-                """ + backedByArray.toString());
+                + """
+                 Transform to Uppercase""", backedByArray.toString());
 
         ConsoleStyler.halfDivider();
         // Add a randomly generated middle initial and include a period.
-        backedByArray.replaceAll((s) -> {
-            return (s + " " + getRandomChar('A', 'Z') + '.');
-        });
+        backedByArray.replaceAll((s) -> s + " " + getRandomChar('A', 'Z') + '.');
         ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY
-                 +
-                """
+                 + """
                  Transform to add a middle Initial with a period
-                """, """
-                """ + backedByArray.toString());
+                """, backedByArray.toString());
         ConsoleStyler.halfDivider();
 
         //Add a last name that is the reverse of the first name.
@@ -93,9 +82,7 @@ public class LambdaExpressionsChallenge {
                 +
                 """
                  Add reversed name as last name
-                """, """
-                """ + Arrays.toString(firstNames));
-        //Arrays.asList(firstNames).forEach(s -> ConsoleStyler.styleOutput(null,s));
+                """, CommonConstants.EMPTYSTRING + Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
 
         // Finally, create a new modifiable ArrayList from your names array, removing any names where the last name equals the first name.
@@ -103,18 +90,11 @@ public class LambdaExpressionsChallenge {
         newList.removeIf(s -> s.substring(0, s.indexOf(" ")).equals(
                 s.substring(s.lastIndexOf(" ") + 1)
         ));
-/*        newList.removeIf(s -> {
-            String first = s.substring(0, s.indexOf(" "));
-            String last = s.substring(s.lastIndexOf(" ") + 1);
-            return first.equals(last);
-        });*/
+
         ConsoleStyler.styleOutput("First NamesUtil --> Remove names where first = last", """
                 """ + Arrays.toString(firstNames));
-        //Arrays.asList(firstNames).forEach(s -> ConsoleStyler.styleOutput(null,s));
-        //ConsoleStyler.styleEachAsIs(null, newList.toArray() );
 
         ConsoleStyler.endSection("Lambda Expressions Challenge Demo - Arrays/ArrayList/Operation Lambda"); // required
-
     }
 
     public static char getRandomChar(char startChar, char endChar) {
@@ -124,29 +104,4 @@ public class LambdaExpressionsChallenge {
     private static String getReversedName(String firstName) {
         return new StringBuilder(firstName).reverse().toString();
     }
-     /*Arrays.setAll(names, i -> names[i].toUpperCase());
-        ConsoleStyler.styleOutput("--> Transform to Uppercase");
-        ConsoleStyler.styleOutput(Arrays.toString(names));
-
-        List<String> backedByArray = Arrays.asList(names);
-
-        backedByArray.replaceAll(s -> s += " " + getRandomChar('A', 'D') + ".");
-        ConsoleStyler.styleOutput("--> Add random middle initial");
-        ConsoleStyler.styleOutput(Arrays.toString(names));
-
-        backedByArray.replaceAll(s -> s += " " + getReversedName(s.split(" ")[0]));
-        ConsoleStyler.styleOutput("--> Add reversed name as last name");
-        Arrays.asList(names).forEach(s -> ConsoleStyler.styleOutput(s));
-
-        List<String> newList = new ArrayList<>(List.of(names));
-//        newList.removeIf(s -> s.substring(0, s.indexOf(" ")).equals(
-//                s.substring(s.lastIndexOf(" ") + 1)
-//        ));
-        newList.removeIf(s -> {
-        String first = s.substring(0, s.indexOf(" "));
-        String last = s.substring(s.lastIndexOf(" ") + 1);
-        return first.equals(last);
-    });
-        ConsoleStyler.styleOutput("--> Remove names where first = last");
-        newList.forEach(s -> ConsoleStyler.styleOutput(s));*/
 }

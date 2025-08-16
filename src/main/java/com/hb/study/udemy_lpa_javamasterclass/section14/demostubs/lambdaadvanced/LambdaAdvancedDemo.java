@@ -21,6 +21,7 @@ public class LambdaAdvancedDemo {
     private static final String RESULT = "Result ";
     private static final String STRING_ARRAY_AFTER = "String Array after";
     private static final String GUEST_LABEL = "Guest";
+    private static final String STRING_ARRAY = "String Array:";
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
@@ -90,13 +91,13 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleIntro("Demonstrating Binary Function Lambda using Arrays.setAll");
         String[] stringArray = new String[9];
-        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput(STRING_ARRAY, Arrays.toString(stringArray));
         Arrays.fill(stringArray, "STRING");
         ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " fill is: ");
-        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput(STRING_ARRAY, Arrays.toString(stringArray));
         Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i + 1));
         ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " setAll is: ");
-        ConsoleStyler.styleOutput("String Array:", Arrays.toString(stringArray));
+        ConsoleStyler.styleOutput(STRING_ARRAY, Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
 
 
