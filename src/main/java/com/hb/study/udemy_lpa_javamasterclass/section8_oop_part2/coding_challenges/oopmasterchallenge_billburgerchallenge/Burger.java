@@ -5,6 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstra
 
 public class Burger extends Item {
 
+    private static final String TOPPING = "TOPPING";
     private Item extra1;
     private Item extra2;
     private Item extra3;
@@ -37,11 +38,11 @@ public class Burger extends Item {
 
     public void addToppings(String extra1, String extra2, String extra3) {
 
-        this.extra1 = new Item("TOPPING", extra1,
+        this.extra1 = new Item(TOPPING, extra1,
                 getExtraPrice(extra1));
-        this.extra2 = new Item("TOPPING", extra2,
+        this.extra2 = new Item(TOPPING, extra2,
                 getExtraPrice(extra2));
-        this.extra3 = new Item("TOPPING", extra3,
+        this.extra3 = new Item(TOPPING, extra3,
                 getExtraPrice(extra3));
     }
 
