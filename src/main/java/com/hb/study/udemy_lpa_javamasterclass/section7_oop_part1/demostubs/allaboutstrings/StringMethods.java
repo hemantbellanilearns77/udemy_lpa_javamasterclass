@@ -6,6 +6,8 @@ import java.util.Locale;
 
 public class StringMethods {
 
+    private static final String WORLD = "World";
+
     public static void main(String[] args) {
        /*  for(int i = 1, j=1; i <= 100000; i*=10){
             System.out.printf("Printing %6d %n",i);
@@ -31,22 +33,21 @@ public class StringMethods {
         ConsoleStyler.styleOutput("The length of String to Inspect is: " + stringToInspect.length());
         if(stringToInspect.isEmpty()) {
             ConsoleStyler.styleOutput("String is Enpty (contains whitespace characters only!)");
-            ConsoleStyler.styleOutput("************************************************************************************************");
+            ConsoleStyler.divider();
         } else {
             if(stringToInspect.isBlank()) {
                 ConsoleStyler.styleOutput("String: " + stringToInspect + " is Blank!");
             }
             if(stringToInspect.equalsIgnoreCase("Hello World")) {
-        ConsoleStyler.styleOutput("****************************************************************************************************************************");
+                ConsoleStyler.divider();
                 ConsoleStyler.styleOutput("The character at 7th index of String : " + stringToInspect + " is: " + stringToInspect.charAt(7) );
                 System.out.printf("The first character and last character in %s are %c and %c respectively %n", stringToInspect, stringToInspect.charAt(0),
                         stringToInspect.charAt(stringToInspect.length()-1));
-                ConsoleStyler.styleOutput("****************************************************************************************************************************");
+                ConsoleStyler.divider();
                 System.out.printf("Index of character: 'r' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf('r') );
-        ConsoleStyler.styleOutput("****************************************************************************************************************************");
-                System.out.printf("Index of string: \"World\" in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf("World") );
-        ConsoleStyler.styleOutput("****************************************************************************************************************************");
-        ConsoleStyler.styleOutput("****************************************************************************************************************************");
+                ConsoleStyler.divider();
+                System.out.printf("Index of string: \"World\" in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf(WORLD) );
+                ConsoleStyler.divider();
                 System.out.printf("Index of character: 'l' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf('l'));
                 System.out.printf("Last Index of character: 'l' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.lastIndexOf('l'));
                 System.out.printf("Index of character: 'l' after its first occurrence  in string : \"%s\", is: %d %n", stringToInspect,
@@ -54,7 +55,7 @@ public class StringMethods {
                 System.out.printf("Last Index of character: 'l' just before its last occurrence in string : \"%s\", is: %d %n",
                         stringToInspect, stringToInspect.lastIndexOf('l', (stringToInspect.lastIndexOf('l') -1 )));
             }
-            ConsoleStyler.styleOutput("****************************************************************************************************************************");
+            ConsoleStyler.divider();
         }
     }
 
@@ -73,13 +74,13 @@ public class StringMethods {
         if(stringToInspect.startsWith("Hello")) {
             ConsoleStyler.styleOutput("String starts with \'Hello\'");
         }
-        if(stringToInspect.endsWith("World")) {
+        if(stringToInspect.endsWith(WORLD)) {
             ConsoleStyler.styleOutput("String ends with \'World\'");
         }
-        if(stringToInspect.contains("World")) {
+        if(stringToInspect.contains(WORLD)) {
             ConsoleStyler.styleOutput("String contains \'World\'");
         }
-        ConsoleStyler.styleOutput("****************************************************************************************************************************");
+        ConsoleStyler.divider();
     }
 
     public static void demoStringManipulation() {
@@ -99,7 +100,7 @@ public class StringMethods {
         ConsoleStyler.styleOutput("Demo String.replaceAll() : nwwDate formed by replacing all occurrences of the  delimeter '/' with '-'  is:" +
                 newDate.replaceFirst("/", "-"));
 
-        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.divider();
 
     }
 

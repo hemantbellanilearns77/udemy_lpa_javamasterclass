@@ -9,13 +9,15 @@ import java.time.YearMonth;
 
 public class InheritanceChallenge_MainClass extends Object {
 
+    private static final String BIRTH_DATE = "16-11-1981";
+
     public static void main(String[] args) {
-        Employee employee = new Employee("Hemant (Employee)","16-11-1981", "27-06-2016",
+        Employee employee = new Employee("Hemant (Employee)", BIRTH_DATE, "27-06-2016",
                  "11-12-2011" );
-        SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", "16-11-1981",
+        SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", BIRTH_DATE,
                 "27-06-2016", "11-12-2011",1300000, false);
 
-        HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", "16-11-1981",
+        HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", BIRTH_DATE,
                 "27-06-2016", 90816, "11-12-2011",350);
         ConsoleStyler.styleOutput(employee  + CommonConstants.EMPTYSTRING);
         hourlyWageEmployee.terminate(hourlyWageEmployee.getLwd_Date());
@@ -23,7 +25,7 @@ public class InheritanceChallenge_MainClass extends Object {
         salariedEmployee.collectPay();
         salariedEmployee.retire();
         ConsoleStyler.styleOutput(salariedEmployee  + CommonConstants.EMPTYSTRING);
-       String birthDate = "16-11-1981";
+        String birthDate = BIRTH_DATE;
         int age = 0;
         int currentYear = Year.now().getValue();
         int currentMonth, monthOfBirth = 0;
