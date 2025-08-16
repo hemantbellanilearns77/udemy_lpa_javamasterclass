@@ -9,7 +9,8 @@ public class Rectangle {
         this.length = 0.00;
         if(width >= 0) {
             this.width = width;
-        } if(length  >= 0) {
+        }
+        if(length  >= 0) {
             this.length = length;
         }
     }
