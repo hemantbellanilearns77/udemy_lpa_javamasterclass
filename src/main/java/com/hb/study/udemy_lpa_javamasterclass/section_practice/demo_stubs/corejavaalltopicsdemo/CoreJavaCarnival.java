@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.sql.*;
+import java.util.Set;
 
 /**
  * created by : heman on 16-07-2025, 02:41 pm, in the "udemy_lpa_javamasterclass" project
@@ -144,53 +145,65 @@ public class CoreJavaCarnival {
     public static void runDBDemo() {
         ConsoleStyler.styleOutput("\n📂 Connecting to SQLite DB...");
         String url = "jdbc:sqlite:db\\carnival.db";
+
+        // ✅ Whitelist table names
         String firstTableName = "attendees";
-        String createTable = "CREATE TABLE IF NOT EXISTS " + firstTableName + " (id INTEGER PRIMARY KEY, name TEXT)";
-        String insertSQL = "INSERT INTO attendees(name) VALUES(?)";
-        String selectSQL = "SELECT id, name FROM attendees";
-        Scanner scanner = new Scanner(System.in);
-        ConsoleStyler.styleOutput("Enter your name: ");
-        String name = scanner.nextLine();
+        Set<String> allowedTables = Set.of("attendees");
 
-        try (Connection conn = DriverManager.getConnection(url)) {
-            // ✅ Create table FIRST
-            try (Statement stmt = conn.createStatement()) {
-                stmt.execute(createTable);
-                ConsoleStyler.styleOutput("✅ Table ready.");
-            }
+        if (!allowedTables.contains(firstTableName)) {
+            throw new IllegalArgumentException("Invalid table name: " + firstTableName);
+        }
 
-            // 🔽 Insert user
-            try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
-                insertStmt.setString(1, name);
-                insertStmt.executeUpdate();
-                ConsoleStyler.styleOutput("🎟️ Inserted attendee: " + name);
-            }
+        // ✅ Use a fixed, safe SQL string (no concatenation in query text)
+        final String createTableSQL = "CREATE TABLE IF NOT EXISTS attendees (id INTEGER PRIMARY KEY, name TEXT)";
+        final String insertSQL = "INSERT INTO attendees(name) VALUES(?)";
+        final String selectSQL = "SELECT id, name FROM attendees";
 
-            // 🔍 Read back attendees
-            try (Statement selectStmt = conn.createStatement()) {
-                ResultSet rs = selectStmt.executeQuery(selectSQL);
-                ConsoleStyler.styleOutput("🎟️ Attendees:");
-                while (rs.next()) {
-                    ConsoleStyler.styleOutput(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
+        try (Scanner scanner = new Scanner(System.in)) {
+            ConsoleStyler.styleOutput("Enter your name: ");
+            String name = scanner.nextLine();
+
+            try (Connection conn = DriverManager.getConnection(url)) {
+
+                // ✅ Create table
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.execute(createTableSQL);
+                    ConsoleStyler.styleOutput("✅ Table ready.");
                 }
-            }
-            ConsoleStyler.styleIntro(" Just Playing around");
-            // Playing around
-            viewTableDescription(url, firstTableName);
 
-        } catch (SQLException e) {
-            ConsoleStyler.styleError("❌ DB Error: " + e.getMessage());
+                // ✅ Insert user safely with PreparedStatement
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
+                    insertStmt.setString(1, name);
+                    insertStmt.executeUpdate();
+                    ConsoleStyler.styleOutput("🎟️ Inserted attendee: " + name);
+                }
+
+                // ✅ Safe SELECT query
+                try (Statement selectStmt = conn.createStatement();
+                     ResultSet rs = selectStmt.executeQuery(selectSQL)) {
+                    ConsoleStyler.styleOutput("🎟️ Attendees:");
+                    while (rs.next()) {
+                        ConsoleStyler.styleOutput(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
+                    }
+                }
+
+                ConsoleStyler.styleIntro(" Just Playing around");
+                viewTableDescription(url);
+
+            } catch (SQLException e) {
+                ConsoleStyler.styleError("❌ DB Error: " + e.getMessage());
+            }
         }
     }
 
-    public static void viewTableDescription(String url, String tableName) {
-        String query = "PRAGMA table_info(" + tableName + ");";
+    public static void viewTableDescription(String url) {
+        String query = "PRAGMA table_info( attendees );";
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
-            ConsoleStyler.styleOutput("Table Name: " + tableName);
+            ConsoleStyler.styleOutput("Table Name: attendees");
             ConsoleStyler.styleOutput("Column Name | Data Type | Not Null | Default Value | Primary Key");
             ConsoleStyler.halfDivider();
 

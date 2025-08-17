@@ -9,7 +9,7 @@ import com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.gener
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.security.SecureRandom;
 
 record Employee(String name) implements QueryItem {
 
@@ -20,13 +20,13 @@ record Employee(String name) implements QueryItem {
 }
 public class GenericsAdvancedMain {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
-
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
+  public static final SecureRandom secureRandom = new SecureRandom();
 
     public static void main(String[] args) {
 
         execution.initialize();
-        int studentCount = new Random().nextInt(1,11);
+        int studentCount = secureRandom.nextInt(1,11);
         ConsoleStyler.styleOutput(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
         for (int i = 1; i < studentCount; i++) {

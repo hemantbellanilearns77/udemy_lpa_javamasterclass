@@ -19,14 +19,13 @@ public class EvenDigitSum {
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
 
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
-                clearScreen();
                 ConsoleStyler.styleOutput("\nExiting the input screen .... " +
                         "thanks for your attempts and inputs.... ");
             } else {
-                ConsoleStyler.styleOutput("**************************************************************");
+                ConsoleStyler.halfDivider();
                 ConsoleStyler.styleOutput("userInput was: " + userInput + ";" +
                         "\namd userInputWithoutBlanks is: " + userInputWithoutBlanks);
-                ConsoleStyler.styleOutput("**************************************************************");
+                ConsoleStyler.halfDivider();
                 // Checking if user input number is Palindrome or not?
                 try{
                     sumReceived = getEvenDigitSum (Integer.parseInt(userInputWithoutBlanks));
@@ -58,18 +57,5 @@ public class EvenDigitSum {
             }
         }
         return sum;
-
-    }
-    public static void clearScreen() {
-        try {
-            String os = System.getProperty("os.name");
-            if (os.contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            ConsoleStyler.styleOutput("Error clearing screen: " + e.getMessage());
-        }
     }
 }
