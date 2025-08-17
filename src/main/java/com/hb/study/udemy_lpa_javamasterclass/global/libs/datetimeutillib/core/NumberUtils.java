@@ -56,8 +56,9 @@ public class NumberUtils {
             System.out.printf("🌍 %s\n💰 Currency: %s\n🔢 Number: %s\n\n",
                     locale.getDisplayName(), currency, number);
 
-            FormatterExportUtil.logEntry("Currency", locale.toString(), currency);
-            FormatterExportUtil.logEntry("Number", locale.toString(), number);
+
+            ConsoleStyler.styleOutput(null, "Demo: Currency; Locale is: " + locale.toString() + "; Output is: " + currency );
+            ConsoleStyler.styleOutput(null, "Demo: Number; Locale is: " + locale.toString() + "; Output is: " + number );
         }
     }
 }
