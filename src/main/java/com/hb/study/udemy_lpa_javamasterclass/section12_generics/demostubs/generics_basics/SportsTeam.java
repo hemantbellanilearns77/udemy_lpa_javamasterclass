@@ -17,13 +17,6 @@ public class SportsTeam {
         this.teamName = teamName;
     }
 
-    public void addTeamMember(Player player) {
-
-        if (!teamMembers.contains(player)) {
-            teamMembers.add(player);
-        }
-    }
-
     public void listTeamMembers() {
 
         ConsoleStyler.styleOutput(teamName + " Roster:");

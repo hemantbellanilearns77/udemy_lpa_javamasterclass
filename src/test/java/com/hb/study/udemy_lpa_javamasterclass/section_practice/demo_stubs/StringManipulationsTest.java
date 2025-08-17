@@ -12,9 +12,11 @@ class StringManipulationsTest {
 
     @BeforeEach
     void setUp() {
+        throw new UnsupportedOperationException("setUp() cannot be performed because ...");
     }
 
     @AfterEach
     void tearDown() {
+        throw new UnsupportedOperationException("tearDown() cannot be performed because ...");
     }
 }

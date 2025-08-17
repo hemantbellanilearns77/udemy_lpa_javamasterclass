@@ -7,6 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.P
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +45,9 @@ public class DTDemoExecutor {
                             .withLocale(locale);
                     String result = dtf.format(now);
                     ConsoleStyler.styleOutput( "🧪 [%s/%s] → %s".formatted(dateStyle,timeStyle,result) );
-                } catch (Exception _) {}
+                } catch(DateTimeException dateTimeException) {
+                    ConsoleStyler.styleError("DateTimeException : " + dateTimeException.getMessage());
+                }
             }
         }
     }

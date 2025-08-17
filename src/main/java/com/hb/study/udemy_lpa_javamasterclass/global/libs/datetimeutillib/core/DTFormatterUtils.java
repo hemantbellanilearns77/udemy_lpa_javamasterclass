@@ -9,6 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class DTFormatterUtils {
+    private DTFormatterUtils() {
+    }
+
     public static String safeFormat(ZonedDateTime dateTime, String pattern, Locale locale) {
         try {
             return DateTimeFormatter.ofPattern(pattern, locale).format(dateTime);

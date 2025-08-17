@@ -14,6 +14,9 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 
 public class GUIModeOrchestrator {
+    private GUIModeOrchestrator() {
+
+    }
 
     public static void runMode(FormatterMode mode, Locale locale, String zoneId, String customPattern) {
 
@@ -34,7 +37,7 @@ public class GUIModeOrchestrator {
             case TRADITIONAL_CALENDARS_MODE -> DTDemoExecutor.runTraditionalCalendars();
             case CURRENCY_AND_NUMBERS_DEMO_MODE -> DTDemoExecutor.runCurrencyAndNumbers();
             case FORMAT_STYLES_COMBOS_DEMO_MODE -> DTDemoExecutor.runFormatStyleCombos(locale, zone);
-            case VEDIC_MODE -> DTDemoExecutor.runVedicShowcase();//FormatterGUI.showVedicPlaceholder();
+            case VEDIC_MODE -> DTDemoExecutor.runVedicShowcase();
             case FULL_CARNIVAL_BLAST -> {
                 DTDemoExecutor.runMinimalDemo(locale, zone);
                 DTDemoExecutor.runPatternFiesta();
@@ -48,7 +51,7 @@ public class GUIModeOrchestrator {
         if (customPattern != null) {
             ZonedDateTime now = ZonedDateTime.now();
             String formatted = DTFormatterUtils.safeFormat(now, customPattern, locale);
-            ConsoleStyler.styleOutput("🎨 Custom Pattern [ %-25s ] → %s\n".formatted(customPattern, formatted));
+            ConsoleStyler.styleOutput("🎨 Custom Pattern [ %-25s ] → %s%n".formatted(customPattern, formatted));
         }
         ConsoleStyler.divider();
     }

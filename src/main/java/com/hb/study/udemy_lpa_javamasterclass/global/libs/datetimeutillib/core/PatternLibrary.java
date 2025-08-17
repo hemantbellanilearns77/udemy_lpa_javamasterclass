@@ -42,7 +42,9 @@ public class PatternLibrary {
             for (String pattern : getIndianPatterns()) {
                 String result = DTFormatterUtils.safeFormat(indiaTime, pattern, locale);
                 System.out.printf("📍 %-25s → %s\n", pattern, result);
-                FormatterExportUtil.logEntry("LangDemo:" + pattern, locale.toString(), result);
+                ConsoleStyler.styleOutput(null, "Demo: Indian Language Date Time Patterns; Locale is: "
+                        + locale + "; Output is: " + result );
+
             }
             ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
         }
@@ -59,7 +61,8 @@ public class PatternLibrary {
                     ZonedDateTime zoned = now.withZoneSameInstant(zone);
                     String result = DTFormatterUtils.safeFormat(zoned, pattern, locale);
                     System.out.printf("🌐 [%s] (%s/%s) → %s\n", pattern, zone.getId(), locale.toString(), result);
-                    FormatterExportUtil.logEntry("GlobalPattern:" + pattern, locale.toString(), result);
+                    ConsoleStyler.styleOutput(null, "Demo: Global Language Date Time Patterns; Locale is: "
+                            + locale + "; Output is: " + result );
                 }
             }
         }
