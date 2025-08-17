@@ -8,10 +8,10 @@ public class NumberPalindrome {
 
     public static void main(String[] args) {
 
-        /*ConsoleStyler.styleOutput("Is 10 a palindrome? : " + isPalindrome(10));
+        ConsoleStyler.styleOutput("Is 10 a palindrome? : " + isPalindrome(10));
         ConsoleStyler.styleOutput("Is 121 a palindrome? : " + isPalindrome(121));
         ConsoleStyler.styleOutput("Is 456 a palindrome? : " + isPalindrome(456));
-        ConsoleStyler.styleOutput("Is 12021 a palindrome? : " + isPalindrome(12021));*/
+        ConsoleStyler.styleOutput("Is 12021 a palindrome? : " + isPalindrome(12021));
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
@@ -24,7 +24,6 @@ public class NumberPalindrome {
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
 
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
-                    clearScreen();
                     ConsoleStyler.styleOutput("\n\nExiting the input screen .... thanks for your attempts and inputs.... ");
 
                 continue ;
@@ -61,24 +60,11 @@ public class NumberPalindrome {
         // palindrome if num and reverse are equal
         if(numToEvaluate == reverse) {
 
-            //ConsoleStyler.styleOutput(numToEvaluate + " is Palindrome");
+            ConsoleStyler.styleOutput(numToEvaluate + " is Palindrome");
             palindromeFound = true;
-        }/* else {
-            //ConsoleStyler.styleOutput(numToEvaluate + " is not Palindrome");
-            palindromeFound = false;
-        }*/
-        return  palindromeFound ;
-    }
-    public static void clearScreen() {
-        try {
-            String os = System.getProperty("os.name");
-            if (os.contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            ConsoleStyler.styleOutput("Error clearing screen: " + e.getMessage());
+        } else {
+            ConsoleStyler.styleOutput(numToEvaluate + " is not Palindrome");
         }
+        return  palindromeFound ;
     }
 }

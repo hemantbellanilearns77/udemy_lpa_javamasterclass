@@ -18,7 +18,6 @@ public class FirstLastDigitSum {
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
 
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
-                clearScreen();
                 ConsoleStyler.styleOutput("\nExiting the input screen .... " +
                         "thanks for your attempts and inputs.... ");
             } else {
@@ -51,16 +50,4 @@ public class FirstLastDigitSum {
         return sum;
     }
 
-    public static void clearScreen() {
-        try {
-            String os = System.getProperty("os.name");
-            if (os.contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            ConsoleStyler.styleOutput("Error clearing screen: " + e.getMessage());
-        }
-    }
 }
