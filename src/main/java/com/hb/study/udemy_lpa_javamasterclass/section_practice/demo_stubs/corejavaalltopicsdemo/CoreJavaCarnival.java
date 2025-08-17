@@ -167,12 +167,12 @@ public class CoreJavaCarnival {
 
                 // ✅ Create table
                 try (Statement stmt = conn.createStatement()) {
-                    stmt.execute(createTableSQL);
+                    stmt.execute("CREATE TABLE IF NOT EXISTS attendees (id INTEGER PRIMARY KEY, name TEXT)");
                     ConsoleStyler.styleOutput("✅ Table ready.");
                 }
 
                 // ✅ Insert user safely with PreparedStatement
-                try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
+                try (PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO attendees(name) VALUES(?)")) {
                     insertStmt.setString(1, name);
                     insertStmt.executeUpdate();
                     ConsoleStyler.styleOutput("🎟️ Inserted attendee: " + name);
@@ -180,7 +180,7 @@ public class CoreJavaCarnival {
 
                 // ✅ Safe SELECT query
                 try (Statement selectStmt = conn.createStatement();
-                     ResultSet rs = selectStmt.executeQuery(selectSQL)) {
+                     ResultSet rs = selectStmt.executeQuery("SELECT id, name FROM attendees")) {
                     ConsoleStyler.styleOutput("🎟️ Attendees:");
                     while (rs.next()) {
                         ConsoleStyler.styleOutput(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
