@@ -383,9 +383,9 @@ jobs:
            $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
           
            function MarkEmoji($count) {
-              if ($count -eq 0) { return "✅ GREAT-GOING" }
-              elseif ($count -le 5) { return "🟡 WATCH-OUT" }
-              else { return "🔴 GONE-OVERBOARD" }
+              if ($count -eq 0) { return "✅" }
+              elseif ($count -le 5) { return "🟡" }
+              else { return "🔴" }
             } # end of function Mark
           
           ############################################################
@@ -404,6 +404,7 @@ jobs:
           echo "| 🟨 MEDIUM               | $(MarkEmoji $medium) [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟦 LOW                  | $(MarkEmoji $low) [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ℹ INFO                 | $(MarkEmoji $info) [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| Legend                 | ✅ : GREAT-GOING; 🟡 : WATCH-OUT;  🔴 : GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
