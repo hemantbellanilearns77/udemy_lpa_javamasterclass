@@ -204,13 +204,13 @@ public class ConsoleStyler {
     private static int handleList(List<?> list, List<Object> items) {
         if (list == null || list.isEmpty()) return -1;
         Object first = list.get(0);
-        if (first instanceof double[]) {
-            int size = ((double[]) first).length;
+        if (first instanceof double[] firstDoubleArray) {
+            int size = firstDoubleArray.length;
             for (Object o : list) addArray(o, items);   // each o is double[]
             return size;
         }
-        if (first instanceof Object[]) {
-            int size = ((Object[]) first).length;
+        if (first instanceof Object[] firstObjectArray ) {
+            int size = firstObjectArray.length;
             for (Object o : list) items.addAll(Arrays.asList((Object[]) o)); // each o is Object[]
             return size;
         }
