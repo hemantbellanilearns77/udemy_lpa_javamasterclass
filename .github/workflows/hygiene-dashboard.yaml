@@ -368,9 +368,9 @@ jobs:
           }
 
           $blocker = Fetch-SonarSeverity "BLOCKER"
-          $high = Fetch-SonarSeverity "HIGH"
-          $medium = Fetch-SonarSeverity "MEDIUM"
-          $low = Fetch-SonarSeverity "LOW"
+          $high = Fetch-SonarSeverity "CRITICAL"
+          $medium = Fetch-SonarSeverity "MAJOR"
+          $low = Fetch-SonarSeverity "MINOR"
           $info = Fetch-SonarSeverity "INFO"
           ############################################################
           # === Generate Severity URLs (global and per module) ===
