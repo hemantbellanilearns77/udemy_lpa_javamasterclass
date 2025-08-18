@@ -9,7 +9,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.function.UnaryOperator;
 
 /**
@@ -33,7 +32,7 @@ public class LambdaExpressionsChallenge {
     }
 
     public static void challengeDemo() {
-        String[] firstNames = namesUtil.getDEFAULT_FIRST_NAMES();
+        String[] firstNames = namesUtil.getDEFAULTFIRSTNAMES();
         ConsoleStyler.startSection("Lambda Expressions Challenge Demo - Arrays/ArrayList/Operation Lambda"); // required
         ConsoleStyler.styleIntro("""
                 Challenge Objective:

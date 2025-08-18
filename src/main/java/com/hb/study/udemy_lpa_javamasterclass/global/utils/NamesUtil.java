@@ -15,11 +15,11 @@ public class NamesUtil {
     private static final SecureRandom secureRandom = new SecureRandom();
 
     private final List<Name> namesList;
-    private final String[] DEFAULT_FIRST_NAMES = {
+    private final String[] DEFAULTFIRSTNAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
     };
-    private final String[] DEFAULT_LAST_NAMES = {
+    private final String[] DEFAULTLASTNAMES = {
             "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
             "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
     };
@@ -40,23 +40,22 @@ public class NamesUtil {
     }
 
     public static Name generateRandomName(String[]... arrays) {
-        final String[] FIRST_NAMES = {
+        final String[] FIRSTNAMES = {
                 "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
                 "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
         };
-        final String[] LAST_NAMES = {
+        final String[] LASTNAMES = {
                 "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
                 "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
         };
 
-        //String[] fullNameArray = new String[2];
         String firstName;
         String lastName;
         Name generatedFullName;
         switch (arrays.length) {
             case 1 -> {
                 firstName = arrays[0][secureRandom.nextInt(arrays[0].length)];
-                lastName = LAST_NAMES[secureRandom.nextInt(LAST_NAMES.length)];
+                lastName = LASTNAMES[secureRandom.nextInt(LASTNAMES.length)];
 
             }
             case 2 -> {
@@ -64,8 +63,8 @@ public class NamesUtil {
                 lastName = arrays[1][secureRandom.nextInt(arrays[1].length)];
             }
             default -> {
-                firstName = FIRST_NAMES[secureRandom.nextInt(FIRST_NAMES.length)];
-                lastName = LAST_NAMES[secureRandom.nextInt(LAST_NAMES.length)];
+                firstName = FIRSTNAMES[secureRandom.nextInt(FIRSTNAMES.length)];
+                lastName = LASTNAMES[secureRandom.nextInt(LASTNAMES.length)];
             }
         }
         generatedFullName = new Name(firstName, lastName);
@@ -83,11 +82,11 @@ public class NamesUtil {
         return sb.toString();
     }
 
-    public String[] getDEFAULT_FIRST_NAMES() {
-        return DEFAULT_FIRST_NAMES;
+    public String[] getDEFAULTFIRSTNAMES() {
+        return DEFAULTFIRSTNAMES;
     }
 
-    public String[] getDEFAULT_LAST_NAMES() {
-        return DEFAULT_LAST_NAMES;
+    public String[] getDEFAULTLASTNAMES() {
+        return DEFAULTLASTNAMES;
     }
 }

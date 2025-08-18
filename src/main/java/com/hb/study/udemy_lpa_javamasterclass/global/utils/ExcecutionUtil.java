@@ -22,31 +22,29 @@ public class ExcecutionUtil {
         publishBenchmarkDetails();
         ConsoleStyler.endSection(ExecutionConstants.BENCHMARKSECTIONHEADER);
     }
+
     private void publishBenchmarkSummary() {
         ConsoleStyler.styleIntro(ExecutionConstants.BENCHMARKINSUMMARYSTR);
         if (benchmarkModel.getDays() > 0) {
-            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
+            ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYDAYSSTR.formatted(
                     benchmarkModel.getDays()));
         }
         if (benchmarkModel.getHours() > 0) {
-            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYHOURSSSTR.formatted(
+            ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYHOURSSSTR.formatted(
                     benchmarkModel.getHours()));
-
         }
         if (benchmarkModel.getMinutes() > 0) {
-            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYMINUTESSSTR.formatted(
+            ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYMINUTESSSTR.formatted(
                     benchmarkModel.getMinutes()));
-
         }
         if (benchmarkModel.getSeconds() > 0) {
-            System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYSECONDSSTR.formatted(
+            ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYSECONDSSTR.formatted(
                     benchmarkModel.getSeconds()));
         }
-        System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYMILLISSSTR.formatted(
+        ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYMILLISSSTR.formatted(
                 benchmarkModel.getMicroSeconds()));
-        System.out.printf(ExecutionConstants.BENCHMARKINSUMMARYNANOSSSTR.formatted(
+        ConsoleStyler.styleOutput(ExecutionConstants.BENCHMARKINSUMMARYNANOSSSTR.formatted(
                 benchmarkModel.getNanoseconds()));
-
     }
 
     private void publishBenchmarkDetails() {
