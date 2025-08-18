@@ -146,14 +146,7 @@ public class BenchmarkModel {
 
     @Override
     public String toString() {
-        /*      StringBuilder executionInfoPrintable = new StringBuilder(
-                "The Time taken to execute program is:%n%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
-                        .formatted(this.getDays(), this.getHours(),
-                                this.getMinutes(), this.getSeconds(),
-                                this.getMilliseconds(), this.getMicroSeconds(), this.getNanoseconds())
-        );
 
-        return executionInfoPrintable.toString();*/
         return CommonConstants.INDENT +
         "The Time taken to execute program is:%n%s%d day(s), %d hour(s), %d minute(s), %d second(s), %d millisecond(s) %d microsecond(s) and %d nanosecond(s) %n"
                         .formatted( CommonConstants.INDENT, this.getDays(), this.getHours(),

@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.utils;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
-import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -14,7 +13,7 @@ import java.time.format.FormatStyle;
  * created by : heman on 08-07-2025, 09:27 PM, in the "udemy_lpa_javamasterclass" project
  **/
 public class CommonUtils {
-
+    private CommonUtils(){}
 
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final int NAME_MAX_LENGTH = secureRandom.nextInt(1, 19);
@@ -26,9 +25,9 @@ public class CommonUtils {
 
     // Pretty-print array
     public static void printArray(String label, int[] array) {
-        if(label!=null &&  !label.isEmpty()) {
+        if (label != null && !label.isEmpty()) {
             ConsoleStyler.styleEachAsIs(label, array);
-        }  else {
+        } else {
             ConsoleStyler.styleEachAsIs(null, array);
         }
     }
@@ -43,18 +42,14 @@ public class CommonUtils {
         return new DecimalFormat("#.00").format(value);
     }
 
-
-
     public static String generateRandomString() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
         StringBuilder sb = new StringBuilder();
 
-
         for (int i = 0; i < NAME_MAX_LENGTH; i++) {
-            int index = secureRandom.nextInt(chars.length());
-            sb.append(chars.charAt(index));
+            int index = secureRandom.nextInt(CommonConstants.ALPHANUMCHARSALLCASE.length());
+            sb.append(CommonConstants.ALPHANUMCHARSALLCASE.charAt(index));
         }
-
         return sb.toString();
     }
 

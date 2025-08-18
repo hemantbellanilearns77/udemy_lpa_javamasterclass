@@ -15,6 +15,7 @@ public class NamesUtil {
     private static final SecureRandom secureRandom = new SecureRandom();
 
     private final List<Name> namesList;
+
     private final String[] DEFAULTFIRSTNAMES = {
             "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
             "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh","Arijit","Aishwarya","Anamika","Amarjot","Amritpal"
@@ -72,12 +73,12 @@ public class NamesUtil {
     }
 
     public static String generateRandomName(int nameMaxLength) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < nameMaxLength; i++) {
-            int index = secureRandom.nextInt(chars.length());
-            sb.append(chars.charAt(index));
+            int index = secureRandom.nextInt(CommonConstants.ALBPHABETCARSALLUPPERCASE.length());
+            sb.append(CommonConstants.ALBPHABETCARSALLUPPERCASE.charAt(index));
         }
         return sb.toString();
     }
