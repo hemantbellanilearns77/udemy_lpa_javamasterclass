@@ -23,9 +23,9 @@ public class DemoMathOperations {
         ConsoleStyler.endSection("Basic Math");
 
         ConsoleStyler.startSection("Using Math Class");
-        double val = 16.0;
+        double val = 39.69;
         ConsoleStyler.styleOutput("√16: " + Math.sqrt(val));
-        ConsoleStyler.styleOutput("Random (0-1): " + Math.random());
+        ConsoleStyler.styleOutput("Euler's number e raised to the power of " + val + ": " + Math.exp(val));
         ConsoleStyler.endSection("Using Math Class");
 
         ConsoleStyler.printBanner("DEMO COMPLETE");

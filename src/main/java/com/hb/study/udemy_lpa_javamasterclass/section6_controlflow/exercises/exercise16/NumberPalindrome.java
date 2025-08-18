@@ -22,11 +22,8 @@ public class NumberPalindrome {
             userInput = scanner.nextLine();
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
-
             if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
                     ConsoleStyler.styleOutput("\n\nExiting the input screen .... thanks for your attempts and inputs.... ");
-
-                continue ;
             } else {
                 ConsoleStyler.styleOutput("userInput was:" + userInput + ", userInputWithoutBlanks is:" + userInputWithoutBlanks);
                 // Checking if user input number is Palindrome or not?
@@ -34,11 +31,8 @@ public class NumberPalindrome {
                     ConsoleStyler.styleOutput("Is " + userInputWithoutBlanks + " a palindrome? : " + isPalindrome(Integer.parseInt(userInputWithoutBlanks)));
                 } catch(NumberFormatException nfe) {
                     ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
-                    continue;
                 }
             }
-
-
         } while(!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));
     }
 
@@ -47,7 +41,6 @@ public class NumberPalindrome {
         //variables initialization
         int reverse = 0, rem = 0, temp = numToEvaluate;
 
-        //int lastDigit = temp % 10;
         //loop to find reverse number
         while(temp != 0)
         {
@@ -55,7 +48,6 @@ public class NumberPalindrome {
             reverse = reverse * 10 + rem;
             temp /= 10;
          };
-        int firstDigit = rem;
 
         // palindrome if num and reverse are equal
         if(numToEvaluate == reverse) {
