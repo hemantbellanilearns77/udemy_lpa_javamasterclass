@@ -12,7 +12,7 @@ public class ZoneLibrary {
 
     public static List<ZoneId> getGlobalZones() {
         return ZoneId.getAvailableZoneIds().stream()
-                .map(ZoneId::of)
-                .collect(Collectors.toList());
+                .map(ZoneId::of).toList();
+
     }
 }

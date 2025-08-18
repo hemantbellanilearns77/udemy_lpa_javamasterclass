@@ -13,6 +13,9 @@ import java.util.Locale;
 
 public class PatternLibrary {
 
+    private PatternLibrary(){
+
+    }
     public static String[] getIndianPatterns() {
         return new String[] {
                 "dd/MM/yyyy",
@@ -34,25 +37,26 @@ public class PatternLibrary {
     }
     public static void runIndianPatterns() {
         ConsoleStyler.styleOutput("🗣️ LANGUAGE DEMO — Indian Regional Showcase");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.divider();
         ZonedDateTime indiaTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
 
         for (Locale locale : LocaleLibrary.getIndianRegionalLocales()) {
-            System.out.printf("🔸 Locale: %s\n", locale.getDisplayName(locale) + "\n");
+            ConsoleStyler.styleOutput("🔸 Locale: %s%n%n".formatted(locale.getDisplayName()));
             for (String pattern : getIndianPatterns()) {
                 String result = DTFormatterUtils.safeFormat(indiaTime, pattern, locale);
-                System.out.printf("📍 %-25s → %s\n", pattern, result);
-                ConsoleStyler.styleOutput(null, "Demo: Indian Language Date Time Patterns; Locale is: "
-                        + locale + "; Output is: " + result );
 
+                ConsoleStyler.styleOutput("""
+                    📍 %-25s → %s
+                    Demo: Indian Language Date Time Patterns; Locale is: %s; Output is: %s
+                    """.formatted(pattern, result,locale,result));
             }
-            ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+            ConsoleStyler.divider();
         }
     }
 
     public static void runGlobalPatterns() {
         ConsoleStyler.styleOutput("🎨 GLOBAL PATTERN SHOWCASE");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.divider();
         ZonedDateTime now = ZonedDateTime.now();
 
         for (Locale locale : LocaleLibrary.getGlobalLocales()) {
@@ -60,9 +64,10 @@ public class PatternLibrary {
                 for (ZoneId zone : ZoneLibrary.getGlobalZones()) {
                     ZonedDateTime zoned = now.withZoneSameInstant(zone);
                     String result = DTFormatterUtils.safeFormat(zoned, pattern, locale);
-                    System.out.printf("🌐 [%s] (%s/%s) → %s\n", pattern, zone.getId(), locale.toString(), result);
-                    ConsoleStyler.styleOutput(null, "Demo: Global Language Date Time Patterns; Locale is: "
-                            + locale + "; Output is: " + result );
+                    ConsoleStyler.styleOutput("""
+                    🌐 [%s] (%s/%s) → %s
+                    Demo: Global Language Date Time Patterns; Locale is: %s; Output is: %s
+                    """.formatted(pattern, zone.getId(), locale.toString(), result,locale,result));
                 }
             }
         }

@@ -11,6 +11,7 @@ import java.util.Locale;
 
 public class LocaleLibrary {
 
+    private LocaleLibrary(){}
     public static Locale[] getIndianRegionalLocales() {
         return new Locale[]{
                 Locale.of("hi", "IN"), // Hindi
