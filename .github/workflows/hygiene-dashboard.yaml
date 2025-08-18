@@ -261,7 +261,6 @@ jobs:
               $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
             }
           }
-
           $totalViolations = $checkstyleViolations + $pmdViolations
 
           ############################################################
