@@ -17,7 +17,7 @@ public class NumberUtils {
     public static String formatCurrency(double value, Locale locale) {
         try {
             return NumberFormat.getCurrencyInstance(locale).format(value);
-        } catch (Exception exception) {
+        } catch (Exception _) {
             return "[⚠️ Currency formatting failed]";
         }
     }
@@ -25,7 +25,7 @@ public class NumberUtils {
     public static String formatNumber(double value, Locale locale) {
         try {
             return NumberFormat.getNumberInstance(locale).format(value);
-        } catch (Exception exception) {
+        } catch (Exception _) {
             return "[⚠️ Number formatting failed]";
         }
     }
@@ -33,7 +33,7 @@ public class NumberUtils {
     public static String formatPercent(double value, Locale locale) {
         try {
             return NumberFormat.getPercentInstance(locale).format(value);
-        } catch (Exception exception) {
+        } catch (Exception _) {
             return "[⚠️ Percent formatting failed]";
         }
     }
@@ -42,7 +42,7 @@ public class NumberUtils {
         try {
             // Not all locales support scientific format cleanly
             return String.format(locale, "%e", value);
-        } catch (Exception exception) {
+        } catch (Exception _) {
             return "[⚠️ Scientific formatting failed]";
         }
     }
@@ -57,8 +57,7 @@ public class NumberUtils {
             String currency = formatCurrency(sample, locale);
             String number = formatNumber(sample, locale);
 
-            System.out.printf("🌍 %s\n💰 Currency: %s\n🔢 Number: %s\n\n",
-                    locale.getDisplayName(), currency, number);
+
             ConsoleStyler.styleOutput(null, """
                     🌍 %s%n💰 Currency: %s%n🔢 Number: %s%n%n
                     """.formatted(locale.getDisplayName(), currency, number));

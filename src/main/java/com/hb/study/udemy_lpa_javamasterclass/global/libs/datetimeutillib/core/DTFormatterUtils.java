@@ -15,7 +15,7 @@ public class DTFormatterUtils {
     public static String safeFormat(ZonedDateTime dateTime, String pattern, Locale locale) {
         try {
             return DateTimeFormatter.ofPattern(pattern, locale).format(dateTime);
-        } catch (Exception exception) {
+        } catch (Exception _) {
             return "[⚠️ Format error: " + pattern + "]";
         }
     }
