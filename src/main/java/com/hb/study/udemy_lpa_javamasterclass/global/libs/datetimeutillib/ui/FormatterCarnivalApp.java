@@ -38,7 +38,6 @@ public class FormatterCarnivalApp extends JFrame {
         List<ZoneId> zoneList = ZoneLibrary.getGlobalZones();
         String[] zoneIds = zoneList.stream().map(ZoneId::getId).toArray(String[]::new);
         zoneCombo = new JComboBox<>(zoneIds);
-        //zoneCombo.addItem("All");
 
         JButton runButton = new JButton("🎉 Run Demo");
         JButton customPatternButton = new JButton("🎨 Custom Pattern");
@@ -52,7 +51,6 @@ public class FormatterCarnivalApp extends JFrame {
             FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
             Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
             String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
-            ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
             GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneIdStr, null);
             outputArea.setText("TBD");
         });
@@ -63,7 +61,6 @@ public class FormatterCarnivalApp extends JFrame {
                 FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
                 Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
                 String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
-                ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
                 GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneIdStr, pattern);
                 outputArea.setText("TBD");
             }
