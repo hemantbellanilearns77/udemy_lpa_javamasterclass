@@ -3,18 +3,21 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core;
 /**
  * created by : heman on 14-07-2025, 06:40 pm, in the "udemy_lpa_javamasterclass" project
  **/
-import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class NumberUtils {
+    private NumberUtils() {
+    }
+
 
     public static String formatCurrency(double value, Locale locale) {
         try {
             return NumberFormat.getCurrencyInstance(locale).format(value);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return "[⚠️ Currency formatting failed]";
         }
     }
@@ -22,7 +25,7 @@ public class NumberUtils {
     public static String formatNumber(double value, Locale locale) {
         try {
             return NumberFormat.getNumberInstance(locale).format(value);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return "[⚠️ Number formatting failed]";
         }
     }
@@ -30,7 +33,7 @@ public class NumberUtils {
     public static String formatPercent(double value, Locale locale) {
         try {
             return NumberFormat.getPercentInstance(locale).format(value);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return "[⚠️ Percent formatting failed]";
         }
     }
@@ -39,13 +42,14 @@ public class NumberUtils {
         try {
             // Not all locales support scientific format cleanly
             return String.format(locale, "%e", value);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return "[⚠️ Scientific formatting failed]";
         }
     }
+
     public static void runGlobalCurrencyAndNumber() {
         ConsoleStyler.styleOutput("💱 CURRENCY & NUMBER FORMAT — Global Round");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.divider();
 
         double sample = 1234567.89;
 
@@ -55,10 +59,11 @@ public class NumberUtils {
 
             System.out.printf("🌍 %s\n💰 Currency: %s\n🔢 Number: %s\n\n",
                     locale.getDisplayName(), currency, number);
-
-
-            ConsoleStyler.styleOutput(null, "Demo: Currency; Locale is: " + locale.toString() + "; Output is: " + currency );
-            ConsoleStyler.styleOutput(null, "Demo: Number; Locale is: " + locale.toString() + "; Output is: " + number );
+            ConsoleStyler.styleOutput(null, """
+                    🌍 %s%n💰 Currency: %s%n🔢 Number: %s%n%n
+                    """.formatted(locale.getDisplayName(), currency, number));
+            ConsoleStyler.styleOutput(null, "Demo: Currency; Locale is: " + locale.getDisplayName() + "; Output is: " + currency);
+            ConsoleStyler.styleOutput(null, "Demo: Number; Locale is: " + locale.getDisplayName() + "; Output is: " + number);
         }
     }
 }

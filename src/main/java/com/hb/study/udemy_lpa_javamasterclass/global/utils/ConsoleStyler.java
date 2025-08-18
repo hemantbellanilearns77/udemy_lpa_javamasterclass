@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 
 public class ConsoleStyler {
 
+    private ConsoleStyler() {
+    }
     // Prints a bannered header
     public static void printBanner(String title) {
         System.out.println(CommonConstants.SECTION_SEPARATOR);
