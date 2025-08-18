@@ -107,7 +107,8 @@ public class ConsoleStyler {
         System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
 
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
-            String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
+            String valueOfLinePrefix = String.format("%s", showlinePrefix ? ("» ") : "");
+            String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : valueOfLinePrefix ;
             String lineToPrint = linePrefix + lines[lineCounter];
             System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
@@ -179,7 +180,7 @@ public class ConsoleStyler {
                 @SuppressWarnings("unchecked")
                 List<Comparable<Object>> comparableList = (List<Comparable<Object>>) (List<?>) formattedItems;
                 Collections.sort(comparableList);
-            } catch (ClassCastException classCastException) {
+            } catch (ClassCastException _) {
                 styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
             }
         }
@@ -204,13 +205,13 @@ public class ConsoleStyler {
     private static int handleList(List<?> list, List<Object> items) {
         if (list == null || list.isEmpty()) return -1;
         Object first = list.get(0);
-        if (first instanceof double[]) {
-            int size = ((double[]) first).length;
+        if (first instanceof double[] firstDoubleArray) {
+            int size = firstDoubleArray.length;
             for (Object o : list) addArray(o, items);   // each o is double[]
             return size;
         }
-        if (first instanceof Object[]) {
-            int size = ((Object[]) first).length;
+        if (first instanceof Object[] firstObjectArray ) {
+            int size = firstObjectArray.length;
             for (Object o : list) items.addAll(Arrays.asList((Object[]) o)); // each o is Object[]
             return size;
         }
@@ -239,11 +240,10 @@ public class ConsoleStyler {
         return items.stream()
                 .map(obj -> {
                     if (obj == null) return "null";
-                    if (formatNumbers && obj instanceof Number) return String.format("%12s", obj);
-                    if (uppercaseStrings && obj instanceof String) return ((String) obj).toUpperCase();
+                    if (formatNumbers && obj instanceof Number numberObj) return String.format("%12s", numberObj);
+                    if (uppercaseStrings && obj instanceof String stringObj) return stringObj.toUpperCase();
                     return obj;
-                })
-                .collect(Collectors.toList());
+                }).toList();
     }
 
     public static String applyStyling(String text, SemanticColorRole semanticColorRole,
@@ -284,21 +284,40 @@ public class ConsoleStyler {
     }
 
     private static Theme getThemeFor(SemanticColorRole role, List<String> customFormattingElements) {
+        List<String> formattingElements = new ArrayList<>();
+        if(customFormattingElements!=null && !customFormattingElements.isEmpty()){
+            formattingElements.addAll(customFormattingElements);
+        }
         return switch (role) {
-            case PROGRAM_BANNER, OUTPUT_HEADING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.random(), List.of(CommonConstants.BOLD));
-            case INTRO_TEXT -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, List.of(CommonConstants.BOLD));
-            case INITIALIZATION_INFO -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD));
-            case BENCHMARK_SECTION_HEADER, SECTION_HEADING -> new Theme(
+            case PROGRAM_BANNER, OUTPUT_HEADING -> {
+                formattingElements.addAll(List.of(CommonConstants.BOLD));
+                yield new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.random(), formattingElements);
+            }
+            case INTRO_TEXT -> {
+                formattingElements.addAll(List.of(CommonConstants.BOLD));
+                yield new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_WHITE, formattingElements);
+            }
+            case INITIALIZATION_INFO -> {
+                formattingElements.addAll(List.of(CommonConstants.BOLD));
+                yield new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.BRIGHT_CYAN, formattingElements);
+            }
+            case BENCHMARK_SECTION_HEADER, SECTION_HEADING -> {
+                formattingElements.addAll(List.of(CommonConstants.BOLD, CommonConstants.UNDERLINE));
+                yield new Theme(
                     BackgroundColor.NEUTRAL, ForegroundColor.random(), List.of(CommonConstants.BOLD, CommonConstants.UNDERLINE));
-            case ITALICIZED_EXECUTION_INSIGHT -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.random(), List.of(CommonConstants.ITALIC));
+            }
+            case ITALICIZED_EXECUTION_INSIGHT -> {
+                formattingElements.addAll(List.of(CommonConstants.ITALIC));
+                yield  new Theme(
+                    BackgroundColor.NEUTRAL, ForegroundColor.random(), formattingElements);
+            }
             case ERROR, WARNING -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.random(), null);
+                    BackgroundColor.NEUTRAL, ForegroundColor.random(), formattingElements);
             case null, default -> new Theme(
-                    BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, null);
+                    BackgroundColor.NEUTRAL, ForegroundColor.NEUTRAL, formattingElements);
         };
     }
 
