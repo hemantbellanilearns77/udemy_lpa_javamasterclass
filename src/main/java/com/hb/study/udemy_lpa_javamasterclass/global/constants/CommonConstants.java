@@ -4,6 +4,8 @@ import java.security.SecureRandom;
 
 public class CommonConstants {
     public static final SecureRandom secureRandom = new SecureRandom();
+    public static final String  ALPHANUMCHARSALLCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    public static final String ALBPHABETCARSALLUPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // ANSI escape codes
     public static final String RESET = "\u001B[0m";
     public static final String BOLD = "\u001B[1m";
