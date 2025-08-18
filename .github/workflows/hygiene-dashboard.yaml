@@ -355,7 +355,7 @@ jobs:
           # === Fetch Overall Severity Breakdown (UI-Aligned) ===
           ###########################################################
            function Fetch-SonarSeverity($severity) {
-            $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$severity&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
+            $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
           
             try {
               $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
@@ -376,11 +376,11 @@ jobs:
           # === Generate Severity URLs (global and per module) ===
           ############################################################
           $severityLinks = @{
-            BLOCKER = "https://sonarcloud.io/project/issues?impactSeverities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-            HIGH    = "https://sonarcloud.io/project/issues?impactSeverities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-            MEDIUM  = "https://sonarcloud.io/project/issues?impactSeverities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-            LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-            INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            BLOCKER = "https://sonarcloud.io/project/issues?severities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            HIGH    = "https://sonarcloud.io/project/issues?severities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            MEDIUM  = "https://sonarcloud.io/project/issues?severities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            LOW     = "https://sonarcloud.io/project/issues?severities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+            INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           }
           
           
