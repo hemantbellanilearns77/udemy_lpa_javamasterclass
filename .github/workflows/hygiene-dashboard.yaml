@@ -447,7 +447,7 @@ jobs:
           "sonarMediumURL=$($severityLinks.MEDIUM))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           
           "sonarLow=$low" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarLowMark=$sonarLowEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarLowEmojiMark=$sonarLowEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarLowURL=$($severityLinks.LOW))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           
           "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
