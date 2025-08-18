@@ -73,28 +73,16 @@ public class LoopTiming {
         // Print the result
         ConsoleStyler.styleOutput("Time taken: %d days, %d hours, %d minutes, %d seconds, %d milliseconds, %d nanoseconds%n"
                 .formatted(days, hours, minutes, seconds, milliseconds, nanoseconds));
-        /*
 
-
-
-
-         */
     }
 
     public static void demooLoopTimingsByCopilotUsingCurrentMillis() {
         ConsoleStyler.styleIntro("""
                 Additionally Copilot also shared the way to do it using :
-                
                  ### Using `System.currentTimeMillis()`
-                
-                 If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
-                
-                 ```java
-                 ### Using `System.currentTimeMillis()`
-                
-                 If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
-                
-                 ```java
+                If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
+                ### Using `System.currentTimeMillis()`
+                If you prefer to use `System.currentTimeMillis()`, here's how you can do it:
                 """);
         // Start time
         long startTime = System.currentTimeMillis();
@@ -135,7 +123,7 @@ public class LoopTiming {
         ConsoleStyler.styleOutput("Execution started at: " + zonedStartDateTime.format(formatter));
 
         Instant endInstant = Instant.ofEpochMilli(endTime);
-        ZonedDateTime zonedEndDateTime = ZonedDateTime.ofInstant(startInstant, ZoneId.systemDefault());
+        ZonedDateTime zonedEndDateTime = ZonedDateTime.ofInstant(endInstant, ZoneId.systemDefault());
         ConsoleStyler.styleOutput("Execution ended at: " + zonedEndDateTime.format(formatter));
 
         // Print the result
