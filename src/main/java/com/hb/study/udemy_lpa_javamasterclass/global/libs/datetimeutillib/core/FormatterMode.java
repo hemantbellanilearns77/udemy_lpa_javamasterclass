@@ -14,12 +14,3 @@ public enum FormatterMode {
     VEDIC_MODE,
     FULL_CARNIVAL_BLAST
 }
-
-/*
- DTFormatterUtils.runMinimalDemo(locale, zone);
-                DTFormatterUtils.runPatternFiesta();
-                DTFormatterUtils.runTraditionalCalendars();
-                DTFormatterUtils.runCurrencyAndNumbers();
-                DTFormatterUtils.runFormatStyleCombos(locale, zone);
-                FormatterGUI.showVedicPlaceholder();
-* */
