@@ -388,6 +388,9 @@ jobs:
               else { return "🔴" }
             } # end of function Mark
           
+          $sonarBlockerEmojiMark = $(MarkEmoji $blocker)
+          
+          
           ############################################################
                 # === Write Overall Table ===
           ############################################################
@@ -399,7 +402,7 @@ jobs:
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟥 BLOCKER              | $(MarkEmoji $blocker) [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟥 BLOCKER              | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 HIGH                 | $(MarkEmoji $high) [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟨 MEDIUM               | $(MarkEmoji $medium) [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟦 LOW                  | $(MarkEmoji $low) [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
@@ -420,6 +423,7 @@ jobs:
           "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarBlockerURL=$($severityLinks.BLOCKER))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarBlockerEmojiMark=$sonarBlockerEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarHigh=$high" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarHighURL=$($severityLinks.HIGH))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -750,7 +754,7 @@ jobs:
             
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-              <li>🟥 <strong>BLOCKER: <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }}</a></strong></li>
+              <li>🟥 <strong>BLOCKER: <a href="{{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }} ${{ steps.metrics.outputs.sonarBlockerEmojiMark$ }}</a></strong></li>
               <li>🟧 <strong>HIGH: <a href="${{ steps.metrics.outputs.sonarHighUrl }}">${{ steps.metrics.outputs.sonarHigh }}</a></strong></li>
               <li>🟨 <strong>MEDIUM: <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">${{ steps.metrics.outputs.sonarMedium }}</a></strong></li>
               <li>🟦 <strong>LOW: <a href="${{ steps.metrics.outputs.sonarLowUrl }}">${{ steps.metrics.outputs.sonarLow }}</a></strong></li>
