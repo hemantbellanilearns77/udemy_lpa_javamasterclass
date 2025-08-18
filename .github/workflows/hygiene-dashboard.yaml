@@ -366,7 +366,7 @@ jobs:
           $low = Fetch-SonarSeverity "LOW"
           $info = Fetch-SonarSeverity "INFO"
           ############################################################
-          # === Generate Severity URLs (global only) ===
+          # === Generate Severity URLs (global and per module) ===
           ############################################################
           $severityLinks = @{
             BLOCKER = "https://sonarcloud.io/project/issues?impactSeverities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
@@ -384,11 +384,6 @@ jobs:
            $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
           
           
-          function Mark($count) {
-            if ($count -eq 0) { return "✅ $count" }
-            elseif ($count -le 5) { return "🟡 $count" }
-            else { return "🔴 $count" }
-          
           ############################################################
                 # === Write Overall Table ===
           ############################################################
@@ -400,7 +395,7 @@ jobs:
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
-          echo "| 🟥 BLOCKER              | $(Mark $blocker) [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
+          echo "| 🟥 BLOCKER              | [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 HIGH                 | [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟨 MEDIUM               | [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟦 LOW                  | [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
@@ -605,7 +600,10 @@ jobs:
             foreach ($mod in $moduleAgg.Keys) {
             $b = $moduleAgg[$mod]
           
-            
+            function Mark($count) {
+            if ($count -eq 0) { return "✅ $count" }
+            elseif ($count -le 5) { return "🟡 $count" }
+            else { return "🔴 $count" }
           }
           
             echo "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |" >> $env:GITHUB_STEP_SUMMARY
