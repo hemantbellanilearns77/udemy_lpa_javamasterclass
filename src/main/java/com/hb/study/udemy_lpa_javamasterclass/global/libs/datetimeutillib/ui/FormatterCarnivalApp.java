@@ -51,10 +51,9 @@ public class FormatterCarnivalApp extends JFrame {
         runButton.addActionListener(e -> {
             FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
             Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
-            String selectedZoneId = (String) zoneCombo.getSelectedItem();
-            //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
-            //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
-            GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, null);
+            String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
+            ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
+            GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneIdStr, null);
             outputArea.setText("TBD");
         });
 
@@ -63,17 +62,15 @@ public class FormatterCarnivalApp extends JFrame {
             if (pattern != null && !pattern.trim().isEmpty()) {
                 FormatterMode selectedMode = (FormatterMode) modeCombo.getSelectedItem();
                 Locale selectedLocale = (Locale) localeCombo.getSelectedItem();
-                String selectedZoneId = (String) zoneCombo.getSelectedItem();
-                //String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
-                //ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
-                GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneId, pattern);
+                String selectedZoneIdStr = (String) zoneCombo.getSelectedItem();
+                ZoneId selectedZoneId = ZoneId.of(selectedZoneIdStr);
+                GUIModeOrchestrator.runMode(selectedMode, selectedLocale, selectedZoneIdStr, pattern);
                 outputArea.setText("TBD");
             }
         });
 
-        exportButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Exported to Markdown view (check console)");
-        });
+        exportButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Exported to Markdown view (check console)")
+        );
 
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         controlPanel.add(new JLabel("Mode:"));
