@@ -7,10 +7,9 @@ import java.util.Scanner;
 public class NumberInWord {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a whole number: ");
+        ConsoleStyler.styleOutput("Enter a whole number: ");
         int number = scanner.nextInt();
         printNumberInWord(number);
-
     }
 
     public static void printNumberInWord (int number) {
@@ -26,6 +25,6 @@ public class NumberInWord {
             case 8 -> ConsoleStyler.styleOutput("EIGHT");
             case 9 -> ConsoleStyler.styleOutput("NINE");
             default -> ConsoleStyler.styleOutput("OTHER");
-        };
+        }
     }
 }

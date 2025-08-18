@@ -104,7 +104,6 @@ public class ConsoleStyler {
 
         System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
 
-        //StringBuilder linesToPrint = new StringBuilder();
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
             String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : String.format("%s", showlinePrefix ? ("» ") : "");
             String lineToPrint = linePrefix + lines[lineCounter];
@@ -169,12 +168,16 @@ public class ConsoleStyler {
             styleOutput(CommonConstants.INDENT + "⚠️ No items to display.");
             return;
         }
+
+
         final List<Object> formattedItems = getFormattedItems(formatNumbers, uppercaseStrings, items);
 
         if (sort) {
             try {
-                Collections.sort((List) formattedItems);
-            } catch (ClassCastException e) {
+                @SuppressWarnings("unchecked")
+                List<Comparable<Object>> comparableList = (List<Comparable<Object>>) (List<?>) formattedItems;
+                Collections.sort(comparableList);
+            } catch (ClassCastException classCastException) {
                 styleOutput(CommonConstants.INDENT + "⚠️ Sorting skipped: non-comparable items");
             }
         }
