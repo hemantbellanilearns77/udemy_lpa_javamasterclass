@@ -6,10 +6,9 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core;
 
 import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ZoneLibrary {
-
+    private ZoneLibrary(){}
     public static List<ZoneId> getGlobalZones() {
         return ZoneId.getAvailableZoneIds().stream()
                 .map(ZoneId::of).toList();
