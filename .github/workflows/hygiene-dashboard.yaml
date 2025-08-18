@@ -754,7 +754,7 @@ jobs:
             
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-              <li>🟥 <strong>BLOCKER: <a href="{{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }} ${{ steps.metrics.outputs.sonarBlockerEmojiMark$ }}</a></strong></li>
+              <li>🟥 <strong>BLOCKER: <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }}</a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</strong></li>
               <li>🟧 <strong>HIGH: <a href="${{ steps.metrics.outputs.sonarHighUrl }}">${{ steps.metrics.outputs.sonarHigh }}</a></strong></li>
               <li>🟨 <strong>MEDIUM: <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">${{ steps.metrics.outputs.sonarMedium }}</a></strong></li>
               <li>🟦 <strong>LOW: <a href="${{ steps.metrics.outputs.sonarLowUrl }}">${{ steps.metrics.outputs.sonarLow }}</a></strong></li>
