@@ -333,7 +333,6 @@ jobs:
           }
           $coverageBar = Get-AsciiBar $sonarCoverage
           
-          
           $sonarCoverage = Get-SonarMetric "coverage"
           # Ensure only the first numeric value is used
           if ($sonarCoverage -is [array]) {
@@ -349,7 +348,6 @@ jobs:
             $coverageEmoji = "🔴"
           }
           $coverageBar = Get-AsciiBar $sonarCoverage
-
 
           ###########################################################
           # === Fetch Overall Severity Breakdown (UI-Aligned) ===
