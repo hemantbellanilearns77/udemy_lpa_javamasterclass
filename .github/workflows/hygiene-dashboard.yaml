@@ -25,17 +25,25 @@ jobs:
 
     steps:
 
+      ####################################################
+          # CAPTURE START TIME OF GITHUB ACTION's JOB
+      ####################################################
       - name: ?? Capture Job Start Time
         id: start_time
         shell: bash
         run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
 
+      ####################################################
+                # CHECKOUT CODE COMMITTED
+      ####################################################
       - name: ?? Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # fetches all history, not just 1 commit
 
-      ##########################
-      # EXTRACT COMMIT STATS
-      ##########################
+      ####################################################
+                  # EXTRACT COMMIT STATS
+      ####################################################
 
       - name: ?? Extract Commit Info (Windows PowerShell)
         id: commit_info
