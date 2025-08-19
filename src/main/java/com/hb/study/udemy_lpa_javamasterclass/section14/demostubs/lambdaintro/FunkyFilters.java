@@ -33,9 +33,9 @@ public class FunkyFilters {
         }
         ConsoleStyler.styleOutput("The list of names as originally generated is: ");
         for(int i=0; i<namesCount; i++) {
-            System.out.printf("%d) %-12s%n", (i+1),names.get(i));
+            ConsoleStyler.styleOutput("%d) %-12s%n".formatted((i+1),names.get(i)));
         }
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.divider();
 
         // Predicate: starts with 'A'
         Predicate<String> startsWithA = name -> name.startsWith("A");
@@ -52,7 +52,7 @@ public class FunkyFilters {
 
         ConsoleStyler.styleOutput("The list of names as after removing the names that start with 'A' and having length greater than 5 is: ");
         for(int i=0; i<namesCount; i++) {
-            System.out.printf("%d) %-12s%n", (i+1),names.get(i));
+            ConsoleStyler.styleOutput("%d) %-12s%n".formatted((i+1),names.get(i)));
         }
         // Apply filter and print matching names
         names.stream()
