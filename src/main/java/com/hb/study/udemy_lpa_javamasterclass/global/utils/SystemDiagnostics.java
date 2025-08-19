@@ -12,7 +12,6 @@ public class SystemDiagnostics {
 
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
-
     public static void main(String[] args) {
         execution.initialize();
         demoSystemDiagnostics();
