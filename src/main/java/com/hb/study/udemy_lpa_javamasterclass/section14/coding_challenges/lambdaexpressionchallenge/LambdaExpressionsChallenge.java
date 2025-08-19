@@ -32,7 +32,7 @@ public class LambdaExpressionsChallenge {
     }
 
     public static void challengeDemo() {
-        String[] firstNames = namesUtil.getDEFAULTFIRSTNAMES();
+        String[] firstNames = namesUtil.getDefaultFirstNames();
         ConsoleStyler.startSection("Lambda Expressions Challenge Demo - Arrays/ArrayList/Operation Lambda"); // required
         ConsoleStyler.styleIntro("""
                 Challenge Objective:

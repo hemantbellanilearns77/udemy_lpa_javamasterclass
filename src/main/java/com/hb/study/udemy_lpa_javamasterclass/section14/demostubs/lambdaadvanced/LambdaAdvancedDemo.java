@@ -146,7 +146,7 @@ public class LambdaAdvancedDemo {
         for (int i = 0; i < count; i++) {
 
             // both below are valid lambda invocations of category Supplier with use of get() implementation
-            randomArrayUsingLambda[i] = namesUtil.getDEFAULTFIRSTNAMES()[supplier.get()]; // more readable and s is more reusable...
+            randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[supplier.get()]; // more readable and s is more reusable...
             //randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES[((Supplier<Integer>) () -> secureRandom.nextInt(0, FIRST_NAMES.length)).get()];
         }
         ConsoleStyler.styleEachAsIs(GUEST_LABEL, randomArrayUsingLambda);

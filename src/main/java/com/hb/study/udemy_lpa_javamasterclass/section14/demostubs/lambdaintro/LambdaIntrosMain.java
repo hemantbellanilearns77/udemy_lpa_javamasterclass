@@ -1,6 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaintro;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
@@ -45,9 +44,10 @@ public class LambdaIntrosMain {
             }
         };
         //one way is this...
-        // people.sort(comparatorLastName);
+        people.sort(comparatorLastName);
         ConsoleStyler.styleOutput("Sorted only one level (By First NamesUtil)");
         people.sort((Person p1, Person p2) -> p1.lastName().compareTo(p2.lastName()));
+
         ConsoleStyler.styleOutput(people.toString());
 
         interface EnhancedComparator<T> extends Comparator<T> {
@@ -74,6 +74,4 @@ public class LambdaIntrosMain {
 
         execution.finalizeExecution();
     }
-
-  //
 }
