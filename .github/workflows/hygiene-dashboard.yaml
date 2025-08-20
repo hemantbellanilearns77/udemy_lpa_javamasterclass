@@ -2,7 +2,7 @@ name: 📊 Hygiene Checks Pipeline
 
 on:
   schedule:
-    - cron: '42 18 * * *'
+    - cron: '42 06 * * *' # runs at 1842 hours UTC or 1212 hours IST
 
 jobs:
   hygiene-checks:
