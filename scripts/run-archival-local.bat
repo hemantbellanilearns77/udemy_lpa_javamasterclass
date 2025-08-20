@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableDelayedExpansion
-
+REM set "startTime=%TIME%"
 cd /d "%~dp0.."
 
 :: ==========================================================
@@ -10,11 +10,11 @@ cd /d "%~dp0.."
 set "rootPath=%~1"
 if "%rootPath%"=="" set "rootPath=%CD%"
 
-:: Default runMode = DRY-RUN
+:: Default runMode = DRYRUN
 :: (so you can test safely unless EXECUTE is explicitly passed)
-set "runMode=DRY-RUN" 
+set "runMode=DRYRUN" 
 set "runMode=%~2"
-if "%runMode%"=="" set "runMode=DRY-RUN"
+if "%runMode%"=="" set "runMode=DRYRUN"
 
 
 :: ==========================================================
@@ -22,7 +22,7 @@ if "%runMode%"=="" set "runMode=DRY-RUN"
 :: ==========================================================
 :: If the script is called like:
 ::    archival.bat EXECUTE
-:: or archival.bat DRY-RUN
+:: or archival.bat DRYRUN
 :: ? then infer rootPath as the parent of the scripts folder
 if /i "%~1"=="EXECUTE" (
     set "runMode=EXECUTE"
@@ -30,8 +30,8 @@ if /i "%~1"=="EXECUTE" (
     goto :initDone
 )
 
-if /i "%~1"=="DRY-RUN" (
-    set "runMode=DRY-RUN"
+if /i "%~1"=="DRYRUN" (
+    set "runMode=DRYRUN"
     set "rootPath=%CD%"
     goto :initDone
 )
@@ -46,27 +46,29 @@ if /i "%runMode%"=="EXECUTE" (
     echo.
     echo ==========================================================
     echo   WARNING: EXECUTE MODE ENABLED
-    echo   Files WILL be archived (moved) permanently!
+    echo   Files WILL be archived moved permanently!
     echo   RootPath = %rootPath%
     echo ==========================================================
     echo.
 )
 
-
+echo(runMode=_%runMode%_
 :: ==========================================================
 :: EXTRA GUARD (Validate inputs)
 :: ==========================================================
 :: At this point, we assume both rootPath and runMode were passed.
 :: 1. Validate that runMode is one of the allowed values.
 :: 2. Ensure rootPath is never empty.
-if not /i "%runMode%"=="EXECUTE" if not /i "%runMode%"=="DRY-RUN" (
-    echo [ERROR] Invalid runMode: %runMode%
-    echo Allowed values: DRY-RUN (default) or EXECUTE
-    exit /b 1
-)
+if /i "%runMode%"=="EXECUTE" goto :valid
+if /i "%runMode%"=="DRYRUN" goto :valid
+
+echo [ERROR] Invalid runMode: %runMode%
+echo Allowed values: DRYRUN (default) or EXECUTE
+exit /b 1
+
+:valid
 
 :initDone
-
 
 if "%rootPath%"=="" (
     echo [WARN] rootPath was empty, defaulting to current directory...
@@ -170,30 +172,51 @@ for %%R in (logs reports) do (
 			) else (
 				echo [SKIP] No files found in !folderPath! >> "%logPath%"
 			)
-
-			:: --- Combined Summary for jacoco ---
-			echo. >> "%logPath%"
-			echo === SUMMARY: jacoco === >> "%logPath%"
-			echo Total dirs   : !dirCount! >> "%logPath%"
-			echo Retained dirs: !dirKeep! >> "%logPath%"
-			echo Archived dirs: !dirMove! >> "%logPath%"
-			if "!dirArchivedList!"=="" (
-				echo Archived Dirs: None >> "%logPath%"
+			if /i "!runMode!"=="EXECUTE" (
+				:: --- Combined Summary for jacoco ---
+				echo. >> "%logPath%"
+				echo === SUMMARY: "!folderName!" === >> "%logPath%"
+				echo Total dirs   : !dirCount! >> "%logPath%"
+				echo Retained dirs: !dirKeep! >> "%logPath%"
+				echo Archived dirs: !dirMove! >> "%logPath%"
+				if "!dirArchivedList!"=="" (
+					echo Archived Dirs: None >> "%logPath%"
+				) else (
+					echo Archived Dirs: !dirArchivedList:~0,-2! >> "%logPath%"
+				)
+				echo. >> "%logPath%"
+				echo Total files   : !fileCount! >> "%logPath%"
+				echo Retained files: !fileKeep! >> "%logPath%"
+				echo Archived files: !fileMove! >> "%logPath%"
+				if "!fileArchivedList!"=="" (
+					echo Archived Files: None >> "%logPath%"
+				) else (
+					echo Archived Files: !fileArchivedList:~0,-2! >> "%logPath%"
+				)
+				echo. >> "%logPath%"
 			) else (
-				echo Archived Dirs: !dirArchivedList:~0,-2! >> "%logPath%"
-			)
-			echo. >> "%logPath%"
-			echo Total files   : !fileCount! >> "%logPath%"
-			echo Retained files: !fileKeep! >> "%logPath%"
-			echo Archived files: !fileMove! >> "%logPath%"
-			if "!fileArchivedList!"=="" (
-				echo Archived Files: None >> "%logPath%"
-			) else (
-				echo Archived Files: !fileArchivedList:~0,-2! >> "%logPath%"
-			)
-			echo. >> "%logPath%"
-			
-			
+				:: --- Combined Summary for jacoco ---
+				echo. >> "%logPath%"
+				echo === SUMMARY: for folder: "!folderName!" in "!runMode!" mode === >> "%logPath%"
+				echo Total dirs in "!runMode!" mode: !dirCount! >> "%logPath%"
+				echo Retained dirs in "!runMode!" mode: !dirKeep! >> "%logPath%"
+				echo Archived dirs in "!runMode!" mode: !dirMove! >> "%logPath%"
+				if "!dirArchivedList!"=="" (
+					echo Archived Dirs in "!runMode!" mode: None >> "%logPath%"
+				) else (
+					echo Archived Dirs in "!runMode!" mode: !dirArchivedList:~0,-2! >> "%logPath%"
+				)
+				echo. >> "%logPath%"
+				echo Total files in "!runMode!" mode: !fileCount! >> "%logPath%"
+				echo Retained files in "!runMode!" mode: !fileKeep! >> "%logPath%"
+				echo Archived files in "!runMode!" mode: !fileMove! >> "%logPath%"
+				if "!fileArchivedList!"=="" (
+					echo Archived Files in "!runMode!" mode: None >> "%logPath%"
+				) else (
+					echo Archived Files in "!runMode!" mode: !fileArchivedList:~0,-2! >> "%logPath%"
+				)
+				echo. >> "%logPath%"
+				)
 			) else (
 				rem === Normal processing ===
 
@@ -241,14 +264,27 @@ for %%R in (logs reports) do (
 					)
 
 					echo. >> "%logPath%"
-					echo === SUMMARY: !folderName! === >> "%logPath%"
-					echo Total files : !fileCount! >> "%logPath%"
-					echo Retained    : !keepCount! >> "%logPath%"
-					echo Archived    : !moveCount! >> "%logPath%"
-					if "!archivedList!"=="" (
-						echo Archived Files: None >> "%logPath%"
+					
+					if /i "!runMode!"=="EXECUTE" (
+						echo === SUMMARY: !folderName! === >> "%logPath%"
+						echo Total files : !fileCount! >> "%logPath%"
+						echo Retained    : !keepCount! >> "%logPath%"
+						echo Archived    : !moveCount! >> "%logPath%"
+						if "!archivedList!"=="" (
+							echo Archived Files: None >> "%logPath%"
+						) else (
+							echo Archived Files: !archivedList:~0,-2! >> "%logPath%"
+						)
 					) else (
-						echo Archived Files: !archivedList:~0,-2! >> "%logPath%"
+						echo === SUMMARY in "!runMode!" mode: !folderName! === >> "%logPath%"
+						echo Total files in "!runMode!" mode : !fileCount! >> "%logPath%"
+						echo Retained in "!runMode!" mode: !keepCount! >> "%logPath%"
+						echo Archived in "!runMode!" mode: !moveCount! >> "%logPath%"
+						if "!archivedList!"=="" (
+							echo Archived Files in "!runMode!" mode : None >> "%logPath%"
+						) else (
+							echo Archived Files in "!runMode!" mode  : !archivedList:~0,-2! >> "%logPath%"
+						)
 					)
 					echo. >> "%logPath%"
 				)
@@ -256,6 +292,7 @@ for %%R in (logs reports) do (
         )
     )
 )
+
 set "endTime=%TIME%"
 :: Function to convert HH:MM:SS.cc into seconds
 for /f "tokens=1-4 delims=:.," %%a in ("%startTime%") do (
