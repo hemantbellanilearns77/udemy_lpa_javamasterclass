@@ -2,7 +2,7 @@ name: 📊 Hygiene Checks Pipeline
 
 on:
   schedule:
-    - cron: '40 05 * * *'
+    - cron: '42 18 * * *'
 
 jobs:
   hygiene-checks:
