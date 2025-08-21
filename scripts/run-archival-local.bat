@@ -115,8 +115,6 @@ for %%R in (logs reports) do (
 			set "comparisonString=%rootPath%\reports\jacoco"
 			if /i "!folderPath!"=="!comparisonString!"  (
 			
-						
-						
 			:: --- Handle jacoco-html-report-* directories ---
 			set /a dirCount=0
 			set /a dirKeep=0
@@ -141,17 +139,46 @@ for %%R in (logs reports) do (
 						set /a dirKeep+=1
 					)
 				)
+				
+				if /i "!runMode!"=="EXECUTE" (
+					:: --- Combined Summary for jacoco ---
+					echo. >> "%logPath%"
+					echo === SUMMARY: "!folderName!" === >> "%logPath%"
+					echo [DEBUG] [EXECUTE] Total dirs   : !dirCount! >> "%logPath%"
+					echo [DEBUG] [EXECUTE] Retained dirs: !dirKeep! >> "%logPath%"
+					echo [DEBUG] [EXECUTE] Archived dirs: !dirMove! >> "%logPath%"
+					if "!dirArchivedList!"=="" (
+						echo Archived Dirs: None >> "%logPath%"
+					) else (
+						echo Archived Dirs: !dirArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				) else (
+					:: --- Combined Summary for jacoco ---
+					echo. >> "%logPath%"
+					echo === SUMMARY: for folder: "!folderName!" in "!runMode!" mode === >> "%logPath%"
+					echo [DEBUG] [DRYRUN] Total dirs in "!runMode!" mode: !dirCount! >> "%logPath%"
+					echo [DEBUG] [DRYRUN] Retained dirs in "!runMode!" mode: !dirKeep! >> "%logPath%"
+					echo [DEBUG] [DRYRUN] Archived dirs in "!runMode!" mode: !dirMove! >> "%logPath%"
+					if "!dirArchivedList!"=="" (
+						echo Archived Dirs in "!runMode!" mode: None >> "%logPath%"
+					) else (
+						echo Archived Dirs in "!runMode!" mode: !dirArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				)				
 			) else (
 				echo [SKIP] No jacoco-html-report-* folders in !folderPath! >> "%logPath%"
 			)
 
+
+
+			if exist "!folderPath!\*.*" (
 			:: --- Handle non-latest files in jacoco folder ---
 			set /a fileCount=0
 			set /a fileKeep=0
 			set /a fileMove=0
 			set "fileArchivedList="
-
-			if exist "!folderPath!\*.*" (
 				for /f "delims=" %%X in ('dir /b /a:-d /o:-d "!folderPath!\*.xml" ^| findstr /v /i "latest"') do (
 					set /a fileCount+=1
 					if !fileCount! GTR %retention% (
@@ -169,6 +196,36 @@ for %%R in (logs reports) do (
 						set /a fileKeep+=1
 					)
 				)
+				
+				if /i "!runMode!"=="EXECUTE" (
+					:: ---  Summary for jacoco xml report files ---
+					echo. >> "%logPath%"
+					echo Total files   : !fileCount! >> "%logPath%"
+					echo Retained files: !fileKeep! >> "%logPath%"
+					echo Archived files: !fileMove! >> "%logPath%"
+					if "!fileArchivedList!"=="" (
+						echo Archived Files: None >> "%logPath%"
+					) else (
+						echo Archived Files: !fileArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				) else (
+					:: --- Summary for jacoco xml report files ---
+					echo Total files in "!runMode!" mode: !fileCount! >> "%logPath%"
+					echo Retained files in "!runMode!" mode: !fileKeep! >> "%logPath%"
+					echo Archived files in "!runMode!" mode: !fileMove! >> "%logPath%"
+					if "!fileArchivedList!"=="" (
+						echo Archived Files in "!runMode!" mode: None >> "%logPath%"
+					) else (
+						echo Archived Files in "!runMode!" mode: !fileArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				)
+				set /a fileCount=0
+				set /a fileKeep=0
+				set /a fileMove=0
+				set "fileArchivedList="
+					
 				for /f "delims=" %%X in ('dir /b /a:-d /o:-d "!folderPath!\*.exec" ^| findstr /v /i "latest"') do (
 					
 					set /a fileCount+=1
@@ -187,54 +244,36 @@ for %%R in (logs reports) do (
 						set /a fileKeep+=1
 					)
 				)
+				
+				if /i "!runMode!"=="EXECUTE" (
+					:: --- Combined Summary for jacoco exec report files---
+					echo. >> "%logPath%"
+					echo Total files   : !fileCount! >> "%logPath%"
+					echo Retained files: !fileKeep! >> "%logPath%"
+					echo Archived files: !fileMove! >> "%logPath%"
+					if "!fileArchivedList!"=="" (
+						echo Archived Files: None >> "%logPath%"
+					) else (
+						echo Archived Files: !fileArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				) else (
+					:: --- Combined Summary for jacoco exec report files ---
+					echo. >> "%logPath%"
+					echo Total files in "!runMode!" mode: !fileCount! >> "%logPath%"
+					echo Retained files in "!runMode!" mode: !fileKeep! >> "%logPath%"
+					echo Archived files in "!runMode!" mode: !fileMove! >> "%logPath%"
+					if "!fileArchivedList!"=="" (
+						echo Archived Files in "!runMode!" mode: None >> "%logPath%"
+					) else (
+						echo Archived Files in "!runMode!" mode: !fileArchivedList:~0,-2! >> "%logPath%"
+					)
+					echo. >> "%logPath%"
+				)				
 			) else (
-				echo [SKIP] No files found in !folderPath! >> "%logPath%"
+				echo [SKIP] No XML or EXEC files found in !folderPath! >> "%logPath%"
 			)
-			if /i "!runMode!"=="EXECUTE" (
-				:: --- Combined Summary for jacoco ---
-				echo. >> "%logPath%"
-				echo === SUMMARY: "!folderName!" === >> "%logPath%"
-				echo [DEBUG] [EXECUTE] Total dirs   : !dirCount! >> "%logPath%"
-				echo [DEBUG] [EXECUTE] Retained dirs: !dirKeep! >> "%logPath%"
-				echo [DEBUG] [EXECUTE] Archived dirs: !dirMove! >> "%logPath%"
-				if "!dirArchivedList!"=="" (
-					echo Archived Dirs: None >> "%logPath%"
-				) else (
-					echo Archived Dirs: !dirArchivedList:~0,-2! >> "%logPath%"
-				)
-				echo. >> "%logPath%"
-				echo Total files   : !fileCount! >> "%logPath%"
-				echo Retained files: !fileKeep! >> "%logPath%"
-				echo Archived files: !fileMove! >> "%logPath%"
-				if "!fileArchivedList!"=="" (
-					echo Archived Files: None >> "%logPath%"
-				) else (
-					echo Archived Files: !fileArchivedList:~0,-2! >> "%logPath%"
-				)
-				echo. >> "%logPath%"
-			) else (
-				:: --- Combined Summary for jacoco ---
-				echo. >> "%logPath%"
-				echo === SUMMARY: for folder: "!folderName!" in "!runMode!" mode === >> "%logPath%"
-				echo [DEBUG] [DRYRUN] Total dirs in "!runMode!" mode: !dirCount! >> "%logPath%"
-				echo [DEBUG] [DRYRUN] Retained dirs in "!runMode!" mode: !dirKeep! >> "%logPath%"
-				echo [DEBUG] [DRYRUN] Archived dirs in "!runMode!" mode: !dirMove! >> "%logPath%"
-				if "!dirArchivedList!"=="" (
-					echo Archived Dirs in "!runMode!" mode: None >> "%logPath%"
-				) else (
-					echo Archived Dirs in "!runMode!" mode: !dirArchivedList:~0,-2! >> "%logPath%"
-				)
-				echo. >> "%logPath%"
-				echo Total files in "!runMode!" mode: !fileCount! >> "%logPath%"
-				echo Retained files in "!runMode!" mode: !fileKeep! >> "%logPath%"
-				echo Archived files in "!runMode!" mode: !fileMove! >> "%logPath%"
-				if "!fileArchivedList!"=="" (
-					echo Archived Files in "!runMode!" mode: None >> "%logPath%"
-				) else (
-					echo Archived Files in "!runMode!" mode: !fileArchivedList:~0,-2! >> "%logPath%"
-				)
-				echo. >> "%logPath%"
-				)
+				
 			) else (
 				rem === Normal processing ===
 
