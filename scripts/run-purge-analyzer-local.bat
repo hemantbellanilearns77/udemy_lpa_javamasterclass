@@ -1,11 +1,11 @@
-:: ============================================================
+:: ========================================================================================================================
 :: Script Name : purge-age-analyzer.bat
 :: Purpose     : Analyze file ages in archived folders and flag files older than N days
 :: Author      : Hemant
 :: Version     : 1.0
-:: Usage       : purge-age-analyzer.bat [--execute]
-:: Notes       : In DRYRUN runMode by default; use --execute to enable deletions
-:: ============================================================
+:: Usage       : run-archive-age-analyzer-and-purge-local.bat <<FOLDER PATH>> <<DRYRUN/EXECUTE>>
+:: Notes       : In DRYRUN runMode by default; use EXECUTE to enable deletions
+:: ========================================================================================================================
 
 @echo off
 setlocal EnableDelayedExpansion
@@ -108,7 +108,7 @@ REM echo [DEBUG] startTime is: !startTime!
 REM echo [DEBUG] startTime is: "!startTime!" >> "%logFile%"
 set /a grandTotal=0
 rem # in hours (divide by 24 for days)
-set /a purgeAgeinHours=9
+set /a purgeAgeinHours=1
 set /a purgeAgeinDays=!purgeAgeinHours!/24 
 echo [DEBUG] purgeAgeinHours is !purgeAgeinHours!
 echo [DEBUG] purgeAgeinDays is !purgeAgeinDays!
@@ -180,7 +180,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							set /a old+=1
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
-								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
 							) else (
 								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
@@ -231,7 +231,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							set /a old+=1
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
-								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
 							) else (
 								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
@@ -265,7 +265,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							echo [ERROR] Age for Directory "!dirPath!" could not be determined.
 							set "dirAgeH=0"  :: Default to 0 if age is not set
 						)
-												:: Convert age to a floating-point number for comparison
+						:: Convert age to a floating-point number for comparison
 						rem set "ageFloat=!age!"
 						
 						:: Verbose output
@@ -278,7 +278,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							echo [DEBUG] !old!
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs
-								powershell -NoProfile -Command "Remove-Item -LiteralPath '%%~fD' -Recurse -Force"
+								powershell -NoProfile -Command "Remove-Item -LiteralPath '!dirPath!' -Recurse -Force"
 								echo [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
 							) else (
 								echo [DEBUG] [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs
