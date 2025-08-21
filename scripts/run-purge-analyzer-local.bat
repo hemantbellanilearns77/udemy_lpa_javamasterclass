@@ -278,7 +278,11 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							echo [DEBUG] !old!
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs
-								powershell -NoProfile -Command "Remove-Item -LiteralPath '!dirPath!' -Recurse -Force"
+								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory('!dirPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								REM : Try below to attempt sending them to bin first
+								REM powershell -NoProfile -Command "$Shell = New-Object -ComObject Shell.Application; 
+								REM ^$Shell.NameSpace(0).ParseName('!literalPath!').InvokeVerb('delete')"
+
 								echo [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
 							) else (
 								echo [DEBUG] [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs
