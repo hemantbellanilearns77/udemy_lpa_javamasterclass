@@ -160,6 +160,12 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a PMD_COUNT+=1
 )
 
+:: Capture End Time
+for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
+
+:: Compute Duration (in minutes)
+for /f %%d in ('powershell -command "[math]::Round((New-TimeSpan -Start '!startTime!' -End '!endTime!').TotalMinutes, 2)"') do set durationMinutes=%%d
+
 :: Warning Thresholds
 set warn=false
 if !durationMinutes! GEQ 5 (
@@ -171,12 +177,6 @@ if !CHECKSTYLE_COUNT! GEQ 1000 (
 if !PMD_COUNT! GEQ 100 (
     set warn=true
 )
-:: Capture End Time
-for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
-
-:: Compute Duration (in minutes)
-for /f %%d in ('powershell -command "[math]::Round((New-TimeSpan -Start '!startTime!' -End '!endTime!').TotalMinutes, 2)"') do set durationMinutes=%%d
-
 
 
 :: Final Banner

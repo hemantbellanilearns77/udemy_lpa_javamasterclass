@@ -83,8 +83,6 @@ if "%rootPath%"=="" (
     echo [WARN] rootPath was empty, defaulting to current directory...
     set "rootPath=%CD%"
 )
-echo RootPath = %rootPath%
-echo RunMode  = %runMode%
 
 
 :: === CONFIG ===
@@ -102,26 +100,29 @@ set "logFile=%logDir%\purge-log-execution-%ts%.txt"
 echo === FILE AGE REPORT (%ts%) for: "!archivalDir!" in !runMode! mode  > "%logFile%"
 echo === FILE AGE REPORT (%ts%) for: "!archivalDir!" in !runMode! mode  
 echo. >> "%logFile%"
-REM echo runMode: !runMode!
-REM echo runMode: !runMode! >> "%logFile%"
-REM echo RootPath = %rootPath%
-REM echo RootPath = %rootPath% >> "%logFile%"
-echo startTime is: !startTime!
-echo startTime is: "!startTime!" >> "%logFile%"
+REM echo [DEBUG] RootPath = %rootPath%
+REM echo [DEBUG] RootPath = %rootPath% >> "%logFile%"
+REM echo [DEBUG] RunMode  = %runMode%
+REM echo [DEBUG] RunMode  = %runMode% >> "%logFile%"
+REM echo [DEBUG] startTime is: !startTime!
+REM echo [DEBUG] startTime is: "!startTime!" >> "%logFile%"
 set /a grandTotal=0
 rem # in hours (divide by 24 for days)
-set /a purgeAge=8 
-
+set /a purgeAgeinHours=9
+set /a purgeAgeinDays=!purgeAgeinHours!/24 
+echo [DEBUG] purgeAgeinHours is !purgeAgeinHours!
+echo [DEBUG] purgeAgeinDays is !purgeAgeinDays!
 :: ===== PROCESS TARGET FOLDERS =====
 for %%R in (logs reports) do (
 set "targetFolder=%archivalDir%\%%R"
-echo [DEBUG] Now traversing targetfolder !targetFolder!
+echo [DEBUG] Now traversing targetfolder "!targetFolder!"
 echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
     if not exist "!targetFolder!" (
 		echo [SKIP] Missing: "!targetFolder!"
         echo [SKIP] Missing: "!targetFolder!" >> "%logFile%"
         echo. >> "%logFile%"
     ) else (
+		echo [PROCESSING ROOT] "%%R"
         echo [PROCESSING ROOT] "%%R" >> "%logFile%"
         echo. >> "%logFile%"
 
@@ -129,73 +130,163 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 			
 			set "folderPath=%%~fF"
 			set "folderName=%%~nxF"
-			set "comparisonString=%archivalDir%\reports\jacoco"
-			echo folderPath is !folderPath!
-			echo folderPath is "!folderPath!" >> "%logFile%"
-			echo folderName is !folderName!
-			echo folderName is "!folderName!" >> "%logFile%"
-			if /i "!folderPath!"=="!comparisonString!"  (
-				echo inside a jacoco report root folder !folderPath!
-				echo inside a jacoco report root folder !folderPath! >> "%logFile%"
-			) else (
+			set "jacocoReportsArchivalDir=%archivalDir%\reports\jacoco"
+			echo [DEBUG] folderPath is "!folderPath!"
+			echo [DEBUG] folderPath is "!folderPath!" >> "%logFile%"
+			echo [DEBUG] folderName is "!folderName!"
+			echo [DEBUG] folderName is "!folderName!" >> "%logFile%"
+			if /i "!folderPath!"=="!jacocoReportsArchivalDir!"  (
+			
+				echo [DEBUG]  [Jacoco Special Handling] for "!folderPath!" and "!folderName!"			
+				echo [DEBUG]  [Jacoco Special Handling] for "!folderPath!" and "!folderName!" >> "%logFile%"
 				set /a total=0
 				set /a old=0
+				echo [DEBUG]Initialized variables
+				echo [DEBUG] Initialized variables >> "%logFile%"
+				
+				rem Handle jacoco files individually
+				for %%X in ("!folderPath!\*.xml") do (
+					 echo [DEBUG]Found XML files at "!folderPath!"
+					 if exist "%%~fX" (
+						set "literalPath=%%~fX"
+						for /f %%H in ('powershell -NoProfile -Command "[int]((Get-Date)-(Get-Item -LiteralPath ''!literalPath!'').CreationTime).Hours"') do (
+							set /a ageH=%%H
+							echo [DEBUG] : Age calculated for !literalPath! is !ageH!
+						)
 
+						set /a total+=1
+						if !ageH! GEQ !purgeAgeinHours! (
+							set /a old+=1
+							if "!runMode!"=="EXECUTE" (
+								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs
+								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								echo [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs >> "%logFile%"
+							) else (
+								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs
+								echo [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs >> "%logFile%"
+							)
+						) else (
+							echo [DEBUG] [KEEP] FILE: %%~nxX !ageH! hrs
+							echo [KEEP] FILE: %%~nxX !ageH! hrs >> "%logFile%"
+						)
+					 ) else (
+						echo [ERROR] "%%~fX" does not exist
+						echo [ERROR] "%%~fX" does not exist >> "%logFile%"
+					 )
+				)
+				
+				REM for %%X in ("!folder!\*.exec") do (
+					 REM if exist "%%~fX" (
+						REM set "literalPath=%%~fX"
+						REM for /f %%H in ('powershell -NoProfile -Command "[int]((Get-Date)-(Get-Item -LiteralPath ''!literalPath!'').CreationTime).Hours"') do (
+							REM set /a ageH=%%H
+							REM echo [DEBUG] : Age calculated for !literalPath! is !age!
+						REM )
+
+						REM set /a total+=1
+						REM if !ageH! GEQ !purgeAgeinHours! (
+							REM set /a old+=1
+							REM if "!runMode!"=="EXECUTE" (
+								REM echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs
+								REM powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								REM echo [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs >> "%logFile%"
+							REM ) else (
+								REM echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs
+								REM echo [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs >> "%logFile%"
+							REM )
+						REM ) else (
+							REM echo [DEBUG] [KEEP] FILE: %%~nxX !ageH! hrs
+							REM echo [KEEP] FILE: %%~nxX !ageH! hrs >> "%logFile%"
+						REM )
+					 REM ) else (
+						REM echo [ERROR] "%%~fX" does not exist
+						REM echo [ERROR] "%%~fX" does not exist >> "%logFile%"
+					 REM )
+				REM )
+				
+				set /a grandTotal+=!old!
+				echo [DEBUG] grandTotal is !grandTotal!
+				echo [DEBUG] Total Files processed in folder: !folderName! : !total! ; Files that are Older than !purgeAgeinHours! hours: !old!
+				echo Total Files processed in folder: !folderName! : !total! ; Files that are Older than !purgeAgeinHours! hours: !old! >> "%logFile%"
+				echo. >> "%logFile%" 
+
+				
+			) else (
+				echo [DEBUG] Will process a non-jacoco-report path
+				echo [DEBUG] Will process a non-jacoco-report path >> "%logFile%"
+				set /a total=0
+				set /a old=0
+				echo [DEBUG]Initialized variables
+				echo [DEBUG] Initialized variables >> "%logFile%"
 				:: ===== PROCESS EACH FILE NORMALLY =====
 				for %%X in ("%%F\*") do (
 					set "literalPath=%%~fX"
-					rem echo literalPath is "!literalPath!"
-					rem echo literalPath is "!literalPath!" >> "%logFile%"
-									:: Get current date
+					rem echo [DEBUG] literalPath is "!literalPath!"
+					rem echo [DEBUG] literalPath is "!literalPath!" >> "%logFile%"
+					:: Get current date
 					for /f %%C in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"') do set "currentDate=%%C"
 
 					:: Get creation date
-					for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '%%~fX').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
-
+					for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '!literalPath!').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
+					
 					:: Get age in hours (as per latest logic)
-					for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '%%~fX').CreationTime).TotalHours"') do set /a age=%%A
+					for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
+						set /a age=%%A
+						echo [DEBUG] : Age calculated for !literalPath! is !age!
+					)
 
+					:: Check if age is a valid number
+					if "!age!"=="" (
+						echo [ERROR] Age for file "!literalPath!" could not be determined.
+						set "age=0"  :: Default to 0 if age is not set
+					)
+
+					:: Convert age to a floating-point number for comparison
+					rem set "ageFloat=!age!"
+					
 					:: Verbose output
-					echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
+					echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
 					echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
 					echo. >> "%logFile%"
 
 					set /a total+=1
 
-					 if !age! GEQ !purgeAge! (
+					 if !age! GEQ !purgeAgeinHours! (
 						set /a old+=1 
 						 if "!runMode!"=="EXECUTE" (
-							echo [EXECUTE] DELETING to Recycle Bin: !literalPath! !age! hours
+							echo [DEBUG] [EXECUTE] DELETING to Recycle Bin: !literalPath! !age! hours
 							call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
-							echo [EXECUTE] DELETED: !literalPath! !age! hours >> "%logFile%"
-							call :colorEcho "[EXECUTE] DELETED: !literalPath! !age! hours" RED
+							echo [DEBUG] [EXECUTE] DELETED: !literalPath! !age! hours >> "%logFile%"
+							call :colorEcho "[DEBUG] [EXECUTE] DELETED: !literalPath! !age! hours" RED
 						)
-						call :colorEcho "[BOTH MODES] Candidate to delete: !age! hours !literalPath! " RED
-						echo [DRY-RUN] Candidate to delete: !age! hours !literalPath! >> "%logFile%"
+						call :colorEcho "[DEBUG] [BOTH MODES] Candidate to delete: !age! hours !literalPath! " RED
+						echo [DEBUG] [DRY-RUN] Candidate to delete: !age! hours !literalPath! >> "%logFile%"
 					 ) else (
-						call :colorEcho [BOTH MODES] Will retain: "!age!" hours "!literalPath!" GREEN
-						echo [BOTH-MODES] Will not delete: "!literalPath!" "!age!" hours >> "%logFile%"
+						call :colorEcho [DEBUG] [BOTH MODES] Will retain: "!age!" hours "!literalPath!" GREEN
+						echo [DEBUG] [BOTH-MODES] Will not delete: "!literalPath!" "!age!" hours >> "%logFile%"
 					)
 				)
 				set /a grandTotal+=!old!
-				echo Total: !total!, Older than !purgeAge! hours: !old!
-				echo Total: !total!, Older than !purgeAge! hours: !old! >> "%logFile%"
+				echo [DEBUG] grandTotal is !grandTotal!
+				echo [DEBUG] Total Files processed in folder: !folderName! : !total! ; Files that are Older than !purgeAgeinHours! hours: !old!
+				echo Total Files processed in folder: !folderName! : !total! ; Files that are Older than !purgeAgeinHours! hours: !old! >> "%logFile%"
 				echo. >> "%logFile%" 
 			)  
 		)
 	)
 )
 
-call :colorEcho "[BOTH MODES] Grand Total: !grandTotal!, Older than !purgeAge! hours " RED
-echo [BOTH MODES] Grand Total: !grandTotal!, Older than !purgeAge! hours
+call :colorEcho "[DEBUG] [BOTH MODES] Grand Total of all files processe and that are Older than !purgeAgeinHours! hours is: !grandTotal! " RED
+echo [DEBUG] [BOTH MODES] Grand Total of all files processe and that are Older than !purgeAgeinHours! hours is: !grandTotal! >> %logFile%
 
 :: === FINAL RECYCLE BIN COUNT ===
 for /f %%R in ('powershell -NoProfile -Command "((New-Object -ComObject Shell.Application).NameSpace(10).Items()).Count"') do set "recycleCount=%%R"
 
-call :colorEcho "Files currently in Recycle Bin: !recycleCount!" CYAN
+call :colorEcho "[DEBUG] Files currently in Recycle Bin: !recycleCount!" CYAN
 echo Files currently in Recycle Bin: !recycleCount! >> "%logFile%"
 set "endTime=%TIME%"
-echo "endTime is: %endTime%"
+echo [DEBUG] startTime is: %startTime%
+echo [DEBUG] endTime is: %endTime%
 echo "endTime is: %endTime%" >> "%logFile%"
 :: Function to convert HH:MM:SS.cc into seconds
 for /f "tokens=1-4 delims=:.," %%a in ("%startTime%") do (
@@ -206,13 +297,13 @@ for /f "tokens=1-4 delims=:.," %%a in ("%endTime%") do (
     set /a "endSecs=%%a*3600 + %%b*60 + %%c"
 )
 
-echo "startSecs is: %startSecs%"
-echo "startSecs is: %startSecs%" >> "%logFile%"
-echo "endSecs is: %endSecs%"
-echo "endSecs is: %endSecs%" >> "%logFile%"
+echo [DEBUG] startSecs is: %startSecs%
+echo startSecs is: %startSecs% >> "%logFile%"
+echo [DEBUG] endSecs is: %endSecs%
+echo endSecs is: %endSecs% >> "%logFile%"
 set /a duration=%endSecs%-%startSecs%
-echo "duration is: %duration%"
-echo "duration is: %duration%" >> "%logFile%"
+echo [DEBUG] duration is: %duration%
+echo duration is: %duration% >> "%logFile%"
 echo === FILE AGE ANALYSIS COMPLETED IN === in !runMode! and IN %duration% seconds
 echo === FILE AGE ANALYSIS COMPLETED IN === in !runMode! and IN %duration% seconds >> "%logFile%"
 echo. >> "%logFile%"

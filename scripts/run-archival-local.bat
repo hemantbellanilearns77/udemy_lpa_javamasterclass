@@ -152,7 +152,25 @@ for %%R in (logs reports) do (
 			set "fileArchivedList="
 
 			if exist "!folderPath!\*.*" (
-				for /f "delims=" %%X in ('dir /b /a:-d /o:-d "!folderPath!\*.*" ^| findstr /v /i "latest"') do (
+				for /f "delims=" %%X in ('dir /b /a:-d /o:-d "!folderPath!\*.xml" ^| findstr /v /i "latest"') do (
+					set /a fileCount+=1
+					if !fileCount! GTR %retention% (
+						set "srcPath=!folderPath!\%%X"
+						set "destDir=%archiveRoot%\reports\jacoco"
+						echo [MOVE] old file !srcPath! >> "%logPath%"
+						if /i "%runMode%"=="EXECUTE" (
+							if not exist "!destDir!" md "!destDir!"
+							move /Y "!srcPath!" "!destDir!" >nul
+						)
+						set /a fileMove+=1
+						set "fileArchivedList=!fileArchivedList!%%X, "
+					) else (
+						echo [KEEP] recent file: %%X >> "%logPath%"
+						set /a fileKeep+=1
+					)
+				)
+				for /f "delims=" %%X in ('dir /b /a:-d /o:-d "!folderPath!\*.exec" ^| findstr /v /i "latest"') do (
+					
 					set /a fileCount+=1
 					if !fileCount! GTR %retention% (
 						set "srcPath=!folderPath!\%%X"
@@ -176,9 +194,9 @@ for %%R in (logs reports) do (
 				:: --- Combined Summary for jacoco ---
 				echo. >> "%logPath%"
 				echo === SUMMARY: "!folderName!" === >> "%logPath%"
-				echo Total dirs   : !dirCount! >> "%logPath%"
-				echo Retained dirs: !dirKeep! >> "%logPath%"
-				echo Archived dirs: !dirMove! >> "%logPath%"
+				echo [DEBUG] [EXECUTE] Total dirs   : !dirCount! >> "%logPath%"
+				echo [DEBUG] [EXECUTE] Retained dirs: !dirKeep! >> "%logPath%"
+				echo [DEBUG] [EXECUTE] Archived dirs: !dirMove! >> "%logPath%"
 				if "!dirArchivedList!"=="" (
 					echo Archived Dirs: None >> "%logPath%"
 				) else (
@@ -198,9 +216,9 @@ for %%R in (logs reports) do (
 				:: --- Combined Summary for jacoco ---
 				echo. >> "%logPath%"
 				echo === SUMMARY: for folder: "!folderName!" in "!runMode!" mode === >> "%logPath%"
-				echo Total dirs in "!runMode!" mode: !dirCount! >> "%logPath%"
-				echo Retained dirs in "!runMode!" mode: !dirKeep! >> "%logPath%"
-				echo Archived dirs in "!runMode!" mode: !dirMove! >> "%logPath%"
+				echo [DEBUG] [DRYRUN] Total dirs in "!runMode!" mode: !dirCount! >> "%logPath%"
+				echo [DEBUG] [DRYRUN] Retained dirs in "!runMode!" mode: !dirKeep! >> "%logPath%"
+				echo [DEBUG] [DRYRUN] Archived dirs in "!runMode!" mode: !dirMove! >> "%logPath%"
 				if "!dirArchivedList!"=="" (
 					echo Archived Dirs in "!runMode!" mode: None >> "%logPath%"
 				) else (
