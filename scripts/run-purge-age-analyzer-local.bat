@@ -149,25 +149,46 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 					 echo [DEBUG]Found XML files at "!folderPath!"
 					 if exist "%%~fX" (
 						set "literalPath=%%~fX"
-						for /f %%H in ('powershell -NoProfile -Command "[int]((Get-Date)-(Get-Item -LiteralPath ''!literalPath!'').CreationTime).Hours"') do (
-							set /a ageH=%%H
-							echo [DEBUG] : Age calculated for !literalPath! is !ageH!
+						:: Get current date
+						for /f %%C in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"') do set "currentDate=%%C"
+
+						:: Get creation date
+						for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '!literalPath!').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
+						
+						:: Get age in hours (as per latest logic)
+						for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
+							set /a age=%%A
+							echo [DEBUG] : Age calculated for !literalPath! is !age!
 						)
 
+						:: Check if age is a valid number
+						if "!age!"=="" (
+							echo [ERROR] Age for file "!literalPath!" could not be determined.
+							set "age=0"  :: Default to 0 if age is not set
+						)
+
+						:: Convert age to a floating-point number for comparison
+						rem set "ageFloat=!age!"
+						
+						:: Verbose output
+						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
+						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
+						echo. >> "%logFile%"
+
 						set /a total+=1
-						if !ageH! GEQ !purgeAgeinHours! (
+						if !age! GEQ !purgeAgeinHours! (
 							set /a old+=1
 							if "!runMode!"=="EXECUTE" (
-								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs
+								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
 								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
-								echo [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs >> "%logFile%"
+								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
 							) else (
-								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs
-								echo [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs >> "%logFile%"
+								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
+								echo [DRYRUN] Candidate FILE: !literalPath! !age! hrs >> "%logFile%"
 							)
 						) else (
-							echo [DEBUG] [KEEP] FILE: %%~nxX !ageH! hrs
-							echo [KEEP] FILE: %%~nxX !ageH! hrs >> "%logFile%"
+							echo [DEBUG] [KEEP] FILE: %%~nxX !age! hrs
+							echo [KEEP] FILE: %%~nxX !age! hrs >> "%logFile%"
 						)
 					 ) else (
 						echo [ERROR] "%%~fX" does not exist
@@ -175,35 +196,102 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 					 )
 				)
 				
-				REM for %%X in ("!folder!\*.exec") do (
-					 REM if exist "%%~fX" (
-						REM set "literalPath=%%~fX"
-						REM for /f %%H in ('powershell -NoProfile -Command "[int]((Get-Date)-(Get-Item -LiteralPath ''!literalPath!'').CreationTime).Hours"') do (
-							REM set /a ageH=%%H
-							REM echo [DEBUG] : Age calculated for !literalPath! is !age!
-						REM )
+				for %%X in ("!folderPath!\*.exec") do (
+					 echo [DEBUG]Found EXEC files at "!folderPath!"
+					 if exist "%%~fX" (
+						set "literalPath=%%~fX"
+						:: Get current date
+						for /f %%C in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"') do set "currentDate=%%C"
 
-						REM set /a total+=1
-						REM if !ageH! GEQ !purgeAgeinHours! (
-							REM set /a old+=1
-							REM if "!runMode!"=="EXECUTE" (
-								REM echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs
-								REM powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
-								REM echo [EXECUTE] DELETE FILE: !literalPath! !ageH! hrs >> "%logFile%"
-							REM ) else (
-								REM echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs
-								REM echo [DRYRUN] Candidate FILE: !literalPath! !ageH! hrs >> "%logFile%"
-							REM )
-						REM ) else (
-							REM echo [DEBUG] [KEEP] FILE: %%~nxX !ageH! hrs
-							REM echo [KEEP] FILE: %%~nxX !ageH! hrs >> "%logFile%"
-						REM )
-					 REM ) else (
-						REM echo [ERROR] "%%~fX" does not exist
-						REM echo [ERROR] "%%~fX" does not exist >> "%logFile%"
-					 REM )
-				REM )
+						:: Get creation date
+						for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '!literalPath!').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
+						
+						:: Get age in hours (as per latest logic)
+						for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
+							set /a age=%%A
+							echo [DEBUG] : Age calculated for !literalPath! is !age!
+						)
+
+						:: Check if age is a valid number
+						if "!age!"=="" (
+							echo [ERROR] Age for file "!literalPath!" could not be determined.
+							set "age=0"  :: Default to 0 if age is not set
+						)
+
+						:: Convert age to a floating-point number for comparison
+						rem set "ageFloat=!age!"
+						
+						:: Verbose output
+						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
+						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
+						echo. >> "%logFile%"
+
+						set /a total+=1
+						if !age! GEQ !purgeAgeinHours! (
+							set /a old+=1
+							if "!runMode!"=="EXECUTE" (
+								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
+								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(''!literalPath!'', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
+							) else (
+								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
+								echo [DRYRUN] Candidate FILE: !literalPath! !age! hrs >> "%logFile%"
+							)
+						) else (
+							echo [DEBUG] [KEEP] FILE: %%~nxX !age! hrs
+							echo [KEEP] FILE: %%~nxX !age! hrs >> "%logFile%"
+						)
+					 ) else (
+						echo [ERROR] "%%~fX" does not exist
+						echo [ERROR] "%%~fX" does not exist >> "%logFile%"
+					 )
+				)
 				
+				if exist "!folderPath!\jacoco-html-report-*" (
+					echo [DEBUG] FOUND HTML REPORTS
+					rem Handle HTML report directories as units
+					for /d %%D in ("!folderPath!\jacoco-html-report-*") do (
+						set "dirPath=%%~fD"
+						echo [DEBUG] dirPath is !dirPath!
+						for /f %%C in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm:ss'"') do set "currentDate=%%C"
+
+						:: Get creation date
+						for /f "delims=" %%D in ('powershell -NoProfile -Command "(Get-Item -LiteralPath '!dirPath!').CreationTime.ToString('yyyy-MM-dd HH:mm:ss')"') do set "creationDate=%%D"
+						
+						for /f %%H in ('powershell -NoProfile -Command "[int]((Get-Date)-(Get-Item -LiteralPath '!dirPath!').CreationTime).Hours"') do set /a dirAgeH=%%H
+						
+						:: Check if dirAgeH is a valid number
+						if "!dirAgeH!"=="" (
+							echo [ERROR] Age for Directory "!dirPath!" could not be determined.
+							set "dirAgeH=0"  :: Default to 0 if age is not set
+						)
+												:: Convert age to a floating-point number for comparison
+						rem set "ageFloat=!age!"
+						
+						:: Verbose output
+						echo [DEBUG] Directory : !dirPath! ; Created on : !creationDate! ; Age : !dirAgeH! Hours
+						echo Directory : !dirPath! ; Created on : !creationDate! ; Age : !dirAgeH! Hours >> "%logFile%"
+						echo. >> "%logFile%"
+						
+						if !dirAgeH! GEQ !purgeAgeinHours! (
+							set /a old+=1
+							echo [DEBUG] !old!
+							if "!runMode!"=="EXECUTE" (
+								echo [DEBUG] [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs
+								powershell -NoProfile -Command "Remove-Item -LiteralPath '%%~fD' -Recurse -Force"
+								echo [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
+							) else (
+								echo [DEBUG] [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs
+								echo [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
+							)
+						) else (
+							echo [KEEP] DIR: %%~nxD !dirAgeH! hrs >> "%logFile%"
+						)
+
+					)
+				) else (
+					echo NOT FOUND
+				)			
 				set /a grandTotal+=!old!
 				echo [DEBUG] grandTotal is !grandTotal!
 				echo [DEBUG] Total Files processed in folder: !folderName! : !total! ; Files that are Older than !purgeAgeinHours! hours: !old!
