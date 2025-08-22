@@ -7,9 +7,10 @@ echo ===================================================
 
 :: === Preserve Original Directory ===
 set "originalDir=%CD%"
+:: === Navigate to Project Root ===
 cd /d "%~dp0.."
 set "REPO_ROOT=%CD%"
-REM echo REPO_ROOT ------------  !REPO_ROOT!
+echo REPO_ROOT is !REPO_ROOT!
 
 :: === Parse Skip Flags ===
 set skip_checkstyle=false
