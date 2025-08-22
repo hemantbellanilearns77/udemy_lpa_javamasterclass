@@ -10,7 +10,7 @@ echo HELLO OUTSIDE IF
 
 set "executionEnv=%~1"
 echo ExecutionEnv is [%executionEnv%]
-if ""%executionEnv%"=="githubactions" (
+if /i "%executionEnv%"=="githubactions"(
     echo HELLO
 
 	if "%rootPath%"=="" set "rootPath=%CD%"
