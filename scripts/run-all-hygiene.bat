@@ -51,6 +51,12 @@ call scripts\run-pmd.bat >> "%hygieneLogPath%" 2>&1
 echo ✅ PMD scan completed. >> "%hygieneLogPath%"
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
+:: === Step 3: JACOCO Coverage Analysis ===
+echo 🚀 Step 3: Running JACOCO Coverage Analysis... | tee -a "%hygieneLogPath%"
+call scripts\run-coverage-analysis.bat >> "%hygieneLogPath%" 2>&1
+echo ✅ JACOCO Coverage Analysis completed. >> "%hygieneLogPath%"
+echo --------------------------------------------------- >> "%hygieneLogPath%"
+
 :: === Step 3: SonarCloud Scan ===
 echo 🚀 Step 3: Running SonarCloud scan... | tee -a "%hygieneLogPath%"
 call scripts\run-sonar-scan-admin.bat >> "%hygieneLogPath%" 2>&1
