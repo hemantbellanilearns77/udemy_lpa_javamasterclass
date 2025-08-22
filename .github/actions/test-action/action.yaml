@@ -1,3 +1,4 @@
+# .github/actions/test-action/action.yml
 name: "Process Name"
 description: "Takes a name, processes it, and outputs variants"
 inputs:
