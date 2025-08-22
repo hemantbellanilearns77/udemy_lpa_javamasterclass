@@ -4,17 +4,10 @@ setlocal EnableDelayedExpansion
 echo ===================================================
 echo 🧹 All Hygiene Workflow — Checkstyle + PMD + JaCoCo + SonarCloud
 echo ===================================================
-:: === Preserve Original Directory ===
+	:: === Preserve Original Directory ===
 set "originalDir=%CD%"
-echo HELLO OUTSIDE IF
 
-set "executionEnv=%~1"
-echo ExecutionEnv is [%executionEnv%]
-if /i "%executionEnv%"=="githubactions" (
-	echo i tested this... 
-)
-if /i "%executionEnv%"=="githubactions" (
-    echo HELLO
+
 
 	if "%rootPath%"=="" set "rootPath=%CD%"
 	:: === Navigate to Project Root ===
@@ -51,7 +44,7 @@ if /i "%executionEnv%"=="githubactions" (
 	:: === Step 1: Checkstyle ===
 	if "%skip_checkstyle%"=="false" (
 		echo 🚀 Step 1: Running Checkstyle... >> "%hygieneLogPath%"
-		call scripts\run-checkstyle.bat githubactions >> "%hygieneLogPath%" 2>&1
+		call scripts\run-checkstyle.bat >> "%hygieneLogPath%" 2>&1
 		echo ✅ Checkstyle scan completed. >> "%hygieneLogPath%"
 	) else (
 		echo ⏭️ Skipping Checkstyle... >> "%hygieneLogPath%"
@@ -61,7 +54,7 @@ if /i "%executionEnv%"=="githubactions" (
 	:: === Step 2: PMD ===
 	if "%skip_pmd%"=="false" (
 		echo 🚀 Step 2: Running PMD... >> "%hygieneLogPath%"
-		call scripts\run-pmd.bat githubactions >> "%hygieneLogPath%" 2>&1
+		call scripts\run-pmd.bat >> "%hygieneLogPath%" 2>&1
 		echo ✅ PMD scan completed. >> "%hygieneLogPath%"
 	) else (
 		echo ⏭️ Skipping PMD... >> "%hygieneLogPath%"
@@ -71,7 +64,7 @@ if /i "%executionEnv%"=="githubactions" (
 	:: === Step 3: JaCoCo ===
 	if "%skip_jacoco%"=="false" (
 		echo 🚀 Step 3: Running JaCoCo... >> "%hygieneLogPath%"
-		call scripts\run-coverage-analysis.bat githubactions >> "%hygieneLogPath%" 2>&1
+		call scripts\run-coverage-analysis.bat >> "%hygieneLogPath%" 2>&1
 		echo ✅ JaCoCo analysis completed. >> "%hygieneLogPath%"
 	) else (
 		echo ⏭️ Skipping JaCoCo... >> "%hygieneLogPath%"
@@ -81,22 +74,17 @@ if /i "%executionEnv%"=="githubactions" (
 	:: === Step 4: SonarCloud ===
 	if "%skip_sonar%"=="false" (
 		echo 🚀 Step 4: Running SonarCloud scan... >> "%hygieneLogPath%"
-		call scripts\run-sonar-scan-admin.bat githubactions >> "%hygieneLogPath%" 2>&1
+		call scripts\run-sonar-scan-admin.bat >> "%hygieneLogPath%" 2>&1
 		echo ✅ SonarCloud scan completed. >> "%hygieneLogPath%"
 	) else (
 		echo ⏭️ Skipping SonarCloud scan... >> "%hygieneLogPath%"
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
 	:: === Wrap-Up ===
-	echo 🎯 All hygiene steps complete. >> "%hygieneLogPath%"
+	echo 🎯 All hygiene steps complete. | tee -a "%hygieneLogPath%"
 	echo 📄 Composite log available at: %hygieneLogPath%
 
 	:: === Restore Original Directory ===
-
-
-) else (
-		echo ⏭️ Skipping Everything as this is for local ... >> "%hygieneLogPath%"
-)
 
 cd /d "%originalDir%"
 pause
