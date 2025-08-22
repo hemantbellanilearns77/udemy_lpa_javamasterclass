@@ -200,7 +200,7 @@ jobs:
         if: success()
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: scripts\run-all-hygiene.bat githubactions
+        run: scripts\run-all-hygiene.bat
         shell: cmd
 
       ##########################
