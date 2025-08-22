@@ -79,10 +79,6 @@ public class LinkedListChallengeMainClass {
         ConsoleStyler.divider();
     }
 
-    private static void iterateForwards(LinkedList<Town> itinerary) {
-        ConsoleStyler.styleOutput("User wants to go forward.... ");
-    }
-
     private static void createItineray(LinkedList<Town> itinerary) {
         addTown(new Town("Perth", 3923), itinerary);
         addTown(new Town("Brisbane", 917), itinerary);
@@ -98,7 +94,7 @@ public class LinkedListChallengeMainClass {
         ListIterator<Town> itineraryIterator = itinerary.listIterator();
         Town currentTownAtCursor;
         if (itinerary.contains(townToAdd) || checkIfTownExists(townToAdd, itinerary)) {
-            ConsoleStyler.styleOutput("*Please Note: Duplicate entry attempt found for \'" + townToAdd.town() + "\', so not adding it!");
+            ConsoleStyler.styleOutput("*Please Note: Duplicate entry attempt found for '" + townToAdd.town() + "', so not adding it!");
         } else {
 
             if (!itinerary.isEmpty()) {
@@ -120,7 +116,7 @@ public class LinkedListChallengeMainClass {
     private static boolean checkIfTownExists(Town townToAdd, LinkedList<Town> itinerary) {
         boolean duplicateFound = false;
         ListIterator<Town> itineraryIterator = itinerary.listIterator();
-        Town nextTown = null;
+        Town nextTown;
         if (!itinerary.isEmpty()) {
             while (itineraryIterator.hasNext()) {
                 nextTown = itineraryIterator.next();
@@ -139,8 +135,9 @@ public class LinkedListChallengeMainClass {
                         (B)ackward - to iterate backwards
                         (L)ist Places - to print the itinerary
                         (M)enu - to reprint the Menu items
-                        (Q)uit - to Quit 
-                        Enter Value: """;
+                        (Q)uit - to Quit
+                        Enter Value:
+                        """;
         System.out.print(menuTextBlock);
     }
 }
