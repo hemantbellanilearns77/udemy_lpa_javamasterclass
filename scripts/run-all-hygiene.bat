@@ -88,7 +88,7 @@ if /i "%executionEnv%"=="githubactions" (
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
 	:: === Wrap-Up ===
-	echo 🎯 All hygiene steps complete. | tee -a "%hygieneLogPath%"
+	echo 🎯 All hygiene steps complete. >> "%hygieneLogPath%"
 	echo 📄 Composite log available at: %hygieneLogPath%
 
 	:: === Restore Original Directory ===
