@@ -9,6 +9,7 @@ set "originalDir=%CD%"
 echo HELLO OUTSIDE IF
 
 set "executionEnv=%~1"
+echo ExecutionEnv is [%executionEnv%]
 if /i "!executionEnv!"=="githubactions" (
     echo HELLO
 
