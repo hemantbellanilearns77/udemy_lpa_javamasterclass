@@ -1,20 +1,37 @@
 @echo off
+setlocal EnableDelayedExpansion
+
 echo ===================================================
-echo 🧹 All Hygiene Workflow — Checkstyle + PMD + SonarCloud
+echo 🧹 All Hygiene Workflow — Checkstyle + PMD + JaCoCo + SonarCloud
 echo ===================================================
 
 :: === Preserve Original Directory ===
 set "originalDir=%CD%"
 
 :: === Navigate to Project Root ===
-cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
+cd /d "%~dp0.."
+set "REPO_ROOT=%CD%"
+echo REPO_ROOT is !REPO_ROOT!
+
+:: === Parse Skip Flags ===
+set skip_checkstyle=false
+set skip_pmd=false
+set skip_jacoco=false
+set skip_sonar=false
+
+for %%A in (%*) do (
+    if /I "%%~A"=="--skip-checkstyle" set skip_checkstyle=true
+    if /I "%%~A"=="--skip-pmd" set skip_pmd=true
+    if /I "%%~A"=="--skip-jacoco" set skip_jacoco=true
+    if /I "%%~A"=="--skip-sonar" set skip_sonar=true
+)
 
 :: === Generate Timestamp ===
 for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set timestamp=%%i
 
 :: === Log Directory Setup ===
 set "hygieneLogFolder=logs\all-hygiene-logs"
-set "hygieneLogPath=%hygieneLogFolder%\all-hygiene-%timestamp%.log"
+set "hygieneLogPath=%hygieneLogFolder%\all-hygiene-%timestamp%.txt"
 
 if not exist "%hygieneLogFolder%" mkdir "%hygieneLogFolder%"
 

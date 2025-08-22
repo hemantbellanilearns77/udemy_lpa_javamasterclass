@@ -141,16 +141,7 @@ jobs:
           echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
           echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH       
 
-      ##########################
-      # RUN STATIC ANALYSIS
-      ##########################
 
-      - name: ?? Run Checkstyle
-        run: scripts\run-checkstyle.bat
-
-      - name: ?? Run PMD
-        run: scripts\run-pmd.bat
-        shell: cmd
 
       ##########################
       # COMPILE + JACOCO
@@ -202,8 +193,14 @@ jobs:
             )
           )
 
-      - name: ?? Run JaCoCo Coverage
-        run: scripts\run-coverage-analysis.bat
+      #####################################
+          # RUN ALL-HYGIENE SWEEP CHECK
+      #####################################
+      - name: ?? Run SonarCloud Scan (via batch)
+        if: success()
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: scripts\run-all-hygiene.bat
         shell: cmd
 
       ##########################
@@ -217,16 +214,6 @@ jobs:
           path: |
             reports/**
             logs/**
-
-      ################################
-        # RUN SONAR CLOUD ANALYSIS
-      ################################
-      - name: ?? Run SonarCloud Scan (via batch)
-        if: success()
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: scripts\run-sonar-scan-admin.bat
-        shell: cmd
 
       ##########################
       # SUMMARY SECTION
