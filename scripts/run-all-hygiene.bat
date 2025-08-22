@@ -40,29 +40,44 @@ echo 🔗 Starting full hygiene sweep at %timestamp% >> "%hygieneLogPath%"
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
 :: === Step 1: Checkstyle ===
-echo 🚀 Step 1: Running Checkstyle... | tee -a "%hygieneLogPath%"
-call scripts\run-checkstyle.bat >> "%hygieneLogPath%" 2>&1
-echo ✅ Checkstyle scan completed. >> "%hygieneLogPath%"
+if "%skip_checkstyle%"=="false" (
+    echo 🚀 Step 1: Running Checkstyle... >> "%hygieneLogPath%"
+    call scripts\run-checkstyle.bat >> "%hygieneLogPath%" 2>&1
+    echo ✅ Checkstyle scan completed. >> "%hygieneLogPath%"
+) else (
+    echo ⏭️ Skipping Checkstyle... >> "%hygieneLogPath%"
+)
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
 :: === Step 2: PMD ===
-echo 🚀 Step 2: Running PMD... | tee -a "%hygieneLogPath%"
-call scripts\run-pmd.bat >> "%hygieneLogPath%" 2>&1
-echo ✅ PMD scan completed. >> "%hygieneLogPath%"
+if "%skip_pmd%"=="false" (
+    echo 🚀 Step 2: Running PMD... >> "%hygieneLogPath%"
+    call scripts\run-pmd.bat >> "%hygieneLogPath%" 2>&1
+    echo ✅ PMD scan completed. >> "%hygieneLogPath%"
+) else (
+    echo ⏭️ Skipping PMD... >> "%hygieneLogPath%"
+)
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
-:: === Step 3: JACOCO Coverage Analysis ===
-echo 🚀 Step 3: Running JACOCO Coverage Analysis... | tee -a "%hygieneLogPath%"
-call scripts\run-coverage-analysis.bat >> "%hygieneLogPath%" 2>&1
-echo ✅ JACOCO Coverage Analysis completed. >> "%hygieneLogPath%"
+:: === Step 3: JaCoCo ===
+if "%skip_jacoco%"=="false" (
+    echo 🚀 Step 3: Running JaCoCo... >> "%hygieneLogPath%"
+    call scripts\run-coverage-analysis.bat >> "%hygieneLogPath%" 2>&1
+    echo ✅ JaCoCo analysis completed. >> "%hygieneLogPath%"
+) else (
+    echo ⏭️ Skipping JaCoCo... >> "%hygieneLogPath%"
+)
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
-:: === Step 3: SonarCloud Scan ===
-echo 🚀 Step 3: Running SonarCloud scan... | tee -a "%hygieneLogPath%"
-call scripts\run-sonar-scan-admin.bat >> "%hygieneLogPath%" 2>&1
-echo ✅ SonarCloud scan completed. >> "%hygieneLogPath%"
+:: === Step 4: SonarCloud ===
+if "%skip_sonar%"=="false" (
+    echo 🚀 Step 4: Running SonarCloud scan... >> "%hygieneLogPath%"
+    call scripts\run-sonar-scan-admin.bat >> "%hygieneLogPath%" 2>&1
+    echo ✅ SonarCloud scan completed. >> "%hygieneLogPath%"
+) else (
+    echo ⏭️ Skipping SonarCloud scan... >> "%hygieneLogPath%"
+)
 echo --------------------------------------------------- >> "%hygieneLogPath%"
-
 :: === Wrap-Up ===
 echo 🎯 All hygiene steps complete. | tee -a "%hygieneLogPath%"
 echo 📄 Composite log available at: %hygieneLogPath%
