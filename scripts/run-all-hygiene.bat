@@ -4,11 +4,13 @@ setlocal EnableDelayedExpansion
 echo ===================================================
 echo 🧹 All Hygiene Workflow — Checkstyle + PMD + JaCoCo + SonarCloud
 echo ===================================================
-	:: === Preserve Original Directory ===
+:: === Preserve Original Directory ===
 set "originalDir=%CD%"
+echo HELLO OUTSIDE IF
 
 set "executionEnv=%~1"
 if /i "!executionEnv!"=="githubactions" (
+    echo HELLO
 
 	if "%rootPath%"=="" set "rootPath=%CD%"
 	:: === Navigate to Project Root ===
