@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Scanner;
 
-public class LinkedListChallenge_Main {
+public class LinkedListChallengeMainClass {
 
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static void main(String[] args) {
@@ -34,20 +34,10 @@ public class LinkedListChallenge_Main {
             printMenu();
             nextInput = scanner.nextLine().trim().toUpperCase();
             switch (nextInput) {
-                case "F" -> {
-                    forward = isABoolean(forward, iterator);
-                }
-                case "B" -> {
-                    forward = isForward(forward, iterator);
-                }
-                case "L" -> {
-                    listPlaces(itinerary);
-                }
-                case "M" -> {
-                    printMenu();
-                }
-                case "Q" -> {
-                }
+                case "F" -> forward = isABoolean(forward, iterator);
+                case "B" -> forward = isForward(forward, iterator);
+                case "L" -> listPlaces(itinerary);
+                case "M" -> printMenu();
                 default ->
                         ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + "\n");
             }
@@ -84,7 +74,7 @@ public class LinkedListChallenge_Main {
     }
 
     private static void listPlaces(LinkedList<Town> itinerary) {
-        ConsoleStyler.styleOutput("User wants to list our the itinerary and its as below: \n ");
+        ConsoleStyler.styleOutput("User wants to list our the itinerary and its as below: ");
         ConsoleStyler.styleOutput(itinerary.toString());
         ConsoleStyler.divider();
     }
