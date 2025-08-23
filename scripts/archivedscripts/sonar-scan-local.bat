@@ -2,18 +2,17 @@
 setlocal EnableDelayedExpansion
 
 echo ===================================================
-echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight + Preview)
+echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight and Preview)
 echo ===================================================
 :: Capture Start Time
 for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set startTime=%%t
-REM timeout /t 3 >nul
+timeout /t 3 >nul
 :: Preserve Original Working Directory
 set "originalDir=%CD%"
-cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
-:: === Set working directory ===
 cd /d "%~dp0.."
 set "REPO_ROOT=%CD%"
-echo REPO_ROOT %REPO_ROOT%
+echo REPO_ROOT ------------  !REPO_ROOT!
+
 :: Timestamp Setup
 for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd--HH-mm"') do set timestamp=%%i
 
@@ -136,15 +135,17 @@ for /f "tokens=1,2 delims==" %%a in (.env) do (
 )
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"
+set "SCANNER=%REPO_ROOT%\tools\sonar-scanner-cli\bin\sonar-scanner.bat"
 if exist "%SCANNER%" (
   REM call "%SCANNER%" -X "-Dsonar.token=%SONAR_TOKEN%"
-  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%"
+  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%" > "!logPath!" 2>&1
 ) else (
   echo ❌ sonar-scanner.bat not found at %SCANNER%
   exit /b 1
 )
-REM call ../tools/sonar-scanner -X "-Dsonar.token=%SONAR_TOKEN%"
+  REM call sonar-scanner -X ^
+  REM "-Dsonar.token=%SONAR_TOKEN%" ^
+  REM > "!logPath!" 2>&1
 
 echo ✅ Scan complete. Log saved to: !logPath!
 
@@ -159,6 +160,12 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a PMD_COUNT+=1
 )
 
+:: Capture End Time
+for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
+
+:: Compute Duration (in minutes)
+for /f %%d in ('powershell -command "[math]::Round((New-TimeSpan -Start '!startTime!' -End '!endTime!').TotalMinutes, 2)"') do set durationMinutes=%%d
+
 :: Warning Thresholds
 set warn=false
 if !durationMinutes! GEQ 5 (
@@ -170,12 +177,6 @@ if !CHECKSTYLE_COUNT! GEQ 1000 (
 if !PMD_COUNT! GEQ 100 (
     set warn=true
 )
-:: Capture End Time
-for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
-
-:: Compute Duration (in minutes)
-for /f %%d in ('powershell -command "[math]::Round((New-TimeSpan -Start '!startTime!' -End '!endTime!').TotalMinutes, 2)"') do set durationMinutes=%%d
-
 
 
 :: Final Banner
@@ -209,4 +210,3 @@ echo ===================================================
 ) >> "!logPath!"
 
 cd /d "%originalDir%"
-pause

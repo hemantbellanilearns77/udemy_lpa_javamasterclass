@@ -1,8 +1,8 @@
 name: 📊 Hygiene Checks Pipeline
 on:
-  #workflow_dispatch: # run manually
-  schedule:
-    - cron: '39 04 * * *' # runs at 1842 hours UTC or 1212 hours IST
+  workflow_dispatch: # run manually
+  #schedule:
+  #  - cron: '39 04 * * *' # runs at 1842 hours UTC or 1212 hours IST
 
 jobs:
   hygiene-checks:
@@ -200,7 +200,7 @@ jobs:
         if: success()
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: scripts\run-all-hygiene.bat
+        run: scripts\hygiene-check-analysis.bat githubactions
         shell: cmd
 
       ##########################
