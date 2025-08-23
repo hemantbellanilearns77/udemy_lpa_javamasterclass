@@ -794,7 +794,7 @@ jobs:
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>📜 <strong>Last Commit Info:</strong></p>
             <ul>
-              <li>🌐 <strong>Click on the Short SHA to view commit on GitHub:</strong><a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}"><code>${{ steps.execution_info.outputs.SHORT_SHA }}</code></a></li>
+              <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}"><code>${{ steps.execution_info.outputs.SHORT_SHA }}</code></a></li>
               <li><strong>Message:</strong> <em>${{ steps.execution_info.outputs.COMMIT_MSG }}</em></li>
               <li><strong>Author:</strong> ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.execution_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.execution_info.outputs.COMMIT_AGO }})</span></li>
