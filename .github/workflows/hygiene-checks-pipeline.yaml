@@ -28,7 +28,6 @@ jobs:
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
-
       ####################################################
           # CAPTURE START TIME OF GITHUB ACTION's JOB
       ####################################################
@@ -71,11 +70,10 @@ jobs:
             $ago = "$deltaMin minutes ago"
           }
           
-          
           if ("${{ github.event_name }}" -eq "schedule") {
             "TRIGGER_INFO=🔔 <strong>Scheduled Run (cron)</strong><br>⏰ <strong>Schedule:</strong> 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
           } else {
-            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br>🌿 <strong>Source Branch:</strong>${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
+            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br>🌿 <strong>Source Branch:</strong> ${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
           }          
 
           "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
@@ -812,7 +810,7 @@ jobs:
             <p><strong>Github Job Execution Info:</strong></p>
             <ul>
                 <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
-                <li><⏱ strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+                <li>⏱ <strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
                 <li>⏱ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li>⏱ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
             </ul>
