@@ -2,7 +2,7 @@ name: 📊 Hygiene Checks Pipeline
 on:
   # workflow_dispatch: # run manually
   schedule:
-    - cron: '45 06 * * 1-4' # Runs 12:15 PM IST  every WeekDay
+    - cron: '45 06 * * 1-4' # Runs 12:15 PM IST  every WeekDay excluding Friday
   push:
     branches:
     - main
@@ -647,34 +647,34 @@ jobs:
           
           # Step 4: Export results as an output variable for email step
           # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
-            $emailBreakdown = ($moduleAgg.Keys | ForEach-Object {
+            $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
               $b = $moduleAgg[$_]
               "${_}:$($b.BLOCKER),$($b.HIGH),$($b.MEDIUM),$($b.LOW),$($b.INFO)"
             }) -join ";"
           
           
-          $emailTable = "<table border='1' cellpadding='5' cellspacing='0'>"
-          $emailTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
+          $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
+          $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
           
-          foreach ($entry in $emailBreakdown -split ";") {
+          foreach ($entry in $emailModuleSevAggBreakdown -split ";") {
           $parts = $entry -split ":"
           if ($parts.Count -eq 2) {
           $module = $parts[0]
           $counts = $parts[1] -split ","
-          $emailTable += "<tr>"
-          $emailTable += "<td>$module</td>"
+          $emailModuleSevAggTable += "<tr>"
+          $emailModuleSevAggTable += "<td>$module</td>"
           foreach ($c in $counts) {
-          $emailTable += "<td align='center'>$c</td>"
+          $emailModuleSevAggTable += "<td align='center'>$c</td>"
           }
-          $emailTable += "</tr>"
+          $emailModuleSevAggTable += "</tr>"
           }
           }
           
-          $emailTable += "</table>"
+          $emailModuleSevAggTable += "</table>"
           
           # Export both plain breakdown and HTML table
-          echo "EMAIL_BREAKDOWN=$emailBreakdown" >> $env:GITHUB_ENV
-          echo "EMAIL_TABLE=$emailTable" >> $env:GITHUB_ENV 
+          echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
+          echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
       
 
       ##########################
@@ -789,7 +789,7 @@ jobs:
             </ul>
             
             <h3>📦 SonarCloud Module Severity Breakdown</h3>
-            ${{ env.EMAIL_TABLE }}
+            ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
 
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>📜 <strong>Last Commit Info:</strong></p>
@@ -799,12 +799,6 @@ jobs:
               <li><strong>Author:</strong> ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.execution_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.execution_info.outputs.COMMIT_AGO }})</span></li>
             </ul>
-            <p> <strong>Job Execution:</strong></p>
-             <ul>
-                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
-              </ul>
             
             <p><strong>Github Job Execution Info:</strong></p>
             <ul>
