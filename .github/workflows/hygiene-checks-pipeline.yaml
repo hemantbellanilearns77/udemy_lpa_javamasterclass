@@ -71,9 +71,9 @@ jobs:
           }
           
           if ("${{ github.event_name }}" -eq "schedule") {
-            "TRIGGER_INFO=🔔 <strong>Scheduled Run (cron)</strong><br>⏰ <strong>Schedule:</strong> 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
+            "TRIGGER_INFO=🔔 <strong>Scheduled Run (cron)</strong> for <br>⏰ <strong>Schedule:</strong> 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
           } else {
-            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br>🌿 <strong>Source Branch:</strong> <code>${{ github.ref_name }}</code>" >> $env:GITHUB_OUTPUT
+            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br> on 🌿 <strong>Source Branch:</strong> <code>${{ github.ref_name }}</code>" >> $env:GITHUB_OUTPUT
           }          
 
           "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
