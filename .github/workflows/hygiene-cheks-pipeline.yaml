@@ -1,8 +1,7 @@
 name: 📊 Hygiene Checks Pipeline
 on:
-  # workflow_dispatch: # run manually
   schedule:
-    - cron: '41 04 * * 5' # runs at 1025 hours IST or 0441 hours UTC every friday
+    - cron: '39 3 * * 1' # Runs 09:09 AM IST every Monday
 
 jobs:
   hygiene-checks:
