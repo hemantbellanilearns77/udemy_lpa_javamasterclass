@@ -811,7 +811,7 @@ jobs:
             
             <p><strong>Github Job Execution Info:</strong></p>
             <ul>
-                <li><strong>${{ steps.execution_info.outputs.TRIGGER_INFO }}</strong></li>
+                <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
                 <li><⏱ strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
                 <li>⏱ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li>⏱ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
