@@ -46,11 +46,11 @@ jobs:
           fetch-depth: 0   # fetches all history, not just 1 commit
 
       ####################################################
-                  # EXTRACT COMMIT STATS
+            # EXTRACT COMMIT STATS and TRIGGER INFO
       ####################################################
 
       - name: ?? Extract Commit Info (Windows PowerShell)
-        id: commit_info
+        id: execution_info
         shell: pwsh
         run: |
           $shortSha = git rev-parse --short HEAD
@@ -70,6 +70,13 @@ jobs:
           } else {
             $ago = "$deltaMin minutes ago"
           }
+          
+          
+          if ("${{ github.event_name }}" -eq "schedule") {
+            "TRIGGER_INFO=🔔 Scheduled Run (cron)<br>⏰ Schedule: 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
+          } else {
+            "TRIGGER_INFO=⚡ Manual/PR-triggered Run<br>🌿 Source Branch: ${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
+          }          
 
           "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
           "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
@@ -742,10 +749,10 @@ jobs:
           JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
           SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
           SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
-          SHORT_SHA: ${{ steps.commit_info.outputs.SHORT_SHA }}
-          COMMIT_MSG: ${{ steps.commit_info.outputs.COMMIT_MSG }}
-          COMMIT_AUTHOR: ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}
-          COMMIT_DATE: ${{ steps.commit_info.outputs.COMMIT_DATE }}
+          SHORT_SHA: ${{ steps.execution_info.outputs.SHORT_SHA }}
+          COMMIT_MSG: ${{ steps.execution_info.outputs.COMMIT_MSG }}
+          COMMIT_AUTHOR: ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}
+          COMMIT_DATE: ${{ steps.execution_info.outputs.COMMIT_DATE }}
         with:
           server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
           server_port: ${{ vars.SMTP_SERVER_PORT }}
@@ -789,11 +796,11 @@ jobs:
             <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
             <p>📜 <strong>Last Commit Info:</strong></p>
             <ul>
-              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}"><code>${{ steps.commit_info.outputs.SHORT_SHA }}</code></a></li>
-              <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
-              <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
-              <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit on GitHub</a></li>
+              <li><strong>SHA:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}"><code>${{ steps.execution_info.outputs.SHORT_SHA }}</code></a></li>
+              <li><strong>Message:</strong> <em>${{ steps.execution_info.outputs.COMMIT_MSG }}</em></li>
+              <li><strong>Author:</strong> ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</li>
+              <li><strong>Date:</strong> ${{ steps.execution_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.execution_info.outputs.COMMIT_AGO }})</span></li>
+              <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}">Open Commit on GitHub</a></li>
             </ul>
             <p>⏱ <strong>Job Execution:</strong></p>
              <ul>
@@ -804,13 +811,7 @@ jobs:
             
             <p><strong>Github Job Info:</strong></p>
             <ul>
-                {% if env.TRIGGER_TYPE == 'schedule' %}
-                  <li>🔔 Scheduled Run (cron)</li>
-                  <li>⏰ Schedule: 09:09 AM IST every Monday</li>
-                {% else %}
-                  <li>⚡ Manual/PR-triggered Run</li>
-                  <li>🌿 Source Branch: ${{ env.TRIGGER_BRANCH }}</li>
-                {% endif %}
+                <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
                 <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
                 <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
