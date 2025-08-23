@@ -3,9 +3,9 @@ on:
   # workflow_dispatch: # run manually
   schedule:
     - cron: '39 3 * * *' # Runs 09:09 AM IST every Monday
-  push:
-    branches:
-    - main
+  # push:
+  #  branches:
+  #  - main
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
