@@ -3,7 +3,9 @@ on:
   # workflow_dispatch: # run manually
   schedule:
     - cron: '39 3 * * 1' # Runs 09:09 AM IST every Monday
-
+  push:
+    branches:
+      - main
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
@@ -14,6 +16,8 @@ jobs:
         misc_utils=misc_utils/src/main/java/com/hb/study/misc_utils
         udemy_lpa_javamasterclass=src/test/java/com/hb/study/udemy_lpa_javamasterclass
         misc_utils=misc_utils/src/test/java/com/hb/study/misc_utils
+      TRIGGER_TYPE: ${{ github.event_name }}
+      TRIGGER_BRANCH: ${{ github.ref_name }}
       JACOCO_MIN_COVERAGE: 9
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 12006
       CHECKSTYLE_MAX_VIOLATIONS: 12000
@@ -273,7 +277,7 @@ jobs:
           
           $projectKey = $env:SONAR_PROJECT_KEY
           $projectOrg = $env:SONAR_ORG
-          $branch = "${{ github.ref_name }}"
+          $branch = $env:TRIGGER_BRANCH 
           # Confirm if token is passed
           if (-not $env:SONAR_TOKEN) {
            Write-Error "⚠ SONAR_TOKEN is empty!"
@@ -406,6 +410,7 @@ jobs:
           echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟥 BLOCKER              | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| 🟧 HIGH                 | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
@@ -413,6 +418,7 @@ jobs:
           echo "| 🟦 LOW                  | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| ℹ INFO                 | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
           echo "| Legend                 | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
+          echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
           echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -754,7 +760,7 @@ jobs:
           from: GitHub Hygiene Bot <${{ vars.EMAIL_RECIPIENT }}>
           html_body: |
             <p>Hi Hemant,</p>
-            <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>main</code>).</p>
+            <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>${{ env.TRIGGER_BRANCH }}</code>).</p>
             
             <p>📊 <strong>Hygiene Summary:</strong></p>
             <ul>
@@ -787,10 +793,7 @@ jobs:
               <li><strong>Message:</strong> <em>${{ steps.commit_info.outputs.COMMIT_MSG }}</em></li>
               <li><strong>Author:</strong> ${{ steps.commit_info.outputs.COMMIT_AUTHOR }}</li>
               <li><strong>Date:</strong> ${{ steps.commit_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.commit_info.outputs.COMMIT_AGO }})</span></li>
-              <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit</a></li>
-              <li><strong>🌐 View Commit:</strong>
-                  <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open on GitHub</a>
-              </li>
+              <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.commit_info.outputs.FULL_SHA }}">Open Commit on GitHub</a></li>
             </ul>
             <p>⏱ <strong>Job Execution:</strong></p>
              <ul>
@@ -798,6 +801,20 @@ jobs:
                 <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
               </ul>
+            
+            <p><strong>Github Job Info:</strong></p>
+            <ul>
+                {% if env.TRIGGER_TYPE == 'schedule' %}
+                  <li>🔔 Scheduled Run (cron)</li>
+                  <li>⏰ Schedule: 09:09 AM IST every Monday</li>
+                {% else %}
+                  <li>⚡ Manual/PR-triggered Run</li>
+                  <li>🌿 Source Branch: ${{ env.TRIGGER_BRANCH }}</li>
+                {% endif %}
+                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+            </ul>
             <hr>
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
             Please do not reply.</em></p>
