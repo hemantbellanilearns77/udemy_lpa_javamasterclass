@@ -194,7 +194,7 @@ jobs:
           )
 
       #####################################
-          # RUN ALL-HYGIENE SWEEP CHECK
+        # RUN ALL-HYGIENE SWEEP CHECK
       #####################################
       - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
         if: success()
