@@ -15,7 +15,7 @@ jobs:
 
       - name: Call Composite Action
         id: process
-        uses: ./.github/actions/test-action
+        uses: ./.github/actions/demo-composite-action
         with:
           username: ${{ steps.capture.outputs.name }}
 
