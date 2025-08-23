@@ -73,9 +73,9 @@ jobs:
           
           
           if ("${{ github.event_name }}" -eq "schedule") {
-            "TRIGGER_INFO=🔔 Scheduled Run (cron)<br>⏰ Schedule: 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
+            "TRIGGER_INFO=🔔 <strong>Scheduled Run (cron)</strong><br>⏰ <strong>Schedule:</strong> 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
           } else {
-            "TRIGGER_INFO=⚡ Manual/PR-triggered Run<br>🌿 Source Branch: ${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
+            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br>🌿 <strong>Source Branch:</strong>${{ github.ref_name }}" >> $env:GITHUB_OUTPUT
           }          
 
           "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
@@ -802,19 +802,19 @@ jobs:
               <li><strong>Date:</strong> ${{ steps.execution_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.execution_info.outputs.COMMIT_AGO }})</span></li>
               <li><strong>🌐 View Commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}">Open Commit on GitHub</a></li>
             </ul>
-            <p>⏱ <strong>Job Execution:</strong></p>
+            <p> <strong>Job Execution:</strong></p>
              <ul>
                 <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
                 <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
                 <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
               </ul>
             
-            <p><strong>Github Job Info:</strong></p>
+            <p><strong>Github Job Execution Info:</strong></p>
             <ul>
-                <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
-                <li><strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li><strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li><strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+                <li><strong>${{ steps.execution_info.outputs.TRIGGER_INFO }}</strong></li>
+                <li><⏱ strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
+                <li>⏱ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
+                <li>⏱ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
             </ul>
             <hr>
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
