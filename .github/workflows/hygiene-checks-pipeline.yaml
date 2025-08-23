@@ -1,8 +1,8 @@
 name: 📊 Hygiene Checks Pipeline
 on:
-  # workflow_dispatch: # run manually
+  workflow_dispatch: # run manually
   schedule:
-    - cron: '39 3 * * *' # Runs 09:09 AM IST every Monday
+    - cron: '45 06 * * *' # Runs 09:09 AM IST every Monday
   # push:
   #  branches:
   #  - main
