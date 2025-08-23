@@ -2,10 +2,10 @@ name: 📊 Hygiene Checks Pipeline
 on:
   # workflow_dispatch: # run manually
   schedule:
-    - cron: '39 3 * * 1' # Runs 09:09 AM IST every Monday
+    - cron: '39 3 * * *' # Runs 09:09 AM IST every Monday
   push:
     branches:
-      - main
+    - main
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
