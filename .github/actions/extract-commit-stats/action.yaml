@@ -37,9 +37,15 @@ runs:
       $fullSha = git rev-parse HEAD
       $msg = git log -1 --pretty=%s
       $author = git log -1 --pretty='%an'
-      $date = git log -1 --date=iso-local --pretty='%cd'
-      
-      $commitTs = git log -1 --pretty=%ct
+      $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
+      # Convert COMMIT_DATE to IST
+      $commitDateUtc = [DateTimeOffset]::Parse($commitDateRaw).ToUniversalTime()
+      $istOffset = [System.TimeSpan]::FromHours(5.5)
+      $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+  
+  
+
+  $commitTs = git log -1 --pretty=%ct
       $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
       $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
       
@@ -55,7 +61,7 @@ runs:
       "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
       "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
       "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
-      "COMMIT_DATE=$date" >>  $env:GITHUB_OUTPUT
+      "COMMIT_DATE=$commitDateIST" >>  $env:GITHUB_OUTPUT
       "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
       
       # Accessing GitHub context variables in PowerShell

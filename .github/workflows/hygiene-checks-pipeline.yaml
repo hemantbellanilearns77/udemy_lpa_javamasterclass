@@ -710,7 +710,7 @@ jobs:
           $durationFormatted = "{0}m {1}s" -f $mins, $secs
           
           echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
-          echo "endTime=$endDT" >> $env:GITHUB_OUTPUT
+          echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
           echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
           echo "IST=$commitDateIST" >> $env:GITHUB_OUTPUT
 
