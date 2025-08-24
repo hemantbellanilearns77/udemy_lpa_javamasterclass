@@ -108,7 +108,7 @@ REM echo [DEBUG] startTime is: !startTime!
 REM echo [DEBUG] startTime is: "!startTime!" >> "%logFile%"
 set /a grandTotal=0
 rem # in hours (divide by 24 for days)
-set /a purgeAgeinHours=1
+set /a purgeAgeinHours=63
 set /a purgeAgeinDays=!purgeAgeinHours!/24 
 echo [DEBUG] purgeAgeinHours is !purgeAgeinHours!
 echo [DEBUG] purgeAgeinDays is !purgeAgeinDays!
@@ -171,8 +171,8 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						rem set "ageFloat=!age!"
 						
 						:: Verbose output
-						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
-						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
+						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! hrs
+						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! hrs >> "%logFile%"
 						echo. >> "%logFile%"
 
 						set /a total+=1
@@ -181,14 +181,15 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
 								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
-								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
+								echo [EXECUTE] DELETED FILE: !literalPath! !age! hrs >> "%logFile%"
+								call :colorEcho "[DEBUG][EXECUTE][DELETE] DELETED FILE: !literalPath! hrs !age!" RED
 							) else (
-								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
+								call :colorEcho "[DEBUG][DRYRUN][DELETE] Candidate FILE: !literalPath! hrs !age!" RED
 								echo [DRYRUN] Candidate FILE: !literalPath! !age! hrs >> "%logFile%"
 							)
 						) else (
-							echo [DEBUG] [KEEP] FILE: %%~nxX !age! hrs
-							echo [KEEP] FILE: %%~nxX !age! hrs >> "%logFile%"
+							call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will Retain: !literalPath! hrs !age!" RED
+							echo [BOTH MODES][KEEP] WIll Retain: %%~nxX !age! hrs >> "%logFile%"
 						)
 					 ) else (
 						echo [ERROR] "%%~fX" does not exist
@@ -222,8 +223,8 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						rem set "ageFloat=!age!"
 						
 						:: Verbose output
-						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours
-						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! Hours >> "%logFile%"
+						echo [DEBUG] File : !literalPath! ; Created on : !creationDate! ; Age : !age! hrs
+						echo File : !literalPath! ; Created on : !creationDate! ; Age : !age! hrs >> "%logFile%"
 						echo. >> "%logFile%"
 
 						set /a total+=1
@@ -232,13 +233,15 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
 								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
-								echo [EXECUTE] DELETE FILE: !literalPath! !age! hrs >> "%logFile%"
+								echo [EXECUTE] DELETED FILE: !literalPath! !age! hrs >> "%logFile%"
+								call :colorEcho "[DEBUG] [EXECUTE] DELETED FILE:: !literalPath! !age! hrs" RED
 							) else (
 								echo [DEBUG] [DRYRUN] Candidate FILE: !literalPath! !age! hrs
+								call :colorEcho "[DEBUG][BOTH MODES][DELETE] Candidate FILE: !literalPath! hrs !age!" RED
 								echo [DRYRUN] Candidate FILE: !literalPath! !age! hrs >> "%logFile%"
 							)
 						) else (
-							echo [DEBUG] [KEEP] FILE: %%~nxX !age! hrs
+						    call :colorEcho "[DEBUG][BOTH MODES][KEEP] Candidate FILE: !literalPath! hrs !age!" GREEN
 							echo [KEEP] FILE: %%~nxX !age! hrs >> "%logFile%"
 						)
 					 ) else (
@@ -282,14 +285,15 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 								REM : Try below to attempt sending them to bin first
 								REM powershell -NoProfile -Command "$Shell = New-Object -ComObject Shell.Application; 
 								REM ^$Shell.NameSpace(0).ParseName('!literalPath!').InvokeVerb('delete')"
-
-								echo [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
+								call :colorEcho "[DEBUG] [EXECUTE] DELETED DIRECTORY: !dirPath! !dirAgeH! hrs" RED
+								echo [EXECUTE] DELETED DIRECTORY: !dirPath! !dirAgeH! hrs >> "%logFile%"
 							) else (
-								echo [DEBUG] [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs
+							    call :colorEcho "[DEBUG] [BOTH MODES] Candidate to delete: !dirPath! !dirAgeH! hrs" RED
 								echo [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
 							)
 						) else (
-							echo [KEEP] DIR: %%~nxD !dirAgeH! hrs >> "%logFile%"
+						    call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will retain: !dirPath! !dirAgeH! hrs GREEN
+							echo [BOTH MODES][KEEP] DIR: %%~nxD !dirAgeH! hrs >> "%logFile%"
 						)
 
 					)
@@ -354,8 +358,8 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						call :colorEcho "[DEBUG] [BOTH MODES] Candidate to delete: !age! hours !literalPath! " RED
 						echo [DEBUG] [DRY-RUN] Candidate to delete: !age! hours !literalPath! >> "%logFile%"
 					 ) else (
-						call :colorEcho [DEBUG] [BOTH MODES] Will retain: "!age!" hours "!literalPath!" GREEN
-						echo [DEBUG] [BOTH-MODES] Will not delete: "!literalPath!" "!age!" hours >> "%logFile%"
+						call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will retain: !age! hours !literalPath!" GREEN
+						echo [DEBUG][BOTH-MODES][KEEP] Will retain: "!literalPath!" "!age!" hrs >> "%logFile%"
 					)
 				)
 				set /a grandTotal+=!old!
