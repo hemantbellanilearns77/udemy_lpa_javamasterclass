@@ -672,7 +672,7 @@ jobs:
         id: execution_metrics
         uses: ./.github/actions/publish-execution-metrics
         with:
-          username: ${{ steps.setup_starttime_var.outputs.starTime }}
+          startTime: ${{ steps.setup_starttime_var.outputs.startTime }}
 
       ##########################
       # Email Success Summary
