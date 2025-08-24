@@ -29,7 +29,7 @@ jobs:
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
-      -
+
       ####################################################
       # CAPTURE START TIME OF GITHUB ACTION's JOB
       ####################################################
