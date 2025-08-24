@@ -773,7 +773,7 @@ jobs:
             
             <p>📊 <strong>Hygiene Summary:</strong></p>
             <ul>
-              <li>📝 <strong<Checkstyle Violations:</strong> <code>${{ steps.metrics.outputs.checkstyleCount }}</code></li>
+              <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ steps.metrics.outputs.checkstyleCount }}</code></li>
               <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</code></li>
               <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
               <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
