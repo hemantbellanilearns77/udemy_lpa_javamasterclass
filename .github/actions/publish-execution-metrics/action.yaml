@@ -7,7 +7,16 @@ inputs:
   startTime:
     description: "The start time to base calculations upon"
     required: true
-outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
+outputs:
+  startTime:
+    description: "Workflow start time in IST"
+    value: ${{ steps.calculate-and-publish-execution_metrics.outputs.startTime }}
+  endTime:
+    description: "Workflow end time in IST"
+    value: ${{ steps.calculate-and-publish-execution_metrics.outputs.endTime }}
+  formattedDuration:
+    description: "Workflow duration in minutes and seconds"
+    value: ${{ steps.calculate-and-publish-execution_metrics.outputs.formattedDuration }}
 runs:
   using: "composite"
   steps:

@@ -31,3 +31,4 @@ runs:
         mkdir tools\pmd
         powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
       shell: cmd
+
