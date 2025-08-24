@@ -184,8 +184,6 @@ jobs:
             return ('█' * $filled) + ('░' * $empty)
           }
           
-          
-          
           ############################################################
           # === Parse Checkstyle & PMD Reports ===
           ############################################################
@@ -648,11 +646,11 @@ jobs:
         with:
           startTime: ${{ steps.start_time.outputs.startTime }}
 
-      - name: Use output in summary
-        run: |
-          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
-          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
-          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
+#      - name: Use output in summary
+#        run: |
+#          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
+#          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
+#          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
 
       ##########################
       # Email Success Summary
@@ -711,9 +709,9 @@ jobs:
             <p><strong>Github Job Execution Info:</strong></p>
             <ul>
                 <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
-                <li>⏱ <strong>Start Time:</strong> <code>${{ steps.calculate-and-publish-execution_metrics.outputs.startTime }}</code></li>
-                <li>⏱ <strong>End Time:</strong> <code>${{ steps.calculate-and-publish-execution_metrics.outputs.endTime }}</code></li>
-                <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.calculate-and-publish-execution_metrics.outputs.formattedDuration }}</code></li>
+                <li>⏱ <strong>Start Time:</strong> <code>${{ steps.execution_metrics.outputs.startTime }}</code></li>
+                <li>⏱ <strong>End Time:</strong> <code>${{ steps.execution_metrics.outputs.endTime }}</code></li>
+                <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.execution_metrics.outputs.formattedDuration }}</code></li>
             </ul>
             <hr style="dotted">
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
