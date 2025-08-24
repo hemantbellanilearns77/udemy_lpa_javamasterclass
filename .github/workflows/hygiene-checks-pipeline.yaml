@@ -74,38 +74,12 @@ jobs:
           distribution: zulu
           java-version: 24
       
-      ####################################################
-        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD) AND SETUP
-      ####################################################
+      #######################################################################
+        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD AND JACOCO AND SONAR) AND SETUP
+      #######################################################################
       - name: Download Tools & Setup for Execution
         id: download_setup_tools
         uses: ./.github/actions/download-setup-tools
-
-      ##########################
-      # DOWNLOAD JACOCO+JUNIT
-      ##########################
-
-      - name: ?? Download JaCoCo + JUnit Console
-        run: |
-          mkdir tools\jacoco-0.8.13\lib
-          curl -L -o tools\jacoco-0.8.13\lib\jacocoagent.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
-          curl -L -o tools\jacoco-0.8.13\lib\jacococli.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.13/org.jacoco.cli-0.8.13-nodeps.jar
-          mkdir tools\junit-console
-          curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
-        shell: cmd
-
-      ##########################
-      # DOWNLOAD SONAR-SCANNER
-      ##########################
-
-      - name: ?? Download and Setup SonarScanner 7.1.0.4889
-        shell: bash
-        run: |
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
-          mkdir tools/sonar-scanner
-          unzip sonar-scanner.zip -d tools/sonar-scanner
-          echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
-          echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH       
 
       ##########################
       # COMPILE + JACOCO
@@ -676,7 +650,10 @@ jobs:
 
       - name: Use output in summary
         run: |
-          echo "Start Time is : ${{ steps.calculate-and-publish-execution_metrics.outputs.startTime }}"
+          echo "Start Time is : ${{ steps.execution_metrics.outputs.startTime }}"
+          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
+          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
+          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
 
       ##########################
       # Email Success Summary
