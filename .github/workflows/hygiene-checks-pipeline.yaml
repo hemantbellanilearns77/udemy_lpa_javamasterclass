@@ -74,9 +74,9 @@ jobs:
           distribution: zulu
           java-version: 24
       
-      ####################################################
-        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD) AND SETUP
-      ####################################################
+      #######################################################################
+        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD AND JACOCO AND SONAR) AND SETUP
+      #######################################################################
       - name: Download Tools & Setup for Execution
         id: download_setup_tools
         uses: ./.github/actions/download-setup-tools
