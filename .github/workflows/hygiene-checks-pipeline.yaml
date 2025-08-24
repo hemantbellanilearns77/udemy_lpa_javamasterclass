@@ -621,7 +621,7 @@ jobs:
           # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
             $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
               $b = $moduleAgg[$_]
-              "${_}:$($b.BLOCKER),$($b.HIGH),$($b.MEDIUM),$($b.LOW),$($b.INFO)"
+              "${_}:$(Mark $b.BLOCKER),$(Mark $b.HIGH),$(Mark $b.MEDIUM),$(Mark $b.LOW),$(Mark $b.INFO)"
             }) -join ";"
           
           
