@@ -1,8 +1,8 @@
 ####################################################
 # DOWNLOAD TOOLS AND SETUP TOOLS
 ####################################################
-name: "Extract Workflow Execution Info"
-description: "This action extracts workflow execution info like commit stats and trigger info"
+name: "Download Hygiene Check Tools"
+description: "Download tools that will evaluate hygiene health of the project"
 inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
 outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
 runs:
