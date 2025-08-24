@@ -45,7 +45,7 @@ runs:
   
   
 
-  $commitTs = git log -1 --pretty=%ct
+      $commitTs = git log -1 --pretty=%ct
       $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
       $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
       
