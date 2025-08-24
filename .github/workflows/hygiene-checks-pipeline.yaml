@@ -31,19 +31,19 @@ jobs:
     steps:
 
       ####################################################
-      # CAPTURE START TIME OF GITHUB ACTION's JOB
-      ####################################################
-      - name: Call Start Time Action
-        id: set_startTime
-        uses: ./.github/actions/setup-starttime-var
-
-      ####################################################
                 # CHECKOUT CODE COMMITTED
       ####################################################
       - name: ?? Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0   # fetches all history, not just 1 commit
+
+      ####################################################
+      # CAPTURE START TIME OF GITHUB ACTION's JOB
+      ####################################################
+      - name: Call Start Time Action
+        id: set_startTime
+        uses: ./.github/actions/setup-starttime-var
 
       ####################################################
             # EXTRACT COMMIT STATS and TRIGGER INFO
