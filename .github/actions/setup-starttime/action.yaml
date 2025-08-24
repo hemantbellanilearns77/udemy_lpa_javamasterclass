@@ -4,7 +4,7 @@ inputs: {}  # If you don't have any inputs, you can leave it empty or remove thi
 outputs:
   startTime:
     description: "The Start Time Captured for start time of job"
-    value: ${{ steps.start_time.outputs.startTime }}
+    value: ${{ steps.setup_starttime_var.outputs.startTime }}
 
 runs:
   using: "composite"
@@ -13,7 +13,7 @@ runs:
     # CAPTURE START TIME OF GITHUB ACTION's JOB
     ####################################################
     - name: Capture Job Start Time
-      id: start_time
+      id: setup_starttime_var
       shell: bash
       run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
 
