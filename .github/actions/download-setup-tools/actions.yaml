@@ -1,0 +1,32 @@
+####################################################
+# DOWNLOAD TOOLS AND SETUP TOOLS
+####################################################
+name: "Extract Workflow Execution Info"
+description: "This action extracts workflow execution info like commit stats and trigger info"
+inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
+outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
+runs:
+  using: "composite"
+  steps:
+    ##########################
+    # DOWNLOAD CHECKSTYLE
+    ##########################
+
+    - name: ?? Download Checkstyle
+      run: |
+        mkdir tools\checkstyle
+        curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+
+    ##############################
+    # DOWNLOAD PMD and SETUP PMD
+    ##############################
+    - name: ?? Download and Extract PMD
+      run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
+      shell: bash
+
+
+    - name: ?? Extract PMD
+      run: |
+        mkdir tools\pmd
+        powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
+      shell: cmd

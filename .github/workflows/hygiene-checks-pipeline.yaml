@@ -74,29 +74,12 @@ jobs:
           distribution: zulu
           java-version: 24
       
-
-      ##########################
-      # DOWNLOAD CHECKSTYLE
-      ##########################
-
-      - name: ?? Download Checkstyle
-        run: |
-          mkdir tools\checkstyle
-          curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
-
-      ##############################
-      # DOWNLOAD PMD and SETUP PMD
-      ##############################
-      - name: ?? Download and Extract PMD
-        run: curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.15.0/pmd-dist-7.15.0-bin.zip
-        shell: bash
-
-
-      - name: ?? Extract PMD
-        run: |
-          mkdir tools\pmd
-          powershell -Command "Expand-Archive -Path 'pmd.zip' -DestinationPath 'tools\pmd'"
-        shell: cmd
+      ####################################################
+        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD) AND SETUP
+      ####################################################
+      - name: Download Tools & Setup for Execution
+        id: download_setup_tools
+        uses: ./.github/actions/download-setup-tools
 
       ##########################
       # DOWNLOAD JACOCO+JUNIT
