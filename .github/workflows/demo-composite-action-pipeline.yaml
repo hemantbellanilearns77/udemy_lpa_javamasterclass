@@ -21,7 +21,7 @@ jobs:
 
       - name: Use output in summary
         run: |
-          echo "Original name: ${{ steps.process.outputs.originalName }}"
+          echo "Original name: ${{ steps.process.outputs.SHORT_SHA }}"
           echo "Uppercased: ${{ steps.process.outputs.upperName }}"
 
       - name: Use output in Email step (toy example)
