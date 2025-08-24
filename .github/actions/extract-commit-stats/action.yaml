@@ -7,25 +7,25 @@ inputs: {}  # If you don't have any inputs, you can leave it empty or remove thi
 outputs:
   SHORT_SHA:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.SHORT_SHA }}
+    value: ${{ steps.execution_info.outputs.SHORT_SHA }}
   FULL_SHA:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.FULL_SHA }}
+    value: ${{ steps.execution_info.outputs.FULL_SHA }}
   COMMIT_MSG:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.COMMIT_MSG }}
+    value: ${{ steps.execution_info.outputs.COMMIT_MSG }}
   COMMIT_AUTHOR:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.COMMIT_AUTHOR }}
+    value: ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}
   COMMIT_DATE:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.COMMIT_DATE }}
+    value: ${{ steps.execution_info.outputs.COMMIT_DATE }}
   COMMIT_AGO:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.COMMIT_AGO }}
+    value: ${{ steps.execution_info.outputs.COMMIT_AGO }}
   TRIGGER_INFO:
     description: ""
-    value: ${{ steps.extract-commit-stats.outputs.TRIGGER_INFO }}
+    value: ${{ steps.execution_info.outputs.TRIGGER_INFO }}
 runs:
   using: "composite"
   steps:
