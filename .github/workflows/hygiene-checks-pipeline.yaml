@@ -712,16 +712,6 @@ jobs:
 
       - name: 📧 Email Summary
         uses: dawidd6/action-send-mail@v3
-        env:
-          CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
-          PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
-          JACOCO_COVERAGE_PERCENT: ${{ steps.metrics.outputs.jacocoPercent }}
-          SONARCLOUD_DASHBOARD_URL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-          SONARCLOUD_ISSUE_BREAKDOWN_URL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
-          SHORT_SHA: ${{ steps.execution_info.outputs.SHORT_SHA }}
-          COMMIT_MSG: ${{ steps.execution_info.outputs.COMMIT_MSG }}
-          COMMIT_AUTHOR: ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}
-          COMMIT_DATE: ${{ steps.execution_info.outputs.COMMIT_DATE }}
         with:
           server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
           server_port: ${{ vars.SMTP_SERVER_PORT }}
