@@ -51,18 +51,18 @@ runs:
         $ago = "$deltaMin minutes ago"
       }
       
-      "SHORT_SHA=$shortSha" >>  $GITHUB_OUTPUT
-      "FULL_SHA=$fullSha" >>  $GITHUB_OUTPUT
-      "COMMIT_MSG=$msg" >>  $GITHUB_OUTPUT
-      "COMMIT_AUTHOR=$author" >>  $GITHUB_OUTPUT
-      "COMMIT_DATE=$date" >>  $GITHUB_OUTPUT
-      "COMMIT_AGO=$ago" >>  $GITHUB_OUTPUT
+      "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
+      "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
+      "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
+      "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
+      "COMMIT_DATE=$date" >>  $env:GITHUB_OUTPUT
+      "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
       
       # Accessing GitHub context variables in PowerShell
       $eventName = "${{ github.event_name }}"
       $refName = "${{ github.ref_name }}"
       if ($eventName -eq "schedule") {
-        "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>09:09 AM IST every Monday</code>" >>  $GITHUB_OUTPUT
+        "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>09:09 AM IST every Monday</code>" >>  $env:GITHUB_OUTPUT
       } elseif ($eventName -eq "push") {
-        "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/PR-triggered Run</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >>  $GITHUB_OUTPUT
+        "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/PR-triggered Run</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >>  $env:GITHUB_OUTPUT
       } 
