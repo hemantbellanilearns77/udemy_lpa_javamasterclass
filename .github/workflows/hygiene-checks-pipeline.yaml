@@ -701,13 +701,8 @@ jobs:
           $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
 
           # Convert to DateTimeOffset and shift to IST
-          $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch) \
-                           .ToOffset($istOffset) \
-                           .ToString("yyyy-MM-dd HH:mm:ss")
-                           
-          $endDT_IST   = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch) \
-                           .ToOffset($istOffset) \
-                           .ToString("yyyy-MM-dd HH:mm:ss")
+          $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+          $endDT_IST   = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
           
           $durationSec = $endEpoch - $startEpoch
           $mins = [math]::Floor($durationSec / 60)
