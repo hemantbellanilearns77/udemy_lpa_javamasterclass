@@ -53,10 +53,6 @@ jobs:
         id: execution_info
         uses: ./.github/actions/extract-commit-stats
 
-      - name: Use output in summary
-        run: |
-          echo "Original name: ${{ steps.execution_info.outputs.SHA }}"
-
       ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
