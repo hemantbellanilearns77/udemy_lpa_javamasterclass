@@ -43,8 +43,6 @@ runs:
       $istOffset = [System.TimeSpan]::FromHours(5.5)
       $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
   
-  
-
       $commitTs = git log -1 --pretty=%ct
       $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
       $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
