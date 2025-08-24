@@ -646,11 +646,10 @@ jobs:
         id: execution_metrics
         uses: ./.github/actions/publish-execution-metrics
         with:
-          startTime: ${{ steps.setup_starttime_var.outputs.startTime }}
+          startTime: ${{ steps.start_time.outputs.startTime }}
 
       - name: Use output in summary
         run: |
-          echo "Start Time is : ${{ steps.execution_metrics.outputs.startTime }}"
           echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
           echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
           echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
