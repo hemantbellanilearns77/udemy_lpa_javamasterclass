@@ -650,7 +650,7 @@ jobs:
 
       - name: Use output in summary
         run: |
-          echo "Start Time is : ${{ steps.calculate-and-publish-execution_metrics.outputs.startTime }}"
+          echo "Start Time is : ${{ steps.execution_metrics.outputs.startTime }}"
 
       ##########################
       # Email Success Summary
