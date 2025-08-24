@@ -781,7 +781,6 @@ jobs:
               <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}"><code>View SonarCloud Overall Code Dashboard</code></a></li>
             </ul>
             
-            
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
               <li>🟥 <strong>BLOCKER:</strong><a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
