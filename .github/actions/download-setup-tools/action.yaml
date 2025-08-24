@@ -16,6 +16,7 @@ runs:
       run: |
         mkdir tools\checkstyle
         curl -L -o tools\checkstyle\checkstyle-10.26.1-all.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.26.1/checkstyle-10.26.1-all.jar
+      shell: cmd
 
     ##############################
     # DOWNLOAD PMD and SETUP PMD
