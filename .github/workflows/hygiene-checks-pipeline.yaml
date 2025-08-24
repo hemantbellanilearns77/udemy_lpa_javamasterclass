@@ -28,13 +28,13 @@ jobs:
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
+      -
       ####################################################
-          # CAPTURE START TIME OF GITHUB ACTION's JOB
+      # CAPTURE START TIME OF GITHUB ACTION's JOB
       ####################################################
-      - name: ?? Capture Job Start Time
-        id: start_time
-        shell: bash
-        run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
+      - name: Call Start Time Action
+        id: set_startTime
+        uses: ./.github/actions/setup-starttime-var
 
       ####################################################
                 # CHECKOUT CODE COMMITTED
@@ -70,12 +70,15 @@ jobs:
             $ago = "$deltaMin minutes ago"
           }
           
-          if ("${{ github.event_name }}" -eq "schedule") {
-            "TRIGGER_INFO=🔔 <strong>Scheduled Run (cron)</strong> for <br>⏰ <strong>Schedule:</strong> 09:09 AM IST every Monday" >> $env:GITHUB_OUTPUT
-          } else {
-            "TRIGGER_INFO=⚡ <strong>Manual/PR-triggered</strong> Run<br> on 🌿 <strong>Source Branch:</strong> <code>${{ github.ref_name }}</code>" >> $env:GITHUB_OUTPUT
-          }          
+          # Accessing GitHub context variables in PowerShell
+          $eventName = "${{ github.event_name }}"
+          $refName = "${{ github.ref_name }}"
 
+          if ($eventName -eq "schedule") {
+            "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>09:09 AM IST every Monday</code>" >> $env:GITHUB_OUTPUT
+          } elseif ($eventName -eq "push") {
+            "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/PR-triggered Run</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >> $env:GITHUB_OUTPUT
+          } 
           "SHORT_SHA=$shortSha" >> $env:GITHUB_OUTPUT
           "FULL_SHA=$fullSha" >> $env:GITHUB_OUTPUT
           "COMMIT_MSG=$msg" >> $env:GITHUB_OUTPUT
@@ -769,45 +772,44 @@ jobs:
             
             <p>📊 <strong>Hygiene Summary:</strong></p>
             <ul>
-              <li>📝 Checkstyle Violations: <strong>${{ steps.metrics.outputs.checkstyleCount }}</strong></li>
-              <li>🔍 PMD Violations: <strong>${{ steps.metrics.outputs.pmdCount }}</strong></li>
-              <li>📈 Code Coverage: <strong>${{ steps.metrics.outputs.sonarCoverage }}</strong></li>
-              <li>🎯 Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-              <li>🗂 SonarCloud Total Issues: <strong>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</strong></li>
-              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">View SonarCloud Overall Code Dashboard</a></li>
+              <li>📝 <strong<Checkstyle Violations:</strong> <code<${{ steps.metrics.outputs.checkstyleCount }}</code></li>
+              <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</code></li>
+              <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
+              <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
+              <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
+              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}"><code>View SonarCloud Overall Code Dashboard</code></a></li>
             </ul>
             
             
             <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
             <ul>
-              <li>🟥 <strong>BLOCKER: <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}">${{ steps.metrics.outputs.sonarBlocker }}</a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</strong></li>
-              <li>🟧 <strong>HIGH: <a href="${{ steps.metrics.outputs.sonarHighUrl }}">${{ steps.metrics.outputs.sonarHigh }}</a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</strong></li>
-              <li>🟨 <strong>MEDIUM: <a href="${{ steps.metrics.outputs.sonarMediumUrl }}">${{ steps.metrics.outputs.sonarMedium }}</a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</strong></li>
-              <li>🟦 <strong>LOW: <a href="${{ steps.metrics.outputs.sonarLowUrl }}">${{ steps.metrics.outputs.sonarLow }}</a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</strong></li>
-              <li>ℹ️<strong>INFO: <a href="${{ steps.metrics.outputs.sonarInfoUrl }}">${{ steps.metrics.outputs.sonarInfo }}</a> ${{ steps.metrics.outputs.sonarInfoEmojiMark }}</strong></li>
-              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">View SonarCloud Open Issues Breakdown Dashboard</a></li>
+              <li>🟥 <strong>BLOCKER:</strong><a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
+              <li>🟧 <strong>HIGH:<strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
+              <li>🟨 <strong>MEDIUM:<strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
+              <li>🟦 <strong>LOW:<strong> <a href="${{ steps.metrics.outputs.sonarLowUrl }}"><code>${{ steps.metrics.outputs.sonarLow }}</code></a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</li>
+              <li>ℹ️<strong>INFO:<strong> <a href="${{ steps.metrics.outputs.sonarInfoUrl }}"><code>${{ steps.metrics.outputs.sonarInfo }}</code></a> ${{ steps.metrics.outputs.sonarInfoEmojiMark }}</li>
+              <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
             </ul>
             
             <h3>📦 SonarCloud Module Severity Breakdown</h3>
             ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
 
-            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download from workflow run</a></p>
+            <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
             <p>📜 <strong>Last Commit Info:</strong></p>
             <ul>
               <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}"><code>${{ steps.execution_info.outputs.SHORT_SHA }}</code></a></li>
-              <li><strong>Message:</strong> <em>${{ steps.execution_info.outputs.COMMIT_MSG }}</em></li>
-              <li><strong>Author:</strong> ${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</li>
-              <li><strong>Date:</strong> ${{ steps.execution_info.outputs.COMMIT_DATE }} <span style="color:gray;">(${{ steps.execution_info.outputs.COMMIT_AGO }})</span></li>
+              <li><strong>Message:</strong> <code><em>${{ steps.execution_info.outputs.COMMIT_MSG }}</em></code></li>
+              <li><strong>Author:</strong> <code>${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</code></li>
+              <li><strong>Date:</strong> <code>${{ steps.execution_info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
             </ul>
             
             <p><strong>Github Job Execution Info:</strong></p>
             <ul>
                 <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
-                <li>⏱ <strong>Start Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</li>
-                <li>⏱ <strong>End Time:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</li>
-                <li>⏱ <strong>Job Duration:</strong> ${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</li>
+                <li>⏱ <strong>Start Time:</strong> <code>${{ steps.calculate-duration-and-export-timing.outputs.startTime }}</code></li>
+                <li>⏱ <strong>End Time:</strong> <code>${{ steps.calculate-duration-and-export-timing.outputs.endTime }}</code></li>
+                <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.calculate-duration-and-export-timing.outputs.formattedDuration }}</code></li>
             </ul>
-            <hr>
-            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>
-            Please do not reply.</em></p>
+            <hr style="dotted">
+            <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
 

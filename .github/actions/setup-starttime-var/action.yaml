@@ -1,0 +1,19 @@
+####################################################
+# CAPTURE START TIME OF GITHUB ACTION's JOB
+####################################################
+name: "Capture Job Start Time"
+description: "Sets up the startTime variable of the workflow with its actual start-time"
+inputs:
+outputs:
+  startTime:
+    description: "The Start Time Captured for start time of job"
+    value: ${{ steps.start_time.outputs.startTime }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: ?? Capture Job Start Time
+    - id: start_time
+    - shell: bash
+    - run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
+
