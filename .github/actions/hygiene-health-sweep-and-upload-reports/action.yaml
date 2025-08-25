@@ -36,12 +36,13 @@ runs:
         }
         
         # Log for verification
+        Write-Host "COMMIT_MSG=$COMMIT_MSG"
         Write-Host "TRIGGER_EVENT=$env:TRIGGER_EVENT"
         Write-Host "SRC_BRANCH=$SRC_BRANCH"
         Write-Host "TGT_BRANCH=$TGT_BRANCH"
         
         # Case 1: Manual override → always skip
-        if ($COMMIT_MSG -match "--skip-sonar") {
+        if ($COMMIT_MSG -match "*--skip-sonar*") {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
