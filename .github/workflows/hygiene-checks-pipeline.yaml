@@ -168,13 +168,14 @@ jobs:
         with: {}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
-          server_port: ${{ vars.SMTP_SERVER_PORT }}
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASS }}
+          SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
           EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
 
-      ###############################
+
+    ###############################
         # FULL CLEANUP AND VERIFY
       ##############################
 

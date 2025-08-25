@@ -466,7 +466,6 @@ runs:
             server_port: ${{ env.SMTP_SERVER_PORT }}
             username: ${{ env.SMTP_USER }}
             password: ${{ env.SMTP_PASS }}
-            EMAIL_RECIPIENT: ${{ env.EMAIL_RECIPIENT }}
 
             subject: >-
               ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
