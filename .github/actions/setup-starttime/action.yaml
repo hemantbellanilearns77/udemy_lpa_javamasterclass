@@ -15,5 +15,9 @@ runs:
     - name: Capture Job Start Time
       id: setup_starttime_var
       shell: bash
-      run: echo "startTime=$(date +%s)" >> $GITHUB_OUTPUT
+      run: |
+        startTime=$(date +%s)
+        echo "🕒 Captured Start Time (epoch seconds): $startTime"
+        echo "startTime=$startTime" >> $GITHUB_OUTPUT
+      
 

@@ -453,8 +453,12 @@ runs:
         # Export both plain breakdown and HTML table
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
-      
-      
+
+    - name: Log Start Time Before Execution Info
+      run: |
+          Write-Host "🕒 Start Time received as input before calling execution-info: ${{ inputs.startTime }}"
+      shell: pwsh
+
       ###################################
       # EXECUTION INFO COMPOSITE CALL
       ###################################
@@ -464,11 +468,11 @@ runs:
       with:
         startTime: ${{ inputs.startTime }}
 
-    - name: Use output in summary
+    - name: Log Start/End Time After Execution Info
       run: |
-        echo "Start Time: ${{ steps.execution-info.outputs.startTime }}"
-        echo "End Time:   ${{ steps.execution-info.outputs.endTime }}"
-        echo "Duration:   ${{ steps.execution-info.outputs.formattedDuration }}"
+        Write-Host "✅ Start Time after execution-info: ${{ steps.execution-info.outputs.startTime }}"
+        Write-Host "✅ End Time after execution-info:   ${{ steps.execution-info.outputs.endTime }}"
+        Write-Host "✅ Duration after execution-info:   ${{ steps.execution-info.outputs.formattedDuration }}"
       shell: pwsh
 
     ##########################
