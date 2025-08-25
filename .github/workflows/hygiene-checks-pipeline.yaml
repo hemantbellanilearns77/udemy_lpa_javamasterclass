@@ -33,9 +33,10 @@ jobs:
       ####################################################
       # CHECKOUT CODE COMMITTED
       ####################################################
-      - name: ?? Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0   # fetches all history, not just 1 commit
 
       ####################################################
@@ -54,6 +55,7 @@ jobs:
         uses: ./.github/actions/hygiene-health-sweep-and-upload-reports
         with:
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+          BRANCH_EXECUTED: ${{ steps.setup_vars.outputs.BRANCH_EXECUTED }}
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
