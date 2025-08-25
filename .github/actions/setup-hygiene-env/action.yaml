@@ -43,7 +43,6 @@ runs:
       id: setup_vars
       shell: pwsh
       env:
-        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         TRIGGER_EVENT: ${{ github.event_name }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         SOURCE_BRANCH: ${{ github.head_ref }}
