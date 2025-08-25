@@ -168,6 +168,10 @@ jobs:
         with: {}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
+          server_port: ${{ vars.SMTP_SERVER_PORT }}
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
 
       ###############################
         # FULL CLEANUP AND VERIFY
