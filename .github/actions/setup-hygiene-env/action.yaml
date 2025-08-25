@@ -10,20 +10,23 @@ inputs:
 
 outputs:
   startTime:
-    description: "Start time of the job"
+    description: ""
     value: ${{ steps.start_time.outputs.startTime }}
   COMMIT_MSG:
-    description: "Start time of the job"
+    description: ""
     value: ${{ steps.setup_vars.outputs.COMMIT_MSG }}
   TRIGGER_EVENT:
-    description: "Start time of the job"
+    description: ""
     value: ${{ steps.setup_vars.outputs.TRIGGER_EVENT }}
   SRC_BRANCH:
-    description: "Start time of the job"
+    description: ""
     value: ${{ steps.setup_vars.outputs.SRC_BRANCH }}
   TGT_BRANCH:
-    description: "Start time of the job"
+    description: ""
     value: ${{ steps.setup_vars.outputs.TGT_BRANCH }}
+  BRANCH_EXECUTED:
+    description: ""
+    value: ${{ steps.setup_vars.outputs.BRANCH_EXECUTED }}
 
 runs:
   using: "composite"
@@ -51,7 +54,6 @@ runs:
         PR_TARGET_BRANCH: ${{ github.event.pull_request.base.ref || '' }}
       run: |
         Write-Host "🔎 Setting up common variables"
-        $COMMIT_MSG = ""
         $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
@@ -60,27 +62,15 @@ runs:
           $COMMIT_MSG = "${{ github.event.pull_request.title }}"
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
+          $BRANCH_EXECUTED = "$SRC_BRANCH → $TGT_BRANCH"
         } else {
           $COMMIT_MSG = "${{ github.event.head_commit.message }}"
           $SRC_BRANCH = $env:SOURCE_BRANCH
           $TGT_BRANCH = $env:TRIGGER_BRANCH
+          $BRANCH_EXECUTED = $TGT_BRANCH
         }
         $REASON = ""
-        # Determine source and target branches explicitly, preserving your variable names
-        if ($env:TRIGGER_EVENT -ieq "pull_request") {
-          $SRC_BRANCH = $env:PR_SOURCE_BRANCH
-          $TGT_BRANCH = $env:PR_TARGET_BRANCH
-        } else {
-          $SRC_BRANCH = $env:SOURCE_BRANCH
-          $TGT_BRANCH = $env:TRIGGER_BRANCH
-        }
-        
-        # Log for verification
-        Write-Host "COMMIT_MSG=$COMMIT_MSG"
-        Write-Host "TRIGGER_EVENT=$TRIGGER_EVENT"
-        Write-Host "SRC_BRANCH=$SRC_BRANCH"
-        Write-Host "TGT_BRANCH=$TGT_BRANCH"
-        
+            
         # Case 1: Manual override → always skip
         if ($COMMIT_MSG -match "--skip-sonar") {
           $SKIP_FLAG = "--skip-sonar"
@@ -95,6 +85,7 @@ runs:
         elseif ($TGT_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($SRC_BRANCH)) {
           $SKIP_FLAG = ""
           $SRC_BRANCH="main"
+          $BRANCH_EXECUTED = $TGT_BRANCH
           $REASON = "⚡ Direct commit to main → RUN Sonar"
         }
         # Case 4: PR from any branch → main
@@ -108,7 +99,7 @@ runs:
           $REASON = "⚡ PR into stage/tech-debt → SKIP Sonar"
         }
         else {
-          $REASON = "⚡ Default → SKIP Sonar"
+          $REASON = "⚡ Default → SKIP Sonar (SRC=$SRC_BRANCH, TGT=$TGT_BRANCH)"
         }
         if ([string]::IsNullOrEmpty($SKIP_FLAG)) {
           Write-Host "✅ Sonar will RUN | $REASON"
@@ -119,15 +110,17 @@ runs:
         # Log for verification
         Write-Host "SKIP_FLAG=$SKIP_FLAG"
         Write-Host "COMMIT_MSG=$COMMIT_MSG"
-        Write-Host "TRIGGER_EVENT=$env:TRIGGER_EVENT"
         Write-Host "SRC_BRANCH=$SRC_BRANCH"
         Write-Host "TGT_BRANCH=$TGT_BRANCH"
+        Write-Host "TRIGGER_EVENT=$TRIGGER_EVENT"
+        Write-Host "BRANCH_EXECUTED=$BRANCH_EXECUTED"
         
         "SKIP_FLAG=$SKIP_FLAG" >>  $env:GITHUB_OUTPUT
-        "COMMIT_MSG=$$COMMIT_MSG" >>  $env:GITHUB_OUTPUT
+        "COMMIT_MSG=$COMMIT_MSG" >>  $env:GITHUB_OUTPUT
         "TRIGGER_EVENT=$TRIGGER_EVENT" >>  $env:GITHUB_OUTPUT
         "SRC_BRANCH=$SRC_BRANCH" >>  $env:GITHUB_OUTPUT
         "TGT_BRANCH=$TGT_BRANCH" >>  $env:GITHUB_OUTPUT
+        "BRANCH_EXECUTED=$BRANCH_EXECUTED" >>  $env:GITHUB_OUTPUT
 
     # 2.a Setup Java
     - name: Setup Java (Temurin)
