@@ -78,20 +78,21 @@ runs:
           "COMMIT_DATE=$commitDateIST" >>  $env:GITHUB_OUTPUT
           "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
           
-          # Accessing GitHub context variables in PowerShell
+          # Access GitHub context variables in PowerShell
           $eventName = "${{ github.event_name }}"
-          $refName = "${{ github.ref_name }}"
           
           if ($eventName -eq "schedule") {
               $cronExpr = "${{ github.event.schedule }}"
-              "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT
+              "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT
           }
           elseif ($eventName -eq "push") {
-              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/Push</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >>  $env:GITHUB_OUTPUT
+              $refName = "${{ github.ref_name }}"
+              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Push to branch</code><br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >> $env:GITHUB_OUTPUT
           }
           elseif ($eventName -eq "pull_request") {
               $sourceBranch = "${{ github.event.pull_request.head.ref }}"
-              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code> <br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code>" >>  $env:GITHUB_OUTPUT
+              $targetBranch = "${{ github.event.pull_request.base.ref }}"
+              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>" >> $env:GITHUB_OUTPUT
           }
           
       ###############################
