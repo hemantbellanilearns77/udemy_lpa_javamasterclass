@@ -109,7 +109,7 @@ runs:
             }
             
             $sonarCoverage = Get-SonarMetric "coverage"
-            Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
+            # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
             if ($sonarCoverage -ge 50) {
               $coverageEmoji = "🟢"
             } elseif ($sonarCoverage -ge 20) {
@@ -167,7 +167,6 @@ runs:
               INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
             }
             
-            
             ############################################################
                   # === Generate URLS ===
             ############################################################
@@ -186,7 +185,6 @@ runs:
             $sonarLowEmojiMark = $(MarkEmoji $low)
             $sonarInfoEmojiMark = $(MarkEmoji $info)
             
-            
             ############################################################
                   # === Write Overall Table ===
             ############################################################
@@ -197,7 +195,6 @@ runs:
             echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
             echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
             echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-            echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
             echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
             echo "| 🟥 BLOCKER              | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
             echo "| 🟧 HIGH                 | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
@@ -209,7 +206,6 @@ runs:
             echo "" >> $env:GITHUB_STEP_SUMMARY
             echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
             echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
-            
             
             ############################################################
             # === Outputs for Email ===
@@ -254,9 +250,9 @@ runs:
             foreach ($line in $lines) {
               if ($line.Trim()) {
               $parts = $line.Trim() -split "=", 2  # limit to 2 parts only 
-              Write-Output "Next line: '$line' split into key='$($parts[1])' and value='$($parts[0])'"
+              # Write-Output "Next line: '$line' split into key='$($parts[1])' and value='$($parts[0])'"
                 if ($parts.Count -eq 2) {
-                  Write-Output "Creating map entry: key='$($parts[1])', value='$($parts[0])'"
+                  # Write-Output "Creating map entry: key='$($parts[1])', value='$($parts[0])'"
                   $modulePathMap[$parts[1]] = $parts[0]
                 }
               }
@@ -264,16 +260,16 @@ runs:
             
             # Debug: print map
               foreach ($k in $modulePathMap.Keys) {
-                Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
+                # Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
             }
             # Initialize aggregation buckets for each module
             $moduleAgg = @{}
             foreach ($pathKey in $modulePathMap.Keys) {
-              Write-Output "Iterating over modulePathMap next path key is $pathKey"
+              # Write-Output "Iterating over modulePathMap next path key is $pathKey"
               $moduleName = $modulePathMap[$pathKey]
-              Write-Output "So moduleName is initialized to: $moduleName"
+              # Write-Output "So moduleName is initialized to: $moduleName"
               if (-not $moduleAgg) {
-                    Write-Output "❌ moduleAgg is NULL"
+                    # Write-Output "❌ moduleAgg is NULL"
               } 
             
               if (-not $moduleAgg.ContainsKey($moduleName)) { 
@@ -284,50 +280,50 @@ runs:
               }
             }
             if (-not $moduleAgg) {
-                    Write-Output "❌ moduleAgg is NULL"
+                    # Write-Output "❌ moduleAgg is NULL"
             }  else {
-                    Write-Output "✅ moduleAgg exists. Current contents:"
+                    # Write-Output "✅ moduleAgg exists. Current contents:"
                     $moduleAgg.GetEnumerator() | ForEach-Object {
                     $val = $_.Value
                     if (-not $val) {
-                      Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+                      # Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
                     }
                     else {
-                      Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                      # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
                     }
                   } 
                # Debug: Print out current aggregate state
-               Write-Output "----- Current Module Aggregates -----"
+               # Write-Output "----- Current Module Aggregates -----"
                foreach ($moduleName in $moduleAgg.Keys) {
                 $bucket = $moduleAgg[$moduleName]
-                Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
                                      $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
                }
-                Write-Output "--------------------------------------"
+                # Write-Output "--------------------------------------"
               }
             
             # Step 1: Get directory list from SonarCloud
             $dirFacetssUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
-            Write-Output "Fetching directories from: $dirFacetssUrl"
+            # Write-Output "Fetching directories from: $dirFacetssUrl"
             $resp = Invoke-WebRequest -Uri $dirFacetssUrl -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
             $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
-            Write-Output "Directories fetched as below:"
-            $directories | ForEach-Object { Write-Output " - $($_.val)" }
+            # Write-Output "Directories fetched as below:"
+            $directories | ForEach-Object { # Write-Output " - $($_.val)" }
             
             # Step 2: Loop through directories and aggregate counts per module
             foreach ($dirObj in $directories) {
             
               $dir = $dirObj.val
               $matchedModule = $null
-              Write-Output "Next Directory during iteration is: $dir"
+              # Write-Output "Next Directory during iteration is: $dir"
             
               # check if src of any key in modulePathMap matches the starting string of the current directory 
               foreach ($pathKey in $modulePathMap.Keys) {
                 if ($dir -like "$pathKey*") {
-                  Write-Output "✅ Match: '$dir' starts with '$pathKey'"
+                  # Write-Output "✅ Match: '$dir' starts with '$pathKey'"
                   $matchedModule = $modulePathMap[$pathKey]
-                  Write-Output "Matched module: $matchedModule"
+                  # Write-Output "Matched module: $matchedModule"
                   break
                 } 
               } 
@@ -338,11 +334,11 @@ runs:
                 Write-Output " ⚠ Also due to that mismatch $matchedModule is empty"
               } else {
                     if (-not $moduleAgg) {
-                      Write-Output "❌ moduleAgg is NULL"
+                      # Write-Output "❌ moduleAgg is NULL"
                     } else {
-                    Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"  
+                    # Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"  
                     if ($null -ne $moduleAgg[$matchedModule]) {
-                    Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
+                    # Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
             
                     # now fetch severity-wise and then aggregate it
                       $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
@@ -385,16 +381,16 @@ runs:
             
             # Before moving to next step printing it in logs... 
             if (-not $moduleAgg) {
-              Write-Output "❌ moduleAgg is NULL"
+              # Write-Output "❌ moduleAgg is NULL"
             }  else {
-              Write-Output "✅ moduleAgg exists. Current contents:"
+              # Write-Output "✅ moduleAgg exists. Current contents:"
               $moduleAgg.GetEnumerator() | ForEach-Object {
                 $val = $_.Value
                 if (-not $val) {
-                  Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+                  # Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
                 }
                 else {
-                  Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                  # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
                 }
               }
               # Debug: Print out current aggregate state
@@ -504,18 +500,18 @@ runs:
               <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
               <p>📜 <strong>Last Commit Info:</strong></p>
               <ul>
-                <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.publish-execution-info.outputs.FULL_SHA }}"><code>${{ steps.publish-execution-info.outputs.SHORT_SHA }}</code></a></li>
-                <li><strong>Message:</strong> <code><em>${{ steps.publish-execution-info.outputs.COMMIT_MSG }}</em></code></li>
-                <li><strong>Author:</strong> <code>${{ steps.publish-execution-info.outputs.COMMIT_AUTHOR }}</code></li>
-                <li><strong>Date:</strong> <code>${{ steps.publish-execution-info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
+                <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}"><code>${{ steps.execution-info.outputs.SHORT_SHA }}</code></a></li>
+                <li><strong>Message:</strong> <code><em>${{ steps.execution-info.outputs.COMMIT_MSG }}</em></code></li>
+                <li><strong>Author:</strong> <code>${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</code></li>
+                <li><strong>Date:</strong> <code>${{ steps.execution-info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
               </ul>
               
               <p><strong>Github Job Execution Info:</strong></p>
               <ul>
-                  <li>${{ steps.publish-execution-info.outputs.TRIGGER_INFO }}</li>
-                  <li>⏱ <strong>Start Time:</strong> <code>${{ steps.publish-execution-info.outputs.startTime }}</code></li>
-                  <li>⏱ <strong>End Time:</strong> <code>${{ steps.publish-execution-info.outputs.endTime }}</code></li>
-                  <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.publish-execution-info.outputs.formattedDuration }}</code></li>
+                  <li>${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
+                  <li>⏱ <strong>Start Time:</strong> <code>${{ steps.execution-info.outputs.startTime }}</code></li>
+                  <li>⏱ <strong>End Time:</strong> <code>${{ steps.execution-info.outputs.endTime }}</code></li>
+                  <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code></li>
               </ul>
               <hr style="dotted">
               <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
