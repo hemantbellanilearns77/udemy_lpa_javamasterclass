@@ -129,22 +129,6 @@ jobs:
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      ###############################
-      # PUBLISH EXECUTION INFO
-      ##############################
-
-      - name: Publish Execution Info (Commit Info and Duration) - Composite Call
-        id: execution-info
-        uses: ./.github/actions/execution-info
-        with:
-          startTime: ${{ steps.start_time.outputs.startTime }}
-
-      - name: Use output in summary
-        run: |
-          echo "Start Time: ${{ steps.execution-info.outputs.startTime }}"
-          echo "End Time:   ${{ steps.execution-info.outputs.endTime }}"
-          echo "Duration:   ${{ steps.execution-info.outputs.formattedDuration }}"
-
       ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
       ##############################################################
@@ -152,7 +136,8 @@ jobs:
       - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         id: publish-githubsummary-and-sendemail
         uses: ./.github/actions/publish-githubsummary-and-email
-        with: {}
+        with:
+          startTime: ${{ steps.start_time.outputs.startTime }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
