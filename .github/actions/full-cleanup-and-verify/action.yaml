@@ -1,0 +1,32 @@
+####################################################
+            # FULL CLEANUP AND VERIFY
+####################################################
+name: "Calculate and Publish Workflow Execution Metrics"
+description: ""
+inputs: {}  # If you don't have any inputs, you can leave it empty or remove this line.
+outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
+runs:
+  using: "composite"
+  steps:
+        ##########################
+        # FULL CLEANUP
+        ##########################
+
+        - name: ??Full Cleanup
+          shell: cmd
+          run: |
+            echo Cleaning up temp artifacts
+            rmdir /s /q out >nul 2>&1
+            rmdir /s /q logs >nul 2>&1
+            rmdir /s /q reports >nul 2>&1
+            del /q sources_*.txt >nul 2>&1
+            echo ? Cleanup done 
+
+        ###################################################################
+        # CLEANUP VERIFICATION using (dir /s /b this is disabled for now)
+        ##################################################################
+        - name: ?? List Remaining Files
+          shell: cmd
+          run: |
+            echo === POST-CLEANUP DIRECTORY TREE ===
+            echo Hello, world!

@@ -489,7 +489,6 @@ jobs:
                   if ($null -ne $moduleAgg[$matchedModule]) {
                   Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
           
-          
                   # now fetch severity-wise and then aggregate it
                     $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
                     $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
@@ -553,7 +552,6 @@ jobs:
             Write-Output "--------------------------------------"
           }          
 
-
             # Step 3: Pretty-print module severity breakdown with conditional icons
             if ($moduleAgg.Count -gt 0) {
             echo "### 📦 SonarCloud Module Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
@@ -579,7 +577,6 @@ jobs:
               "${_}:$(Mark $b.BLOCKER),$(Mark $b.HIGH),$(Mark $b.MEDIUM),$(Mark $b.LOW),$(Mark $b.INFO)"
             }) -join ";"
           
-          
           $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
           $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
           
@@ -602,39 +599,6 @@ jobs:
           # Export both plain breakdown and HTML table
           echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
           echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
-      
-
-      ##########################
-      # FULL CLEANUP
-      ##########################
-
-      - name: ??Full Cleanup
-        shell: cmd
-        run: |
-          echo Cleaning up temp artifacts
-          rmdir /s /q out >nul 2>&1
-          rmdir /s /q logs >nul 2>&1
-          rmdir /s /q reports >nul 2>&1
-          del /q sources_*.txt >nul 2>&1
-          echo ? Cleanup done 
-
-      ###################################################################
-      # CLEANUP VERIFICATION using (dir /s /b this is disabled for now)
-      ##################################################################
-      - name: ?? List Remaining Files
-        shell: cmd
-        run: |
-          echo === POST-CLEANUP DIRECTORY TREE ===
-          echo Hello, world!
-
-      ###################################################################
-      # DEMONSTRATES, FLAG BASED EXECUTION
-      ##################################################################
-
-      - name: ??? Say Hello (unless skipped)
-        if: env.SKIP_ECHO != 'true'
-        run: echo Hello, world!
-        shell: cmd
 
       ###############################
       # Calculate Execution Metrics
@@ -646,11 +610,11 @@ jobs:
         with:
           startTime: ${{ steps.start_time.outputs.startTime }}
 
-#      - name: Use output in summary
-#        run: |
-#          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
-#          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
-#          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
+        #      - name: Use output in summary
+        #        run: |
+        #          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
+        #          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
+        #          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
 
       ##########################
       # Email Success Summary
@@ -715,3 +679,20 @@ jobs:
             </ul>
             <hr style="dotted">
             <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
+
+      ###############################
+        # FULL CLEANUP AND VERIFY
+      ##############################
+
+      - name: Full Cleanup and Verify Composite Call
+        id: execution_metrics
+        uses: ./.github/actions/full-cleanup-and-verify
+
+      ###################################################################
+      # DEMONSTRATES, FLAG BASED EXECUTION
+      ##################################################################
+
+      - name: ??? Say Hello (unless skipped)
+        if: env.SKIP_ECHO != 'true'
+        run: echo Hello, world!
+        shell: cmd
