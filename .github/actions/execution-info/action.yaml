@@ -105,6 +105,8 @@ runs:
           
           $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
           $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+          Write-Host "✅ START DATE-TIME (UTC)| $startDT"
+          Write-Host "✅ END DATE-TIME (UTC) | $endDT"
           
           # Convert to DateTimeOffset and shift to IST
           $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
@@ -119,6 +121,6 @@ runs:
           echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
           echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
           echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
-          Write-Host "✅ START DATE-TIME | $startDT_IST"
-          Write-Host "✅ END DATE-TIME | $startDT_IST"
+          Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
+          Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
           Write-Host "✅ FORMATTED DURATION | $durationFormatted"
