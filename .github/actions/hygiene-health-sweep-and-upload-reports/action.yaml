@@ -29,7 +29,7 @@ runs:
         $REASON = ""
         # Determine source and target branches explicitly, preserving your variable names
         if ($env:TRIGGER_EVENT -ieq "pull_request") {
-          $COMMIT_MSG=$env:JOB_TITLE
+          # $COMMIT_MSG=$env:JOB_TITLE
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
         } else {
