@@ -41,7 +41,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-
         ####################################################
         # EXTRACT WORKFLOW EXECUTION INFO
         ####################################################
