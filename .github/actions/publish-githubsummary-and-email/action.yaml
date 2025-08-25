@@ -205,7 +205,6 @@ runs:
         echo "| 🟦 LOW                  | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                 | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                 | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
-        echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -522,9 +521,6 @@ runs:
           ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
           
           <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
-          <ul>
-          
-          </ul>
           
           <p>📜 <strong>Github Job Execution Info:</strong></p>
           <ul>
