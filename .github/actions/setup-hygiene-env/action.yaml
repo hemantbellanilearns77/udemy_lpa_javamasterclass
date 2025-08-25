@@ -22,6 +22,11 @@ runs:
       id: start_time
       uses: ./.github/actions/setup-starttime
 
+    - name: Log Captured Start Time
+      run: |
+          echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
+      shell: pwsh
+
     # 2.a Setup Java
     - name: Setup Java (Temurin)
       uses: actions/setup-java@v4

@@ -63,7 +63,7 @@ jobs:
         id: publish-githubsummary-and-sendemail
         uses: ./.github/actions/publish-githubsummary-and-email
         with:
-          startTime: ${{ steps.start_time.outputs.startTime }}
+          startTime: ${{ steps.setup.outputs.startTime }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
