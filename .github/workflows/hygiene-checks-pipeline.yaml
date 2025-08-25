@@ -135,15 +135,15 @@ jobs:
 
       - name: Publish Execution Info (Commit Info and Duration) - Composite Call
         id: execution_metrics
-        uses: ./.github/actions/publish-execution-info
+        uses: ./.github/actions/execution-info
         with:
           startTime: ${{ steps.start_time.outputs.startTime }}
 
       - name: Use output in summary
         run: |
-          echo "Start Time: ${{ steps.publish-execution-info.outputs.startTime }}"
-          echo "End Time:   ${{ steps.publish-execution-info.outputs.endTime }}"
-          echo "Duration:   ${{ steps.publish-execution-info.outputs.formattedDuration }}"
+          echo "Start Time: ${{ steps.execution-info.outputs.startTime }}"
+          echo "End Time:   ${{ steps.execution-info.outputs.endTime }}"
+          echo "Duration:   ${{ steps.execution-info.outputs.formattedDuration }}"
 
       ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
