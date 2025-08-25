@@ -510,7 +510,7 @@ runs:
           
           <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
           <ul>
-            <li>🟥 <strong>BLOCKER:</strong><a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
+            <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
             <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
             <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
             <li>🟦 <strong>LOW:</strong> <a href="${{ steps.metrics.outputs.sonarLowUrl }}"><code>${{ steps.metrics.outputs.sonarLow }}</code></a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</li>
