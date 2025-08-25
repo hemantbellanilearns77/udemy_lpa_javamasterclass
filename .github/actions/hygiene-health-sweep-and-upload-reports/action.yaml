@@ -17,8 +17,6 @@ runs:
     #####################################
     - name: ALL-HYGIENE SWEEP CHECK (Run hygiene health check analysis via batch script)
       if: success()
-      env:
-        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
 #        TRIGGER_EVENT: ${{ github.event_name }}
 #        TRIGGER_BRANCH: ${{ github.ref_name }}
 #        SOURCE_BRANCH: ${{ github.head_ref }}
@@ -28,7 +26,7 @@ runs:
       run: |
 #        Write-Host "🔎 Evaluating Sonar execution rules..."
 #        $COMMIT_MSG = (git log -1 --pretty=%B).Trim()
-         $SKIP_FLAG = ${{ inputs.java-version }}
+         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
 #        $REASON = ""
 #        # Determine source and target branches explicitly, preserving your variable names
 #        if ($env:TRIGGER_EVENT -ieq "pull_request") {

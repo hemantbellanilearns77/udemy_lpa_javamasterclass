@@ -43,6 +43,7 @@ runs:
       id: setup_vars
       shell: pwsh
       env:
+        COMMIT_MSG: ${{ github.event.head_commit.message || github.event.pull_request.title || '' }}
         TRIGGER_EVENT: ${{ github.event_name }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         SOURCE_BRANCH: ${{ github.head_ref }}
@@ -50,15 +51,17 @@ runs:
         PR_TARGET_BRANCH: ${{ github.event.pull_request.base.ref || '' }}
       run: |
         Write-Host "🔎 Setting up common variables"
-                $COMMIT_MSG = (git log -1 --pretty=%B).Trim()
+        $COMMIT_MSG = ""
         $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
         # Determine source and target branches explicitly, preserving your variable names
         if ($env:TRIGGER_EVENT -ieq "pull_request") {
+          $COMMIT_MSG = ${{ github.event.pull_request.title }}
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
         } else {
+          $COMMIT_MSG = ${{ github.event.head_commit.message }}
           $SRC_BRANCH = $env:SOURCE_BRANCH
           $TGT_BRANCH = $env:TRIGGER_BRANCH
         }
