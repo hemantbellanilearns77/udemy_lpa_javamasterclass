@@ -17,66 +17,9 @@ runs:
     #####################################
     - name: ALL-HYGIENE SWEEP CHECK (Run hygiene health check analysis via batch script)
       if: success()
-#        TRIGGER_EVENT: ${{ github.event_name }}
-#        TRIGGER_BRANCH: ${{ github.ref_name }}
-#        SOURCE_BRANCH: ${{ github.head_ref }}
-#        PR_SOURCE_BRANCH: ${{ github.event.pull_request.head.ref || '' }}
-#        PR_TARGET_BRANCH: ${{ github.event.pull_request.base.ref || '' }}
       shell: pwsh
       run: |
-#        Write-Host "🔎 Evaluating Sonar execution rules..."
-#        $COMMIT_MSG = (git log -1 --pretty=%B).Trim()
-         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
-#        $REASON = ""
-#        # Determine source and target branches explicitly, preserving your variable names
-#        if ($env:TRIGGER_EVENT -ieq "pull_request") {
-#          $SRC_BRANCH = $env:PR_SOURCE_BRANCH
-#          $TGT_BRANCH = $env:PR_TARGET_BRANCH
-#        } else {
-#          $SRC_BRANCH = $env:SOURCE_BRANCH
-#          $TGT_BRANCH = $env:TRIGGER_BRANCH
-#        }
-#
-#        # Log for verification
-#        Write-Host "COMMIT_MSG=$COMMIT_MSG"
-#        Write-Host "TRIGGER_EVENT=$env:TRIGGER_EVENT"
-#        Write-Host "SRC_BRANCH=$SRC_BRANCH"
-#        Write-Host "TGT_BRANCH=$TGT_BRANCH"
-#
-#        # Case 1: Manual override → always skip
-#        if ($COMMIT_MSG -match "--skip-sonar") {
-#          $SKIP_FLAG = "--skip-sonar"
-#          $REASON = "⚡ Commit message override → SKIP Sonar"
-#        }
-#        # Case 2: Scheduled run on main
-#        elseif ($env:TRIGGER_EVENT -ieq "schedule") {
-#          $SKIP_FLAG = ""
-#          $REASON = "⚡ Scheduled run → RUN Sonar"
-#        }
-#        # Case 3: Direct push to main
-#        elseif ($TGT_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($SRC_BRANCH)) {
-#          $SKIP_FLAG = ""
-#          $REASON = "⚡ Direct commit to main → RUN Sonar"
-#        }
-#        # Case 4: PR from any branch → main
-#        elseif ($TGT_BRANCH -ieq "main") {
-#          $SKIP_FLAG = ""
-#          $REASON = "⚡ PR into main → RUN Sonar"
-#        }
-#        # Case 5: PR into stage or tech-debt → skip
-#        elseif ($TGT_BRANCH -ieq "stage" -or $TGT_BRANCH -ieq "tech-debt") {
-#          $SKIP_FLAG = "--skip-sonar"
-#          $REASON = "⚡ PR into stage/tech-debt → SKIP Sonar"
-#        }
-#        else {
-#          $REASON = "⚡ Default → SKIP Sonar"
-#        }
-#        if ([string]::IsNullOrEmpty($SKIP_FLAG)) {
-#          Write-Host "✅ Sonar will RUN | $REASON"
-#        } else {
-#          Write-Host "⏭️ Sonar will SKIP | $REASON"
-#        }
-        
+        $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
     ##########################
