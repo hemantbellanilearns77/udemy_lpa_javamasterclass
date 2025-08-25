@@ -22,8 +22,6 @@ jobs:
         misc_utils_main=misc_utils/src/main/java/com/hb/study/misc_utils
         udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
         misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
-      TRIGGER_TYPE: ${{ github.event_name }}
-      TRIGGER_BRANCH: ${{ github.ref_name }}
       JACOCO_MIN_COVERAGE: 9
       CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 12006
       CHECKSTYLE_MAX_VIOLATIONS: 12000
@@ -31,9 +29,7 @@ jobs:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SONAR_FETCH_SLEEP_TIME: 27
-
     steps:
-
       ####################################################
       # CHECKOUT CODE COMMITTED
       ####################################################
@@ -56,7 +52,8 @@ jobs:
       - name: Hygiene Health Checks and Upload Reports - Composite Call
         id: hygiene-sweep-and-upload-reports
         uses: ./.github/actions/hygiene-health-sweep-and-upload-reports
-        with: {}
+        with:
+          SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
