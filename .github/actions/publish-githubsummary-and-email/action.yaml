@@ -67,7 +67,7 @@ runs:
         
         $projectKey = $env:SONAR_PROJECT_KEY
         $projectOrg = $env:SONAR_ORG
-        $branch = $env:TRIGGER_BRANCH 
+        $branch = "main"
         # Confirm if token is passed
         if (-not $env:SONAR_TOKEN) {
          Write-Error "⚠ SONAR_TOKEN is empty!"
@@ -495,7 +495,7 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <p>Hi Hemant,</p>
-          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>${{ env.TRIGGER_BRANCH }}</code>).</p>
+          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (executed on branch: <code>main</code>).</p>
           
           <p>📊 <strong>Hygiene Summary:</strong></p>
           <ul>
