@@ -63,11 +63,13 @@ runs:
         else {
           $REASON = "⚡ Default: Skip conditions → SKIP Sonar"
         }
-        
-        Write-Host "✅ Final SKIP_FLAG value being passed to script: $SKIP_FLAG"
-        Write-Host "✅ $REASON"
+        # Log final decision
+        if ([string]::IsNullOrEmpty($SKIP_FLAG)) {
+          Write-Host "✅ Sonar will RUN | $REASON"
+        } else {
+          Write-Host "⏭️ Sonar will SKIP | $REASON"
+        }        
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
-    
 
     ##########################
     # UPLOAD REPORTS
