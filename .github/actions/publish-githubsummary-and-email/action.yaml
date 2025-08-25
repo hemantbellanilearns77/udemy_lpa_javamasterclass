@@ -532,9 +532,9 @@ runs:
               <li>${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
               <li><strong>Last Commit Message:</strong> <code><em>${{ steps.execution-info.outputs.COMMIT_MSG }}</em></code></li>
               <li><strong>Last Commit By Author:</strong> <code>${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</code></li>
-              <li><strong>Last Commit Date:</strong> <code>${{ steps.execution-info.outputs.COMMIT_DATE }}(${{ steps.execution-info.outputs.COMMIT_AGO }})</code></li>
-              <li>⏱ <strong>Github Job Execution Start Time:</strong> <code>${{ steps.execution-info.outputs.startTime }}</code></li>
-              <li>⏱ <strong>Github Job Execution End Time:</strong> <code>${{ steps.execution-info.outputs.endTime }}</code></li>
+              <li><strong>Last Commit Date (IST, X ago):</strong> <code>${{ steps.execution-info.outputs.COMMIT_DATE }}(${{ steps.execution-info.outputs.COMMIT_AGO }})</code></li>
+              <li>⏱ <strong>Github Job Execution Start Time (IST):</strong> <code>${{ steps.execution-info.outputs.startTime }}</code></li>
+              <li>⏱ <strong>Github Job Execution End Time (IST):</strong> <code>${{ steps.execution-info.outputs.endTime }}</code></li>
               <li>⏱ <strong>Github Job Execution Job Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code></li>
           </ul>
           <hr style="dotted">
