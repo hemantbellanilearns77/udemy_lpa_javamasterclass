@@ -504,18 +504,18 @@ runs:
               <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
               <p>📜 <strong>Last Commit Info:</strong></p>
               <ul>
-                <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution_info.outputs.FULL_SHA }}"><code>${{ steps.execution_info.outputs.SHORT_SHA }}</code></a></li>
-                <li><strong>Message:</strong> <code><em>${{ steps.execution_info.outputs.COMMIT_MSG }}</em></code></li>
-                <li><strong>Author:</strong> <code>${{ steps.execution_info.outputs.COMMIT_AUTHOR }}</code></li>
-                <li><strong>Date:</strong> <code>${{ steps.execution_info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
+                <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.publish-execution-info.outputs.FULL_SHA }}"><code>${{ steps.publish-execution-info.outputs.SHORT_SHA }}</code></a></li>
+                <li><strong>Message:</strong> <code><em>${{ steps.publish-execution-info.outputs.COMMIT_MSG }}</em></code></li>
+                <li><strong>Author:</strong> <code>${{ steps.publish-execution-info.outputs.COMMIT_AUTHOR }}</code></li>
+                <li><strong>Date:</strong> <code>${{ steps.publish-execution-info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
               </ul>
               
               <p><strong>Github Job Execution Info:</strong></p>
               <ul>
-                  <li>${{ steps.execution_info.outputs.TRIGGER_INFO }}</li>
-                  <li>⏱ <strong>Start Time:</strong> <code>${{ steps.execution_metrics.outputs.startTime }}</code></li>
-                  <li>⏱ <strong>End Time:</strong> <code>${{ steps.execution_metrics.outputs.endTime }}</code></li>
-                  <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.execution_metrics.outputs.formattedDuration }}</code></li>
+                  <li>${{ steps.publish-execution-info.outputs.TRIGGER_INFO }}</li>
+                  <li>⏱ <strong>Start Time:</strong> <code>${{ steps.publish-execution-info.outputs.startTime }}</code></li>
+                  <li>⏱ <strong>End Time:</strong> <code>${{ steps.publish-execution-info.outputs.endTime }}</code></li>
+                  <li>⏱ <strong>Job Duration:</strong> <code>${{ steps.publish-execution-info.outputs.formattedDuration }}</code></li>
               </ul>
               <hr style="dotted">
               <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>

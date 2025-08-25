@@ -25,7 +25,6 @@ jobs:
       PMD_MAX_VIOLATIONS: 63
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-      SKIP_ECHO: true
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
@@ -45,18 +44,6 @@ jobs:
         id: start_time
         uses: ./.github/actions/setup-starttime
 
-      ####################################################
-            # EXTRACT COMMIT STATS and TRIGGER INFO
-      ####################################################
-
-      - name: ?? Extract Commit Info (Windows PowerShell)
-        id: execution_info
-        uses: ./.github/actions/extract-commit-stats
-        
-#      - name: Use output in summary
-#        run: |
-#          echo "FULL_SHA is : ${{ steps.execution_info.outputs.FULL_SHA }}"
-        
       ##############################################################################
         # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
       ##############################################################################
@@ -143,22 +130,22 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       ###############################
-      # Calculate Execution Metrics
+      # PUBLISH EXECUTION INFO
       ##############################
 
-      - name: Calculate and Publish Workflow Execution Metrics Action
+      - name: Publish Execution Info (Commit Info and Duration) - Composite Call
         id: execution_metrics
-        uses: ./.github/actions/publish-execution-metrics
+        uses: ./.github/actions/publish-execution-info
         with:
           startTime: ${{ steps.start_time.outputs.startTime }}
 
-            #      - name: Use output in summary
-            #        run: |
-            #          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
-            #          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
-            #          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
+      - name: Use output in summary
+        run: |
+          echo "Start Time: ${{ steps.publish-execution-info.outputs.startTime }}"
+          echo "End Time:   ${{ steps.publish-execution-info.outputs.endTime }}"
+          echo "Duration:   ${{ steps.publish-execution-info.outputs.formattedDuration }}"
 
-      ###############################################################
+      ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
       ##############################################################
 
@@ -174,20 +161,10 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
 
-
-    ###############################
+      #############################
         # FULL CLEANUP AND VERIFY
       ##############################
 
       - name: Full Cleanup and Verify Composite Call
         id: cleanup-and-verify-composite-call
         uses: ./.github/actions/full-cleanup-and-verify
-
-      ###################################################################
-      # DEMONSTRATES, FLAG BASED EXECUTION
-      ##################################################################
-
-      - name: ??? Say Hello (unless skipped)
-        if: env.SKIP_ECHO != 'true'
-        run: echo Hello, world!
-        shell: cmd
