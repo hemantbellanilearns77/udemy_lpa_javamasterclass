@@ -7,6 +7,7 @@ inputs:
   startTime:
     description: "Start time from setup-starttime composite"
     required: true
+
 outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
 runs:
   using: "composite"
@@ -495,7 +496,7 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <p>Hi Hemant,</p>
-          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (executed on branch: <code>${{ inputs.EXECUTED_ON }}</code>).</p>
+          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (executed on branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>).</p>
           
           <p>📊 <strong>Hygiene Summary:</strong></p>
           <ul>
