@@ -55,17 +55,12 @@ runs:
           $SKIP_FLAG = ""
           $REASON = "⚡ Direct commit to main → RUN Sonar"
         }
-        # Case 4: PR from stage → main
-        elseif ($TGT_BRANCH -ieq "main" -and $SRC_BRANCH -ieq "stage") {
+        # Case 4: PR from any branch → main
+        elseif ($TGT_BRANCH -ieq "main") {
           $SKIP_FLAG = ""
-          $REASON = "⚡ PR from stage → main → RUN Sonar"
+          $REASON = "⚡ PR into main → RUN Sonar"
         }
-        # Case 5: PR from feature/* → main
-        elseif ($TGT_BRANCH -ieq "main" -and $SRC_BRANCH -like "feature/*") {
-          $SKIP_FLAG = ""
-          $REASON = "⚡ PR from feature/* → main → RUN Sonar"
-        }
-        # Case 6: PR into stage or tech-debt → skip
+        # Case 5: PR into stage or tech-debt → skip
         elseif ($TGT_BRANCH -ieq "stage" -or $TGT_BRANCH -ieq "tech-debt") {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ PR into stage/tech-debt → SKIP Sonar"

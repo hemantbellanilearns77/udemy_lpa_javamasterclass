@@ -10,6 +10,8 @@ on:
   pull_request:
     branches:
       - main
+      # - stage
+      # - tech-debt
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
