@@ -520,6 +520,8 @@ runs:
           <p>📜 <strong>Last Commit Info:</strong></p>
           <ul>
             <li>🌐 <strong>Click Short SHA to view commit on GitHub:</strong> <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}"><code>${{ steps.execution-info.outputs.SHORT_SHA }}</code></a></li>
+            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}"><code>Click here to view this commit (Short SHA=${{ steps.execution-info.outputs.SHORT_SHA }}) on GitHub</code></a></li>
+
             <li><strong>Message:</strong> <code><em>${{ steps.execution-info.outputs.COMMIT_MSG }}</em></code></li>
             <li><strong>Author:</strong> <code>${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</code></li>
             <li><strong>Date:</strong> <code>${{ steps.execution-info.outputs.COMMIT_DATE }}(${{ steps.execution_info.outputs.COMMIT_AGO }})</code></li>
