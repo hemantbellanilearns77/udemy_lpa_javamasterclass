@@ -67,7 +67,7 @@ jobs:
         uses: ./.github/actions/publish-githubsummary-and-email
         with:
           startTime: ${{ steps.setup.outputs.startTime }}
-          BRANCH_EXECUTED: ${{ steps.setup_vars.outputs.BRANCH_EXECUTED }}
+          BRANCH_EXECUTED: ${{ steps.setup.outputs.BRANCH_EXECUTED }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
