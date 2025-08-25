@@ -1,8 +1,11 @@
-name: Demo Composite Action
+name: Demonstrate Composite Action and Conditional Step Execution
 on:
   workflow_dispatch: # run manually
 jobs:
   demo:
+    name: Demonstrate Composite Action and Conditional Step Execution
+    env:
+      SKIP_ECHO: true
     runs-on: ubuntu-latest
     steps:
       - name: ?? Checkout Code
@@ -23,6 +26,14 @@ jobs:
         run: |
           echo "Original name: ${{ steps.process.outputs.originalName }}"
           echo "Uppercased: ${{ steps.process.outputs.upperName }}"
+      ###################################################################
+      # DEMONSTRATES, FLAG BASED EXECUTION
+      ##################################################################
+
+      - name: ??? Say Hello (unless skipped)
+        if: env.SKIP_ECHO != 'true'
+        run: echo Hello, world!
+        shell: cmd
 
       - name: Use output in Email step (toy example)
         uses: dawidd6/action-send-mail@v3
@@ -37,3 +48,4 @@ jobs:
           body: |
             Hello ${{ steps.process.outputs.originalName }},
             Your processed variant is: ${{ steps.process.outputs.upperName }}.
+
