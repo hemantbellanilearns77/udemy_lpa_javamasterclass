@@ -92,7 +92,7 @@ runs:
             ############################################################
             # === Fetch SonarCloud Coverage Metrics ===
             ############################################################
-            $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ secrets.SONAR_TOKEN }}:"))
+            $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ env.SONAR_TOKEN }}:"))
             $headers = @{ Authorization = "Basic $encodedAuth" }
             
             function Get-SonarMetric($metricKey) {
@@ -462,10 +462,10 @@ runs:
         - name: 📧 Email Summary
           uses: dawidd6/action-send-mail@v3
           with:
-            server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
-            server_port: ${{ vars.SMTP_SERVER_PORT }}
-            username: ${{ secrets.SMTP_USER }}
-            password: ${{ secrets.SMTP_PASS }}
+            server_address: ${{ env.SMTP_SERVER_ADDRESS }}
+            server_port: ${{ env.SMTP_SERVER_PORT }}
+            username: ${{ env.SMTP_USER }}
+            password: ${{ env.SMTP_PASS }}
             subject: >-
               ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
               | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
