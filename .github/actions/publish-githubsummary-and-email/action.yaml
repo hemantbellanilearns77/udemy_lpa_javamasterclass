@@ -466,13 +466,15 @@ runs:
             server_port: ${{ env.SMTP_SERVER_PORT }}
             username: ${{ env.SMTP_USER }}
             password: ${{ env.SMTP_PASS }}
+            EMAIL_RECIPIENT: ${{ env.EMAIL_RECIPIENT }}
+
             subject: >-
               ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
               | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
               ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 77 && '(⚠️ Coverage Below Threshold)' || '' }}
 
-            to: ${{ vars.EMAIL_RECIPIENT }}
-            from: GitHub Hygiene Bot <${{ vars.EMAIL_RECIPIENT }}>
+            to: ${{ env.EMAIL_RECIPIENT }}
+            from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
             html_body: |
               <p>Hi Hemant,</p>
               <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (branch: <code>${{ env.TRIGGER_BRANCH }}</code>).</p>
