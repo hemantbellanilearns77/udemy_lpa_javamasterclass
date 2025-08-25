@@ -172,6 +172,7 @@ jobs:
           server_port: ${{ vars.SMTP_SERVER_PORT }}
           username: ${{ secrets.SMTP_USER }}
           password: ${{ secrets.SMTP_PASS }}
+          EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
 
       ###############################
         # FULL CLEANUP AND VERIFY
