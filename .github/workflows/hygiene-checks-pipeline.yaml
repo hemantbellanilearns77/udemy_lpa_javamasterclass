@@ -134,7 +134,7 @@ jobs:
       ##############################
 
       - name: Publish Execution Info (Commit Info and Duration) - Composite Call
-        id: execution_metrics
+        id: execution-info
         uses: ./.github/actions/execution-info
         with:
           startTime: ${{ steps.start_time.outputs.startTime }}
