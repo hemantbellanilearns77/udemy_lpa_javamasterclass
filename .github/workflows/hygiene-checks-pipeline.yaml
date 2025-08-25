@@ -28,95 +28,12 @@ jobs:
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
-
       ####################################################
-                # CHECKOUT CODE COMMITTED
+          # Hygiene Environment Initialization
       ####################################################
-      - name: ?? Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # fetches all history, not just 1 commit
-
-      ####################################################
-      # CAPTURE START TIME OF GITHUB ACTION's JOB
-      ####################################################
-      - name: Call Start Time Action
-        id: start_time
-        uses: ./.github/actions/setup-starttime
-
-      ##############################################################################
-        # Setup JDK 24 (Temurin with Zulu fallback for JaCoCo + Compilation)
-      ##############################################################################
-      - name: Setup Java (Temurin)
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 24
-        continue-on-error: true
-
-      - name: Fallback Setup Java (Zulu)
-        if: failure()
-        uses: actions/setup-java@v4
-        with:
-          distribution: zulu
-          java-version: 24
-      
-      #######################################################################
-        # DOWNLOAD TOOLS (CHECKSTYLE AND PMD AND JACOCO AND SONAR) AND SETUP
-      #######################################################################
-      - name: Download Tools & Setup for Execution
-        id: download_setup_tools
-        uses: ./.github/actions/download-setup-tools
-
-      ##########################
-      # COMPILE + JACOCO
-      ##########################
-
-      - name: ??? Compile Java Modules if Needed
-        shell: cmd
-        run: |
-          set "JAVA_HOME=%JAVA_HOME%"
-          set "OUT_PROD=out\production"
-          set "OUT_TEST=out\test"
-          set "SRC_MAIN=src\main\java"
-          set "SRC_MISC=misc_utils\src\main\java"
-          set "TEST_MAIN=src\test\java"
-          set "TEST_MISC=misc_utils\src\test\java"
-          set "JUNIT_JAR=tools\junit-console\junit-platform-console-standalone-1.13.0.jar"
-
-          if not exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
-            if not exist "%OUT_PROD%\misc_utils" (
-              echo ? Compilation triggered
-
-              rmdir /s /q "%OUT_PROD%" >nul 2>&1
-              rmdir /s /q "%OUT_TEST%" >nul 2>&1
-
-              mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
-              mkdir "%OUT_PROD%\misc_utils"
-              mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
-              mkdir "%OUT_TEST%\misc_utils"
-
-              echo ? Compiling udemy_lpa_javamasterclass
-              dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
-              javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-
-              echo ? Compiling misc_utils
-              dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
-              javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-
-              echo ? Compiling tests (masterclass)
-              dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
-              javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
-
-              echo ? Compiling tests (misc_utils)
-              if exist "%TEST_MISC%" (
-                dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
-                javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
-              )
-
-              del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
-            )
-          )
+      - name: Setup Hygiene Environment
+        id: setup
+        uses: ./.github/actions/setup-hygiene-env
 
       ###############################################################
         # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
