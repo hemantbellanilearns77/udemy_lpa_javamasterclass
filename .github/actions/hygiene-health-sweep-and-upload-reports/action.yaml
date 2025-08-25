@@ -1,0 +1,31 @@
+##############################################################
+      # PERFORM HYGIENE HEALTH CHECKS AND UPLOAD REPORTS
+##############################################################
+name: "Perform Hygiene Health Checks and Upload Reports"
+description: ""
+inputs: {}  # If you don't have any inputs, you can leave it empty or remove this line.
+outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
+runs:
+  using: "composite"
+  steps:
+        #####################################
+        # RUN ALL-HYGIENE SWEEP CHECK
+        #####################################
+        - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
+          if: success()
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          run: scripts\hygiene-check-analysis.bat githubactions
+          shell: cmd
+
+        ##########################
+        # UPLOAD REPORTS
+        ##########################
+
+        - name: ?? Upload All Reports
+          uses: actions/upload-artifact@v4
+          with:
+            name: hygiene-reports
+            path: |
+              reports/**
+              logs/**

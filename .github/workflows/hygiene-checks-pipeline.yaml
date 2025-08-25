@@ -131,27 +131,14 @@ jobs:
             )
           )
 
-      #####################################
-        # RUN ALL-HYGIENE SWEEP CHECK
-      #####################################
-      - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
-        if: success()
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: scripts\hygiene-check-analysis.bat githubactions
-        shell: cmd
+      ###############################################################
+        # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
+      ##############################################################
 
-      ##########################
-      # UPLOAD REPORTS
-      ##########################
+      - name: Hygiene Health Checks and Upload Reports - Composite Call
+        id: hygiene-sweep-and-upload-reports
+        uses: ./.github/actions/hygiene-health-sweep-and-upload-reports
 
-      - name: ?? Upload All Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: hygiene-reports
-          path: |
-            reports/**
-            logs/**
 
       ##########################
       # SUMMARY SECTION

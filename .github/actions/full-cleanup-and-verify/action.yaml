@@ -1,7 +1,7 @@
 ####################################################
             # FULL CLEANUP AND VERIFY
 ####################################################
-name: "Calculate and Publish Workflow Execution Metrics"
+name: "Cleanup all logs and reports and verify"
 description: ""
 inputs: {}  # If you don't have any inputs, you can leave it empty or remove this line.
 outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
