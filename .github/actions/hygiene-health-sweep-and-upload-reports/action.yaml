@@ -1,60 +1,65 @@
 ##############################################################
-      # PERFORM HYGIENE HEALTH CHECKS AND UPLOAD REPORTS
+# PERFORM HYGIENE HEALTH CHECKS AND UPLOAD REPORTS
 ##############################################################
 name: "Perform Hygiene Health Checks and Upload Reports"
 description: ""
-inputs: {}  # If you don't have any inputs, you can leave it empty or remove this line.
-outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
+inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
+outputs: { } # If you don't have any inputs, you can leave it empty or remove this line.
 runs:
   using: "composite"
   steps:
-        #####################################
-        # RUN ALL-HYGIENE SWEEP CHECK
-        #####################################
-        - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
-          if: success()
-          env:
-            SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-            TRIGGER_BRANCH: ${{ github.ref_name }}
-            TRIGGER_EVENT: ${{ github.event_name }}
-          run: |
-                @echo off
-                setlocal EnableDelayedExpansion
-                
-                :: Get the last commit message into one line
-                set COMMIT_MSG=
-                for /f "usebackq delims=" %%M in (`git log -1 --pretty^=%%B`) do set COMMIT_MSG=%%M
-                
-                :: Default to skipping Sonar
-                set "SKIP_FLAG=--skip-sonar"
-                
-                :: Only run Sonar for these scenarios
-                if /I "!TRIGGER_BRANCH!"=="main" (
-                :: Determine source branch from GitHub context if available
-                if defined GITHUB_HEAD_REF (
-                if /I "!GITHUB_HEAD_REF!"=="stage" set "SKIP_FLAG="
-                if /I "!GITHUB_HEAD_REF:~0,8!"=="feature/" set "SKIP_FLAG="
-                )
-                )
-                
-                :: Manual override via commit message
-                echo !COMMIT_MSG! | findstr /I "--execute-sonar" >nul && set "SKIP_FLAG="
-                
-                :: Run hygiene checks
-                scripts\hygiene-check-analysis.bat githubactions !SKIP_FLAG!
-                
-                endlocal
-          shell: cmd
+    #####################################
+    # RUN ALL-HYGIENE SWEEP CHECK
+    #####################################
+    - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
+      if: success()
+      env:
+        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        TRIGGER_BRANCH: ${{ github.ref_name }}
+        TRIGGER_EVENT: ${{ github.event_name }}
+      run: |
+        # Enable strict mode
+        Set-StrictMode -Version Latest
+        
+        Write-Host "🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud"
+        
+        # Get last commit message
+        $commitMsg = git log -1 --pretty=%B
+        
+        Write-Host "Last commit message:" $commitMsg
+        
+        # Default: skip Sonar
+        $skipFlag = "--skip-sonar"
+        
+        # Only run Sonar for main/stage/feature branches or scheduled runs
+        if ($env:TRIGGER_BRANCH -ieq "main") {
+            if ($env:GITHUB_HEAD_REF) {
+                if ($env:GITHUB_HEAD_REF -ieq "stage") { $skipFlag = "" }
+                elseif ($env:GITHUB_HEAD_REF.StartsWith("feature/", [System.StringComparison]::InvariantCultureIgnoreCase)) {
+                    $skipFlag = ""
+                }
+            }
+        }
+        if ($env:TRIGGER_EVENT -ieq "schedule") { $skipFlag = "" }
+        
+        # Manual override via commit message
+        if ($commitMsg -match "--execute-sonar") { $skipFlag = "" }
+        
+        Write-Host "Running hygiene checks with flag:" $skipFlag
+        
+        # Call batch script with optional flag
+        & scripts\hygiene-check-analysis.bat githubactions $skipFlag
+      shell: pwsh
+    
 
+    ##########################
+    # UPLOAD REPORTS
+    ##########################
 
-        ##########################
-        # UPLOAD REPORTS
-        ##########################
-
-        - name: ?? Upload All Reports
-          uses: actions/upload-artifact@v4
-          with:
-            name: hygiene-reports
-            path: |
-              reports/**
-              logs/**
+    - name: ?? Upload All Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: hygiene-reports
+        path: |
+          reports/**
+          logs/**
