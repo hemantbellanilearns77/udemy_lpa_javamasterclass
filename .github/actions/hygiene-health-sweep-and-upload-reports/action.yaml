@@ -46,6 +46,8 @@ runs:
         if ($commitMsg -match "--execute-sonar") { $skipFlag = "" }
         
         Write-Host "Running hygiene checks with flag:" $skipFlag
+        # DISPLAY final value of the flag
+        Write-Host "✅ Final SKIP_FLAG value being passed to script:" $skipFlag
         
         # Call batch script with optional flag
         & scripts\hygiene-check-analysis.bat githubactions $skipFlag
