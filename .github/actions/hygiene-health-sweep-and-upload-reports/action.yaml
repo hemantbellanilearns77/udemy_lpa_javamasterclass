@@ -28,6 +28,7 @@ runs:
         $REASON = ""
         # Determine source and target branches explicitly, preserving your variable names
         if ($env:TRIGGER_EVENT -ieq "pull_request") {
+          $COMMIT_MSG=github.run_name
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
         } else {
@@ -42,7 +43,7 @@ runs:
         Write-Host "TGT_BRANCH=$TGT_BRANCH"
         
         # Case 1: Manual override → always skip
-        if ($COMMIT_MSG -match "*--skip-sonar*") {
+        if ($COMMIT_MSG -match "--skip-sonar") {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
