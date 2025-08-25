@@ -685,7 +685,7 @@ jobs:
       ##############################
 
       - name: Full Cleanup and Verify Composite Call
-        id: execution_metrics
+        id: cleanup-and-verify-composite-call
         uses: ./.github/actions/full-cleanup-and-verify
 
       ###################################################################
