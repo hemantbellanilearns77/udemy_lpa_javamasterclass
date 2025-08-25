@@ -16,7 +16,7 @@ runs:
           id: metrics
           shell: pwsh
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
           run: |
             ############################################################
             # === Parse JaCoCo XML (Overall) ===

@@ -142,7 +142,6 @@ jobs:
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-
       ###############################
       # Calculate Execution Metrics
       ##############################
@@ -158,6 +157,17 @@ jobs:
             #          echo "Start Time: ${{ steps.execution_metrics.outputs.startTime }}"
             #          echo "End Time:   ${{ steps.execution_metrics.outputs.endTime }}"
             #          echo "Duration:   ${{ steps.execution_metrics.outputs.formattedDuration }}"
+
+      ###############################################################
+        # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
+      ##############################################################
+
+      - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
+        id: publish-githubsummary-and-sendemail
+        uses: ./.github/actions/publish-githubsummary-and-email
+        with: {}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       ###############################
         # FULL CLEANUP AND VERIFY
