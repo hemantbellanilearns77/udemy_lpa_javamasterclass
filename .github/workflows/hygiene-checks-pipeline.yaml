@@ -28,6 +28,15 @@ jobs:
       SONAR_FETCH_SLEEP_TIME: 27
 
     steps:
+
+      ####################################################
+      # CHECKOUT CODE COMMITTED
+      ####################################################
+      - name: ?? Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # fetches all history, not just 1 commit
+
       ####################################################
           # Hygiene Environment Initialization
       ####################################################

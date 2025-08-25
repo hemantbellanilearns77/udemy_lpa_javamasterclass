@@ -17,18 +17,12 @@ runs:
   using: "composite"
   steps:
 
-    # 1. Checkout
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    # 2. Capture start time
+    # 1. Capture start time
     - name: Capture Start Time
       id: start_time
       uses: ./.github/actions/setup-starttime
 
-    # 3. Setup Java
+    # 2.a Setup Java
     - name: Setup Java (Temurin)
       uses: actions/setup-java@v4
       with:
@@ -36,6 +30,7 @@ runs:
         java-version: ${{ inputs.java-version }}
       continue-on-error: true
 
+    # 2.b Fallback for Setup Java
     - name: Fallback Setup Java (Zulu)
       if: failure()
       uses: actions/setup-java@v4
@@ -43,11 +38,11 @@ runs:
         distribution: zulu
         java-version: ${{ inputs.java-version }}
 
-    # 4. Download Tools & Setup
+    # 3. Download Tools & Setup
     - name: Download Tools & Setup
       uses: ./.github/actions/download-setup-tools
 
-    # 5. Compile Java Modules
+    # 4. Compile Java Modules
     - name: Compile Java Modules
       shell: cmd
       run: |
