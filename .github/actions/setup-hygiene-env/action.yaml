@@ -12,6 +12,18 @@ outputs:
   startTime:
     description: "Start time of the job"
     value: ${{ steps.start_time.outputs.startTime }}
+  COMMIT_MSG:
+    description: "Start time of the job"
+    value: ${{ steps.setup_vars.outputs.COMMIT_MSG }}
+  TRIGGER_EVENT:
+    description: "Start time of the job"
+    value: ${{ steps.setup_vars.outputs.TRIGGER_EVENT }}
+  SRC_BRANCH:
+    description: "Start time of the job"
+    value: ${{ steps.setup_vars.outputs.SRC_BRANCH }}
+  TGT_BRANCH:
+    description: "Start time of the job"
+    value: ${{ steps.setup_vars.outputs.TGT_BRANCH }}
 
 runs:
   using: "composite"
@@ -26,6 +38,94 @@ runs:
       run: |
           echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
       shell: pwsh
+
+    - name: Setup common varaibles
+      id: setup_vars
+      shell: pwsh
+      env:
+        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        TRIGGER_EVENT: ${{ github.event_name }}
+        TRIGGER_BRANCH: ${{ github.ref_name }}
+        SOURCE_BRANCH: ${{ github.head_ref }}
+        PR_SOURCE_BRANCH: ${{ github.event.pull_request.head.ref || '' }}
+        PR_TARGET_BRANCH: ${{ github.event.pull_request.base.ref || '' }}
+      run: |
+        Write-Host "🔎 Setting up common variables"
+                $COMMIT_MSG = (git log -1 --pretty=%B).Trim()
+        $SKIP_FLAG = "--skip-sonar"
+        $REASON = ""
+        $TRIGGER_EVENT = $env:TRIGGER_EVENT
+        # Determine source and target branches explicitly, preserving your variable names
+        if ($env:TRIGGER_EVENT -ieq "pull_request") {
+          $SRC_BRANCH = $env:PR_SOURCE_BRANCH
+          $TGT_BRANCH = $env:PR_TARGET_BRANCH
+        } else {
+          $SRC_BRANCH = $env:SOURCE_BRANCH
+          $TGT_BRANCH = $env:TRIGGER_BRANCH
+        }
+        $REASON = ""
+        # Determine source and target branches explicitly, preserving your variable names
+        if ($env:TRIGGER_EVENT -ieq "pull_request") {
+          $SRC_BRANCH = $env:PR_SOURCE_BRANCH
+          $TGT_BRANCH = $env:PR_TARGET_BRANCH
+        } else {
+          $SRC_BRANCH = $env:SOURCE_BRANCH
+          $TGT_BRANCH = $env:TRIGGER_BRANCH
+        }
+        
+        # Log for verification
+        Write-Host "COMMIT_MSG=$COMMIT_MSG"
+        Write-Host "TRIGGER_EVENT=$TRIGGER_EVENT"
+        Write-Host "SRC_BRANCH=$SRC_BRANCH"
+        Write-Host "TGT_BRANCH=$TGT_BRANCH"
+        
+        # Case 1: Manual override → always skip
+        if ($COMMIT_MSG -match "--skip-sonar") {
+          $SKIP_FLAG = "--skip-sonar"
+          $REASON = "⚡ Commit message override → SKIP Sonar"
+        }
+        # Case 2: Scheduled run on main
+        elseif ($env:TRIGGER_EVENT -ieq "schedule") {
+          $SKIP_FLAG = ""
+          $REASON = "⚡ Scheduled run → RUN Sonar"
+        }
+        # Case 3: Direct push to main
+        elseif ($TGT_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($SRC_BRANCH)) {
+          $SKIP_FLAG = ""
+          $SRC_BRANCH="main"
+          $REASON = "⚡ Direct commit to main → RUN Sonar"
+        }
+        # Case 4: PR from any branch → main
+        elseif ($TGT_BRANCH -ieq "main") {
+          $SKIP_FLAG = ""
+          $REASON = "⚡ PR into main → RUN Sonar"
+        }
+        # Case 5: PR into stage or tech-debt → skip
+        elseif ($TGT_BRANCH -ieq "stage" -or $TGT_BRANCH -ieq "tech-debt") {
+          $SKIP_FLAG = "--skip-sonar"
+          $REASON = "⚡ PR into stage/tech-debt → SKIP Sonar"
+        }
+        else {
+          $REASON = "⚡ Default → SKIP Sonar"
+        }
+        if ([string]::IsNullOrEmpty($SKIP_FLAG)) {
+          Write-Host "✅ Sonar will RUN | $REASON"
+        } else {
+          Write-Host "⏭️ Sonar will SKIP | $REASON"
+        }
+        
+        # Log for verification
+        Write-Host "SKIP_FLAG=$SKIP_FLAG"
+        Write-Host "COMMIT_MSG=$COMMIT_MSG"
+        Write-Host "TRIGGER_EVENT=$env:TRIGGER_EVENT"
+        Write-Host "SRC_BRANCH=$SRC_BRANCH"
+        Write-Host "TGT_BRANCH=$TGT_BRANCH"
+        
+        "SKIP_FLAG=$SKIP_FLAG" >>  $env:GITHUB_OUTPUT
+        "COMMIT_MSG=$$COMMIT_MSG" >>  $env:GITHUB_OUTPUT
+        "TRIGGER_EVENT=$TRIGGER_EVENT" >>  $env:GITHUB_OUTPUT
+        "SRC_BRANCH=$SRC_BRANCH" >>  $env:GITHUB_OUTPUT
+        "TGT_BRANCH=$TGT_BRANCH" >>  $env:GITHUB_OUTPUT
 
     # 2.a Setup Java
     - name: Setup Java (Temurin)
