@@ -11,47 +11,60 @@ runs:
     #####################################
     # RUN ALL-HYGIENE SWEEP CHECK
     #####################################
-    - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
+    - name: ALL-HYGIENE SWEEP CHECK (Run hygiene health check analysis via batch script)
       if: success()
       env:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         TRIGGER_EVENT: ${{ github.event_name }}
+        SOURCE_BRANCH: ${{ github.head_ref }}
+      shell: pwsh
       run: |
-        # Enable strict mode
-        Set-StrictMode -Version Latest
-        
-        Write-Host "🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud"
+        Write-Host "🔎 Evaluating Sonar execution rules..."
         
         # Get last commit message
-        $commitMsg = git log -1 --pretty=%B
+        $COMMIT_MSG = (git log -1 --pretty=%B).Trim()
         
-        Write-Host "Last commit message:" $commitMsg
+        # Default: skip sonar
+        $SKIP_FLAG = "--skip-sonar"
         
-        # Default: skip Sonar
-        $skipFlag = "--skip-sonar"
-        
-        # Only run Sonar for main/stage/feature branches or scheduled runs
-        if ($env:TRIGGER_BRANCH -ieq "main") {
-            if ($env:GITHUB_HEAD_REF) {
-                if ($env:GITHUB_HEAD_REF -ieq "stage") { $skipFlag = "" }
-                elseif ($env:GITHUB_HEAD_REF.StartsWith("feature/", [System.StringComparison]::InvariantCultureIgnoreCase)) {
-                    $skipFlag = ""
-                }
-            }
+        # Case 1: Schedule event → always run sonar
+        if ($env:TRIGGER_EVENT -ieq "schedule") {
+          $SKIP_FLAG = ""
+          Write-Host "Reason: Scheduled run"
         }
-        if ($env:TRIGGER_EVENT -ieq "schedule") { $skipFlag = "" }
         
-        # Manual override via commit message
-        if ($commitMsg -match "--execute-sonar") { $skipFlag = "" }
+        # Case 2: Direct commit to main → run sonar
+        elseif ($env:TRIGGER_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($env:SOURCE_BRANCH)) {
+          $SKIP_FLAG = ""
+          Write-Host "Reason: Direct commit to main"
+        }
         
-        Write-Host "Running hygiene checks with flag:" $skipFlag
-        # DISPLAY final value of the flag
-        Write-Host "✅ Final SKIP_FLAG value being passed to script:" $skipFlag
+        # Case 3: PR from stage → main
+        elseif ($env:TRIGGER_BRANCH -ieq "main" -and $env:SOURCE_BRANCH -ieq "stage") {
+          $SKIP_FLAG = ""
+          Write-Host "Reason: stage → main"
+        }
         
-        # Call batch script with optional flag
-        & scripts\hygiene-check-analysis.bat githubactions $skipFlag
-      shell: pwsh
+        # Case 4: PR from feature/* → main
+        elseif ($env:TRIGGER_BRANCH -ieq "main" -and $env:SOURCE_BRANCH -like "feature/*") {
+          $SKIP_FLAG = ""
+          Write-Host "Reason: feature/* → main"
+        }
+        
+        # Case 5: Manual override via commit message
+        elseif ($COMMIT_MSG -match "--execute-sonar") {
+          $SKIP_FLAG = ""
+          Write-Host "Reason: Manual override in commit message"
+        }
+        
+        # Otherwise, sonar skipped
+        else {
+          Write-Host "Reason: Default skip conditions"
+        }
+        
+        Write-Host "✅ Final SKIP_FLAG value being passed to script: $SKIP_FLAG"
+        & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
     
 
     ##########################
