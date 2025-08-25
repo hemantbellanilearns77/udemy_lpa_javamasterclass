@@ -14,6 +14,7 @@ runs:
     - name: ALL-HYGIENE SWEEP CHECK (Run hygiene health check analysis via batch script)
       if: success()
       env:
+        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         TRIGGER_EVENT: ${{ github.event_name }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         SOURCE_BRANCH: ${{ github.head_ref }}
