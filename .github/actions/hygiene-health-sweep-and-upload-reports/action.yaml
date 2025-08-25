@@ -15,8 +15,25 @@ runs:
           if: success()
           env:
             SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-          run: scripts\hygiene-check-analysis.bat githubactions
+          run: |
+            @echo off
+            setlocal EnableDelayedExpansion
+    
+             :: Get the last commit message locally
+            for /f "delims=" %%M in ('git log -1 --pretty=%%B') do set "COMMIT_MSG=%%M"
+            
+            :: Initialize flag variable
+            set "SKIP_FLAG="
+        
+            :: Check for --skip-sonar in the commit message
+            echo !COMMIT_MSG! | findstr /I "--skip-sonar" >nul && set "SKIP_FLAG=--skip-sonar"
+        
+            :: Call the batch script with the optional flag
+            scripts\hygiene-check-analysis.bat githubactions !SKIP_FLAG!
+            
+            endlocal
           shell: cmd
+
 
         ##########################
         # UPLOAD REPORTS
