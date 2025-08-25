@@ -15,23 +15,34 @@ runs:
           if: success()
           env:
             SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+            TRIGGER_BRANCH: ${{ github.ref_name }}
+            TRIGGER_EVENT: ${{ github.event_name }}
           run: |
-            @echo off
-            setlocal EnableDelayedExpansion
-    
-             :: Get the last commit message locally
-            for /f "delims=" %%M in ('git log -1 --pretty=format:"%%B" --no-pager') do set "COMMIT_MSG=%%M"
-                        
-            :: Initialize flag variable
-            set "SKIP_FLAG="
-        
-            :: Check for --skip-sonar in the commit message
-            echo !COMMIT_MSG! | findstr /I "--skip-sonar" >nul && set "SKIP_FLAG=--skip-sonar"
-        
-            :: Call the batch script with the optional flag
-            scripts\hygiene-check-analysis.bat githubactions !SKIP_FLAG!
-            
-            endlocal
+                @echo off
+                setlocal EnableDelayedExpansion
+                
+                :: Get the last commit message
+                for /f "delims=" %%M in ('git log -1 --pretty=format:"%%B" --no-pager') do set "COMMIT_MSG=%%M"
+                
+                :: Default to skipping Sonar
+                set "SKIP_FLAG=--skip-sonar"
+                
+                :: Only run Sonar for these scenarios
+                if /I "!TRIGGER_BRANCH!"=="main" (
+                :: Determine source branch from GitHub context if available
+                if defined GITHUB_HEAD_REF (
+                if /I "!GITHUB_HEAD_REF!"=="stage" set "SKIP_FLAG="
+                if /I "!GITHUB_HEAD_REF:~0,8!"=="feature/" set "SKIP_FLAG="
+                )
+                )
+                
+                :: Manual override via commit message
+                echo !COMMIT_MSG! | findstr /I "--execute-sonar" >nul && set "SKIP_FLAG="
+                
+                :: Run hygiene checks
+                scripts\hygiene-check-analysis.bat githubactions !SKIP_FLAG!
+                
+                endlocal
           shell: cmd
 
 
