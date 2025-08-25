@@ -460,7 +460,7 @@ runs:
       ###################################
     - name: Call Execution Info
       id: execution-info
-      uses: ../execution-info
+      uses: ./.github/actions/execution-info
       with:
         startTime: ${{ inputs.startTime }}
 

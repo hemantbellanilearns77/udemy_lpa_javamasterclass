@@ -1,9 +1,9 @@
-name: Demonstrate Composite Action and Conditional Step Execution
+name: DEMO WORKFLOW - VARIOUS ASPECTS
 on:
   workflow_dispatch: # run manually
 jobs:
   demo:
-    name: Demonstrate Composite Action and Conditional Step Execution
+    name: Demonstrate various aspects of GITHUB Actions # (like : Composite Actions and Conditional Step Execution)
     env:
       SKIP_ECHO: true
     runs-on: ubuntu-latest
