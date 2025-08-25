@@ -11,7 +11,7 @@ inputs:
 outputs:
   startTime:
     description: "Start time of the job"
-    value: startTime=${{ steps.start_time.outputs.startTime }}
+    value: ${{ steps.start_time.outputs.startTime }}
 
 runs:
   using: "composite"
