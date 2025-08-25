@@ -21,8 +21,9 @@ runs:
                 @echo off
                 setlocal EnableDelayedExpansion
                 
-                :: Get the last commit message
-                for /f "delims=" %%M in ('git log -1 --pretty=format:"%%B" --no-pager') do set "COMMIT_MSG=%%M"
+                :: Get the last commit message into one line
+                set COMMIT_MSG=
+                for /f "usebackq delims=" %%M in (`git log -1 --pretty^=%%B`) do set COMMIT_MSG=%%M
                 
                 :: Default to skipping Sonar
                 set "SKIP_FLAG=--skip-sonar"
