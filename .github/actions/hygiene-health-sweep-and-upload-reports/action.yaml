@@ -14,7 +14,7 @@ runs:
         - name: ALL-HYGIENE SWEEP CHECK ( Run hygiene health check analysis using via batch script )
           if: success()
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
           run: scripts\hygiene-check-analysis.bat githubactions
           shell: cmd
 
