@@ -81,12 +81,19 @@ runs:
           # Accessing GitHub context variables in PowerShell
           $eventName = "${{ github.event_name }}"
           $refName = "${{ github.ref_name }}"
+          
           if ($eventName -eq "schedule") {
-          "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>09:09 AM IST every Monday</code>" >>  $env:GITHUB_OUTPUT
-          } elseif ($eventName -eq "push") {
-          "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/PR-triggered Run</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >>  $env:GITHUB_OUTPUT
-          } 
-
+              $cronExpr = "${{ github.event.schedule }}"
+              "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong><code>Scheduled Run (cron)<br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT
+          }
+          elseif ($eventName -eq "push") {
+              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Manually Run/Push</code> <br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >>  $env:GITHUB_OUTPUT
+          }
+          elseif ($eventName -eq "pull_request") {
+              $sourceBranch = "${{ github.event.pull_request.head.ref }}"
+              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code> <br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code>" >>  $env:GITHUB_OUTPUT
+          }
+          
       ###############################
       # Calculate Execution Metrics
       ##############################
