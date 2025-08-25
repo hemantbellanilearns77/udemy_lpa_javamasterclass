@@ -20,8 +20,8 @@ runs:
             setlocal EnableDelayedExpansion
     
              :: Get the last commit message locally
-            for /f "delims=" %%M in ('git log -1 --pretty=%%B') do set "COMMIT_MSG=%%M"
-            
+            for /f "delims=" %%M in ('git log -1 --pretty=format:"%%B" --no-pager') do set "COMMIT_MSG=%%M"
+                        
             :: Initialize flag variable
             set "SKIP_FLAG="
         

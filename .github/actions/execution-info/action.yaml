@@ -57,7 +57,7 @@ runs:
           # Convert COMMIT_DATE to IST
           $commitDateUtc = [DateTimeOffset]::Parse($commitDateRaw).ToUniversalTime()
           $istOffset = [System.TimeSpan]::FromHours(5.5)
-          $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+          $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")          
           
           $commitTs = git log -1 --pretty=%ct
           $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
