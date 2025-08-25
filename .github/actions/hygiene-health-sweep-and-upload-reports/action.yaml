@@ -28,42 +28,43 @@ runs:
         # Default: skip sonar
         $SKIP_FLAG = "--skip-sonar"
         
-        # Case 1: Schedule event → always run sonar
-        if ($env:TRIGGER_EVENT -ieq "schedule") {
+        # Reason: for final value of flag
+        $REASON = ""
+        
+        Case 1: if ($COMMIT_MSG -match "--skip-sonar") {
+          $SKIP_FLAG = "--skip-sonar"
+          $REASON = "⚡ Reason: Manual override to SKIP Sonar in commit message"
+        }
+        # Case 2: Schedule event → always run sonar
+        elseif ($env:TRIGGER_EVENT -ieq "schedule") {
           $SKIP_FLAG = ""
-          Write-Host "Reason: Scheduled run"
+          $REASON = "⚡ Reason: Case 2: Scheduled run"
         }
         
-        # Case 2: Direct commit to main → run sonar
+        # Case 3: Direct commit to main → run sonar
         elseif ($env:TRIGGER_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($env:SOURCE_BRANCH)) {
           $SKIP_FLAG = ""
-          Write-Host "Reason: Direct commit to main"
+          $REASON = "⚡ Reason: Case 3: Direct commit to main"
         }
         
-        # Case 3: PR from stage → main
+        # Case 4: PR from stage → main
         elseif ($env:TRIGGER_BRANCH -ieq "main" -and $env:SOURCE_BRANCH -ieq "stage") {
           $SKIP_FLAG = ""
-          Write-Host "Reason: stage → main"
+          $REASON = "⚡ Reason: Case 4: PR from stage"          
         }
         
-        # Case 4: PR from feature/* → main
+        # Case 5: PR from feature/* → main
         elseif ($env:TRIGGER_BRANCH -ieq "main" -and $env:SOURCE_BRANCH -like "feature/*") {
           $SKIP_FLAG = ""
-          Write-Host "Reason: feature/* → main"
-        }
-        
-        # Case 5: Manual override via commit message
-        elseif ($COMMIT_MSG -match "--execute-sonar") {
-          $SKIP_FLAG = ""
-          Write-Host "Reason: Manual override in commit message"
-        }
-        
+          $REASON = "Reason: Case 5: PR from feature/*"
+        }      
         # Otherwise, sonar skipped
         else {
-          Write-Host "Reason: Default skip conditions"
+          $REASON = "Otherwise, sonar skipped ; ⚡ Reason: Default skip conditions"
         }
         
         Write-Host "✅ Final SKIP_FLAG value being passed to script: $SKIP_FLAG"
+        Write-Host "✅ $REASON"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
     
 
