@@ -57,11 +57,11 @@ runs:
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
         # Determine source and target branches explicitly, preserving your variable names
         if ($env:TRIGGER_EVENT -ieq "pull_request") {
-          $COMMIT_MSG = ${{ github.event.pull_request.title }}
+          $COMMIT_MSG = "${{ github.event.pull_request.title }}"
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
         } else {
-          $COMMIT_MSG = ${{ github.event.head_commit.message }}
+          $COMMIT_MSG = "${{ github.event.head_commit.message }}"
           $SRC_BRANCH = $env:SOURCE_BRANCH
           $TGT_BRANCH = $env:TRIGGER_BRANCH
         }
