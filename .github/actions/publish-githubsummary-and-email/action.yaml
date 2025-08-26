@@ -110,6 +110,7 @@ runs:
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
+        Write-Host "✅ SKIP_FLAG as received in publish summary composite is: ${{ inputs.SKIP_FLAG }}"
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
         $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
         $sonarIssuesNote    = "from last successful analysis"
