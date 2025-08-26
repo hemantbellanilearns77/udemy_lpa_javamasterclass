@@ -554,7 +554,6 @@ runs:
             <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</code></li>
             <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
             <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-            <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
             <li>🗂 <strong>SonarCloud:</strong><br/>
                   &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
                   &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
