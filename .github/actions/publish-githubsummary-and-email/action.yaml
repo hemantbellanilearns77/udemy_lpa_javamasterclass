@@ -117,6 +117,7 @@ runs:
         } else {
         $sonarExecutionNote = "EXECUTED ✅"
         $sonarIssuesNote    = "$totalSonarFetchedIssues"
+        }
         
         # --- Fetch last analysis dynamically from SonarCloud API ---
         $apiUrl = "https://sonarcloud.io/api/project_analyses/search?project=$projectKey&ps=1"
