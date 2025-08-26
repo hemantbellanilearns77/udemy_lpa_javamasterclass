@@ -250,8 +250,7 @@ runs:
         echo "| PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Code Coverage (Sonar)    | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🗂 SonarCloud (Last Total| Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🗂 Sonar Issues (Total)  | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟥 BLOCKER               | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟧 HIGH                  | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟨 MEDIUM                | $sonarMediumEmojiMark [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
@@ -556,7 +555,6 @@ runs:
             <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</code></li>
             <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
             <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-            <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
             <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
             <li>🗂 <strong>SonarCloud:</strong><br/>
                   &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
