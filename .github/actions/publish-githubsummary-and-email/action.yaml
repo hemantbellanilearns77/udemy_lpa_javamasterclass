@@ -117,11 +117,12 @@ runs:
         } else {
         $sonarExecutionNote = "EXECUTED ✅"
         $sonarIssuesNote    = "$totalSonarFetchedIssues"
+        }
         
         # --- Fetch last analysis dynamically from SonarCloud API ---
         $apiUrl = "https://sonarcloud.io/api/project_analyses/search?project=$projectKey&ps=1"
         try {
-          $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+          $response = Invoke-RestMethod -Uri $apiUrl -Method Get 
           if ($response.analyses.Count -gt 0) {
             $lastAnalysisUtc = [datetime]$response.analyses[0].date
             Write-Host "📅 Last Analysis UTC: $lastAnalysisUtc"
@@ -204,7 +205,7 @@ runs:
           }
         }
         
-        $blocker = Fetch-SonarSeverity "BLOCKER"
+        $blocker = Fetch-SonarSeverity "BLOCKER" 
         $high = Fetch-SonarSeverity "CRITICAL"
         $medium = Fetch-SonarSeverity "MAJOR"
         $low = Fetch-SonarSeverity "MINOR"
