@@ -110,7 +110,7 @@ runs:
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
-        if ("${{ inputs.SKIP_FLAG }}" -eq "true") {
+        if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
         $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
         $sonarIssuesNote    = "from last successful analysis"
         $lastSonarAnalysis  = "N/A"
