@@ -110,23 +110,37 @@ runs:
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
-          if ("${{ inputs.SKIP_FLAG }}" -eq "true") {
-          $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
-          $sonarIssuesNote    = "from last successful analysis"
-          $lastSonarAnalysis  = "2025-08-25 23:15 IST"   # later: fetch dynamically
+        if ("${{ inputs.SKIP_FLAG }}" -eq "true") {
+        $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
+        $sonarIssuesNote    = "from last successful analysis"
+        $lastSonarAnalysis  = "N/A"
+        } else {
+        $sonarExecutionNote = "EXECUTED ✅"
+        $sonarIssuesNote    = "$totalSonarFetchedIssues"
+        
+        # --- Fetch last analysis dynamically from SonarCloud API ---
+        $apiUrl = "https://sonarcloud.io/api/project_analyses/search?project=$projectKey&ps=1"
+        try {
+          $response = Invoke-RestMethod -Uri $apiUrl -Method Get
+          if ($response.analyses.Count -gt 0) {
+            $lastAnalysisUtc = [datetime]$response.analyses[0].date
+            Write-Host "📅 Last Analysis UTC: $lastAnalysisUtc"
+            $istZone = [System.TimeZoneInfo]::FindSystemTimeZoneById("India Standard Time")
+            $lastAnalysisIst = [System.TimeZoneInfo]::ConvertTimeFromUtc($lastAnalysisUtc.ToUniversalTime(), $istZone)
+            $lastSonarAnalysis = $lastAnalysisIst.ToString("yyyy-MM-dd HH:mm") + " IST"
+          } else {
+              $lastSonarAnalysis = "N/A"
+          }
+        } catch {
+          Write-Warning "Failed to fetch last Sonar analysis: $_"
+          $lastSonarAnalysis = "N/A"
         }
-          else {
-          $sonarExecutionNote = "EXECUTED ✅"
-          $sonarIssuesNote    = "$totalSonarFetchedIssues"
-          $lastSonarAnalysis  = Get-Date -Format "yyyy-MM-dd HH:mm IST"
-        }
+          Write-Host "📅 Last Analysis IST: $lastSonarAnalysis"
         
         # expose for later consumers (email etc.)
-          "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "sonarIssuesNote=$sonarIssuesNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "lastSonarAnalysis=$lastSonarAnalysis" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        
-        
+        "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarIssuesNote=$sonarIssuesNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "lastSonarAnalysis=$lastSonarAnalysis" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         ############################################################
         # === Fetch SonarCloud Coverage Metrics ===
@@ -145,7 +159,7 @@ runs:
             Write-Error "⚠ API call failed: $_"
             exit 1
           }
-        }
+        } 
         
         $sonarCoverage = Get-SonarMetric "coverage"
         Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
