@@ -56,7 +56,7 @@ jobs:
         with:
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
@@ -68,6 +68,7 @@ jobs:
         with:
           startTime: ${{ steps.setup.outputs.startTime }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.BRANCH_EXECUTED }}
+          SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
