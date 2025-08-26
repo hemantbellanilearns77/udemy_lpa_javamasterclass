@@ -100,8 +100,8 @@ runs:
         
         $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
         $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-        $dayDesc     = Pretty $day "day"
-        $monthDesc   = Pretty $month "month"
+        $dayDesc     = Pretty $day "day" of month  
+        $monthDesc   = Pretty $month "month" of year 
         $weekdayDesc = Pretty $weekday "day of week"
         
         return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
