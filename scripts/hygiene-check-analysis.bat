@@ -20,18 +20,18 @@ set "originalDir=%CD%"
 	set "REPO_ROOT=%CD%"
 	echo REPO_ROOT is !REPO_ROOT!
 
-	:: === Parse Skip Flags ===
-	set skip_checkstyle=false
-	set skip_pmd=false
-	set skip_jacoco=false
-	set skip_sonar=false
+	REM :: === Parse Skip Flags ===
+	REM set skip_checkstyle=false
+	REM set skip_pmd=false
+	REM set skip_jacoco=false
+	REM set skip_sonar=false
 
-	for %%A in (%*) do (
-		if /I "%%~A"=="--skip-checkstyle" set skip_checkstyle=true
-		if /I "%%~A"=="--skip-pmd" set skip_pmd=true
-		if /I "%%~A"=="--skip-jacoco" set skip_jacoco=true
-		if /I "%%~A"=="--skip-sonar" set skip_sonar=true
-	)
+	REM for %%A in (%*) do (
+		REM if /I "%%~A"=="--skip-checkstyle" set skip_checkstyle=true
+		REM if /I "%%~A"=="--skip-pmd" set skip_pmd=true
+		REM if /I "%%~A"=="--skip-jacoco" set skip_jacoco=true
+		REM if /I "%%~A"=="--skip-sonar" set skip_sonar=true
+	REM )
 	:: === Parse Skip Flags ===
 	set "skip_checkstyle=false"
 	set "skip_pmd=false"
