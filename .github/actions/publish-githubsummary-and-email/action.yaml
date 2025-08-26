@@ -292,6 +292,10 @@ runs:
         "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
+        $emailModuleSevAggTable=""
+        if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
+          $emailModuleSevAggTable="<h3>📦 SonarCloud Module Severity Breakdown Isn't Presented because Sonar was SKIPPED ⚡ (manual override) </h3>"
+        }
         ###############################################################################
         # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
         ###############################################################################
