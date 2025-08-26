@@ -547,7 +547,8 @@ runs:
         
         subject: >-
           ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }} 
-          | Java MasterClass Hygiene Check for ${{ github.repository }} (main)
+          | Hygiene Check for ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
+          | Duration: ${{ steps.execution-info.outputs.formattedDuration }}
           ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 77 && '(⚠️ Coverage Below Threshold)' || '' }}
         
         to: ${{ env.EMAIL_RECIPIENT }}
@@ -555,7 +556,10 @@ runs:
         html_body: |
           <p>Hi Hemant,</p>
           <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (executed on branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>).</p>
-          
+          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on 
+          <strong>${{ github.repository }}</strong> (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
+          in <code>${{ steps.execution-info.outputs.formattedDuration }}</code>.
+          </p>
           <p>📊 <strong>Hygiene Summary:</strong></p>
           <ul>
             <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ steps.metrics.outputs.checkstyleCount }}</code></li>
@@ -598,4 +602,5 @@ runs:
               <li>⏱ <strong>Github Job Execution Job Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code></li>
           </ul>
           <hr style="dotted">
+          <p><small>🕒 All times are reported in IST (India Standard Time).</small></p>
           <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
