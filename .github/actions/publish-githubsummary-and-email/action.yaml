@@ -159,7 +159,7 @@ runs:
             Write-Error "⚠ API call failed: $_"
             exit 1
           }
-        }
+        } 
         
         $sonarCoverage = Get-SonarMetric "coverage"
         Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
