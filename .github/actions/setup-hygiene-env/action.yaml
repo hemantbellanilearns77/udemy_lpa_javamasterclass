@@ -72,7 +72,7 @@ runs:
         $REASON = ""
             
         # Case 1: Manual override → always skip
-        if ($COMMIT_MSG -match "--skip-sonar") {
+        if ($COMMIT_MSG -match "--skip-sonar" ) {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }

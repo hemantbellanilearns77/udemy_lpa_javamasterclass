@@ -5,7 +5,7 @@ echo ===================================================
 echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight and Preview)
 echo ===================================================
 
-set "executionEnv=%~1
+set "	=%~1
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
 goto :unsupported

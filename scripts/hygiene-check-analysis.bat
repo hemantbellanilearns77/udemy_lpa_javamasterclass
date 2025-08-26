@@ -32,6 +32,20 @@ set "originalDir=%CD%"
 		if /I "%%~A"=="--skip-jacoco" set skip_jacoco=true
 		if /I "%%~A"=="--skip-sonar" set skip_sonar=true
 	)
+	:: === Parse Skip Flags ===
+	set "skip_checkstyle=false"
+	set "skip_pmd=false"
+	set "skip_jacoco=false"
+	set "skip_sonar=false"
+
+	:: Safely iterate over arguments
+	if "%~2"=="" set "ARGS=%*"
+	for %%A in (%ARGS%) do (
+		if /I "%%~A"=="--skip-checkstyle" set "skip_checkstyle=true"
+		if /I "%%~A"=="--skip-pmd" set "skip_pmd=true"
+		if /I "%%~A"=="--skip-jacoco" set "skip_jacoco=true"
+		if /I "%%~A"=="--skip-sonar" set "skip_sonar=true"
+	)
 
 	:: === Generate Timestamp ===
 	for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set timestamp=%%i

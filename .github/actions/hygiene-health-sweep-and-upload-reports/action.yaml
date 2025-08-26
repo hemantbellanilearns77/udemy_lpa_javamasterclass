@@ -20,6 +20,9 @@ runs:
       shell: pwsh
       run: |
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
+    
+        # --- DEBUG: show what is being passed
+        Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
     ##########################
