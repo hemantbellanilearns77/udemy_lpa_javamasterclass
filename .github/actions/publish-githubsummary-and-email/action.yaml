@@ -295,6 +295,8 @@ runs:
         $emailModuleSevAggTable=""
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
           $emailModuleSevAggTable="<h3>📦 SonarCloud Module Severity Breakdown Isn't Presented because Sonar was SKIPPED ⚡ (manual override) </h3>"
+           Write-Host "Skipping rest of this step"
+           exit 0   # Ends this step cleanly
         }
         ###############################################################################
         # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
