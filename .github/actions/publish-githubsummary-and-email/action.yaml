@@ -295,7 +295,7 @@ runs:
         $emailModuleSevAggTable=""
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
           
-          $emailModuleSevAggTable="<p><code>Unavailable Sonar was SKIPPED ⚡ (manual override)</code></p>"
+          $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
            Write-Host "Skipping rest of this step"
            exit 0   # Ends this step cleanly
@@ -580,9 +580,10 @@ runs:
             <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
           </ul>
           
-          <p><strong>📦 SonarCloud Module Severity Breakdown</strong></p>          
-          ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
-          
+          <p><strong>📦 SonarCloud Module Severity Breakdown</strong>          
+            <br>
+            ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
+          </p>
           <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
           
           <p>📜 <strong>Github Job Execution Info:</strong></p>
