@@ -27,6 +27,9 @@ outputs:
   BRANCH_EXECUTED:
     description: ""
     value: ${{ steps.setup_vars.outputs.BRANCH_EXECUTED }}
+  SKIP_FLAG:
+    description: "Sonar skip flag"
+    value: ${{ steps.setup_vars.outputs.SKIP_FLAG }}
 
 runs:
   using: "composite"
