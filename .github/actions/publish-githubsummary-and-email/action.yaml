@@ -294,7 +294,9 @@ runs:
         
         $emailModuleSevAggTable=""
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
-          $emailModuleSevAggTable="<h3>📦 SonarCloud Module Severity Breakdown Isn't Presented because Sonar was SKIPPED ⚡ (manual override) </h3>"
+          
+          $emailModuleSevAggTable="<p><code>Unavailable Sonar was SKIPPED ⚡ (manual override)</code></p>"
+          echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
            Write-Host "Skipping rest of this step"
            exit 0   # Ends this step cleanly
         }
@@ -486,7 +488,7 @@ runs:
             $b = $moduleAgg[$_]
             "${_}:$(Mark $b.BLOCKER),$(Mark $b.HIGH),$(Mark $b.MEDIUM),$(Mark $b.LOW),$(Mark $b.INFO)"
           }) -join ";"
-        $emailModuleSevAggTable="<h3>📦 SonarCloud Module Severity Breakdown</h3>"
+        
         $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
         $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
         
@@ -578,7 +580,7 @@ runs:
             <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
           </ul>
           
-          <h3>📦 SonarCloud Module Severity Breakdown</h3>
+          <p><strong>📦 SonarCloud Module Severity Breakdown</strong></p>          
           ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
           
           <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
