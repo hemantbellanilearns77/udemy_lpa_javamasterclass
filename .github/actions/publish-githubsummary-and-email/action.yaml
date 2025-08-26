@@ -555,7 +555,6 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <p>Hi Hemant,</p>
-          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on <strong>${{ github.repository }}</strong> (executed on branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>).</p>
           <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on 
           <strong>${{ github.repository }}</strong> (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
           in <code>${{ steps.execution-info.outputs.formattedDuration }}</code>.
