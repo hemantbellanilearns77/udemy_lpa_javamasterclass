@@ -204,7 +204,7 @@ runs:
           }
         }
         
-        $blocker = Fetch-SonarSeverity "BLOCKER"
+        $blocker = Fetch-SonarSeverity "BLOCKER" 
         $high = Fetch-SonarSeverity "CRITICAL"
         $medium = Fetch-SonarSeverity "MAJOR"
         $low = Fetch-SonarSeverity "MINOR"
