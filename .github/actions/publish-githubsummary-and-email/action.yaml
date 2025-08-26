@@ -7,8 +7,23 @@ inputs:
   startTime:
     description: "Start time from setup-starttime composite"
     required: true
+  BRANCH_EXECUTED:
+    required: false
+    description: ""
+  SKIP_FLAG:
+    required: false
+    description: ""
 
-outputs: {} # If you don't have any inputs, you can leave it empty or remove this line.
+outputs:
+  sonarExecutionNote:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.sonarExecutionNote }}
+  sonarIssuesNote:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.sonarIssuesNote }}
+  lastSonarAnalysis:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.lastSonarAnalysis }}
 runs:
   using: "composite"
   steps:
@@ -91,6 +106,26 @@ runs:
          Write-Error "⚠ API call failed: $_"
          exit 1
         }
+        
+        ############################################################
+        # === Derive Sonar Presentation Variables ===
+        ############################################################
+          if ("${{ inputs.SKIP_FLAG }}" -eq "true") {
+          $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
+          $sonarIssuesNote    = "from last successful analysis"
+          $lastSonarAnalysis  = "2025-08-25 23:15 IST"   # later: fetch dynamically
+        }
+          else {
+          $sonarExecutionNote = "EXECUTED ✅"
+          $sonarIssuesNote    = "$totalSonarFetchedIssues"
+          $lastSonarAnalysis  = Get-Date -Format "yyyy-MM-dd HH:mm IST"
+        }
+        
+        # expose for later consumers (email etc.)
+          "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "sonarIssuesNote=$sonarIssuesNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "lastSonarAnalysis=$lastSonarAnalysis" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        
         
         
         ############################################################
@@ -193,19 +228,20 @@ runs:
               # === Write Overall Table ===
         ############################################################
         echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
-        echo "| **Metric**              | **Value** |" >> $env:GITHUB_STEP_SUMMARY
-        echo "|-------------------------|-----------|" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Checkstyle Violations   | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| PMD Violations          | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Code Coverage (Sonar)   | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Coverage Visual         | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🗂 Sonar Issues (Total) | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟥 BLOCKER              | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟧 HIGH                 | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟨 MEDIUM               | $sonarMediumEmojiMark [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟦 LOW                  | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| ℹ INFO                 | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Legend                 | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
+        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Code Coverage (Sonar)    | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🗂 SonarCloud (Last Total| Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🗂 Sonar Issues (Total)  | $totalSonarFetchedIssues |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟥 BLOCKER               | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟧 HIGH                  | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟨 MEDIUM                | $sonarMediumEmojiMark [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟦 LOW                   | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| ℹ INFO                  | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -505,6 +541,12 @@ runs:
             <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
             <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
             <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
+            <li>🗂 <strong>SonarCloud Total Issues:</strong><code>${{ steps.metrics.outputs.totalSonarFetchedIssues }}</code></li>
+            <li>🗂 <strong>SonarCloud:</strong><br/>
+                  &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
+                  &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
+                  &nbsp;&nbsp;• Last Analysis: <code>${{ steps.metrics.outputs.lastSonarAnalysis }}</code>
+            </li>
             <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}"><code>View SonarCloud Overall Code Dashboard</code></a></li>
           </ul>
           
