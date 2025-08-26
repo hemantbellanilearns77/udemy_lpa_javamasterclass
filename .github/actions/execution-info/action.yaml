@@ -1,5 +1,5 @@
 ########################################################
-  # PUBLISH EXECUTION INFO (COMMIT INFO AND DURATION)
+# PUBLISH EXECUTION INFO (COMMIT INFO AND DURATION)
 #########################################################
 name: "Publish all Execution Info"
 description: "Publish Execution Info - Commit stats, start time, end time, duration of execution"
@@ -41,104 +41,122 @@ outputs:
 runs:
   using: "composite"
   steps:
-        ####################################################
-        # EXTRACT WORKFLOW EXECUTION INFO
-        ####################################################
-      - name: ?? Extract Commit Info (Windows PowerShell)
-        id: execution_info
-        shell: pwsh
-        run: |
-          $shortSha = git rev-parse --short HEAD
-          $fullSha = git rev-parse HEAD
-          $msg = git log -1 --pretty=%s
-          $author = git log -1 --pretty='%an'
-          $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
-          # Convert COMMIT_DATE to IST
-          $commitDateUtc = [DateTimeOffset]::Parse($commitDateRaw).ToUniversalTime()
-          $istOffset = [System.TimeSpan]::FromHours(5.5)
-          $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")          
-          
-          $commitTs = git log -1 --pretty=%ct
-          $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
-          $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-          
-          if ($deltaMin -lt 1) {
-          $ago = "Just now"
-          } elseif ($deltaMin -eq 1) {
-          $ago = "1 minute ago"
-          } else {
-          $ago = "$deltaMin minutes ago"
-          }
-          
-          "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
-          "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
-          "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
-          "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
-          "COMMIT_DATE=$commitDateIST" >>  $env:GITHUB_OUTPUT
-          "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
-          
-          # Access GitHub context variables in PowerShell
-          $eventName = "${{ github.event_name }}"
-          
-          if ($eventName -eq "schedule") {
-              $cronExpr = "${{ github.event.schedule }}"
-              # "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT    
-              # Quick explanation (basic cases)
-             function Get-CronExplanation($expr) {
-              switch ($expr) {
-                "38 7 * * *" { return "Runs daily at 07:38 UTC" }
-                "0 0 * * 0" { return "Runs weekly on Sunday at 00:00 UTC" }
-                default { return "Cron schedule: $expr (UTC)" }
-              }
-          }
-            $explanation = Get-CronExplanation $cronExpr
-            $timezone = "UTC"
-            
-            "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone" >> $env:GITHUB_OUTPUT
-          }
-          elseif ($eventName -eq "push") {
-              $refName = "${{ github.ref_name }}"
-              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Push to branch</code><br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >> $env:GITHUB_OUTPUT
-          }
-          elseif ($eventName -eq "pull_request") {
-              $sourceBranch = "${{ github.event.pull_request.head.ref }}"
-              $targetBranch = "${{ github.event.pull_request.base.ref }}"
-              "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>" >> $env:GITHUB_OUTPUT
-          }
-          
-      ###############################
-      # Calculate Execution Metrics
-      ##############################
+    ####################################################
+    # EXTRACT WORKFLOW EXECUTION INFO
+    ####################################################
+    - name: ?? Extract Commit Info (Windows PowerShell)
+      id: execution_info
+      shell: pwsh
+      run: |
+        $shortSha = git rev-parse --short HEAD
+        $fullSha = git rev-parse HEAD
+        $msg = git log -1 --pretty=%s
+        $author = git log -1 --pretty='%an'
+        $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
+        # Convert COMMIT_DATE to IST
+        $commitDateUtc = [DateTimeOffset]::Parse($commitDateRaw).ToUniversalTime()
+        $istOffset = [System.TimeSpan]::FromHours(5.5)
+        $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")          
+        
+        $commitTs = git log -1 --pretty=%ct
+        $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
+        $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
+        
+        if ($deltaMin -lt 1) {
+        $ago = "Just now"
+        } elseif ($deltaMin -eq 1) {
+        $ago = "1 minute ago"
+        } else {
+        $ago = "$deltaMin minutes ago"
+        }
+        
+        "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
+        "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
+        "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
+        "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
+        "COMMIT_DATE=$commitDateIST" >>  $env:GITHUB_OUTPUT
+        "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
+        
+        # Access GitHub context variables in PowerShell
+        $eventName = "${{ github.event_name }}"
+        function Get-CronExplanation($expr) {
+        $parts = $expr.Split(" ")
+          if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
+        
+        $minute   = $parts[0]
+        $hour     = $parts[1]
+        $day      = $parts[2]
+        $month    = $parts[3]
+        $weekday  = $parts[4]
+        
+        # Helper function to pretty print
+        function Pretty($field, $type) {
+        switch ($field) {
+        "*"   { return "every $type" }
+        "?"   { return "any $type" }
+        default { return $field }
+        }
+        }
+        
+        $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
+        $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
+        $dayDesc     = Pretty $day "day"
+        $monthDesc   = Pretty $month "month"
+        $weekdayDesc = Pretty $weekday "day of week"
+        
+        return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
+        }
+        
+        if ($eventName -eq "schedule") {
+        $cronExpr = "${{ github.event.schedule }}"
+        $explanation = Get-CronExplanation $cronExpr
+        $timezone = "UTC"
+        
+        "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone" >> $env:GITHUB_OUTPUT
+        }
+        elseif ($eventName -eq "push") {
+            $refName = "${{ github.ref_name }}"
+            "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Push to branch</code><br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >> $env:GITHUB_OUTPUT
+        }
+        elseif ($eventName -eq "pull_request") {
+            $sourceBranch = "${{ github.event.pull_request.head.ref }}"
+            $targetBranch = "${{ github.event.pull_request.base.ref }}"
+            "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>" >> $env:GITHUB_OUTPUT
+        }
 
-      - name: ?? Calculate Duration and Export Timing
-        id: execution_metrics
-        shell: pwsh
-        env:
-          START_EPOCH: ${{ inputs.startTime }}
-        run: |
-          # Define IST offset
-          $istOffset = [System.TimeSpan]::FromHours(5.5)
-          
-          $startEpoch = [int]$env:START_EPOCH
-          $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
-          
-          $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          Write-Host "✅ START DATE-TIME (UTC)| $startDT"
-          Write-Host "✅ END DATE-TIME (UTC) | $endDT"
-          
-          # Convert to DateTimeOffset and shift to IST
-          $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
-          $endDT_IST   = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
-          
-          $durationSec = $endEpoch - $startEpoch
-          $mins = [math]::Floor($durationSec / 60)
-          $secs = $durationSec % 60
-          $durationFormatted = "{0}m {1}s" -f $mins, $secs
-                    
-          echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
-          echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
-          echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
-          Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
-          Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
-          Write-Host "✅ FORMATTED DURATION | $durationFormatted"
+    ###############################
+    # Calculate Execution Metrics
+    ##############################
+
+    - name: ?? Calculate Duration and Export Timing
+      id: execution_metrics
+      shell: pwsh
+      env:
+        START_EPOCH: ${{ inputs.startTime }}
+      run: |
+        # Define IST offset
+        $istOffset = [System.TimeSpan]::FromHours(5.5)
+        
+        $startEpoch = [int]$env:START_EPOCH
+        $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
+        
+        $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+        $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+        Write-Host "✅ START DATE-TIME (UTC)| $startDT"
+        Write-Host "✅ END DATE-TIME (UTC) | $endDT"
+        
+        # Convert to DateTimeOffset and shift to IST
+        $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+        $endDT_IST   = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+        
+        $durationSec = $endEpoch - $startEpoch
+        $mins = [math]::Floor($durationSec / 60)
+        $secs = $durationSec % 60
+        $durationFormatted = "{0}m {1}s" -f $mins, $secs
+        
+        echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
+        echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
+        echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
+        Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
+        Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
+        Write-Host "✅ FORMATTED DURATION | $durationFormatted"
