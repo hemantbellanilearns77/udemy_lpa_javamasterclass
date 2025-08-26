@@ -82,7 +82,19 @@ runs:
           
           if ($eventName -eq "schedule") {
               $cronExpr = "${{ github.event.schedule }}"
-              "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT
+              # "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code>" >> $env:GITHUB_OUTPUT    
+              # Quick explanation (basic cases)
+             function Get-CronExplanation($expr) {
+              switch ($expr) {
+                "38 7 * * *" { return "Runs daily at 07:38 UTC" }
+                "0 0 * * 0" { return "Runs weekly on Sunday at 00:00 UTC" }
+                default { return "Cron schedule: $expr (UTC)" }
+              }
+          }
+            $explanation = Get-CronExplanation $cronExpr
+            $timezone = "UTC"
+            
+            "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone" >> $env:GITHUB_OUTPUT
           }
           elseif ($eventName -eq "push") {
               $refName = "${{ github.ref_name }}"
