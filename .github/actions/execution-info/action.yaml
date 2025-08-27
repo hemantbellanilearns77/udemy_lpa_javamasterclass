@@ -54,34 +54,48 @@ runs:
         $author = git log -1 --pretty='%an'
         $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
         # Convert COMMIT_DATE to IST
-        $commitDateUtc = [DateTimeOffset]::Parse($commitDateRaw).ToUniversalTime()
+        $commitDateUtc = [DateTimeOffset]::Parse($commitdateRaw).ToUniversalTime()
         $istOffset = [System.TimeSpan]::FromHours(5.5)
-        $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")          
-        
+        $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
         $commitTs = git log -1 --pretty=%ct
         $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
         $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-        
+          
         if ($deltaMin -lt 1) {
-        $ago = "Just now"
-        } elseif ($deltaMin -eq 1) {
-        $ago = "1 minute ago"
-        } else {
-        $ago = "$deltaMin minutes ago"
+          $ago = "Just now"
         }
-        
-        "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
-        "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
-        "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
-        "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
-        "COMMIT_DATE=$commitDateIST" >>  $env:GITHUB_OUTPUT
-        "COMMIT_AGO=$ago" >>  $env:GITHUB_OUTPUT
-        
+        elseif ($deltaMin -eq 1) {
+          $ago = "1 minute ago"
+        }
+        elseif ($deltaMin -lt 60) {
+          $ago = "$deltaMin minutes ago"
+        }
+        elseif ($deltaMin -lt 1440) { # under 24h
+          $hours = [math]::Floor($deltaMin / 60)
+          $ago = "$hours hour" + ($(if ($hours -gt 1) { "s" } else { "" })) + " ago"
+        }
+        elseif ($deltaMin -lt 10080) { # under 7d
+          $days = [math]::Floor($deltaMin / 1440)
+          $ago = "$days day" + ($(if ($days -gt 1) { "s" } else { "" })) + " ago"
+        }
+        elseif ($deltaMin -lt 43200) { # under 30d
+          $weeks = [math]::Floor($deltaMin / 10080)
+          $ago = "$weeks week" + ($(if ($weeks -gt 1) { "s" } else { "" })) + " ago"
+        }
+        elseif ($deltaMin -lt 525600) { # under 365d
+          $months = [math]::Floor($deltaMin / 43200) # 30d per month approx
+          $ago = "$months month" + ($(if ($months -gt 1) { "s" } else { "" })) + " ago"
+        }
+        else {
+          $years = [math]::Floor($deltaMin / 525600) # 365d per year
+          $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
+        }
+     
         # Access GitHub context variables in PowerShell
         $eventName = "${{ github.event_name }}"
         function Get-CronExplanation($expr) {
         $parts = $expr.Split(" ")
-          if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
+        if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
         
         $minute   = $parts[0]
         $hour     = $parts[1]
@@ -92,10 +106,10 @@ runs:
         # Helper function to pretty print
         function Pretty($field, $type) {
         switch ($field) {
-        "*"   { return "every $type" }
-        "?"   { return "any $type" }
-        default { return $field }
-        }
+          "*"   { return "every $type" }
+          "?"   { return "any $type" }
+          default { return $field }
+          }
         }
         
         $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
@@ -123,6 +137,12 @@ runs:
             $targetBranch = "${{ github.event.pull_request.base.ref }}"
             "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>" >> $env:GITHUB_OUTPUT
         }
+        "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
+        "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
+        "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
+        "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
+        "COMMIT_DATE=$commitDateIST" >> $env:GITHUB_OUTPUT
+        "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT    
 
     ###############################
     # Calculate Execution Metrics
