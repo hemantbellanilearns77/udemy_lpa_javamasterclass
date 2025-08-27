@@ -57,40 +57,38 @@ runs:
         $commitDateUtc = [DateTimeOffset]::Parse($commitdateRaw).ToUniversalTime()
         $istOffset = [System.TimeSpan]::FromHours(5.5)
         $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+        
         $commitTs = git log -1 --pretty=%ct
         $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
         $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-          
+        
         if ($deltaMin -lt 1) {
-          $ago = "Just now"
+        $ago = "Just now"
         }
         elseif ($deltaMin -eq 1) {
-          $ago = "1 minute ago"
+        $ago = "1 minute ago"
         }
         elseif ($deltaMin -lt 60) {
-          $ago = "$deltaMin minutes ago"
+        $ago = "$deltaMin minutes ago"
         }
         elseif ($deltaMin -lt 1440) { # under 24h
-          $hours = [math]::Floor($deltaMin / 60)
-          $ago = "$hours hour" + ($(if ($hours -gt 1) { "s" } else { "" })) + " ago"
+        $hours = [math]::Floor($deltaMin / 60)
+        $ago = "$hours hour" + ($(if ($hours -gt 1) { "s" } else { "" })) + " ago"
         }
-        elseif ($deltaMin -lt 10080) { # under 7d
-          $days = [math]::Floor($deltaMin / 1440)
-          $ago = "$days day" + ($(if ($days -gt 1) { "s" } else { "" })) + " ago"
+        elseif ($deltaMin -lt 43200) { # under ~30d
+        $days = [math]::Floor($deltaMin / 1440)
+        $ago = "$days day" + ($(if ($days -gt 1) { "s" } else { "" })) + " ago"
         }
-        elseif ($deltaMin -lt 43200) { # under 30d
-          $weeks = [math]::Floor($deltaMin / 10080)
-          $ago = "$weeks week" + ($(if ($weeks -gt 1) { "s" } else { "" })) + " ago"
-        }
-        elseif ($deltaMin -lt 525600) { # under 365d
-          $months = [math]::Floor($deltaMin / 43200) # 30d per month approx
-          $ago = "$months month" + ($(if ($months -gt 1) { "s" } else { "" })) + " ago"
+        elseif ($deltaMin -lt 525600) { # under ~365d
+        $months = [math]::Round($deltaMin / 43200) # round to nearest month
+        if ($months -eq 0) { $months = 1 } # avoid "0 months"
+        $ago = "$months month" + ($(if ($months -gt 1) { "s" } else { "" })) + " ago"
         }
         else {
-          $years = [math]::Floor($deltaMin / 525600) # 365d per year
-          $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
-        }
-     
+        $years = [math]::Round($deltaMin / 525600) # round to nearest year
+        if ($years -eq 0) { $years = 1 }
+        $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
+        }     
         # Access GitHub context variables in PowerShell
         $eventName = "${{ github.event_name }}"
         function Get-CronExplanation($expr) {
