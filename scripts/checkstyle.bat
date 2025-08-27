@@ -3,7 +3,7 @@ setlocal EnableDelayedExpansion
 echo ===================================================
 echo Checkstyle Scanner — XML Output for SonarCloud
 echo ===================================================
-set "executionEnv=%~1
+set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
 goto :unsupported

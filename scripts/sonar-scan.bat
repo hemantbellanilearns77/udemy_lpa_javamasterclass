@@ -5,7 +5,7 @@ echo ===================================================
 echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight and Preview)
 echo ===================================================
 
-set "	=%~1
+set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
 goto :unsupported
@@ -17,7 +17,6 @@ for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set start
 REM timeout /t 3 >nul
 :: Preserve Original Working Directory
 set "originalDir=%CD%"
-cd /d D:\GitHubRepos\udemy_lpa_javamasterclass
 :: === Set working directory ===
 cd /d "%~dp0.."
 set "REPO_ROOT=%CD%"
