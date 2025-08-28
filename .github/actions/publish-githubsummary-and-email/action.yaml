@@ -560,12 +560,13 @@ runs:
 
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
-            </span><br/>
-            (Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>)<br/>
-            (Duration: <code>${{ steps.execution-info.outputs.formattedDuration }}</code>)
+            </span>
           </h2>
     
           <h3>📊 Summary</h3>
+          <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
+          <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>)<br/>
+          <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code>
           <ul>
             <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
               ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
