@@ -566,6 +566,7 @@ runs:
           <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
           <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code><br/>
           
+          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1–5 issues, 🔴 = Action Needed / >5 issues</p>
           <h3>📊 Summary</h3>
           <ul>
             <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
@@ -589,14 +590,15 @@ runs:
               </ul>
             </li>
           </ul>
+          
     
           <h3>📦 Module Severity Breakdown</h3>
           ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
     
           <h3>🔗 Useful Links</h3>
           <ul>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Overall Code Dashboard (All Sonar Cloud Open Issues)</a></li>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown (Severity-Wise) Dashboard/a></li>
+            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Overall Code Dashboard (All Open Issues)</a></li>
+            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown (Severity-Wise) Dashboard</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
           </ul>
