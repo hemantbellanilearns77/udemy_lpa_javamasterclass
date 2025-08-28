@@ -52,7 +52,7 @@ runs:
         
         function Get-AsciiBar($percent) {
         
-          $blocks = 50
+          $blocks = 25
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
           return ('█' * $filled) + ('░' * $empty)
@@ -180,9 +180,9 @@ runs:
         }
         # Try to cast to a number safely
         $sonarCoverage = [double]($sonarCoverage -replace '[^0-9\.]', '')
-        if ($sonarCoverage -ge 50) {
+        if ($sonarCoverage -ge 77) {
           $coverageEmoji = "🟢"
-        } elseif ($sonarCoverage -ge 20) {
+        } elseif ($sonarCoverage -ge 49) {
           $coverageEmoji = "🟡"
         } else {
           $coverageEmoji = "🔴"
