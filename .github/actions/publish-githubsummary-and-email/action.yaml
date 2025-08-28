@@ -558,12 +558,11 @@ runs:
           <body style="font-family:Calibri;font-size:16px;color:#333;">          
           <p>Hi Hemant,</p>
 
-          <h2>🏁 Hygiene Check ( Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code> ):
-            <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
+          <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
             </span>
-            (Duration: ${{ steps.execution-info.outputs.formattedDuration }})
-             
+            (Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>)
+            (Duration: <code>${{ steps.execution-info.outputs.formattedDuration }}</code>)
           </h2>
     
           <h3>📊 Summary</h3>
