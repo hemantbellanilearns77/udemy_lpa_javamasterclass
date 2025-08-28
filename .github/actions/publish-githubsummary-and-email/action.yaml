@@ -560,8 +560,8 @@ runs:
 
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
-            </span>
-            (Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>)
+            </span><br/>
+            (Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>)<br/>
             (Duration: <code>${{ steps.execution-info.outputs.formattedDuration }}</code>)
           </h2>
     
