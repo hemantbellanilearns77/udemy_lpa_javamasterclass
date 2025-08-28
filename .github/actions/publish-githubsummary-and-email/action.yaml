@@ -555,65 +555,15 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <html>
-          <body style="font-family:Calibri;font-size:14px;color:#333;">
-          <p>Hi Hemant,</p>
-          <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on 
-          <strong>${{ github.repository }}</strong> (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
-          in <code>${{ steps.execution-info.outputs.formattedDuration }}</code>.
-          </p>
-          <p>📊 <strong>Hygiene Summary:</strong></p>
-          <ul>
-            <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ steps.metrics.outputs.checkstyleCount }}</code></li>
-            <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</code></li>
-            <li>📈 <strong>Code Coverage:</strong> <code>${{ steps.metrics.outputs.sonarCoverage }}</code></li>
-            <li>🎯 <strong>Coverage Visual: <code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-            <li>🗂 <strong>SonarCloud:</strong><br/>
-                  &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
-                  &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
-                  &nbsp;&nbsp;• Last Analysis: <code>${{ steps.metrics.outputs.lastSonarAnalysis }}</code>
-            </li>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}"><code>View SonarCloud Overall Code Dashboard</code></a></li>
-          </ul>
-          
-          <p>🛠 <strong>SonarCloud Severity Breakdown:</strong></p>
-          <ul>
-            <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
-            <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
-            <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
-            <li>🟦 <strong>LOW:</strong> <a href="${{ steps.metrics.outputs.sonarLowUrl }}"><code>${{ steps.metrics.outputs.sonarLow }}</code></a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</li>
-            <li>ℹ️<strong>INFO:</strong> <a href="${{ steps.metrics.outputs.sonarInfoUrl }}"><code>${{ steps.metrics.outputs.sonarInfo }}</code></a> ${{ steps.metrics.outputs.sonarInfoEmojiMark }}</li>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
-          </ul>
-          
-          <p><strong>📦 SonarCloud Module Severity Breakdown</strong>          
-            <br>
-            ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
-          </p>
-          <p>📦 <strong>Artifacts:</strong> <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"><code>Download from workflow run</code></a></p>
-          
-          <p>📜 <strong>Github Job Execution Info:</strong></p>
-          <ul>
-              <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}"><code>Click here to view this commit (Short SHA=${{ steps.execution-info.outputs.SHORT_SHA }}) on GitHub</code></a></li>
-              <li>${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
-              <li><strong>Last Commit Message:</strong> <code><em>${{ steps.execution-info.outputs.COMMIT_MSG }}</em></code></li>
-              <li><strong>Last Commit By Author:</strong> <code>${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</code></li>
-              <li><strong>Last Commit Date (IST, ${{ steps.execution-info.outputs.COMMIT_AGO }}):</strong> <code>${{ steps.execution-info.outputs.COMMIT_DATE }}</code></li>
-              <li>⏱ <strong>Github Job Execution Start Time (IST):</strong> <code>${{ steps.execution-info.outputs.startTime }}</code></li>
-              <li>⏱ <strong>Github Job Execution End Time (IST):</strong> <code>${{ steps.execution-info.outputs.endTime }}</code></li>
-              <li>⏱ <strong>Github Job Execution Job Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code></li>
-          </ul>
-          <hr style="dotted">
-          <p><small>🕒 All times are reported in IST (India Standard Time).</small></p>
-          <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
-          <hr style="dotted">
+          <body style="font-family:Calibri;font-size:16px;color:#333;">          
           <p>Hi Hemant,</p>
 
-          <h2>🏁 Hygiene Check:
+          <h2>🏁 Hygiene Check ( Repository: ${{ github.repository }}; branch: <code>${{ inputs.BRANCH_EXECUTED }}</code> ):
             <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
             </span>
             (Duration: ${{ steps.execution-info.outputs.formattedDuration }})
-            Repository: ${{ github.repository }} (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
+             
           </h2>
     
           <h3>📊 Summary</h3>
@@ -624,6 +574,16 @@ runs:
             <li>📝 <b>Checkstyle Violations:</b> ${{ steps.metrics.outputs.checkstyleCount }}</li>
             <li>🔍 <b>PMD Violations:</b> ${{ steps.metrics.outputs.pmdCount }}</li>
             <li>🗂 <b>SonarCloud Issues:</b> ${{ steps.metrics.outputs.totalSonarFetchedIssues }}</li>
+            <li>
+              <ul>
+                <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
+                <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
+                <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
+                <li>🟦 <strong>LOW:</strong> <a href="${{ steps.metrics.outputs.sonarLowUrl }}"><code>${{ steps.metrics.outputs.sonarLow }}</code></a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</li>
+                <li>ℹ️<strong>INFO:</strong> <a href="${{ steps.metrics.outputs.sonarInfoUrl }}"><code>${{ steps.metrics.outputs.sonarInfo }}</code></a> ${{ steps.metrics.outputs.sonarInfoEmojiMark }}</li>
+                <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
+              </ul>
+            </li>
           </ul>
     
           <h3>📦 Module Severity Breakdown</h3>
