@@ -229,7 +229,7 @@ runs:
         
          function MarkEmoji($count) {
             if ($count -eq 0) { return "✅" }
-            elseif ($count -le 5) { return "🟡" }
+            elseif ($count -le 27) { return "🟡" }
             else { return "🔴" }
           } # end of function Mark
         
@@ -238,6 +238,50 @@ runs:
         $sonarMediumEmojiMark = $(MarkEmoji $medium)
         $sonarLowEmojiMark = $(MarkEmoji $low)
         $sonarInfoEmojiMark = $(MarkEmoji $info)
+
+        ############################################################
+        # === Function: Calculate HygieneCheckStatus ===
+        ############################################################
+        function Get-HygieneCheckStatus {
+            param (
+                [int]$checkstyle,
+                [int]$pmd,
+                [int]$blocker,
+                [int]$high,
+                [int]$medium,
+                [int]$info,
+                [double]$coverage,
+                [string]$jobStatus  # PASSED or FAILED
+            )
+        
+            if ($jobStatus -eq 'success' `
+                -and $checkstyle -lt 1000 `
+                -and $pmd -lt 10 `
+                -and $blocker -eq 0 `
+                -and $high -lt 27 `
+                -and $medium -lt 63 `
+                -and $info -lt 99 `
+                -and $coverage -gt 63) {
+                return "PASSED ✅"
+            } else {
+                return "FAILED ❌"
+            }
+        }
+        
+        # Compute HygieneCheckStatus using outputs and current job status
+        $HygieneCheckStatus = Get-HygieneCheckStatus -checkstyle $checkstyleViolations `
+                                                      -pmd $pmdViolations `
+                                                      -blocker $blocker `
+                                                      -high $high `
+                                                      -medium $medium `
+                                                      -info $info `
+                                                      -coverage $sonarCoverage `
+                                                      -jobStatus ${{ job.status }}
+        
+        Write-Host "✅ HygieneCheckStatus calculated as: $HygieneCheckStatus"
+        
+        # Expose as step output for later email step
+        "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         ############################################################
               # === Write Overall Table ===
@@ -255,6 +299,7 @@ runs:
         echo "| 🟨 MEDIUM                | $sonarMediumEmojiMark [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟦 LOW                   | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Overall Hygiene Check Status | $HygieneCheckStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -559,14 +604,14 @@ runs:
           <p>Hi Hemant,</p>
 
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-              ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
+              ${{ steps.metrics.outputs.HygieneCheckStatus == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
           <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
           <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code><br/>
           
-          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1–5 issues, 🔴 = Action Needed / >5 issues</p>
+          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
           <h3>📊 Summary</h3>
           <ul>
             <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
