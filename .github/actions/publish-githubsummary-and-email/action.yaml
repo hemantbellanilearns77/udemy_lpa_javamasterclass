@@ -606,56 +606,5 @@ runs:
           <hr style="dotted">
           <p><small>🕒 All times are reported in IST (India Standard Time).</small></p>
           <p><em>🤖 This is an automated message from a GitHub Actions workflow.<br>Please do not reply.</em></p>
-      
-          <hr style="dotted">
-
-        <p>Hi Hemant,</p>
-
-      <h2>🏁 Hygiene Check:
-        <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-          ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
-        </span>
-        (Duration: ${{ steps.execution-info.outputs.formattedDuration }})
-      </h2>
-
-      <h3>📊 Summary</h3>
-      <ul>
-        <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}%
-          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
-        </li>
-        <li>📝 <b>Checkstyle Violations:</b> ${{ steps.metrics.outputs.checkstyleCount }}</li>
-        <li>🔍 <b>PMD Violations:</b> ${{ steps.metrics.outputs.pmdCount }}</li>
-        <li>🗂 <b>SonarCloud Issues:</b> ${{ steps.metrics.outputs.totalSonarFetchedIssues }}</li>
-      </ul>
-
-      <h3>📦 Module Severity Breakdown</h3>
-      ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
-
-      <h3>🔗 Useful Links</h3>
-      <ul>
-        <li><a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Dashboard</a></li>
-        <li><a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">Open Issues Breakdown</a></li>
-        <li><a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
-        <li><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts</a></li>
-      </ul>
-
-      <h3>📌 Next Steps</h3>
-      <ul>
-        <li>Fix Checkstyle violations in main module.</li>
-        <li>Increase test coverage (currently ${{ steps.metrics.outputs.sonarCoverage }}%).</li>
-        <li>Review medium & low severity SonarCloud issues.</li>
-      </ul>
-
-      <h3>📜 Job Execution Info</h3>
-      <ul>
-        <li>Triggered by: ${{ github.actor }} (Manual Dispatch)</li>
-        <li>Last Commit: ${{ steps.execution-info.outputs.COMMIT_MSG }} by ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</li>
-        <li>Commit Date: ${{ steps.execution-info.outputs.COMMIT_DATE }} (IST)</li>
-        <li>Job Duration: ${{ steps.execution-info.outputs.formattedDuration }}</li>
-        <li>Start: ${{ steps.execution-info.outputs.startTime }} | End: ${{ steps.execution-info.outputs.endTime }}</li>
-      </ul>
-
-      <p>🕒 All times reported in IST.</p>
-      <p><em>🤖 This is an automated message from GitHub Actions. Please do not reply.</em></p>
-      </body>
-      </html>
+          </body>
+          </html>
