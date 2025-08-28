@@ -555,7 +555,7 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <html>
-          <body style="font-family:Arial,sans-serif;font-size:14px;color:#333;">
+          <body style="font-family:Calibri;font-size:14px;color:#333;">
           <p>Hi Hemant,</p>
           <p>✅ A GitHub Hygiene Check (CheckStyle, PMD, JaCoCo, SonarCloud) was completed on 
           <strong>${{ github.repository }}</strong> (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
