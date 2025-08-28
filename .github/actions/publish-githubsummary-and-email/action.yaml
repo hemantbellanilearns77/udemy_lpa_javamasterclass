@@ -562,11 +562,11 @@ runs:
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
             </span>
           </h2>
-    
-          <h3>📊 Summary</h3>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
-          <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>)<br/>
-          <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code>
+          <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+          <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code><br/>
+          
+          <h3>📊 Summary</h3>
           <ul>
             <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
               ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
@@ -579,7 +579,7 @@ runs:
                   &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
                   &nbsp;&nbsp;• Last Analysis: <code>${{ steps.metrics.outputs.lastSonarAnalysis }}</code><br/>
               🛠 <strong>SonarCloud Severity Breakdown:</strong>
-              <ul
+              <ul>
                 <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
                 <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
                 <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
