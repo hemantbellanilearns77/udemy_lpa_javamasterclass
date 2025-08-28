@@ -618,7 +618,7 @@ runs:
     
           <h3>📊 Summary</h3>
           <ul>
-            <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}%
+            <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
               ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
             </li>
             <li>📝 <b>Checkstyle Violations:</b> ${{ steps.metrics.outputs.checkstyleCount }}</li>
