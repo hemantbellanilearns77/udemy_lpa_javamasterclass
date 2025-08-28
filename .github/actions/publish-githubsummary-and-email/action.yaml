@@ -572,10 +572,13 @@ runs:
               ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
             </li>
             <li>📝 <b>Checkstyle Violations:</b> ${{ steps.metrics.outputs.checkstyleCount }}</li>
-            <li>🔍 <b>PMD Violations:</b> ${{ steps.metrics.outputs.pmdCount }}</li>
-            <li>🗂 <b>SonarCloud Issues:</b> ${{ steps.metrics.outputs.totalSonarFetchedIssues }}</li>
-            <li>
-              <ul>
+            <li>🔍 <b>PMD Violations:</b> ${{ steps.metrics.outputs.pmdCount }}</li>           
+            <li>🗂 <strong>SonarCloud:</strong><br/>
+                  &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
+                  &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
+                  &nbsp;&nbsp;• Last Analysis: <code>${{ steps.metrics.outputs.lastSonarAnalysis }}</code><br/>
+              🛠 <strong>SonarCloud Severity Breakdown:</strong>
+              <ul
                 <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
                 <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
                 <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
@@ -591,10 +594,10 @@ runs:
     
           <h3>🔗 Useful Links</h3>
           <ul>
-            <li><a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Open Issues Dashboard</a></li>
-            <li><a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown</a></li>
-            <li><a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
-            <li><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts</a></li>
+            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Overall Code Dashboard (All Sonar Cloud Open Issues)</a></li>
+            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown (Severity-Wise) Dashboard/a></li>
+            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
+            <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
           </ul>
     
           <h3>📌 Next Steps</h3>
