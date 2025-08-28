@@ -551,7 +551,6 @@ runs:
           | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
           | Duration: ${{ steps.execution-info.outputs.formattedDuration }}
           ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 77 && '(⚠️ Coverage Below Threshold)' || '' }}
-                
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
@@ -614,6 +613,7 @@ runs:
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
             </span>
             (Duration: ${{ steps.execution-info.outputs.formattedDuration }})
+            Repository: ${{ github.repository }} (branch: <code>${{ inputs.BRANCH_EXECUTED }}</code>) 
           </h2>
     
           <h3>📊 Summary</h3>
@@ -631,8 +631,8 @@ runs:
     
           <h3>🔗 Useful Links</h3>
           <ul>
-            <li><a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Dashboard</a></li>
-            <li><a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">Open Issues Breakdown</a></li>
+            <li><a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Open Issues Dashboard</a></li>
+            <li><a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown</a></li>
             <li><a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
             <li><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts</a></li>
           </ul>
