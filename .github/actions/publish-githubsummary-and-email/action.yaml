@@ -240,49 +240,6 @@ runs:
         $sonarLowEmojiMark = $(MarkEmoji $low)
         $sonarInfoEmojiMark = $(MarkEmoji $info)
         
-          ############################################################
-          # === Function: Calculate HygieneCheckStatus ===
-          ############################################################
-          function Get-HygieneCheckStatus {
-          param (
-          [int]$checkstyle,
-          [int]$pmd,
-          [int]$blocker,
-          [int]$high,
-          [int]$medium,
-          [int]$info,
-          [double]$coverage,
-          [string]$jobStatus
-          )
-          
-          if ($jobStatus -eq 'success' `
-          -and $checkstyle -lt 1000 `
-          -and $pmd -lt 10 `
-          -and $blocker -eq 0 `
-          -and $high -lt 27 `
-          -and $medium -lt 63 `
-          -and $info -lt 99 `
-          -and $coverage -gt 63) {
-          return "PASSED ✅"
-          } else {
-          return "FAILED ❌"
-          }
-        }
-      
-          # Compute HygieneCheckStatus using metrics + job status from env
-          $HygieneCheckStatus = Get-HygieneCheckStatus -checkstyle $checkstyleViolations `
-          -pmd $pmdViolations `
-          -blocker $blocker `
-          -high $high `
-          -medium $medium `
-          -info $info `
-          -coverage $sonarCoverage `
-          -jobStatus $env:JOB_STATUS
-      
-          Write-Host "✅ HygieneCheckStatus calculated as: $HygieneCheckStatus"
-      
-          # Expose as step output
-          "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
                 
         ############################################################
               # === Write Overall Table ===
