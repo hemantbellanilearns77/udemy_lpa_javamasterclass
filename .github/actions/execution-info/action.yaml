@@ -13,6 +13,9 @@ inputs:
   COMMIT_MSG:
     required: true
     description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
   TRIGGER_EVENT:
     required: true
     description: ""
@@ -69,9 +72,8 @@ runs:
       run: |
         $shortSha = git rev-parse --short HEAD
         $fullSha = git rev-parse HEAD
-        $msg = git log -1 --pretty=%s
-        Write-Host "✅ Commit Message is: | $msg"        
-        $author = git log -1 --pretty='%an'
+        
+        Write-Host "✅ Commit Message is: | ${{ inputs.COMMIT_MSG }}"        
         $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
         # Convert COMMIT_DATE to IST
         $commitDateUtc = [DateTimeOffset]::Parse($commitdateRaw).ToUniversalTime()
@@ -146,16 +148,17 @@ runs:
         $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
         elseif ($eventName -eq "workflow_dispatch") {
-            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ github.actor }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ inputs.COMMIT_AUTHOR }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
         }
         elseif ($eventName -eq "pull_request") {
             $sourceBranch = "${{ github.event.pull_request.head.ref }}"
             $targetBranch = "${{ github.event.pull_request.base.ref }}"
-            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>"
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+        } else {
+          $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
         }
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
         "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
-        "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
         "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
         "COMMIT_DATE=$commitDateIST" >> $env:GITHUB_OUTPUT
         "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT

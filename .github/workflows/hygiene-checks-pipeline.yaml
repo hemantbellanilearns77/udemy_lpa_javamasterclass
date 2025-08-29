@@ -76,6 +76,7 @@ jobs:
           startTime: ${{ steps.setup.outputs.startTime }}
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
           COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
+          COMMIT_AUTHOR: ${{ steps.setup.outputs.COMMIT_AUTHOR }}
           TRIGGER_EVENT: ${{ steps.setup.outputs.TRIGGER_EVENT }}
           SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}

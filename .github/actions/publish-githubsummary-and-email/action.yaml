@@ -13,6 +13,9 @@ inputs:
   COMMIT_MSG:
     required: true
     description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
   TRIGGER_EVENT:
     required: true
     description: ""
@@ -534,6 +537,7 @@ runs:
         startTime: ${{ inputs.startTime }}
         SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
         COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
         TRIGGER_EVENT: ${{ inputs.TRIGGER_EVENT }}
         SRC_BRANCH: ${{ inputs.SRC_BRANCH }}
         TGT_BRANCH: ${{ inputs.TGT_BRANCH }}
