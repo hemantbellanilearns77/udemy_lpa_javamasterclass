@@ -167,6 +167,10 @@ runs:
     - name: Compile Java Modules
       shell: cmd
       run: |
+      # 4. Compile Java Modules
+    - name: Compile Java Modules
+      shell: cmd
+      run: |
         set "JAVA_HOME=%JAVA_HOME%"
         set "OUT_PROD=out\production"
         set "OUT_TEST=out\test"
