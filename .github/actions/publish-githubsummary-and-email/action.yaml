@@ -294,7 +294,7 @@ runs:
         "sonarHighEmojiMark=$sonarHighEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarHighURL=$($severityLinks.HIGH)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
-        "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
         "sonarMediumEmojiMark=$sonarMediumEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarMediumURL=$($severityLinks.MEDIUM)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
@@ -527,6 +527,24 @@ runs:
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
 
+    ######################################################
+    # 2. Evaluate thresholds against env variables
+    ######################################################
+    - name: 🧮 Evaluate Thresholds
+      id: thresholds
+      shell: pwsh
+      run: |
+        .github/scripts/metrics-threshold.ps1 `
+          -checkstyle ${{ steps.collect.metrics.checkstyleCount }} `
+          -pmd ${{ steps.collect.metrics.pmdCount }} `
+          -blocker ${{ steps.metrics.outputs.sonarBlocker }} `
+          -high ${{ steps.metrics.outputs.sonarHigh }} `   
+          -medium ${{ steps.metrics.outputs.sonarMedium }} `
+          -low ${{ steps.metrics.outputs.sonarLow }} `
+          -info ${{ steps.metrics.outputs.sonarInfo }} `
+          -coverage ${{ steps.metrics.outputs.sonarCoverage }} `
+          -jobStatus ${{ job.status }}      
+
       ###################################
       # EXECUTION INFO COMPOSITE CALL
       ###################################
@@ -574,6 +592,7 @@ runs:
           <p>Hi Hemant,</p>
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
               ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
+              <code>Status from Threshold step: ${{ steps.thresholds.outputs.HygieneCheckStatus }}</code>
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
