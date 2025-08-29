@@ -19,5 +19,3 @@ runs:
         startTime=$(date +%s)
         echo "🕒 Captured Start Time (epoch seconds): $startTime"
         echo "startTime=$startTime" >> $GITHUB_OUTPUT
-      
-

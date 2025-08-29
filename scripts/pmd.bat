@@ -226,7 +226,3 @@ exit /b 1
 echo PMD Analysis complete.
 endlocal
 exit /b 0
-
-
-
-

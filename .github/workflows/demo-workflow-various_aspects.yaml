@@ -11,7 +11,7 @@ jobs:
       - name: ?? Checkout Code
         uses: actions/checkout@v4
         with:
-           fetch-depth: 0
+          fetch-depth: 0
       - name: Capture a value (pretend this came from another step)
         id: capture
         run: echo "name=HemantBellani" >> $GITHUB_OUTPUT
@@ -48,4 +48,3 @@ jobs:
           body: |
             Hello ${{ steps.process.outputs.originalName }},
             Your processed variant is: ${{ steps.process.outputs.upperName }}.
-

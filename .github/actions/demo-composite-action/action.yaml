@@ -24,4 +24,3 @@ runs:
       run: |
         echo "upperName=$(echo "${{ inputs.username }}" | tr '[:lower:]' '[:upper:]')" >> $GITHUB_OUTPUT
         echo "originalName=${{ inputs.username }}" >> $GITHUB_OUTPUT
-

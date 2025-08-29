@@ -45,7 +45,7 @@ runs:
 
     - name: Log Captured Start Time
       run: |
-          echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
+        echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
       shell: pwsh
 
     - name: Setup common varaibles
@@ -89,7 +89,7 @@ runs:
           $BRANCH_EXECUTED = $TGT_BRANCH
         }
         $REASON = ""
-            
+        
         # Case 1: Manual override → always skip
         if ($COMMIT_MSG -match "--skip-sonar" ) {
           $SKIP_FLAG = "--skip-sonar"
@@ -209,4 +209,3 @@ runs:
             del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
           )
         )
-

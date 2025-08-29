@@ -55,5 +55,4 @@ runs:
         mkdir tools/sonar-scanner
         unzip sonar-scanner.zip -d tools/sonar-scanner
         echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
-        echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH         
-
+        echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH

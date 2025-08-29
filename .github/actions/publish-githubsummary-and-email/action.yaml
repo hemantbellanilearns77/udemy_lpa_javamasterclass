@@ -255,7 +255,7 @@ runs:
         $sonarLowEmojiMark = $(MarkEmoji $low)
         $sonarInfoEmojiMark = $(MarkEmoji $info)
         
-                
+
         ############################################################
               # === Write Overall Table ===
         ############################################################
@@ -311,7 +311,7 @@ runs:
         
         $emailModuleSevAggTable=""
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
-          
+        
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
            Write-Host "Skipping rest of this step"
@@ -527,11 +527,6 @@ runs:
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
 
-#    - name: Debug run metrics-threshold
-#      run: |
-#        dir .\github\scripts
-#        pwsh -File .\github\scripts\metrics-threshold.ps1 -?
-#      shell: pwsh
 
     ######################################################
     # 2. Evaluate thresholds against env variables

@@ -4,9 +4,9 @@ on:
   schedule:
     # - cron: '45 06 * * 1-4' # Runs 12:15 PM IST  every WeekDay excluding Friday
     - cron: '38 7 * * *' # Runs 1:08 PM IST  every Day
-#  push:
-#    branches:
-#    - main
+  #  push:
+  #    branches:
+  #    - main
   pull_request:
     branches:
       - main
@@ -46,14 +46,14 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0   # fetches all history, not just 1 commit
 
-      ####################################################
+          ####################################################
           # Hygiene Environment Initialization
       ####################################################
       - name: Setup Hygiene Environment
         id: setup
         uses: ./.github/actions/setup-hygiene-env
 
-      ###############################################################
+        ###############################################################
         # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
       ##############################################################
 
@@ -65,7 +65,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      ##############################################################
+        ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
       ##############################################################
 
@@ -98,10 +98,11 @@ jobs:
           LOW_MAX:  ${{ env.LOW_MAX }}
           INFO_MAX:  ${{ env.INFO_MAX }}
 
-      #############################
+        #############################
         # FULL CLEANUP AND VERIFY
       ##############################
 
       - name: Full Cleanup and Verify Composite Call
         id: cleanup-and-verify-composite-call
+        uses: ./.github/actions/full-cleanup-and-verify
         uses: ./.github/actions/full-cleanup-and-verify
