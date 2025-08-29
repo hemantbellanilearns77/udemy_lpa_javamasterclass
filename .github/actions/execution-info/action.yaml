@@ -124,24 +124,24 @@ runs:
         $cronExpr = "${{ github.event.schedule }}"
         $explanation = Get-CronExplanation $cronExpr
         $timezone = "UTC"
-        
-        "TRIGGER_INFO=🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone" >> $env:GITHUB_OUTPUT
+        $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
-        elseif ($eventName -eq "push") {
+        elseif ($eventName -eq "workflow_dispatch") {
             $refName = "${{ github.ref_name }}"
-            "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Push to branch</code><br>🌿 <strong>Source Branch:</strong> <code>$refName</code>" >> $env:GITHUB_OUTPUT
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ github.actor }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>main</code>"
         }
         elseif ($eventName -eq "pull_request") {
             $sourceBranch = "${{ github.event.pull_request.head.ref }}"
             $targetBranch = "${{ github.event.pull_request.base.ref }}"
-            "TRIGGER_INFO=⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>" >> $env:GITHUB_OUTPUT
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>$sourceBranch</code><br>🌿 <strong>Target Branch:</strong> <code>$targetBranch</code>"
         }
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
         "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
         "COMMIT_MSG=$msg" >>  $env:GITHUB_OUTPUT
         "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
         "COMMIT_DATE=$commitDateIST" >> $env:GITHUB_OUTPUT
-        "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT    
+        "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
+        "TRIGGER_INFO=$triggerInfo" >> $env:GITHUB_OUTPUT
 
     ###############################
     # Calculate Execution Metrics

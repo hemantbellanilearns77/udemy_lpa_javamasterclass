@@ -598,7 +598,7 @@ runs:
           </ul>
           <h3>📜 Job Execution Info</h3>
           <ul>
-            <li>Triggered by: ${{ github.actor }} (Manual Dispatch)</li>
+            <li>Triggered by:${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
             <li>Last Commit: ${{ steps.execution-info.outputs.COMMIT_MSG }} by ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</li>
             <li>Commit Date: ${{ steps.execution-info.outputs.COMMIT_DATE }} (IST)</li>
             <li>Job Duration: ${{ steps.execution-info.outputs.formattedDuration }}</li>
