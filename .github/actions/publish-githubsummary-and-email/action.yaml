@@ -103,83 +103,41 @@ runs:
     # Email Success Summary
     ##########################
     - name: 📧 Send Hygiene Summary Email
-      uses: dawidd6/action-send-mail@v3
+      uses: ./.github/actions/publish-email-summary
       with:
-        server_address: ${{ env.SMTP_SERVER_ADDRESS }}
-        server_port: ${{ env.SMTP_SERVER_PORT }}
-        username: ${{ env.SMTP_USER }}
-        password: ${{ env.SMTP_PASS }}
-        subject: >-
-          ${{ steps.thresholds.outputs.HygieneCheckStatus }}
-          | ${{ github.workflow }}
-          | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
-          | Duration: ${{ steps.execution-info.outputs.formattedDuration }}
-          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
-        to: ${{ env.EMAIL_RECIPIENT }}
-        from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
-        html_body: |
-          <html>
-          <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
-          <p>Hi Hemant,</p>
-          <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-               <code>${{ steps.thresholds.outputs.HygieneCheckStatus }}</code>             
-            </span>
-          </h2>
-          <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
-          <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-          <strong>Duration:</strong> <code>${{ steps.execution-info.outputs.formattedDuration }}</code><br/>
-          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
-          <h3>📊 Summary</h3>
-          <ul>
-            <li>📈 <b>Code Coverage:</b> ${{ steps.metrics.outputs.sonarCoverage }}
-              ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
-            </li>
-            <li>🎯 <strong>Coverage Visual: </strong><code>${{ steps.metrics.outputs.coverageBar }}</code></li>
-            <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ steps.metrics.outputs.checkstyleCount }}</code></li>
-            <li>🔍 <strong>PMD Violations:</strong> <code>${{ steps.metrics.outputs.pmdCount }}</li>           
-            <li>🗂 <strong>SonarCloud:</strong><br/>
-                  &nbsp;&nbsp;• Execution: <code>${{ steps.metrics.outputs.sonarExecutionNote }}</code><br/>
-                  &nbsp;&nbsp;• Issues: <code>${{ steps.metrics.outputs.sonarIssuesNote }}</code><br/>
-                  &nbsp;&nbsp;• Last Analysis: <code>${{ steps.metrics.outputs.lastSonarAnalysis }}</code><br/>
-              🛠 <strong>SonarCloud Severity Breakdown:</strong>
-              <ul>
-                <li>🟥 <strong>BLOCKER:</strong> <a href="${{ steps.metrics.outputs.sonarBlockerUrl }}"><code>${{ steps.metrics.outputs.sonarBlocker }}</code></a> ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}</li>
-                <li>🟧 <strong>HIGH:</strong> <a href="${{ steps.metrics.outputs.sonarHighUrl }}"><code>${{ steps.metrics.outputs.sonarHigh }}</code></a> ${{ steps.metrics.outputs.sonarHighEmojiMark }}</li>
-                <li>🟨 <strong>MEDIUM:</strong> <a href="${{ steps.metrics.outputs.sonarMediumUrl }}"><code>${{ steps.metrics.outputs.sonarMedium }}</code></a> ${{ steps.metrics.outputs.sonarMediumEmojiMark }}</li>
-                <li>🟦 <strong>LOW:</strong> <a href="${{ steps.metrics.outputs.sonarLowUrl }}"><code>${{ steps.metrics.outputs.sonarLow }}</code></a> ${{ steps.metrics.outputs.sonarLowEmojiMark }}</li>
-                <li>ℹ️<strong>INFO:</strong> <a href="${{ steps.metrics.outputs.sonarInfoUrl }}"><code>${{ steps.metrics.outputs.sonarInfo }}</code></a> ${{ steps.metrics.outputs.sonarInfoEmojiMark }}</li>
-                <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
-              </ul>
-            </li>
-          </ul>
-          <h3>📦 Module Severity Breakdown</h3>
-          ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
-          <h3>🔗 Useful Links</h3>
-          <ul>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}">SonarCloud Overall Code Dashboard (All Open Issues)</a></li>
-            <li>🌐 <a href="${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown (Severity-Wise) Dashboard</a></li>
-            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
-            <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
-          </ul>
-          <h3>📌 Next Steps - Static</h3> 
-          <ul>
-            <li>Fix Checkstyle violations in main module.</li>
-            <li>Increase test coverage (currently ${{ steps.metrics.outputs.sonarCoverage }}%).</li>
-            <li>Review medium & low severity SonarCloud issues.</li>
-          </ul>
-          <h3>📌 Next Steps - Dynamic</h3>
-          <ul>
-            ${{ steps.thresholds.outputs.NextStepsHtml }}
-          </ul>
-          <h3>📜 Job Execution Info</h3>
-          <ul>
-            <li>Triggered by:${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
-            <li>Last Commit: ${{ steps.execution-info.outputs.COMMIT_MSG }} by ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</li>
-            <li>Commit Date: ${{ steps.execution-info.outputs.COMMIT_DATE }} (IST)</li>
-            <li>Job Duration: ${{ steps.execution-info.outputs.formattedDuration }}</li>
-            <li>Start: ${{ steps.execution-info.outputs.startTime }} | End: ${{ steps.execution-info.outputs.endTime }}</li>
-          </ul>
-          <p>🕒 All times reported in IST.</p>
-          <p><em>🤖 This is an automated message from GitHub Actions. Please do not reply.</em></p>
-          </body>
-          </html>
+        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+        sonarCoverage: ${{ steps.metrics.outputs.sonarCoverage }}
+        coverageBar: ${{ steps.metrics.outputs.coverageBar }}
+        checkstyleCount: ${{ steps.metrics.outputs.checkstyleCount }}
+        pmdCount: ${{ steps.metrics.outputs.pmdCount }}
+        sonarExecutionNote: ${{ steps.metrics.outputs.sonarExecutionNote }}
+        sonarIssuesNote: ${{ steps.metrics.outputs.sonarIssuesNote }}
+        lastSonarAnalysis: ${{ steps.metrics.outputs.lastSonarAnalysis }}
+        sonarBlocker: ${{ steps.metrics.outputs.sonarBlocker }}
+        sonarBlockerUrl: ${{ steps.metrics.outputs.sonarBlockerUrl }}
+        sonarBlockerEmojiMark: ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}
+        sonarHigh: ${{ steps.metrics.outputs.sonarHigh }}
+        sonarHighUrl: ${{ steps.metrics.outputs.sonarHighUrl }}
+        sonarHighEmojiMark: ${{ steps.metrics.outputs.sonarHighEmojiMark }}
+        sonarMedium: ${{ steps.metrics.outputs.sonarMedium }}
+        sonarMediumUrl: ${{ steps.metrics.outputs.sonarMediumUrl }}
+        sonarMediumEmojiMark: ${{ steps.metrics.outputs.sonarMediumEmojiMark }}
+        sonarLow: ${{ steps.metrics.outputs.sonarLow }}
+        sonarLowUrl: ${{ steps.metrics.outputs.sonarLowUrl }}
+        sonarLowEmojiMark: ${{ steps.metrics.outputs.sonarLowEmojiMark }}
+        sonarInfo: ${{ steps.metrics.outputs.sonarInfo }}
+        sonarInfoUrl: ${{ steps.metrics.outputs.sonarInfoUrl }}
+        sonarInfoEmojiMark: ${{ steps.metrics.outputs.sonarInfoEmojiMark }}
+        sonarOpenIssuesDashboardURL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
+        sonarOverallCodeDashBoardURL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
+        EMAIL_MODULE_SEV_AGG_TABLE: ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
+        FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}
+        SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}
+        TRIGGER_INFO: ${{ steps.execution-info.outputs.TRIGGER_INFO }}
+        COMMIT_MSG: ${{ steps.execution-info.outputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}
+        COMMIT_DATE: ${{ steps.execution-info.outputs.COMMIT_DATE }}
+        startTime: ${{ steps.execution-info.outputs.startTime }}
+        endTime: ${{ steps.execution-info.outputs.endTime }}
+        formattedDuration: ${{ steps.execution-info.outputs.formattedDuration }}
