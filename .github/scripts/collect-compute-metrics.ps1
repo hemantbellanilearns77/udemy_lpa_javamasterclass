@@ -1,4 +1,4 @@
-				############################################################
+        ############################################################
         # === Parse JaCoCo XML (Overall) ===
         ############################################################
         $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
@@ -470,4 +470,4 @@
         $emailModuleSevAggTable += "</table>"
         # Export both plain breakdown and HTML table
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
-        echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
+        echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
