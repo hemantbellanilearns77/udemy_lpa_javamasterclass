@@ -71,8 +71,8 @@
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
-        Write-Host "✅ SKIP_FLAG as received in publish summary composite is: ${{ inputs.SKIP_FLAG }}"
-        if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
+        Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $env:SKIP_FLAG"
+        if ($env:SKIP_FLAG -match "--skip-sonar") {
         $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
         $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
         $lastSonarAnalysis  = "N/A"
@@ -255,7 +255,7 @@
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         $emailModuleSevAggTable=""
-        if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
+        if ($env:SKIP_FLAG -match "--skip-sonar") {
         
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
