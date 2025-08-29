@@ -540,7 +540,7 @@ runs:
       id: thresholds
       shell: pwsh
       run: |
-        .\.github\scripts\metrics-threshold.ps1 `
+        pwsh -File .\.github\scripts\metrics-threshold.ps1 `
           -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
           -pmd ${{ steps.metrics.outputs.pmdCount }} `
           -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
