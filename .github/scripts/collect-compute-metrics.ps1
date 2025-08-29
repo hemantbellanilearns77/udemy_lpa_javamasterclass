@@ -202,7 +202,7 @@
         
 
         ############################################################
-              # === Write Overall Table ===
+                # === Write Overall Table ===
         ############################################################
         echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
         echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
