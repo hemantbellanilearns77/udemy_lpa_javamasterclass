@@ -289,10 +289,3 @@ exit /b 1
 :end
 echo Checkstyle Analysis complete.
 exit /b 0
-
-
-
-
-
-
-

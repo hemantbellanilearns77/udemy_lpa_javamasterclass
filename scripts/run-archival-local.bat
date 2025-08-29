@@ -288,7 +288,7 @@ for %%R in (logs reports) do (
 				echo [SCAN] !folderName! - !fileCount! files >> "%logPath%"
 
 				if !fileCount! LSS %retention% (
-					echo [SKIP] Less than %retention% files — skipping !folderName! >> "%logPath%"
+					echo [SKIP] Less than %retention% files ? skipping !folderName! >> "%logPath%"
 					echo. >> "%logPath%"
 				) else (
 					set /a index=0
@@ -364,4 +364,3 @@ set /a duration=%endSecs%-%startSecs%
 echo === ARCHIVAL SCRIPT COMPLETED === in %duration% seconds >> "%logPath%"
 echo. >> "%logPath%"
 endlocal
-

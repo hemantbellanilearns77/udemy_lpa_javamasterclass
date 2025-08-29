@@ -7,11 +7,26 @@ inputs:
   startTime:
     description: "Start time from setup-starttime composite"
     required: true
-  BRANCH_EXECUTED:
-    required: false
-    description: ""
   SKIP_FLAG:
-    required: false
+    required: true
+    description: ""
+  COMMIT_MSG:
+    required: true
+    description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
+  TRIGGER_EVENT:
+    required: true
+    description: ""
+  SRC_BRANCH:
+    required: true
+    description: ""
+  TGT_BRANCH:
+    required: true
+    description: ""
+  BRANCH_EXECUTED:
+    required: true
     description: ""
 
 outputs:
@@ -240,7 +255,7 @@ runs:
         $sonarLowEmojiMark = $(MarkEmoji $low)
         $sonarInfoEmojiMark = $(MarkEmoji $info)
         
-                
+        
         ############################################################
               # === Write Overall Table ===
         ############################################################
@@ -279,7 +294,7 @@ runs:
         "sonarHighEmojiMark=$sonarHighEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarHighURL=$($severityLinks.HIGH)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
-        "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
         "sonarMediumEmojiMark=$sonarMediumEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarMediumURL=$($severityLinks.MEDIUM)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
@@ -296,7 +311,7 @@ runs:
         
         $emailModuleSevAggTable=""
         if ("${{ inputs.SKIP_FLAG }}" -match "--skip-sonar") {
-          
+        
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
            Write-Host "Skipping rest of this step"
@@ -512,6 +527,30 @@ runs:
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
 
+    #    - name: Debug run metrics-threshold
+    #      run: |
+    #        dir .\github\scripts
+    #        pwsh -File .\github\scripts\metrics-threshold.ps1 -?
+    #      shell: pwsh
+
+    ######################################################
+    # 2. Evaluate thresholds against env variables
+    ######################################################
+    - name: 🧮 Evaluate Thresholds
+      id: thresholds
+      shell: pwsh
+      run: |
+        pwsh -File .\.github\scripts\metrics-threshold.ps1 `
+          -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
+          -pmd ${{ steps.metrics.outputs.pmdCount }} `
+          -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
+          -sonarHigh ${{ steps.metrics.outputs.sonarHigh }} `
+          -sonarMedium ${{ steps.metrics.outputs.sonarMedium }} `
+          -sonarLow ${{ steps.metrics.outputs.sonarLow }} `
+          -sonarInfo ${{ steps.metrics.outputs.sonarInfo }} `
+          -sonarCoverage ${{ steps.metrics.outputs.sonarCoverage }} `
+          -jobStatus ${{ job.status }}
+
       ###################################
       # EXECUTION INFO COMPOSITE CALL
       ###################################
@@ -520,6 +559,13 @@ runs:
       uses: ./.github/actions/execution-info
       with:
         startTime: ${{ inputs.startTime }}
+        SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
+        COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
+        TRIGGER_EVENT: ${{ inputs.TRIGGER_EVENT }}
+        SRC_BRANCH: ${{ inputs.SRC_BRANCH }}
+        TGT_BRANCH: ${{ inputs.TGT_BRANCH }}
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
 
     - name: Log Start/End Time After Execution Info
       run: |
@@ -539,11 +585,11 @@ runs:
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
         subject: >-
-          ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }}
+          ${{ steps.thresholds.outputs.HygieneCheckStatus }}
           | ${{ github.workflow }}
           | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
           | Duration: ${{ steps.execution-info.outputs.formattedDuration }}
-          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 77 && '(⚠️ Coverage Below Threshold)' || '' }}
+          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
@@ -551,7 +597,7 @@ runs:
           <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
           <p>Hi Hemant,</p>
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-              ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
+               <code>${{ steps.thresholds.outputs.HygieneCheckStatus }}</code>             
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
@@ -590,15 +636,19 @@ runs:
             <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
           </ul>
-          <h3>📌 Next Steps</h3>
+          <h3>📌 Next Steps - Static</h3> 
           <ul>
             <li>Fix Checkstyle violations in main module.</li>
             <li>Increase test coverage (currently ${{ steps.metrics.outputs.sonarCoverage }}%).</li>
             <li>Review medium & low severity SonarCloud issues.</li>
           </ul>
+          <h3>📌 Next Steps - Dynamic</h3>
+          <ul>
+            ${{ steps.thresholds.outputs.NextStepsHtml }}
+          </ul>
           <h3>📜 Job Execution Info</h3>
           <ul>
-            <li>Triggered by: ${{ github.actor }} (Manual Dispatch)</li>
+            <li>Triggered by:${{ steps.execution-info.outputs.TRIGGER_INFO }}</li>
             <li>Last Commit: ${{ steps.execution-info.outputs.COMMIT_MSG }} by ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}</li>
             <li>Commit Date: ${{ steps.execution-info.outputs.COMMIT_DATE }} (IST)</li>
             <li>Job Duration: ${{ steps.execution-info.outputs.formattedDuration }}</li>
