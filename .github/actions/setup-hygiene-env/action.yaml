@@ -70,7 +70,7 @@ runs:
           $SRC_BRANCH = $env:PR_SOURCE_BRANCH
           $TGT_BRANCH = $env:PR_TARGET_BRANCH
           $BRANCH_EXECUTED = "$SRC_BRANCH → $TGT_BRANCH"
-        } elseif (($env:TRIGGER_EVENT -ieq "workflow_dispatch") -or ($env:TRIGGER_EVENT -ieq "schedule")) { {
+        } elseif (($env:TRIGGER_EVENT -ieq "workflow_dispatch") -or ($env:TRIGGER_EVENT -ieq "schedule")) {
           # Handle manual dispatch case
           git fetch --depth=0 origin main
           git checkout main
