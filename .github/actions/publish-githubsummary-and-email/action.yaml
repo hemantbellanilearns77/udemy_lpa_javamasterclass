@@ -527,11 +527,11 @@ runs:
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
 
-    - name: Debug run metrics-threshold
-      run: |
-        dir .\github\scripts
-        pwsh -File .\github\scripts\metrics-threshold.ps1 -?
-      shell: pwsh
+#    - name: Debug run metrics-threshold
+#      run: |
+#        dir .\github\scripts
+#        pwsh -File .\github\scripts\metrics-threshold.ps1 -?
+#      shell: pwsh
 
     ######################################################
     # 2. Evaluate thresholds against env variables
@@ -540,7 +540,7 @@ runs:
       id: thresholds
       shell: pwsh
       run: |
-        .\github\scripts\metrics-threshold.ps1 `
+        .\.github\scripts\metrics-threshold.ps1 `
           -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
           -pmd ${{ steps.metrics.outputs.pmdCount }} `
           -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
