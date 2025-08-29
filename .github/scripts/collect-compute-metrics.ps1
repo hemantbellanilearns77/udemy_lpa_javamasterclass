@@ -107,7 +107,7 @@
         ############################################################
         # === Fetch SonarCloud Coverage Metrics ===
         ############################################################
-        $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${{ env.SONAR_TOKEN }}:"))
+        $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($env:SONAR_TOKEN):"))
         $headers = @{ Authorization = "Basic $encodedAuth" }
         
         function Get-SonarMetric($metricKey) {

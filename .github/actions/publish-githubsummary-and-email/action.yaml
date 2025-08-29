@@ -53,6 +53,8 @@ runs:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         JOB_STATUS: ${{ job.status }}   # 👈 capture job status here
         SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
+        SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
+        SONAR_ORG: ${{ env.SONAR_ORG }}
       run: |
         pwsh -File .\.github\scripts\collect-compute-metrics.ps1
 
