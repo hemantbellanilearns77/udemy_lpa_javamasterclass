@@ -636,7 +636,7 @@ runs:
             <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ steps.execution-info.outputs.FULL_SHA }}">View Commit (SHA=${{ steps.execution-info.outputs.SHORT_SHA }})</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
           </ul>
-          <h3>📌 Next Steps - Static</h3>
+          <h3>📌 Next Steps - Static</h3> 
           <ul>
             <li>Fix Checkstyle violations in main module.</li>
             <li>Increase test coverage (currently ${{ steps.metrics.outputs.sonarCoverage }}%).</li>
