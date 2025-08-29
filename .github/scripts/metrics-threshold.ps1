@@ -40,3 +40,20 @@ Write-Host "✅ HygieneCheckStatus calculated as: $HygieneCheckStatus"
 
 # Emit output
 "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+# --- Build dynamic Next Steps HTML ---
+$NextStepsHtml = ""
+
+if ($checkstyle -gt [int]$env:CHECKSTYLE_MAX_VIOLATIONS -or $pmd -gt [int]$env:PMD_MAX_VIOLATIONS) {
+    $NextStepsHtml += "<li>Fix Checkstyle / PMD violations in main module.</li>"
+}
+if ($sonarCoverage -lt [double]$env:JACOCO_MIN_COVERAGE) {
+    $NextStepsHtml += "<li>Increase test coverage (currently $sonarCoverage%).</li>"
+}
+if ($sonarBlocker -gt 0 -or $sonarHigh -gt [int]$env:HIGH_MAX -or $sonarMedium -gt [int]$env:MEDIUM_MAX -or $sonarLow -gt [int]$env:LOW_MAX) {
+    $NextStepsHtml += "<li>Review SonarCloud issues exceeding thresholds.</li>"
+}
+
+# --- Emit outputs ---
+"HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+"NextStepsHtml=$NextStepsHtml" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
