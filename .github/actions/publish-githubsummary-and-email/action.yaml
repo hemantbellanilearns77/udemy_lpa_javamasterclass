@@ -283,8 +283,7 @@ runs:
       
           # Expose as step output
           "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        
-        
+                
         ############################################################
               # === Write Overall Table ===
         ############################################################
