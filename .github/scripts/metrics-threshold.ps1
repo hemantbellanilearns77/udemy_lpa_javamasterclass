@@ -20,7 +20,7 @@ if ($sonarBlocker    -gt [int]$env:BLOCKER_MAX)               { $passed = $false
 if ($sonarHigh   -gt [int]$env:HIGH_MAX)              { $passed = $false }
 if ($sonarMedium       -gt [int]$env:MEDIUM_MAX)                  { $passed = $false }
 if ($sonarLow     -gt [int]$env:LOW_MAX)                { $passed = $false }
-if ($sonarLow       -gt [int]$env:INFO_MAX)                  { $passed = $false }
+if ($sonarInfo       -gt [int]$env:INFO_MAX)                  { $passed = $false }
 if ($sonarCoverage   -lt [double]$env:JACOCO_MIN_COVERAGE)    { $passed = $false }
 if ($jobStatus  -ne "success")                           { $passed = $false }
 
