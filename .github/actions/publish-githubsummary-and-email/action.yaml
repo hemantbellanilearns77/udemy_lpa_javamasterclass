@@ -535,8 +535,8 @@ runs:
       shell: pwsh
       run: |
         .github/scripts/metrics-threshold.ps1 `
-          -checkstyle ${{ steps.collect.metrics.checkstyleCount }} `
-          -pmd ${{ steps.collect.metrics.pmdCount }} `
+          -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
+          -pmd ${{ steps.metrics.outputs.pmdCount }} `
           -blocker ${{ steps.metrics.outputs.sonarBlocker }} `
           -high ${{ steps.metrics.outputs.sonarHigh }} `   
           -medium ${{ steps.metrics.outputs.sonarMedium }} `
