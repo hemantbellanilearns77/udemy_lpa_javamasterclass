@@ -176,62 +176,91 @@ runs:
         set "TEST_MISC=misc_utils\src\test\java"
         set "JUNIT_JAR=tools\junit-console\junit-platform-console-standalone-1.13.0.jar"
 
-        echo 🔹 Checking if output directories exist
-        if exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
-        echo ⚠️ %OUT_PROD%\udemy_lpa_javamasterclass exists
-        ) else (
-        echo ✅ %OUT_PROD%\udemy_lpa_javamasterclass does not exist
-        )
-    
-        if exist "%OUT_PROD%\misc_utils" (
-        echo ⚠️ %OUT_PROD%\misc_utils exists
-        ) else (
-        echo ✅ %OUT_PROD%\misc_utils does not exist
-        )
-        echo 🔹 Trigger compilation if production dirs missing
-        if not exist "%OUT_PROD%\udemy_lpa_javamasterclass" (
-          if not exist "%OUT_PROD%\misc_utils" (
-            echo ? Compilation triggered
+        echo 🔹 Cleaning output directories
+        rmdir /s /q "%OUT_PROD%" >nul 2>&1
+        rmdir /s /q "%OUT_TEST%" >nul 2>&1
+        mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
+        mkdir "%OUT_PROD%\misc_utils"
+        mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
+        mkdir "%OUT_TEST%\misc_utils"
 
-            echo 🔹 Cleaning old directories
-            rmdir /s /q "%OUT_PROD%" >nul 2>&1
-            rmdir /s /q "%OUT_TEST%" >nul 2>&1
-            
-            echo 🔹 Creating output directories
-            mkdir "%OUT_PROD%\udemy_lpa_javamasterclass"
-            mkdir "%OUT_PROD%\misc_utils"
-            mkdir "%OUT_TEST%\udemy_lpa_javamasterclass"
-            mkdir "%OUT_TEST%\misc_utils"
-
-            echo 🔹 Compiling udemy_lpa_javamasterclass
-            dir "%SRC_MAIN%" /s /b
-            dir "%SRC_MAIN%" /s
-            dir "%SRC_MAIN%"
-            dir /b "%SRC_MAIN%\*.java"
-            dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
+        REM -----------------------------
+        REM Compile main module
+        REM -----------------------------
+        echo 🔹 Compiling udemy_lpa_javamasterclass
+        dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
+        set /a count_main=0
+        for /f %%f in (sources_main.txt) do set /a count_main+=1
+        echo 🔹 Number of main Java files: %count_main%
+        if %count_main% GTR 0 (
             javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-            echo 🔹 Number of main Java files:
-            for /f %%F in ('type sources_main.txt ^| find /c /v ""') do echo %%F
+            if errorlevel 1 (
+                echo ❌ Compilation failed for udemy_lpa_javamasterclass
+                exit /b 1
+            )
             echo ✅ Finished compiling udemy_lpa_javamasterclass
-
-            echo 🔹 Compiling misc_utils
-            dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
-            for /f %%F in ('type sources_misc.txt ^| find /c /v ""') do echo 🔹 %%F misc_utils files
-            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-            echo ✅ Finished compiling misc_utils                    
-
-            echo ? Compiling tests (udemy_lpa_javamasterclass)
-            dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
-            for /f %%F in ('type sources_test_main.txt ^| find /c /v ""') do echo 🔹 %%F test files (masterclass)
-            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
-            echo ✅ Finished compiling udemy_lpa_javamasterclass tests
-    
-            echo ? Compiling tests (misc_utils)
-              dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
-              for /f %%F in ('type sources_test_misc.txt ^| find /c /v ""') do echo 🔹 %%F test files (misc_utils)
-              javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
-              echo ✅ Finished compiling misc_utils tests
-
-            del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt
-          )
+        ) else (
+            echo ⚠️ No main Java files found
         )
+
+        REM -----------------------------
+        REM Compile misc_utils
+        REM -----------------------------
+        echo 🔹 Compiling misc_utils
+        dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
+        set /a count_misc=0
+        for /f %%f in (sources_misc.txt) do set /a count_misc+=1
+        echo 🔹 %count_misc% misc_utils files
+        if %count_misc% GTR 0 (
+            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
+            if errorlevel 1 (
+                echo ❌ Compilation failed for misc_utils
+                exit /b 1
+            )
+            echo ✅ Finished compiling misc_utils
+        ) else (
+            echo ⚠️ No misc_utils Java files found
+        )
+
+        REM -----------------------------
+        REM Compile test modules
+        REM -----------------------------
+        echo 🔹 Compiling tests (udemy_lpa_javamasterclass)
+        dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
+        set /a count_test_main=0
+        for /f %%f in (sources_test_main.txt) do set /a count_test_main+=1
+        echo 🔹 %count_test_main% test files (masterclass)
+        if %count_test_main% GTR 0 (
+            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
+            if errorlevel 1 (
+                echo ❌ Compilation failed for udemy_lpa_javamasterclass tests
+                exit /b 1
+            )
+            echo ✅ Finished compiling udemy_lpa_javamasterclass tests
+        ) else (
+            echo ⚠️ No test files found for masterclass
+        )
+
+        echo 🔹 Compiling tests (misc_utils)
+        if exist "%TEST_MISC%" (
+            dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
+            set /a count_test_misc=0
+            for /f %%f in (sources_test_misc.txt) do set /a count_test_misc+=1
+            echo 🔹 %count_test_misc% test files (misc_utils)
+            if %count_test_misc% GTR 0 (
+                javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
+                if errorlevel 1 (
+                    echo ❌ Compilation failed for misc_utils tests
+                    exit /b 1
+                )
+                echo ✅ Finished compiling misc_utils tests
+            ) else (
+                echo ⚠️ No test files found for misc_utils
+            )
+        )
+
+        REM -----------------------------
+        REM Cleanup
+        REM -----------------------------
+        del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt >nul 2>&1
+        echo ✅ Compilation step completed successfully
