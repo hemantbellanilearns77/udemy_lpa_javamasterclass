@@ -72,9 +72,9 @@ runs:
           git checkout main
           # $COMMIT_MSG = "Manual dispatch - no commit associated"
           $COMMIT_MSG = $(git log -1 --pretty=%B)
-          $SRC_BRANCH = "main"
-          $TGT_BRANCH = "main"
-          $BRANCH_EXECUTED = "main"
+          $SRC_BRANCH =  $env:SOURCE_BRANCH ||  $env:TRIGGER_BRANCH
+          $TGT_BRANCH = $env:SOURCE_BRANCH ||  $env:TRIGGER_BRANCH
+          $BRANCH_EXECUTED = $SRC_BRANCH || $SRC_BRANCH
         } else {
           $COMMIT_MSG = "${{ github.event.head_commit.message }}"
           $SRC_BRANCH = $env:SOURCE_BRANCH

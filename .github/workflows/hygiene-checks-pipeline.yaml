@@ -74,8 +74,12 @@ jobs:
         uses: ./.github/actions/publish-githubsummary-and-email
         with:
           startTime: ${{ steps.setup.outputs.startTime }}
-          BRANCH_EXECUTED: ${{ steps.setup.outputs.BRANCH_EXECUTED }}
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+          COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
+          TRIGGER_EVENT: ${{ steps.setup.outputs.TRIGGER_EVENT }}
+          SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
+          TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
+          BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}

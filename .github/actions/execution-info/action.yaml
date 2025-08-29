@@ -7,6 +7,25 @@ inputs:
   startTime:
     description: "The start time to base calculations upon"
     required: true
+  SKIP_FLAG:
+    required: true
+    description: ""
+  COMMIT_MSG:
+    required: true
+    description: ""
+  TRIGGER_EVENT:
+    required: true
+    description: ""
+  SRC_BRANCH:
+    required: true
+    description: ""
+  TGT_BRANCH:
+    required: true
+    description: ""
+  BRANCH_EXECUTED:
+    required: true
+    description: ""
+
 outputs:
   SHORT_SHA:
     description: ""
@@ -91,7 +110,7 @@ runs:
         $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
         }     
         # Access GitHub context variables in PowerShell
-        $eventName = "${{ github.event_name }}"
+        $eventName = "${{ inputs.TRIGGER_EVENT }}"
         function Get-CronExplanation($expr) {
         $parts = $expr.Split(" ")
         if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
@@ -124,11 +143,10 @@ runs:
         $cronExpr = "${{ github.event.schedule }}"
         $explanation = Get-CronExplanation $cronExpr
         $timezone = "UTC"
-        $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
+        $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
         elseif ($eventName -eq "workflow_dispatch") {
-            $refName = "${{ github.ref_name }}"
-            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ github.actor }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>main</code>"
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ github.actor }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
         }
         elseif ($eventName -eq "pull_request") {
             $sourceBranch = "${{ github.event.pull_request.head.ref }}"
