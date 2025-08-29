@@ -204,7 +204,7 @@ runs:
 
         if  !count_main! GTR 0 (
             javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-            if !ERRORLEVEL! 1 (
+            if !ERRORLEVEL! NEQ 0 (
                 echo ❌ Compilation failed for udemy_lpa_javamasterclass
                 exit /b 1
             )
@@ -223,7 +223,7 @@ runs:
         echo 🔹 !count_misc! misc_utils files
         if !count_misc! GTR 0 (
             javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-            if !ERRORLEVEL! 1 (
+            if !ERRORLEVEL! NEQ 0 (
                 echo ❌ Compilation failed for misc_utils
                 exit /b 1
             )
@@ -242,7 +242,7 @@ runs:
         echo 🔹 !count_test_main! test files (masterclass)
         if !count_test_main! GTR 0 (
             javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
-            if !ERRORLEVEL! 1 (
+            if !ERRORLEVEL! NEQ 0 (
                 echo ❌ Compilation failed for udemy_lpa_javamasterclass tests
                 exit /b 1
             )
@@ -259,7 +259,7 @@ runs:
             echo 🔹 !count_test_misc! test files (misc_utils)
             if !count_test_misc! GTR 0 (
                 javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
-                if !ERRORLEVEL! 1 (
+                if !ERRORLEVEL! NEQ 0 (
                     echo ❌ Compilation failed for misc_utils tests
                     exit /b 1
                 )
