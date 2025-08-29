@@ -527,6 +527,14 @@ runs:
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
 
+    ######################################################
+    # 3. Compute Counts
+    ######################################################
+    - name: 🧮 Compute Counts
+      id: compute-metrics
+      shell: pwsh
+      run: |
+        pwsh -File .\.github\scripts\compute-metrics.ps1
 
     ######################################################
     # 2. Evaluate thresholds against env variables
