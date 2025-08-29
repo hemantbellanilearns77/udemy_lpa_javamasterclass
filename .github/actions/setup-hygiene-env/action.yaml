@@ -63,6 +63,7 @@ runs:
         $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
+        Write-Host "Reached beyond initializetion of TRIGGER EVENT"
         # Determine source and target branches explicitly, preserving your variable names
         if ($env:TRIGGER_EVENT -ieq "pull_request") {
           $COMMIT_MSG = "${{ github.event.pull_request.title }}"
@@ -128,6 +129,7 @@ runs:
         # Log for verification
         Write-Host "SKIP_FLAG=$SKIP_FLAG"
         Write-Host "COMMIT_MSG=$COMMIT_MSG"
+        Write-Host "COMMIT_AUTHOR=$COMMIT_AUTHOR"
         Write-Host "SRC_BRANCH=$SRC_BRANCH"
         Write-Host "TGT_BRANCH=$TGT_BRANCH"
         Write-Host "TRIGGER_EVENT=$TRIGGER_EVENT"
