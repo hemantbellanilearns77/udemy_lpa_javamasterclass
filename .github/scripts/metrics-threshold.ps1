@@ -11,6 +11,16 @@ param(
 )
 
 Write-Host "🧮 Evaluating metrics against thresholds..."
+Write-Host "🚀 DEBUG: Script started..."
+Write-Host "DEBUG: checkstyle = $checkstyle"
+Write-Host "DEBUG: pmd        = $pmd"
+Write-Host "DEBUG: sonarBlocker = $sonarBlocker"
+Write-Host "DEBUG: sonarHigh    = $sonarHigh"
+Write-Host "DEBUG: sonarMedium  = $sonarMedium"
+Write-Host "DEBUG: sonarLow     = $sonarLow"
+Write-Host "DEBUG: sonarInfo    = $sonarInfo"
+Write-Host "DEBUG: sonarCoverage = $sonarCoverage"
+Write-Host "DEBUG: jobStatus     = $jobStatus"
 
 $passed = $true
 

@@ -534,16 +534,16 @@ runs:
       id: thresholds
       shell: pwsh
       run: |
-        .github/scripts/metrics-threshold.ps1 `
+        ./github/scripts/metrics-threshold.ps1 `
           -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
           -pmd ${{ steps.metrics.outputs.pmdCount }} `
           -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
-          -sonarHigh ${{ steps.metrics.outputs.sonarHigh }} `   
+          -sonarHigh ${{ steps.metrics.outputs.sonarHigh }} `
           -sonarMedium ${{ steps.metrics.outputs.sonarMedium }} `
           -sonarLow ${{ steps.metrics.outputs.sonarLow }} `
           -sonarInfo ${{ steps.metrics.outputs.sonarInfo }} `
           -sonarCoverage ${{ steps.metrics.outputs.sonarCoverage }} `
-          -jobStatus ${{ job.status }}      
+          -jobStatus ${{ job.status }}
 
       ###################################
       # EXECUTION INFO COMPOSITE CALL
