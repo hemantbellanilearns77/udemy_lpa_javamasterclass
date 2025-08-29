@@ -557,6 +557,27 @@ runs:
         # Export both plain breakdown and HTML table
         echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
         echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
+        - name: Calculate Hygiene Check Status via PSL
+          id: hygiene-check-status
+          shell: pwsh
+          env:
+            CHECKSTYLE_VIOLATIONS: ${{ steps.metrics.outputs.checkstyleCount }}
+            PMD_VIOLATIONS: ${{ steps.metrics.outputs.pmdCount }}
+            BLOCKER: ${{ steps.metrics.outputs.sonarBlocker }}
+            HIGH: ${{ steps.metrics.outputs.sonarHigh }}
+            MEDIUM: ${{ steps.metrics.outputs.sonarMedium }}
+            INFO: ${{ steps.metrics.outputs.sonarInfo }}
+            SONAR_COVERAGE: ${{ steps.metrics.outputs.sonarCoverage }}
+            CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
+            PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
+            BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
+            HIGH_MAX: ${{ env.HIGH_MAX }}
+            MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
+            INFO_MAX: ${{ env.INFO_MAX }}
+            JACOCO_MIN_COVERAGE: ${{ env.JACOCO_MIN_COVERAGE }}
+            JOB_STATUS: ${{ job.status }}
+          run: |
+            pwsh ./scripts/calculate-hygiene-status.ps1
 
     - name: Log Start Time Before Execution Info
       run: |
@@ -601,7 +622,7 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <html>
-          <body style="font-family:Calibri;font-size:16px;color:#333;">          
+          <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
           <p>Hi Hemant,</p>
 
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
