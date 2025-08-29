@@ -167,7 +167,6 @@ runs:
     - name: Compile Java Modules
       shell: cmd
       run: |
-        setlocal enabledelayedexpansion
         set "JAVA_HOME=%JAVA_HOME%"
         set "OUT_PROD=out\production"
         set "OUT_TEST=out\test"
@@ -192,20 +191,18 @@ runs:
         dir /s /b "%SRC_MAIN%\*.java" > sources_main.txt
         set /a count_main=0
         for /f %%f in (sources_main.txt) do set /a count_main+=1
-        echo 🔹 Number of main Java files: !count_main!
-        if !count_main! GTR 0 (
-            if exist sources_main.txt (
-                javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
-                if !errorlevel! NEQ 0 (
-                    echo ❌ Compilation failed for udemy_lpa_javamasterclass
-                    exit /b !errorlevel!
-                )
-                echo ✅ Finished compiling udemy_lpa_javamasterclass
+        echo 🔹 Number of main Java files: %count_main%
+        if %count_main% GTR 0 (
+            javac --enable-preview --release 24 -encoding UTF-8 -d "%OUT_PROD%\udemy_lpa_javamasterclass" @sources_main.txt
+            if errorlevel 1 (
+                echo ❌ Compilation failed for udemy_lpa_javamasterclass
+                exit /b 1
             )
+            echo ✅ Finished compiling udemy_lpa_javamasterclass
         ) else (
-            echo ⚠️ No main Java files found — skipping compilation
+            echo ⚠️ No main Java files found
         )
-    
+
         REM -----------------------------
         REM Compile misc_utils
         REM -----------------------------
@@ -213,53 +210,57 @@ runs:
         dir /s /b "%SRC_MISC%\*.java" > sources_misc.txt
         set /a count_misc=0
         for /f %%f in (sources_misc.txt) do set /a count_misc+=1
-        echo 🔹 !count_misc! misc_utils files
-        if !count_misc! GTR 0 (
-            if exist sources_misc.txt (
-                javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
-                if !errorlevel! NEQ 0 (
-                    echo ❌ Compilation failed for misc_utils
-                    exit /b !errorlevel!
-                )
-                echo ✅ Finished compiling misc_utils
+        echo 🔹 %count_misc% misc_utils files
+        if %count_misc% GTR 0 (
+            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass" -d "%OUT_PROD%\misc_utils" @sources_misc.txt
+            if errorlevel 1 (
+                echo ❌ Compilation failed for misc_utils
+                exit /b 1
             )
+            echo ✅ Finished compiling misc_utils
         ) else (
-            echo ⚠️ No misc_utils Java files found — skipping compilation
+            echo ⚠️ No misc_utils Java files found
         )
-    
+
         REM -----------------------------
         REM Compile test modules
         REM -----------------------------
-        for %%MOD in MAIN MISC do (
-            if "%%MOD"=="MAIN" (
-                set SRC=!TEST_MAIN!
-                set OUT=!OUT_TEST!\udemy_lpa_javamasterclass
-                set MOD_NAME=udemy_lpa_javamasterclass
-            ) else (
-                set SRC=!TEST_MISC!
-                set OUT=!OUT_TEST!\misc_utils
-                set MOD_NAME=misc_utils
+        echo 🔹 Compiling tests (udemy_lpa_javamasterclass)
+        dir /s /b "%TEST_MAIN%\*.java" > sources_test_main.txt
+        set /a count_test_main=0
+        for /f %%f in (sources_test_main.txt) do set /a count_test_main+=1
+        echo 🔹 %count_test_main% test files (masterclass)
+        if %count_test_main% GTR 0 (
+            javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\udemy_lpa_javamasterclass" @sources_test_main.txt
+            if errorlevel 1 (
+                echo ❌ Compilation failed for udemy_lpa_javamasterclass tests
+                exit /b 1
             )
-            set /a TEST_COUNT=0
-            for /f %%f in ('dir /s /b "!SRC!\*.java" 2^>nul') do set /a TEST_COUNT+=1
-            echo 🔹 Compiling tests (!MOD_NAME!)
-            echo 🔹 Number of test files (!MOD_NAME!): !TEST_COUNT!
-            if !TEST_COUNT! GTR 0 (
-                dir /s /b "!SRC!\*.java" > sources_test.txt
-                javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "!OUT!" @sources_test.txt
-                if !errorlevel! NEQ 0 (
-                    echo ❌ Compilation failed for !MOD_NAME! tests
-                    exit /b !errorlevel!
+            echo ✅ Finished compiling udemy_lpa_javamasterclass tests
+        ) else (
+            echo ⚠️ No test files found for masterclass
+        )
+
+        echo 🔹 Compiling tests (misc_utils)
+        if exist "%TEST_MISC%" (
+            dir /s /b "%TEST_MISC%\*.java" > sources_test_misc.txt
+            set /a count_test_misc=0
+            for /f %%f in (sources_test_misc.txt) do set /a count_test_misc+=1
+            echo 🔹 %count_test_misc% test files (misc_utils)
+            if %count_test_misc% GTR 0 (
+                javac --enable-preview --release 24 -encoding UTF-8 -cp "%OUT_PROD%\udemy_lpa_javamasterclass;%OUT_PROD%\misc_utils;%JUNIT_JAR%" -d "%OUT_TEST%\misc_utils" @sources_test_misc.txt
+                if errorlevel 1 (
+                    echo ❌ Compilation failed for misc_utils tests
+                    exit /b 1
                 )
-                del sources_test.txt
-                echo ✅ Finished compiling !MOD_NAME! tests
+                echo ✅ Finished compiling misc_utils tests
             ) else (
-                echo ⚠️ No test files found for !MOD_NAME! — skipping test compilation
+                echo ⚠️ No test files found for misc_utils
             )
         )
-    
+
         REM -----------------------------
         REM Cleanup
         REM -----------------------------
-        del sources_main.txt sources_misc.txt sources_test.txt >nul 2>&1
+        del sources_main.txt sources_misc.txt sources_test_main.txt sources_test_misc.txt >nul 2>&1
         echo ✅ Compilation step completed successfully
