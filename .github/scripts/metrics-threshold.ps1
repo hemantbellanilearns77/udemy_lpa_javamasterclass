@@ -1,12 +1,12 @@
 param(
     [int]$checkstyle,
     [int]$pmd,
-    [int]$blocker,
-    [int]$high,
-    [int]$medium,
-    [int]$low,
-    [int]$info,
-    [double]$coverage,
+    [int]$sonarBlocker,
+    [int]$sonarHigh,
+    [int]$sonarMedium,
+    [int]$sonarLow,
+    [int]$sonarInfo,
+    [double]$sonarCoverage,
     [string]$jobStatus
 )
 

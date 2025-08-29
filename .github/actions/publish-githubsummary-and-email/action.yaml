@@ -537,12 +537,12 @@ runs:
         .github/scripts/metrics-threshold.ps1 `
           -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
           -pmd ${{ steps.metrics.outputs.pmdCount }} `
-          -blocker ${{ steps.metrics.outputs.sonarBlocker }} `
-          -high ${{ steps.metrics.outputs.sonarHigh }} `   
-          -medium ${{ steps.metrics.outputs.sonarMedium }} `
-          -low ${{ steps.metrics.outputs.sonarLow }} `
-          -info ${{ steps.metrics.outputs.sonarInfo }} `
-          -coverage ${{ steps.metrics.outputs.sonarCoverage }} `
+          -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
+          -sonarHigh ${{ steps.metrics.outputs.sonarHigh }} `   
+          -sonarMedium ${{ steps.metrics.outputs.sonarMedium }} `
+          -sonarLow ${{ steps.metrics.outputs.sonarLow }} `
+          -sonarInfo ${{ steps.metrics.outputs.sonarInfo }} `
+          -sonarCoverage ${{ steps.metrics.outputs.sonarCoverage }} `
           -jobStatus ${{ job.status }}      
 
       ###################################
