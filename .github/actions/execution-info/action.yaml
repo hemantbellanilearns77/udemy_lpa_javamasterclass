@@ -51,6 +51,7 @@ runs:
         $shortSha = git rev-parse --short HEAD
         $fullSha = git rev-parse HEAD
         $msg = git log -1 --pretty=%s
+        Write-Host "✅ Commit Message is: | $msg"        
         $author = git log -1 --pretty='%an'
         $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
         # Convert COMMIT_DATE to IST
