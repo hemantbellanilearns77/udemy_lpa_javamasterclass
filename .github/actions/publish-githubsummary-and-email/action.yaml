@@ -585,11 +585,11 @@ runs:
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
         subject: >-
-          ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILURE' }}
+          ${{ steps.thresholds.outputs.HygieneCheckStatus }}
           | ${{ github.workflow }}
           | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
           | Duration: ${{ steps.execution-info.outputs.formattedDuration }}
-          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < 77 && '(⚠️ Coverage Below Threshold)' || '' }}
+          ${{ steps.metrics.outputs.sonarCoverage && steps.metrics.outputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
@@ -597,8 +597,7 @@ runs:
           <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
           <p>Hi Hemant,</p>
           <h2>🏁 Hygiene Check : <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-              ${{ job.status == 'success' && 'PASSED ✅' || 'FAILED ❌' }}
-              <code>Status from Threshold step: ${{ steps.thresholds.outputs.HygieneCheckStatus }}</code>
+               <code>${{ steps.thresholds.outputs.HygieneCheckStatus }}</code>             
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
