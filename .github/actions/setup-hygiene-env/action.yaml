@@ -63,7 +63,7 @@ runs:
         echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
       shell: pwsh
 
-       - name: Setup common varaibles
+    - name: Setup common varaibles
       id: setup_vars
       shell: pwsh
       env:
