@@ -19,6 +19,9 @@ inputs:
   base-ref:
     required: false
     description: ""
+  github-token:
+    required: false
+    description: ""
 
 outputs:
   startTime:
@@ -68,8 +71,11 @@ runs:
         GITHUB_REF_NAME: ${{ inputs.ref-name }}
         GITHUB_HEAD_REF: ${{ inputs.head-ref }}
         GITHUB_BASE_REF: ${{ inputs.base-ref }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       run: |
         Write-Host "🔎 Setting up common variables"
+        Write-Host "Token available: $env:GITHUB_TOKEN"
+
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
         $GITHUB_REF_NAME = $env:GITHUB_REF_NAME
         $GITHUB_HEAD_REF = $env:GITHUB_HEAD_REF
@@ -92,27 +98,42 @@ runs:
             $SRC_BRANCH = $GITHUB_REF_NAME
             $TGT_BRANCH = $DEFAULT_BRANCH
         } elseif ($TRIGGER_EVENT -ieq "push") {
-        
+
             # Default target branch is the branch receiving the push
             $TGT_BRANCH = $GITHUB_REF_NAME
         
-            # Check commit parent count
+            # Get parent count of latest commit
             $parentCount = git rev-list --count --parents -n 1 HEAD
+        
             if ($parentCount -eq 1) {
             # Direct commit
             $SRC_BRANCH = $TGT_BRANCH
             Write-Host "⚡ Direct commit detected on $TGT_BRANCH"
           } else {
-            # Merge commit → likely from PR
+            # Merge commit → likely from a PR
             Write-Host "⚡ Merge commit detected → querying PR info"
         
-            # Minimal API query to get source branch of PR
-            $GITHUB_TOKEN = $env:GITHUB_TOKEN
+            # Ensure GITHUB_TOKEN is available
+            if (-not $env:GITHUB_TOKEN) {
+            Write-Host "❌ GITHUB_TOKEN not available. Cannot query PR info."
+            $SRC_BRANCH = $TGT_BRANCH
+            } else {
             $commitSHA = git rev-parse HEAD
-            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref'
-            $SRC_BRANCH = $prResponse
+            try {
+            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
         
+            if (-not [string]::IsNullOrEmpty($prResponse)) {
+            $SRC_BRANCH = $prResponse
             Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
+          } else {
+            $SRC_BRANCH = $TGT_BRANCH
+            Write-Host "⚡ Could not detect PR → assuming direct commit"
+          }
+          } catch {
+            Write-Host "⚠️ Error querying PR info: $_"
+            $SRC_BRANCH = $TGT_BRANCH
+          }
+          }
           }
         }
         
