@@ -36,8 +36,8 @@ jobs:
       # --- SonarCloud Severity Thresholds ---
       BLOCKER_MAX: 0      # Any Blocker fails hygiene
       HIGH_MAX: 10        # Maximum allowed high severity issues
-      MEDIUM_MAX: 25      # Maximum allowed medium severity issues
-      LOW_MAX: 20         # Maximum allowed low severity issues
+      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
+      LOW_MAX: 30         # Maximum allowed low severity issues
       INFO_MAX: 50        # Maximum allowed informational issues
 
     steps:
