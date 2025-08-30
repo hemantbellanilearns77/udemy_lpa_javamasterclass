@@ -56,42 +56,35 @@ runs:
         TRIGGER_EVENT: ${{ github.event_name }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         SOURCE_BRANCH: ${{ github.head_ref }}
-        PR_SOURCE_BRANCH: ${{ github.event.pull_request.head.ref || '' }}
-        PR_TARGET_BRANCH: ${{ github.event.pull_request.base.ref || '' }}
       run: |
         Write-Host "🔎 Setting up common variables"
+        # --- Always fetch last commit info ---
+        git fetch --depth=1 origin ${{ github.ref_name }} || Write-Host "⚠️ Could not fetch origin"
+        $LAST_COMMIT_MSG = $(git log -1 --pretty=%B)
+        $LAST_COMMIT_AUTHOR = $(git log -1 --pretty=%an)
         $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
+        $DEFAULT_BRANCH = "${{ github.event.repository.default_branch }}"
         Write-Host "Reached beyond initializetion of TRIGGER EVENT"
-        # Determine source and target branches explicitly, preserving your variable names
-        if ($env:TRIGGER_EVENT -ieq "pull_request") {
-          $COMMIT_MSG = "${{ github.event.pull_request.title }}"
-          $COMMIT_AUTHOR="${{ github.event.pull_request.user.login }}"
-          $SRC_BRANCH = $env:PR_SOURCE_BRANCH
-          $TGT_BRANCH = $env:PR_TARGET_BRANCH
-          $BRANCH_EXECUTED = "$SRC_BRANCH → $TGT_BRANCH"
-        } elseif (($env:TRIGGER_EVENT -ieq "workflow_dispatch") -or ($env:TRIGGER_EVENT -ieq "schedule")) {
-          # Handle manual dispatch case
-          git fetch --depth=0 origin main
-          git checkout main
-          # $COMMIT_MSG = "Manual dispatch - no commit associated" or "Scheduled run - no commit associated"
-          $COMMIT_MSG = $(git log -1 --pretty=%B)
-          $COMMIT_AUTHOR = $(git log -1 --pretty=%an)
-          $SRC_BRANCH = "${{ github.ref_name }}"
-          $TGT_BRANCH = "${{ github.ref_name }}"
-          $BRANCH_EXECUTED = $SRC_BRANCH
-        } else {
-          $COMMIT_MSG = "${{ github.event.head_commit.message }}"
-          $COMMIT_AUTHOR = "${{ github.event.head_commit.author.username }}"
-          $SRC_BRANCH = $env:SOURCE_BRANCH
+        # --- Determine source and target branches explicitly ---
+          if ($env:TRIGGER_EVENT -ieq "workflow_dispatch" -or $env:TRIGGER_EVENT -ieq "schedule") {
+          # workflow_dispatch / scheduled: source = triggering branch, target = main
+          $SRC_BRANCH = $env:TRIGGER_BRANCH
+          $TGT_BRANCH = $DEFAULT_BRANCH
+        } elseif($env:TRIGGER_EVENT -ieq "push") {
+          # Direct push / PR merged: source = commit branch, target = branch receiving push
+          # If SOURCE_BRANCH is populated (PR), use that; else use TRIGGER_BRANCH
+          $SRC_BRANCH = if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) { $env:SOURCE_BRANCH } else { $env:TRIGGER_BRANCH }
           $TGT_BRANCH = $env:TRIGGER_BRANCH
-          $BRANCH_EXECUTED = $TGT_BRANCH
-        }
+        } 
+        $BRANCH_EXECUTED = $TGT_BRANCH
+        Write-Host "✅ SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH | BRANCH_EXECUTED=$BRANCH_EXECUTED"
+
         $REASON = ""
         
-        # Case 1: Manual override → always skip
-        if ($COMMIT_MSG -match "--skip-sonar" ) {
+        # Case 1: Commit message override → always take precedence
+        if ($LAST_COMMIT_MSG -match "--skip-sonar") {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
@@ -100,26 +93,20 @@ runs:
           $SKIP_FLAG = ""
           $REASON = "⚡ Scheduled run → RUN Sonar"
         }
-        # Case 3: Direct push to main
-        elseif ($TGT_BRANCH -ieq "main" -and [string]::IsNullOrEmpty($SRC_BRANCH)) {
-          $SKIP_FLAG = ""
-          $SRC_BRANCH="main"
-          $BRANCH_EXECUTED = $TGT_BRANCH
-          $REASON = "⚡ Direct commit to main → RUN Sonar"
-        }
-        # Case 4: PR from any branch → main
+        # Case 3: Push to main
         elseif ($TGT_BRANCH -ieq "main") {
-          $SKIP_FLAG = ""
-          $REASON = "⚡ PR into main → RUN Sonar"
-        }
-        # Case 5: PR into stage or tech-debt → skip
-        elseif ($TGT_BRANCH -ieq "stage" -or $TGT_BRANCH -ieq "tech-debt") {
-          $SKIP_FLAG = "--skip-sonar"
-          $REASON = "⚡ PR into stage/tech-debt → SKIP Sonar"
-        }
-        else {
+          $SKIP_FLAG = ""        
+          # Distinguish direct commit vs PR merge based on commit parent count
+          $parentCount = $(git rev-list --count --parents -n 1 HEAD)
+          if ($parentCount -eq 1) {
+            $REASON = "⚡ Direct commit to main → RUN Sonar"
+          } else {
+            $REASON = "⚡ PR into main → RUN Sonar"
+          }
+        } else {
           $REASON = "⚡ Default → SKIP Sonar (SRC=$SRC_BRANCH, TGT=$TGT_BRANCH)"
         }
+        # fallback
         if ([string]::IsNullOrEmpty($SKIP_FLAG)) {
           Write-Host "✅ Sonar will RUN | $REASON"
         } else {
