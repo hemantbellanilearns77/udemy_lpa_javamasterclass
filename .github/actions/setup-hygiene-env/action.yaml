@@ -56,7 +56,7 @@ runs:
       run: |
         Write-Host "🔎 Setting up common variables"
 
-      # --- Always fetch latest commit info (full depth for merge detection)
+        # --- Always fetch latest commit info (full depth for merge detection)
         git fetch origin +refs/heads/*:refs/remotes/origin/* || Write-Host "⚠️ Could not fetch origin"
         
         # Get last commit info
@@ -75,15 +75,15 @@ runs:
         if ($TRIGGER_EVENT -ieq "workflow_dispatch" -or $TRIGGER_EVENT -ieq "schedule") {
         $SRC_BRANCH = $env:TRIGGER_BRANCH
         $TGT_BRANCH = $DEFAULT_BRANCH
-       } elseif ($TRIGGER_EVENT -ieq "push") {
-        # If it's a PR merge, SOURCE_BRANCH is set; else it's a direct push
-        if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) {
-        $SRC_BRANCH = $env:SOURCE_BRANCH
-        $TGT_BRANCH = $env:TRIGGER_BRANCH
-       } else {
-        $SRC_BRANCH = $TRIGGER_BRANCH
-        $TGT_BRANCH = $TRIGGER_BRANCH
-       }
+        } elseif ($TRIGGER_EVENT -ieq "push") {
+            # If it's a PR merge, SOURCE_BRANCH is set; else it's a direct push
+            if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) {
+            $SRC_BRANCH = $env:SOURCE_BRANCH
+            $TGT_BRANCH = $env:TRIGGER_BRANCH
+          } else {
+            $SRC_BRANCH = $TRIGGER_BRANCH
+            $TGT_BRANCH = $TRIGGER_BRANCH
+          }
        }
         
         $BRANCH_EXECUTED = $TGT_BRANCH
