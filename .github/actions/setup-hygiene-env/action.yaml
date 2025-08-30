@@ -53,38 +53,39 @@ runs:
       shell: pwsh
       env:
         TRIGGER_EVENT: ${{ github.event_name }}
-        TRIGGER_BRANCH: ${{ github.ref_name }}
-        SOURCE_BRANCH: ${{ github.head_ref }}
       run: |
         Write-Host "🔎 Setting up common variables"
-        # --- Always fetch last commit info ---
-        git fetch --depth=0 origin ${{ github.ref_name }} || Write-Host "⚠️ Could not fetch origin"
-        $LAST_COMMIT_MSG = $(git log -1 --pretty=%B)
-        $LAST_COMMIT_AUTHOR = $(git log -1 --pretty=%an)
+
+      # --- Always fetch latest commit info (full depth for merge detection)
+        git fetch origin +refs/heads/*:refs/remotes/origin/* || Write-Host "⚠️ Could not fetch origin"
         
-        # Assign base values
+        # Get last commit info
+        $LAST_COMMIT_MSG = git log -1 --pretty=%B
+        $LAST_COMMIT_AUTHOR = git log -1 --pretty=%an
+        
+        # Base values
         $COMMIT_MSG = $LAST_COMMIT_MSG
         $COMMIT_AUTHOR = $LAST_COMMIT_AUTHOR
-        $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
+        
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
         $DEFAULT_BRANCH = "${{ github.event.repository.default_branch }}"
-        Write-Host "Reached beyond initializetion of TRIGGER EVENT"
-        # --- Determine source and target branches explicitly ---
-          if ($env:TRIGGER_EVENT -ieq "workflow_dispatch" -or $env:TRIGGER_EVENT -ieq "schedule") {
-          # workflow_dispatch / scheduled: source = triggering branch, target = main
-          $SRC_BRANCH = $env:TRIGGER_BRANCH
-          $TGT_BRANCH = $DEFAULT_BRANCH
-        } if ($TRIGGER_EVENT -eq "push" -and $TGT_BRANCH -eq "main") {
-            $mergeParents = $(git log -1 --pretty=%P)
-            $parentCount = ($mergeParents.Split(" ").Count)
-            if ($parentCount -gt 1) {
-            # It's a merge commit
-            $SRC_BRANCH = $(git log -1 --pretty=%P | ForEach-Object { git name-rev $_ | ForEach-Object { $_.Split(" ")[0] } } | Select-Object -First 1)
-          } else {
-            $SRC_BRANCH = $TRIGGER_BRANCH
-          }
-        }
+        
+        # --- Determine source and target branches ---
+        if ($TRIGGER_EVENT -ieq "workflow_dispatch" -or $TRIGGER_EVENT -ieq "schedule") {
+        $SRC_BRANCH = $env:TRIGGER_BRANCH
+        $TGT_BRANCH = $DEFAULT_BRANCH
+       } elseif ($TRIGGER_EVENT -ieq "push") {
+        # If it's a PR merge, SOURCE_BRANCH is set; else it's a direct push
+        if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) {
+        $SRC_BRANCH = $env:SOURCE_BRANCH
+        $TGT_BRANCH = $env:TRIGGER_BRANCH
+       } else {
+        $SRC_BRANCH = $TRIGGER_BRANCH
+        $TGT_BRANCH = $TRIGGER_BRANCH
+       }
+       }
+        
         $BRANCH_EXECUTED = $TGT_BRANCH
         Write-Host "✅ SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH | BRANCH_EXECUTED=$BRANCH_EXECUTED"
 
