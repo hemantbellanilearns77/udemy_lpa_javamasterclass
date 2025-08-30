@@ -52,7 +52,6 @@ runs:
       id: setup_vars
       shell: pwsh
       env:
-        COMMIT_MSG: ${{ github.event.head_commit.message || github.event.pull_request.title || '' }}
         TRIGGER_EVENT: ${{ github.event_name }}
         TRIGGER_BRANCH: ${{ github.ref_name }}
         SOURCE_BRANCH: ${{ github.head_ref }}
@@ -62,6 +61,10 @@ runs:
         git fetch --depth=1 origin ${{ github.ref_name }} || Write-Host "⚠️ Could not fetch origin"
         $LAST_COMMIT_MSG = $(git log -1 --pretty=%B)
         $LAST_COMMIT_AUTHOR = $(git log -1 --pretty=%an)
+        
+        # Assign base values
+        $COMMIT_MSG = $LAST_COMMIT_MSG
+        $COMMIT_AUTHOR = $LAST_COMMIT_AUTHOR
         $SKIP_FLAG = "--skip-sonar"
         $REASON = ""
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
