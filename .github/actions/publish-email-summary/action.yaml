@@ -8,6 +8,9 @@ inputs:
   HygieneCheckStatus:
     required: true
     description: ""
+  NextStepsHtml:
+    required: true
+    description: ""
   BRANCH_EXECUTED:
     required: true
     description: ""
@@ -178,12 +181,12 @@ runs:
           </ul>
           <h3>📌 Next Steps - Dynamic</h3>
           <ul>
-            ${{ steps.thresholds.outputs.NextStepsHtml }}
+            ${{ inputs.NextStepsHtml }}
           </ul>
           <h3>📜 Job Execution Info</h3>
           <ul>
             <li>Triggered by:${{ inputs.TRIGGER_INFO }}</li>
-            <li>Last Commit: ${{ inputs.COMMIT_MSG }} by ${{ inputs.COMMIT_AUTHOR }}</li>
+            <li>Last Commit was by: ${{ inputs.COMMIT_AUTHOR }} with Commit Message: ${{ inputs.COMMIT_MSG }}</li>
             <li>Commit Date: ${{ inputs.COMMIT_DATE }} (IST)</li>
             <li>Job Duration: ${{ inputs.formattedDuration }}</li>
             <li>Start: ${{ inputs.startTime }} | End: ${{ inputs.endTime }}</li>

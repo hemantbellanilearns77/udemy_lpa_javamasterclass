@@ -258,7 +258,8 @@
         if ($env:SKIP_FLAG -match "--skip-sonar") {
         
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
-          echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
+          # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
+          "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
            Write-Host "Skipping rest of this step"
            exit 0   # Ends this step cleanly
         }
@@ -469,5 +470,7 @@
         
         $emailModuleSevAggTable += "</table>"
         # Export both plain breakdown and HTML table
-        echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
-        echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV 
+        # echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
+        # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
+        "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

@@ -73,13 +73,13 @@ runs:
         $shortSha = git rev-parse --short HEAD
         $fullSha = git rev-parse HEAD
         
-        Write-Host "✅ Commit Message is: | ${{ inputs.COMMIT_MSG }}"        
+        Write-Host "✅ [DEBUG] Inside step : execution_info and Commit Message is: | ${{ inputs.COMMIT_MSG }}"        
         $commitdateRaw = git log -1 --date=iso-local --pretty='%cd'
         # Convert COMMIT_DATE to IST
         $commitDateUtc = [DateTimeOffset]::Parse($commitdateRaw).ToUniversalTime()
         $istOffset = [System.TimeSpan]::FromHours(5.5)
         $commitDateIST = $commitDateUtc.ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
-        
+        Write-Host "✅ [DEBUG] Inside step : execution_info and Commit Date is: | $commitDateIST"        
         $commitTs = git log -1 --pretty=%ct
         $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
         $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
@@ -150,12 +150,13 @@ runs:
         elseif ($eventName -eq "workflow_dispatch") {
             $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ inputs.COMMIT_AUTHOR }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
         } elseif ($eventName -eq "push") {
-            if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) {
+            if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
               # PR merged into target branch
-              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+              # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
             } else {
               # Direct push
-              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
             }
         } else {
           $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
