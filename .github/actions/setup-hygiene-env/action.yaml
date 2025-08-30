@@ -157,14 +157,12 @@ runs:
         }
         # Case 3: Push to main
         elseif ($TGT_BRANCH -ieq "main") {
-          $SKIP_FLAG = ""        
-          # Distinguish direct commit vs PR merge based on commit parent count
-          $parentCount = $(git rev-list --count --parents -n 1 HEAD)
-          if ($parentCount -eq 1) {
-            $REASON = "⚡ Direct commit to main → RUN Sonar"
-          } else {
-            $REASON = "⚡ PR into main → RUN Sonar"
-          }
+           # Use PR detection via commit message
+           if ($LAST_COMMIT_MSG -match $prMergePattern) {
+              $REASON = "⚡ PR merged into main → RUN Sonar"
+           } else {
+              $REASON = "⚡ Direct commit to main → RUN Sonar"
+           }
         } else {
           $REASON = "⚡ Default → SKIP Sonar (SRC=$SRC_BRANCH, TGT=$TGT_BRANCH)"
         }
