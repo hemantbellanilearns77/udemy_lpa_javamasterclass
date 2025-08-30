@@ -86,7 +86,7 @@ runs:
             $SRC_BRANCH = $TRIGGER_BRANCH
             $TGT_BRANCH = $TRIGGER_BRANCH
           }
-       }
+        }
         
         $BRANCH_EXECUTED = $TGT_BRANCH
         Write-Host "✅ SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH | BRANCH_EXECUTED=$BRANCH_EXECUTED"
