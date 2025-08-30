@@ -92,11 +92,28 @@ runs:
             $SRC_BRANCH = $GITHUB_REF_NAME
             $TGT_BRANCH = $DEFAULT_BRANCH
         } elseif ($TRIGGER_EVENT -ieq "push") {
-            $SRC_BRANCH = $GITHUB_REF_NAME
+        
+            # Default target branch is the branch receiving the push
             $TGT_BRANCH = $GITHUB_REF_NAME
-        } elseif ($TRIGGER_EVENT -like "pull_request*") {
-            $SRC_BRANCH = $GITHUB_HEAD_REF
-            $TGT_BRANCH = $GITHUB_BASE_REF
+        
+            # Check commit parent count
+            $parentCount = git rev-list --count --parents -n 1 HEAD
+            if ($parentCount -eq 1) {
+            # Direct commit
+            $SRC_BRANCH = $TGT_BRANCH
+            Write-Host "⚡ Direct commit detected on $TGT_BRANCH"
+          } else {
+            # Merge commit → likely from PR
+            Write-Host "⚡ Merge commit detected → querying PR info"
+        
+            # Minimal API query to get source branch of PR
+            $GITHUB_TOKEN = $env:GITHUB_TOKEN
+            $commitSHA = git rev-parse HEAD
+            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref'
+            $SRC_BRANCH = $prResponse
+        
+            Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
+          }
         }
         
         $BRANCH_EXECUTED = $TGT_BRANCH
