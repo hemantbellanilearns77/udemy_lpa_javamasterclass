@@ -19,6 +19,9 @@ inputs:
   base-ref:
     required: false
     description: ""
+  github-token:
+    required: false
+    description: ""
 
 outputs:
   startTime:
@@ -68,8 +71,11 @@ runs:
         GITHUB_REF_NAME: ${{ inputs.ref-name }}
         GITHUB_HEAD_REF: ${{ inputs.head-ref }}
         GITHUB_BASE_REF: ${{ inputs.base-ref }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       run: |
         Write-Host "🔎 Setting up common variables"
+        Write-Host "Token available: $env:GITHUB_TOKEN"
+
         $TRIGGER_EVENT = $env:TRIGGER_EVENT
         $GITHUB_REF_NAME = $env:GITHUB_REF_NAME
         $GITHUB_HEAD_REF = $env:GITHUB_HEAD_REF
