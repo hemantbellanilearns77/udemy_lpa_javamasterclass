@@ -106,10 +106,10 @@ runs:
             $LAST_COMMIT_MSG = git log -1 --pretty=%B
             $commitSHA = git rev-parse HEAD
         
-            # Define regex for PR merge patterns
-            $prMergePattern = '^(Merge|Merged)\s+(pull request|PR)'
+            # Detect merge commit patterns anywhere in the message
+            $prMergePattern = '(Merge|Merged)\s+(pull request|PR)'
         
-            if ($LAST_COMMIT_MSG -match $prMergePattern) {
+            if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
             Write-Host "⚡ Merge commit detected via PR → querying PR info"
         
             if (-not $env:GITHUB_TOKEN) {
@@ -158,7 +158,7 @@ runs:
         # Case 3: Push to main
         elseif ($TGT_BRANCH -ieq "main") {
            # Use PR detection via commit message
-           if ($LAST_COMMIT_MSG -match $prMergePattern) {
+           if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
               $REASON = "⚡ PR merged into main → RUN Sonar"
            } else {
               $REASON = "⚡ Direct commit to main → RUN Sonar"
