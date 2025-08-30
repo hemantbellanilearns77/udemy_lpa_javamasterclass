@@ -144,7 +144,7 @@ runs:
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
-          <strong>branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+          <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
           <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code><br/>
           <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
           <h3>📊 Summary</h3>
@@ -172,11 +172,11 @@ runs:
           </ul>
           <h3>📦 Module Severity Breakdown</h3>
           ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-          <h3>🔗 Useful Links</h3>
+          <h3>🔗 Links - SonarCloud, GitHUb</h3>
           <ul>
-            <li>🌐 <a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud Overall Code Dashboard (All Open Issues)</a></li>
-            <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Breakdown (Severity-Wise) Dashboard</a></li>
-            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
+            <li>🌐 <a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud ${{ inputs.BRANCH_EXECUTED }} Branch Summary - All Open Issues</a></li>
+            <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Dashboard - Severity-Wise Breakdown</a></li>
+            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Commit - SHA=${{ inputs.SHORT_SHA }}</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Download Artifacts from Hygiene Check Job </a></li>
           </ul>
           <h3>📌 Next Steps - Dynamic</h3>

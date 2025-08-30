@@ -113,7 +113,7 @@ jobs:
 
         #############################
         # FULL CLEANUP AND VERIFY
-      ##############################
+        ##############################
 
       - name: Full Cleanup and Verify Composite Call
         id: cleanup-and-verify-composite-call
