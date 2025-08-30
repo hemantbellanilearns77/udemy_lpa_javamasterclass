@@ -58,7 +58,7 @@ runs:
       run: |
         Write-Host "🔎 Setting up common variables"
         # --- Always fetch last commit info ---
-        git fetch --depth=1 origin ${{ github.ref_name }} || Write-Host "⚠️ Could not fetch origin"
+        git fetch --depth=0 origin ${{ github.ref_name }} || Write-Host "⚠️ Could not fetch origin"
         $LAST_COMMIT_MSG = $(git log -1 --pretty=%B)
         $LAST_COMMIT_AUTHOR = $(git log -1 --pretty=%an)
         
@@ -75,12 +75,16 @@ runs:
           # workflow_dispatch / scheduled: source = triggering branch, target = main
           $SRC_BRANCH = $env:TRIGGER_BRANCH
           $TGT_BRANCH = $DEFAULT_BRANCH
-        } elseif($env:TRIGGER_EVENT -ieq "push") {
-          # Direct push / PR merged: source = commit branch, target = branch receiving push
-          # If SOURCE_BRANCH is populated (PR), use that; else use TRIGGER_BRANCH
-          $SRC_BRANCH = if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) { $env:SOURCE_BRANCH } else { $env:TRIGGER_BRANCH }
-          $TGT_BRANCH = $env:TRIGGER_BRANCH
-        } 
+        } if ($TRIGGER_EVENT -eq "push" -and $TGT_BRANCH -eq "main") {
+            $mergeParents = $(git log -1 --pretty=%P)
+            $parentCount = ($mergeParents.Split(" ").Count)
+            if ($parentCount -gt 1) {
+            # It's a merge commit
+            $SRC_BRANCH = $(git log -1 --pretty=%P | ForEach-Object { git name-rev $_ | ForEach-Object { $_.Split(" ")[0] } } | Select-Object -First 1)
+          } else {
+            $SRC_BRANCH = $TRIGGER_BRANCH
+          }
+        }
         $BRANCH_EXECUTED = $TGT_BRANCH
         Write-Host "✅ SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH | BRANCH_EXECUTED=$BRANCH_EXECUTED"
 
