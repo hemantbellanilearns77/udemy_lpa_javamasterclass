@@ -71,7 +71,7 @@ runs:
         GITHUB_REF_NAME: ${{ inputs.ref-name }}
         GITHUB_HEAD_REF: ${{ inputs.head-ref }}
         GITHUB_BASE_REF: ${{ inputs.base-ref }}
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github-token  }}
       run: |
         Write-Host "🔎 Setting up common variables"
         Write-Host "Token available: $env:GITHUB_TOKEN"
