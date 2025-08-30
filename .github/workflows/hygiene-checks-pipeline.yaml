@@ -56,6 +56,12 @@ jobs:
       - name: Setup Hygiene Environment
         id: setup
         uses: ./.github/actions/setup-hygiene-env
+        with:
+          java-version: "24"
+          trigger-event: ${{ github.event_name }}
+          ref-name: ${{ github.ref_name }}
+          head-ref: ${{ github.head_ref }}
+          base-ref: ${{ github.base_ref }}
 
       ###############################################################
         # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
