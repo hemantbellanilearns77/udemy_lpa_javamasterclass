@@ -149,11 +149,14 @@ runs:
         }
         elseif ($eventName -eq "workflow_dispatch") {
             $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ inputs.COMMIT_AUTHOR }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
-        }
-        elseif ($eventName -eq "pull_request") {
-            $sourceBranch = "${{ github.event.pull_request.head.ref }}"
-            $targetBranch = "${{ github.event.pull_request.base.ref }}"
-            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Pull Request</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+        } elseif ($eventName -eq "push") {
+            if (-not [string]::IsNullOrWhiteSpace($env:SOURCE_BRANCH)) {
+              # PR merged into target branch
+              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+            } else {
+              # Direct push
+              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+            }
         } else {
           $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
         }
