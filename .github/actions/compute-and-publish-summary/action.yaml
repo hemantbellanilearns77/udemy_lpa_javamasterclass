@@ -105,8 +105,14 @@ runs:
     - name: 📧 Send Hygiene Summary Email
       uses: ./.github/actions/publish-email-summary
       with:
-        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
+        startTime: ${{ inputs.startTime }}
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+        COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
+
+        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
+        NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}
+
         sonarCoverage: ${{ steps.metrics.outputs.sonarCoverage }}
         coverageBar: ${{ steps.metrics.outputs.coverageBar }}
         checkstyleCount: ${{ steps.metrics.outputs.checkstyleCount }}
@@ -131,13 +137,14 @@ runs:
         sonarInfoEmojiMark: ${{ steps.metrics.outputs.sonarInfoEmojiMark }}
         sonarOpenIssuesDashboardURL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
         sonarOverallCodeDashBoardURL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-        EMAIL_MODULE_SEV_AGG_TABLE: ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
+        # EMAIL_MODULE_SEV_AGG_TABLE: ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
+        EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+        EMAIL_BREAKDOWN: ${{ steps.metrics.outputs.EMAIL_BREAKDOWN }}
+
+
         FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}
         SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}
         TRIGGER_INFO: ${{ steps.execution-info.outputs.TRIGGER_INFO }}
-        COMMIT_MSG: ${{ steps.execution-info.outputs.COMMIT_MSG }}
-        COMMIT_AUTHOR: ${{ steps.execution-info.outputs.COMMIT_AUTHOR }}
         COMMIT_DATE: ${{ steps.execution-info.outputs.COMMIT_DATE }}
-        startTime: ${{ steps.execution-info.outputs.startTime }}
         endTime: ${{ steps.execution-info.outputs.endTime }}
         formattedDuration: ${{ steps.execution-info.outputs.formattedDuration }}
