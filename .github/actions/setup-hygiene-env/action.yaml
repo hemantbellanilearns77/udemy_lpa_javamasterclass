@@ -14,13 +14,13 @@ inputs:
     required: true
     description: ""
   head-ref:
-    required: false
+    required: true
     description: ""
   base-ref:
-    required: false
+    required: true
     description: ""
   github-token:
-    required: false
+    required: true
     description: ""
 
 outputs:
