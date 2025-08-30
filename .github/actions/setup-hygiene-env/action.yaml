@@ -151,18 +151,20 @@ runs:
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
         # Case 2: Scheduled run on main
-        elseif ($TRIGGER_EVENT -ieq "schedule") {
+        elseif ($TRIGGER_EVENT -ieq "schedule") { 
           $SKIP_FLAG = ""
           $REASON = "⚡ Scheduled run → RUN Sonar"
         }
         # Case 3: Push to main
-        elseif ($TGT_BRANCH -ieq "main") {
-           # Use PR detection via commit message
-           if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
-              $REASON = "⚡ PR merged into main → RUN Sonar"
-           } else {
-              $REASON = "⚡ Direct commit to main → RUN Sonar"
-           }
+          elseif ($TRIGGER_EVENT -ieq "workflow_dispatch") {
+          $SKIP_FLAG = ""
+          $REASON = "⚡ Manual workflow_dispatch → RUN Sonar"
+        } elseif ($TRIGGER_EVENT -ieq "push" -and $TGT_BRANCH -ieq "main") {
+          if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
+          $REASON = "⚡ PR merged into main → RUN Sonar"
+        } else {
+          $REASON = "⚡ Direct commit to main → RUN Sonar"
+        }
         } else {
           $REASON = "⚡ Default → SKIP Sonar (SRC=$SRC_BRANCH, TGT=$TGT_BRANCH)"
         }
