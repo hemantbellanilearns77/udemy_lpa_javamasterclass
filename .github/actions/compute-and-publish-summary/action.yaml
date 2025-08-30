@@ -146,6 +146,6 @@ runs:
         SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}
         TRIGGER_INFO: ${{ steps.execution-info.outputs.TRIGGER_INFO }}
         COMMIT_DATE: ${{ steps.execution-info.outputs.COMMIT_DATE }}
-        startTime: }${{ steps.execution-info.outputs.startTime }}
+        startTime: ${{ steps.execution-info.outputs.startTime }}
         endTime: ${{ steps.execution-info.outputs.endTime }}
         formattedDuration: ${{ steps.execution-info.outputs.formattedDuration }}
