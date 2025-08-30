@@ -1,7 +1,7 @@
 ##############################################################
 # PUBLISH GITHUB SUMMARY SECTION AND SEND EMAIL
 ##############################################################
-name: "Publish GITHUB-Summary and Send Email"
+name: "Compute Metric and Publish Summaries (GITHUB and EMAIL)"
 description: ""
 inputs:
   startTime:

@@ -1,7 +1,7 @@
 ########################################################
 # PUBLISH EXECUTION INFO (COMMIT INFO AND DURATION)
 #########################################################
-name: "Publish all Execution Info"
+name: "Compute/Extract and Publish all Execution Info"
 description: "Publish Execution Info - Commit stats, start time, end time, duration of execution"
 inputs:
   startTime:
