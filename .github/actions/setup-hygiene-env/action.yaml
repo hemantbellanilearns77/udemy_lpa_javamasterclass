@@ -99,37 +99,45 @@ runs:
             $TGT_BRANCH = $DEFAULT_BRANCH
         } elseif ($TRIGGER_EVENT -ieq "push") {
 
+            # Default target branch is the branch receiving the push
             $TGT_BRANCH = $GITHUB_REF_NAME
-            $SRC_BRANCH = $TGT_BRANCH  # fallback
         
-            # Check if the push is a merge from a PR
-            $githubEventPath = $env:GITHUB_EVENT_PATH
-            if (Test-Path $githubEventPath) {
-            $eventJson = Get-Content $githubEventPath -Raw | ConvertFrom-Json
+            # Get last commit info
+            $LAST_COMMIT_MSG = git log -1 --pretty=%B
+            $commitSHA = git rev-parse HEAD
         
-            if ($eventJson.pull_request -and $eventJson.pull_request.merged -eq $true) {
-            # It's a merged PR
-            $SRC_BRANCH = $eventJson.pull_request.head.ref
-            Write-Host "✅ Push is from a merged PR → source branch: $SRC_BRANCH"
-          } elseif ($eventJson.before -eq "0000000000000000000000000000000000000000") {
-            # First commit on a branch
-            Write-Host "⚡ Direct commit detected (first commit) on $TGT_BRANCH"
+            # Define regex for PR merge patterns
+            $prMergePattern = '^(Merge|Merged)\s+(pull request|PR)'
+        
+            if ($LAST_COMMIT_MSG -match $prMergePattern) {
+            Write-Host "⚡ Merge commit detected via PR → querying PR info"
+        
+            if (-not $env:GITHUB_TOKEN) {
+            Write-Host "❌ GITHUB_TOKEN not available. Cannot query PR info."
+            $SRC_BRANCH = $TGT_BRANCH
+            } else {
+            try {
+            # Query PR for source branch using commit SHA
+            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
+        
+            if (-not [string]::IsNullOrEmpty($prResponse)) {
+            $SRC_BRANCH = $prResponse
+            Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
           } else {
+            $SRC_BRANCH = $TGT_BRANCH
+            Write-Host "⚡ Could not detect PR → assuming direct commit"
+          }
+          } catch {
+            Write-Host "⚠️ Error querying PR info: $_"
+            $SRC_BRANCH = $TGT_BRANCH
+          }
+          }
+        
+          } else {
+            # Regular direct commit
             Write-Host "⚡ Regular direct commit on $TGT_BRANCH"
+            $SRC_BRANCH = $TGT_BRANCH
           }
-          } else {
-            Write-Host "⚠️ Could not find GitHub event payload at $githubEventPath → using parent count fallback"
-        
-            # fallback to parent count
-            $parentCount = [int](git rev-list --count --parents -n 1 HEAD).Trim()
-            if ($parentCount -eq 1) {
-            Write-Host "⚡ Direct commit detected on $TGT_BRANCH (fallback)"
-          } else {
-            Write-Host "⚡ Merge commit detected on $TGT_BRANCH (fallback)"
-          }
-          }
-        
-            Write-Host "🔹 SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH"
         }
         
         $BRANCH_EXECUTED = $TGT_BRANCH
