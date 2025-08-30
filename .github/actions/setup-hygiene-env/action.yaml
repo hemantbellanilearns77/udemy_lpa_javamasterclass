@@ -53,6 +53,8 @@ runs:
       shell: pwsh
       env:
         TRIGGER_EVENT: ${{ github.event_name }}
+        TRIGGER_BRANCH: ${{ github.ref_name }}
+        SOURCE_BRANCH: ${{ github.head_ref }}
       run: |
         Write-Host "🔎 Setting up common variables"
 
