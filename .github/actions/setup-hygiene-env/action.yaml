@@ -63,7 +63,7 @@ runs:
         echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.setup.outputs.startTime }}"
       shell: pwsh
 
-    - name: Setup common varaibles
+       - name: Setup common varaibles
       id: setup_vars
       shell: pwsh
       env:
@@ -102,38 +102,34 @@ runs:
             # Default target branch is the branch receiving the push
             $TGT_BRANCH = $GITHUB_REF_NAME
         
-            # Get parent count of latest commit
-            $parentCount = git rev-list --count --parents -n 1 HEAD
-        
-            if ($parentCount -eq 1) {
-            # Direct commit
-            $SRC_BRANCH = $TGT_BRANCH
-            Write-Host "⚡ Direct commit detected on $TGT_BRANCH"
-          } else {
-            # Merge commit → likely from a PR
+            # Get parent count reliably
+            $parentCount = (git rev-list --count --parents -n 1 HEAD).Trim()
+            
+            if ($parentCount -eq "1") {
+            Write-Host "⚡ Direct commit detected on $GITHUB_REF_NAME"
+            $SRC_BRANCH = $GITHUB_REF_NAME
+            } else {
             Write-Host "⚡ Merge commit detected → querying PR info"
-        
-            # Ensure GITHUB_TOKEN is available
+            
             if (-not $env:GITHUB_TOKEN) {
             Write-Host "❌ GITHUB_TOKEN not available. Cannot query PR info."
-            $SRC_BRANCH = $TGT_BRANCH
+            $SRC_BRANCH = $GITHUB_REF_NAME
             } else {
-            $commitSHA = git rev-parse HEAD
-            try {
-            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
-        
-            if (-not [string]::IsNullOrEmpty($prResponse)) {
-            $SRC_BRANCH = $prResponse
-            Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
-          } else {
-            $SRC_BRANCH = $TGT_BRANCH
-            Write-Host "⚡ Could not detect PR → assuming direct commit"
-          }
-          } catch {
-            Write-Host "⚠️ Error querying PR info: $_"
-            $SRC_BRANCH = $TGT_BRANCH
-          }
-          }
+              $commitSHA = git rev-parse HEAD
+              try {
+                $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
+                if (-not [string]::IsNullOrEmpty($prResponse)) {
+                $SRC_BRANCH = $prResponse
+                Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
+                } else {
+                  $SRC_BRANCH = $GITHUB_REF_NAME
+                  Write-Host "⚡ Could not detect PR → assuming direct commit"
+                }
+              } catch {
+                 Write-Host "⚠️ Error querying PR info: $_"
+                $SRC_BRANCH = $GITHUB_REF_NAME
+              }
+            }
           }
         }
         
