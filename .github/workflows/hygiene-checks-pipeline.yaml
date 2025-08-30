@@ -52,13 +52,13 @@ jobs:
         id: setup
         uses: ./.github/actions/setup-hygiene-env
 
-        ###############################################################
+      ###############################################################
         # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
       ##############################################################
 
       - name: Hygiene Health Checks and Upload Reports - Composite Call
         id: hygiene-sweep-and-upload-reports
-        uses: ./.github/actions/hygiene-health-sweep-and-upload-reports
+        uses: ./.github/actions/generate-and-upload-reports
         with:
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
         env:
@@ -70,7 +70,7 @@ jobs:
 
       - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         id: publish-githubsummary-and-sendemail
-        uses: ./.github/actions/publish-githubsummary-and-email
+        uses: ./.github/actions/compute-and-publish-summary
         with:
           startTime: ${{ steps.setup.outputs.startTime }}
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
