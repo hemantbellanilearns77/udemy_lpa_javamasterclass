@@ -145,7 +145,7 @@ runs:
         $REASON = ""
         $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         # Case 1: Commit message override → always take precedence
-        if ($LAST_COMMIT_MSG -match $skipSonarPattern) {
+        if ($TRIGGER_EVENT -ineq "schedule" -and $LAST_COMMIT_MSG -match $skipSonarPattern) {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
