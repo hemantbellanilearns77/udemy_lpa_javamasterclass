@@ -124,7 +124,7 @@
         } 
         
         $sonarCoverage = Get-SonarMetric "coverage"
-        Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage" 
+        # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage"
         if ($sonarCoverage -ge 50) {
           $coverageEmoji = "🟢"
         } elseif ($sonarCoverage -ge 20) {
@@ -295,7 +295,7 @@
         foreach ($line in $lines) {
           if ($line.Trim()) {
           $parts = $line.Trim() -split "=", 2  # limit to 2 parts only 
-           Write-Output "Next line: '$line' split into key='$($parts[1])' and value='$($parts[0])'"
+           # Write-Output "Next line: '$line' split into key='$($parts[1])' and value='$($parts[0])'"
             if ($parts.Count -eq 2) {
               Write-Output "Creating map entry: key='$($parts[1])', value='$($parts[0])'"
               $modulePathMap[$parts[1]] = $parts[0]
@@ -310,7 +310,7 @@
         # Initialize aggregation buckets for each module
         $moduleAgg = @{}
         foreach ($pathKey in $modulePathMap.Keys) {
-          Write-Output "Iterating over modulePathMap next path key is $pathKey"
+          # Write-Output "Iterating over modulePathMap next path key is $pathKey"
           $moduleName = $modulePathMap[$pathKey]
           Write-Output "So moduleName is initialized to: $moduleName"
           if (-not $moduleAgg) {
@@ -327,7 +327,7 @@
         if (-not $moduleAgg) {
                 Write-Output "❌ moduleAgg is NULL"
         }  else {
-                Write-Output "✅ moduleAgg exists. Current contents:"
+                # Write-Output "✅ moduleAgg exists. Current contents:"
                 $moduleAgg.GetEnumerator() | ForEach-Object {
                 $val = $_.Value
                 if (-not $val) {
@@ -349,11 +349,11 @@
         
         # Step 1: Get directory list from SonarCloud
         $dirFacetssUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&resolved=false&facets=directories&ps=1"
-        Write-Output "Fetching directories from: $dirFacetssUrl"
+        # Write-Output "Fetching directories from: $dirFacetssUrl"
         $resp = Invoke-WebRequest -Uri $dirFacetssUrl -Headers $headers -Method Get
         $json = $resp.Content | ConvertFrom-Json
         $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
-        Write-Output "Directories fetched as below:"
+        # Write-Output "Directories fetched as below:"
         $directories | ForEach-Object { Write-Output " - $($_.val)" }
         
         # Step 2: Loop through directories and aggregate counts per module
@@ -368,7 +368,7 @@
             if ($dir -like "$pathKey*") {
               Write-Output "✅ Match: '$dir' starts with '$pathKey'"
               $matchedModule = $modulePathMap[$pathKey]
-              Write-Output "Matched module: $matchedModule"
+              # Write-Output "Matched module: $matchedModule"
               break
             } 
           } 
@@ -381,9 +381,9 @@
                 if (-not $moduleAgg) {
                   Write-Output "❌ moduleAgg is NULL"
                 } else {
-                Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"  
+                # Write-Output "✅ moduleAgg exists. Will execute severity checks and aggregate"
                 if ($null -ne $moduleAgg[$matchedModule]) {
-                Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
+                # Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
         
                 # now fetch severity-wise and then aggregate it
                   $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
@@ -428,7 +428,7 @@
         if (-not $moduleAgg) {
           Write-Output "❌ moduleAgg is NULL"
         }  else {
-          Write-Output "✅ moduleAgg exists. Current contents:"
+          # Write-Output "✅ moduleAgg exists. Current contents:"
           $moduleAgg.GetEnumerator() | ForEach-Object {
             $val = $_.Value
             if (-not $val) {
