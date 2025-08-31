@@ -47,10 +47,10 @@ runs:
 
     - name: Set Artifact Download URL
       id: artifact_url
-      run: |
-        $artifactId = ${{ steps.upload_reports.outputs.artifact-id }}
-        $repo = ${{ github.repository }}
-        $runId = ${{ github.run_id }}
-        $artifactUrl = "https://github.com/$repo/actions/runs/$runId/artifacts/$artifactId"
-        echo "ARTIFACT_URL=$artifactUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       shell: pwsh
+      run: |
+        $artifactId = "${{ steps.upload_reports.outputs.artifact-id }}"
+        $repo = "${{ github.repository }}"
+        $runId = "${{ github.run_id }}"
+        $artifactUrl = "https://github.com/$repo/actions/runs/$runId/artifacts/$artifactId"
+        "ARTIFACT_URL=$artifactUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
