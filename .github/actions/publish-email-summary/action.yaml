@@ -133,7 +133,9 @@ runs:
         subject: >-
           ${{ inputs.HygieneCheckStatus }}
           | ${{ github.workflow }}
-          | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
+          | ${{ github.repository }}
+          | RunID: ${{ github.run_id }} 
+          | (branch: ${{ inputs.BRANCH_EXECUTED }})
           | Duration: ${{ inputs.formattedDuration }}
           ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
         to: ${{ env.EMAIL_RECIPIENT }}
@@ -152,7 +154,7 @@ runs:
           <h3>📊 Summary</h3>
           <ul>
             <li>📈 <b>Code Coverage:</b> ${{ inputs.sonarCoverage }}
-              ${{ inputs.sonarCoverage && inputs.sonarCoverage < 80 && '<span style="color:red;">(Below 80%)</span>' || '<span style="color:green;">(OK)</span>' }}
+              ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
             </li>
             <li>🎯 <strong>Coverage Visual: </strong><code>${{ inputs.coverageBar }}</code></li>
             <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ inputs.checkstyleCount }}</code></li>
