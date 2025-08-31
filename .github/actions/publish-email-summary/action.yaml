@@ -128,7 +128,8 @@ runs:
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
         subject: >-
-          ${{ inputs.HygieneCheckStatus }}
+          <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
+               <code>${{ inputs.HygieneCheckStatus }}</code>
           | ${{ github.workflow }}
           | ${{ github.repository }} (branch: ${{ inputs.BRANCH_EXECUTED }})
           | Duration: ${{ inputs.formattedDuration }}
