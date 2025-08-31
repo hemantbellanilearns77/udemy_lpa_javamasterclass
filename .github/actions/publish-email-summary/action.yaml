@@ -178,7 +178,9 @@ runs:
             <li>🌐 <a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud ${{ inputs.BRANCH_EXECUTED }} Branch Summary - All Open Issues</a></li>
             <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Dashboard - Severity-Wise Breakdown</a></li>
             <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Commit - SHA=${{ inputs.SHORT_SHA }}</a></li>
-            <li>🌐 <a href="${{ inputs.ARTIFACT_URL }}">Download Artifacts from Hygiene Check Job </a></li>
+            <li>🌐 <a href="${{ inputs.ARTIFACT_URL }}">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
+
+            
           </ul>
           <h3>📌 Next Steps - Dynamic</h3>
           <ul>
