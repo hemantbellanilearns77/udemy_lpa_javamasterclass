@@ -57,7 +57,7 @@ if ($sonarInfo -gt [int]$env:INFO_MAX) {
 }
 # --- Sonar Severity Checks with detailed reporting ---
 $NextStepsHtml += "<ul>"
-
+$NextStepsHtml += <li><strong>Resolve Issues that exceeded threshold per severity:</strong></li>
 # Blocker
 if ($sonarBlocker -gt [int]$env:BLOCKER_MAX) {
     $passed = $false

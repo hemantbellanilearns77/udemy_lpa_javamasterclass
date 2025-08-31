@@ -199,6 +199,27 @@
         $sonarMediumEmojiMark = $(MarkEmoji $medium)
         $sonarLowEmojiMark = $(MarkEmoji $low)
         $sonarInfoEmojiMark = $(MarkEmoji $info)
+
+        function FormatSonarStatus($count, $maxAllowed, $severity) {
+            if ($count -eq 0) {
+                $emoji = "✅"
+                $note  = "(Good)"
+            } elseif ($count -le $maxAllowed) {
+                $emoji = "🟡"
+                $note  = "(Within Threshold)"
+            } else {
+                $emoji = "🔴"
+                $note  = "(Exceeded)"
+            }
+            return "$severity Issues: $count / $maxAllowed $emoji $note"
+}
+
+        $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"
+        $sonarHighStatus    = FormatSonarStatus $high    $env:HIGH_MAX    "🟧 HIGH"
+        $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
+        $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
+        $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
+
         
 
         ############################################################
@@ -212,11 +233,11 @@
         echo "| Code Coverage (Sonar)    | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟥 BLOCKER               | $sonarBlockerEmojiMark [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟧 HIGH                  | $sonarHighEmojiMark [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟨 MEDIUM                | $sonarMediumEmojiMark [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟦 LOW                   | $sonarLowEmojiMark [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| ℹ INFO                  | $sonarInfoEmojiMark [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟥 BLOCKER               | $sonarBlockerStatus [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟧 HIGH                  | $sonarHighStatus [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟨 MEDIUM                | $sonarMediumStatus [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟦 LOW                   | $sonarLowStatus [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| ℹ INFO                  | $sonarInfoStatus [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -232,23 +253,23 @@
         "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarBlockerEmojiMark=$sonarBlockerEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarBlockerEmojiMark=$sonarBlockerStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerURL=$($severityLinks.BLOCKER)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarHigh=$high" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarHighEmojiMark=$sonarHighEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarHighEmojiMark=$sonarHighStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarHighURL=$($severityLinks.HIGH)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarMedium=$medium" | Out-File -FilePath $env:GITHUB_OUTPUT -Append 
-        "sonarMediumEmojiMark=$sonarMediumEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarMediumEmojiMark=$sonarMediumStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarMediumURL=$($severityLinks.MEDIUM)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarLow=$low" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarLowEmojiMark=$sonarLowEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarLowEmojiMark=$sonarLowStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarLowURL=$($severityLinks.LOW)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarInfoEmojiMark=$sonarInfoEmojiMark" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarInfoEmojiMark=$sonarInfoStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarInfoURL=$($severityLinks.INFO)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
