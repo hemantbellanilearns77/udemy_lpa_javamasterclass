@@ -110,29 +110,28 @@ runs:
             $prMergePattern = '(Merge|Merged)\s+(pull request|PR)'
         
             if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
-            Write-Host "⚡ Merge commit detected via PR → querying PR info"
+              Write-Host "⚡ Merge commit detected via PR → querying PR info"
         
-            if (-not $env:GITHUB_TOKEN) {
-            Write-Host "❌ GITHUB_TOKEN not available. Cannot query PR info."
-            $SRC_BRANCH = $TGT_BRANCH
-            } else {
-            try {
-            # Query PR for source branch using commit SHA
-            $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
-        
-            if (-not [string]::IsNullOrEmpty($prResponse)) {
-            $SRC_BRANCH = $prResponse
-            Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
-          } else {
-            $SRC_BRANCH = $TGT_BRANCH
-            Write-Host "⚡ Could not detect PR → assuming direct commit"
-          }
-          } catch {
-            Write-Host "⚠️ Error querying PR info: $_"
-            $SRC_BRANCH = $TGT_BRANCH
-          }
-          }
-        
+              if (-not $env:GITHUB_TOKEN) {
+                Write-Host "❌ GITHUB_TOKEN not available. Cannot query PR info."
+                $SRC_BRANCH = $TGT_BRANCH
+              } else {
+              try {
+                # Query PR for source branch using commit SHA
+                $prResponse = gh api repos/${{ github.repository }}/commits/$commitSHA/pulls --jq '.[0].head.ref' 2>$null
+            
+                if (-not [string]::IsNullOrEmpty($prResponse)) {
+                  $SRC_BRANCH = $prResponse
+                  Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
+                } else {
+                  $SRC_BRANCH = $TGT_BRANCH
+                  Write-Host "⚡ Could not detect PR → assuming direct commit"
+                } 
+              } catch {
+              Write-Host "⚠️ Error querying PR info: $_"
+              $SRC_BRANCH = $TGT_BRANCH
+              }
+            }
           } else {
             # Regular direct commit
             Write-Host "⚡ Regular direct commit on $TGT_BRANCH"
