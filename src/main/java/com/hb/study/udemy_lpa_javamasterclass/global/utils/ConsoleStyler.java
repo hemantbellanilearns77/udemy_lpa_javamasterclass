@@ -9,6 +9,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.models.Theme;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -18,29 +19,30 @@ import java.util.stream.Stream;
  **/
 
 public class ConsoleStyler {
-
+    public static final Logger logger = Logger.getLogger("ConsoleStyler");
     private ConsoleStyler() {
     }
     // Prints a bannered header
     public static void printBanner(String title) {
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println(applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER) );
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        logger.info("My Message");
+        logger.info(CommonConstants.SECTION_SEPARATOR);
+        logger.info(applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER) );
+        logger.info(CommonConstants.SECTION_SEPARATOR);
     }
 
     public static void startSection(String label) {
         ConsoleStyler.divider();
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
-        System.out.println(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        logger.info(CommonConstants.SECTION_SEPARATOR);
+        logger.info(applyStyling("🔷 START: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        System.out.println(CommonConstants.DOTTED_LINE);
+        logger.info(CommonConstants.DOTTED_LINE);
     }
 
     public static void endSection(String label) {
-        System.out.println(CommonConstants.DOTTED_LINE);
-        System.out.println(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
+        logger.info(CommonConstants.DOTTED_LINE);
+        logger.info(applyStyling("🏁 END: ", null, ForegroundColor.BRIGHT_CYAN, List.of(CommonConstants.BOLD)) +
                 applyStyling(label.toUpperCase(), SemanticColorRole.SECTION_HEADING));
-        System.out.println(CommonConstants.SECTION_SEPARATOR);
+        logger.info(CommonConstants.SECTION_SEPARATOR);
         ConsoleStyler.divider();
     }
 
@@ -51,11 +53,11 @@ public class ConsoleStyler {
     }
 
     public static void divider() {
-        System.out.println(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        logger.info(ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.FULLLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void halfDivider() {
-        System.out.println(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
+        logger.info(CommonConstants.INDENT + ForegroundColor.MUSTARD.getAnsiCode() + CommonConstants.HALFLINEASTERISKSEPERATOR + CommonConstants.RESET);
     }
 
     public static void styleInitializationInfo(String outputText) {
@@ -104,16 +106,16 @@ public class ConsoleStyler {
         String borderColor = enableBorderColor ? ForegroundColor.BRIGHT_MAGENTA.getAnsiCode() : ""; //
         String resetColor = enableBorderColor ? CommonConstants.RESET : "";
 
-        System.out.println(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        logger.info(CommonConstants.INDENT + borderColor + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
 
         for (int lineCounter = 0; lineCounter < lines.length; lineCounter++) {
             String valueOfLinePrefix = String.format("%s", showlinePrefix ? ("» ") : "");
             String linePrefix = showLineNumbers ? String.format("[%02d]", (lineCounter + 1)) : valueOfLinePrefix ;
             String lineToPrint = linePrefix + lines[lineCounter];
-            System.out.println(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
+            logger.info(CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
-        System.out.println(CommonConstants.INDENT + borderColor + "│ ");
-        System.out.println(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        logger.info(CommonConstants.INDENT + borderColor + "│ ");
+        logger.info(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
     }
 
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting
