@@ -298,7 +298,7 @@
           $parts = $line.Trim() -split "=", 2  # limit to 2 parts only 
            # Write-Output "Next line: '$line' split into key='$($parts[1])' and value='$($parts[0])'"
             if ($parts.Count -eq 2) {
-              Write-Output "Creating map entry: key='$($parts[1])', value='$($parts[0])'"
+              # Write-Output "Creating map entry: key='$($parts[1])', value='$($parts[0])'"
               $modulePathMap[$parts[1]] = $parts[0]
             }
           }
@@ -306,14 +306,14 @@
         
         # Debug: print map
           foreach ($k in $modulePathMap.Keys) {
-            Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
+            # Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
         }
         # Initialize aggregation buckets for each module
         $moduleAgg = @{}
         foreach ($pathKey in $modulePathMap.Keys) {
           # Write-Output "Iterating over modulePathMap next path key is $pathKey"
           $moduleName = $modulePathMap[$pathKey]
-          Write-Output "So moduleName is initialized to: $moduleName"
+          # Write-Output "So moduleName is initialized to: $moduleName"
           if (-not $moduleAgg) {
                 Write-Output "❌ moduleAgg is NULL"
           } 
@@ -339,13 +339,13 @@
                 }
               } 
            # Debug: Print out current aggregate state
-            Write-Output "----- Current Module Aggregates -----"
+            # Write-Output "----- Current Module Aggregates -----"
            foreach ($moduleName in $moduleAgg.Keys) {
             $bucket = $moduleAgg[$moduleName]
-             Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
-                                 $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+             # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                                 # $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
            }
-             Write-Output "--------------------------------------"
+             # Write-Output "--------------------------------------"
           }
         
         # Step 1: Get directory list from SonarCloud
@@ -362,12 +362,12 @@
         
           $dir = $dirObj.val
           $matchedModule = $null
-          Write-Output "Next Directory during iteration is: $dir"
+          # Write-Output "Next Directory during iteration is: $dir"
         
           # check if src of any key in modulePathMap matches the starting string of the current directory 
           foreach ($pathKey in $modulePathMap.Keys) {
             if ($dir -like "$pathKey*") {
-              Write-Output "✅ Match: '$dir' starts with '$pathKey'"
+              # Write-Output "✅ Match: '$dir' starts with '$pathKey'"
               $matchedModule = $modulePathMap[$pathKey]
               # Write-Output "Matched module: $matchedModule"
               break
@@ -433,18 +433,18 @@
           $moduleAgg.GetEnumerator() | ForEach-Object {
             $val = $_.Value
             if (-not $val) {
-              Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
+              # Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
             }
             else {
-              Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+              # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
             }
           }
           # Debug: Print out current aggregate state
-          Write-Output "----- Current Module Aggregates -----"
+          # Write-Output "----- Current Module Aggregates -----"
           foreach ($moduleName in $moduleAgg.Keys) {
             $bucket = $moduleAgg[$moduleName]
-            Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
-                          $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+            # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                          # $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
           }
           Write-Output "--------------------------------------"
         }          
