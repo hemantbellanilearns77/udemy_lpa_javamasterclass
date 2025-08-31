@@ -17,7 +17,7 @@ $NextStepsHtml = ""
 # --- Convert coverage safely ---
 $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
-<# # --- Aggregate violations ---
+ # --- Aggregate violations ---
 $totalCodeViolations = $checkstyle + $pmd
 if ($totalCodeViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
     $passed = $false
@@ -34,7 +34,7 @@ if ($pmd -gt [int]$env:PMD_MAX_VIOLATIONS) {
     $NextStepsHtml += "<li>Fix PMD violations ($pmd > $($env:PMD_MAX_VIOLATIONS)).</li>"
 }
 
-# --- Sonar Severity Checks ---
+<# # --- Sonar Severity Checks ---
 if ($sonarBlocker -gt [int]$env:BLOCKER_MAX) {
     $passed = $false
     $NextStepsHtml += "<li>Resolve all Blocker issues ($sonarBlocker > 0).</li>"
@@ -57,7 +57,7 @@ if ($sonarInfo -gt [int]$env:INFO_MAX) {
 } #>
 # --- Sonar Severity Checks with detailed reporting ---
 $NextStepsHtml += "<ul>"
-$NextStepsHtml += <li><strong>Resolve Issues that exceeded threshold per severity:</strong></li>
+$NextStepsHtml += "<li><strong>Resolve Issues that exceeded threshold per severity:</strong></li>"
 # Blocker
 if ($sonarBlocker -gt [int]$env:BLOCKER_MAX) {
     $passed = $false
