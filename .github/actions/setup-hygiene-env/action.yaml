@@ -144,9 +144,9 @@ runs:
         Write-Host "✅ SRC_BRANCH=$SRC_BRANCH | TGT_BRANCH=$TGT_BRANCH | BRANCH_EXECUTED=$BRANCH_EXECUTED"
 
         $REASON = ""
-        
+        $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         # Case 1: Commit message override → always take precedence
-        if ($LAST_COMMIT_MSG -match "--skip-sonar") {
+        if ($LAST_COMMIT_MSG -match $skipSonarPattern) {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
