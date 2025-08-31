@@ -53,4 +53,5 @@ runs:
         $repo = "${{ github.repository }}"
         $runId = "${{ github.run_id }}"
         $artifactUrl = "https://github.com/$repo/actions/runs/$runId/artifacts/$artifactId"
+        Write-Host "🧪 ARTIFACT_URL as finally being passed downstream: '$artifactUrl'"
         "ARTIFACT_URL=$artifactUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

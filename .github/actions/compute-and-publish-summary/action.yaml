@@ -100,6 +100,7 @@ runs:
         Write-Host "✅ Start Time after execution-info: ${{ steps.execution-info.outputs.startTime }}"
         Write-Host "✅ End Time after execution-info:   ${{ steps.execution-info.outputs.endTime }}"
         Write-Host "✅ Duration after execution-info:   ${{ steps.execution-info.outputs.formattedDuration }}"
+        Write-Host "✅ ARTIFACT_URL:   ${{ inputs.ARTIFACT_URL }}"
       shell: pwsh
 
     ##########################
