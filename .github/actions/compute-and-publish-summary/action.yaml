@@ -28,6 +28,9 @@ inputs:
   BRANCH_EXECUTED:
     required: true
     description: ""
+  ARTIFACT_URL:
+    required: true
+    description: ""
 
 outputs:
   sonarExecutionNote:
@@ -109,6 +112,7 @@ runs:
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
         COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
         COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
+        ARTIFACT_URL: ${{ inputs.ARTIFACT_URL }}
 
         HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
         NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}

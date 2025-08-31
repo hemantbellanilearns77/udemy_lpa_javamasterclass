@@ -8,7 +8,10 @@ inputs:
     description: ""
     required: true
 
-outputs: { } # If you don't have any inputs, you can leave it empty or remove this line.
+outputs:
+  ARTIFACT_URL:
+    description: ""
+    value: ${{ steps.artifact_url.outputs.ARTIFACT_URL }}
 runs:
   using: "composite"
   steps:
@@ -41,3 +44,13 @@ runs:
         path: |
           reports/**
           logs/**
+
+    - name: Set Artifact Download URL
+      id: artifact_url
+      run: |
+        $artifactId = ${{ steps.upload_reports.outputs.artifact-id }}
+        $repo = ${{ github.repository }}
+        $runId = ${{ github.run_id }}
+        $artifactUrl = "https://github.com/$repo/actions/runs/$runId/artifacts/$artifactId"
+        echo "ARTIFACT_URL=$artifactUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      shell: pwsh
