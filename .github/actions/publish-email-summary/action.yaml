@@ -139,8 +139,7 @@ runs:
           <html>
           <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
           <p>Hi Hemant,</p>
-          <h2>🏁 Hygiene Check : <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' ? 'green' : 'red' }};">
-               <code>${{ inputs.HygieneCheckStatus }}</code>             
+          <h2>🏁 Hygiene Check : <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};"> <code>${{ inputs.HygieneCheckStatus }}</code> </span>             
             </span>
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
