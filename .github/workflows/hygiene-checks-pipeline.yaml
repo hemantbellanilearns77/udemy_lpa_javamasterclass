@@ -94,6 +94,7 @@ jobs:
           SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
+          ARTIFACT_URL: ${{ steps.artifact_url.outputs.ARTIFACT_URL }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
