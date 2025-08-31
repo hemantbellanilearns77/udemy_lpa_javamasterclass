@@ -74,7 +74,7 @@ runs:
           -sonarLow ${{ steps.metrics.outputs.sonarLow }} `
           -sonarInfo ${{ steps.metrics.outputs.sonarInfo }} `
           -sonarCoverage ${{ steps.metrics.outputs.sonarCoverage }} `
-          -jobStatus ${{ job.status }}
+          -jobStatus ${{ steps.metrics.outcome }}
 
       ###################################
       # EXECUTION INFO COMPOSITE CALL
