@@ -211,7 +211,8 @@
                 $emoji = "🔴"
                 $note  = "(Exceeded)"
             }
-            return "$severity Issues: $count / $maxAllowed $emoji $note"
+            return " / $maxAllowed $emoji $note"
+            #return "$severity Issues: $count / $maxAllowed $emoji $note"
 }
 
         $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"

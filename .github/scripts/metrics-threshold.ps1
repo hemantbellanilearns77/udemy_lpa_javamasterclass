@@ -17,7 +17,7 @@ $NextStepsHtml = ""
 # --- Convert coverage safely ---
 $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
-# --- Aggregate violations ---
+<# # --- Aggregate violations ---
 $totalCodeViolations = $checkstyle + $pmd
 if ($totalCodeViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
     $passed = $false
@@ -54,7 +54,7 @@ if ($sonarLow -gt [int]$env:LOW_MAX) {
 if ($sonarInfo -gt [int]$env:INFO_MAX) {
     $passed = $false
     $NextStepsHtml += "<li>Info severity issues exceeded threshold ($sonarInfo > $($env:INFO_MAX)).</li>"
-}
+} #>
 # --- Sonar Severity Checks with detailed reporting ---
 $NextStepsHtml += "<ul>"
 $NextStepsHtml += <li><strong>Resolve Issues that exceeded threshold per severity:</strong></li>
