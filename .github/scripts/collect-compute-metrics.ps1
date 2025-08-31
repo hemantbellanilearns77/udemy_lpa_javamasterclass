@@ -234,11 +234,11 @@
         echo "| Code Coverage (Sonar)    | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟥 BLOCKER               | $sonarBlockerStatus [$blocker]($($severityLinks.BLOCKER)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟧 HIGH                  | $sonarHighStatus [$high]($($severityLinks.HIGH)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟨 MEDIUM                | $sonarMediumStatus [$medium]($($severityLinks.MEDIUM)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| 🟦 LOW                   | $sonarLowStatus [$low]($($severityLinks.LOW)) |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| ℹ INFO                  | $sonarInfoStatus [$info]($($severityLinks.INFO)) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟥 BLOCKER               | [$blocker]($($severityLinks.BLOCKER)) $sonarBlockerStatus |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟧 HIGH                  | [$high]($($severityLinks.HIGH)) $sonarHighStatus |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
