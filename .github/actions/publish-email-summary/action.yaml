@@ -166,11 +166,10 @@ runs:
                 <li>🟨 <strong>MEDIUM:</strong> <a href="${{ inputs.sonarMediumUrl }}"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
                 <li>🟦 <strong>LOW:</strong> <a href="${{ inputs.sonarLowUrl }}"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
                 <li>ℹ️<strong>INFO:</strong> <a href="${{ inputs.sonarInfoUrl }}"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
-                <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}"><code>View SonarCloud Open Issues Breakdown Dashboard</code></a></li>
               </ul>
             </li>
           </ul>
-          <h3>📦 Module Severity Breakdown</h3>
+          <h3>📦 Module-Wise Severity Breakdown</h3>
           ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
           <h3>🔗 Links - SonarCloud, GitHUb</h3>
           <ul>
