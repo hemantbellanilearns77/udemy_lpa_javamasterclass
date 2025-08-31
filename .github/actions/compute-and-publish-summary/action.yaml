@@ -139,7 +139,7 @@ runs:
         sonarOverallCodeDashBoardURL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
         # EMAIL_MODULE_SEV_AGG_TABLE: ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
         EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-        EMAIL_BREAKDOWN: ${{ steps.metrics.outputs.EMAIL_BREAKDOWN }}
+        # EMAIL_BREAKDOWN: ${{ steps.metrics.outputs.EMAIL_BREAKDOWN }}
 
 
         FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}

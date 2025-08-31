@@ -13,6 +13,7 @@ param(
 Write-Host "🧮 Evaluating metrics against strict thresholds..."
 $passed = $true
 $NextStepsHtml = ""
+$sonarHasNextSteps=$false
 
 # --- Convert coverage safely ---
 $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
@@ -56,49 +57,52 @@ if ($sonarInfo -gt [int]$env:INFO_MAX) {
     $NextStepsHtml += "<li>Info severity issues exceeded threshold ($sonarInfo > $($env:INFO_MAX)).</li>"
 } #>
 # --- Sonar Severity Checks with detailed reporting ---
-$NextStepsHtml += "<ul>"
-$NextStepsHtml += "<li><strong>Resolve Issues that exceeded threshold per severity:</strong></li>"
+$SonarNextStepsHtml += "<li>Resolve Issues that exceeded threshold per severity:</li>"
+$SonarNextStepsHtml += "<ul>"
 # Blocker
 if ($sonarBlocker -gt [int]$env:BLOCKER_MAX) {
-    $passed = $false
-    $NextStepsHtml += "<li>🟥 BLOCKER Issues: $sonarBlocker / $($env:BLOCKER_MAX) 🔴 (Exceeded)</li>"
-} else {
+    $sonarHasNextSteps=$true
+    $SonarNextStepsHtml += "<li>🟥 BLOCKER Issues: $sonarBlocker / $($env:BLOCKER_MAX) 🔴 (Exceeded)</li>"
+} <# else {
     $NextStepsHtml += "<li>🟥 BLOCKER Issues: $sonarBlocker / $($env:BLOCKER_MAX) ✅ (Good)</li>"
-}
+} #>
 
 # High
 if ($sonarHigh -gt [int]$env:HIGH_MAX) {
-    $passed = $false
-    $NextStepsHtml += "<li>🟧 HIGH Issues: $sonarHigh / $($env:HIGH_MAX) 🔴 (Exceeded)</li>"
-} else {
+    $sonarHasNextSteps=$true
+    $SonarNextStepsHtml += "<li>🟧 HIGH Issues: $sonarHigh / $($env:HIGH_MAX) 🔴 (Exceeded)</li>"
+} <# else {
     $NextStepsHtml += "<li>🟧 HIGH Issues: $sonarHigh / $($env:HIGH_MAX) ✅ (Good)</li>"
-}
+} #>
 
 # Medium
 if ($sonarMedium -gt [int]$env:MEDIUM_MAX) {
-    $passed = $false
-    $NextStepsHtml += "<li>🟨 MEDIUM Issues: $sonarMedium / $($env:MEDIUM_MAX) 🔴 (Exceeded)</li>"
-} else {
+    $sonarHasNextSteps=$true
+    $SonarNextStepsHtml += "<li>🟨 MEDIUM Issues: $sonarMedium / $($env:MEDIUM_MAX) 🔴 (Exceeded)</li>"
+} <# else {
     $NextStepsHtml += "<li>🟨 MEDIUM Issues: $sonarMedium / $($env:MEDIUM_MAX) ✅ (Good)</li>"
-}
+} #>
 
 # Low
 if ($sonarLow -gt [int]$env:LOW_MAX) {
-    $passed = $false
-    $NextStepsHtml += "<li>🟦 LOW Issues: $sonarLow / $($env:LOW_MAX) 🔴 (Exceeded)</li>"
-} else {
+    $sonarHasNextSteps=$true
+    $SonarNextStepsHtml += "<li>🟦 LOW Issues: $sonarLow / $($env:LOW_MAX) 🔴 (Exceeded)</li>"
+} <# else {
     $NextStepsHtml += "<li>🟦 LOW Issues: $sonarLow / $($env:LOW_MAX) ✅ (Good)</li>"
-}
+} #>
 
 # Info
 if ($sonarInfo -gt [int]$env:INFO_MAX) {
-    $passed = $false
-    $NextStepsHtml += "<li>ℹ️ INFO Issues: $sonarInfo / $($env:INFO_MAX) 🔴 (Exceeded)</li>"
-} else {
+    $sonarHasNextSteps=$true
+    $SonarNextStepsHtml += "<li>ℹ️ INFO Issues: $sonarInfo / $($env:INFO_MAX) 🔴 (Exceeded)</li>"
+} <# else {
     $NextStepsHtml += "<li>ℹ️ INFO Issues: $sonarInfo / $($env:INFO_MAX) ✅ (Good)</li>"
-}
+} #>
 
-$NextStepsHtml += "</ul>"
+$SonarNextStepsHtml += "</ul>"
+if($sonarHasNextSteps) {$NextStepsHtml += $SonarNextStepsHtml }
+
+
 
 
 # --- Coverage ---
