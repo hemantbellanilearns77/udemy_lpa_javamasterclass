@@ -6,6 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class CollectionIntroBasics {
 
@@ -30,11 +31,8 @@ public class CollectionIntroBasics {
         ConsoleStyler.styleOutput("List of items in groceryArray (GrocerItem records) are: \n" + Arrays.toString(groceryArray));
         ConsoleStyler.halfDivider();
 
-        //noinspection rawtypes
-        ArrayList objectList = new ArrayList<>();
-        //noinspection unchecked
+        List<Object> objectList = new ArrayList<>();
         objectList.add(new GroceryItem("Butter"));
-        //noinspection unchecked
         objectList.add("Yogurt");
         ConsoleStyler.styleOutput("Raw Arraylist (objectList) is: " + objectList);
         ConsoleStyler.halfDivider();

@@ -16,7 +16,6 @@ public class LinkedListVsArrayList {
         execution.initialize();
         ConsoleStyler.divider();
         LinkedList<String> placesToVisit = new LinkedList<>();
-        //var placesToVisit = new LinkedList<String>();
         placesToVisit.add("Sydney");
         placesToVisit.addFirst("Canberra");
         ConsoleStyler.styleOutput("Places to visit before any call to addMoreElements Method are: " + placesToVisit);
