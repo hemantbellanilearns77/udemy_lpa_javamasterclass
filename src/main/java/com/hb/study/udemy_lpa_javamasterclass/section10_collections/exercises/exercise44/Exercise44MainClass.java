@@ -30,7 +30,7 @@ public class Exercise44MainClass {//Object level or Static declarations here...
         MobilePhone myPhone = new MobilePhone("9811000000");
         myPhone.addNewContact(new Contact("Bharati T Bellani", "9899000000"));
         myPhone.updateContact(Contact.createContact("Bharati T Bellani","9899000000"),
-                Contact.createContact("Bharati T Bellani","9899101010"));
+                Contact.createContact("Bharati Mata","9899101010"));
         myPhone.removeContact(Contact.createContact("XYZ BELLANI","9650101010"));
         ConsoleStyler.styleOutput("" + myPhone.queryContact("XYZ BELLANI"));
         myPhone.printContacts();
