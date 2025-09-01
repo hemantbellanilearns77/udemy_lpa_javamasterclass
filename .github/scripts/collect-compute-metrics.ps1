@@ -112,7 +112,7 @@
         
         function Get-SonarMetric($metricKey) {
           $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=coverage"
-          Write-Host "Coverage Fetch URL is $url"
+          # Write-Host "Coverage Fetch URL is $url"
           try {
             $resp = Invoke-WebRequest -Uri $url -Method Get
             $json = $resp.Content | ConvertFrom-Json
@@ -134,7 +134,7 @@
         }
         $coverageBar = Get-AsciiBar $sonarCoverage
         
-        $sonarCoverage = Get-SonarMetric "coverage"
+        # $sonarCoverage = Get-SonarMetric "coverage"
         # Ensure only the first numeric value is used
         if ($sonarCoverage -is [array]) {
           $sonarCoverage = $sonarCoverage[0]
@@ -355,7 +355,7 @@
         $json = $resp.Content | ConvertFrom-Json
         $directories = $json.facets | Where-Object { $_.property -eq "directories" } | Select-Object -ExpandProperty values
         # Write-Output "Directories fetched as below:"
-        $directories | ForEach-Object { Write-Output " - $($_.val)" }
+        # $directories | ForEach-Object { Write-Output " - $($_.val)" }
         
         # Step 2: Loop through directories and aggregate counts per module
         foreach ($dirObj in $directories) {
