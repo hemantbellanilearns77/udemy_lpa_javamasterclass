@@ -7,16 +7,13 @@ import java.util.ArrayList;
 
 public class MobilePhone {
 
-    public static String asteriskSeparatorLine =  "*".repeat(153) + "\n";
-    public static String programOutputBegins = "\n" + "*".repeat(54) + " The Output of " + MobilePhone.class.getSimpleName() + " is as below " + "*".repeat(54) + "\n";
-
     String myNumber;
     ArrayList<Contact> myContacts;
 
 
     public MobilePhone(String myNumber) {
         this.myNumber = myNumber;
-        this.myContacts = new ArrayList<Contact>();
+        this.myContacts = new ArrayList<>();
     }
 
     public boolean addNewContact(Contact contactToAdd){
@@ -27,16 +24,6 @@ public class MobilePhone {
         }
         return notFoundAndAdded;
     }
-
-   /* public boolean addNewContact(Contact contact) {
-
-        if (findContact(contact.getName()) >= 0) {
-            ConsoleStyler.styleOutput("Contact is already on file");
-            return false;
-        }
-        myContacts.add(contact);
-        return true;
-    }*/
 
 
     public boolean updateContact(Contact contactToUpdate, Contact contactWithUpdates){

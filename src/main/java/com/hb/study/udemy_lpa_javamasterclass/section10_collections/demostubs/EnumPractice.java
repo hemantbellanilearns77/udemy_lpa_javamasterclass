@@ -7,7 +7,6 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Random;
 
 
 public class EnumPractice {

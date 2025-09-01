@@ -10,13 +10,14 @@ import java.util.Scanner;
 public class LinkedListChallengeMainClass {
 
     public static final ExcecutionUtil execution = new ExcecutionUtil();
+
     public static void main(String[] args) {
         execution.initialize();
         LinkedList<Town> itinerary = new LinkedList<>();
 
 
         createItineray(itinerary);
-        ConsoleStyler.styleInitializationInfo("\nThe list before any user performed operation using the Menu is as below:\n" + itinerary  );
+        ConsoleStyler.styleInitializationInfo("\nThe list before any user performed operation using the Menu is as below:\n" + itinerary);
         ConsoleStyler.halfDivider();
         var iterator = itinerary.listIterator();
         boolean forward = true;
@@ -130,14 +131,13 @@ public class LinkedListChallengeMainClass {
 
     private static void printMenu() {
         String menuTextBlock = "*".repeat(27) + " Available actions (select letter) " + "*".repeat(27) + """
-                        \n(F)orward - to iterate forwards
-                        (B)ackward - to iterate backwards
-                        (L)ist Places - to print the itinerary
-                        (M)enu - to reprint the Menu items
-                        (Q)uit - to Quit
-                        Enter Value Below:
-                        """;
-        //System.out.print(menuTextBlock);
+                (F)orward - to iterate forwards
+                (B)ackward - to iterate backwards
+                (L)ist Places - to print the itinerary
+                (M)enu - to reprint the Menu items
+                (Q)uit - to Quit
+                Enter Value Below:
+                """;
         ConsoleStyler.styleOutput(menuTextBlock);
     }
 }
