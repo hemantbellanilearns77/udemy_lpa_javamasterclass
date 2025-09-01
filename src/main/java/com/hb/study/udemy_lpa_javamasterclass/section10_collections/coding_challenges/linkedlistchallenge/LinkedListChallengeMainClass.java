@@ -129,11 +129,8 @@ public class LinkedListChallengeMainClass {
     }
 
     private static void printMenu() {
-        String menuTextBlock = """ 
-                        *""".repeat(27) + """
-                        Available actions (select letter)""" + """
-                         *""".repeat(27) + """
-                        (F)orward - to iterate forwards
+        String menuTextBlock = "*".repeat(27) + " Available actions (select letter) " + "*".repeat(27) + """
+                        \n(F)orward - to iterate forwards
                         (B)ackward - to iterate backwards
                         (L)ist Places - to print the itinerary
                         (M)enu - to reprint the Menu items
