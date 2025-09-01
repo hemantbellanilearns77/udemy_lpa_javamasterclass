@@ -1,19 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise44;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
-
-import java.security.SecureRandom;
 
 /**
  * created by : heman on 01-09-2025, 05:21 pm, in the "run-pmd.bat" project
  **/
 public class Exercise44MainClass {//Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final SecureRandom secureRandom = new SecureRandom();
-    private static final NamesUtil namesUtil = new NamesUtil(CommonConstants.MAX_ITERATION_COUNT);
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
