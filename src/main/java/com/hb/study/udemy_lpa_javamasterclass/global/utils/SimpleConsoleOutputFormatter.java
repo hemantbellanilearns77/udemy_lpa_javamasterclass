@@ -9,7 +9,7 @@ import java.util.logging.LogRecord;
 public class SimpleConsoleOutputFormatter extends Formatter {//Object level or Static declarations here...
 
     @Override
-    public String format(LogRecord record) {
-        return record.getMessage() + System.lineSeparator();
+    public String format(LogRecord logRecord) {
+        return logRecord.getMessage() + System.lineSeparator();
     }
 }
