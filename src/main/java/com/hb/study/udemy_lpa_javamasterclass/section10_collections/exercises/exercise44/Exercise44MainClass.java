@@ -12,8 +12,6 @@ import java.security.SecureRandom;
  **/
 public class Exercise44MainClass {//Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final SecureRandom secureRandom = new SecureRandom();
-    private static final NamesUtil namesUtil = new NamesUtil(CommonConstants.MAX_ITERATION_COUNT);
 
     public static void main(String[] ignoredArgs) {
         execution.initialize();
