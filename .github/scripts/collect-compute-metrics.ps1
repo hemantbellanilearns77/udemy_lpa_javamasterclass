@@ -335,7 +335,7 @@
                   Write-Output ("   ⚠ Key = {0}, Value is NULL" -f $_.Key)
                 }
                 else {
-                  Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
+                  # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
                 }
               } 
            <# Debug: Print out current aggregate state
@@ -345,7 +345,7 @@
                 Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
                                $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
            } #>
-           Write-Output "--------------------------------------"
+           # Write-Output "--------------------------------------"
           }
         
         # Step 1: Get directory list from SonarCloud
@@ -446,7 +446,7 @@
             # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
                           # $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
           } #>
-          Write-Output "--------------------------------------"
+          # Write-Output "--------------------------------------"
         }          
         
           # Step 3: Pretty-print module severity breakdown with conditional icons
