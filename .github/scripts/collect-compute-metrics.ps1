@@ -308,7 +308,7 @@
          foreach ($k in $modulePathMap.Keys) {
              Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
          } #>
-        Initialize aggregation buckets for each module
+        # Initialize aggregation buckets for each module
         $moduleAgg = @{}
         foreach ($pathKey in $modulePathMap.Keys) {
           # Write-Output "Iterating over modulePathMap next path key is $pathKey"
