@@ -304,11 +304,11 @@
           }
         }
         
-        # Debug: print map
-          foreach ($k in $modulePathMap.Keys) {
-            # Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
-        }
-        # Initialize aggregation buckets for each module
+        <# Debug: print map
+         foreach ($k in $modulePathMap.Keys) {
+             Write-Output "Map Key: $k => Value: $($modulePathMap[$k])"
+         } #>
+        Initialize aggregation buckets for each module
         $moduleAgg = @{}
         foreach ($pathKey in $modulePathMap.Keys) {
           # Write-Output "Iterating over modulePathMap next path key is $pathKey"
@@ -338,14 +338,14 @@
                   Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
                 }
               } 
-           # Debug: Print out current aggregate state
-            # Write-Output "----- Current Module Aggregates -----"
+           <# Debug: Print out current aggregate state
+           Write-Output "----- Current Module Aggregates -----"
            foreach ($moduleName in $moduleAgg.Keys) {
-            $bucket = $moduleAgg[$moduleName]
-             # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
-                                 # $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
-           }
-             # Write-Output "--------------------------------------"
+                $bucket = $moduleAgg[$moduleName]
+                Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                               $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+           } #>
+           Write-Output "--------------------------------------"
           }
         
         # Step 1: Get directory list from SonarCloud
@@ -439,13 +439,13 @@
               # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
             }
           }
-          # Debug: Print out current aggregate state
-          # Write-Output "----- Current Module Aggregates -----"
+          <# Debug: Print out current aggregate state
+          Write-Output "----- Current Module Aggregates -----"
           foreach ($moduleName in $moduleAgg.Keys) {
             $bucket = $moduleAgg[$moduleName]
             # Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
                           # $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
-          }
+          } #>
           Write-Output "--------------------------------------"
         }          
         
