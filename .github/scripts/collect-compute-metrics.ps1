@@ -73,14 +73,13 @@
         ############################################################
         Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $env:SKIP_FLAG"
         if ($env:SKIP_FLAG -match "--skip-sonar") {
-        $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
-        $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
-        $lastSonarAnalysis  = "N/A"
+            $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
+            $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
         } else {
-        $sonarExecutionNote = "EXECUTED ✅"
-        $sonarIssuesNote    = "$totalSonarFetchedIssues"
+            $sonarExecutionNote = "EXECUTED ✅"
+            $sonarIssuesNote    = "as per just executed successful analysis : $totalSonarFetchedIssues"
         }
-        # --- Fetch last analysis dynamically from SonarCloud API ---
+        # --- Fetch timestamp of last analysis dynamically from SonarCloud API ---
         $apiUrl = "https://sonarcloud.io/api/project_analyses/search?project=$projectKey&ps=1"
         try {
           $response = Invoke-RestMethod -Uri $apiUrl -Method Get 
@@ -91,13 +90,14 @@
             $lastAnalysisIst = [System.TimeZoneInfo]::ConvertTimeFromUtc($lastAnalysisUtc.ToUniversalTime(), $istZone)
             $lastSonarAnalysis = $lastAnalysisIst.ToString("yyyy-MM-dd HH:mm") + " IST"
           } else {
-              $lastSonarAnalysis = "N/A"
+              $lastSonarAnalysis = "SonarCloud API Fetch Project Analysis did not return anything"
+              Write-Warning "SonarCloud API Fetch Project Analysis did not return anything"
           }
         } catch {
           Write-Warning "Failed to fetch last Sonar analysis: $_"
           $lastSonarAnalysis = "N/A"
         }
-          Write-Host "📅 Last Analysis IST: $lastSonarAnalysis"
+        Write-Host "📅 Last Analysis IST: $lastSonarAnalysis"
         
         # expose for later consumers (email etc.)
         "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
