@@ -4,9 +4,9 @@ on:
   schedule:
     # - cron: '45 06 * * 1-4' # Runs 12:15 PM IST  every WeekDay excluding Friday
     - cron: '39,39 3,15 * * *' # Runs 1:08 PM IST  every Day
-  push:
-      branches:
-      - main
+#  push:
+#      branches:
+#      - main
 #  pull_request:
 #    branches:
 #      - main
@@ -64,11 +64,9 @@ jobs:
           base-ref: ${{ github.base_ref }}
           github-token: ${{ secrets.GITHUB_TOKEN }}  # ← pass it here
 
-
-
         ###############################################################
         # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
-      ##############################################################
+        ##############################################################
 
       - name: Hygiene Health Checks and Upload Reports - Composite Call
         id: hygiene-sweep-and-upload-reports
@@ -78,9 +76,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      ##############################################################
+        ##############################################################
         # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
-      ##############################################################
+        ##############################################################
 
       - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         id: publish-githubsummary-and-sendemail
@@ -104,13 +102,13 @@ jobs:
           EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
           JACOCO_MIN_COVERAGE: ${{ env.JACOCO_MIN_COVERAGE }}
           CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: ${{ env.CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS }}
-          CHECKSTYLE_MAX_VIOLATIONS:  ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
-          PMD_MAX_VIOLATIONS:  ${{ env.PMD_MAX_VIOLATIONS }}
-          BLOCKER_MAX:  ${{ env.BLOCKER_MAX }}
-          HIGH_MAX:  ${{ env.HIGH_MAX }}          # keep backward compatible
-          MEDIUM_MAX:  ${{ env.MEDIUM_MAX }}
-          LOW_MAX:  ${{ env.LOW_MAX }}
-          INFO_MAX:  ${{ env.INFO_MAX }}
+          CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
+          PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
+          BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
+          HIGH_MAX: ${{ env.HIGH_MAX }}          # keep backward compatible
+          MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
+          LOW_MAX: ${{ env.LOW_MAX }}
+          INFO_MAX: ${{ env.INFO_MAX }}
 
         #############################
         # FULL CLEANUP AND VERIFY
