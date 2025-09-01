@@ -1,11 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise44;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
-
-import java.security.SecureRandom;
 
 /**
  * created by : heman on 01-09-2025, 05:21 pm, in the "run-pmd.bat" project
