@@ -1,15 +1,19 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.utils;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.SimpleConsoleOutputFormatter;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.BackgroundColor;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.ForegroundColor;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.SemanticColorRole;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Theme;
 
+
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -22,9 +26,22 @@ public class ConsoleStyler {
     public static final Logger logger = Logger.getLogger("ConsoleStyler");
     private ConsoleStyler() {
     }
+    static {
+        // Get the root logger to apply the formatter globally
+        Logger rootLogger = Logger.getLogger("");
+        // Set the root logger's handler to use our custom formatter
+        for (Handler handler : rootLogger.getHandlers()) {
+            if (handler instanceof ConsoleHandler) {
+                handler.setFormatter(new SimpleConsoleOutputFormatter());
+                // Optional: set a higher level to only show INFO messages or above
+                handler.setLevel(java.util.logging.Level.INFO);
+            }
+        }
+        // Optional: set the root logger level.
+        logger.setLevel(java.util.logging.Level.INFO);
+    }
     // Prints a bannered header
     public static void printBanner(String title) {
-        logger.info("My Message");
         logger.info(CommonConstants.SECTION_SEPARATOR);
         logger.info(() -> applyStyling("📌 " + title.toUpperCase(), SemanticColorRole.PROGRAM_BANNER) );
         logger.info(CommonConstants.SECTION_SEPARATOR);
@@ -114,8 +131,8 @@ public class ConsoleStyler {
             String lineToPrint = linePrefix + lines[lineCounter];
             logger.info(() -> CommonConstants.INDENT + borderColor + "│ " + resetColor + applyStyling(lineToPrint, semanticRole));
         }
-        logger.info(CommonConstants.INDENT + borderColor + "│ ");
-        logger.info(CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
+        logger.info(() -> CommonConstants.INDENT + borderColor + "│ ");
+        logger.info(() -> CommonConstants.INDENT + borderColor + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + resetColor);
     }
 
     // Overloaded wrapper to just show line numbers, no uppercase, no sorting

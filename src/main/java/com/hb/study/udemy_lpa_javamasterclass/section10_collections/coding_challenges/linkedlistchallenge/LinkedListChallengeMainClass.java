@@ -138,8 +138,9 @@ public class LinkedListChallengeMainClass {
                         (L)ist Places - to print the itinerary
                         (M)enu - to reprint the Menu items
                         (Q)uit - to Quit
-                        Enter Value:
+                        Enter Value Below:
                         """;
-        System.out.print(menuTextBlock);
+        //System.out.print(menuTextBlock);
+        ConsoleStyler.styleOutput(menuTextBlock);
     }
 }

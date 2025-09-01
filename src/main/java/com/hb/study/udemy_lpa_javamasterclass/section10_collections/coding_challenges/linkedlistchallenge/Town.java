@@ -11,12 +11,4 @@ record Town ( String town, int distanceFromOrigin) {
                 "}\n";
     }
 
-    public static String getOriginTown() {
-        return originTown;
-    }
-
-    Town(String town, int distanceFromOrigin) {
-        this.town = town;
-        this.distanceFromOrigin = distanceFromOrigin;
-    }
 }

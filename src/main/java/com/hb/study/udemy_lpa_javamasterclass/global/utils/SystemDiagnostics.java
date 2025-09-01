@@ -23,7 +23,7 @@ public class SystemDiagnostics {
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
             ConsoleStyler.styleOutput("%-40s : %s%n".formatted(entry.getKey(), entry.getValue()));
         }
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.divider();
         ConsoleStyler.styleOutput("\n=== 🌐 Environment Variables ===");
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> entry : env.entrySet()) {
