@@ -1,6 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.utils;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.SimpleConsoleOutputFormatter;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.BackgroundColor;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.ForegroundColor;
