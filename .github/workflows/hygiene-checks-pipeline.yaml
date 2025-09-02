@@ -3,7 +3,7 @@ on:
   workflow_dispatch: # run manually
   schedule:
     # - cron: '45 06 * * 1-4' # Runs 12:15 PM IST  every WeekDay excluding Friday
-    - cron: '6,42 1,9 * * *'
+    - cron: '30,30 03,15 * * *'
 #  push:
 #      branches:
 #      - main
