@@ -14,8 +14,42 @@ on:
     - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
     - cron: '30 3 * * 5' # For Friday 9:00 AM IST
     - cron: '45 6 * * 5' # For Friday 12:15 PM IST
+  push:
+    branches:
+      - main
 
 jobs:
+  # This job will check the commit message and set an output.
+  # It will always run on push to main, but its output determines if the next job runs.
+  check-commit-message:
+    name: Check Commit Message for Hygiene Sweep Trigger
+    runs-on: ubuntu-latest
+    outputs:
+      should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Get commit message for push events
+        id: check
+        if: github.event_name == 'push'
+        run: |
+          commit_message="${{ github.event.head_commit.message }}"
+          # Regex to find "execute" then "hygiene" then "sweep", separated by any characters.
+          # The pattern is non-greedy (`.*?`) to prevent it from matching a different order.
+          if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+            echo "Match found: commit message contains 'execute hygiene sweep' with separators."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No match found in commit message. Skipping."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+
+      - name: Set output for other events
+        id: check_other_events
+        if: github.event_name != 'push'
+        run: |
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+        shell: bash
+
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
