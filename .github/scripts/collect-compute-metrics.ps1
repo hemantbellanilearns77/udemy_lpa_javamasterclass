@@ -77,7 +77,7 @@
             $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
         } else {
             $sonarExecutionNote = "EXECUTED ✅"
-            $sonarIssuesNote    = "as per just executed successful analysis : $totalSonarFetchedIssues"
+            $sonarIssuesNote    = "from just executed successful analysis : $totalSonarFetchedIssues"
         }
         # --- Fetch timestamp of last analysis dynamically from SonarCloud API ---
         $apiUrl = "https://sonarcloud.io/api/project_analyses/search?project=$projectKey&ps=1"
