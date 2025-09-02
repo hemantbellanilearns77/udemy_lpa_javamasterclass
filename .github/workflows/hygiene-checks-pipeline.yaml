@@ -134,7 +134,7 @@ jobs:
           ref-name: ${{ github.ref_name }}
           head-ref: ${{ github.head_ref }}
           base-ref: ${{ github.base_ref }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}  # ← pass it here
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
         ###############################################################
             # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
