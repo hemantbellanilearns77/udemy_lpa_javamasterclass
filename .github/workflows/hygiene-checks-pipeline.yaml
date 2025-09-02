@@ -79,3 +79,29 @@ jobs:
           # triggering on. 'github.ref_name' is for pushes or schedules.
           ref: ${{ github.ref_name }}
           fetch-depth: 0
+
+      ####################################################
+            # Hygiene Environment Initialization
+      ####################################################
+      - name: Setup Hygiene Environment
+        id: setup
+        uses: ./.github/actions/setup-hygiene-env
+        with:
+          java-version: "24"
+          trigger-event: ${{ github.event_name }}
+          ref-name: ${{ github.ref_name }}
+          head-ref: ${{ github.head_ref }}
+          base-ref: ${{ github.base_ref }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # ← pass it here
+
+        ###############################################################
+            # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
+        ##############################################################
+
+      - name: Hygiene Health Checks and Upload Reports - Composite Call
+        id: hygiene-sweep-and-upload-reports
+        uses: ./.github/actions/generate-and-upload-reports
+        with:
+          SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
