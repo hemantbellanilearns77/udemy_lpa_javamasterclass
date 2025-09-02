@@ -1,0 +1,139 @@
+name: 📊 Hygiene Checks Pipeline
+on:
+  workflow_dispatch: # run manually
+  schedule:
+    # Runs at 9:00 AM and 9:00 PM IST, Monday-Thursday
+    # 9:00 AM IST -> 3:30 AM UTC
+    # 9:00 PM IST -> 3:30 PM UTC
+    - cron: '30 3,15 * * 1-4'
+
+    # Runs on Friday at 12:09 AM, 9:00 AM, and 12:15 PM IST
+    # 12:09 AM IST -> 6:39 PM UTC (on Thursday)
+    # 9:00 AM IST -> 3:30 AM UTC
+    # 12:15 PM IST -> 6:45 AM UTC
+    - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
+    - cron: '30 3 * * 5' # For Friday 9:00 AM IST
+    - cron: '45 6 * * 5' # For Friday 12:15 PM IST
+
+#  push:
+#      branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+#      - stage
+#      - tech-debt
+jobs:
+  hygiene-checks:
+    name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
+    runs-on: windows-latest
+    env:
+      SONAR_ORG: ${{ vars.SONAR_ORG }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_FETCH_SLEEP_TIME: 27
+      MODULE_PATHS: |
+        udemy_lpa_javamasterclass_main=src/main/java/com/hb/study/udemy_lpa_javamasterclass
+        misc_utils_main=misc_utils/src/main/java/com/hb/study/misc_utils
+        udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
+        misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
+      # --- Code Coverage ---
+      JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
+
+      # --- Aggregate Violations ---
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300  # Maximum total violations (Checkstyle + PMD)
+      CHECKSTYLE_MAX_VIOLATIONS: 200            # Max Checkstyle violations per module
+      PMD_MAX_VIOLATIONS: 50                    # Max PMD violations per module
+
+      # --- SonarCloud Severity Thresholds ---
+      BLOCKER_MAX: 0      # Any Blocker fails hygiene
+      HIGH_MAX: 10        # Maximum allowed high severity issues
+      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
+      LOW_MAX: 30         # Maximum allowed low severity issues
+      INFO_MAX: 50        # Maximum allowed informational issues
+
+    steps:
+              - name: Run script for business days (Mon-Thurs)
+                if: github.event.schedule == '30 3,15 * * 1-4'
+                shell: pwsh
+                run: Write-Host "✅ Executing for a business day (Mon-Thurs)."
+
+              - name: Run script for Friday
+                shell: pwsh
+                if: contains('39 18 * * 4,30 3 * * 5,45 6 * * 5', github.event.schedule)
+                run: Write-Host "✅ Executing on Friday."
+                  ####################################################
+                  # CHECKOUT CODE COMMITTED
+                  ####################################################
+                       - name: Checkout Code
+                       uses: actions/checkout@v4
+                       with:
+                         ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+                         fetch-depth: 0   # fetches all history, not just 1 commit
+                   
+                   ####################################################
+                   # Hygiene Environment Initialization
+                   ####################################################
+                   - name: Setup Hygiene Environment
+                     id: setup
+                     uses: ./.github/actions/setup-hygiene-env
+                     with:
+                       java-version: "24"
+                       trigger-event: ${{ github.event_name }}
+                       ref-name: ${{ github.ref_name }}
+                       head-ref: ${{ github.head_ref }}
+                       base-ref: ${{ github.base_ref }}
+                       github-token: ${{ secrets.GITHUB_TOKEN }}  # ← pass it here
+
+                     ###############################################################
+                     # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
+                     ##############################################################
+
+                 - name: Hygiene Health Checks and Upload Reports - Composite Call
+                   id: hygiene-sweep-and-upload-reports
+                   uses: ./.github/actions/generate-and-upload-reports
+                   with:
+                     SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+                   env:
+                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+                   ##############################################################
+                   # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
+                   ##############################################################
+
+                 - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
+                   id: publish-githubsummary-and-sendemail
+                   uses: ./.github/actions/compute-and-publish-summary
+                   with:
+                     startTime: ${{ steps.setup.outputs.startTime }}
+                     SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+                     COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
+                     COMMIT_AUTHOR: ${{ steps.setup.outputs.COMMIT_AUTHOR }}
+                     TRIGGER_EVENT: ${{ steps.setup.outputs.TRIGGER_EVENT }}
+                     SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
+                     TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
+                     BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
+                     ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
+                   env:
+                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                     SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
+                     SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+                     SMTP_USER: ${{ secrets.SMTP_USER }}
+                     SMTP_PASS: ${{ secrets.SMTP_PASS }}
+                     EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
+                     JACOCO_MIN_COVERAGE: ${{ env.JACOCO_MIN_COVERAGE }}
+                     CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: ${{ env.CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS }}
+                     CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
+                     PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
+                     BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
+                     HIGH_MAX: ${{ env.HIGH_MAX }}          # keep backward compatible
+                     MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
+                     LOW_MAX: ${{ env.LOW_MAX }}
+                     INFO_MAX: ${{ env.INFO_MAX }}
+
+                   #############################
+                   # FULL CLEANUP AND VERIFY
+                   ##############################
+
+                 - name: Full Cleanup and Verify Composite Call
+                   id: cleanup-and-verify-composite-call
+                   uses: ./.github/actions/full-cleanup-and-verify
