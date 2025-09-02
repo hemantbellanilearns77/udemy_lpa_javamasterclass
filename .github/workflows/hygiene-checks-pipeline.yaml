@@ -29,17 +29,19 @@ jobs:
         udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
         misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
       # --- Code Coverage ---
-      JACOCO_MIN_COVERAGE: 75
+      JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
+
       # --- Aggregate Violations ---
-      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300
-      CHECKSTYLE_MAX_VIOLATIONS: 200
-      PMD_MAX_VIOLATIONS: 50
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300  # Maximum total violations (Checkstyle + PMD)
+      CHECKSTYLE_MAX_VIOLATIONS: 200            # Max Checkstyle violations per module
+      PMD_MAX_VIOLATIONS: 50                    # Max PMD violations per module
+
       # --- SonarCloud Severity Thresholds ---
-      BLOCKER_MAX: 0
-      HIGH_MAX: 10
-      MEDIUM_MAX: 20
-      LOW_MAX: 30
-      INFO_MAX: 50
+      BLOCKER_MAX: 0      # Any Blocker fails hygiene
+      HIGH_MAX: 10        # Maximum allowed high severity issues
+      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
+      LOW_MAX: 30         # Maximum allowed low severity issues
+      INFO_MAX: 50        # Maximum allowed informational issues
     steps:
 
       - name: Log trigger for scheduled runs
