@@ -138,3 +138,11 @@ jobs:
           MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
           LOW_MAX: ${{ env.LOW_MAX }}
           INFO_MAX: ${{ env.INFO_MAX }}
+
+        #############################
+            # FULL CLEANUP AND VERIFY
+        ##############################
+
+      - name: Full Cleanup and Verify Composite Call
+        id: cleanup-and-verify-composite-call
+        uses: ./.github/actions/full-cleanup-and-verify
