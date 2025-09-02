@@ -160,7 +160,7 @@ runs:
         }
         # Case 3: Manual workflow_dispatch 
           elseif ($TRIGGER_EVENT -ieq "workflow_dispatch") {
-          if($TGT_BRANCH ieq $DEFAULT_BRANCH) {
+          if($TGT_BRANCH -ieq $DEFAULT_BRANCH) {
             $SKIP_FLAG = ""
             $REASON = "⚡ Manual workflow_dispatch on default branch (main) with last commit message NOT having skipsonar pattern string, therefore → RUN Sonar"
           } else {
