@@ -25,7 +25,7 @@ jobs:
     name: Check Commit Message for Hygiene Sweep Trigger
     runs-on: ubuntu-latest
     outputs:
-      should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}
+      should_run_hygiene_checks: ${{ steps.check.outputs.should_run || steps.check_other_events.outputs.should_run }}
     steps:
       - name: Get commit message for push events
         id: check
@@ -45,8 +45,9 @@ jobs:
 
       - name: Set output for other events
         id: check_other_events
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         run: |
+          echo "Match found for scheduled or manual trigger."
           echo "should_run=true" >> "$GITHUB_OUTPUT"
         shell: bash
 
