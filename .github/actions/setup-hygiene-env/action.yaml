@@ -89,6 +89,7 @@ runs:
         $LAST_COMMIT_AUTHOR = git log -1 --pretty=%an
         $COMMIT_MSG = $LAST_COMMIT_MSG
         $COMMIT_AUTHOR = $LAST_COMMIT_AUTHOR
+        $prDetected=$false
         
         
         $DEFAULT_BRANCH = "${{ github.event.repository.default_branch }}"
@@ -122,16 +123,18 @@ runs:
             
                 if (-not [string]::IsNullOrEmpty($prResponse)) {
                   $SRC_BRANCH = $prResponse
+                  $prDetected = $true
                   Write-Host "✅ Detected PR source branch: $SRC_BRANCH"
+        
                 } else {
                   $SRC_BRANCH = $TGT_BRANCH
                   Write-Host "⚡ Could not detect PR → assuming direct commit"
                 } 
               } catch {
-              Write-Host "⚠️ Error querying PR info: $_"
-              $SRC_BRANCH = $TGT_BRANCH
+                Write-Host "⚠️ Error querying PR info: $_"
+                $SRC_BRANCH = $TGT_BRANCH
               }
-            }
+            } # ebd of if last commit has prmergoattern
           } else {
             # Regular direct commit
             Write-Host "⚡ Regular direct commit on $TGT_BRANCH"
@@ -148,7 +151,7 @@ runs:
         # Case 1: Commit message override → always take precedence
         if ($LAST_COMMIT_MSG -match $skipSonarPattern) {
           $SKIP_FLAG = "--skip-sonar"
-          $REASON = "⚡ Commit message override → SKIP Sonar"
+          $REASON = "⚡ PR Merge / Push Commit message override → SKIP Sonar"
         }
         # Case 2: Scheduled run on main
         elseif ($TRIGGER_EVENT -ieq "schedule") { 
