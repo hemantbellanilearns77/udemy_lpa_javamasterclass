@@ -25,7 +25,7 @@ jobs:
     name: Check Commit Message for Hygiene Sweep Trigger
     runs-on: ubuntu-latest
     outputs:
-      should_run_hygiene_checks: ${{ steps.check.outputs.should_run || steps.check_other_events.outputs.should_run }}
+      should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}
     steps:
       - name: Get commit message for push events
         id: check
@@ -43,20 +43,13 @@ jobs:
           fi
         shell: bash
 
-      - name: Set output for other events
-        id: check_other_events
-        if: github.event_name != 'push' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-        run: |
-          echo "Match found for scheduled or manual trigger."
-          echo "should_run=true" >> "$GITHUB_OUTPUT"
-        shell: bash
-
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
     # The condition now depends on the output of the `check-commit-message` job.
     needs: check-commit-message
-    if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true'
+    if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # Alternatively: if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true' || contains(fromJSON('["schedule", "workflow_dispatch"]'), github.event_name)
     env:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
