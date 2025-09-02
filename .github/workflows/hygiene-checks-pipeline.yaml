@@ -1,6 +1,6 @@
 name: 📊 Hygiene Checks Pipeline
 on:
-  workflow_dispatch: # run manually
+  workflow_dispatch: # Run manually
   schedule:
     # Runs at 9:00 AM and 9:00 PM IST, Monday-Thursday
     # 9:00 AM IST -> 3:30 AM UTC
@@ -15,14 +15,6 @@ on:
     - cron: '30 3 * * 5' # For Friday 9:00 AM IST
     - cron: '45 6 * * 5' # For Friday 12:15 PM IST
 
-#  push:
-#      branches:
-#      - main
-#  pull_request:
-#    branches:
-#      - main
-#      - stage
-#      - tech-debt
 jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
@@ -37,103 +29,51 @@ jobs:
         udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
         misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
       # --- Code Coverage ---
-      JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
-
+      JACOCO_MIN_COVERAGE: 75
       # --- Aggregate Violations ---
-      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300  # Maximum total violations (Checkstyle + PMD)
-      CHECKSTYLE_MAX_VIOLATIONS: 200            # Max Checkstyle violations per module
-      PMD_MAX_VIOLATIONS: 50                    # Max PMD violations per module
-
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300
+      CHECKSTYLE_MAX_VIOLATIONS: 200
+      PMD_MAX_VIOLATIONS: 50
       # --- SonarCloud Severity Thresholds ---
-      BLOCKER_MAX: 0      # Any Blocker fails hygiene
-      HIGH_MAX: 10        # Maximum allowed high severity issues
-      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
-      LOW_MAX: 30         # Maximum allowed low severity issues
-      INFO_MAX: 50        # Maximum allowed informational issues
-
+      BLOCKER_MAX: 0
+      HIGH_MAX: 10
+      MEDIUM_MAX: 20
+      LOW_MAX: 30
+      INFO_MAX: 50
     steps:
-              - name: Run script for business days (Mon-Thurs)
-                if: github.event.schedule == '30 3,15 * * 1-4'
-                shell: pwsh
-                run: Write-Host "✅ Executing for a business day (Mon-Thurs)."
 
-              - name: Run script for Friday
-                shell: pwsh
-                if: contains('39 18 * * 4,30 3 * * 5,45 6 * * 5', github.event.schedule)
-                run: Write-Host "✅ Executing on Friday."
-                  ####################################################
-                  # CHECKOUT CODE COMMITTED
-                  ####################################################
-                       - name: Checkout Code
-                       uses: actions/checkout@v4
-                       with:
-                         ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
-                         fetch-depth: 0   # fetches all history, not just 1 commit
-                   
-                   ####################################################
-                   # Hygiene Environment Initialization
-                   ####################################################
-                   - name: Setup Hygiene Environment
-                     id: setup
-                     uses: ./.github/actions/setup-hygiene-env
-                     with:
-                       java-version: "24"
-                       trigger-event: ${{ github.event_name }}
-                       ref-name: ${{ github.ref_name }}
-                       head-ref: ${{ github.head_ref }}
-                       base-ref: ${{ github.base_ref }}
-                       github-token: ${{ secrets.GITHUB_TOKEN }}  # ← pass it here
+      - name: Log trigger for scheduled runs
+        if: github.event_name == 'schedule'
+        shell: pwsh
+        run: |
+          if ("${{ github.event.schedule }}" -eq '30 3,15 * * 1-4') {
+            Write-Host "✅ Executing for a business day (Mon-Thurs)."
+          } elseif ("${{ github.event.schedule }}" -eq '39 18 * * 4') {
+            Write-Host "✅ Executing on Friday (12:09 AM IST)."
+          } elseif ("${{ github.event.schedule }}" -eq '30 3 * * 5') {
+            Write-Host "✅ Executing on Friday (9:00 AM IST)."
+          } elseif ("${{ github.event.schedule }}" -eq '45 6 * * 5') {
+            Write-Host "✅ Executing on Friday (12:15 PM IST)."
+          }
 
-                     ###############################################################
-                     # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
-                     ##############################################################
+      - name: Log trigger for manual runs
+        if: github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: Write-Host "✅ Executing manually via workflow_dispatch."
 
-                 - name: Hygiene Health Checks and Upload Reports - Composite Call
-                   id: hygiene-sweep-and-upload-reports
-                   uses: ./.github/actions/generate-and-upload-reports
-                   with:
-                     SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
-                   env:
-                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Exit for other events
+        # This step will run only if the event is NOT manual or scheduled.
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
+        run: |
+          Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event."
+          exit 0 # Exit the job successfully, so it doesn't appear as a failure
 
-                   ##############################################################
-                   # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
-                   ##############################################################
-
-                 - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
-                   id: publish-githubsummary-and-sendemail
-                   uses: ./.github/actions/compute-and-publish-summary
-                   with:
-                     startTime: ${{ steps.setup.outputs.startTime }}
-                     SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
-                     COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
-                     COMMIT_AUTHOR: ${{ steps.setup.outputs.COMMIT_AUTHOR }}
-                     TRIGGER_EVENT: ${{ steps.setup.outputs.TRIGGER_EVENT }}
-                     SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
-                     TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
-                     BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
-                     ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
-                   env:
-                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                     SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
-                     SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
-                     SMTP_USER: ${{ secrets.SMTP_USER }}
-                     SMTP_PASS: ${{ secrets.SMTP_PASS }}
-                     EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
-                     JACOCO_MIN_COVERAGE: ${{ env.JACOCO_MIN_COVERAGE }}
-                     CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: ${{ env.CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS }}
-                     CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
-                     PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
-                     BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
-                     HIGH_MAX: ${{ env.HIGH_MAX }}          # keep backward compatible
-                     MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
-                     LOW_MAX: ${{ env.LOW_MAX }}
-                     INFO_MAX: ${{ env.INFO_MAX }}
-
-                   #############################
-                   # FULL CLEANUP AND VERIFY
-                   ##############################
-
-                 - name: Full Cleanup and Verify Composite Call
-                   id: cleanup-and-verify-composite-call
-                   uses: ./.github/actions/full-cleanup-and-verify
+      - name: Checkout Code for Manual and Scheduled triggers
+        # Only run checkout if the event is 'schedule' or 'workflow_dispatch'
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+        with:
+          # Note: 'pull_request.head.ref' is for pull request events, which you are not
+          # triggering on. 'github.ref_name' is for pushes or schedules.
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
