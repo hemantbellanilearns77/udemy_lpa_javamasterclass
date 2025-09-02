@@ -107,7 +107,7 @@ jobs:
 
       - name: Exit for other events
         # This step will run only if the event is NOT manual or scheduled.
-        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
         run: |
           Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event."
           exit 0 # Exit the job successfully, so it doesn't appear as a failure
