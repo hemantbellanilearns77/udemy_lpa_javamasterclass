@@ -65,7 +65,6 @@ public class Bank {
 
 
     public boolean listCustomers(String branchName, boolean printTransactions) {
-        //ConsoleStyler.styleOutput("\n\t\t"+name+"\n");
         boolean branchExists = false;
         Branch branch = findBranch(branchName);
         if (branch != null) {
@@ -74,15 +73,17 @@ public class Bank {
             ConsoleStyler.styleOutput("Customer details for branch " + branch.getName() + " ("+name+")");
             ArrayList<Customer> branchCustomers = branch.getCustomers();
             for (var customer : branch.getCustomers()) {
-                //ConsoleStyler.styleOutput("Customer: " + customer.getName() + "[" + (customerCounter) + "]");
-                System.out.printf("Customer: %s[%d]%n", customer.getName(), customerCounter);
+                ConsoleStyler.styleOutput("""
+                        Customer: %s[%d]
+                        """.formatted(customer.getName(), customerCounter));
                 customerCounter++;
                 if (printTransactions) {
                     ConsoleStyler.styleOutput("Transactions");
                     int transactionCounter = 1;
                     for (var transaction : customer.getTransactions()) {
-                        //ConsoleStyler.styleOutput("[" + (transactionCounter) + "] Amount " + transaction);
-                        System.out.printf("[%d] Amount %4.2f", transactionCounter, transaction);
+                        ConsoleStyler.styleOutput("""
+                                [%d] Amount %4.2f
+                                """.formatted(transactionCounter, transaction));
                         transactionCounter++;
                     }
                 }

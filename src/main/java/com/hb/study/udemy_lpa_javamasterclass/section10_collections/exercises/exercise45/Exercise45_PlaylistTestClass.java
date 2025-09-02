@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class Exercise45_PlaylistTestClass {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
     public static void main(String[] args) {
@@ -27,9 +27,7 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("The gypsy", 4.2);
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
-       // ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: \n" + album ) ;
-        ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING) ;
-
+        ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: \n" + album);
         System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
@@ -42,9 +40,10 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        //ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album.toString() ) ;
-        ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING) ;
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album.toString());
+
+        ConsoleStyler.divider();
+
 
         LinkedList<Song> playList = new LinkedList<>();
         albums.get(0).addToPlayList("You can't do it right", playList);
@@ -54,21 +53,14 @@ public class Exercise45_PlaylistTestClass {
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-        ConsoleStyler.styleOutput("Playlist:" ) ;
+        ConsoleStyler.styleOutput("Playlist:");
         ConsoleStyler.styleOutput("Track No. Title: Duration");
-        for(int loopCounter = 0; loopCounter < playList.size(); loopCounter++ ){
-            ConsoleStyler.styleOutput((loopCounter+1) + ".\t" + playList.get(loopCounter).toString());
+        for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {
+            ConsoleStyler.styleOutput((loopCounter + 1) + ".\t" + playList.get(loopCounter).toString());
             //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
         }
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
-        /*
+        ConsoleStyler.divider();
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
-
-  //
-
-
 }
