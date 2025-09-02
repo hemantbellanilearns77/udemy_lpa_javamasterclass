@@ -71,7 +71,7 @@ jobs:
               ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
               fetch-depth: 0   # fetches all history, not just 1 commit
 
-              ####################################################
+          ####################################################
               # Hygiene Environment Initialization
           ####################################################
           - name: Setup Hygiene Environment
