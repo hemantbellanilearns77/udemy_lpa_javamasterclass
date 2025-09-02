@@ -144,8 +144,9 @@ runs:
 
         $REASON = ""
         $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
+        
         # Case 1: Commit message override → always take precedence
-        if ($TRIGGER_EVENT -ine "schedule" -and $LAST_COMMIT_MSG -match $skipSonarPattern) {
+        if ($LAST_COMMIT_MSG -match $skipSonarPattern) {
           $SKIP_FLAG = "--skip-sonar"
           $REASON = "⚡ Commit message override → SKIP Sonar"
         }
@@ -154,16 +155,15 @@ runs:
           $SKIP_FLAG = ""
           $REASON = "⚡ Scheduled run → RUN Sonar"
         }
-        # Case 3: Push to main
+        # Case 3: Manual workflow_dispatch 
           elseif ($TRIGGER_EVENT -ieq "workflow_dispatch") {
-          $SKIP_FLAG = ""
-          $REASON = "⚡ Manual workflow_dispatch → RUN Sonar"
-        } elseif ($TRIGGER_EVENT -ieq "push" -and $TGT_BRANCH -ieq "main") {
-          if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
-          $REASON = "⚡ PR merged into main → RUN Sonar"
-        } else {
-          $REASON = "⚡ Direct commit to main → RUN Sonar"
-        }
+          if($TGT_BRANCH ieq $DEFAULT_BRANCH) {
+            $SKIP_FLAG = ""
+            $REASON = "⚡ Manual workflow_dispatch on default branch (main) with last commit message NOT having skipsonar pattern string, therefore → RUN Sonar"
+          } else {
+            $SKIP_FLAG = "--skip-sonar"
+            $REASON = "⚡ Manual workflow_dispatch on non-default branch (i.e. non-main), therefore → SKIP Sonar"
+          }
         } else {
           $REASON = "⚡ Default → SKIP Sonar (SRC=$SRC_BRANCH, TGT=$TGT_BRANCH)"
         }
