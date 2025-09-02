@@ -19,6 +19,9 @@ jobs:
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
+    # The condition now depends on the output of the `check-commit-message` job.
+    needs: check-commit-message
+    if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true'
     env:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
@@ -62,6 +65,11 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         shell: pwsh
         run: Write-Host "✅ Executing manually via workflow_dispatch."
+
+      - name: Log trigger for push event
+        if: github.event_name == 'push'
+        shell: pwsh
+        run: Write-Host "✅ Executing due to push event triggered by special commit message."
 
       - name: Exit for other events
         # This step will run only if the event is NOT manual or scheduled.
