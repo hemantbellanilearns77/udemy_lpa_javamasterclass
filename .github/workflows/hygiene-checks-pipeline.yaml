@@ -14,9 +14,9 @@ on:
     - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
     - cron: '30 3 * * 5' # For Friday 9:00 AM IST
     - cron: '45 6 * * 5' # For Friday 12:15 PM IST
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 jobs:
   # This job will check the commit message and set an output.
