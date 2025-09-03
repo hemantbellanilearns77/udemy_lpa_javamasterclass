@@ -23,7 +23,7 @@ jobs:
   # It will always run on push to main, but its output determines if the next job runs.
 
   check-commit-message:
-    name: HYGIENE SWEEP NEEDED ON PUSH ? # Check Hygiene Sweep Trigger in Commit Message (On Push To Default branch)
+    name: On Push - Execute Hygiene Sweep ? # Check Hygiene Sweep Trigger in Commit Message (On Push To Default branch)
     runs-on: ubuntu-latest
     outputs:
       should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}
