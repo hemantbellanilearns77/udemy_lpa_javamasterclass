@@ -1,6 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise45;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
@@ -12,10 +11,19 @@ public class Exercise45_PlaylistTestClass {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         execution.initialize();
         ArrayList<Album> albums = new ArrayList<>();
-
         Album album = new Album("Stormbringer", "Deep Purple");
         album.addSong("Stormbringer", 4.6);
         album.addSong("Love don't mean a thing", 4.22);
@@ -28,7 +36,8 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
         ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: \n" + album);
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.divider();
+
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
         album.addSong("I put the finger on you", 3.25);
@@ -40,24 +49,22 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album.toString());
-
+        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album);
         ConsoleStyler.divider();
 
-
         LinkedList<Song> playList = new LinkedList<>();
-        albums.get(0).addToPlayList("You can't do it right", playList);
-        albums.get(0).addToPlayList("Holy man", playList);
-        albums.get(0).addToPlayList("Speed king", playList);  // Does not exist
-        albums.get(0).addToPlayList(9, playList);
+        albums.getFirst().addToPlayList("You can't do it right", playList);
+        albums.getFirst().addToPlayList("Holy man", playList);
+        albums.getFirst().addToPlayList("Speed king", playList);  // Does not exist
+        albums.getFirst().addToPlayList(9, playList);
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
         ConsoleStyler.styleOutput("Playlist:");
         ConsoleStyler.styleOutput("Track No. Title: Duration");
+
         for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {
-            ConsoleStyler.styleOutput((loopCounter + 1) + ".\t" + playList.get(loopCounter).toString());
-            //albumToStringBuilder.append((loopCounter+1) +". " + songs.get(loopCounter).toString()+"\n");
+            ConsoleStyler.styleOutput((loopCounter + 1) + ".\t" + playList.get(loopCounter));
         }
         ConsoleStyler.divider();
 

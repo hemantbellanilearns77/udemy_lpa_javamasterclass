@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.ex
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class PaintJob {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         // Testing of first method:
         ConsoleStyler.styleOutput("Below are the results of testing of first overloaded form ");
         ConsoleStyler.styleOutput("Buckets to Buy with getBucketCount(-3.4, 2.1, 1.5, 2) is : " + getBucketCount(-3.4, 2.1, 1.5, 2));

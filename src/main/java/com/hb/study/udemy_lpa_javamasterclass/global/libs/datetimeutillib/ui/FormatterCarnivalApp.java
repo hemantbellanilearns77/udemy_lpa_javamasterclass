@@ -4,6 +4,7 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.ui;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.controller.GUIModeOrchestrator;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.ZoneLibrary;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,7 +87,12 @@ public class FormatterCarnivalApp extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
     }
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         SwingUtilities.invokeLater(() -> new FormatterCarnivalApp().setVisible(true));
     }
 }

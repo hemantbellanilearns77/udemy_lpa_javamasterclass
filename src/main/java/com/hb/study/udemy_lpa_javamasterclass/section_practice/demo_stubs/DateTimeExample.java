@@ -27,7 +27,12 @@ import java.time.format.FormatStyle;
         You can adjust the `ZoneId` if you need to work with a specific time zone.*/
 
 public class DateTimeExample {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         // Step 1: Get current milliseconds
         long currentMillis = System.currentTimeMillis();
 

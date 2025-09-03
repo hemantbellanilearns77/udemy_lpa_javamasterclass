@@ -16,7 +16,12 @@ import java.util.Locale;
 public class StringManipulations {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         execution.initialize();
 
         String testDateString = "06/07/2021";

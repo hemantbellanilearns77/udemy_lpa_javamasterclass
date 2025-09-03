@@ -6,7 +6,12 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class ConsoleAndScannerPractice {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         int currentYer = Calendar.getInstance().get(Calendar.YEAR);
         ConsoleStyler.styleOutput("Current Year is: " + currentYer);

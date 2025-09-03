@@ -9,7 +9,12 @@ public class Store {
 
     private static ArrayList<ProductForSale> storeFrontInventory = new ArrayList<>();
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         storeFrontInventory.add(new ArtObject("Oil Painting", 1350,
                 "Impressionistic work by ABF painted in 2010"));

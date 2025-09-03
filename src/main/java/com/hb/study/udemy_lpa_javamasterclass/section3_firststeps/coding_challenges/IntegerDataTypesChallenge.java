@@ -6,7 +6,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
  * PrimitiveTypesChallange1
  */
 public class IntegerDataTypesChallenge {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         byte byteVar = 77;
         short shortVar = 777;
         int intVar = 7777;

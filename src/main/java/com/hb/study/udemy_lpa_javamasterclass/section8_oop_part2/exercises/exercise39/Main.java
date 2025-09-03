@@ -4,7 +4,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Main {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         Printer printer = new Printer(50, true);
         ConsoleStyler.styleOutput(printer.addToner(50)  + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput("initial page count = " +printer.getPagesPrinted());

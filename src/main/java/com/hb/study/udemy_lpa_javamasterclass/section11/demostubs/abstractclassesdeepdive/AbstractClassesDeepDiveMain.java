@@ -1,10 +1,17 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.abstractclassesdeepdive;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 
 public class AbstractClassesDeepDiveMain {
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
 //        Animal animal = new Animal("animal", "big", 100);
 

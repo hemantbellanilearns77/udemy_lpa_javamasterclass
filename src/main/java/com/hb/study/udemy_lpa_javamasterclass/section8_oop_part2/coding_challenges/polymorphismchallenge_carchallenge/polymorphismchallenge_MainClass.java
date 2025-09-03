@@ -1,5 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,12 @@ public class polymorphismchallenge_MainClass {
     private static final String CAR = "Car";
     private static final String IT_RUNS_ON = "It runs on";
     private static final SecureRandom secureRandom = new SecureRandom();
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         List<String> listOfCarTypes = new ArrayList<>();
         listOfCarTypes.add("GasPowered");
         listOfCarTypes.add(ELECTRIC);
