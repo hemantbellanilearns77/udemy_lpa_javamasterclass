@@ -4,10 +4,7 @@
 name: "Download Hygiene Check Tools"
 description: "Download tools that will evaluate hygiene health of the project"
 inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
-outputs:
-  scanner_bin_dir:
-    value: ${{ steps.download_scanner_step.outputs.scanner_bin_dir }}
-    description: ""
+outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
 
 runs:
   using: "composite"

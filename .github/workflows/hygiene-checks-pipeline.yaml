@@ -137,7 +137,6 @@ jobs:
         uses: ./.github/actions/generate-and-upload-reports
         with:
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
-          scanner_bin_dir: ${{ steps.setup.outputs.scanner_bin_dir }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         ##############################################################
