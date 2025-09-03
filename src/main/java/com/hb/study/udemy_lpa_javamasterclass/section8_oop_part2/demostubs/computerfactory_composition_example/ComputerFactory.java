@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.demostubs.comp
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class ComputerFactory {
         public static void main(String[] ignoredUnusedArgs) {
         //
@@ -11,11 +12,13 @@ public class ComputerFactory {
 
         PersonalComputer thePC = new PersonalComputer("2208","Dell",
                 theCase, theMonitor,theMotherboard);
+        ConsoleStyler.styleExecutionInsight("""
        /* thePC.getComputerCase().pressPowerButton();
         thePC.getMotherboard().loadProgram("Operating System");
         thePC.getMonitor().drawPixelAt(35, 35, "blue");*/
+       """);
         ConsoleStyler.styleOutput("Your PC has these configurations : \n " + thePC);
-        ConsoleStyler.styleOutput("************************************************************************************************");
+        ConsoleStyler.divider();
         thePC.powerUp();
 
     }

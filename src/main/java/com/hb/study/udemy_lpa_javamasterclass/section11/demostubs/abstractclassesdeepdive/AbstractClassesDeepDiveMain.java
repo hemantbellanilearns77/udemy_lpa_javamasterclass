@@ -1,7 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.abstractclassesdeepdive;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
 import java.util.ArrayList;
 
 public class AbstractClassesDeepDiveMain {

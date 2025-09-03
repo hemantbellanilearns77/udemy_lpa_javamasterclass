@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challen
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class Refrigerator {
 
     private boolean hasWorkToDo;

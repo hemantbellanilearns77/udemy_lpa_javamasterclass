@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.LinkedList;
 

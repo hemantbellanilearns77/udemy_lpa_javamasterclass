@@ -7,16 +7,16 @@ public class SwitchExpressionChallenge {
     private static final String IS = " is ";
     public static String dayOfTheWeek;
 
-        public static void main(String[] ignoredUnusedArgs) {
-        //
-/*      printDayOfTheWeek(0);
+    public static void main(String[] ignoredUnusedArgs) {
+
+        printDayOfTheWeek(0);
         printDayOfTheWeek(1);
         printDayOfTheWeek(2);
         printDayOfTheWeek(3);
         printDayOfTheWeek(4);
         printDayOfTheWeek(5);
         printDayOfTheWeek(6);
-        printDayOfTheWeek(7);*/
+        printDayOfTheWeek(7);
 
         ConsoleStyler.styleOutput(THE_DAY + 0 + IS + printDayOfTheWeek(0));
         ConsoleStyler.styleOutput(THE_DAY + 1 + IS + printDayOfTheWeek(1));
@@ -36,11 +36,21 @@ public class SwitchExpressionChallenge {
         printWeekDay(5);
         printWeekDay(6);
         printWeekDay(7);
+        ConsoleStyler.divider();
+        alternativePrintDayOfTheWeek(0);
+        alternativePrintDayOfTheWeek(1);
+        alternativePrintDayOfTheWeek(2);
+        alternativePrintDayOfTheWeek(3);
+        alternativePrintDayOfTheWeek(4);
+        alternativePrintDayOfTheWeek(5);
+        alternativePrintDayOfTheWeek(6);
+        alternativePrintDayOfTheWeek(7);
+
 
     }
 
-    /*public static void printDayOfTheWeek(int day) {
-        //ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
+    public static void alternativePrintDayOfTheWeek(int day) {
+        ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
         dayOfTheWeek = switch (day) {
             case 0 -> "Sunday";
             case 1 -> "Monday";
@@ -52,19 +62,40 @@ public class SwitchExpressionChallenge {
             default -> "Invalid Day";
         };
         ConsoleStyler.styleOutput("The day " + day + " is " + dayOfTheWeek);
-    }*/
+    }
 
     public static String printDayOfTheWeek(int day) {
-        //ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
+        ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
         String dayOfWeek;
         return switch (day) {
-            case 0 -> { dayOfWeek = "Sunday"; yield dayOfWeek;}
-            case 1 -> { dayOfWeek = "Monday"; yield dayOfWeek;}
-            case 2 -> { dayOfWeek = "Tuesday"; yield dayOfWeek;}
-            case 3 -> { dayOfWeek = "Wednesday"; yield dayOfWeek;}
-            case 4 -> { dayOfWeek = "Thursday"; yield dayOfWeek;}
-            case 5 -> { dayOfWeek = "Friday"; yield dayOfWeek;}
-            case 6 -> { dayOfWeek = "Saturday"; yield dayOfWeek;}
+            case 0 -> {
+                dayOfWeek = "Sunday";
+                yield dayOfWeek;
+            }
+            case 1 -> {
+                dayOfWeek = "Monday";
+                yield dayOfWeek;
+            }
+            case 2 -> {
+                dayOfWeek = "Tuesday";
+                yield dayOfWeek;
+            }
+            case 3 -> {
+                dayOfWeek = "Wednesday";
+                yield dayOfWeek;
+            }
+            case 4 -> {
+                dayOfWeek = "Thursday";
+                yield dayOfWeek;
+            }
+            case 5 -> {
+                dayOfWeek = "Friday";
+                yield dayOfWeek;
+            }
+            case 6 -> {
+                dayOfWeek = "Saturday";
+                yield dayOfWeek;
+            }
             default -> "Invalid Day";
         };
     }

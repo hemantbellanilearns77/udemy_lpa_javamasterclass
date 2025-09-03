@@ -1,11 +1,9 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.exercises.exercise38;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
 public class Exercise38MainClass {
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         Wall wall1 = new Wall("West");
         Wall wall2 = new Wall("East");
         Wall wall3 = new Wall("South");

@@ -3,10 +3,10 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 class Car {
-    private String name;
-    private boolean engine;
-    private int cylinders;
-    private int wheels;
+    private final String name;
+    private final boolean engine;
+    private final int cylinders;
+    private final int wheels;
 
     public Car(int cylinders, String name) {
         ConsoleStyler.styleOutput("Inside Car() constructor; This car is manufactured with " +

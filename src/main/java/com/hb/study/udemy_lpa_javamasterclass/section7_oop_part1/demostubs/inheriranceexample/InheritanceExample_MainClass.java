@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.inhe
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class InheritanceExample_MainClass {
 
     private static final String SLOW = "slow";

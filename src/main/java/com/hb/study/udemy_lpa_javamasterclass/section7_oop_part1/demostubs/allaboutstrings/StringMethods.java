@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.alla
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 import java.util.Locale;
 
 public class StringMethods {
@@ -9,10 +10,10 @@ public class StringMethods {
     private static final String WORLD = "World";
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
-       /*  for(int i = 1, j=1; i <= 100000; i*=10){
+
+         for(int i = 1; i <= 100000; i*=10){
             System.out.printf("Printing %6d %n",i);
-        }*/
+        }
         String stringToInspect  = "Hello World";
         String stringToInspectToLower  = stringToInspect.toLowerCase(Locale.ROOT);
 
@@ -73,13 +74,13 @@ public class StringMethods {
             ConsoleStyler.styleOutput("Values of both strings are exactly" + " equal".toUpperCase() + ", after Ignoring the case!");
         }
         if(stringToInspect.startsWith("Hello")) {
-            ConsoleStyler.styleOutput("String starts with \'Hello\'");
+            ConsoleStyler.styleOutput("String starts with 'Hello'");
         }
         if(stringToInspect.endsWith(WORLD)) {
-            ConsoleStyler.styleOutput("String ends with \'World\'");
+            ConsoleStyler.styleOutput("String ends with 'World'");
         }
         if(stringToInspect.contains(WORLD)) {
-            ConsoleStyler.styleOutput("String contains \'World\'");
+            ConsoleStyler.styleOutput("String contains 'World'");
         }
         ConsoleStyler.divider();
     }
@@ -91,7 +92,7 @@ public class StringMethods {
         ConsoleStyler.styleOutput("Starting index for year 1981 in " + birthDateString + " is: " + yearStartIndex);
         System.out.printf("Birth Year in %s, is: %s %n",birthDateString, birthDateString.substring(yearStartIndex) );
         System.out.printf("Date in  %s, is: %s and Month in %s, is: %s %n",birthDateString, birthDateString.substring(3,5),
-                birthDateString,birthDateString.substring(6,birthDateString.length()) );
+                birthDateString,birthDateString.substring(6) );
 
         String newDate = String.join("/", "16", "11", "1981");
         ConsoleStyler.styleOutput("Demo String.join() : nwwDate formed by using join method with a delimeter '/' is:" + newDate);

@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.demostubs;
 
+
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class FirstAndLastDigitSum {

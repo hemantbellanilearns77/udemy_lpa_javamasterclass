@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_challenges;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Scanner;
 
 /*

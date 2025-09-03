@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.interfacesdeepdive;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Bird extends Animal implements FlightEnabled, Trackable {
 
     @Override

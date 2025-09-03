@@ -4,27 +4,22 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.ui;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.controller.GUIModeOrchestrator;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.ZoneLibrary;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Locale;
 
-
+import java.time.ZoneId;
+import java.util.List;
 /**
  * created by : heman on 14-07-2025, 08:49 pm, in the "udemy_lpa_javamasterclass" project
  **/
-
-
-import java.time.ZoneId;
-import java.util.List;
-
 public class FormatterCarnivalApp extends JFrame {
 
-    private JComboBox<FormatterMode> modeCombo;
-    private JComboBox<Locale> localeCombo;
-    private JComboBox<String> zoneCombo;
-    private JTextArea outputArea;
+    private final JComboBox<FormatterMode> modeCombo;
+    private final JComboBox<Locale> localeCombo;
+    private final JComboBox<String> zoneCombo;
+    private final JTextArea outputArea;
 
     public FormatterCarnivalApp() {
         setTitle("🎪 Date-Time Formatter Carnival — Diwali Edition");
@@ -88,7 +83,7 @@ public class FormatterCarnivalApp extends JFrame {
     }
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         SwingUtilities.invokeLater(() -> new FormatterCarnivalApp().setVisible(true));
     }
 }

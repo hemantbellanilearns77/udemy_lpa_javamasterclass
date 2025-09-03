@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.demostubs
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class miscellaneous {
         public static void main(String[] ignoredUnusedArgs) {
         //
