@@ -49,19 +49,6 @@ runs:
 #    # DOWNLOAD SONAR-SCANNER
 #    ##########################
 #
-#    - name: ?? Download and Setup SonarScanner 7.1.0.4889
-#      shell: bash
-#      run: |
-#        curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-windows-x64.zip
-#        mkdir tools/sonar-scanner
-#        unzip sonar-scanner.zip -d tools/sonar-scanner
-#        echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-7.1.0.4889-windows" >> $GITHUB_ENV
-#        echo "$PWD/tools/sonar-scanner/sonar-scanner-7.1.0.4889-windows/bin" >> $GITHUB_PATH
-
-#    ##########################
-#    # DOWNLOAD SONAR-SCANNER
-#    ##########################
-#
 #    - name: Download and Setup SonarScanner - sonar-scanner-cli-7.2.0.5079-windows-x64
 #      shell: bash
 #      run: |

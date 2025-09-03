@@ -27,8 +27,8 @@ runs:
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
           if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
-          Write-Host "⚠️ SKIP_FLAG is empty — defaulting to ''"
-          $SKIP_FLAG = ""
+          Write-Host "⚠️ SKIP_FLAG is empty — defaulting to 'Hello There'"
+          $SKIP_FLAG = "Hello There"
         }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
         Write-Host "🧪 Bash path from previous step: '$SONAR_SCANNER_BIN_WIN''"
