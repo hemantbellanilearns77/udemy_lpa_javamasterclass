@@ -42,10 +42,12 @@ runs:
       id: upload_reports
       uses: actions/upload-artifact@v4
       with:
-        name: hygiene-reports
+        name: hygiene-check-artifacts-${{ github.run_id }}-${{ github.run_attempt }}
         path: |
-          reports/**
           logs/**
+          reports/**
+        compression-level: 9 # Set to '9' for best compression
+          
 
     - name: Set Artifact Download URL
       id: artifact_url
