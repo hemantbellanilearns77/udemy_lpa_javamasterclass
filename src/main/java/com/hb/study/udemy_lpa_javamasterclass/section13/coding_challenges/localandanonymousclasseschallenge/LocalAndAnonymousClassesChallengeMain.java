@@ -28,16 +28,12 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
-    private static String[] args;
+    private static String[] unusedArgs;
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         execution.initialize();
-        LocalAndAnonymousClassesChallengeMain.args = args;
+        LocalAndAnonymousClassesChallengeMain.unusedArgs = unusedArgs;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 

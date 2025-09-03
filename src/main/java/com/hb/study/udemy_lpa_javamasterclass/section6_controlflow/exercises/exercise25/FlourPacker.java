@@ -6,12 +6,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class FlourPacker {
 
     // write code here
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         ConsoleStyler.styleOutput(canPack(1, 0, 4) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack (1, 0, 5) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack (0, 5, 4) + CommonConstants.EMPTYSTRING);

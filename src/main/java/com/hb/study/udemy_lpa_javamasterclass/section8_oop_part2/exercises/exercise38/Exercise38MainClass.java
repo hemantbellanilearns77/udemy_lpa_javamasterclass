@@ -4,12 +4,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Exercise38MainClass {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Wall wall1 = new Wall("West");
         Wall wall2 = new Wall("East");
         Wall wall3 = new Wall("South");

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SumOddRange {
 
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
 
         Scanner scanner = new Scanner(System.in);
         String userInput;

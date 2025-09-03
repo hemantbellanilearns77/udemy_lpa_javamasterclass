@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section3_firststeps.coding_challe
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class CharChallenge {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         char mySimpleChar = '?';
         char myUnicodeChar = '\u003F';
         char myDecimalChar = 63;

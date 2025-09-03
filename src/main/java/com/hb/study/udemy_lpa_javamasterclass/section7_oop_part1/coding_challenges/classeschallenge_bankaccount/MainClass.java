@@ -7,12 +7,8 @@ public class MainClass {
     private static final String CUSTOMER_NAME = "Customer Name : ";
     private static final String CUSTOMER_ACCOUNT_NUMBER = "Customer Account Number : ";
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Account myAccount = new Account();
         myAccount.setCustomerName("Hemant Bellani");
         myAccount.setCustomerEmail("hemantbellani@gmail.com");

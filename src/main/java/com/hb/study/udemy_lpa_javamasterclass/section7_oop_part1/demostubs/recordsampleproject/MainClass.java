@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.reco
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         int loopCounter;
 
         for(loopCounter = 1; loopCounter <= 5; loopCounter++) {

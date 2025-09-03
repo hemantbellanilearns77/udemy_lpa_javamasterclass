@@ -6,12 +6,8 @@ public class Exercise41_MainClass {
 
     private static final String FULL_NAME = "fullName= ";
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Person person = new Person();
         person.setFirstName("");   // firstName is set to empty string
         person.setLastName("");    // lastName is set to empty string

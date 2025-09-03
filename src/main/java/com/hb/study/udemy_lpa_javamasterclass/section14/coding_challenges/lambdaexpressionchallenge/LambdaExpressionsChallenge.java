@@ -23,7 +23,7 @@ public class LambdaExpressionsChallenge {
     private static final String LIST_BACKED_BY_ARRAY = """
             List backedByArray -->""";
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
 
         challengeDemo();

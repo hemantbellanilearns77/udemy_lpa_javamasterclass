@@ -12,12 +12,8 @@ public class LinkedListVsArrayList {
     private static final String WAS_REMOVED_FROM_PLACES_TO_VISIT = "was removed from placesToVisit.";
     private static final String PLACES_TO_VISIT_AFTER_A_CALL_TO = "Places to visit after a call to";
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         execution.initialize();
         ConsoleStyler.divider();
         LinkedList<String> placesToVisit = new LinkedList<>();

@@ -27,7 +27,7 @@ public class MethodReferencesChallenge {
 
     }
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
 
         //your own code here; recommended to divide in function calls

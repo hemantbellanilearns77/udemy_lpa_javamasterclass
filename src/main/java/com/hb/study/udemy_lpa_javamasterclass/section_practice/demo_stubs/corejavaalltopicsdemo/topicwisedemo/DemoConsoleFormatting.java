@@ -36,7 +36,7 @@ public class DemoConsoleFormatting {
     public static final String MAGENTA_BG = "\u001B[45m";
     public static final String CYAN_BG = "\u001B[46m";
     public static final String WHITE_BG = "\u001B[47m";
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
 
         demoConsoleColorFormatting();

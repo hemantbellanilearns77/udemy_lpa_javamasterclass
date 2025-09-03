@@ -6,12 +6,8 @@ import java.util.Scanner;
 
 public class ReadUserInputChallenge {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
         Scanner scanner = new Scanner(System.in);
         int countOfIntegers = 0;

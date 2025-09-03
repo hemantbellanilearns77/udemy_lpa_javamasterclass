@@ -23,7 +23,7 @@ public class LambdaAdvancedDemo {
     private static final String GUEST_LABEL = "Guest";
     private static final String STRING_ARRAY = "String Array:";
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();

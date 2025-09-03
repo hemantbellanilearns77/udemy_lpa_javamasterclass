@@ -17,7 +17,7 @@ public class DemoControlFlow {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
 
         /*

@@ -35,7 +35,7 @@ public class CoreJavaCarnival {
     private static final String FORMAT_STRING_PREFIX_TEN = "\uD83D\uDCC2";
     private static final String FORMAT_STRING_PREFIX_ELEVEN = "\uD83D\uDDC4\uFE0F";
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
 
 
