@@ -140,6 +140,8 @@ jobs:
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_SCANNER_BIN: ${{ steps.setup.outputs.scanner_bin_win }}
+
         ##############################################################
             # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         ##############################################################

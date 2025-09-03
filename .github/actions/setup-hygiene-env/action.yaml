@@ -48,6 +48,9 @@ outputs:
   SKIP_FLAG:
     description: "Sonar skip flag"
     value: ${{ steps.setup_vars.outputs.SKIP_FLAG }}
+  scanner_bin_win:
+    description: "The Windows-formatted path to the scanner's bin directory"
+    value: ${{ steps.download-tools-setup.outputs.scanner_bin_win }}
 
 runs:
   using: "composite"
