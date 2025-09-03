@@ -39,14 +39,14 @@ public class Exercise45_PlaylistTestClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album.toString());
+        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album);
         ConsoleStyler.divider();
 
         LinkedList<Song> playList = new LinkedList<>();
-        albums.get(0).addToPlayList("You can't do it right", playList);
-        albums.get(0).addToPlayList("Holy man", playList);
-        albums.get(0).addToPlayList("Speed king", playList);  // Does not exist
-        albums.get(0).addToPlayList(9, playList);
+        albums.getFirst().addToPlayList("You can't do it right", playList);
+        albums.getFirst().addToPlayList("Holy man", playList);
+        albums.getFirst().addToPlayList("Speed king", playList);  // Does not exist
+        albums.getFirst().addToPlayList(9, playList);
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
