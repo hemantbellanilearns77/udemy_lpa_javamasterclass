@@ -5,6 +5,14 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class SwitchExpressionChallenge {
     private static final String THE_DAY = "The day ";
     private static final String IS = " is ";
+    private static final String SUNDAY = "Sunday";
+    private static final String MONDAY = "Monday";
+    private static final String TUESDAY = "Tuesday";
+    private static final String WEDNESDAY = "Wednesday";
+    private static final String THURSDAY = "Thursday";
+    private static final String FRIDAY = "Friday";
+    private static final String SATURDAY = "Saturday";
+    private static final String INVALID_DAY = "Invalid Day";
     public static String dayOfTheWeek;
 
     public static void main(String[] ignoredUnusedArgs) {
@@ -52,16 +60,16 @@ public class SwitchExpressionChallenge {
     public static void alternativePrintDayOfTheWeek(int day) {
         ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
         dayOfTheWeek = switch (day) {
-            case 0 -> "Sunday";
-            case 1 -> "Monday";
-            case 2 -> "Tuesday";
-            case 3 -> "Wednesday";
-            case 4 -> "Thursday";
-            case 5 -> "Friday";
-            case 6 -> "Saturday";
-            default -> "Invalid Day";
+            case 0 -> SUNDAY;
+            case 1 -> MONDAY;
+            case 2 -> TUESDAY;
+            case 3 -> WEDNESDAY;
+            case 4 -> THURSDAY;
+            case 5 -> FRIDAY;
+            case 6 -> SATURDAY;
+            default -> INVALID_DAY;
         };
-        ConsoleStyler.styleOutput("The day " + day + " is " + dayOfTheWeek);
+        ConsoleStyler.styleOutput(THE_DAY + day + " is " + dayOfTheWeek);
     }
 
     public static String printDayOfTheWeek(int day) {
@@ -69,55 +77,55 @@ public class SwitchExpressionChallenge {
         String dayOfWeek;
         return switch (day) {
             case 0 -> {
-                dayOfWeek = "Sunday";
+                dayOfWeek = SUNDAY;
                 yield dayOfWeek;
             }
             case 1 -> {
-                dayOfWeek = "Monday";
+                dayOfWeek = MONDAY;
                 yield dayOfWeek;
             }
             case 2 -> {
-                dayOfWeek = "Tuesday";
+                dayOfWeek = TUESDAY;
                 yield dayOfWeek;
             }
             case 3 -> {
-                dayOfWeek = "Wednesday";
+                dayOfWeek = WEDNESDAY;
                 yield dayOfWeek;
             }
             case 4 -> {
-                dayOfWeek = "Thursday";
+                dayOfWeek = THURSDAY;
                 yield dayOfWeek;
             }
             case 5 -> {
-                dayOfWeek = "Friday";
+                dayOfWeek = FRIDAY;
                 yield dayOfWeek;
             }
             case 6 -> {
-                dayOfWeek = "Saturday";
+                dayOfWeek = SATURDAY;
                 yield dayOfWeek;
             }
-            default -> "Invalid Day";
+            default -> INVALID_DAY;
         };
     }
 
     public static void printWeekDay(int day) {
         //ConsoleStyler.styleOutput("Inside printDayOfTheWeekMethod");
         if (day == 0)
-            dayOfTheWeek = "Sunday";
+            dayOfTheWeek = SUNDAY;
         else if (day == 1)
-            dayOfTheWeek = "Monday";
+            dayOfTheWeek = MONDAY;
         else if (day == 2)
-            dayOfTheWeek = "Tuesday";
+            dayOfTheWeek = TUESDAY;
         else if (day == 3)
-            dayOfTheWeek = "Wednesday";
+            dayOfTheWeek = WEDNESDAY;
         else if (day == 4)
-            dayOfTheWeek = "Thursday";
+            dayOfTheWeek = THURSDAY;
         else if (day == 5)
-            dayOfTheWeek = "Friday";
+            dayOfTheWeek = FRIDAY;
         else if (day == 6)
-            dayOfTheWeek = "Saturday";
+            dayOfTheWeek = SATURDAY;
         else
-            dayOfTheWeek = "Invalid Day";
+            dayOfTheWeek = INVALID_DAY;
         ConsoleStyler.styleOutput(THE_DAY + day + IS + dayOfTheWeek);
     }
 }
