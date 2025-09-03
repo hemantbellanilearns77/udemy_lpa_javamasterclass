@@ -4,7 +4,11 @@
 name: "Download Hygiene Check Tools"
 description: "Download tools that will evaluate hygiene health of the project"
 inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
-outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
+# outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
+outputs:
+    scanner_bin_win:
+      description: "The Windows-formatted path to the scanner's bin directory"
+      value: ${{ steps.convert_path.outputs.scanner_bin_win }}
 
 runs:
   using: "composite"
@@ -79,6 +83,7 @@ runs:
 
     - name: Convert Path to Windows Format and Save to File
       shell: pwsh
+      id: convert_path
       run: |
           $bashPath = "${{ steps.download_scanner_step.outputs.scanner_bin_dir }}"
           Write-Host "Bash Path to convert: $bashPath"
@@ -86,5 +91,5 @@ runs:
           $winPath = (cmd.exe /c "cygpath -w `"$bashPath`"").Trim()
           Write-Host "Converted Windows Path: $winPath"
           
-          # Write the converted path to a known file
-          "SONAR_SCANNER_BIN=$winPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+          # "SONAR_SCANNER_BIN=$winPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
+            "scanner_bin_win=$winPath" | Out-File -FilePath "$env:GITHUB_OUTPUT" -Encoding utf-8 -Append
