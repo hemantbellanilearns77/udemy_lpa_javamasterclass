@@ -4,7 +4,11 @@
 name: "Download Hygiene Check Tools"
 description: "Download tools that will evaluate hygiene health of the project"
 inputs: { }  # If you don't have any inputs, you can leave it empty or remove this line.
-outputs: { }  # If you don't have any outputs, you can leave it empty or remove this line.
+outputs:
+  scanner_bin_dir:
+    value: ${{ steps.download_scanner_step.outputs.scanner_bin_dir }}
+    description:
+
 runs:
   using: "composite"
   steps:
@@ -73,7 +77,8 @@ runs:
       ##########################
       # DOWNLOAD SONAR-SCANNER
       ##########################
-    - name: "Download and Setup Latest SonarScanner CLI"
+    - name: Download and Setup Latest SonarScanner CLI
+      id: download_scanner_step # Add an ID to the step to reference its outputs
       shell: bash
       run: |
         LATEST_SCANNER_VERSION="7.2.0.5079"
@@ -85,7 +90,5 @@ runs:
         
         EXTRACTED_FOLDER=$(ls tools/sonar-scanner | grep "sonar-scanner")
         
-        # Set a custom environment variable for subsequent steps
-        echo "SONAR_SCANNER_BIN=$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> $GITHUB_ENV
-        
-        echo "Successfully set SONAR_SCANNER_BIN to: $PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin"
+        echo "scanner_bin_dir=tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> "$GITHUB_OUTPUT" # Save Bash path to output
+        echo "Successfully found scanner bin directory: tools/sonar-scanner/${EXTRACTED_FOLDER}/bin"

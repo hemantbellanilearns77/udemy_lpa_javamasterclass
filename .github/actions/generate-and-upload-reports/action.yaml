@@ -7,6 +7,9 @@ inputs:
   SKIP_FLAG:
     description: ""
     required: true
+  scanner_bin_dir:
+    description: ""
+    required: true
 
 outputs:
   ARTIFACT_URL:
@@ -21,9 +24,11 @@ runs:
     - name: ALL-HYGIENE SWEEP CHECK (Run hygiene health check analysis via batch script)
       if: success()
       shell: pwsh
+      env: # Define the environment variable at the step level
+        SONAR_SCANNER_BIN_WIN: ${{ format('{0}', inputs.scanner_bin_dir) }}
       run: |
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
-        
+
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
           if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
@@ -31,6 +36,18 @@ runs:
           $SKIP_FLAG = ""
         }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
+        
+        scanner_bin_dir = "${{ inputs.scanner_bin_dir }}"
+        Write-Host "🧪 scanner_bin_dir received in composite: '$scanner_bin_dir'"
+        # Convert the Bash-style path from the previous step's output to a Windows-style path
+        # The 'cmd.exe /c "cygpath -w ..."' command is used to run cygpath, a utility found on Windows GitHub runners
+        $scannerBinPathWindows = (cmd.exe /c "cygpath -w `"$env:SONAR_SCANNER_BIN_WIN`"").Trim()
+        
+        Write-Host "Bash path from previous step: '$env:SONAR_SCANNER_BIN_WIN'"
+        Write-Host "Converted Windows path for batch script: '$scannerBinPathWindows'"
+
+        # Set the environment variable for the batch script using the Windows path
+        "SONAR_SCANNER_BIN=$scannerBinPathWindows" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
     ##########################

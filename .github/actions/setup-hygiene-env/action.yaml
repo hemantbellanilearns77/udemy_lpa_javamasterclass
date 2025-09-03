@@ -48,6 +48,9 @@ outputs:
   SKIP_FLAG:
     description: "Sonar skip flag"
     value: ${{ steps.setup_vars.outputs.SKIP_FLAG }}
+  scanner_bin_dir:
+    description: ""
+    value: ${{ steps.download-tools-setup.outputs.scanner_bin_dir }}
 
 runs:
   using: "composite"
@@ -212,6 +215,7 @@ runs:
 
     # 3. Download Tools & Setup
     - name: Download Tools & Setup
+      id: download-tools-setup
       uses: ./.github/actions/download-setup-tools
 
     # 4. Compile Java Modules
