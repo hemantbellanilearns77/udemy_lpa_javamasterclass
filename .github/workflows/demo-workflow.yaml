@@ -1,4 +1,4 @@
-name: DEMO WORKFLOW - VARIOUS ASPECTS
+name: Demo Workflow
 on:
   workflow_dispatch: # run manually
 jobs:
