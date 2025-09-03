@@ -5,12 +5,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 //SmartKitchenControlCenterApp
 public class SKCCApp {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         SmartKitchen smartKitchen = new SmartKitchen();
 
         smartKitchen.setKitchenState(true, true, true);

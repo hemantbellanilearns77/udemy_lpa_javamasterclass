@@ -14,12 +14,8 @@ public class RunMethods {
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
         /*
          *****************************************************

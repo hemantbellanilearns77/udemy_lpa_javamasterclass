@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.demostubs;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class PracticeSwitch {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         int switchValue = 7;
       //Traditional Switch
         switch (switchValue) {

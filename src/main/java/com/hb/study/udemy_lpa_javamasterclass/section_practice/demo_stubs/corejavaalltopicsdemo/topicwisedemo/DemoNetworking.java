@@ -19,7 +19,7 @@ public class DemoNetworking {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredArgs) throws MalformedURLException {
+    public static void main(String[] ignoredunusedArgs) throws MalformedURLException {
         execution.initialize();
         ConsoleStyler.printBanner("NETWORKING");
 

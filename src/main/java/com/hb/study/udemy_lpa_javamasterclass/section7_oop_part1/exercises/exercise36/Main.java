@@ -5,12 +5,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Main {
 
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 /*        Circle circle = new Circle(3.75);
         ConsoleStyler.styleOutput("circle.radius= " + circle.getRadius());
         ConsoleStyler.styleOutput("circle.area= " + circle.getArea());

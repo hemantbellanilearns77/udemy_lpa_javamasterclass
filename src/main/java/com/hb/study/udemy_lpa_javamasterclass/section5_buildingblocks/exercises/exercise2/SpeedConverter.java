@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SpeedConverter {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         double testValueKilometersPerHour = 1.5;
         printConversion(testValueKilometersPerHour);
     }

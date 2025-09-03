@@ -4,12 +4,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class AreaCalculator {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         ConsoleStyler.styleOutput("area(5.0) : " + area(5.0));
         ConsoleStyler.styleOutput("area(-1) : " + area(-1));
         ConsoleStyler.styleOutput("area(5.0, 4.0) : " + area(5.0, 4.0));

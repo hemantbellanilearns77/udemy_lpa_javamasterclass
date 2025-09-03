@@ -8,12 +8,8 @@ public class Exercise46_BankTestClass {
     private static final String TIM = "Tim";
     private static final String MIKE = "Mike";
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Bank bank = new Bank("National Australia Bank");
 
         bank.addBranch(ADELAIDE);

@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.coding_ch
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SecondsAndMinutesChallenge {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
         ConsoleStyler.styleOutput(getDurationString(-3945));  // This is the first test case
         ConsoleStyler.styleOutput(getDurationString(-65, 45));  // This is the second test case

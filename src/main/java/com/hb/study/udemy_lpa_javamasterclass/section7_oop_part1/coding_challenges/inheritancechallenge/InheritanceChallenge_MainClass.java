@@ -13,12 +13,8 @@ public class InheritanceChallenge_MainClass extends Object {
     private static final String END_DATE = "27-06-2016";
     private static final String HIRE_DATE = "11-12-2011";
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Employee employee = new Employee("Hemant (Employee)", BIRTH_DATE, END_DATE,
                 HIRE_DATE);
         SalariedEmployee salariedEmployee = new SalariedEmployee("Hemant Bellani (Salaried)", BIRTH_DATE,

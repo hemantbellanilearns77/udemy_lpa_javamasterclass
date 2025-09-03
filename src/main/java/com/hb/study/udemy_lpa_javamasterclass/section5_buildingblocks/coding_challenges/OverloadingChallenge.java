@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.coding_ch
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class OverloadingChallenge {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         ConsoleStyler.styleOutput("5ft, 8in = " + convertToCentimeters(5, 8) + " cm");
         ConsoleStyler.styleOutput("68in = " + convertToCentimeters(68) + " cm");
     }
