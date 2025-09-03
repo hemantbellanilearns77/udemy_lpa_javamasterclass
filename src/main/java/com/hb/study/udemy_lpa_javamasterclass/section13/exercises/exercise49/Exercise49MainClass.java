@@ -16,7 +16,7 @@ public class Exercise49MainClass {
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String STORMBRINGER = "Stormbringer";
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         execution.initialize();

@@ -13,7 +13,7 @@ public class InheritanceChallenge_MainClass extends Object {
     private static final String END_DATE = "27-06-2016";
     private static final String HIRE_DATE = "11-12-2011";
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Employee employee = new Employee("Hemant (Employee)", BIRTH_DATE, END_DATE,
                 HIRE_DATE);

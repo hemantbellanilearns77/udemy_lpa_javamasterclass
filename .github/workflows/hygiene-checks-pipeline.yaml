@@ -22,7 +22,7 @@ jobs:
   # This job will check the commit message and set an output.
   # It will always run on push to main, but its output determines if the next job runs.
   check-commit-message:
-    name: Check Commit Message for Hygiene Sweep Trigger
+    name: For Push Trigger - Check Commit Message for Hygiene Sweep Trigger
     runs-on: ubuntu-latest
     outputs:
       should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}

@@ -15,7 +15,7 @@ public class CollectionIntro {
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredunusedArgs) {
+    public static void main(String[] ignoredignoredUnusedArgs) {
         execution.initialize();
         ConsoleStyler.startSection("This class demonstratively introduces Collections framework at a very high level."); // required
         ConsoleStyler.styleInitializationInfo("""

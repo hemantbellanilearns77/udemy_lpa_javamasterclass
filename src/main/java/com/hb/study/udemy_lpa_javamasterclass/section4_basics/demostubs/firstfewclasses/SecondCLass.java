@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section4_basics.demostubs.firstfe
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SecondCLass {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         ConsoleStyler.styleOutput("******** Inside Second Class..... *********");
     }

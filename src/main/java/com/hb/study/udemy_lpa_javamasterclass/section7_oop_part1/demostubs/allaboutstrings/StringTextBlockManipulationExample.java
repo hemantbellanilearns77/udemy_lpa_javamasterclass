@@ -11,7 +11,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
     Here’s an example class in Java that demonstrates this:
 */
     public class StringTextBlockManipulationExample {
-            public static void main(String[] unusedArgs) {
+            public static void main(String[] ignoredUnusedArgs) {
         //
             // Initializing a String variable using a text block
             String textBlock = """

@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Main {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Rectangle rectangle = new Rectangle(5, 10);
         ConsoleStyler.styleOutput("rectangle.width= " + rectangle.getWidth());

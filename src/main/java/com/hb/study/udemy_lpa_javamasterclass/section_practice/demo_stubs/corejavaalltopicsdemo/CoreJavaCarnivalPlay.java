@@ -11,7 +11,7 @@ public class CoreJavaCarnivalPlay {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         execution.initialize();
 
@@ -19,7 +19,7 @@ public class CoreJavaCarnivalPlay {
          *****************************************************
          */
         // 🎪 Launch the full Core Java Carnival showcase
-        CoreJavaCarnival.main(unusedArgs);
+        CoreJavaCarnival.main(ignoredUnusedArgs);
         /*
          *****************************************************
          */

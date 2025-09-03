@@ -8,7 +8,7 @@ public class Exercise46_BankTestClass {
     private static final String TIM = "Tim";
     private static final String MIKE = "Mike";
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Bank bank = new Bank("National Australia Bank");
 

@@ -8,7 +8,7 @@ public class Wall {
     private double height;
 
     public Wall(){
-        ConsoleStyler.styleOutput("The no unusedArgs constructor");
+        ConsoleStyler.styleOutput("The no ignoredUnusedArgs constructor");
         this.height = 0;
         this.width = 0;
     }

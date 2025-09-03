@@ -27,7 +27,7 @@ public class PredicateDemoByCoPilot {
         }
     }
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         execution.initialize();

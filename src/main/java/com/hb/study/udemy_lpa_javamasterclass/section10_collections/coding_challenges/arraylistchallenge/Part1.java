@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Part1 {
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         int userInput;
         Scanner scanner = new Scanner(System.in);

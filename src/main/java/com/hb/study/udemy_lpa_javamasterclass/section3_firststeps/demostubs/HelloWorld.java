@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 
 public class HelloWorld {
     public static final Logger logger = Logger.getLogger("HelloWorld");
-    public static void main(String [] unusedArgs) {
+    public static void main(String [] ignoredUnusedArgs) {
 
-        String userName = unusedArgs[0].concat(" " + unusedArgs[1]);
+        String userName = ignoredUnusedArgs[0].concat(" " + ignoredUnusedArgs[1]);
         ConsoleStyler.styleOutput("********** Inside Hello World Class **********");
         ConsoleStyler.styleOutput(" How are you, dear Mr./Mrs. " + userName + " ?");
     }

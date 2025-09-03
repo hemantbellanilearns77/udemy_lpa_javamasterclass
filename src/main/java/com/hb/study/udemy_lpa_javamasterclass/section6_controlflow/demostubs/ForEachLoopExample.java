@@ -6,7 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.ArrayList;
 
 public class ForEachLoopExample {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         // Create an ArrayList of Strings
         ArrayList<String> fruits = new ArrayList<>();

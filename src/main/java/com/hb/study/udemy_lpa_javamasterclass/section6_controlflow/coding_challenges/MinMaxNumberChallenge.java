@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MinMaxNumberChallenge {
 
-    public static void main(String[] ignoredunusedArgs) {
+    public static void main(String[] ignoredignoredUnusedArgs) {
 
         double maxNumber = 0.0;
         double minNumber = 0.0;

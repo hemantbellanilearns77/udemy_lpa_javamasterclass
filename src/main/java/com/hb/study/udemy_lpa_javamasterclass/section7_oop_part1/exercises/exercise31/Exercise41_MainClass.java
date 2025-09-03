@@ -6,7 +6,7 @@ public class Exercise41_MainClass {
 
     private static final String FULL_NAME = "fullName= ";
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Person person = new Person();
         person.setFirstName("");   // firstName is set to empty string

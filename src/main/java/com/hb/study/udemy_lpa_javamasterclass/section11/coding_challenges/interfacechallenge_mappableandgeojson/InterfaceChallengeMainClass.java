@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InterfaceChallengeMainClass {
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         List<Mappable> mappableList = new ArrayList<>();

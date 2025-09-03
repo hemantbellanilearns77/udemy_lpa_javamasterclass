@@ -10,7 +10,7 @@ import java.util.Set;
 */
 
 public class QuarterFinder {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Scanner scanner = new Scanner(System.in);
 

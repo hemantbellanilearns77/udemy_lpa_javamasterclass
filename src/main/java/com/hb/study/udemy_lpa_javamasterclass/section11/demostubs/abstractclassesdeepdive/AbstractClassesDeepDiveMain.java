@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class AbstractClassesDeepDiveMain {
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
 //        Animal animal = new Animal("animal", "big", 100);

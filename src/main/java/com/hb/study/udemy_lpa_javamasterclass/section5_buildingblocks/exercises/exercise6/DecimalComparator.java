@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class DecimalComparator {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         ConsoleStyler.styleOutput(areEqualByThreeDecimalPlaces(3.175, 3.176) + CommonConstants.EMPTYSTRING);

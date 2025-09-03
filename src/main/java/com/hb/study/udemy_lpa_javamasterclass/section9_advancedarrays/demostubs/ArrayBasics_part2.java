@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class ArrayBasics_part2 {
 
-    public static void main(String... unusedArgs) {
+    public static void main(String... ignoredUnusedArgs) {
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(63) + " The Output of " + ArrayBasics_part2.class.getSimpleName() + " is as below " + "*".repeat(63);
         ConsoleStyler.styleOutput(programOutputBegins);

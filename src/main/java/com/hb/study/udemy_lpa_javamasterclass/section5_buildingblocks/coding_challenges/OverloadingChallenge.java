@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.coding_ch
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class OverloadingChallenge {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         ConsoleStyler.styleOutput("5ft, 8in = " + convertToCentimeters(5, 8) + " cm");
         ConsoleStyler.styleOutput("68in = " + convertToCentimeters(68) + " cm");

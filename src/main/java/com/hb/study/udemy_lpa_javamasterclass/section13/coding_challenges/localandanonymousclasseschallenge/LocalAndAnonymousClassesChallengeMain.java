@@ -28,12 +28,12 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
-    private static String[] unusedArgs;
+    private static String[] ignoredUnusedArgs;
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         execution.initialize();
-        LocalAndAnonymousClassesChallengeMain.unusedArgs = unusedArgs;
+        LocalAndAnonymousClassesChallengeMain.ignoredUnusedArgs = ignoredUnusedArgs;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
