@@ -7,12 +7,12 @@ import java.util.List;
 
 public class Meal {
 
-    private double price = 5.0;
-    private Burger theBurgerInMeal;
-    private Item theDrinkInMeal;
-    private Item theSideInMeal;
+    private final double price = 5.0;
+    private final Burger theBurgerInMeal;
+    private final Item theDrinkInMeal;
+    private final Item theSideInMeal;
 
-    private double conversionRate;
+    private final double conversionRate;
 
     public Meal() {
         this(1);

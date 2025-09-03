@@ -2,12 +2,10 @@ package com.hb.study.udemy_lpa_javamasterclass.section9_advancedarrays.exercises
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class ReverseArray {
         public static void main(String[] ignoredUnusedArgs) {
-        //
-        String asteriskSeparatorLine = "*".repeat(153) + "\n";
-        String programOutputBegins = "*".repeat(63) + " The Output of " +  ReverseArray.class.getSimpleName() + " is as below " + "*".repeat(63);
-        ConsoleStyler.styleOutput(programOutputBegins);
+       ;
         int [] array = {1, 2, 3, 4, 5};
         reverse(array);
 

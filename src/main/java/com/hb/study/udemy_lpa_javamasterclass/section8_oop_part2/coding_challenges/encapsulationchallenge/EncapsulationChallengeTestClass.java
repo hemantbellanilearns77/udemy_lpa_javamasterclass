@@ -4,20 +4,20 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class EncapsulationChallengeTestClass {
         public static void main(String[] ignoredUnusedArgs) {
-        //
-    /*    Printer printer = new Printer(100, true);
+
+        Printer printer = new Printer(100, true);
 
         printer.printPages(200);
-        printer.addToner(25);*/
+        printer.addToner(25);
 
-        Printer printer = new Printer(50, true);
+        Printer anotherPrinter = new Printer(50, true);
         ConsoleStyler.styleOutput(printer.addToner(50) + "");
-        ConsoleStyler.styleOutput("initial page count = " +printer.getPagesPrinted());
-        int pagesPrinted = printer.printPages(4);
-        ConsoleStyler.styleOutput("Pages printed was " + pagesPrinted +" new total print count for printer = " +printer.getPagesPrinted());
-        pagesPrinted = printer.printPages(2);
-        ConsoleStyler.styleOutput("Pages printed was " + pagesPrinted +" new total print count for printer = " +printer.getPagesPrinted());
-    }
+        ConsoleStyler.styleOutput("initial page count = " + anotherPrinter.getPagesPrinted());
+        int pagesPrinted = anotherPrinter.printPages(4);
+        ConsoleStyler.styleOutput("Pages printed was " + pagesPrinted +" new total print count for printer = " + anotherPrinter.getPagesPrinted());
+        pagesPrinted = anotherPrinter.printPages(2);
+        ConsoleStyler.styleOutput("Pages printed was " + pagesPrinted +" new total print count for printer = " + anotherPrinter.getPagesPrinted());
+        }
     }
 
 

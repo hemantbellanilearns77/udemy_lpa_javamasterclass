@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section11.exercises.exercise47;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 public class MyLinkedList implements NodeList {
     private ListItem root;
 

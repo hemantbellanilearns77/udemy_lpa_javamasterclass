@@ -1,12 +1,12 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.genericsbasedcomparing;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Random;
 
 public class GenericsBasedComparingMain {
     //Object level or Static declarations here...
@@ -51,6 +51,14 @@ public class GenericsBasedComparingMain {
         Arrays.sort(students, gpaSorter.reversed());
         ConsoleStyler.styleOutput(Arrays.toString(students));
         ConsoleStyler.divider();
+        ConsoleStyler.styleExecutionInsight("""
+                In this program, i had also been taught or thought of below implementation of CompareTo
+                //    @Override
+                //    public int compareTo(Object o) {
+                //        Student other = (Student) o;
+                //        return name.compareTo(other.name);
+                //    }
+                """);
  	       /*
 
          ******************************************************
@@ -94,10 +102,6 @@ class Student implements Comparable<Student> {
         return Integer.valueOf(id).compareTo(Integer.valueOf(o.id));
     }
 
-//    @Override
-//    public int compareTo(Object o) {
-//        Student other = (Student) o;
-//        return name.compareTo(other.name);
-//    }
+
 }
 

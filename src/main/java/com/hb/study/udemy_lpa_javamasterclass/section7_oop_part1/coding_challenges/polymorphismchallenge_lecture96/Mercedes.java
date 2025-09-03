@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.polymorphismchallenge_lecture96;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Mercedes extends Car{
     public Mercedes(int cylinders, String name) {
         super(cylinders,name);

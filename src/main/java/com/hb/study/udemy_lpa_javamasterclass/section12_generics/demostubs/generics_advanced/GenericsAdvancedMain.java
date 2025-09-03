@@ -34,14 +34,14 @@ public class GenericsAdvancedMain {
             students.add(new Student());
         }
         students.add(new LPAStudent());
-//        printList(students);
+        printList(students);
         printMoreLists(students);
         ConsoleStyler.divider();
         List<LPAStudent> lpaStudents = new ArrayList<>();
         for (int i = 0; i < studentCount; i++) {
             lpaStudents.add(new LPAStudent());
         }
-//        printList(lpaStudents);
+        printList(lpaStudents);
         printMoreLists(lpaStudents);
         ConsoleStyler.divider();
         testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
@@ -56,18 +56,13 @@ public class GenericsAdvancedMain {
                 QueryList.getMatches(students, "YearStarted", "2021");
         printMoreLists(students2021);
         ConsoleStyler.divider();
-//     QueryList<Employee> employeeList = new QueryList<>();
- 	       /*
-
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 
   //
 
     public static void printMoreLists(List<? extends Student> students) {
-        if(students.size() == 0) {
+        if(students.isEmpty()) {
             ConsoleStyler.styleOutput("Empty List....  Nothing to print.... ");
             return;
         }
@@ -102,11 +97,11 @@ public class GenericsAdvancedMain {
 //        }
 //    }
 
-//    public static <T extends Student> void printList(List<T> students) {
-//
-//        for (var student : students) {
-//            ConsoleStyler.styleOutput(student.getYearStarted() + ": " + student);
-//        }
-//        ConsoleStyler.styleOutput();
-//    }
+    public static <T extends Student> void printList(List<T> students) {
+
+        for (var student : students) {
+            ConsoleStyler.styleOutput(student.getYearStarted() + ": " + student);
+        }
+        ConsoleStyler.divider();
+    }
 }

@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Main {
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         Printer printer = new Printer(50, true);
         ConsoleStyler.styleOutput(printer.addToner(50)  + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput("initial page count = " +printer.getPagesPrinted());

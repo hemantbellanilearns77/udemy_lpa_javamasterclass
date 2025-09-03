@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaadvance
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
+
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
@@ -9,6 +10,7 @@ import com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.Operation;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
@@ -106,9 +108,9 @@ public class LambdaAdvancedDemo {
     private static void demoConsumerLambda(List<String> names) {
         ConsoleStyler.styleIntro("Randomly generated List<String> of names (displayed using 'Consumer' Lambda based call to List.foreach()):");
 
-        //AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
+        AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
-        //names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
+        names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
         ConsoleStyler.styleEachAsIs(GUEST_LABEL, names);
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +

@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 public class RandomNumberOddEven {
     public static final SecureRandom secureRandom = new SecureRandom();
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         int randomInteger = secureRandom.nextInt(1, 100);
         ConsoleStyler.styleOutput("RandomInteger is: " + randomInteger);
         if ((randomInteger % 2) != 0) {

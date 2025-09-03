@@ -12,8 +12,8 @@ public class Exercise45_PlaylistTestClass {
 
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
-        //
+
+
         execution.initialize();
         ArrayList<Album> albums = new ArrayList<>();
         Album album = new Album("Stormbringer", "Deep Purple");

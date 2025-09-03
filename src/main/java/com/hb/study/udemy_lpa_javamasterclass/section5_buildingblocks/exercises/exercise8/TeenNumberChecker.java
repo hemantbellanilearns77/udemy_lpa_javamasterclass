@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises.exercise8;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class TeenNumberChecker {
         public static void main(String[] ignoredUnusedArgs) {
         //

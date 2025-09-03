@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises.exercise3;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class MegaBytesConverter {
         public static void main(String[] ignoredUnusedArgs) {
         //

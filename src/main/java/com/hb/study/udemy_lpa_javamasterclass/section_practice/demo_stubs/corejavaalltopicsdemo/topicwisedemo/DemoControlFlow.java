@@ -3,14 +3,11 @@ package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs.corej
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
-/**
- * Demonstrates control flow in Java: conditionals and loops
- * Created by Hemant as part of the Java Carnival Topic-Wise Showcase
- */
-
 
 /**
  * created by : heman on 16-07-2025, 07:48 pm, in the "udemy_lpa_javamasterclass" project
+ * Demonstrates control flow in Java: conditionals and loops
+ * Created by Hemant as part of the Java Carnival Topic-Wise Showcase
  **/
 public class DemoControlFlow {
 

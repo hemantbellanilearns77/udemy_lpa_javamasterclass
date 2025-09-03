@@ -67,48 +67,5 @@ public class Printer {
         return this.pagesPrinted;
     }
 
-
-  /*  private int tonerLevel;
-    private boolean duplex;
-    private int pagesPrinted;
-
-    public Printer(int tonerLevel, boolean duplex) {
-        this.duplex = duplex;
-        this.pagesPrinted = 0;
-        this.tonerLevel = (tonerLevel>=0 && tonerLevel <= 100) ? tonerLevel: -1;
-
-
-    }
-
-    public int addToner(int tonerAmount) {
-        if (tonerAmount > 0 && tonerAmount <= 100) {
-            if(this.tonerLevel + tonerAmount > 100) {
-                ConsoleStyler.styleOutput("Cannot add this much to toner, as it will exceed the permissible limit");
-                return -1;
-            }
-            this.tonerLevel += tonerAmount;
-            return this.tonerLevel;
-
-        } else {
-            return -1;
-        }
-    }
-
-    public int printPages(int pagesToPrint){
-        int sheetsToBeConsumed = pagesToPrint;
-        if(duplex) {
-            ConsoleStyler.styleOutput("Printing in duplex mode");
-            //sheetsToBeConsumed = (int) Math.ceil(pagesToPrint/2);
-            sheetsToBeConsumed = (pagesToPrint / 2) + (pagesToPrint % 2);
-        }
-        this.pagesPrinted += sheetsToBeConsumed;
-
-        return sheetsToBeConsumed;
-
-    }
-
-    public int getPagesPrinted() {
-        return this.pagesPrinted;
-    }*/
 }
 

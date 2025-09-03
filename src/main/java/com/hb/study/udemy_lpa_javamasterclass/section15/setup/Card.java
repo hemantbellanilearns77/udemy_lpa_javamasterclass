@@ -1,14 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section15.setup;
 
-/**
- * created by : heman on 31-07-2025, 08:50 pm, in the "run-sonar-scan-admin.bat" project
- **/
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * created by : heman on 31-07-2025, 08:50 pm, in the "run-sonar-scan-admin.bat" project
+ **/
 public record Card(Suit suit, String face, int rank) {
 
     public enum Suit {
@@ -63,7 +62,6 @@ public record Card(Suit suit, String face, int rank) {
     public static void printDeck(List<Card> deck) {
         printDeck(deck, "Current Deck", 4);
     }
-
     public static void printDeck(List<Card> deck, String description, int rows) {
 
         ConsoleStyler.halfDivider();
@@ -78,6 +76,5 @@ public record Card(Suit suit, String face, int rank) {
             ConsoleStyler.styleEachAsIs(null,deck.subList(startIndex, endIndex));
         }
     }
-
 }
 

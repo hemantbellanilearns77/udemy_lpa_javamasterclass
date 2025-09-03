@@ -12,7 +12,7 @@ public class Furniture extends ProductForSale {
     public void showDetails() {
 
         ConsoleStyler.styleOutput("This " + type + " was manufactured in North Carolina");
-        System.out.printf("The price of the piece is $%6.2f %n", price);
+        ConsoleStyler.styleOutput("The price of the piece is $%6.2f %n".formatted(price));
         ConsoleStyler.styleOutput(description);
     }
 }

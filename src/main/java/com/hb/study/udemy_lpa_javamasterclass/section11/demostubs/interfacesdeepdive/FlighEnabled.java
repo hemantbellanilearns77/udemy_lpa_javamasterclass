@@ -12,8 +12,7 @@ interface FlightEnabled {
     void fly();
 
     default FlightStages transition(FlightStages stage){
-      /*  ConsoleStyler.styleOutput("transition not implemented on " + getClass().getSimpleName());
-        return null;*/
+      ConsoleStyler.styleOutput("transition not implemented on " + getClass().getSimpleName());
         FlightStages nextStage = stage.getNextStage();
         ConsoleStyler.styleOutput("Transitioning from " + stage + " to " + nextStage);
         return nextStage;
