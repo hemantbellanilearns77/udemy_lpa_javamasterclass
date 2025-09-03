@@ -13,7 +13,12 @@ public class CollectionIntroBasics {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String PRODUCE = "PRODUCE";
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         execution.initialize();
         introToArrayLists();

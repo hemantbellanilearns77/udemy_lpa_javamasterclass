@@ -6,7 +6,12 @@ import java.util.Scanner;
 
 public class NumberPalindrome {
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         ConsoleStyler.styleOutput("Is 10 a palindrome? : " + isPalindrome(10));
         ConsoleStyler.styleOutput("Is 121 a palindrome? : " + isPalindrome(121));

@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.ex
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SharedDigit {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         System.out.print("Do 12 and 23 have any shared digit?: ");
         ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(12, 23)));
         System.out.print("Do 9 and 99 have any shared digit?: ");

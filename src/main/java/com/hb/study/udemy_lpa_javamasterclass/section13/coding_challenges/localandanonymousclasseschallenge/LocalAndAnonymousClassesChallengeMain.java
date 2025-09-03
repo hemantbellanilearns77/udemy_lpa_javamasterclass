@@ -30,7 +30,12 @@ public class LocalAndAnonymousClassesChallengeMain {
 
     private static String[] args;
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         execution.initialize();
         LocalAndAnonymousClassesChallengeMain.args = args;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");

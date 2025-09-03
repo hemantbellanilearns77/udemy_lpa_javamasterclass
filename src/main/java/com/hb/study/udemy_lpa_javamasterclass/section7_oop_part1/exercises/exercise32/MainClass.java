@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         Wall wall = new Wall(5,4);
         ConsoleStyler.styleOutput("area= " + wall.getArea());
 

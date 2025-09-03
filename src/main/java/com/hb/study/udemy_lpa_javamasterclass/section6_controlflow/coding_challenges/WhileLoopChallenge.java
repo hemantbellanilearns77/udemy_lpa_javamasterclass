@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_chall
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class WhileLoopChallenge {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         int loopCounter = 5;
         int countOfEvens = 0;
         int countofOdds = 0;

@@ -1,12 +1,19 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise46;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class Exercise46_BankTestClass {
 
     private static final String ADELAIDE = "Adelaide";
     private static final String TIM = "Tim";
     private static final String MIKE = "Mike";
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         Bank bank = new Bank("National Australia Bank");
 
         bank.addBranch(ADELAIDE);

@@ -7,7 +7,12 @@ public class SwitchExpressionChallenge {
     private static final String IS = " is ";
     public static String dayOfTheWeek;
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 /*      printDayOfTheWeek(0);
         printDayOfTheWeek(1);
         printDayOfTheWeek(2);

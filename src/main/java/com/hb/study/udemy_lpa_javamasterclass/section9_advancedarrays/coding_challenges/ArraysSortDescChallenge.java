@@ -6,7 +6,12 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class ArraysSortDescChallenge {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of "
                 + ArraysSortDescChallenge.class.getSimpleName() +

@@ -8,7 +8,12 @@ public class StringMethods {
 
     private static final String WORLD = "World";
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
        /*  for(int i = 1, j=1; i <= 100000; i*=10){
             System.out.printf("Printing %6d %n",i);
         }*/

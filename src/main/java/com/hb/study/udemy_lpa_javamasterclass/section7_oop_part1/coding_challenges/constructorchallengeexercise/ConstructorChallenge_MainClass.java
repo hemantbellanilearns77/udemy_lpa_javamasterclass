@@ -4,7 +4,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class ConstructorChallenge_MainClass {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         //Test 1: Calling Constructor with 3 arguments
 

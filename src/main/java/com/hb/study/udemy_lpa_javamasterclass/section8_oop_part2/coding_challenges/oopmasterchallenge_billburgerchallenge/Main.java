@@ -1,10 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstractclasschallenge_storefront.Topping;
 
 public class Main {
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
 //        Item coke = new Item("drink", "coke", 1.50);
 //        coke.printItem();

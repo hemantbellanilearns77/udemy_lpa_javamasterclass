@@ -11,7 +11,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
     Here’s an example class in Java that demonstrates this:
 */
     public class StringTextBlockManipulationExample {
-        public static void main(String[] args) {
+            public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
             // Initializing a String variable using a text block
             String textBlock = """
                 Hello, World!

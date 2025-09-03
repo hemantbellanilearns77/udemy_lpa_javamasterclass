@@ -10,7 +10,12 @@ import java.util.Set;
 */
 
 public class QuarterFinder {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         Scanner scanner = new Scanner(System.in);
 
         // Set of valid month names

@@ -5,7 +5,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.LinkedList;
 
 public class PrimitiveTypesAndCollections {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         ConsoleStyler.styleExecutionInsight("""
                   Below statement won't compil.

@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.demostubs;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class ForLoopPractice {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         double interestAmount;
         double principalAmount = 10000.00;
         for(double interestRate = 2.0; interestRate <= 5.0; interestRate++) {

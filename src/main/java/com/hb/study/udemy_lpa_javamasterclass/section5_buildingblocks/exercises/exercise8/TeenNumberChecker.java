@@ -3,7 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class TeenNumberChecker {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         ConsoleStyler.styleOutput(Boolean.toString(hasTeen(9, 99, 19)));
         ConsoleStyler.styleOutput(Boolean.toString(hasTeen(23, 15, 42)));
         ConsoleStyler.styleOutput(Boolean.toString(hasTeen(22, 23, 34)));

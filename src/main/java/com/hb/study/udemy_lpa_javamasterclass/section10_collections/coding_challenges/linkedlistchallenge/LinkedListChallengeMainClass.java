@@ -11,7 +11,12 @@ public class LinkedListChallengeMainClass {
 
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         execution.initialize();
         LinkedList<Town> itinerary = new LinkedList<>();
 

@@ -1,9 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.demostubs;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class PracticeSwitch {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         int switchValue = 7;
-/*      Traditional Switch
+      //Traditional Switch
         switch (switchValue) {
             case 1:
                 ConsoleStyler.styleOutput("Was 1");
@@ -14,6 +21,6 @@ public class PracticeSwitch {
             default:
                 ConsoleStyler.styleOutput("Was not 1 or 2");
                 break;
-        }*/
+        }
     }
 }

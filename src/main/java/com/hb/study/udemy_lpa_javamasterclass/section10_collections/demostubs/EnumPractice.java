@@ -13,7 +13,12 @@ public class EnumPractice {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         execution.initialize();
 
         ConsoleStyler.styleOutput("Days of the week are: \n" +

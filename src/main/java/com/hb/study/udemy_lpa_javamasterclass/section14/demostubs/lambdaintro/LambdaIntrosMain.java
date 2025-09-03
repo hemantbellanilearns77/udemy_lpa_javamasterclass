@@ -24,7 +24,12 @@ public class LambdaIntrosMain {
         }
     }
     private static int namesCount =  secureRandom.nextInt(1,64);
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
 
         execution.initialize();
 

@@ -8,7 +8,12 @@ import java.util.Scanner;
 Please preserve this ...... good validations, exception handling etc....
 */
 public class SumDigitChallenge {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         Scanner scanner = new Scanner(System.in);
         String userInput, userInputWithoutBlanks;
         int sumReceived = -1;

@@ -12,7 +12,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class NanosecondsToDateTime {
-    public static void main(String[] args) {
+        public static void main(String[] args) {
+        if(args.length>0) {
+            ConsoleStyler.styleInitializationInfo("""
+                    Some console arguments were supplied for processing during execution.
+                    """);
+        }
         // Example: Get the current time in nanoseconds
         long nanoseconds = System.nanoTime();
 
