@@ -90,5 +90,5 @@ runs:
         
         EXTRACTED_FOLDER=$(ls tools/sonar-scanner | grep "sonar-scanner")
         
-        echo "scanner_bin_dir=tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> "$GITHUB_OUTPUT" # Save Bash path to output
+        echo "scanner_bin_dir=$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> "$GITHUB_OUTPUT" # Save Bash path to output
         echo "Successfully found scanner bin directory: tools/sonar-scanner/${EXTRACTED_FOLDER}/bin"
