@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class ConsoleAndScannerPractice {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         int currentYer = Calendar.getInstance().get(Calendar.YEAR);

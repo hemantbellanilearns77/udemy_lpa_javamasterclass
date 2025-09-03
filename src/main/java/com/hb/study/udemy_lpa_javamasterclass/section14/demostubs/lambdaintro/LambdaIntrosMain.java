@@ -24,7 +24,7 @@ public class LambdaIntrosMain {
         }
     }
     private static int namesCount =  secureRandom.nextInt(1,64);
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         execution.initialize();

@@ -7,7 +7,7 @@ public class SwitchExpressionChallenge {
     private static final String IS = " is ";
     public static String dayOfTheWeek;
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 /*      printDayOfTheWeek(0);
         printDayOfTheWeek(1);

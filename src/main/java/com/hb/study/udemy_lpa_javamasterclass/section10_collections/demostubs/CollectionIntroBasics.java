@@ -13,7 +13,7 @@ public class CollectionIntroBasics {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String PRODUCE = "PRODUCE";
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         execution.initialize();

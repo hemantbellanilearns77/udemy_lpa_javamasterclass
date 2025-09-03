@@ -23,7 +23,7 @@ public class Point {
     private int y;
 
     public Point() {
-        ConsoleStyler.styleOutput("The no unusedArgs constructor");
+        ConsoleStyler.styleOutput("The no ignoredUnusedArgs constructor");
     }
 
     public Point(int x, int y){

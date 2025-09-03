@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class NumberOfDaysInMonth {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         ConsoleStyler.styleOutput(getDaysInMonth(1, 2020) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(getDaysInMonth(2, 2020)  + CommonConstants.EMPTYSTRING);

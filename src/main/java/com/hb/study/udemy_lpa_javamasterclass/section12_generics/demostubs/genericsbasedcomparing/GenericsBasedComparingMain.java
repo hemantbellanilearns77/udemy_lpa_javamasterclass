@@ -12,7 +12,7 @@ public class GenericsBasedComparingMain {
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         execution.initialize();
 

@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.demostubs.comp
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class ComputerFactory {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         ComputerCase theCase = new ComputerCase("2208", "Dell", "240" );
         Monitor theMonitor = new Monitor("27-inch Beast", "Acer", 27, "2540 x 1440" );

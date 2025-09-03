@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.demostubs;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class FirstAndLastDigitSum {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         sumFirstAndLastDigit(0);
         sumFirstAndLastDigit(9);

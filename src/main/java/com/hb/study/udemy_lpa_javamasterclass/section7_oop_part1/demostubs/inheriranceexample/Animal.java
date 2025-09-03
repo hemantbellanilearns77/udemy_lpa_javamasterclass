@@ -4,16 +4,12 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Animal {
     protected String type;
-    private String size;
-    private double weight;
 
-    public Animal() {
+    protected Animal() {
         ConsoleStyler.styleOutput("No argument constructor in Animal class invoked....");
     }
-    public Animal(String type, String size, double weight) {
+    public Animal(String type) {
         this.type = type;
-        this.size = size;
-        this.weight = weight;
     }
 
     public void move(String speed) {
@@ -28,8 +24,6 @@ public class Animal {
     public String toString() {
         return "Animal{" +
                 "type='" + type + '\'' +
-                ", size='" + size + '\'' +
-                ", weight=" + weight +
                 '}';
     }
 }

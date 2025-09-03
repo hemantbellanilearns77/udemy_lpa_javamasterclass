@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InterfacesDeepDiveMainClass {
     public static ExcecutionUtil execution = new ExcecutionUtil();
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         execution.initialize();
         Bird bird = new Bird();

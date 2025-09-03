@@ -3,32 +3,36 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.inhe
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class InheritanceExample_MainClass {
-    public static void main(String[] unusedArgs)  {
-        Animal firstGenericAnimal = new Animal("Generic Animal", "Huge", 400);
-        doAnimalStuff(firstGenericAnimal, "slow");
+
+    private static final String SLOW = "slow";
+    private static final String FAST = "fast";
+
+    public static void main(String[] ignoredignoredUnusedArgs)  {
+        Animal firstGenericAnimal = new Animal("Generic Animal");
+        doAnimalStuff(firstGenericAnimal, SLOW);
 
         Dog dog = new Dog();
-        doAnimalStuff(dog, "fast");
-        ConsoleStyler.styleOutput("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x\n");
+        doAnimalStuff(dog, FAST);
+        ConsoleStyler.divider();
 
-        Dog yorkie = new Dog("Yorkie", 15);
-        doAnimalStuff(yorkie, "fast");
-        yorkie.move("fast");
+        Dog yorkie = new Dog("Yorkie");
+        doAnimalStuff(yorkie, FAST);
+        yorkie.move(FAST);
         yorkie.makeNoise();
         ConsoleStyler.divider();
 
-        Dog retriever = new Dog("Labrador Retriever", 65, "Floppy", "Swimmer");
-        doAnimalStuff(retriever, "slow");
+        Dog retriever = new Dog("Labrador Retriever", "Floppy", "Swimmer");
+        doAnimalStuff(retriever, SLOW);
         retriever.makeNoise();
-        retriever.move("slow");
+        retriever.move(SLOW);
         ConsoleStyler.divider();
 
-        Dog wolf = new Dog("Wolf", 40);
-        doAnimalStuff(wolf, "slow");
+        Dog wolf = new Dog("Wolf");
+        doAnimalStuff(wolf, SLOW);
         ConsoleStyler.divider();
 
-        Fish goldie = new Fish("GoldFish", 0.25, 2, 3);
-        doAnimalStuff(goldie, "fast");
+        Fish goldie = new Fish("GoldFish", 2, 3);
+        doAnimalStuff(goldie, FAST);
         ConsoleStyler.divider();
 
 

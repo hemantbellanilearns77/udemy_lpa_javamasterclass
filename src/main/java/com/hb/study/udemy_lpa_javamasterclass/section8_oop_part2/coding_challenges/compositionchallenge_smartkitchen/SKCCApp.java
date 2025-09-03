@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 //SmartKitchenControlCenterApp
 public class SKCCApp {
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         SmartKitchen smartKitchen = new SmartKitchen();
 

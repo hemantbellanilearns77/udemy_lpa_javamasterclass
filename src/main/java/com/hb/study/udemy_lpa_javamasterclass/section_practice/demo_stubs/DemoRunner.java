@@ -13,7 +13,7 @@ public class DemoRunner {
 
     //Object level or Static declarations here...
 
-    public static void main(String[] ignoredunusedArgs) {
+    public static void main(String[] ignoredignoredUnusedArgs) {
         ExcecutionUtil execution = new ExcecutionUtil();
         execution.initialize();
         demoFunction();

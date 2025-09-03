@@ -7,15 +7,15 @@ public class Dog extends Animal{
     private String tailShape;
 
     public Dog() {
-        super("Mutt", "Big", 50 );
+        super("Mutt");
     }
 
-    public Dog(String type, double weight) {
-        this(type, weight, "Perky", "Curled");
+    public Dog(String type) {
+        this(type, "Perky", "Curled");
     }
 
-    public Dog(String type, double weight, String earShape, String tailShape) {
-        super(type, weight < 15 ? "small" : (weight < 35 ? "medium" : "large"), weight);
+    public Dog(String type, String earShape, String tailShape) {
+        super(type);
         this.earShape = earShape;
         this.tailShape = tailShape;
     }

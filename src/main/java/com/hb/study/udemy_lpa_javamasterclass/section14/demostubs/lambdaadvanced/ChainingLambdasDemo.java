@@ -21,7 +21,7 @@ public class ChainingLambdasDemo {
     private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
     Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
 
-    public static void main(String[] ignoredunusedArgs) {
+    public static void main(String[] ignoredignoredUnusedArgs) {
         execution.initialize();
         //your own code here; recommended to divide in function calls
         demoChainingLmbdasANDComparing();

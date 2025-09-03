@@ -23,7 +23,7 @@ public class GenericsAdvancedMain {
   public static final ExcecutionUtil execution = new ExcecutionUtil();
   public static final SecureRandom secureRandom = new SecureRandom();
 
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
 
         execution.initialize();

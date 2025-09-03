@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Arrays;
 
 public class SortedArray {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of " + SortedArray.class.getSimpleName() + " is as below\t\t" + "*".repeat(54);

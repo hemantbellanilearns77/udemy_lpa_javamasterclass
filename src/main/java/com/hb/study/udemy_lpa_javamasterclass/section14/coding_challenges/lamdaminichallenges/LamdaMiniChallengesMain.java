@@ -29,7 +29,7 @@ public class LamdaMiniChallengesMain {
     private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
 
 
-    public static void main(String[] ignoredunusedArgs) {
+    public static void main(String[] ignoredignoredUnusedArgs) {
         execution.initialize();
 
         /*

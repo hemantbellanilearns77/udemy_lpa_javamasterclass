@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass {
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         Point first = new Point(6, 5);
         Point second = new Point(3, 1);

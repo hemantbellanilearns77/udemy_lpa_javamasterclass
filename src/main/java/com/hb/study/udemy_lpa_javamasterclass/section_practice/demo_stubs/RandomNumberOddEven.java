@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 
 public class RandomNumberOddEven {
     public static final SecureRandom secureRandom = new SecureRandom();
-        public static void main(String[] unusedArgs) {
+        public static void main(String[] ignoredUnusedArgs) {
         //
         int randomInteger = secureRandom.nextInt(1, 100);
         ConsoleStyler.styleOutput("RandomInteger is: " + randomInteger);
