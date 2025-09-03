@@ -141,20 +141,28 @@ if /I "%DRY_RUN%"=="true" (
 for /f "tokens=1,2 delims==" %%a in (.env) do (
   if "%%a"=="SONAR_TOKEN" set SONAR_TOKEN=%%b
 )
+REM :: Launch Scanner
+REM echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
+REM REM set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"
+REM set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.2.0.5079-windows-x64\bin\sonar-scanner.bat"
+REM if exist "%SCANNER%" (
+  REM REM call "%SCANNER%" -X "-Dsonar.token=%SONAR_TOKEN%"
+  REM call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%"
+REM ) else (
+  REM echo ❌ sonar-scanner.bat not found at %SCANNER%
+  REM exit /b 1
+REM )
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-REM set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"
-set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-cli-7.2.0.5079-windows-x64\bin\sonar-scanner.bat"
-if exist "%SCANNER%" (
-  REM call "%SCANNER%" -X "-Dsonar.token=%SONAR_TOKEN%"
-  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%"
+call sonar-scanner.bat "-Dsonar.token=%SONAR_TOKEN%"
+if ERRORLEVEL 1 (
+  echo ❌ SonarCloud scan failed with error code %ERRORLEVEL%.
+  exit /b %ERRORLEVEL%
 ) else (
-  echo ❌ sonar-scanner.bat not found at %SCANNER%
-  exit /b 1
+  REM echo ✅ SonarCloud scan completed successfully.
+  echo ✅ Scan complete. Log saved to: !logPath!
 )
-REM call ../tools/sonar-scanner -X "-Dsonar.token=%SONAR_TOKEN%"
 
-echo ✅ Scan complete. Log saved to: !logPath!
 
 :: Count Violations
 set /a CHECKSTYLE_COUNT=0
