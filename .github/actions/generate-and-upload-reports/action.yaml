@@ -37,7 +37,7 @@ runs:
         }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
         
-        scanner_bin_dir = "${{ inputs.scanner_bin_dir }}"
+        $scanner_bin_dir = "${{ inputs.scanner_bin_dir }}"
         Write-Host "🧪 scanner_bin_dir received in composite: '$scanner_bin_dir'"
         # Convert the Bash-style path from the previous step's output to a Windows-style path
         # The 'cmd.exe /c "cygpath -w ..."' command is used to run cygpath, a utility found on Windows GitHub runners
