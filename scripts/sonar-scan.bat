@@ -144,7 +144,7 @@ for /f "tokens=1,2 delims==" %%a in (.env) do (
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 REM set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"
-set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-cli-7.2.0.5079-windows-x64\bin\sonar-scanner.bat"
+set "SCANNER=%REPO_ROOT%\tools\sonar-scanner\sonar-scanner-7.2.0.5079-windows-x64\bin\sonar-scanner.bat"
 if exist "%SCANNER%" (
   REM call "%SCANNER%" -X "-Dsonar.token=%SONAR_TOKEN%"
   call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%"
