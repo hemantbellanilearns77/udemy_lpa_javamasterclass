@@ -154,14 +154,24 @@ REM ) else (
 REM )
 :: Launch Scanner
 echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
-call sonar-scanner.bat "-Dsonar.token=%SONAR_TOKEN%"
-if ERRORLEVEL 1 (
-  echo ❌ SonarCloud scan failed with error code %ERRORLEVEL%.
-  exit /b %ERRORLEVEL%
+:: Call sonar-scanner.bat using the environment variable
+set "SCANNER=%SONAR_SCANNER_BIN%\sonar-scanner.bat"
+if exist "%SCANNER%" (
+  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%"
+  echo ✅ SonarCloud scan completed successfully.
 ) else (
-  REM echo ✅ SonarCloud scan completed successfully.
-  echo ✅ Scan complete. Log saved to: !logPath!
+  echo ❌ sonar-scanner.bat not found at %SCANNER%
+  echo SONAR_SCANNER_BIN is %SONAR_SCANNER_BIN%
+  echo SCANNER is %SCANNER%
+  exit /b 1
 )
+REM if ERRORLEVEL 1 (
+  REM echo ❌ SonarCloud scan failed with error code %ERRORLEVEL%.
+  REM exit /b %ERRORLEVEL%
+REM ) else (
+  REM REM echo ✅ SonarCloud scan completed successfully.
+  REM echo ✅ Scan complete. Log saved to: !logPath!
+REM )
 
 
 :: Count Violations

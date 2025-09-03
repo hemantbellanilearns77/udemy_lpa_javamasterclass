@@ -70,20 +70,22 @@ runs:
 #        echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_ENV
 #        echo "$PWD/tools/sonar-scanner/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_PATH
 
-    ##########################
-    # DOWNLOAD SONAR-SCANNER
-    ##########################
-
-    - name: Download and Setup SonarScanner - sonar-scanner-cli-7.2.0.5079-windows-x64
+      ##########################
+      # DOWNLOAD SONAR-SCANNER
+      ##########################
+    - name: "Download and Setup Latest SonarScanner CLI"
       shell: bash
       run: |
-        curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-windows-x64.zip
+        LATEST_SCANNER_VERSION="7.2.0.5079"
+        DOWNLOAD_URL="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${LATEST_SCANNER_VERSION}-windows-x64.zip"
+        
+        curl -sSLo sonar-scanner.zip "${DOWNLOAD_URL}"
         mkdir -p tools/sonar-scanner
         unzip sonar-scanner.zip -d tools/sonar-scanner
+        
         EXTRACTED_FOLDER=$(ls tools/sonar-scanner | grep "sonar-scanner")
         
-        # Add the scanner's bin directory to the PATH for subsequent steps
-        echo "$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> $GITHUB_PATH
+        # Set a custom environment variable for subsequent steps
+        echo "SONAR_SCANNER_BIN=$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> $GITHUB_ENV
         
-        echo "Successfully added $PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin to the system PATH."
-        echo "The sonar-scanner.bat executable should now be available to all shells."
+        echo "Successfully set SONAR_SCANNER_BIN to: $PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin"
