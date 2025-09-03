@@ -92,3 +92,15 @@ runs:
         
         echo "scanner_bin_dir=$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> "$GITHUB_OUTPUT" # Save Bash path to output
         echo "Successfully found scanner bin directory: tools/sonar-scanner/${EXTRACTED_FOLDER}/bin"
+
+    - name: Convert Path to Windows Format and Save to File
+      shell: pwsh
+      run: |
+          $bashPath = "${{ steps.download_scanner_step.outputs.scanner_bin_dir }}"
+          Write-Host "Bash Path to convert: $bashPath"
+          
+          $winPath = (cmd.exe /c "cygpath -w `"$bashPath`"").Trim()
+          Write-Host "Converted Windows Path: $winPath"
+          
+          # Write the converted path to a known file
+         "SONAR_SCANNER_BIN=$winPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
