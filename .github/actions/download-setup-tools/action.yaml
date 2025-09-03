@@ -78,14 +78,12 @@ runs:
       shell: bash
       run: |
         curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-windows-x64.zip
-        mkdir tools/sonar-scanner
+        mkdir -p tools/sonar-scanner
         unzip sonar-scanner.zip -d tools/sonar-scanner
-        # Find and echo the exact path of sonar-scanner.bat
-        echo "Searching for sonar-scanner.bat in tools/sonar-scanner..."
-        # Use 'find' to locate the file and store the result in a variable
-        SCANNER_BAT_PATH=$(find tools/sonar-scanner -name sonar-scanner.bat)
+        EXTRACTED_FOLDER=$(ls tools/sonar-scanner | grep "sonar-scanner")
         
-        # Echo the full path
-        echo "Found sonar-scanner.bat at: $PWD/$SCANNER_BAT_PATH"
-        echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_ENV
-        echo "$PWD/tools/sonar-scanner/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_PATH
+        # Add the scanner's bin directory to the PATH for subsequent steps
+        echo "$PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin" >> $GITHUB_PATH
+        
+        echo "Successfully added $PWD/tools/sonar-scanner/${EXTRACTED_FOLDER}/bin to the system PATH."
+        echo "The sonar-scanner.bat executable should now be available to all shells."
