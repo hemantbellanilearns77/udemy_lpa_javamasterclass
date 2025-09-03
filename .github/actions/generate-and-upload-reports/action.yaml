@@ -23,7 +23,7 @@ runs:
       shell: pwsh
       run: |
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
-        $SONAR_SCANNER_BIN_WIN=${{ env.SONAR_SCANNER_BIN_WIN }}
+        $SONAR_SCANNER_BIN_WIN="${{ env.SONAR_SCANNER_BIN_WIN }}"
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
           if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
