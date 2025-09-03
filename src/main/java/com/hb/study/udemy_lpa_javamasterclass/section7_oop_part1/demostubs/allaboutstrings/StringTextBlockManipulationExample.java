@@ -2,17 +2,15 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.alla
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
-/*
-    This is generated using Google Gemini.... for practice.
-    Can i initialize a String variable in Java with a text block and then use string manipulation methods on it? Please show an example class in java to demonstrate if possible
 
-    Yes, you can initialize a String variable in Java using a text block and then use string manipulation methods on it. Text blocks were introduced in Java 13 as a way to create multi-line strings more easily. You can perform various string manipulation operations such as trimming, replacing, or extracting substrings on a string initialized with a text block.
-
-    Here’s an example class in Java that demonstrates this:
-*/
     public class StringTextBlockManipulationExample {
             public static void main(String[] ignoredUnusedArgs) {
-        //
+        ConsoleStyler.styleIntro("""
+                This is generated using Google Gemini.... for practice.
+                Can i initialize a String variable in Java with a text block and then use string manipulation methods on it? Please show an example class in java to demonstrate if possible
+                Yes, you can initialize a String variable in Java using a text block and then use string manipulation methods on it. Text blocks were introduced in Java 13 as a way to create multi-line strings more easily. You can perform various string manipulation operations such as trimming, replacing, or extracting substrings on a string initialized with a text block.
+                Here’s an example class in Java that demonstrates this:
+                """);
             // Initializing a String variable using a text block
             String textBlock = """
                 Hello, World!

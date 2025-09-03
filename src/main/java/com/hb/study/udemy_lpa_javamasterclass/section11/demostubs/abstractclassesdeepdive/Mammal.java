@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.abstractclass
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 abstract class Mammal extends Animal {
 
     public Mammal(String type, String size, double weight) {

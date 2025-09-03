@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.constructorchallengeexercise;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Customer {
 
     private String name;

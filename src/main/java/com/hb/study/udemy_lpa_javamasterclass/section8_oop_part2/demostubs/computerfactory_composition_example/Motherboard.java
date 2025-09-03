@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.demostubs.computerfactory_composition_example;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 class Motherboard extends Monitor{
     private int ramSlots;
     private int cardSlots;

@@ -14,7 +14,7 @@ public class EnumPractice {
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         execution.initialize();
 
         ConsoleStyler.styleOutput("Days of the week are: \n" +

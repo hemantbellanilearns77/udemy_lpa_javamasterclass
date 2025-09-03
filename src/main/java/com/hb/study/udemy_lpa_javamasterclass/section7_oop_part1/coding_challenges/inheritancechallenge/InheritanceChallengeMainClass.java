@@ -7,7 +7,7 @@ import java.time.MonthDay;
 import java.time.Year;
 import java.time.YearMonth;
 
-public class InheritanceChallenge_MainClass extends Object {
+public class InheritanceChallengeMainClass {
 
     private static final String BIRTH_DATE = "16-11-1981";
     private static final String END_DATE = "27-06-2016";

@@ -9,7 +9,7 @@ public class GenericClassChallengeMain {
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         execution.initialize();
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
@@ -38,9 +38,7 @@ public class GenericClassChallengeMain {
                         "42.2026, -75.00836", "39.4955, -75.5592"));
         ConsoleStyler.styleOutput(River.class.getSimpleName() + " " + riverLayer.getClass().getSimpleName() + " has: ");
         riverLayer.renderLayer();
-        /*
-            *****************************************************
-         */
+
         execution.finalizeExecution();
     }
 }

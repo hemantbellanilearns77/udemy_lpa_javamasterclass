@@ -16,7 +16,7 @@ public class DateTimeCarnival {
     public static final  ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         execution.initialize();
 
         ConsoleStyler.styleOutput("🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟");

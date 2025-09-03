@@ -9,8 +9,11 @@ public class AnotherTestMainClass {
         //
 
         inFlight(new Jet());
+            ConsoleStyler.styleExecutionInsight("""
+                    The below line would bring compile error as log method of OrbitEarth Object is declared private:
+                    //       OrbitEarth.log("Testing " + new Satellite());
+                    """);
 
-//        OrbitEarth.log("Testing " + new Satellite());
 
         orbit(new Satellite());
     }

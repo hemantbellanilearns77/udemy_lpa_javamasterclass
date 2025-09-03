@@ -2,6 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.ex
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 import java.util.Scanner;
 
 public class FirstLastDigitSum {

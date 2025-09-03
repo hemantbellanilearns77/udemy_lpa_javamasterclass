@@ -7,6 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.P
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -24,19 +25,15 @@ public class DTDemoExecutor {
     // Add below existing methods
     public static void runMinimalDemo(Locale locale, ZoneId zone) {
         ConsoleStyler.styleOutput("🧃 MINIMAL FORMAT DEMO");
-
         ConsoleStyler.divider();
-
         ZonedDateTime now = ZonedDateTime.now(zone);
         String result = DTFormatterUtils.safeFormat(now, "dd MMM yyyy HH:mm:ss z", locale);
         ConsoleStyler.styleOutput( "🌍 [%s | %s] → %s".formatted(locale.getDisplayName(), zone.getId(), result) );
     }
 
-
     public static void runFormatStyleCombos(Locale locale, ZoneId zone) {
         ConsoleStyler.styleOutput("🖋️ FORMAT STYLE COMBINATIONS");
         ConsoleStyler.divider();
-
         ZonedDateTime now = ZonedDateTime.now(zone);
         for (FormatStyle dateStyle : FormatStyle.values()) {
             for (FormatStyle timeStyle : FormatStyle.values()) {
@@ -56,7 +53,6 @@ public class DTDemoExecutor {
     public static void runIndianPatternsShowcase() {
         PatternLibrary.runIndianPatterns();
     }
-
     public static void runVedicShowcase() {
         ConsoleStyler.styleOutput("🕉️ VEDIC MODE — (Coming Soon - Placeholder)");
         ConsoleStyler.styleOutput("📅 Traditional Indian calendar formatting to be implemented...");

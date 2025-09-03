@@ -9,7 +9,7 @@ public class Horse extends Mammal{
 
     @Override
     public void makeNoise() {
-        System.out.printf("Neigh!");
+        ConsoleStyler.styleOutput("Neigh!");
 
     }
 

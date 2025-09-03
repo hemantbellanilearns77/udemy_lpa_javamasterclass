@@ -17,13 +17,12 @@ public class InterfacesDeepDiveMainClass {
         Trackable tracked = bird;
 
         animal.move();
-//        flier.move();
-//        tracked.move();
 
-//        flier.takeOff();
-//        flier.fly();
-//        tracked.track();
-//        flier.land();
+
+        flier.takeOff();
+        flier.fly();
+        tracked.track();
+        flier.land();
 
         inFlight(flier);
         inFlight(new Jet());
@@ -32,11 +31,10 @@ public class InterfacesDeepDiveMainClass {
 
         double kmsTraveled = 100;
         double milesTraveled = kmsTraveled * FlightEnabled.KM_TO_MILES;
-        System.out.printf("The truck traveled %.2f miles which equals ",
-                milesTraveled);
+        ConsoleStyler.styleOutput("The truck traveled %.2f miles which equals ".formatted(milesTraveled));
         kmsTraveled = milesTraveled * FlightEnabled.MILES_TO_KM;
-        System.out.printf("%.2f kms%n",
-                kmsTraveled);
+        ConsoleStyler.styleOutput("%.2f kms%n".formatted(kmsTraveled));
+
         ConsoleStyler.divider();
         LinkedList<FlightEnabled> fliers = new LinkedList<>();
         fliers.add(bird);

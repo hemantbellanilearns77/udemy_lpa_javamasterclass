@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise16;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.Scanner;
 

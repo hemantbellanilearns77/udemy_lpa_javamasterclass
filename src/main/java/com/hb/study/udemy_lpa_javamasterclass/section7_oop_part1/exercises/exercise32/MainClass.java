@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass {
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         Wall wall = new Wall(5,4);
         ConsoleStyler.styleOutput("area= " + wall.getArea());
 

@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section3_firststeps.coding_challenges;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class CharChallenge {
         public static void main(String[] ignoredUnusedArgs) {
         //

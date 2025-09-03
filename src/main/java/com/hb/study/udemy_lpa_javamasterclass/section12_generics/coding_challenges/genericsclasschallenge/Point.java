@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challenges.genericsclasschallenge;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Arrays;
 
 abstract class Point implements Mappable {

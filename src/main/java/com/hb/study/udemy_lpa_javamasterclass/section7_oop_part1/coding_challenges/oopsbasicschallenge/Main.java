@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Main {
 
         public static void main(String[] ignoredUnusedArgs) {
