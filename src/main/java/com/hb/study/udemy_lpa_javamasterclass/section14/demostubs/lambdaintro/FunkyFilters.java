@@ -21,7 +21,7 @@ public class FunkyFilters {
 
     private static int namesCount =  secureRandom.nextInt(1,64);
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
 
         execution.initialize();
         List<String> names = new ArrayList<>();

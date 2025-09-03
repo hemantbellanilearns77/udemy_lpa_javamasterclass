@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class BarkingDog {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         ConsoleStyler.styleOutput("shouldWakeUp (true, 1) : " + shouldWakeUp (true, 1) );
         ConsoleStyler.styleOutput("shouldWakeUp (false, 2) : " + shouldWakeUp (false, 2) );
         ConsoleStyler.styleOutput("shouldWakeUp (true, 8) : " + shouldWakeUp (true, 8) );

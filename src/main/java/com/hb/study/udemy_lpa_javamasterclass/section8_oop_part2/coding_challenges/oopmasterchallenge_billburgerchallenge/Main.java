@@ -5,12 +5,8 @@ import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstra
 
 public class Main {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
 //        Item coke = new Item("drink", "coke", 1.50);
 //        coke.printItem();

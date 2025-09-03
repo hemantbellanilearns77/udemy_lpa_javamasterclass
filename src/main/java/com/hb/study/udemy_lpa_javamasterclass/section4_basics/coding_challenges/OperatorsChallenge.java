@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section4_basics.coding_challenges
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class OperatorsChallenge {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         double myFirstValue = 20.0d;
         double mySecondValue = 80.0d;
 //      The below was earlier used without parenthesis to demonstrate operator parenthesis

@@ -20,7 +20,7 @@ public class ColorGenerator {
     private static final String FORMAT_SPECIFIER_STRING_TWO =  "%d;%d;%dm";
     public static final String ANSICOLORPREVIEWSUFFIX = "\u001B[0m";
 
-    public static void main(String[] ignoredArgs) {
+    public static void main(String[] ignoredunusedArgs) {
         execution.initialize();
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
 

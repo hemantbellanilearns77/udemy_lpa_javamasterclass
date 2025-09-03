@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Main {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         Car car = new MiniCooper(6, "MiniCooper Convertible");
         car.startEngine();
         car.accelerate();

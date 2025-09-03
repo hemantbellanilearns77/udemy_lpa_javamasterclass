@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.inhe
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class InheritanceExample_MainClass {
-    public static void main(String[] args)  {
+    public static void main(String[] unusedArgs)  {
         Animal firstGenericAnimal = new Animal("Generic Animal", "Huge", 400);
         doAnimalStuff(firstGenericAnimal, "slow");
 

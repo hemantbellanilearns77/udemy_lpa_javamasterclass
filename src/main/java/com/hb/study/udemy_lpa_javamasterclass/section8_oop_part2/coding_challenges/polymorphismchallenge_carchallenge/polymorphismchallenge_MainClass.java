@@ -13,12 +13,8 @@ public class polymorphismchallenge_MainClass {
     private static final String CAR = "Car";
     private static final String IT_RUNS_ON = "It runs on";
     private static final SecureRandom secureRandom = new SecureRandom();
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         List<String> listOfCarTypes = new ArrayList<>();
         listOfCarTypes.add("GasPowered");
         listOfCarTypes.add(ELECTRIC);

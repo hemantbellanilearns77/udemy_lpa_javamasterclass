@@ -3,12 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_chall
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class PrimeNumberChallenge {
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
         int primeNumbersCounter = 0;
         for(int wholeNumberCounter = 0; wholeNumberCounter <= 50; wholeNumberCounter++) {

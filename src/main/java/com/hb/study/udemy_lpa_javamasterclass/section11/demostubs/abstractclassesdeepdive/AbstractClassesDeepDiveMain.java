@@ -6,12 +6,8 @@ import java.util.ArrayList;
 
 public class AbstractClassesDeepDiveMain {
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
 
 //        Animal animal = new Animal("animal", "big", 100);
 

@@ -11,19 +11,15 @@ public class CoreJavaCarnivalPlay {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] args) {
-        if(args.length>0) {
-            ConsoleStyler.styleInitializationInfo("""
-                    Some console arguments were supplied for processing during execution.
-                    """);
-        }
+        public static void main(String[] unusedArgs) {
+        //
         execution.initialize();
 
         /*
          *****************************************************
          */
         // 🎪 Launch the full Core Java Carnival showcase
-        CoreJavaCarnival.main(args);
+        CoreJavaCarnival.main(unusedArgs);
         /*
          *****************************************************
          */
