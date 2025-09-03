@@ -80,5 +80,12 @@ runs:
         curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-windows-x64.zip
         mkdir tools/sonar-scanner
         unzip sonar-scanner.zip -d tools/sonar-scanner
+        # Find and echo the exact path of sonar-scanner.bat
+        echo "Searching for sonar-scanner.bat in tools/sonar-scanner..."
+        # Use 'find' to locate the file and store the result in a variable
+        SCANNER_BAT_PATH=$(find tools/sonar-scanner -name sonar-scanner.bat)
+        
+        # Echo the full path
+        echo "Found sonar-scanner.bat at: $PWD/$SCANNER_BAT_PATH"
         echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_ENV
         echo "$PWD/tools/sonar-scanner/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_PATH
