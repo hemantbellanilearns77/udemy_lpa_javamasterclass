@@ -3,13 +3,10 @@ package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.abstractclass
 public abstract class Animal {
 
     protected String type;
-    private String size;
-    private double weight;
+    
 
-    public Animal(String type, String size, double weight) {
+    protected Animal(String type) {
         this.type = type;
-        this.size = size;
-        this.weight = weight;
     }
 
     public abstract void move(String speed);
