@@ -5,9 +5,6 @@ import java.util.ArrayList;
 public class AbstractClassesDeepDiveMain {
 
         public static void main(String[] ignoredUnusedArgs) {
-        
-
-        Animal animal = new Animal("animal", "big", 100);
 
         Dog dog = new Dog("Wolf", "big", 100 );
         dog.makeNoise();
