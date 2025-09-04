@@ -79,7 +79,7 @@ public class Album {
                     boolean songAdded = false;
                     if (findSong(songToAdd.getTitle()) == null) {
                         songs.add(songToAdd);
-                        return songAdded;
+                        songAdded = true;
                     }
                     return songAdded;
                 }
