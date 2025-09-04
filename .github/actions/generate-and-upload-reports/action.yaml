@@ -23,7 +23,6 @@ runs:
       shell: pwsh
       run: |
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
-        $SONAR_SCANNER_BIN_WIN="${{ env.SONAR_SCANNER_BIN_WIN }}"
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
           if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
@@ -31,7 +30,8 @@ runs:
           $SKIP_FLAG = "Hello There"
         }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
-        Write-Host "🧪 Bash path from previous step: '$SONAR_SCANNER_BIN_WIN'"
+         # Correctly access the environment variable using $env:
+        Write-Host "🧪 Bash path from previous step: '$env:SONAR_SCANNER_BIN_WIN'"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
     ##########################
