@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 /**
  * created by : heman on 07-07-2025, 05:58 PM, in the "udemy_lpa_javamasterclass" project
