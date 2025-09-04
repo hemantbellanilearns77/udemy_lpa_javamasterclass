@@ -71,7 +71,6 @@ public class Bank {
             branchExists = true;
             int customerCounter = 1;
             ConsoleStyler.styleOutput("Customer details for branch " + branch.getName() + " ("+name+")");
-            ArrayList<Customer> branchCustomers = branch.getCustomers();
             for (var customer : branch.getCustomers()) {
                 ConsoleStyler.styleOutput("""
                         Customer: %s[%d]
