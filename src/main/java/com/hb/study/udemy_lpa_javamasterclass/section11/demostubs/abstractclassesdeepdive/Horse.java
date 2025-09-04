@@ -3,8 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.abstractclass
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Horse extends Mammal{
-    public Horse(String type, String size, double weight) {
-        super(type, size, weight);
+    public Horse(String type) {
+        super(type);
     }
 
     @Override
