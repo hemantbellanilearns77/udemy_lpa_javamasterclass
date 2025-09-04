@@ -1,7 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler
 
 /**
  * created by : heman on 07-07-2025, 05:58 PM, in the "udemy_lpa_javamasterclass" project
@@ -30,7 +31,7 @@ public class Album {
         return songAdded;
     }
 
-    public boolean addToPlayList(int trackNumber, LinkedList<Song> playList) {
+    public boolean addToPlayList(int trackNumber, List<Song> playList) {
         boolean songAdded = false;
         Song checkedSong = this.songs.findSong(trackNumber);
         if (checkedSong != null) {
@@ -43,7 +44,7 @@ public class Album {
     }
 
 
-    public boolean addToPlayList(String title, LinkedList<Song> playList) {
+    public boolean addToPlayList(String title, List<Song> playList) {
         boolean songAdded = false;
         Song checkedSong = this.songs.findSong(title);
         if (checkedSong != null) {
