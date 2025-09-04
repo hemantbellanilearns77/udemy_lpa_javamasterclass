@@ -30,7 +30,7 @@ runs:
           $SKIP_FLAG = "Hello There"
         }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
-         # Correctly access the environment variable using $env:
+        # Write-Host the environment variable directly to ensure its value is printed.
         Write-Host "🧪 Bash path from previous step: '$env:SONAR_SCANNER_BIN_WIN'"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
