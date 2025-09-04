@@ -5,8 +5,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 abstract class Mammal extends Animal {
 
-    public Mammal(String type, String size, double weight) {
-        super(type, size, weight);
+    public Mammal(String type) {
+        super(type);
     }
 
     @Override
