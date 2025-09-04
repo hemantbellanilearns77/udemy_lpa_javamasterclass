@@ -4,8 +4,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Dog extends Mammal {
 
-    public Dog(String type, String size, double weight) {
-        super(type, size, weight);
+    public Dog(String type) {
+        super(type);
     }
 
     @Override
