@@ -8,7 +8,7 @@ public class Exercise46_BankTestClass {
     private static final String MIKE = "Mike";
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+        
         Bank bank = new Bank("National Australia Bank");
 
         bank.addBranch(ADELAIDE);
@@ -21,7 +21,6 @@ public class Exercise46_BankTestClass {
         bank.addCustomerTransaction(ADELAIDE, TIM, 12.44);
         bank.addCustomerTransaction(ADELAIDE, MIKE, 1.65);
 
-        //bank.listCustomers("Adelaide", true);
         bank.listCustomers(ADELAIDE, false);
     }
 }
