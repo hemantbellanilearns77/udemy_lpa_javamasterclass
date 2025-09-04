@@ -6,18 +6,18 @@ public class AbstractClassesDeepDiveMain {
 
         public static void main(String[] ignoredUnusedArgs) {
 
-        Dog dog = new Dog("Wolf", "big", 100 );
+        Dog dog = new Dog("Wolf" );
         dog.makeNoise();
         doAnimalStuff(dog);
 
         ArrayList<Animal> animals = new ArrayList<>();
         animals.add(dog);
-        animals.add(new Dog("German Shepard", "big", 150));
-        animals.add(new Fish("Goldfish", "small", 1));
-        animals.add(new Fish("Barracuda", "big", 75));
-        animals.add(new Dog("Pug", "small", 20));
+        animals.add(new Dog("German Shepard"));
+        animals.add(new Fish("Goldfish"));
+        animals.add(new Fish("Barracuda"));
+        animals.add(new Dog("Pug"));
 
-        animals.add(new Horse("Clydesdale", "large", 1000));
+        animals.add(new Horse("Clydesdale"));
 
         for (Animal animal : animals) {
             doAnimalStuff(animal);
