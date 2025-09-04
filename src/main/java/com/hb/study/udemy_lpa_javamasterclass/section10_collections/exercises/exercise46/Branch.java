@@ -43,8 +43,8 @@ public class Branch {
         } else {
             for(var nextCustomer : customers){
                 if(nextCustomer.getName().equalsIgnoreCase(name)){
-                    custoumerAsFound = nextCustomer;
-                    return custoumerAsFound;
+                    customerAsFound = nextCustomer;
+                    return customerAsFound;
                 }
             }
         }
