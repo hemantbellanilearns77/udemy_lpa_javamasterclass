@@ -1,8 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise45;
-import java.Lang.Integer;
+import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.List;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 
 public class Album {
 
@@ -62,7 +62,10 @@ public class Album {
                 ", artist='" + artist + '\'' +
                 "\nTrack No. Title: Duration \n");
         for(int loopCounter = 0; loopCounter < songs.size(); loopCounter++ ){
-            albumToStringBuilder.append((Integer.toString(loopCounter+1)).append(".\t").append(songs.get(loopCounter).toString()).append("\n"));
+            albumToStringBuilder.append(loopCounter + 1)
+                    .append(".\t")
+                    .append(songs.get(loopCounter).toString())
+                    .append("\n");
         }
         return albumToStringBuilder.toString();
     }
