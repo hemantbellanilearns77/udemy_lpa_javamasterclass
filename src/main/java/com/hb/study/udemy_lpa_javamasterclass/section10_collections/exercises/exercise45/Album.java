@@ -12,7 +12,7 @@ public class Album {
     public Album(String name, String artist) {
         this.name = name;
         this.artist = artist;
-        this.songs = new ArrayList<Song>();
+        this.songs = new ArrayList<>();
     }
 
     public boolean addSong(String title, double duration) {
@@ -34,7 +34,7 @@ public class Album {
         return null;
     }
 
-    public boolean addToPlayList(int trackNumber, LinkedList<Song> playList) {
+    public boolean addToPlayList(int trackNumber, List<Song> playList) {
 
         int index = trackNumber - 1;
         if ((index >= 0) && (index <= songs.size())) {
@@ -44,7 +44,7 @@ public class Album {
         return false;
     }
 
-    public boolean addToPlayList(String title, LinkedList<Song> playList) {
+    public boolean addToPlayList(String title, List<Song> playList) {
 
         Song checkedSong = findSong(title);
         if (checkedSong != null) {
@@ -61,7 +61,7 @@ public class Album {
                 ", artist='" + artist + '\'' +
                 "\nTrack No. Title: Duration \n");
         for(int loopCounter = 0; loopCounter < songs.size(); loopCounter++ ){
-            albumToStringBuilder.append((loopCounter+1) +".\t" + songs.get(loopCounter).toString()+"\n");
+            albumToStringBuilder.append((loopCounter+1).append(".\t").append(songs.get(loopCounter).toString()).append("\n"));
         }
         return albumToStringBuilder.toString();
     }
