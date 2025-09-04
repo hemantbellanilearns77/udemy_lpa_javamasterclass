@@ -60,6 +60,6 @@ public class Store {
             item.product().printPricedItem(item.qty());
             salesTotal += item.product().getSalesPrice(item.qty());
         }
-        System.out.printf("Sales Total = $%6.2f %n", salesTotal);
+        ConsoleStyler.styleOutput("Sales Total = $%6.2f %n".formatted(salesTotal));
     }
 }
