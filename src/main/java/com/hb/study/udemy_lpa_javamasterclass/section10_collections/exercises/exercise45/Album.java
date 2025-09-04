@@ -62,7 +62,7 @@ public class Album {
                 ", artist='" + artist + '\'' +
                 "\nTrack No. Title: Duration \n");
         for(int loopCounter = 0; loopCounter < songs.size(); loopCounter++ ){
-            albumToStringBuilder.append((Integer.toString(loopCounter+1).append(".\t").append(songs.get(loopCounter).toString()).append("\n"));
+            albumToStringBuilder.append((Integer.toString(loopCounter+1)).append(".\t").append(songs.get(loopCounter).toString()).append("\n"));
         }
         return albumToStringBuilder.toString();
     }
