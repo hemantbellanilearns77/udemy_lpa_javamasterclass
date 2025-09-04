@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise46;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-public class Exercise46_BankTestClass {
+public class Exercise46BankMainClass {
 
     private static final String ADELAIDE = "Adelaide";
     private static final String TIM = "Tim";
