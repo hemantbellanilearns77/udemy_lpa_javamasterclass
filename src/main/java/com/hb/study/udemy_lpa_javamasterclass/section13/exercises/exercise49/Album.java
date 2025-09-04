@@ -12,7 +12,7 @@ public class Album {
 
     private String name;
     private String artist;
-    //private ArrayList<Song> songs;
+    
     private SongList songs;
 
     public Album(String name, String artist) {
@@ -37,7 +37,7 @@ public class Album {
             playList.add(checkedSong);
             songAdded = true;
         } else {
-            System.out.printf("This album does not have a track %d%n", trackNumber);
+            ConsoleStyler.styleOutput("This album does not have a track %d%n".formatted(trackNumber));
         }
         return songAdded;
     }
@@ -50,7 +50,7 @@ public class Album {
             playList.add(checkedSong);
             songAdded = true;
         } else {
-            System.out.printf("The song %s is not in this album%n", title);
+            ConsoleStyler.styleOutput("The song %s is not in this album%n".formatted(title));
         }
         return songAdded;
     }
@@ -70,29 +70,19 @@ public class Album {
     public static class SongList<T extends Song> {
         private ArrayList<Song> songs;
 
-        /*        private SongList(ArrayList<Song> songs) {
-                    this.songs = songs;
-                }*/
         private SongList() {
             songs = new ArrayList<Song>();
         }
 
-        /*        private boolean add(Song songToAdd) {
+                private boolean add(Song songToAdd) {
                     boolean songAdded = false;
                     if (findSong(songToAdd.getTitle()) == null) {
                         songs.add(songToAdd);
                         return songAdded;
                     }
                     return songAdded;
-                }*/
-        private boolean add(Song song) {
-
-            if (songs.contains(song)) {
-                return false;
-            }
-            songs.add(song);
-            return true;
-        }
+                }
+        
 
         private Song findSong(String title) {
             Song foundSong = null;
