@@ -1,9 +1,12 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
+
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class Item {
 
-    private String type;
-    private String name;
-    private double price;
+    private final String type;
+    private final String name;
+    private final double price;
     private String size = "MEDIUM";
 
     public Item(String type, String name, double price) {
@@ -39,6 +42,7 @@ public class Item {
 
     public static void printItem(String name, double price) {
         System.out.printf("%20s:%6.2f%n", name, price);
+        ConsoleStyler.styleOutput( "%20s:%6.2f%n".formatted( name, price));
     }
 
     public void printItem() {
