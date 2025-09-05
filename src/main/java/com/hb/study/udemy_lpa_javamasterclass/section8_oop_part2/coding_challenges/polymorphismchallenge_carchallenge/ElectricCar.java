@@ -1,5 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class ElectricCar extends Car {
     private double avgKMsperCHarge;
     int batterySize;
@@ -17,19 +19,20 @@ public class ElectricCar extends Car {
 
     @Override
     public void startEngine() {
-        System.out.printf("Starting a electric car %n");
+        ConsoleStyler.styleOutput("Starting a electric car");
     }
 
     @Override
     public void drive() {
-        //super.drive();
-        System.out.printf("Driving Electric Car %n");
+        super.drive();
+        ConsoleStyler.styleOutput("Driving Electric Car  " +
+                "Its average miles per charge is : " + this.avgKMsperCHarge);
         runEngine();
 
     }
 
     @Override
     protected void runEngine() {
-        System.out.printf("Running Electric Car's Engine");
+        ConsoleStyler.styleOutput("Running Electric Car's Engine");
     }
 }
