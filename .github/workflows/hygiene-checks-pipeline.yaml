@@ -107,16 +107,38 @@ jobs:
           Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event."
           exit 0 # Exit the job successfully, so it doesn't appear as a failure
 
+
+      - name: Merge stage into main (pre-checkout)
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+        run: |
+          git config user.name "Hygiene Check Pipeline Bot"
+          git config user.email "hygiene-check-pipeline-bot@example.com"
+          git fetch origin main
+          git fetch origin stage
+
+          # Ensure stage is rebased on main
+          BASE=$(git merge-base origin/main origin/stage)
+          if [ "$BASE" != "$(git rev-parse origin/main)" ]; then
+            echo "❌ Stage is not rebased on main. Abort."
+            exit 1
+          fi
+
+          # Checkout main and merge stage
+          git checkout main
+          git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
+          git push origin main
+
       - name: Checkout Code for Manual and Scheduled triggers
         uses: actions/checkout@v4
         with:
           # Note: 'pull_request.head.ref' is for pull request events, which you are not
           # triggering on. 'github.ref_name' is for pushes or schedules.
-          ref: ${{ github.ref_name }}
+          # ref: ${{ github.ref_name }}
+          ref: ${{ github.event.repository.default_branch }}
           fetch-depth: 0
 
-      ####################################################
-            # Hygiene Environment Initialization
+            ####################################################
+          # Hygiene Environment Initialization
       ####################################################
       - name: Setup Hygiene Environment
         id: setup
@@ -129,8 +151,8 @@ jobs:
           base-ref: ${{ github.base_ref }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-        ###############################################################
-            # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
+            ###############################################################
+          # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
         ##############################################################
 
       - name: Hygiene Health Checks and Upload Reports
@@ -142,8 +164,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_SCANNER_BIN: ${{ steps.setup.outputs.scanner_bin_win }}
 
-        ##############################################################
-            # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
+            ##############################################################
+          # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         ##############################################################
 
       - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL
@@ -176,8 +198,8 @@ jobs:
           LOW_MAX: ${{ env.LOW_MAX }}
           INFO_MAX: ${{ env.INFO_MAX }}
 
-        #############################
-            # FULL CLEANUP AND VERIFY
+            #############################
+          # FULL CLEANUP AND VERIFY
         ##############################
 
       - name: Full Cleanup and Verify Composite Call
