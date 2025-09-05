@@ -5,18 +5,22 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-public class polymorphismchallenge_MainClass {
+public class polymorphismChallengeMainClass {
 
-    private static final String ELECTRIC = "Electric";
+    private static final String ELECTRIC = "ELectric";
+    private static final String GAS_POWERED = "GasPowered";
     private static final String HYBRID = "Hybrid";
     private static final String CAR = "Car";
     private static final String IT_RUNS_ON = "It runs on";
     private static final SecureRandom secureRandom = new SecureRandom();
+    private static final String GENERIC = "Generic";
+    private static final String GASOLINE = "Gasoline";
 
     public static void main(String[] ignoredUnusedArgs) {
-        //
+
         List<String> listOfCarTypes = new ArrayList<>();
-        listOfCarTypes.add("GasPowered");
+        listOfCarTypes.add(GENERIC);
+        listOfCarTypes.add(GAS_POWERED);
         listOfCarTypes.add(ELECTRIC);
         listOfCarTypes.add(HYBRID);
         listOfCarTypes.add(CAR);
@@ -28,19 +32,11 @@ public class polymorphismchallenge_MainClass {
     public static Car getCarInstance(String carType) {
 
         return switch (carType) {
-            case "Generic" -> {
-                yield new GasPoweredCar(IT_RUNS_ON + " Gasoline");
-            }
-            case ELECTRIC -> {
-                yield new ElectricCar(IT_RUNS_ON + " Electric Charging");
-            }
-            case HYBRID -> {
-                yield new HybridCar(IT_RUNS_ON + " both gasoline " +
-                        "and electric charge ");
-            }
-            default -> {
-                yield new Car(IT_RUNS_ON + " Gasoline");
-            }
+            case GAS_POWERED -> new GasPoweredCar(IT_RUNS_ON + " " + ELECTRIC + " Charging");
+            case ELECTRIC -> new ElectricCar(IT_RUNS_ON + " " + ELECTRIC + " Charging");
+            case HYBRID -> new HybridCar(IT_RUNS_ON + " both " + GASOLINE + " " +
+                    "and " + ELECTRIC + " charge ");
+            default -> new Car(IT_RUNS_ON + " " + GASOLINE);
         };
     }
 

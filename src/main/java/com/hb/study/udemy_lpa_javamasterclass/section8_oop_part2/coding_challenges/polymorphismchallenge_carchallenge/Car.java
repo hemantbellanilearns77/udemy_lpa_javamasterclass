@@ -3,13 +3,14 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Car {
-    private String description;
+    private final String description;
     public Car(String description) {
         this.description = description;
     }
 
     public void startEngine() {
-        ConsoleStyler.styleOutput("Starting the Engine of the Car... ");
+        ConsoleStyler.styleOutput("Starting the Engine of the Car... " +
+                "\n This car can be described as: " + this.description);
     }
     public void drive(){
         ConsoleStyler.styleOutput("Driving the Car of type: " + getClass().getSimpleName());
@@ -18,6 +19,5 @@ public class Car {
     protected void runEngine(){
         ConsoleStyler.styleOutput("Running Car's Engine");
     }
-
 
 }

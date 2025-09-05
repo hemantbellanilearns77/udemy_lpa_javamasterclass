@@ -1,35 +1,36 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class GasPoweredCar extends Car {
-    private double avgKMsperLitre;
+    private final double avKMPerLitre;
     int cylinders;
 
-    public GasPoweredCar(String description, double avgKMsperLitre, int cylinders) {
+    public GasPoweredCar(String description, double avKMPerLitre, int cylinders) {
         super(description);
-        this.avgKMsperLitre = avgKMsperLitre;
+        this.avKMPerLitre = avKMPerLitre;
         this.cylinders = cylinders;
     }
     public GasPoweredCar(String description) {
         super(description);
-        this.avgKMsperLitre = 21;
+        this.avKMPerLitre = 21;
         this.cylinders = 6;
     }
 
     @Override
     public void startEngine() {
-        //super.startEngine();
-        System.out.printf("Starting engine of a gas powered car %n");
+        super.startEngine();
+        ConsoleStyler.styleOutput("Starting engine of a gas powered car");
     }
 
     @Override
     public void drive() {
-        System.out.printf("Driving Gas Powered Car %n");
+        ConsoleStyler.styleOutput("Driving Gas Powered Car");
         runEngine();
     }
 
     @Override
     protected void runEngine() {
-        //super.runEngine();
-        System.out.printf("Running Gas Powered Car's Engine");
+        ConsoleStyler.styleOutput("Running Gas Powered Car's Engine; its efficiency is: " + this.avKMPerLitre + " in average charge-hours per Km");
     }
 }

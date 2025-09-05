@@ -63,23 +63,38 @@ public class LambdaAdvancedDemo {
                 Demonstrating Binary Function Lambda using Binary Function:""");
         //Lambda invocation using calculator...
         var result = calculator((a, b) -> (a * b), value1, value2);
-        //value2 = 20; // just to demonstrate that if uncommented this would introduce an error in above lambda expression....
-        /* variations of the above lambda call
-         int result = calculator((Integer v1, Integer v2) -> {
-            return 'T' + (value1 * value2);
-        }, value1, value2); // using final variables to be utilized
-        int result = calculator((a,b) -> 'T' + (a*b), 7,9);
-        int result = calculator((var a, var b) -> 'T' + (a*b), 7,9); // using var as return types
-        int result = calculator((Integer a, Integer b) -> 'T' + (a*b), 7,9); explicit return types
-        int result = calculator((a,b) -> {int c = a*b; return c;}, 7,9); // using return ad curly braces
-         */
-
         ConsoleStyler.styleOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
                 Final Result from calculator:""", Integer.toString(result));
+        // just to demonstrate that if uncommented this would introduce an error in above lambda expression....
+        //variations of the above lambda call
+        value2 = 20;
+         int result1 = calculator((Integer v1, Integer v2) -> 'T' + (v1 * v2), value1, 40); // using final variables to be utilized
+        ConsoleStyler.styleOutput("""
+                Lambda Function Applied: (a, b) -> (value1 * value2)
+                Final Result from calculator:""", Integer.toString(result1));
+        int result2 = calculator((a,b) -> 'T' + (a*b), 7,9);
+        ConsoleStyler.styleOutput("""
+                Lambda Function Applied: (a, b) -> (value1 * value2)
+                Final Result from calculator:""", Integer.toString(result2));
+        int result3 = calculator((var a, var b) -> 'T' + (a*b), 7,9); // using var as return types
+        ConsoleStyler.styleOutput("""
+                Lambda Function Applied: (a, b) -> (value1 * value2)
+                Final Result from calculator:""", Integer.toString(result3));
+        int result4 = calculator((Integer a, Integer b) -> 'T' + (a*b), 7,9); //explicit return types
+        ConsoleStyler.styleOutput("""
+                Lambda Function Applied: (a, b) -> (value1 * value2)
+                Final Result from calculator:""", Integer.toString(result4));
+        int result5 = calculator((a,b) -> a*b, 7,9); // using return ad curly braces
+        ConsoleStyler.styleOutput("""
+                Lambda Function Applied: (a, b) -> (value1 * value2)
+                Final Result from calculator:""", Integer.toString(result5));
+
+
         ConsoleStyler.halfDivider();
         //Lambda invocation using anotherCalculator i.e. the BinaryOperator (out of box from java.util package) Functional Interface...
-        int anotherResult = anotherCalculator((a, b) -> (value1 * value2), value1, value2);
+        int finalValue2 = value2;
+        int anotherResult = anotherCalculator((a, b) -> (a * b), value1, finalValue2);
         ConsoleStyler.styleOutput("""
                 Lambda Function Applied: (a, b) -> (value1 * value2)
                 Final Result from anotherCalculator:""", Integer.toString(anotherResult));
@@ -87,7 +102,7 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleIntro("NamesUtil after replace all (Unary Function Lambda Demo)");
         names.replaceAll(name -> "The name: " + name + " has " + name.length() + " characters");
-        //names.forEach(name -> ConsoleStyler.styleIt(name, true, false));
+        names.forEach(name -> ConsoleStyler.styleIt(name, null,false,true, false));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
 
@@ -110,7 +125,7 @@ public class LambdaAdvancedDemo {
 
         AtomicInteger lambdaLoopCounter = new AtomicInteger(1);
         // looping a list using lambda expression
-        names.forEach(nextName -> System.out.printf("[%d] %-12s%n", (lambdaLoopCounter.getAndIncrement()), nextName));
+        names.forEach(nextName -> ConsoleStyler.styleOutput("[%d] %-12s%n".formatted((lambdaLoopCounter.getAndIncrement()), nextName) ));
         ConsoleStyler.styleEachAsIs(GUEST_LABEL, names);
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Printing coordinate points using (displayed using variations of  'Consumer' Lambda and BiConsumer Lambda" +
@@ -126,10 +141,12 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.halfDivider();
         BiConsumer<Double, Double> p1 = (lat, lon) ->
                 ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
-        //BiConsumer<Double, Double> p1 = (lat,lon) -> System.out.printf("[Latitude: %.3f, Longitude: %.3f]%n", lat, lon);
+        BiConsumer<Double, Double> p2 = (lat,lon) -> ConsoleStyler.styleOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted( lat, lon));
         var firstPoint = coords.getFirst();
         ConsoleStyler.styleIntro("Playing around with BiConsumer Functional Interface ");
         processPoint(firstPoint[0], firstPoint[1], p1);
+        processPoint(firstPoint[0], firstPoint[1], p2);
+
         ConsoleStyler.halfDivider();
         coords.forEach(s -> processPoint(s[0], s[1], p1));
         ConsoleStyler.halfDivider();

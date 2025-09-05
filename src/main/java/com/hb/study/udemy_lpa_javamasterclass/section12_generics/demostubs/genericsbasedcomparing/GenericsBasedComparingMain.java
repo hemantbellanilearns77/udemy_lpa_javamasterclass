@@ -21,8 +21,8 @@ public class GenericsBasedComparingMain {
 
         for (Integer i : others) {
             int val = five.compareTo(i);
-            System.out.printf("%d %s %d: compareTo=%d%n", five,
-                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), i, val);
+            ConsoleStyler.styleOutput("%d %s %d: compareTo=%d%n".formatted( five,
+                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), i, val));
         }
 
         String banana = "banana";
@@ -30,8 +30,8 @@ public class GenericsBasedComparingMain {
         ConsoleStyler.divider();
         for (String s : fruit) {
             int val = banana.compareTo(s);
-            System.out.printf("%s %s %s: compareTo=%d%n", banana,
-                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), s, val);
+            ConsoleStyler.styleOutput("%s %s %s: compareTo=%d%n".formatted(banana,
+                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), s, val));
         }
 
         Arrays.sort(fruit);
