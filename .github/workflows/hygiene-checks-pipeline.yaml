@@ -133,7 +133,6 @@ jobs:
           fi
 
           # Checkout main and merge stage
-          git checkout main
           git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
           git push origin main
           echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
