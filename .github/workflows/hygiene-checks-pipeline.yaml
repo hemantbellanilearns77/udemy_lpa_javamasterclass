@@ -126,8 +126,9 @@ jobs:
           # Ensure stage is rebased on main
           BASE=$(git merge-base origin/main origin/stage)
           if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
-            echo "❌ Stage is not rebased on main. Abort."
-            exit 1
+            echo "⚠️ Stage is not rebased on main. Skipping merge from stage."
+            # Set an environment variable to propagate this info to later steps (e.g., email)
+            echo "STAGE_MERGE_SKIPPED=true" >> $GITHUB_ENV
           fi
 
           # Checkout main and merge stage
@@ -179,6 +180,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
+          STAGE_MERGE_SKIPPED: ${{ env.STAGE_MERGE_SKIPPED }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}

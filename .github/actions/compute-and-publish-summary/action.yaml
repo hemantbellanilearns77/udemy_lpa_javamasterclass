@@ -31,6 +31,9 @@ inputs:
   ARTIFACT_URL:
     required: true
     description: ""
+  STAGE_MERGE_SKIPPED:
+    required: true
+    description: "Indicates if stage merge was skipped"
 
 outputs:
   sonarExecutionNote:
@@ -114,6 +117,7 @@ runs:
         COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
         COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
         ARTIFACT_URL: ${{ inputs.ARTIFACT_URL }}
+        STAGE_MERGE_SKIPPED: ${{ inputs.STAGE_MERGE_SKIPPED }}
 
         HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
         NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}
