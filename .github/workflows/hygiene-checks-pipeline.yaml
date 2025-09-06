@@ -140,12 +140,13 @@ jobs:
 
       - name: Check stage vs main state
         id: stage_vs_main_state
+        shell: bash
         run: |
           git fetch origin main stage
 
           # Case 1: stage == main
-          if [ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ] && \
-             [ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]; then
+          if [[ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ]] && \
+             [[ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]]; then
             echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with main (no merge needed)" >> $GITHUB_OUTPUT
 
           # Case 2: stage ahead of main (fast-forward possible)
