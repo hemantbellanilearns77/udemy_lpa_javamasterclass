@@ -28,7 +28,7 @@ public class Dog extends Mammal {
     @Override
     public void makeNoise() {
 
-        if (type == "Wolf") {
+        if (type.equalsIgnoreCase("Wolf")) {
             System.out.print("Howling! ");
         } else {
             System.out.print("Woof! ");
