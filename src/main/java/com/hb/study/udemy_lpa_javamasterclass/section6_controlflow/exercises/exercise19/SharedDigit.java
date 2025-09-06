@@ -5,11 +5,11 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class SharedDigit {
         public static void main(String[] ignoredUnusedArgs) {
         //
-        System.out.print("Do 12 and 23 have any shared digit?: ");
+         ConsoleStyler.styleOutput("Do 12 and 23 have any shared digit?: ");
         ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(12, 23)));
-        System.out.print("Do 9 and 99 have any shared digit?: ");
+         ConsoleStyler.styleOutput("Do 9 and 99 have any shared digit?: ");
         ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(9, 99)));
-        System.out.print("Do 15 and 55 have any shared digit?: ");
+         ConsoleStyler.styleOutput("Do 15 and 55 have any shared digit?: ");
         ConsoleStyler.styleOutput(Boolean.toString(hasSharedDigit(15, 55)));
 }
 

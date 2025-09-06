@@ -14,7 +14,7 @@ public class SumDigitChallenge {
         int sumReceived = -1;
 
         do {
-            System.out.print("\nPlease inout positive integer (Example: 1234)  or 0 (the sum of whose digits is required: " +
+             ConsoleStyler.styleOutput("\nPlease inout positive integer (Example: 1234)  or 0 (the sum of whose digits is required: " +
                     "\nOR Please inout either of these words  (\"exit\" or \"quit\" or \"end\") to quit: " );
             userInput = scanner.nextLine();
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string

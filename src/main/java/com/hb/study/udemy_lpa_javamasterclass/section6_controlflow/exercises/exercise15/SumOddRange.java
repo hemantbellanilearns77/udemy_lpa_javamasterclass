@@ -16,7 +16,7 @@ public class SumOddRange {
         int start, end;
         demoTestCases();
         do {
-            System.out.print("Enter the range of numbers between whom the sum of odd number is required " +
+             ConsoleStyler.styleOutput("Enter the range of numbers between whom the sum of odd number is required " +
                     "(Example: 1, 100): ");
             userInput = scanner.nextLine();
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc. ), from string

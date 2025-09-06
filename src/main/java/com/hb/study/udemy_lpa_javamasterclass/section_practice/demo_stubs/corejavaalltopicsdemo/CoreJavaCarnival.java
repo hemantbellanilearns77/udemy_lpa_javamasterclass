@@ -212,7 +212,7 @@ public class CoreJavaCarnival {
                 int notNull = rs.getInt("notnull");
                 String defaultValue = rs.getString("dflt_value");
                 int primaryKey = rs.getInt("pk");
-                ConsoleStyler.styleOutput(("%-12s | %-9s | %-8s | %-13s | %-11s%n").formatted(
+                ConsoleStyler.styleOutput("%-12s | %-9s | %-8s | %-13s | %-11s%n".formatted(
                         columnName, dataType, (notNull == 1 ? "Yes" : "No"),
                         (defaultValue != null ? defaultValue : "None"),
                         (primaryKey == 1 ? "Yes" : "No")));

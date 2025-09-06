@@ -19,8 +19,8 @@ public class ArrayBasics {
         myDoubleArray[2] = 20.00;
         ConsoleStyler.styleOutput(programOutputBegins);
 
-        System.out.printf("myIntArray 3rd element: %d %n", myIntArray[2]);
-        System.out.printf("myDoubleArray 3rd element: %f  %n", myDoubleArray[2]);
+         ConsoleStyler.styleOutput("myIntArray 3rd element: %d %n".formatted(myIntArray[2]));
+         ConsoleStyler.styleOutput("myDoubleArray 3rd element: %f  %n".formatted(myDoubleArray[2]));
         ConsoleStyler.styleOutput("myIntArray printed using Arrays.toString() looks like: "+Arrays.toString(myIntArray));;
         ConsoleStyler.styleOutput("The lengths of " +
                 "myIntArray and myDoubleArray respectively are:  " +

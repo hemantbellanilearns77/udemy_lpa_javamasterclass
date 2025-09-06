@@ -12,7 +12,7 @@ public class MonthToQuarter {
         public static void main(String[] ignoredUnusedArgs) {
         //
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the name of a month: ");
+         ConsoleStyler.styleOutput("Enter the name of a month: ");
         String month = scanner.nextLine().trim();
 
         // Validate input

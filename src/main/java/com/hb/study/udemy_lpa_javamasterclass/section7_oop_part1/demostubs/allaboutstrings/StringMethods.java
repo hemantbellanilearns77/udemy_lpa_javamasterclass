@@ -12,7 +12,7 @@ public class StringMethods {
         public static void main(String[] ignoredUnusedArgs) {
 
          for(int i = 1; i <= 100000; i*=10){
-            System.out.printf("Printing %6d %n",i);
+             ConsoleStyler.styleOutput("Printing %6d %n".formatted(i));
         }
         String stringToInspect  = "Hello World";
         String stringToInspectToLower  = stringToInspect.toLowerCase(Locale.ROOT);
@@ -43,27 +43,27 @@ public class StringMethods {
             if(stringToInspect.equalsIgnoreCase("Hello World")) {
                 ConsoleStyler.divider();
                 ConsoleStyler.styleOutput("The character at 7th index of String : " + stringToInspect + " is: " + stringToInspect.charAt(7) );
-                System.out.printf("The first character and last character in %s are %c and %c respectively %n", stringToInspect, stringToInspect.charAt(0),
-                        stringToInspect.charAt(stringToInspect.length()-1));
+                 ConsoleStyler.styleOutput("The first character and last character in %s are %c and %c respectively %n".formatted(stringToInspect, stringToInspect.charAt(0),
+                        stringToInspect.charAt(stringToInspect.length()-1)));
                 ConsoleStyler.divider();
-                System.out.printf("Index of character: 'r' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf('r') );
+                 ConsoleStyler.styleOutput("Index of character: 'r' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.indexOf('r')) );
                 ConsoleStyler.divider();
-                System.out.printf("Index of string: \"World\" in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf(WORLD) );
+                 ConsoleStyler.styleOutput("Index of string: \"World\" in string : \"%s\", is: %d %n".formatted( stringToInspect, stringToInspect.indexOf(WORLD) ));
                 ConsoleStyler.divider();
-                System.out.printf("Index of character: 'l' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.indexOf('l'));
-                System.out.printf("Last Index of character: 'l' in string : \"%s\", is: %d %n", stringToInspect, stringToInspect.lastIndexOf('l'));
-                System.out.printf("Index of character: 'l' after its first occurrence  in string : \"%s\", is: %d %n", stringToInspect,
-                        stringToInspect.indexOf('l', (stringToInspect.indexOf('l') + 1) ));
-                System.out.printf("Last Index of character: 'l' just before its last occurrence in string : \"%s\", is: %d %n",
-                        stringToInspect, stringToInspect.lastIndexOf('l', (stringToInspect.lastIndexOf('l') -1 )));
+                 ConsoleStyler.styleOutput("Index of character: 'l' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.indexOf('l')));
+                 ConsoleStyler.styleOutput("Last Index of character: 'l' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.lastIndexOf('l')));
+                 ConsoleStyler.styleOutput("Index of character: 'l' after its first occurrence  in string : \"%s\", is: %d %n".formatted(stringToInspect,
+                        stringToInspect.indexOf('l', (stringToInspect.indexOf('l') + 1) )));
+                 ConsoleStyler.styleOutput("Last Index of character: 'l' just before its last occurrence in string : \"%s\", is: %d %n".formatted(
+                        stringToInspect, stringToInspect.lastIndexOf('l', (stringToInspect.lastIndexOf('l') -1 ))));
             }
             ConsoleStyler.divider();
         }
     }
 
     public static void printStringComparisonResults(String stringToInspect, String stringToInspectToLower){
-        System.out.printf("Welcome to this method that demonstrates and prints results of comparison of two Strings: %s, %s %n",
-                stringToInspect, stringToInspectToLower);
+         ConsoleStyler.styleOutput("Welcome to this method that demonstrates and prints results of comparison of two Strings: %s, %s %n".formatted(
+                stringToInspect, stringToInspectToLower));
         if(stringToInspect.equals(stringToInspectToLower)) {
             ConsoleStyler.styleOutput("Values of both strings are exactly" + "equal".toUpperCase());
         }
@@ -86,13 +86,13 @@ public class StringMethods {
     }
 
     public static void demoStringManipulation() {
-        System.out.printf("Welcome to this method that demonstrates and prints results of String Manipulation %n");
+         ConsoleStyler.styleOutput("Welcome to this method that demonstrates and prints results of String Manipulation %n");
         String birthDateString = "16/11/1981";
         int yearStartIndex = birthDateString.indexOf("1981");
         ConsoleStyler.styleOutput("Starting index for year 1981 in " + birthDateString + " is: " + yearStartIndex);
-        System.out.printf("Birth Year in %s, is: %s %n",birthDateString, birthDateString.substring(yearStartIndex) );
-        System.out.printf("Date in  %s, is: %s and Month in %s, is: %s %n",birthDateString, birthDateString.substring(3,5),
-                birthDateString,birthDateString.substring(6) );
+         ConsoleStyler.styleOutput("Birth Year in %s, is: %s %n".formatted(birthDateString, birthDateString.substring(yearStartIndex) ));
+         ConsoleStyler.styleOutput("Date in  %s, is: %s and Month in %s, is: %s %n".formatted(birthDateString, birthDateString.substring(3,5),
+                birthDateString,birthDateString.substring(6) ));
 
         String newDate = String.join("/", "16", "11", "1981");
         ConsoleStyler.styleOutput("Demo String.join() : nwwDate formed by using join method with a delimeter '/' is:" + newDate);

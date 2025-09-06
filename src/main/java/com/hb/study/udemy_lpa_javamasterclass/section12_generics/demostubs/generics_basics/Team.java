@@ -35,8 +35,8 @@ public class Team<T extends Player, A> {
 
     public void listTeamMembers() {
 
-        System.out.print(teamName + " Roster:");
-        ConsoleStyler.styleOutput((affiliation == null ? "" : " AFFILIATION: "+ affiliation));
+         ConsoleStyler.styleOutput(teamName + " Roster:");
+        ConsoleStyler.styleOutput(affiliation == null ? "" : " AFFILIATION: "+ affiliation);
         for (T t : teamMembers) {
             ConsoleStyler.styleOutput(t.name());
         }
