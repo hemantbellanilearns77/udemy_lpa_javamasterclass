@@ -58,7 +58,7 @@ jobs:
             branchName="${{ github.ref_name }}"  # gives just "main" or the branch name
               if [[ "$branchName" != "main" ]]; then
                 echo "Push event but branch is '$branchName' (not main) → exiting gracefully."
-                exit 0
+                exit 78
               fi
             
               commit_message="${{ github.event.head_commit.message }}"
@@ -66,14 +66,14 @@ jobs:
                 echo "Push to main with matching commit message → continue."
               else
                 echo "Push to main without trigger phrase → exiting gracefully."
-                exit 0
+                exit 78
               fi
             
             elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
               echo "Event is $eventName → continue."
             else
               echo "Unsupported event ($eventName) → exiting gracefully."
-              exit 0
+              exit 78
             fi
 
       - name: Log trigger for scheduled runs
@@ -105,7 +105,7 @@ jobs:
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
         run: |
           Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event."
-          exit 0 # Exit the job successfully, so it doesn't appear as a failure
+          exit 78 # Exit the job successfully, so it doesn't appear as a failure
 
 
       - name: Merge stage into main (pre-checkout)
