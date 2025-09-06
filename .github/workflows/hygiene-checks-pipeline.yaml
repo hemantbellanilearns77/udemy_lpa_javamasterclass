@@ -113,6 +113,7 @@ jobs:
         with:
           # github.event.repository.default_branch for all triggers
           ref: ${{ github.event.repository.default_branch }}
+          token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
 
       - name: Merge stage into main (pre-checkout)
@@ -128,13 +129,14 @@ jobs:
           if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
             echo "⚠️ Stage is not rebased on main. Skipping merge from stage."
             # Set an environment variable to propagate this info to later steps (e.g., email)
-            echo "STAGE_MERGE_SKIPPED=true" >> $GITHUB_ENV
+            echo "STAGE_MERGED_SUCCESS=false" >> $GITHUB_ENV
           fi
 
           # Checkout main and merge stage
           git checkout main
           git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
           git push origin main
+          echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
 
       ####################################################
           # Hygiene Environment Initialization
@@ -180,7 +182,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
-          STAGE_MERGE_SKIPPED: ${{ env.STAGE_MERGE_SKIPPED }}
+          STAGE_MERGED_SUCCESS: ${{ env.STAGE_MERGED_SUCCESS }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}

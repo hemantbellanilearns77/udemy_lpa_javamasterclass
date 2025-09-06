@@ -119,6 +119,9 @@ inputs:
   ARTIFACT_URL:
     required: true
     description: ""
+  STAGE_MERGED_SUCCESS:
+    required: true
+    description: ""
 
 runs:
   using: "composite"
@@ -152,7 +155,7 @@ runs:
           </h2>
           <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
           <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-          <strong>Stage Merge:</strong> <code>${{ env.STAGE_MERGE_SKIPPED == 'true' && 'SKIPPED ⚠️' || 'EXECUTED ✅' }}</code><br/>
+          <strong>Stage Merge:</strong> <code>${{ inputs.STAGE_MERGED_SUCCESS == 'true' && 'SKIPPED ⚠️' || 'EXECUTED ✅' }}</code><br/>
           <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code><br/>
           <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
           <h3>📊 Summary</h3>
