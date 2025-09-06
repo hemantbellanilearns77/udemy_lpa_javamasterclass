@@ -48,7 +48,7 @@ public class Monster implements ISaveable {
     @Override
     public String toString(){
         return """
-                %s{name='%s', hitPoints=%d, strength=%d, weapon='%s'}
+                %s{name='%s', hitPoints=%d, strength=%d'}
                 """.formatted(this.getClass().getSimpleName(), getName(),getHitPoints(),getStrength());
     }
 }

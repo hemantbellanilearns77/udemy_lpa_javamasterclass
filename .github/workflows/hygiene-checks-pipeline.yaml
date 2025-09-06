@@ -19,7 +19,6 @@ on:
 #      - main
 
 jobs:
-
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
@@ -47,6 +46,13 @@ jobs:
       LOW_MAX: 30         # Maximum allowed low severity issues
       INFO_MAX: 50        # Maximum allowed informational issues
     steps:
+      # This step will run only if the event is NOT manual or scheduled or push to main
+      - name: Exit for non-supported events
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+        run: |
+          Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting gracefully."
+          exit 78 # Exit the job successfully, so it doesn't appear as a failure
+
       # This step will check the commit message and set an output.
       # It will always run on push to main, but its output determines if the next job runs.
       - name: Decide whether to run hygiene checks
@@ -59,16 +65,15 @@ jobs:
               if [[ "$branchName" != "main" ]]; then
                 echo "Push event but branch is '$branchName' (not main) → exiting gracefully."
                 exit 78
-              fi
-            
-              commit_message="${{ github.event.head_commit.message }}"
-              if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
-                echo "Push to main with matching commit message → continue."
               else
-                echo "Push to main without trigger phrase → exiting gracefully."
-                exit 78
+                commit_message="${{ github.event.head_commit.message }}"
+                if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+                  echo "Push to main with matching commit message → continue."
+                else
+                  echo "Push to main without trigger phrase → exiting gracefully."
+                  exit 78
+                fi
               fi
-            
             elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
               echo "Event is $eventName → continue."
             else
@@ -100,43 +105,13 @@ jobs:
         shell: pwsh
         run: Write-Host "✅ Executing due to push event triggered by special commit message."
 
-      - name: Exit for other events
-        # This step will run only if the event is NOT manual or scheduled.
-        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
-        run: |
-          Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event."
-          exit 78 # Exit the job successfully, so it doesn't appear as a failure
-
-
-      - name: Checkout Code for Manual and Scheduled triggers
+        #Checkout Code for Supported Event Triggers (schedule, workflow_dispatch, push to main)
+      - name: Checkout Code for Supported Event Triggers
         uses: actions/checkout@v4
         with:
-          # github.event.repository.default_branch for all triggers
           ref: ${{ github.event.repository.default_branch }}
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }} # no expiry
           fetch-depth: 0
-
-#      - name: Merge stage into main (pre-checkout)
-#        shell: bash
-#        run: |
-#          git config user.name "Hygiene Check Pipeline Bot"
-#          git config user.email "hygiene-check-pipeline-bot@example.com"
-#          git fetch origin main
-#          git fetch origin stage
-#
-#          # Ensure stage is rebased on default branch (main)
-#          BASE=$(git merge-base origin/main origin/stage)
-#          if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
-#            echo "⚠️ Stage is not rebased on default branch (main). Skipping merge from stage."
-#            # Set an environment variable to propagate this info to later steps (e.g., email)
-#            echo " STAGE_MERGED_SUCCESS=false" >> $GITHUB_ENV
-#          else
-#            echo "✅ Stage is rebased on default branch (main).So merging default branch (main) from stage."
-#            # Merge default branch (main) from stage
-#            git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
-#            git push origin main
-#            echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
-#          fi
 
       - name: Check stage vs main state
         id: stage_vs_main_state
@@ -175,7 +150,7 @@ jobs:
           base-ref: ${{ github.base_ref }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-            ###############################################################
+        ###############################################################
           # HYGIENE HEALTH CHECKS AND UPLOAD REPORTS - COMPOSITE CALL
         ##############################################################
 
@@ -188,7 +163,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_SCANNER_BIN: ${{ steps.setup.outputs.scanner_bin_win }}
 
-            ##############################################################
+        ##############################################################
           # PUBLISH GITHUB SUMMARY AND SEND-EMAIL - COMPOSITE CALL
         ##############################################################
 
@@ -218,7 +193,7 @@ jobs:
           CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
           PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
           BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
-          HIGH_MAX: ${{ env.HIGH_MAX }}          # keep backward compatible
+          HIGH_MAX: ${{ env.HIGH_MAX }}
           MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
           LOW_MAX: ${{ env.LOW_MAX }}
           INFO_MAX: ${{ env.INFO_MAX }}

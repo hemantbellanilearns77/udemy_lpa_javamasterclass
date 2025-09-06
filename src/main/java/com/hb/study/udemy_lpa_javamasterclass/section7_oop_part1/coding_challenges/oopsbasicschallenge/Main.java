@@ -12,8 +12,8 @@ public class Main {
         car.setDoors(2);
         car.setConvertible(true);
         car.setColor("black");
-        System.out.println("make = " + car.getMake());
-        System.out.println("model = " + car.getModel());
+         ConsoleStyler.styleOutput("make = " + car.getMake());
+         ConsoleStyler.styleOutput("model = " + car.getModel());
         car.describeCar();
 
         Car targa = new Car();
