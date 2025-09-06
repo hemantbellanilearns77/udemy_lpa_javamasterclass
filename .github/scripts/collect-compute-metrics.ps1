@@ -44,7 +44,8 @@
         
         $projectKey = $env:SONAR_PROJECT_KEY
         $projectOrg = $env:SONAR_ORG
-        $branch = "main"
+        $branch = $env:BRANCH_EXECUTED
+        $repository = $env:REPOSITORY
         # Confirm if token is passed
         if (-not $env:SONAR_TOKEN) {
          Write-Error "⚠ SONAR_TOKEN is empty!"
@@ -221,17 +222,19 @@
         $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
         $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
 
-        
-
-        ############################################################
+         ############################################################
                 # === Write Overall Table ===
         ############################################################
         echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
+        echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
+        echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
+        echo "Stage ↔ Main state: $env:STAGE_VS_MAIN_STATE" >> $env:GITHUB_STEP_SUMMARY
+        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
         echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "| Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
         echo "| PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Code Coverage (Sonar)    | $sonarCoverage% $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Code Coverage (Sonar)    | $sonarCoverage % $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟥 BLOCKER               | [$blocker]($($severityLinks.BLOCKER)) $sonarBlockerStatus |" >> $env:GITHUB_STEP_SUMMARY
@@ -240,6 +243,7 @@
         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
+        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
@@ -251,7 +255,7 @@
         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "totalSonarFetchedIssues=$totalSonarFetchedIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarCoverage=$sonarCoverage%" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarCoverage=$sonarCoverage %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerEmojiMark=$sonarBlockerStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -477,22 +481,20 @@
         $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
         $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
         foreach ($entry in $emailModuleSevAggBreakdown -split ";") {
-        $parts = $entry -split ":"
-        if ($parts.Count -eq 2) {
-        $module = $parts[0]
-        $counts = $parts[1] -split ","
-        $emailModuleSevAggTable += "<tr>"
-        $emailModuleSevAggTable += "<td>$module</td>"
-        foreach ($c in $counts) {
-        $emailModuleSevAggTable += "<td align='center'>$c</td>"
-        }
-        $emailModuleSevAggTable += "</tr>"
-        }
+            $parts = $entry -split ":"
+            if ($parts.Count -eq 2) {
+                $module = $parts[0]
+                $counts = $parts[1] -split ","
+                $emailModuleSevAggTable += "<tr>"
+                $emailModuleSevAggTable += "<td>$module</td>"
+                foreach ($c in $counts) {
+                    $emailModuleSevAggTable += "<td align='center'>$c</td>"
+                }
+                $emailModuleSevAggTable += "</tr>"
+            }
         }
         
         $emailModuleSevAggTable += "</table>"
         # Export both plain breakdown and HTML table
-        # echo "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" >> $env:GITHUB_ENV
-        # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
         "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

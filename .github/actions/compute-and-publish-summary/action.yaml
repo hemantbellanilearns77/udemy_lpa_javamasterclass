@@ -61,6 +61,9 @@ runs:
         SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
         SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
         SONAR_ORG: ${{ env.SONAR_ORG }}
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+        REPOSITORY: ${{ github.repository }}
+        STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
       run: |
         pwsh -File .\.github\scripts\collect-compute-metrics.ps1
 
