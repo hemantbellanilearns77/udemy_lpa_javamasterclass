@@ -109,7 +109,7 @@ jobs:
 
 
       - name: Merge stage into main (pre-checkout)
-        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+        shell: bash
         run: |
           git config user.name "Hygiene Check Pipeline Bot"
           git config user.email "hygiene-check-pipeline-bot@example.com"
@@ -137,7 +137,7 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           fetch-depth: 0
 
-            ####################################################
+      ####################################################
           # Hygiene Environment Initialization
       ####################################################
       - name: Setup Hygiene Environment
