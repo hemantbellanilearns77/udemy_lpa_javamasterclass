@@ -7,7 +7,7 @@ import java.util.List;
 
 public class QueryList <T extends Student & QueryItem> extends ArrayList<T> {
 
-//    private List<T> items;
+    private List<T> items;
 
     public QueryList() {
 
@@ -15,7 +15,6 @@ public class QueryList <T extends Student & QueryItem> extends ArrayList<T> {
 
     public QueryList(List<T> items) {
         super(items);
-//        this.items = items;
     }
 
     public static <S extends QueryItem> List<S> getMatches(List<S> items,

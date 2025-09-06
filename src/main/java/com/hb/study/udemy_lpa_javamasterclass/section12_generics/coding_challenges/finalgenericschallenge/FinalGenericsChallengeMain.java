@@ -16,18 +16,20 @@ record Employee(String name) implements QueryItem {
     }
 }
 public class FinalGenericsChallengeMain {
-    //Object level or Static declarations here...
+  //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
         execution.initialize();
 
-        QueryList<LPAStudent> queryList = new QueryList<LPAStudent>();
+        QueryList<LPAStudent> queryList = new QueryList<>();
         int maxStudents = 25;
+        LPAStudent newLPAStudent;
         for(int loopCounter = 1; loopCounter<=maxStudents; loopCounter++) {
-                queryList.add(new LPAStudent());
+                newLPAStudent = new LPAStudent();
+                queryList.add(newLPAStudent);
         }
         ConsoleStyler.styleOutput(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
@@ -38,9 +40,9 @@ public class FinalGenericsChallengeMain {
         ConsoleStyler.divider();
 
         ConsoleStyler.styleOutput("Matches");
-        var matches = queryList
-                .getMatches("PercentComplete", "50")
-                .getMatches("Course", "Python");
+        QueryList<LPAStudent> anotherQueryList = new QueryList<>(queryList
+                .getMatches("PercentComplete", "50"));
+        var matches = QueryList.getMatches(anotherQueryList, "Course", "Python");
 
         matches.sort(new LPAStudentComparator());
         printList(matches);
@@ -52,14 +54,9 @@ public class FinalGenericsChallengeMain {
 
         ConsoleStyler.divider();
 //     QueryList<Employee> employeeList = new QueryList<>();
-        /*
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
-
-  //
 
     public static void printList(List<?> students) {
 
