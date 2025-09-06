@@ -118,7 +118,7 @@ jobs:
 
           # Ensure stage is rebased on main
           BASE=$(git merge-base origin/main origin/stage)
-          if [ "$BASE" != "$(git rev-parse origin/main)" ]; then
+          if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
             echo "❌ Stage is not rebased on main. Abort."
             exit 1
           fi
