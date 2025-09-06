@@ -116,28 +116,47 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
 
-      - name: Merge stage into main (pre-checkout)
-        shell: bash
-        run: |
-          git config user.name "Hygiene Check Pipeline Bot"
-          git config user.email "hygiene-check-pipeline-bot@example.com"
-          git fetch origin main
-          git fetch origin stage
+#      - name: Merge stage into main (pre-checkout)
+#        shell: bash
+#        run: |
+#          git config user.name "Hygiene Check Pipeline Bot"
+#          git config user.email "hygiene-check-pipeline-bot@example.com"
+#          git fetch origin main
+#          git fetch origin stage
+#
+#          # Ensure stage is rebased on default branch (main)
+#          BASE=$(git merge-base origin/main origin/stage)
+#          if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
+#            echo "⚠️ Stage is not rebased on default branch (main). Skipping merge from stage."
+#            # Set an environment variable to propagate this info to later steps (e.g., email)
+#            echo " STAGE_MERGED_SUCCESS=false" >> $GITHUB_ENV
+#          else
+#            echo "✅ Stage is rebased on default branch (main).So merging default branch (main) from stage."
+#            # Merge default branch (main) from stage
+#            git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
+#            git push origin main
+#            echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
+#          fi
 
-          # Ensure stage is rebased on default branch (main)
-          BASE=$(git merge-base origin/main origin/stage)
-          if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
-            echo "⚠️ Stage is not rebased on default branch (main). Skipping merge from stage."
-            # Set an environment variable to propagate this info to later steps (e.g., email)
-            echo "STAGE_MERGED_SUCCESS=false" >> $GITHUB_ENV
+      - name: Check stage vs main state
+        id: stage_vs_main_state
+        run: |
+          git fetch origin main stage
+
+          # Case 1: stage == main
+          if [ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ] && \
+             [ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]; then
+            echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with main (no merge needed)" >> $GITHUB_OUTPUT
+
+          # Case 2: stage ahead of main (fast-forward possible)
+          elif git merge-base --is-ancestor origin/main origin/stage; then
+            ahead=$(git rev-list origin/main..origin/stage --count)
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+
+          # Case 3: stage diverged (not rebased)
           else
-            echo "✅ Stage is rebased on default branch (main).So merging default branch (main) from stage."
-            # Checkout default branch (main) and merge stage
-            git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
-            git push origin main
-            echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
-          fi
-       
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+          fi 
 
       ####################################################
           # Hygiene Environment Initialization
@@ -183,7 +202,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
-          STAGE_MERGED_SUCCESS: ${{ env.STAGE_MERGED_SUCCESS }}
+          STAGE_VS_MAIN_STATE: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
