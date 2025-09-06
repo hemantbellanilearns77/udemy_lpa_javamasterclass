@@ -24,6 +24,9 @@ public class LambdaAdvancedDemo {
     private static final String STRING_ARRAY_AFTER = "String Array after";
     private static final String GUEST_LABEL = "Guest";
     private static final String STRING_ARRAY = "String Array:";
+    private static final String LAMBDA_FUNCTION_APPLIED_CALCULATOR_1 = """
+            Lambda Function Applied: (a, b) -> (value1 * value2)
+            Final Result from calculator:""";
 
     public static void main(String[] ignoredignoredUnusedArgs) {
         execution.initialize();
@@ -63,32 +66,20 @@ public class LambdaAdvancedDemo {
                 Demonstrating Binary Function Lambda using Binary Function:""");
         //Lambda invocation using calculator...
         var result = calculator((a, b) -> (a * b), value1, value2);
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result));
         // just to demonstrate that if uncommented this would introduce an error in above lambda expression....
         //variations of the above lambda call
         value2 = 20;
          int result1 = calculator((Integer v1, Integer v2) -> 'T' + (v1 * v2), value1, 40); // using final variables to be utilized
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result1));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result1));
         int result2 = calculator((a,b) -> 'T' + (a*b), 7,9);
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result2));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result2));
         int result3 = calculator((var a, var b) -> 'T' + (a*b), 7,9); // using var as return types
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result3));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result3));
         int result4 = calculator((Integer a, Integer b) -> 'T' + (a*b), 7,9); //explicit return types
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result4));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result4));
         int result5 = calculator((a,b) -> a*b, 7,9); // using return ad curly braces
-        ConsoleStyler.styleOutput("""
-                Lambda Function Applied: (a, b) -> (value1 * value2)
-                Final Result from calculator:""", Integer.toString(result5));
+        ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result5));
 
 
         ConsoleStyler.halfDivider();
