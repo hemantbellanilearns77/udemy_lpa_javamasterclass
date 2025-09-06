@@ -1,5 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.exercises.exercise48;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 public class Player implements ISaveable{
@@ -60,11 +63,9 @@ public class Player implements ISaveable{
 
     @Override
     public void read(List<String> stringList) {
-        if(stringList!=null && stringList.size() > 0) {
-            List<String> fieldsToWrite = new ArrayList<String>();
-            for(String nextString : stringList) {
-                fieldsToWrite.add(nextString);
-            }
+        if(stringList!=null && !stringList.isEmpty()) {
+            List<String> fieldsToWrite = new ArrayList<String>(stringList);
+            ConsoleStyler.styleOutput(fieldsToWrite + CommonConstants.EMPTYSTRING);
         }
     }
 

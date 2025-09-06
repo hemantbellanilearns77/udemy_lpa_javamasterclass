@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public interface Mappable {
 
     String JSON_PROPERTY = """
-            "properties": {%s} """;
+            "properties": {%s}""";
 
     String getLabel();
     Geometry getShape();
@@ -14,7 +14,8 @@ public interface Mappable {
     default String toJSON() {
 
         return """
-                "type": "%s", "label": "%s", "marker": "%s" """
+                "type": "%s", "label": "%s", "marker": "%s"
+                """
                 .formatted(getShape(), getLabel(), getMarker());
     }
 

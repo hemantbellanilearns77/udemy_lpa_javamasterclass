@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challen
 
 public class LPAStudent extends Student {
 
-    private double percentComplete;
+    private final double percentComplete;
 
     public LPAStudent() {
         percentComplete = secureRandom.nextDouble(0, 100.001);

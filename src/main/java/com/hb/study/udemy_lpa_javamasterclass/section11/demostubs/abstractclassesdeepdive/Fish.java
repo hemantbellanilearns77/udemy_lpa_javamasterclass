@@ -9,7 +9,7 @@ public class Fish extends Animal {
 
     @Override
     public void move(String speed) {
-        if (speed.equals("slow")) {
+        if (speed.equalsIgnoreCase("slow")) {
             ConsoleStyler.styleOutput(getExplicitType() + " lazily swimming");
         } else {
             ConsoleStyler.styleOutput(getExplicitType() + " darting frantically");
@@ -18,9 +18,9 @@ public class Fish extends Animal {
     @Override
     public void makeNoise() {
         if (type.equalsIgnoreCase("Goldfish")) {
-            System.out.print("swish ");
+            ConsoleStyler.styleOutput("swish ");
         } else {
-            System.out.print("splash ");
+            ConsoleStyler.styleOutput("splash ");
         }
     }
 }

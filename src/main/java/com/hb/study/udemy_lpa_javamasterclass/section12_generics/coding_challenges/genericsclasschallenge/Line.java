@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 abstract class Line implements Mappable {
 
-    private double[][] locations;
+    private final double[][] locations;
 
-    public Line(String... locations) {
+    protected Line(String... locations) {
         this.locations = new double[locations.length][];
         int index = 0;
         for (var l : locations) {

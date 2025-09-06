@@ -46,7 +46,7 @@ public class Dog extends Animal{
     public void makeNoise(){
         ConsoleStyler.styleOutput("makeNoise invoked on Dog Object!");
 
-        if(type == "Wolf" ) {
+        if(type.equalsIgnoreCase("Wolf") ) {
             ConsoleStyler.styleOutput("ow woooo !");
         } else {
             bark();

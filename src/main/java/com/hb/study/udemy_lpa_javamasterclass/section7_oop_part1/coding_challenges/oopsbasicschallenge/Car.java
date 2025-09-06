@@ -1,5 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.oopsbasicschallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class Car {
 
     private String make = "Tesla";
@@ -58,7 +60,7 @@ public class Car {
 
     public void describeCar() {
 
-        System.out.println(doors + "-Door " +
+         ConsoleStyler.styleOutput(doors + "-Door " +
                 color + " " +
                 make + " " +
                 model + " " +
