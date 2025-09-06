@@ -23,9 +23,10 @@ public class InheritanceChallengeMainClass {
         HourlyEmployee hourlyWageEmployee = new HourlyEmployee("Hemant Bellani (Hourly Worker Employee)", BIRTH_DATE,
                 END_DATE, 90816, HIRE_DATE,350);
         ConsoleStyler.styleOutput(employee  + CommonConstants.EMPTYSTRING);
-        hourlyWageEmployee.terminate(hourlyWageEmployee.getLwd_Date());
+        hourlyWageEmployee.terminate(hourlyWageEmployee.getLwdDate());
         ConsoleStyler.styleOutput(hourlyWageEmployee  + CommonConstants.EMPTYSTRING);
-        salariedEmployee.collectPay();
+        ConsoleStyler.styleOutput("Salary of Salaried Employee Collected: " + salariedEmployee.collectPay());
+
         salariedEmployee.retire();
         ConsoleStyler.styleOutput(salariedEmployee  + CommonConstants.EMPTYSTRING);
         String birthDate = BIRTH_DATE;

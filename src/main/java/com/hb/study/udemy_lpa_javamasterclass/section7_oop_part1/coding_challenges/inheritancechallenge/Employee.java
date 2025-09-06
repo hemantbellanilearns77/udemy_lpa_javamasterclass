@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 
 public class Employee extends Worker{
     private static long employeeID = 1;
-    private String hireDate;
+    private final String hireDate;
 
     public Employee(String name, String birthDate, String endDate, String hireDate) {
         super(name, birthDate, endDate);
@@ -14,6 +14,7 @@ public class Employee extends Worker{
         return "Employee Details for: " + getName() + " {" +
                 "employeeID=" + employeeID +
                 ", hireDate='" + hireDate + '\'' +
+                ", birthdate='" + this.getBirthDate() + '\'' +
                 "} " + super.toString();
     }
 }

@@ -7,7 +7,7 @@ import java.time.YearMonth;
 public class Worker {
     private String name;
     private String birthDate;
-    private String lwd_Date;
+    private String lwdDate;
 
     public String getName() {
         return name;
@@ -25,27 +25,29 @@ public class Worker {
         this.birthDate = birthDate;
     }
 
-    public String getLwd_Date() {
-        return lwd_Date;
+    public String getLwdDate() {
+        return lwdDate;
     }
 
-    public void setLwd_Date(String lwd_Date) {
-        this.lwd_Date = lwd_Date;
+    public void setLwdDate(String lwdDate) {
+        this.lwdDate = lwdDate;
     }
 
-    public Worker(String name, String birthDate, String lwd_Date) {
+    public Worker(String name, String birthDate, String lwdDate) {
         this.name = name;
         this.birthDate = birthDate;
-        this.lwd_Date = lwd_Date;
+        this.lwdDate = lwdDate;
     }
 
     public int getAge(){
-        int age = 0;
+        int age;
         int currentYear = Year.now().getValue();
-        int currentMonth, monthOfBirth = 0;
-        int currentDate, dateOfBirth = 0;
-        int yearOfBirth = ((int) Integer.parseInt(
-                birthDate.substring(birthDate.lastIndexOf('-') + 1, birthDate.length())));
+        int currentMonth;
+        int monthOfBirth;
+        int currentDate;
+        int dateOfBirth;
+        int yearOfBirth = Integer.parseInt(
+                birthDate.substring(birthDate.lastIndexOf('-') + 1));
         monthOfBirth =  Integer.parseInt(birthDate.substring(
                 birthDate.indexOf('-') + 1, birthDate.lastIndexOf('-') ));
         dateOfBirth =  Integer.parseInt(birthDate.substring(
@@ -62,7 +64,7 @@ public class Worker {
             age = age - 1;
         }
 
-        age = currentYear - currentYear;
+        //age = currentYear - currentYear;
         return age;
     }
     public double collectPay() {
@@ -70,14 +72,14 @@ public class Worker {
     }
 
     public void terminate(String lwd_Date){
-        this.lwd_Date = lwd_Date;
+        this.lwdDate = lwd_Date;
     }
     @Override
     public String toString() {
         return "Worker{" +
                 "name='" + name + '\'' +
                 ", birthDate='" + birthDate + '\'' +
-                ", last working day='" + lwd_Date + '\'' +
+                ", last working day='" + lwdDate + '\'' +
                 '}';
     }
 }
