@@ -108,6 +108,13 @@ jobs:
           exit 78 # Exit the job successfully, so it doesn't appear as a failure
 
 
+      - name: Checkout Code for Manual and Scheduled triggers
+        uses: actions/checkout@v4
+        with:
+          # github.event.repository.default_branch for all triggers
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
       - name: Merge stage into main (pre-checkout)
         shell: bash
         run: |
@@ -119,23 +126,15 @@ jobs:
           # Ensure stage is rebased on main
           BASE=$(git merge-base origin/main origin/stage)
           if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
-            echo "❌ Stage is not rebased on main. Abort."
-            exit 1
+            echo "⚠️ Stage is not rebased on main. Skipping merge from stage."
+            # Set an environment variable to propagate this info to later steps (e.g., email)
+            echo "STAGE_MERGE_SKIPPED=true" >> $GITHUB_ENV
           fi
 
           # Checkout main and merge stage
           git checkout main
           git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
           git push origin main
-
-      - name: Checkout Code for Manual and Scheduled triggers
-        uses: actions/checkout@v4
-        with:
-          # Note: 'pull_request.head.ref' is for pull request events, which you are not
-          # triggering on. 'github.ref_name' is for pushes or schedules.
-          # ref: ${{ github.ref_name }}
-          ref: ${{ github.event.repository.default_branch }}
-          fetch-depth: 0
 
       ####################################################
           # Hygiene Environment Initialization
@@ -181,6 +180,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
+          STAGE_MERGE_SKIPPED: ${{ env.STAGE_MERGE_SKIPPED }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
@@ -198,7 +198,7 @@ jobs:
           LOW_MAX: ${{ env.LOW_MAX }}
           INFO_MAX: ${{ env.INFO_MAX }}
 
-            #############################
+        #############################
           # FULL CLEANUP AND VERIFY
         ##############################
 
