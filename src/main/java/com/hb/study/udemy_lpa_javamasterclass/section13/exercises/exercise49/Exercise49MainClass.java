@@ -34,7 +34,7 @@ public class Exercise49MainClass {
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
         ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING);
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
@@ -48,7 +48,7 @@ public class Exercise49MainClass {
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
         ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING);
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         LinkedList<Song> playList = new LinkedList<Song>();
         albums.get(0).addToPlayList("You can't do it right", playList);
@@ -61,11 +61,11 @@ public class Exercise49MainClass {
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(10, playList);  // There is no track 10
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
         ConsoleStyler.styleOutput("Final Playlist:");
         ConsoleStyler.styleOutput("Track No. Title: Duration");
         for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {
-            ConsoleStyler.styleOutput((loopCounter + 1) + ".\t" + playList.get(loopCounter).toString());
+            ConsoleStyler.styleOutput(loopCounter + 1 + ".\t" + playList.get(loopCounter).toString());
         }
         execution.finalizeExecution();
     }

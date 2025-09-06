@@ -1,5 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 public class HybridCar extends Car {
 
     private double avgKMsperLitre;
@@ -20,18 +22,18 @@ public class HybridCar extends Car {
     @Override
     public void startEngine() {
         //super.startEngine();
-        System.out.printf("Starting a hybrid fuel car %n");
+         ConsoleStyler.styleOutput("Starting a hybrid fuel car %n");
 
     }
 
     @Override
     public void drive() {
-        System.out.printf("Driving Hybrid Car %n");
+         ConsoleStyler.styleOutput("Driving Hybrid Car %n");
         runEngine();
     }
 
     @Override
     protected void runEngine() {
-        System.out.printf("Running Hybrid Car's Engine");
+         ConsoleStyler.styleOutput("Running Hybrid Car's Engine");
     }
 }

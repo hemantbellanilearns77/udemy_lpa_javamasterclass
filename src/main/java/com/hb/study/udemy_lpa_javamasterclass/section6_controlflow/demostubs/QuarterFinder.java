@@ -23,7 +23,7 @@ public class QuarterFinder {
                 "july", "august", "september", "october", "november", "december"
         );
 
-        System.out.print("Enter the name of a month: ");
+         ConsoleStyler.styleOutput("Enter the name of a month: ");
         String month = scanner.nextLine().trim().toLowerCase(); // Normalize input
 
         // Validate input to allow only month names (no numbers or special characters)

@@ -41,7 +41,6 @@ public class Item {
     }
 
     public static void printItem(String name, double price) {
-        System.out.printf("%20s:%6.2f%n", name, price);
         ConsoleStyler.styleOutput( "%20s:%6.2f%n".formatted( name, price));
     }
 

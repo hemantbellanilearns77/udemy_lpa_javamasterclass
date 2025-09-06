@@ -70,10 +70,10 @@ public class ChainingLambdasDemo {
         ConsoleStyler.styleOutput(null ,Integer.toString(f2.apply(name)));
 
         String[] names = {"Ann", "Bob", "Carol"};
-        Consumer<String> s0 = s -> System.out.print(s.charAt(0));
+        Consumer<String> s0 = s ->  ConsoleStyler.styleOutput(s.charAt(0) + "");
         Consumer<String> s1 = System.out::println;
         Arrays.asList(names).forEach(s0
-                .andThen(s-> System.out.print(" - "))
+                .andThen(s->  ConsoleStyler.styleOutput(" - "))
                 .andThen(s1));
 
         Predicate<String> p1 = s -> s.equals("TIM");

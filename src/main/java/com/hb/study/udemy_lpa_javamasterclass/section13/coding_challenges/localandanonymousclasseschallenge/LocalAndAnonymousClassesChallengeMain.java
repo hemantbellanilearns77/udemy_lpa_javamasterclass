@@ -41,9 +41,9 @@ public class LocalAndAnonymousClassesChallengeMain {
         ConsoleStyler.styleOutput("Default  listing of Employees (without Details) is: :  ");
         ConsoleStyler.styleOutput("S.No.\t\t\t\tEmployee Details");
         for (int i = 0; i < employees.size(); i++) {
-            ConsoleStyler.styleOutput((i + 1) + ".\t\t" + employees.get(i).toString());
+            ConsoleStyler.styleOutput(i + 1 + ".\t\t" + employees.get(i).toString());
         }
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         ConsoleStyler.styleOutput("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
         String sortField;
@@ -51,13 +51,13 @@ public class LocalAndAnonymousClassesChallengeMain {
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 "default sort order" + " is:");
         printOrderedList(employees, null);
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "fullName";
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
-        System.out.print(CommonConstants.FULLLINEASTERISKSEPERATOR);
+         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "yearsWorked";
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
@@ -150,7 +150,7 @@ public class LocalAndAnonymousClassesChallengeMain {
 
         ConsoleStyler.styleOutput("S.No.\t\t\t\t\tEmployee Details");
         for (int i = 0; i < empDetails.size(); i++) {
-            System.out.print((i + 1) + "\t\t" + empDetails.get(i).toString());
+             ConsoleStyler.styleOutput((i + 1) + "\t\t" + empDetails.get(i).toString());
         }
 
 

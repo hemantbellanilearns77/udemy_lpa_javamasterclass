@@ -29,9 +29,9 @@ public class Dog extends Mammal {
     public void makeNoise() {
 
         if (type.equalsIgnoreCase("Wolf")) {
-            System.out.print("Howling! ");
+             ConsoleStyler.styleOutput("Howling! ");
         } else {
-            System.out.print("Woof! ");
+             ConsoleStyler.styleOutput("Woof! ");
         }
 
     }

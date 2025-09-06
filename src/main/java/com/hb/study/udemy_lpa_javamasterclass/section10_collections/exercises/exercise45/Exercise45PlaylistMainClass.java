@@ -56,7 +56,7 @@ public class Exercise45PlaylistMainClass {
         ConsoleStyler.styleOutput("Track No. Title: Duration");
 
         for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {
-            ConsoleStyler.styleOutput((loopCounter + 1) + ".\t" + playList.get(loopCounter));
+            ConsoleStyler.styleOutput("" + (loopCounter + 1) + ".\t" + playList.get(loopCounter));
         }
         ConsoleStyler.divider();
 

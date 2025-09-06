@@ -13,7 +13,7 @@ public class EvenDigitSum {
         int sumReceived = 0;
 
         do {
-            System.out.print("Enter a number to find the sum of its even digits: " +
+             ConsoleStyler.styleOutput("Enter a number to find the sum of its even digits: " +
                     "or input 'exit' or 'quit' to quit:  " );
             userInput = scanner.nextLine();
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string

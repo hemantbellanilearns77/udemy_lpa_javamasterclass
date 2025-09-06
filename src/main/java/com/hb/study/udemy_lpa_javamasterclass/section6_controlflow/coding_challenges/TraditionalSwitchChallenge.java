@@ -9,7 +9,7 @@ public class TraditionalSwitchChallenge {
         public static void main(String[] ignoredUnusedArgs) {
         //
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter an alphabet in range of A-E: ");
+         ConsoleStyler.styleOutput("Enter an alphabet in range of A-E: ");
         char inputCharacter = scanner.nextLine().charAt(0);
         ConsoleStyler.styleOutput("The NATO Word for the character " + inputCharacter + " is: " +
                 printNATOWord(inputCharacter));
