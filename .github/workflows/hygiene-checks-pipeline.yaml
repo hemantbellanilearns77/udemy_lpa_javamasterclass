@@ -124,18 +124,20 @@ jobs:
           git fetch origin main
           git fetch origin stage
 
-          # Ensure stage is rebased on main
+          # Ensure stage is rebased on default branch (main)
           BASE=$(git merge-base origin/main origin/stage)
           if [[ "$BASE" != "$(git rev-parse origin/main)" ]]; then
-            echo "⚠️ Stage is not rebased on main. Skipping merge from stage."
+            echo "⚠️ Stage is not rebased on default branch (main). Skipping merge from stage."
             # Set an environment variable to propagate this info to later steps (e.g., email)
             echo "STAGE_MERGED_SUCCESS=false" >> $GITHUB_ENV
+          else
+            echo "✅ Stage is rebased on default branch (main).So merging default branch (main) from stage."
+            # Checkout default branch (main) and merge stage
+            git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
+            git push origin main
+            echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
           fi
-
-          # Checkout main and merge stage
-          git merge --no-ff origin/stage -m "Automated merge: stage → main (pre-hygiene checks)"
-          git push origin main
-          echo "STAGE_MERGED_SUCCESS=true" >> $GITHUB_ENV
+       
 
       ####################################################
           # Hygiene Environment Initialization
