@@ -147,15 +147,17 @@ jobs:
           # Case 1: stage == main
           if [[ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ]] && \
              [[ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]]; then
+            echo "✅ Stage already in sync with main (no merge needed)"  
             echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with main (no merge needed)" >> $GITHUB_OUTPUT
 
           # Case 2: stage ahead of main (fast-forward possible)
           elif git merge-base --is-ancestor origin/main origin/stage; then
             ahead=$(git rev-list origin/main..origin/stage --count)
+            echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
-
           # Case 3: stage diverged (not rebased)
           else
+            echo "⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
           fi 
 
