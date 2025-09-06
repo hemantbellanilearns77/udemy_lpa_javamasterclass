@@ -27,6 +27,7 @@ public class LambdaAdvancedDemo {
     private static final String LAMBDA_FUNCTION_APPLIED_CALCULATOR_1 = """
             Lambda Function Applied: (a, b) -> (value1 * value2)
             Final Result from calculator:""";
+    private static final String LAT_LONG_FORMATTED_1 = "[Latitude: %.3f, Longitude: %.3f]%n";
 
     public static void main(String[] ignoredignoredUnusedArgs) {
         execution.initialize();
@@ -131,8 +132,8 @@ public class LambdaAdvancedDemo {
         coords.forEach(s -> ConsoleStyler.styleOutput(null, Arrays.toString(s)));
         ConsoleStyler.halfDivider();
         BiConsumer<Double, Double> p1 = (lat, lon) ->
-                ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon));
-        BiConsumer<Double, Double> p2 = (lat,lon) -> ConsoleStyler.styleOutput("[Latitude: %.3f, Longitude: %.3f]%n".formatted( lat, lon));
+                ConsoleStyler.styleOutput(null, LAT_LONG_FORMATTED_1.formatted(lat, lon));
+        BiConsumer<Double, Double> p2 = (lat,lon) -> ConsoleStyler.styleOutput(LAT_LONG_FORMATTED_1.formatted( lat, lon));
         var firstPoint = coords.getFirst();
         ConsoleStyler.styleIntro("Playing around with BiConsumer Functional Interface ");
         processPoint(firstPoint[0], firstPoint[1], p1);
@@ -144,7 +145,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.styleIntro("Now with the expanded lambda expression.... ");
         coords.forEach(s -> processPoint(s[0], s[1],
                 (lat, lon) ->
-                        ConsoleStyler.styleOutput(null, "[Latitude: %.3f, Longitude: %.3f]%n".formatted(lat, lon))));
+                        ConsoleStyler.styleOutput(null, LAT_LONG_FORMATTED_1.formatted(lat, lon))));
     }
 
     private static void demoSupplierLambda(List<String> names) {
