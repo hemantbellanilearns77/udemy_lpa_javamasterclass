@@ -19,38 +19,10 @@ on:
 #      - main
 
 jobs:
-  # This job will check the commit message and set an output.
-  # It will always run on push to main, but its output determines if the next job runs.
-
-  check-commit-message:
-    name: On Push - Execute Hygiene Sweep ? # Check Hygiene Sweep Trigger in Commit Message (On Push To Default branch)
-    runs-on: ubuntu-latest
-    outputs:
-      should_run_hygiene_checks: ${{ steps.check.outputs.should_run }}
-    steps:
-      - name: Get commit message for push events
-        id: check
-        if: github.event_name == 'push'
-        run: |
-          commit_message="${{ github.event.head_commit.message }}"
-          # Regex to find "execute" then "hygiene" then "sweep", separated by any characters.
-          # The pattern is non-greedy (`.*?`) to prevent it from matching a different order.
-          if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
-            echo "Match found: commit message contains 'execute hygiene sweep' with separators."
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "No match found in commit message. Skipping."
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-          fi
-        shell: bash
 
   hygiene-checks:
     name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
     runs-on: windows-latest
-    # The condition now depends on the output of the `check-commit-message` job.
-    needs: check-commit-message
-    if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    # Alternatively: if: needs.check-commit-message.outputs.should_run_hygiene_checks == 'true' || contains(fromJSON('["schedule", "workflow_dispatch"]'), github.event_name)
     env:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
@@ -75,6 +47,34 @@ jobs:
       LOW_MAX: 30         # Maximum allowed low severity issues
       INFO_MAX: 50        # Maximum allowed informational issues
     steps:
+      # This step will check the commit message and set an output.
+      # It will always run on push to main, but its output determines if the next job runs.
+      - name: Decide whether to run hygiene checks
+        id: decide
+        shell: bash
+        run: |
+            eventName="${{ github.event_name }}"
+            if [[ "$eventName" == "push" ]]; then
+            branchName="${{ github.ref_name }}"  # gives just "main" or the branch name
+              if [[ "$branchName" != "main" ]]; then
+                echo "Push event but branch is '$branchName' (not main) → exiting gracefully."
+                exit 0
+              fi
+            
+              commit_message="${{ github.event.head_commit.message }}"
+              if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+                echo "Push to main with matching commit message → continue."
+              else
+                echo "Push to main without trigger phrase → exiting gracefully."
+                exit 0
+              fi
+            
+            elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
+              echo "Event is $eventName → continue."
+            else
+              echo "Unsupported event ($eventName) → exiting gracefully."
+              exit 0
+            fi
 
       - name: Log trigger for scheduled runs
         if: github.event_name == 'schedule'
