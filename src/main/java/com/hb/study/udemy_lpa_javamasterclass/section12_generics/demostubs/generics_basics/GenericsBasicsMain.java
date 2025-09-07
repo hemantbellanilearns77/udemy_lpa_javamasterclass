@@ -78,7 +78,7 @@ public class GenericsBasicsMain {
         scoreResult(canberra, 0, adelaide, 1);
         ConsoleStyler.styleExecutionInsight("""
                 /*
-                This would never have compiled: 
+                This would never have compiled:
                 //Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
                 */
                 """);
