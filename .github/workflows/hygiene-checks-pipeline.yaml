@@ -119,6 +119,9 @@ jobs:
       - name: Check stage vs main state
         id: stage_vs_main_state
         shell: bash
+        env:
+          MAX_AHEAD_COMMITS: 7
+          MAX_DIVERGENCE_DAYS: 7
         run: |
           git fetch origin main stage
 
@@ -139,8 +142,21 @@ jobs:
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
           # Case 3: stage diverged (not rebased)
           else
-            echo "⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main"
-            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+            common=$(git merge-base origin/main origin/stage)
+            common_ts=$(git show -s --format=%ct $common)
+            now_ts=$(date +%s)
+            age_days=$(( (now_ts - common_ts) / 86400 ))
+      
+            if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
+                echo "❌ Stage diverged from main for $age_days days. Please rebase stage → main → exiting gracefully."
+                echo "STAGE_VS_MAIN_STATE=❌ Stage diverged for ${age_days}d → rebase required → exiting gracefully." >> $GITHUB_SUMMARY
+                exit 78
+              else
+                echo "⚠️ Stage is not rebased on main (last common ancestor $age_days days ago) → skipped merge, executed hygiene on current main"
+                echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago → skipped merge" >> $GITHUB_OUTPUT
+            fi
+            # echo "⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main"
+            # echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
           fi 
 
       ####################################################
