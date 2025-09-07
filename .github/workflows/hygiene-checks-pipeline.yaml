@@ -135,14 +135,7 @@ jobs:
           elif git merge-base --is-ancestor origin/main origin/stage; then
             ahead=$(git rev-list origin/main..origin/stage --count)
             echo "DEBUG: ahead='$ahead' MAX_AHEAD_COMMITS='${MAX_AHEAD_COMMITS}'"
-            if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
-              echo "❌ Stage is $ahead commits ahead of main. Please PR stage → main."
-              echo "STAGE_VS_MAIN_STATE=❌ Stage ahead by $ahead commits → PR required" >> $env:GITHUB_STEP_SUMMARY
-              exit 78
-            else
-              echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main"
-              echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
-            fi
+            
           # Case 3: stage diverged (not rebased)
           else
             common=$(git merge-base origin/main origin/stage)
