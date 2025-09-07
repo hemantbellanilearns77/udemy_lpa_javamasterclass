@@ -20,7 +20,7 @@ public class GenericsBasicsMain {
   public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] args) {
-        //
+
         execution.initialize(args);
 
         var philly = new Affiliation("city", "Philadelphia, PA",
