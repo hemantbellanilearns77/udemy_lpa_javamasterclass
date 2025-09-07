@@ -6,13 +6,13 @@ public abstract class ListItem {
     protected Object value;
 
     abstract ListItem next();
-    abstract ListItem setNext(ListItem listItem);
+    abstract void setNext(ListItem listItem);
     abstract ListItem previous();
-    abstract ListItem setPrevious(ListItem listItem);
+    abstract void setPrevious(ListItem listItem);
 
     abstract int compareTo(ListItem item);
 
-    public ListItem(Object value) {
+    protected ListItem(Object value) {
         this.value = value;
     }
 

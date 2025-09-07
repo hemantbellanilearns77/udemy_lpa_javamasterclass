@@ -23,21 +23,20 @@ public class MyLinkedList implements NodeList {
         if (this.root == null) { // root is null, add first Item in list.
             root = newItem;
             itemAdded = true;
-            return itemAdded;
-        }
-
-        int currentComparisonResult;
-        ListItem currentItem = this.root;
-        while (currentItem != null) {
-            currentComparisonResult = currentItem.compareTo(newItem);
-            if (currentComparisonResult == 0) {
-                return itemAdded;
-            } else {
-                if (currentComparisonResult > 0) {
-                    itemAdded = complexItemAddition(newItem, currentItem);
-                    break;
-                } else { // new newItem is either greater
-                    currentItem = currentItem.next();
+        } else {
+            int currentComparisonResult;
+            ListItem currentItem = this.root;
+            while (currentItem != null) {
+                currentComparisonResult = currentItem.compareTo(newItem);
+                if (currentComparisonResult == 0) {
+                    return itemAdded;
+                } else {
+                    if (currentComparisonResult > 0) {
+                        itemAdded = complexItemAddition(newItem, currentItem);
+                        break;
+                    } else { // new newItem is either greater
+                        currentItem = currentItem.next();
+                    }
                 }
             }
         }
