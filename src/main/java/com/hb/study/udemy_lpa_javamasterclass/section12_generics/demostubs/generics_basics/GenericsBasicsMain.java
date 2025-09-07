@@ -7,18 +7,24 @@ interface Player {
 
     String name();
 }
-record BaseballPlayer(String name, String position) implements Player {}
-record FootballPlayer(String name, String position) implements Player {}
-record VolleyballPlayer(String name, String position) implements Player {}
+
+record BaseballPlayer(String name, String position) implements Player {
+}
+
+record FootballPlayer(String name, String position) implements Player {
+}
+
+record VolleyballPlayer(String name, String position) implements Player {
+}
 
 public class GenericsBasicsMain {
     private static final String PHILADELPHIA_PHILLIES = "Philadelphia Phillies";
     private static final String HOUSTON_ASTROS = "Houston Astros";
     private static final String ADELAIDE_CROWS = "Adelaide Crows";
     private static final String COMMON_STRING_FORMATTER = "%s %s %s %n";
-  public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
         execution.initialize(args);
 
@@ -48,7 +54,7 @@ public class GenericsBasicsMain {
         phillies.listTeamMembers();
         ConsoleStyler.divider();
 
-        SportsTeam afc1 = new SportsTeam (ADELAIDE_CROWS);
+        SportsTeam afc1 = new SportsTeam(ADELAIDE_CROWS);
         afc1.listTeamMembers();
         Team<FootballPlayer, String> afc = new Team<>(ADELAIDE_CROWS,
                 "City of Adelaide, South Australia, in AU");
@@ -58,7 +64,7 @@ public class GenericsBasicsMain {
                         Team<FootballPlayer, Affiliation> afc = new Team<>("Adelaide Crows",
                                 new Affiliation("City of Adelaide", "South Australia", "AU"));*/
                 """);
-        var tex = new FootballPlayer("Tex Walker" , "Centre half forward");
+        var tex = new FootballPlayer("Tex Walker", "Centre half forward");
         afc.addTeamMember(tex);
         var rory = new FootballPlayer("Rory Laird", "Midfield");
         afc.addTeamMember(rory);
