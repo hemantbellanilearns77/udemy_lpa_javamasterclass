@@ -17,7 +17,7 @@ public class GenericsBasicsMain {
     private static final String ADELAIDE_CROWS = "Adelaide Crows";
     private static final String COMMON_STRING_FORMATTER = "%s %s %s %n";
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] args) {
         //

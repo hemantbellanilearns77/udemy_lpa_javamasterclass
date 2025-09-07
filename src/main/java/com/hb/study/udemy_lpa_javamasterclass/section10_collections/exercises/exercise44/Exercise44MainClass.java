@@ -22,9 +22,12 @@ public class Exercise44MainClass {//Object level or Static declarations here...
         ConsoleStyler.startSection("Welcome to Demo of Mobile Phone App"); // required
         ConsoleStyler.styleInitializationInfo("A Mobile Phone has been initialized");
         MobilePhone myPhone = new MobilePhone("9811000000");
+        boolean contactAdded = myPhone.addNewContact(new Contact("Bharati T Bellani", "9899000000"));
+        if(contactAdded) ConsoleStyler.styleExecutionInsight("Contact successfully added");
         myPhone.addNewContact(new Contact("Bharati T Bellani", "9899000000"));
-        myPhone.updateContact(Contact.createContact("Bharati T Bellani","9899000000"),
-                Contact.createContact("Bharati Mata","9899101010"));
+        boolean contactUpdated =myPhone.updateContact(Contact.createContact("Bharati T Bellani","9899000000"),
+                                Contact.createContact("Bharati Mata","9899101010"));
+        if(contactUpdated) ConsoleStyler.styleExecutionInsight("Contact successfully updated");
         myPhone.removeContact(Contact.createContact("XYZ BELLANI","9650101010"));
         ConsoleStyler.styleOutput("" + myPhone.queryContact("XYZ BELLANI"));
         myPhone.printContacts();
