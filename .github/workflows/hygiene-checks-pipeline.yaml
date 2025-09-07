@@ -51,8 +51,11 @@ jobs:
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
         run: |
           Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting gracefully."
-          exit 78 # Exit the job successfully, so it doesn't appear as a failure
-
+          echo
+          # Exit the job successfully, so it doesn't appear as a failure
+          echo "cancel=true" >> $env:GITHUB_ENV 
+          echo "cancelReason=❌ This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting gracefully." >> $env:GITHUB_ENV
+        
       # This step will check the commit message and set an output.
       # It will always run on push to main, but its output determines if the next job runs.
       - name: Decide whether to run hygiene checks
@@ -65,7 +68,8 @@ jobs:
               if [[ "$branchName" != "main" ]]; then
                 echo "Push event but branch is '$branchName' (not main) → exiting gracefully."
                 echo "Push event but branch is '$branchName' (not main) → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
-                exit 78
+                echo "cancel=true" >> $GITHUB_ENV
+                echo "cancelReason=❌ Push event but branch is '$branchName' (not main) → exiting gracefully." >> $GITHUB_ENV
               else
                 commit_message="${{ github.event.head_commit.message }}"
                 if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
@@ -73,7 +77,8 @@ jobs:
                 else
                   echo "Push to main without trigger phrase → exiting gracefully."
                   echo "Push to main without trigger phrase → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
-                  exit 78
+                  echo "cancel=true" >> $GITHUB_ENV
+                  echo "cancelReason=❌ Push to main without trigger phrase → exiting gracefully." >> $GITHUB_ENV
                 fi
               fi
             elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
@@ -81,7 +86,8 @@ jobs:
             else
               echo "Unsupported event ($eventName) → exiting gracefully."
               echo "Unsupported event ($eventName) → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
-              exit 78
+              echo "cancel=true" >> $GITHUB_ENV
+              echo "cancelReason=❌ Unsupported event ($eventName) → PR required → exiting gracefully." >> $GITHUB_ENV
             fi
 
       - name: Log trigger for scheduled runs
@@ -138,7 +144,8 @@ jobs:
             if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then 
               echo "❌ Stage is $ahead commits ahead of main. Please PR stage → main." 
               echo "STAGE_VS_MAIN_STATE=❌ Stage ahead by $ahead commits → PR required" >> $GITHUB_STEP_SUMMARY 
-              exit 78 
+              echo "cancel=true" >> $GITHUB_ENV
+              echo "cancelReason=❌ Stage ahead by $ahead commits → PR required → exiting gracefully." >> $GITHUB_ENV
             else 
               echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" 
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT 
@@ -152,7 +159,8 @@ jobs:
               if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
                   echo "❌ Stage diverged from main for $age_days days. Please rebase stage → main → exiting gracefully."
                   echo "STAGE_VS_MAIN_STATE=❌ Stage diverged for ${age_days}d → rebase required → exiting gracefully." >> $GITHUB_SUMMARY
-                  exit 78              
+                  echo "cancel=true" >> $GITHUB_ENV
+                  echo "cancelReason=❌ Stage diverged for ${age_days}d → rebase required → exiting gracefully." >> $GITHUB_ENV
               fi
               echo "⚠️ Stage is not rebased on main (last common ancestor $age_days days ago) → executed hygiene on current main"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago → executed hygiene on current main" >> $GITHUB_OUTPUT
@@ -160,6 +168,14 @@ jobs:
               # echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → executed hygiene on current main" >> $GITHUB_OUTPUT
           fi 
 
+      - name: Cancel workflow gracefully
+        if: env.cancel == 'true'
+        uses: actions/github-script@v7
+          with:
+          script: |
+          core.notice('ℹ️ Cancelling gracefully: Stage ahead → PR required')
+          process.exit(0)
+  
       ####################################################
           # Hygiene Environment Initialization
       ####################################################
