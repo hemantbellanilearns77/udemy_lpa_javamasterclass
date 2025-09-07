@@ -15,32 +15,16 @@ import java.util.function.UnaryOperator;
  **/
 public class LamdaMiniChallengesMain {
 
-    //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-    private static final String[] FIRST_NAMES = {
-            "ArjunDev", "Anshuman", "Aryavardhan", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
-            "Anaya", "Myra", "Siya", "Aanya", "Kiara", "Shahrukh", "Arijit", "Aishwarya", "Anamika", "Amarjot", "Amritpal"
-    };
-    private static final String[] LAST_NAMES = {
-            "Sharma", "Verma", "Patel", "Reddy", "Mehta", "Bellani",
-            "Kapoor", "Chopra", "Singh", "Gupta", "Joshi", "Khan"
-    };
     private static final String QUICKBROWNFOX_SENTENCE = "The quick brown fox jumps over the lazy dog!";
     private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
 
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
-
-        /*
-         *****************************************************
-         */
+    public static void main(String[] args) {
+        execution.initialize(args);
         miniChallengeOne();
         miniChallengeTwoToFive();
         miniChallengeSixAndSeven();
-        /*
-         *****************************************************
-         */
         execution.finalizeExecution();
     }
 
@@ -63,10 +47,12 @@ public class LamdaMiniChallengesMain {
         Consumer<String> printThePartsLambda = sentence -> {
             AtomicInteger atomicInteger = new AtomicInteger(0);
             String[] sentenceParts = sentence.split(" ");
-            /*
-                for(String nextWord: sentenceParts) {
+            ConsoleStyler.styleExecutionInsight("""
+                    /*
+                    for(String nextWord: sentenceParts) {
                     ConsoleStyler.styleIt("NextPart: "  + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord, false);
-            }*/
+                     */
+                    """);
             ConsoleStyler.styleEachAsIs("Part: ", sentenceParts);
 
         };
@@ -162,10 +148,13 @@ public class LamdaMiniChallengesMain {
                 , unaryStringLambda.apply(QUICKBROWNFOX_SENTENCE));
 
         ConsoleStyler.halfDivider();
-
-        UnaryOperator<String> unaryOperatorConcise = (String s) -> {
-            return everySecondChar(s);
-        };
+        ConsoleStyler.styleExecutionInsight("""
+                This was to demonstrate Expression Lambda:
+                UnaryOperator<String> unaryOperatorConcise = (String s) -> { return everySecondChar(s);
+                };
+                However commented to fix sonar issues.
+                """);
+        UnaryOperator<String> unaryOperatorConcise = LamdaMiniChallengesMain::everySecondChar;
         ConsoleStyler.styleExecutionInsight("""
                 Alternatively, we can create a Lambda Expression based on a concise definition of UnaryOperator<String, String> ( Lambda Function )
                 UnaryOperator<String> unaryOperatorConcise = (String s) -> {

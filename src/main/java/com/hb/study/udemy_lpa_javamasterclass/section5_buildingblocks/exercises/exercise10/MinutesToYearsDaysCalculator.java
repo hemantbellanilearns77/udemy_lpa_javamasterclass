@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MinutesToYearsDaysCalculator {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         printYearsAndDays(525600);
         printYearsAndDays(1051200);

@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.ex
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class LastDigitChecker {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         hasSameLastDigit (41, 22, 71);
         hasSameLastDigit (23, 32, 42);

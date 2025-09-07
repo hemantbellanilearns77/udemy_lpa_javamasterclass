@@ -7,7 +7,7 @@ public class Exercise46BankMainClass {
     private static final String TIM = "Tim";
     private static final String MIKE = "Mike";
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         
         Bank bank = new Bank("National Australia Bank");
 

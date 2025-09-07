@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
     public class StringTextBlockManipulationExample {
-            public static void main(String[] ignoredUnusedArgs) {
+            public static void main(String[] args) {
         ConsoleStyler.styleIntro("""
                 This is generated using Google Gemini.... for practice.
                 Can i initialize a String variable in Java with a text block and then use string manipulation methods on it? Please show an example class in java to demonstrate if possible

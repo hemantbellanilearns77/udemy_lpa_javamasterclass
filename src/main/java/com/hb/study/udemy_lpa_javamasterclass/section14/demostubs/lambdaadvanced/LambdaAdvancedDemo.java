@@ -29,8 +29,8 @@ public class LambdaAdvancedDemo {
             Final Result from calculator:""";
     private static final String LAT_LONG_FORMATTED_1 = "[Latitude: %.3f, Longitude: %.3f]%n";
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
         ConsoleStyler.styleInitializationInfo("Count of names as originally in the list (names) is: " + CommonConstants.MAX_ITERATION_COUNT
@@ -158,7 +158,8 @@ public class LambdaAdvancedDemo {
 
             // both below are valid lambda invocations of category Supplier with use of get() implementation
             randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[supplier.get()]; // more readable and s is more reusable...
-            //randomArrayUsingLambda[i] = namesUtil.getDEFAULT_FIRST_NAMES[((Supplier<Integer>) () -> secureRandom.nextInt(0, FIRST_NAMES.length)).get()];
+            // Alternatively
+            randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[secureRandom.nextInt(0, namesUtil.getDefaultLastNames().length)];
         }
         ConsoleStyler.styleEachAsIs(GUEST_LABEL, randomArrayUsingLambda);
     }
@@ -167,7 +168,7 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
-        //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
+        names.forEach((String name) -> ConsoleStyler.styleOutput(name));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));

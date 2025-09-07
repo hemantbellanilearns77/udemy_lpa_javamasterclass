@@ -6,7 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
  * PrimitiveTypesChallange1
  */
 public class IntegerDataTypesChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         byte byteVar = 77;
         short shortVar = 777;

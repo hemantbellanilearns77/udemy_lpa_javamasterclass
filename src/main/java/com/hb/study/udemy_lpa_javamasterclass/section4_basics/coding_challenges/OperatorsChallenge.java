@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section4_basics.coding_challenges
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class OperatorsChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         double myFirstValue = 20.0d;
         double mySecondValue = 80.0d;

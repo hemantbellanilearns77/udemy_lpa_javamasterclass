@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
 public class miscellaneous {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         int myVariable = 50; // a valid java statement
         myVariable++;

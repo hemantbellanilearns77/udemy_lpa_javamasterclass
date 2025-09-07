@@ -8,9 +8,9 @@ public class GenericClassChallengeMain {
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
-        execution.initialize();
+        execution.initialize(args);
         var nationalUSParks = new Park[]{
                 new Park("Yellowstone", "44.4882, -110.5916"),
                 new Park("Grand Canyon", "36.1085, -112.0965"),

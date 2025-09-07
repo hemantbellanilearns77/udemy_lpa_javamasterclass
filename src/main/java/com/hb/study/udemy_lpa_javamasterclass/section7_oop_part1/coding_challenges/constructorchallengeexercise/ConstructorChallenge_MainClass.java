@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class ConstructorChallenge_MainClass {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         //Test 1: Calling Constructor with 3 arguments

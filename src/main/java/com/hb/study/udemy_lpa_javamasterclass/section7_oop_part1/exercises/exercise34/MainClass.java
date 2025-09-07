@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Carpet carpet = new Carpet(3.5);
         Floor floor = new Floor(2.75, 4.0);

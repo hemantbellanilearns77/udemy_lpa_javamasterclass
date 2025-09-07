@@ -16,7 +16,6 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -29,12 +28,12 @@ public class LocalAndAnonymousClassesChallengeMain {
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
-    private static String[] ignoredUnusedArgs;
+    private static String[] args;
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
-        execution.initialize();
-        LocalAndAnonymousClassesChallengeMain.ignoredUnusedArgs = ignoredUnusedArgs;
+        execution.initialize(args);
+        LocalAndAnonymousClassesChallengeMain.args = args;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 

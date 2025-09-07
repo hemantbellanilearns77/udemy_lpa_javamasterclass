@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class AnotherTestMainClass {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         inFlight(new Jet());

@@ -17,8 +17,8 @@ public class DemoClassTemplate {//Object level or Static declarations here...
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final NamesUtil namesUtil = new NamesUtil(CommonConstants.MAX_ITERATION_COUNT);
 
-    public static void main(String[] ignoredArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
         // main method initializations.... 
         /*

@@ -10,9 +10,9 @@ public class Exercise45PlaylistMainClass {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
-        execution.initialize();
+        execution.initialize(args);
         ArrayList<Album> albums = new ArrayList<>();
         Album album = new Album("Stormbringer", "Deep Purple");
         album.addSong("Stormbringer", 4.6);

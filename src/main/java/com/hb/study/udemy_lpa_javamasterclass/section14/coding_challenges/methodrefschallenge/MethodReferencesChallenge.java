@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntFunction;
 import java.util.function.UnaryOperator;
 
 /**
@@ -16,7 +17,7 @@ public class MethodReferencesChallenge {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-     
+
     private static final SecureRandom secureRandom = new SecureRandom();
 
     private record Person(String first) {
@@ -27,10 +28,9 @@ public class MethodReferencesChallenge {
 
     }
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
 
-        //your own code here; recommended to divide in function calls
         demoMethodRefernces();
         execution.finalizeExecution();
     }
@@ -67,8 +67,8 @@ public class MethodReferencesChallenge {
 
         List<UnaryOperator<String>> unaryOperators = new ArrayList<>();
         // Make each name upper case
-        //IntFunction<String> upperCaseFunction = arrayIndex -> firstNames[arrayIndex].toUpperCase();
-
+        IntFunction<String> upperCaseFunction = arrayIndex -> firstNames[arrayIndex].toUpperCase();
+        ConsoleStyler.styleExecutionInsight(upperCaseFunction.apply(firstNames.length - 1));
         UnaryOperator<String> allUppercaseUnaryLambda = String::toUpperCase;
 
         unaryOperators.add(allUppercaseUnaryLambda);
@@ -121,9 +121,11 @@ public class MethodReferencesChallenge {
             String[] firstNames, List<UnaryOperator<String>> unaryOperators) {
         List<String> backedByArray = Arrays.asList(firstNames);
         for (var unaryOperator : unaryOperators) {
-           /* for(int i = 0; i < backedByArray.size(); i++) {
-                backedByArray.set(i, unaryOperator.apply(backedByArray.get(i)));
-            }*/
+            ConsoleStyler.styleExecutionInsight("""
+                    /* for(int i = 0; i < backedByArray.size(); i++) {
+                         backedByArray.set(i, unaryOperator.apply(backedByArray.get(i)));
+                     }*/
+                    """);
             backedByArray.replaceAll(s -> s.transform(unaryOperator));
             ConsoleStyler.styleOutput("""
                     updated backedByArray List is:

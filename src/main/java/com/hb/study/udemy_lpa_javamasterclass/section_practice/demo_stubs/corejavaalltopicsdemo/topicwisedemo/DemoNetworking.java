@@ -19,8 +19,8 @@ public class DemoNetworking {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredignoredUnusedArgs) throws MalformedURLException {
-        execution.initialize();
+    public static void main(String[] args) throws MalformedURLException {
+        execution.initialize(args);
         ConsoleStyler.printBanner("NETWORKING");
 
         ConsoleStyler.startSection("Read from URL");

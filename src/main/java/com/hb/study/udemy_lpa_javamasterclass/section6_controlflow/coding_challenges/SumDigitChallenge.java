@@ -7,7 +7,7 @@ import java.util.Scanner;
 Please preserve this ...... good validations, exception handling etc....
 */
 public class SumDigitChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Scanner scanner = new Scanner(System.in);
         String userInput, userInputWithoutBlanks;

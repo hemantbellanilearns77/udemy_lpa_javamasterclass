@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class PlayingCat {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         ConsoleStyler.styleOutput(isCatPlaying(true, 10) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(isCatPlaying(false, 36) + CommonConstants.EMPTYSTRING);

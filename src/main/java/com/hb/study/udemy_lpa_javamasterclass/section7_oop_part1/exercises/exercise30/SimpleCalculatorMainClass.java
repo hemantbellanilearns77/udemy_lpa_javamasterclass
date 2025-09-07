@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SimpleCalculatorMainClass {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         SimpleCalculator calculator = new SimpleCalculator();
         calculator.setFirstNumber(5.0);

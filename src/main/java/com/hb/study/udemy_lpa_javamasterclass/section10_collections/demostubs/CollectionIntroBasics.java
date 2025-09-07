@@ -13,10 +13,10 @@ public class CollectionIntroBasics {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String PRODUCE = "PRODUCE";
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
-        execution.initialize();
+        execution.initialize(args);
         introToArrayLists();
 
         arraysVsArrayListsVsLists();

@@ -14,8 +14,8 @@ public class DemoStrings {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
 
         /*
          *****************************************************

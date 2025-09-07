@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.exercises.exer
 
 public class Exercise38MainClass {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         Wall wall1 = new Wall("West");
         Wall wall2 = new Wall("East");

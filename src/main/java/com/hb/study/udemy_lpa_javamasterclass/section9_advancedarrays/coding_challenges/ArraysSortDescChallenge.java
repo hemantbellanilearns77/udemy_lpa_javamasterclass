@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class ArraysSortDescChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of "

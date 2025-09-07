@@ -10,9 +10,9 @@ public class LinkedListChallengeMainClass {
 
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
-        execution.initialize();
+        execution.initialize(args);
         LinkedList<Town> itinerary = new LinkedList<>();
 
 

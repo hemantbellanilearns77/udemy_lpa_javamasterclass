@@ -9,7 +9,7 @@ public class StringMethods {
 
     private static final String WORLD = "World";
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
          for(int i = 1; i <= 100000; i*=10){
              ConsoleStyler.styleOutput("Printing %6d %n".formatted(i));

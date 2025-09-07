@@ -150,13 +150,12 @@ jobs:
             if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
                 echo "❌ Stage diverged from main for $age_days days. Please rebase stage → main → exiting gracefully."
                 echo "STAGE_VS_MAIN_STATE=❌ Stage diverged for ${age_days}d → rebase required → exiting gracefully." >> $GITHUB_SUMMARY
-                exit 78
-              else
-                echo "⚠️ Stage is not rebased on main (last common ancestor $age_days days ago) → skipped merge, executed hygiene on current main"
-                echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago → skipped merge" >> $GITHUB_OUTPUT
+                exit 78              
             fi
-            # echo "⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main"
-            # echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+            echo "⚠️ Stage is not rebased on main (last common ancestor $age_days days ago) → executed hygiene on current main"
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago → executed hygiene on current main" >> $GITHUB_OUTPUT
+            # echo "⚠️ Stage is not rebased on main → executed hygiene on current main"
+            # echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → executed hygiene on current main" >> $GITHUB_OUTPUT
           fi 
 
       ####################################################

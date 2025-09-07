@@ -3,14 +3,17 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.inner
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Store {
-    //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
-        public static void main(String[] ignoredUnusedArgs) {
-        //
-        execution.initialize();
+        public static void main(String[] args) {
+
+        execution.initialize(args);
+
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         ConsoleStyler.styleOutput(regularMeal.toString());
@@ -19,12 +22,6 @@ public class Store {
         Meal USRegularMeal = new Meal(0.68);
         ConsoleStyler.styleOutput(USRegularMeal.toString());
 
-
-        /*
-
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 }
-  //}

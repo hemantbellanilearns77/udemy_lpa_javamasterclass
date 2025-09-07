@@ -12,7 +12,7 @@ import java.time.format.FormatStyle;
 
 
 public class LoopTiming {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
 
         demooLoopTimingsByCopilotUsingNano();

@@ -13,7 +13,7 @@ import java.time.format.FormatStyle;
 
 
 public class DateTimeExample {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         //
         // Step 1: Get current milliseconds

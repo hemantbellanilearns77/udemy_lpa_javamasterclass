@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
 public class Exercise40MainClass {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Car car = new Car(8, "Base car");
         ConsoleStyler.styleOutput(car.startEngine());

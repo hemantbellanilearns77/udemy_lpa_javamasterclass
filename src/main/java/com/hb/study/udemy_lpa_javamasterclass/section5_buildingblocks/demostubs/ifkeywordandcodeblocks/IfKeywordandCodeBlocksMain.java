@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.InterfaceChallengeMainClass;
 
 public class IfKeywordandCodeBlocksMain {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         ConsoleStyler.styleOutput("Inside InterfaceChallengeMainClass Method ... Before invoking the method");

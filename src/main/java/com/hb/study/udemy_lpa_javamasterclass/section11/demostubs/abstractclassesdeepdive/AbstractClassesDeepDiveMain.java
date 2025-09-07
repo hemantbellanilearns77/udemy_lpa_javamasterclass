@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AbstractClassesDeepDiveMain {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         Dog dog = new Dog("Wolf" );
         dog.makeNoise();
