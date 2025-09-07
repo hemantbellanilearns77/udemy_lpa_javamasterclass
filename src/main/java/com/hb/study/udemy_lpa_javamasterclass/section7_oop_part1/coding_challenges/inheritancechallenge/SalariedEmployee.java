@@ -6,7 +6,6 @@ public class SalariedEmployee extends Employee {
     private final double annualSalary;
     private boolean isRetired;
 
-
     public SalariedEmployee(String name, String birthDate, String endDate,
                              String hireDate, double annualSalary, boolean isRetired) {
         super(name, birthDate, endDate, hireDate);
@@ -16,11 +15,8 @@ public class SalariedEmployee extends Employee {
 
     @Override
    public double collectPay() {
-        if(isRetired) {
-            return (double) ((int) annualSalary / 12) /2;
 
-        }
-        return (double) (int) annualSalary / 12;
+        return isRetired ?  (annualSalary / 12 ) / 2 : (annualSalary / 12 );
    }
 
     public void retire(){

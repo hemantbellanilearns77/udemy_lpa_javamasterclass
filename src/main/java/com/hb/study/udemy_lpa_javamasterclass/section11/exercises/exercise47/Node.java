@@ -11,9 +11,8 @@ public class Node extends ListItem {
     }
 
     @Override
-    ListItem setNext(ListItem listItem) {
+    void setNext(ListItem listItem) {
         this.rightLink = listItem;
-        return this.rightLink;
     }
 
     @Override
@@ -21,9 +20,8 @@ public class Node extends ListItem {
         return this.leftLink;
     }
     @Override
-    ListItem setPrevious(ListItem listItem) {
+    void setPrevious(ListItem listItem) {
         this.leftLink = listItem;
-        return this.leftLink;
     }
 
     @Override
