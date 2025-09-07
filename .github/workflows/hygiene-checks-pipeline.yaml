@@ -124,6 +124,7 @@ jobs:
           MAX_DIVERGENCE_DAYS: 7
         run: |
           git fetch origin main stage
+          MAX_AHEAD_COMMITS=$(echo "$MAX_AHEAD_COMMITS" | tr -d '\r')
 
           # Case 1: stage == main
           if [[ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ]] && \
@@ -133,9 +134,7 @@ jobs:
           # Case 2: stage ahead of main (fast-forward possible)
           elif git merge-base --is-ancestor origin/main origin/stage; then
             ahead=$(git rev-list origin/main..origin/stage --count)
-            echo "aheadCount is $ahead "
-            echo "MAX_AHEAD_COMMITS is $MAX_AHEAD_COMMITS "
-            echo "MAX_AHEAD_COMMITS is env:$MAX_AHEAD_COMMITS "
+            echo "DEBUG: ahead='$ahead' MAX_AHEAD_COMMITS='${MAX_AHEAD_COMMITS}'"
             if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
               echo "❌ Stage is $ahead commits ahead of main. Please PR stage → main."
               echo "STAGE_VS_MAIN_STATE=❌ Stage ahead by $ahead commits → PR required" >> $env:GITHUB_STEP_SUMMARY
