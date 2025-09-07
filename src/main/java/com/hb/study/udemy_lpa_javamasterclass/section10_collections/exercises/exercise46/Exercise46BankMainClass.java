@@ -10,6 +10,8 @@ public class Exercise46BankMainClass {
     private static final String MIKE = "Mike";
 
     private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final String CUSTOMER_ADDED = "Another bank customer added";
+    private static final String TRANSACTION_SUCCESSFUL = "Customer Transaction Successful";
 
     public static void main(String[] args) {
         execution.initialize(args);
@@ -20,24 +22,24 @@ public class Exercise46BankMainClass {
         boolean customerTxnAddedSuccess;
         isCustomerAddSuccess = bank.addCustomer(ADELAIDE, TIM, 50.05);
         if (isCustomerAddSuccess)
-            ConsoleStyler.styleExecutionInsight("Another bank customer added");
+            ConsoleStyler.styleExecutionInsight(CUSTOMER_ADDED);
         isCustomerAddSuccess = bank.addCustomer(ADELAIDE, MIKE, 175.34);
         if (isCustomerAddSuccess)
-            ConsoleStyler.styleExecutionInsight("Another bank customer added");
+            ConsoleStyler.styleExecutionInsight(CUSTOMER_ADDED);
 
         isCustomerAddSuccess = bank.addCustomer(ADELAIDE, "Percy", 220.12);
         if (isCustomerAddSuccess)
-            ConsoleStyler.styleExecutionInsight("Another bank customer added");
+            ConsoleStyler.styleExecutionInsight(CUSTOMER_ADDED);
 
         customerTxnAddedSuccess = bank.addCustomerTransaction(ADELAIDE, TIM, 44.22);
         if (customerTxnAddedSuccess)
-            ConsoleStyler.styleExecutionInsight("Customer Transaction Successful");
+            ConsoleStyler.styleExecutionInsight(TRANSACTION_SUCCESSFUL);
         customerTxnAddedSuccess = bank.addCustomerTransaction(ADELAIDE, TIM, 12.44);
         if (customerTxnAddedSuccess)
-            ConsoleStyler.styleExecutionInsight("Customer Transaction Successful");
+            ConsoleStyler.styleExecutionInsight(TRANSACTION_SUCCESSFUL);
         customerTxnAddedSuccess = bank.addCustomerTransaction(ADELAIDE, MIKE, 1.65);
         if (customerTxnAddedSuccess)
-            ConsoleStyler.styleExecutionInsight("Customer Transaction Successful");
+            ConsoleStyler.styleExecutionInsight(TRANSACTION_SUCCESSFUL);
 
         boolean customersListed = bank.listCustomers(ADELAIDE, false);
         if(customersListed)
