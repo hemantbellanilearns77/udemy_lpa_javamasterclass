@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_basics;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
@@ -50,12 +51,15 @@ public class GenericsBasicsMain {
         ConsoleStyler.divider();
 
         SportsTeam afc1 = new SportsTeam (ADELAIDE_CROWS);
+        afc1.listTeamMembers();
         Team<FootballPlayer, String> afc = new Team<>(ADELAIDE_CROWS,
                 "City of Adelaide, South Australia, in AU");
-/*
-If there was an upperbound defined as Affiliation on the Team's second Type parameter
-        Team<FootballPlayer, Affiliation> afc = new Team<>("Adelaide Crows",
-                new Affiliation("City of Adelaide", "South Australia", "AU"));*/
+        ConsoleStyler.styleExecutionInsight("""
+                /*
+                If there was an upperbound defined as Affiliation on the Team's second Type parameter
+                        Team<FootballPlayer, Affiliation> afc = new Team<>("Adelaide Crows",
+                                new Affiliation("City of Adelaide", "South Australia", "AU"));*/
+                """);
         var tex = new FootballPlayer("Tex Walker" , "Centre half forward");
         afc.addTeamMember(tex);
         var rory = new FootballPlayer("Rory Laird", "Midfield");
