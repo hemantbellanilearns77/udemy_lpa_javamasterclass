@@ -168,11 +168,11 @@ jobs:
               # echo "⚠️ Stage is not rebased on main → executed hygiene on current main"
               # echo "STAGE_VS_MAIN_STATE=⚠️ Stage is not rebased on main → executed hygiene on current main" >> $GITHUB_OUTPUT
           fi 
-      - name: Cancel workflow gracefully
+      - name: Cancel current workflow gracefully
         if: env.cancel == 'true'
-        uses: dawidd6/action-cancel-workflow@v2
+        uses: styfle/cancel-workflow-action@v0.12.1
         with:
-          access_token: ${{ secrets.PAT_TOKEN }} # no expiry
+          access_token: ${{ secrets.PAT_TOKEN }}
           reason: "ℹ️ Cancelling gracefully: ${{ env.cancelReason }}"
   
       ####################################################
