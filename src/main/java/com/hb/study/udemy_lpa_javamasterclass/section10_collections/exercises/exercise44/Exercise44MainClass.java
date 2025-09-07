@@ -8,6 +8,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
  **/
 public class Exercise44MainClass {//Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final String BHARATI_T_BELLANI = "Bharati T Bellani";
+    private static final String BHARATI_TELNO = "9899000000";
 
     public static void main(String[] args) {
         execution.initialize(args);
@@ -22,10 +24,10 @@ public class Exercise44MainClass {//Object level or Static declarations here...
         ConsoleStyler.startSection("Welcome to Demo of Mobile Phone App"); // required
         ConsoleStyler.styleInitializationInfo("A Mobile Phone has been initialized");
         MobilePhone myPhone = new MobilePhone("9811000000");
-        boolean contactAdded = myPhone.addNewContact(new Contact("Bharati T Bellani", "9899000000"));
+        boolean contactAdded = myPhone.addNewContact(new Contact(BHARATI_T_BELLANI, BHARATI_TELNO));
         if(contactAdded) ConsoleStyler.styleExecutionInsight("Contact successfully added");
-        myPhone.addNewContact(new Contact("Bharati T Bellani", "9899000000"));
-        boolean contactUpdated =myPhone.updateContact(Contact.createContact("Bharati T Bellani","9899000000"),
+        myPhone.addNewContact(new Contact(BHARATI_T_BELLANI, BHARATI_TELNO));
+        boolean contactUpdated =myPhone.updateContact(Contact.createContact(BHARATI_T_BELLANI, BHARATI_TELNO),
                                 Contact.createContact("Bharati Mata","9899101010"));
         if(contactUpdated) ConsoleStyler.styleExecutionInsight("Contact successfully updated");
         myPhone.removeContact(Contact.createContact("XYZ BELLANI","9650101010"));
