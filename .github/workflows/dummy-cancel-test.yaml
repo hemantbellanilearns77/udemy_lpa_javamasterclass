@@ -1,12 +1,11 @@
 name: Dummy Cancel Test - Windows
-
 on:
   workflow_dispatch:
 
 jobs:
   cancel-test:
+    name: Cancel Test
     runs-on: windows-latest
-
     steps:
       # Step 1: Checkout repository
       - name: Checkout repo
