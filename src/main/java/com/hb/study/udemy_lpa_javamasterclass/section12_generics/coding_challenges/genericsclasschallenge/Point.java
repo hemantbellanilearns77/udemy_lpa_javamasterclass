@@ -7,7 +7,7 @@ abstract class Point implements Mappable {
 
     private final double[] location;
 
-    public Point(String location) {
+    protected Point(String location) {
         this.location = Mappable.stringToLatLon(location);
     }
 

@@ -1,6 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_basics;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
@@ -77,7 +76,12 @@ public class GenericsBasicsMain {
         canberra.listTeamMembers();
         ConsoleStyler.divider();
         scoreResult(canberra, 0, adelaide, 1);
-        //Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
+        ConsoleStyler.styleExecutionInsight("""
+                /*
+                This would never have compiled: 
+                //Team<Integer> melbourneVB = new Team<>("Melbourne Vipers");
+                */
+                """);
 
 
         execution.finalizeExecution();

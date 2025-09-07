@@ -15,21 +15,22 @@ record Employee(String name) implements QueryItem {
         return false;
     }
 }
+
 public class FinalGenericsChallengeMain {
-  //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+    //Object level or Static declarations here...
+    public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
-        public static void main(String[] ignoredUnusedArgs) {
+    public static void main(String[] ignoredUnusedArgs) {
 
         execution.initialize();
 
         QueryList<LPAStudent> queryList = new QueryList<>();
         int maxStudents = 25;
         LPAStudent newLPAStudent;
-        for(int loopCounter = 1; loopCounter<=maxStudents; loopCounter++) {
-                newLPAStudent = new LPAStudent();
-                queryList.add(newLPAStudent);
+        for (int loopCounter = 1; loopCounter <= maxStudents; loopCounter++) {
+            newLPAStudent = new LPAStudent();
+            queryList.add(newLPAStudent);
         }
         ConsoleStyler.styleOutput(maxStudents + " random student(s) with random details have been created for demonstration purposes:".toUpperCase());
         printList(queryList);
@@ -53,7 +54,13 @@ public class FinalGenericsChallengeMain {
         printList(matches);
 
         ConsoleStyler.divider();
-//     QueryList<Employee> employeeList = new QueryList<>();
+
+        ConsoleStyler.styleExecutionInsight("""
+                /*
+                This would never have compiled:
+                //QueryList<Employee> employeeList = new QueryList<>();
+                */
+                """);
 
         execution.finalizeExecution();
     }
