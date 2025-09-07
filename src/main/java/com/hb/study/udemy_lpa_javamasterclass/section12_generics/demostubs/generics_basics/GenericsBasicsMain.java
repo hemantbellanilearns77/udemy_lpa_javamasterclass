@@ -92,7 +92,6 @@ public class GenericsBasicsMain {
                 */
                 """);
 
-
         execution.finalizeExecution();
     }
 
@@ -106,15 +105,13 @@ public class GenericsBasicsMain {
 
     public static void scoreResult(SportsTeam team1, int t1_score,
                                    SportsTeam team2, int t2_score) {
-
         String message = team1.setScore(t1_score, t2_score);
         team2.setScore(t2_score, t1_score);
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 
-    public static void scoreResult(Team team1, int t1_score,
-                                   Team team2, int t2_score) {
-
+    public static void scoreResult(Team<?, Affiliation> team1, int t1_score,
+                                   Team<?, Affiliation> team2, int t2_score) {
         String message = team1.setScore(t1_score, t2_score);
         team2.setScore(t2_score, t1_score);
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
