@@ -229,7 +229,6 @@
         echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
         echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
         echo "Stage ↔ Main state: $env:STAGE_VS_MAIN_STATE" >> $env:GITHUB_STEP_SUMMARY
-        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
         echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "| Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
@@ -243,7 +242,6 @@
         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
-        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
