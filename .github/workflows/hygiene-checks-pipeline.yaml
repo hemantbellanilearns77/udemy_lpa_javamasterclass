@@ -49,6 +49,7 @@ jobs:
       # This step will run only if the event is NOT manual or scheduled or push to main
       - name: Exit for non-supported events
         if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+        shell: pwsh
         run: |
           Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting gracefully."
           echo
@@ -143,9 +144,9 @@ jobs:
             echo "DEBUG: ahead='$ahead' MAX_AHEAD_COMMITS='${MAX_AHEAD_COMMITS}'"
             if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then 
               echo "❌ Stage is $ahead commits ahead of main. Please PR stage → main." 
-              echo "STAGE_VS_MAIN_STATE=❌ Stage ahead by $ahead commits → PR required" >> $GITHUB_STEP_SUMMARY 
+              echo "STAGE_VS_MAIN_STATE=❌ Stage is $ahead commits ahead of main. Please PR stage → main" >> $GITHUB_STEP_SUMMARY 
               echo "cancel=true" >> $GITHUB_ENV
-              echo "cancelReason=❌ Stage ahead by $ahead commits → PR required → exiting gracefully." >> $GITHUB_ENV
+              echo "cancelReason=❌ Stage is $ahead commits ahead of main. Please PR stage → main → exiting gracefully." >> $GITHUB_ENV
             else 
               echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" 
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT 
@@ -171,10 +172,11 @@ jobs:
       - name: Cancel workflow gracefully
         if: env.cancel == 'true'
         uses: actions/github-script@v7
-          with:
+        with:
           script: |
-          core.notice('ℹ️ Cancelling gracefully: Stage ahead → PR required')
-          process.exit(0)
+            core.notice('ℹ️ Cancelling gracefully: ${{ env.cancelReason }}')
+            console.log(`Workflow cancelled: ${process.env.cancelReason}`);
+            process.exit(0)
   
       ####################################################
           # Hygiene Environment Initialization
