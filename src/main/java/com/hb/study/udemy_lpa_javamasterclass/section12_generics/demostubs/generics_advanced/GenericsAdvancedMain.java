@@ -18,16 +18,16 @@ record Employee(String name) implements QueryItem {
         return false;
     }
 }
+
 public class GenericsAdvancedMain {
     //Object level or Static declarations here...
-  public static final ExcecutionUtil execution = new ExcecutionUtil();
-  public static final SecureRandom secureRandom = new SecureRandom();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final SecureRandom secureRandom = new SecureRandom();
 
-        public static void main(String[] ignoredUnusedArgs) {
-        //
+    public static void main(String[] ignoredUnusedArgs) {
 
         execution.initialize();
-        int studentCount = secureRandom.nextInt(1,11);
+        int studentCount = secureRandom.nextInt(1, 11);
         ConsoleStyler.styleOutput(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();
         for (int i = 1; i < studentCount; i++) {
@@ -44,8 +44,12 @@ public class GenericsAdvancedMain {
         printList(lpaStudents);
         printMoreLists(lpaStudents);
         ConsoleStyler.divider();
-        testList(new ArrayList<String>(List.of("Able", "Barry", "Charlie")));
-        testList(new ArrayList<Integer>(List.of(1, 2, 3)));
+        List<String> namesList = new ArrayList<>(List.of("Able", "Barry", "Charlie"));
+        List<Integer> numberList = new ArrayList<>(List.of(1, 2, 3));
+        testList(namesList);
+        testList(numberList);
+        anotherTestList(namesList);
+        oneMoreestList(numberList);
         ConsoleStyler.divider();
         var queryList = new QueryList<>(lpaStudents);
         var matches = queryList.getMatches(
@@ -59,10 +63,8 @@ public class GenericsAdvancedMain {
         execution.finalizeExecution();
     }
 
-  //
-
     public static void printMoreLists(List<? extends Student> students) {
-        if(students.isEmpty()) {
+        if (students.isEmpty()) {
             ConsoleStyler.styleOutput("Empty List....  Nothing to print.... ");
             return;
         }
@@ -83,19 +85,19 @@ public class GenericsAdvancedMain {
         }
     }
 
-//    public static void testList(List<String> list) {
-//
-//        for (var element : list) {
-//            ConsoleStyler.styleOutput("String: " + element.toUpperCase());
-//        }
-//    }
-//
-//    public static void testList(List<Integer> list) {
-//
-//        for (var element : list) {
-//            ConsoleStyler.styleOutput("Integer: " + element.floatValue());
-//        }
-//    }
+    public static void anotherTestList(List<String> list) {
+
+        for (var element : list) {
+            ConsoleStyler.styleOutput("String: " + element.toUpperCase());
+        }
+    }
+
+    public static void oneMoreestList(List<Integer> list) {
+
+        for (var element : list) {
+            ConsoleStyler.styleOutput("Integer: " + element.floatValue());
+        }
+    }
 
     public static <T extends Student> void printList(List<T> students) {
 

@@ -7,8 +7,8 @@ import java.util.List;
 
 public class SportsTeam {
 
-    private String teamName;
-    private List<Player> teamMembers = new ArrayList<>();
+    private final String teamName;
+    private final List<Player> teamMembers = new ArrayList<>();
     private int totalWins = 0;
     private int totalLosses = 0;
     private int totalTies = 0;
@@ -18,7 +18,8 @@ public class SportsTeam {
     }
 
     public void listTeamMembers() {
-
+        FootballPlayer footballPlayer1 = new FootballPlayer("FP1", "striker");
+        teamMembers.add(footballPlayer1);
         ConsoleStyler.styleOutput(teamName + " Roster:");
         ConsoleStyler.styleOutput(teamMembers.toString());
     }
@@ -27,9 +28,10 @@ public class SportsTeam {
         return (totalLosses * 2) + totalTies + 1;
     }
 
+
     public String setScore(int ourScore, int theirScore) {
 
-        String message = "lost to";
+        String message;
         if (ourScore > theirScore) {
             totalWins++;
             message = "beat";
@@ -38,14 +40,21 @@ public class SportsTeam {
             message = "tied";
         } else {
             totalLosses++;
+            message = "lost to";
         }
-
         return message;
 
     }
 
     @Override
     public String toString() {
-        return teamName + " (Ranked "  + ranking() + ")";
+        return "SportsTeam{" +
+                "teamName='" + teamName + '\'' +
+                ", teamMembers=" + teamMembers +
+                ", is Ranked=" + ranking() + " with " +
+                ", totalWins=" + totalWins +
+                ", totalLosses=" + totalLosses +
+                ", totalTies=" + totalTies +
+                '}';
     }
 }

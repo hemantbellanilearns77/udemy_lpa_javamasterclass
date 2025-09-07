@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 abstract class Point implements Mappable {
 
-    private double[] location; //= new double[2];
+    private final double[] location;
 
     public Point(String location) {
         this.location = Mappable.stringToLatLon(location);

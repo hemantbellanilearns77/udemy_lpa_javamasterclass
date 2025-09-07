@@ -1,13 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.exercises.exercise48;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Monster implements ISaveable {
 
-    private String name;
-    private int hitPoints;
-    private int strength;
+    private final String name;
+    private final int hitPoints;
+    private final int strength;
 
     public Monster(String name, int hitPoints, int strength) {
         this.name = name;
@@ -37,11 +40,9 @@ public class Monster implements ISaveable {
 
     @Override
     public void read(List<String> stringList) {
-        if(stringList!=null && stringList.size() > 0) {
-            List<String> fieldsToWrite = new ArrayList<String>();
-            for(String nextString : stringList) {
-                fieldsToWrite.add(nextString);
-            }
+        if(stringList!=null && !stringList.isEmpty()) {
+            List<String> fieldsToWrite = new ArrayList<>(stringList);
+            ConsoleStyler.styleOutput(fieldsToWrite + CommonConstants.EMPTYSTRING);
         }
     }
 
