@@ -22,7 +22,7 @@ jobs:
       # Step 3: Cancel workflow gracefully
       - name: Cancel workflow
         if: env.cancel == 'true'
-        uses: styfle/cancel-workflow-action@v0.12.0
+        uses: styfle/cancel-workflow-action@v0.12.1
         with:
           access_token: ${{ secrets.PAT_TOKEN }}
           reason: "ℹ️ Cancelling workflow: ${{ env.cancelReason }}"
