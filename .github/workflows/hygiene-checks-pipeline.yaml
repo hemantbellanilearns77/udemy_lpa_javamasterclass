@@ -64,6 +64,7 @@ jobs:
             branchName="${{ github.ref_name }}"  # gives just "main" or the branch name
               if [[ "$branchName" != "main" ]]; then
                 echo "Push event but branch is '$branchName' (not main) → exiting gracefully."
+                echo "Push event but branch is '$branchName' (not main) → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
                 exit 78
               else
                 commit_message="${{ github.event.head_commit.message }}"
@@ -71,6 +72,7 @@ jobs:
                   echo "Push to main with matching commit message → continue."
                 else
                   echo "Push to main without trigger phrase → exiting gracefully."
+                  echo "Push to main without trigger phrase → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
                   exit 78
                 fi
               fi
@@ -78,6 +80,7 @@ jobs:
               echo "Event is $eventName → continue."
             else
               echo "Unsupported event ($eventName) → exiting gracefully."
+              echo "Unsupported event ($eventName) → exiting gracefully." >> $env:GITHUB_STEP_SUMMARY
               exit 78
             fi
 
@@ -124,12 +127,16 @@ jobs:
              [[ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]]; then
             echo "✅ Stage already in sync with main (no merge needed)"  
             echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with main (no merge needed)" >> $GITHUB_OUTPUT
-
           # Case 2: stage ahead of main (fast-forward possible)
           elif git merge-base --is-ancestor origin/main origin/stage; then
             ahead=$(git rev-list origin/main..origin/stage --count)
-            echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main"
-            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+            if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
+              echo "❌ Stage is $ahead commits ahead of main. Please PR stage → main."
+              echo "STAGE_VS_MAIN_STATE=❌ Stage ahead by $ahead commits → PR required" >> $env:GITHUB_STEP_SUMMARY
+              exit 78
+            else
+              echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main"
+              echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
           # Case 3: stage diverged (not rebased)
           else
             echo "⚠️ Stage is not rebased on main → skipped merge, executed hygiene on current main"
