@@ -1,4 +1,5 @@
 name: Dummy Cancel Test - Windows
+
 on:
   workflow_dispatch:
 
@@ -23,4 +24,11 @@ jobs:
         if: env.cancel == 'true'
         uses: styfle/cancel-workflow-action@v0.12.0
         with:
-          access_token: ${{ secret_
+          access_token: ${{ secrets.PAT_TOKEN }}
+          reason: "ℹ️ Cancelling workflow: ${{ env.cancelReason }}"
+
+      # Step 4: This step should not run if cancelled
+      - name: Dummy step after cancel
+        if: env.cancel != 'true'
+        shell: pwsh
+        run: Write-Host "This should NOT run if workflow is cancelled"
