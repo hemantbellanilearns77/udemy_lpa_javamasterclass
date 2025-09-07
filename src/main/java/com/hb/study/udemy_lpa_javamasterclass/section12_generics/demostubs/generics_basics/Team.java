@@ -64,6 +64,13 @@ public class Team<T extends Player, A> {
 
     @Override
     public String toString() {
-        return teamName + " (Ranked " + ranking() + ")";
+        return "Team{" +
+                "teamName='" + teamName + '\'' +
+                ", teamMembers=" + teamMembers +
+                ", is Ranked=" + ranking() + " with " +
+                ", totalWins=" + totalWins +
+                ", totalLosses=" + totalLosses +
+                ", totalTies=" + totalTies +
+                '}';
     }
 }
