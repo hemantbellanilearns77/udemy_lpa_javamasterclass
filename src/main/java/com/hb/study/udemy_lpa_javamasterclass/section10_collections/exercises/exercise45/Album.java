@@ -1,5 +1,4 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise45;
-import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.List;
 
