@@ -53,7 +53,14 @@ public class BaseballTeam {
 
     @Override
     public String toString() {
-        return teamName + " (Ranked "  + ranking() + ")";
+        return "Baseball Team{" +
+                "teamName='" + teamName + '\'' +
+                ", teamMembers=" + teamMembers +
+                ", is Ranked=" + ranking() + " with " +
+                ", totalWins=" + totalWins +
+                ", totalLosses=" + totalLosses +
+                ", totalTies=" + totalTies +
+                '}';
     }
 }
 

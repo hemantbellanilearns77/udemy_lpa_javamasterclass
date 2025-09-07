@@ -33,6 +33,7 @@ public class GenericsBasicsMain {
 
         BaseballTeam phillies1 = new BaseballTeam(PHILADELPHIA_PHILLIES);
         BaseballTeam astros1 = new BaseballTeam(HOUSTON_ASTROS);
+
         scoreResult(phillies1, 21, astros1, 5);
 
         SportsTeam phillies2 = new SportsTeam(PHILADELPHIA_PHILLIES);
@@ -46,6 +47,9 @@ public class GenericsBasicsMain {
         ConsoleStyler.divider();
         var harper = new BaseballPlayer("B Harper", "Right Fielder");
         var marsh = new BaseballPlayer("B Marsh", "Right Fielder");
+        astros1.addTeamMember(harper);
+        phillies1.addTeamMember(marsh);
+        phillies1.listTeamMembers();
         phillies.addTeamMember(harper);
         phillies.addTeamMember(marsh);
         var guthrie = new BaseballPlayer("D Guthrie", "Center Fielder");
