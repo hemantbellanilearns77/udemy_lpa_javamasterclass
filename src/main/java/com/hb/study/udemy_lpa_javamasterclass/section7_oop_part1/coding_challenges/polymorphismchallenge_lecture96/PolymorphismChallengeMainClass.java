@@ -1,8 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.polymorphismchallenge_lecture96;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+
 public class PolymorphismChallengeMainClass {
-        public static void main(String[] args) {
-        //
+
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
         Car car = new MiniCooper(6, "MiniCooper Convertible");
         car.startEngine();
         car.accelerate();
@@ -22,6 +27,7 @@ public class PolymorphismChallengeMainClass {
         car.startEngine();
         car.accelerate();
         car.brake();
+        execution.finalizeExecution();
     }
 }
 
