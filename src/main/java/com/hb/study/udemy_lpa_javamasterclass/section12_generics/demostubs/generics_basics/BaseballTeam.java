@@ -7,8 +7,8 @@ import java.util.List;
 
 public class BaseballTeam {
 
-    private String teamName;
-    private List<BaseballPlayer> teamMembers = new ArrayList<>();
+    private final String teamName;
+    private final List<BaseballPlayer> teamMembers = new ArrayList<>();
     private int totalWins = 0;
     private int totalLosses = 0;
     private int totalTies = 0;
@@ -53,7 +53,14 @@ public class BaseballTeam {
 
     @Override
     public String toString() {
-        return teamName + " (Ranked "  + ranking() + ")";
+        return "Baseball Team{" +
+                "teamName='" + teamName + '\'' +
+                ", teamMembers=" + teamMembers +
+                ", is Ranked=" + ranking() + " with " +
+                ", totalWins=" + totalWins +
+                ", totalLosses=" + totalLosses +
+                ", totalTies=" + totalTies +
+                '}';
     }
 }
 

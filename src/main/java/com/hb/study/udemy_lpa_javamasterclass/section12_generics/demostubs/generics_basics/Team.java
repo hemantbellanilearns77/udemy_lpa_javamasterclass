@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Team<T extends Player, A> {
 
-    private String teamName;
-    private List<T> teamMembers = new ArrayList<>();
+    private final String teamName;
+    private final List<T> teamMembers = new ArrayList<>();
     private int totalWins = 0;
     private int totalLosses = 0;
     private int totalTies = 0;
@@ -35,8 +34,8 @@ public class Team<T extends Player, A> {
 
     public void listTeamMembers() {
 
-         ConsoleStyler.styleOutput(teamName + " Roster:");
-        ConsoleStyler.styleOutput(affiliation == null ? "" : " AFFILIATION: "+ affiliation);
+        ConsoleStyler.styleOutput(teamName + " Roster:");
+        ConsoleStyler.styleOutput(affiliation == null ? "" : " AFFILIATION: " + affiliation);
         for (T t : teamMembers) {
             ConsoleStyler.styleOutput(t.name());
         }
@@ -65,6 +64,13 @@ public class Team<T extends Player, A> {
 
     @Override
     public String toString() {
-        return teamName + " (Ranked "  + ranking() + ")";
+        return "Team{" +
+                "teamName='" + teamName + '\'' +
+                ", teamMembers=" + teamMembers +
+                ", is Ranked=" + ranking() + " with " +
+                ", totalWins=" + totalWins +
+                ", totalLosses=" + totalLosses +
+                ", totalTies=" + totalTies +
+                '}';
     }
 }
