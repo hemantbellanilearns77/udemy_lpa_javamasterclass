@@ -16,11 +16,8 @@ public class SalariedEmployee extends Employee {
 
     @Override
    public double collectPay() {
-        if(isRetired) {
-            return (double) ((int) annualSalary / 12) /2;
 
-        }
-        return (double) (int) annualSalary / 12;
+        return isRetired ?  (annualSalary / 12 ) / 2 : (annualSalary / 12 );
    }
 
     public void retire(){
