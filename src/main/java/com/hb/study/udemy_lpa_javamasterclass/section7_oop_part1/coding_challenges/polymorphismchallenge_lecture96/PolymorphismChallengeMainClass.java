@@ -1,8 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challenges.polymorphismchallenge_lecture96;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-
-public class Main {
+public class PolymorphismChallengeMainClass {
         public static void main(String[] args) {
         //
         Car car = new MiniCooper(6, "MiniCooper Convertible");
