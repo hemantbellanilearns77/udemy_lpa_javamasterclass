@@ -1,14 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise44;
 
 
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.ArrayList;
 
 public class MobilePhone {
 
     String myNumber;
     ArrayList<Contact> myContacts;
-
 
     public MobilePhone(String myNumber) {
         this.myNumber = myNumber;
@@ -23,7 +22,6 @@ public class MobilePhone {
         }
         return notFoundAndAdded;
     }
-
 
     public boolean updateContact(Contact contactToUpdate, Contact contactWithUpdates){
         boolean foundAndUpdated = false;
@@ -46,13 +44,11 @@ public class MobilePhone {
     }
 
     public int findContact(Contact contactToFind) {
-        int contactFoundAtPos = this.myContacts.indexOf(contactToFind);
-        return contactFoundAtPos;
+        return this.myContacts.indexOf(contactToFind);
     }
 
     public int findContact(String string) {
         int contactFoundAtPos = -1;
-
         for(int loopCounter = 0; loopCounter < this.myContacts.size(); loopCounter++) {
             if(this.myContacts.get(loopCounter).getName().equalsIgnoreCase(string) ) {
                 contactFoundAtPos = loopCounter;
