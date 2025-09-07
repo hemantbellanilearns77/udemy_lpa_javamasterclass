@@ -1,0 +1,244 @@
+name: 📊 Hygiene Checks Pipeline (Modular Superset)
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    # Mon–Thu at 9:00 AM & 9:00 PM IST (3:30 AM & 3:30 PM UTC)
+    - cron: '30 3,15 * * 1-4,6'
+
+    # Friday at 12:09 AM, 9:00 AM, 12:15 PM IST
+    - cron: '39 18 * * 4' # Thursday UTC → Friday 12:09 AM IST
+    - cron: '30 3 * * 5'  # Friday 9:00 AM IST
+    - cron: '45 6 * * 5'  # Friday 12:15 PM IST
+  # push:
+  #   branches:
+  #     - main
+
+jobs:
+  initialize-hygiene:
+    runs-on: windows-latest
+    outputs:
+      cancel: ${{ steps.set-cancel.outputs.cancel }}
+      cancelReason: ${{ steps.set-cancel.outputs.cancelReason }}
+      SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
+      COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
+      COMMIT_AUTHOR: ${{ steps.setup.outputs.COMMIT_AUTHOR }}
+      TRIGGER_EVENT: ${{ steps.setup.outputs.TRIGGER_EVENT }}
+      SRC_BRANCH: ${{ steps.setup.outputs.SRC_BRANCH }}
+      TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
+      startTime: ${{ steps.setup.outputs.startTime }}
+      scanner_bin_win: ${{ steps.setup.outputs.scanner_bin_win }}
+      ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
+      STAGE_VS_MAIN_STATE: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
+    env:
+      # --- Code Coverage ---
+      JACOCO_MIN_COVERAGE: 75
+
+      # --- Aggregate Violations ---
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300
+      CHECKSTYLE_MAX_VIOLATIONS: 200
+      PMD_MAX_VIOLATIONS: 50
+
+      # --- SonarCloud Severity Thresholds ---
+      BLOCKER_MAX: 0
+      HIGH_MAX: 10
+      MEDIUM_MAX: 20
+      LOW_MAX: 30
+      INFO_MAX: 50
+
+    steps:
+      - name: Exit for non-supported events
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+        shell: pwsh
+        run: |
+          Write-Host "❌ Event '${{ github.event_name }}' is not supported."
+          echo "cancel=true" >> $env:GITHUB_ENV 
+          echo "cancelReason=❌ Unsupported event '${{ github.event_name }}'." >> $env:GITHUB_ENV
+
+      - name: Decide whether to run hygiene checks
+        id: set-cancel
+        shell: bash
+        run: |
+          eventName="${{ github.event_name }}"
+          cancel=false
+          reason=""
+          if [[ "$eventName" == "push" ]]; then
+            branchName="${{ github.ref_name }}"
+            if [[ "$branchName" != "main" ]]; then
+              cancel=true
+              reason="❌ Push event on non-main branch ($branchName)."
+            else
+              commit_message="${{ github.event.head_commit.message }}"
+              if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+                echo "✅ Trigger phrase found → continue."
+              else
+                cancel=true
+                reason="❌ Push to main without trigger phrase."
+              fi
+            fi
+          elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
+            echo "✅ Event is $eventName → continue."
+          else
+            cancel=true
+            reason="❌ Unsupported event $eventName."
+          fi
+
+          echo "cancel=$cancel" >> $GITHUB_OUTPUT
+          echo "cancelReason=$reason" >> $GITHUB_OUTPUT
+          echo "cancel=$cancel" >> $GITHUB_ENV
+          echo "cancelReason=$reason" >> $GITHUB_ENV
+
+      - name: Log trigger for scheduled runs
+        if: github.event_name == 'schedule'
+        shell: pwsh
+        run: |
+          if ("${{ github.event.schedule }}" -eq '30 3,15 * * 1-4') {
+            Write-Host "✅ Business day (Mon–Thu)."
+          } elseif ("${{ github.event.schedule }}" -eq '39 18 * * 4') {
+            Write-Host "✅ Friday 12:09 AM IST."
+          } elseif ("${{ github.event.schedule }}" -eq '30 3 * * 5') {
+            Write-Host "✅ Friday 9:00 AM IST."
+          } elseif ("${{ github.event.schedule }}" -eq '45 6 * * 5') {
+            Write-Host "✅ Friday 12:15 PM IST."
+          }
+
+      - name: Log trigger for manual runs
+        if: github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: Write-Host "✅ Manual run via workflow_dispatch."
+
+      - name: Log trigger for push event
+        if: github.event_name == 'push'
+        shell: pwsh
+        run: Write-Host "✅ Push event triggered by commit."
+
+      # --- Unified Cancel Step (SOFT vs HARD stop) ---
+      - name: Cancel current workflow gracefully
+        if: env.cancel == 'true'
+        shell: pwsh
+        run: |
+          $msg = "$env:cancelReason"
+          Write-Host "ℹ️ Cancelling run: $msg"
+
+          echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.event_name }}" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Commit Message:** ${{ github.event.head_commit.message }}" >> $env:GITHUB_STEP_SUMMARY
+
+          # Toggle HARD vs SOFT stop here
+          $CANCEL_MODE=${{ vars.CANCEL_MODE }}
+          Write-Host "DEBUG → CANCEL_MODE received as: $CANCEL_MODE"
+          if ($CANCEL_MODE -ieq "HARD") {
+            Write-Host "❌ Hard stop enabled → exiting with failure."
+            exit 1
+          } else {
+            Write-Host "ℹ️ Soft stop enabled → letting workflow cancel via API or skip downstream jobs."
+          }
+
+      - name: Checkout code
+        if: env.cancel != 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
+
+      - name: Check stage vs main state
+        if: env.cancel != 'true'
+        id: stage_vs_main_state
+        shell: bash
+        env:
+          MAX_AHEAD_COMMITS: 7
+          MAX_DIVERGENCE_DAYS: 7
+        run: |
+          git fetch origin main stage
+          if [[ "$(git rev-list origin/main..origin/stage --count)" -eq 0 ]] && \
+             [[ "$(git rev-list origin/stage..origin/main --count)" -eq 0 ]]; then
+            echo "STAGE_VS_MAIN_STATE=✅ Stage in sync with main" >> $GITHUB_OUTPUT
+          elif git merge-base --is-ancestor origin/main origin/stage; then
+            ahead=$(git rev-list origin/main..origin/stage --count)
+            if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
+              echo "cancel=true" >> $GITHUB_ENV
+              echo "cancelReason=❌ Stage is $ahead commits ahead of main. PR required." >> $GITHUB_ENV
+            else
+              echo "STAGE_VS_MAIN_STATE=⚠️ Stage $ahead commits ahead (not PR’d yet)." >> $GITHUB_OUTPUT
+            fi
+          else
+            common=$(git merge-base origin/main origin/stage)
+            common_ts=$(git show -s --format=%ct $common)
+            now_ts=$(date +%s)
+            age_days=$(( (now_ts - common_ts) / 86400 ))
+            if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
+              echo "cancel=true" >> $GITHUB_ENV
+              echo "cancelReason=❌ Stage diverged $age_days days ago → rebase required." >> $GITHUB_ENV
+            fi
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged $age_days days ago." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Hygiene Environment
+        if: env.cancel != 'true'
+        id: setup
+        uses: ./.github/actions/setup-hygiene-env
+        with:
+          java-version: "24"
+          trigger-event: ${{ github.event_name }}
+          ref-name: ${{ github.ref_name }}
+          head-ref: ${{ github.head_ref }}
+          base-ref: ${{ github.base_ref }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  execute-hygiene:
+    needs: initialize-hygiene
+    if: needs.initialize-hygiene.outputs.cancel != 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Hygiene Health Checks and Upload Reports
+        id: hygiene-sweep-and-upload-reports
+        uses: ./.github/actions/generate-and-upload-reports
+        with:
+          SKIP_FLAG: ${{ needs.initialize-hygiene.outputs.SKIP_FLAG }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_SCANNER_BIN: ${{ needs.initialize-hygiene.outputs.scanner_bin_win }}
+
+  report-hygiene:
+    needs: [initialize-hygiene, execute-hygiene]
+    if: needs.initialize-hygiene.outputs.cancel != 'true'
+    runs-on: windows-latest
+    steps:
+      - name: PUBLISH GITHUB SUMMARY AND SEND-EMAIL
+        id: publish-githubsummary-and-sendemail
+        uses: ./.github/actions/compute-and-publish-summary
+        with:
+          startTime: ${{ needs.initialize-hygiene.outputs.startTime }}
+          SKIP_FLAG: ${{ needs.initialize-hygiene.outputs.SKIP_FLAG }}
+          COMMIT_MSG: ${{ needs.initialize-hygiene.outputs.COMMIT_MSG }}
+          COMMIT_AUTHOR: ${{ needs.initialize-hygiene.outputs.COMMIT_AUTHOR }}
+          TRIGGER_EVENT: ${{ needs.initialize-hygiene.outputs.TRIGGER_EVENT }}
+          SRC_BRANCH: ${{ needs.initialize-hygiene.outputs.SRC_BRANCH }}
+          TGT_BRANCH: ${{ needs.initialize-hygiene.outputs.TGT_BRANCH }}
+          BRANCH_EXECUTED: ${{ needs.initialize-hygiene.outputs.TGT_BRANCH }}
+          ARTIFACT_URL: ${{ needs.initialize-hygiene.outputs.ARTIFACT_URL }}
+          STAGE_VS_MAIN_STATE: ${{ needs.initialize-hygiene.outputs.STAGE_VS_MAIN_STATE }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
+          SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
+          JACOCO_MIN_COVERAGE: ${{ env.JACOCO_MIN_COVERAGE }}
+          CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: ${{ env.CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS }}
+          CHECKSTYLE_MAX_VIOLATIONS: ${{ env.CHECKSTYLE_MAX_VIOLATIONS }}
+          PMD_MAX_VIOLATIONS: ${{ env.PMD_MAX_VIOLATIONS }}
+          BLOCKER_MAX: ${{ env.BLOCKER_MAX }}
+          HIGH_MAX: ${{ env.HIGH_MAX }}
+          MEDIUM_MAX: ${{ env.MEDIUM_MAX }}
+          LOW_MAX: ${{ env.LOW_MAX }}
+          INFO_MAX: ${{ env.INFO_MAX }}
+
+      - name: Full Cleanup and Verify
+        id: cleanup-and-verify
+        uses: ./.github/actions/full-cleanup-and-verify
