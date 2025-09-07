@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Team<T extends Player, A> {
 
     private final String teamName;
@@ -35,8 +34,8 @@ public class Team<T extends Player, A> {
 
     public void listTeamMembers() {
 
-         ConsoleStyler.styleOutput(teamName + " Roster:");
-        ConsoleStyler.styleOutput(affiliation == null ? "" : " AFFILIATION: "+ affiliation);
+        ConsoleStyler.styleOutput(teamName + " Roster:");
+        ConsoleStyler.styleOutput(affiliation == null ? "" : " AFFILIATION: " + affiliation);
         for (T t : teamMembers) {
             ConsoleStyler.styleOutput(t.name());
         }
@@ -65,6 +64,6 @@ public class Team<T extends Player, A> {
 
     @Override
     public String toString() {
-        return teamName + " (Ranked "  + ranking() + ")";
+        return teamName + " (Ranked " + ranking() + ")";
     }
 }
