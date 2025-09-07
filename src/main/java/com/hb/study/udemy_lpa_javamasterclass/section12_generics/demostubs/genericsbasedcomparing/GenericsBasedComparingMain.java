@@ -83,7 +83,7 @@ class Student implements Comparable<Student> {
     private static final SecureRandom secureRandom = new SecureRandom();
 
     String name;
-    private int id;
+    private final int id;
     protected double gpa;
 
     public Student(String name) {
@@ -99,7 +99,12 @@ class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student o) {
-        return Integer.valueOf(id).compareTo(Integer.valueOf(o.id));
+
+        ConsoleStyler.styleOutput("""
+                This is what was intended to be demonsrrated, but now commented to fix sonar issue:
+                 return Integer.valueOf(id).compareTo(o.id);
+                """);
+        return Integer.compare(id, o.id);
     }
 
 

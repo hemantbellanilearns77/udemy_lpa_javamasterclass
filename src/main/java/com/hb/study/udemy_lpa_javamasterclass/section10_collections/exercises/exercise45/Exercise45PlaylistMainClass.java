@@ -8,11 +8,9 @@ import java.util.LinkedList;
 
 public class Exercise45PlaylistMainClass {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
-
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] ignoredUnusedArgs) {
-
 
         execution.initialize();
         ArrayList<Album> albums = new ArrayList<>();
@@ -56,7 +54,7 @@ public class Exercise45PlaylistMainClass {
         ConsoleStyler.styleOutput("Track No. Title: Duration");
 
         for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {
-            ConsoleStyler.styleOutput("" + (loopCounter + 1) + ".\t" + playList.get(loopCounter));
+            ConsoleStyler.styleOutput(  (loopCounter + 1) + ".\t" + playList.get(loopCounter));
         }
         ConsoleStyler.divider();
 
