@@ -10,7 +10,7 @@ public class Store {
     private static ArrayList<ProductForSale> storeFrontInventory = new ArrayList<>();
 
         public static void main(String[] ignoredUnusedArgs) {
-        //
+
 
         storeFrontInventory.add(new ArtObject("Oil Painting", 1350,
                 "Impressionistic work by ABF painted in 2010"));
