@@ -1,0 +1,27 @@
+name: Dummy Cancel Test - Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cancel-test:
+    runs-on: windows-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Step 2: Set cancel environment variable
+      - name: Set cancel flag
+        shell: pwsh
+        run: |
+          echo "cancel=true" >> $env:GITHUB_ENV
+          echo "cancelReason=Testing cancellation after checkout" >> $env:GITHUB_ENV
+
+      # Step 3: Cancel workflow gracefully
+      - name: Cancel workflow
+        if: env.cancel == 'true'
+        uses: styfle/cancel-workflow-action@v0.12.0
+        with:
+          access_token: ${{ secret_
