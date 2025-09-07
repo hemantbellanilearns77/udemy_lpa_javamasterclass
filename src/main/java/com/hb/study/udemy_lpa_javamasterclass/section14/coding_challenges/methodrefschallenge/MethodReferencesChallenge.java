@@ -17,7 +17,7 @@ public class MethodReferencesChallenge {
 
     //Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
-     
+
     private static final SecureRandom secureRandom = new SecureRandom();
 
     private record Person(String first) {
@@ -68,7 +68,7 @@ public class MethodReferencesChallenge {
         List<UnaryOperator<String>> unaryOperators = new ArrayList<>();
         // Make each name upper case
         IntFunction<String> upperCaseFunction = arrayIndex -> firstNames[arrayIndex].toUpperCase();
-        ConsoleStyler.styleExecutionInsight(upperCaseFunction.apply(firstNames.length-1));
+        ConsoleStyler.styleExecutionInsight(upperCaseFunction.apply(firstNames.length - 1));
         UnaryOperator<String> allUppercaseUnaryLambda = String::toUpperCase;
 
         unaryOperators.add(allUppercaseUnaryLambda);
@@ -122,10 +122,10 @@ public class MethodReferencesChallenge {
         List<String> backedByArray = Arrays.asList(firstNames);
         for (var unaryOperator : unaryOperators) {
             ConsoleStyler.styleExecutionInsight("""
-                   /* for(int i = 0; i < backedByArray.size(); i++) {
-                        backedByArray.set(i, unaryOperator.apply(backedByArray.get(i)));
-                    }*/
-                   """);
+                    /* for(int i = 0; i < backedByArray.size(); i++) {
+                         backedByArray.set(i, unaryOperator.apply(backedByArray.get(i)));
+                     }*/
+                    """);
             backedByArray.replaceAll(s -> s.transform(unaryOperator));
             ConsoleStyler.styleOutput("""
                     updated backedByArray List is:
