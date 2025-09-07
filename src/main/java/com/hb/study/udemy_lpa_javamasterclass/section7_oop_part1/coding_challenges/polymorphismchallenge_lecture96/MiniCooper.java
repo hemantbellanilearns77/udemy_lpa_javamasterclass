@@ -5,15 +5,22 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 class MiniCooper extends Car{
     public MiniCooper(int cylinders, String name) {
+
         super(cylinders,name);
     }
+    @Override
     public void startEngine() {
+
         ConsoleStyler.styleOutput("startEngine() inside MiniCooper class invoked");
     }
+    @Override
     public void accelerate() {
+
         ConsoleStyler.styleOutput("accelerate() inside MiniCooper class invoked");
     }
+    @Override
     public void brake(){
+
         ConsoleStyler.styleOutput("brake() inside MiniCooper class invoked");
     }
 }
