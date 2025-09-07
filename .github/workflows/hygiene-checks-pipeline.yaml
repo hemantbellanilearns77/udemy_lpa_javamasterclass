@@ -143,6 +143,7 @@ jobs:
             else
               echo "⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of main (not PR’d yet) → skipped merge, executed hygiene on current main" >> $GITHUB_OUTPUT
+            fi
           # Case 3: stage diverged (not rebased)
           else
             common=$(git merge-base origin/main origin/stage)
