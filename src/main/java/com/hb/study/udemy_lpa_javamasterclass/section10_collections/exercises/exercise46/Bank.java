@@ -37,7 +37,7 @@ public class Bank {
 
     private Branch findBranch(String branchName) {
         Branch foundBranch = null;
-        if (branches.size() > 0) {
+        if (!branches.isEmpty()) {
             for (var nextBranch : branches) {
                 if (nextBranch.getName().equalsIgnoreCase(branchName)) {
                     foundBranch = nextBranch;

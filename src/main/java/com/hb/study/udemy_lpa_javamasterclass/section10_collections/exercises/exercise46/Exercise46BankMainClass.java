@@ -39,6 +39,9 @@ public class Exercise46BankMainClass {
         if (customerTxnAddedSuccess)
             ConsoleStyler.styleExecutionInsight("Customer Transaction Successful");
 
-        bank.listCustomers(ADELAIDE, false);
+        boolean customersListed = bank.listCustomers(ADELAIDE, false);
+        if(customersListed)
+            ConsoleStyler.styleExecutionInsight("Customers Listed Successfully above");
+        execution.finalizeExecution();
     }
 }
