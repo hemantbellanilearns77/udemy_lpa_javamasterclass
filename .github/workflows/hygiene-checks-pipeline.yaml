@@ -170,7 +170,7 @@ jobs:
           fi 
       - name: Cancel current workflow gracefully
         if: env.cancel == 'true'
-        uses: styfle/cancel-workflow-action@v0.12.1
+        uses: styfle/cancel-workflow-action@v0.12.0
         with:
           access_token: ${{ secrets.PAT_TOKEN }}
           reason: "ℹ️ Cancelling gracefully: ${{ env.cancelReason }}"
