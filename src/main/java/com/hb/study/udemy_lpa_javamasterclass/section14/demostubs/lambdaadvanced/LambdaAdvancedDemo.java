@@ -168,7 +168,7 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
-        //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
+        names.forEach((String name) -> ConsoleStyler.styleOutput(name));
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
