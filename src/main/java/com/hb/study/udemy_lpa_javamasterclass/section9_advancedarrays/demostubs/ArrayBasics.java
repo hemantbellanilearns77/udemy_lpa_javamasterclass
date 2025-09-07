@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class ArrayBasics {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(63) + " The Output of " + ArrayBasics.class.getSimpleName() + " is as below " + "*".repeat(63);

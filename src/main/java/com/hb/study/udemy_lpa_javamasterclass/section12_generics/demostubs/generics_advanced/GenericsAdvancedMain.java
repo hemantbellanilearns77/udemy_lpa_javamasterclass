@@ -24,9 +24,9 @@ public class GenericsAdvancedMain {
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
 
-    public static void main(String[] ignoredUnusedArgs) {
+    public static void main(String[] args) {
 
-        execution.initialize();
+        execution.initialize(args);
         int studentCount = secureRandom.nextInt(1, 11);
         ConsoleStyler.styleOutput(studentCount + " random student(s) with random details have been created for demonstration purposes".toUpperCase());
         List<Student> students = new ArrayList<>();

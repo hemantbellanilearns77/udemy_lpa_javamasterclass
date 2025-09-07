@@ -7,7 +7,7 @@ public class MainClass {
     private static final String CUSTOMER_NAME = "Customer Name : ";
     private static final String CUSTOMER_ACCOUNT_NUMBER = "Customer Account Number : ";
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Account myAccount = new Account();
         myAccount.setCustomerName("Hemant Bellani");

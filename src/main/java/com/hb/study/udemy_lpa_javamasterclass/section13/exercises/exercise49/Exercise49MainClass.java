@@ -15,10 +15,10 @@ public class Exercise49MainClass {
     public static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final String STORMBRINGER = "Stormbringer";
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
-        execution.initialize();
+        execution.initialize(args);
 
         List<Album> albums = new ArrayList<>();
         Album album = new Album(STORMBRINGER, "Deep Purple");

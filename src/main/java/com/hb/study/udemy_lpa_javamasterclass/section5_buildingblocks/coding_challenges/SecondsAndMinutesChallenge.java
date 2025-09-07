@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.coding_ch
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class SecondsAndMinutesChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         ConsoleStyler.styleOutput(getDurationString(-3945));  // This is the first test case

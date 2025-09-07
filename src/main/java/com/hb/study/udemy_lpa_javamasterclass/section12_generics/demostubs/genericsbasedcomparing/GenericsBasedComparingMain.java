@@ -12,9 +12,9 @@ public class GenericsBasedComparingMain {
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
-        execution.initialize();
+        execution.initialize(args);
 
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};

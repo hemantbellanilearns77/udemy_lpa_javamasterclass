@@ -13,8 +13,8 @@ public class DemoPrimitivesOperators {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.printBanner("PRIMITIVES & OPERATORS");
 
         ConsoleStyler.startSection("Primitive Declarations");

@@ -9,7 +9,7 @@ Certainly! Below is a Java program that demonstrates the use of the enhanced swi
 import java.util.Scanner;
 
 public class MonthToQuarter {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Scanner scanner = new Scanner(System.in);
          ConsoleStyler.styleOutput("Enter the name of a month: ");

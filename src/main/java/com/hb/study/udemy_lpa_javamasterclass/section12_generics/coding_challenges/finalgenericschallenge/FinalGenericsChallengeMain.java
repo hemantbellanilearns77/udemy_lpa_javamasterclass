@@ -21,9 +21,9 @@ public class FinalGenericsChallengeMain {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
 
-    public static void main(String[] ignoredUnusedArgs) {
+    public static void main(String[] args) {
 
-        execution.initialize();
+        execution.initialize(args);
 
         QueryList<LPAStudent> queryList = new QueryList<>();
         int maxStudents = 25;

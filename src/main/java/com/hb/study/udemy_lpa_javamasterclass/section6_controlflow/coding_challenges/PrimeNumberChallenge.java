@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_chall
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class PrimeNumberChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         int primeNumbersCounter = 0;

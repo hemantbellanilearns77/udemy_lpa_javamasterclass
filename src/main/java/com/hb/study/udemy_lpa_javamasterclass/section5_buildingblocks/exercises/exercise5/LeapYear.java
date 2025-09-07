@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class LeapYear {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         String emptyString = "";
         ConsoleStyler.styleOutput(isLeapYear(1924) + emptyString);

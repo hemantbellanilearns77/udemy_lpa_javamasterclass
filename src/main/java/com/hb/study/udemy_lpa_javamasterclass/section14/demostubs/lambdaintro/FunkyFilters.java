@@ -20,9 +20,9 @@ public class FunkyFilters {
 
     private static int namesCount =  secureRandom.nextInt(1,64);
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
+    public static void main(String[] args) {
 
-        execution.initialize();
+        execution.initialize(args);
         List<String> names = new ArrayList<>();
         Name generatedFullName = NamesUtil.generateRandomName();
 

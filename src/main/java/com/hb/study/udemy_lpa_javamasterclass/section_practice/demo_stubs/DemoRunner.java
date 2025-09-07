@@ -13,9 +13,9 @@ public class DemoRunner {
 
     //Object level or Static declarations here...
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
+    public static void main(String[] args) {
         ExcecutionUtil execution = new ExcecutionUtil();
-        execution.initialize();
+        execution.initialize(args);
         demoFunction();
         execution.finalizeExecution();
     }

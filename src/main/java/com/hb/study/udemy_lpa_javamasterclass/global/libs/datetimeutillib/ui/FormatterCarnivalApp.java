@@ -82,7 +82,7 @@ public class FormatterCarnivalApp extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
     }
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> new FormatterCarnivalApp().setVisible(true));
     }

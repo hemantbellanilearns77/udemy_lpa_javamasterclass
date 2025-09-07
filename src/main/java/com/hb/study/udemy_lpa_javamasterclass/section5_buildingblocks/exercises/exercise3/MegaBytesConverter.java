@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class MegaBytesConverter {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         printMegaBytesAndKiloBytes(2500);
         ConsoleStyler.halfDivider();

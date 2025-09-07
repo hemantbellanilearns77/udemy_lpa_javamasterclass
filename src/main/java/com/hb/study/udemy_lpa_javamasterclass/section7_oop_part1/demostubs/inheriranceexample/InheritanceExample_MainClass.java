@@ -8,7 +8,7 @@ public class InheritanceExample_MainClass {
     private static final String SLOW = "slow";
     private static final String FAST = "fast";
 
-    public static void main(String[] ignoredignoredUnusedArgs)  {
+    public static void main(String[] args)  {
         Animal firstGenericAnimal = new Animal("Generic Animal");
         doAnimalStuff(firstGenericAnimal, SLOW);
 

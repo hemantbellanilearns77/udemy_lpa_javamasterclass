@@ -14,13 +14,13 @@ public class RunMethods {
     //Object level or Static declarations here...
   public static ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         /*
          *****************************************************
          */
-        execution.initialize();
+        execution.initialize(args);
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
                         "Target"),

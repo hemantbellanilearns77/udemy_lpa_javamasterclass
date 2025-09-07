@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
 public class Hello {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         ConsoleStyler.styleOutput("******** Inside Hello Class..... *********");
         ConsoleStyler.styleOutput("Hello Hemant");

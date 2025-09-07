@@ -29,8 +29,8 @@ public class LambdaAdvancedDemo {
             Final Result from calculator:""";
     private static final String LAT_LONG_FORMATTED_1 = "[Latitude: %.3f, Longitude: %.3f]%n";
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.startSection("Demonstration Initializations");
         List<String> names = new ArrayList<>();
         ConsoleStyler.styleInitializationInfo("Count of names as originally in the list (names) is: " + CommonConstants.MAX_ITERATION_COUNT

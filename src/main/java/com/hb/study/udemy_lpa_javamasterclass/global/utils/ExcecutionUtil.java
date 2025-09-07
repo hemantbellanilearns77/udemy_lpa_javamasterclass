@@ -6,13 +6,17 @@ import com.hb.study.udemy_lpa_javamasterclass.global.models.BenchmarkModel;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
+import java.util.List;
 
 public class ExcecutionUtil {
     private BenchmarkModel benchmarkModel;
 
-    public void initialize() {
+    public void initialize(String[] args) {
         benchmarkModel = new BenchmarkModel();
         ConsoleStyler.printBanner(ExecutionConstants.EXECUTIONSETUPSSTR);
+        List<String> argsList = Arrays.stream(args).toList();
+        ConsoleStyler.styleInitializationInfo(argsList.isEmpty()? "No Arguments": argsList.toString());
     }
 
     public void publishBenchmark() {

@@ -29,8 +29,8 @@ public class LamdaMiniChallengesMain {
     private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
 
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
 
         /*
          *****************************************************

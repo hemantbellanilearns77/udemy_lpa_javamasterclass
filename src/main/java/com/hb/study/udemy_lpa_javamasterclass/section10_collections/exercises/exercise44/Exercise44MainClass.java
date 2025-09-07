@@ -9,8 +9,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Exercise44MainClass {//Object level or Static declarations here...
     private static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    public static void main(String[] ignoredignoredUnusedArgs) {
-        execution.initialize();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this program demo"); // optional
 
         demoFunction();

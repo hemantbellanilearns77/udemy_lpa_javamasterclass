@@ -1,6 +1,5 @@
 package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs.corejavaalltopicsdemo;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 /**
@@ -11,15 +10,15 @@ public class CoreJavaCarnivalPlay {
     //Object level or Static declarations here...
     public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
-        execution.initialize();
+        execution.initialize(args);
 
         /*
          *****************************************************
          */
         // 🎪 Launch the full Core Java Carnival showcase
-        CoreJavaCarnival.main(ignoredUnusedArgs);
+        CoreJavaCarnival.main(args);
         /*
          *****************************************************
          */

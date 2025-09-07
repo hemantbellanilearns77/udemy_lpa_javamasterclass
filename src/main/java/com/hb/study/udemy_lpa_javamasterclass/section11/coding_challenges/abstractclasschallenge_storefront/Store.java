@@ -9,7 +9,7 @@ public class Store {
 
     private static ArrayList<ProductForSale> storeFrontInventory = new ArrayList<>();
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
 
         storeFrontInventory.add(new ArtObject("Oil Painting", 1350,

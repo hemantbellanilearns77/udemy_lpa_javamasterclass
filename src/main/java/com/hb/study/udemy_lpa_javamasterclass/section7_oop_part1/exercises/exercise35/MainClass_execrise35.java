@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class MainClass_execrise35 {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         ComplexNumber one = new ComplexNumber(1.0, 1.0);
         ComplexNumber number = new ComplexNumber(2.5, -1.5);

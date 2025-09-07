@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstra
 
 public class Main {
 
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         Item coke = new Item("drink", "coke", 1.50);

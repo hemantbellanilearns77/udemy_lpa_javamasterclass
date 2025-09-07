@@ -4,7 +4,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 import java.util.LinkedList;
 
 public class PrimitiveTypesAndCollections {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
 
         ConsoleStyler.styleExecutionInsight("""

@@ -26,7 +26,7 @@ public class Customer {
         return emailaddress;
     }
 
-    public Customer() { // No ignoredUnusedArgs Constructor
+    public Customer() { // No args Constructor
         this("Default", 400000, "Default@email.com");
         ConsoleStyler.styleOutput("Empty Constructor invoked");
     }
@@ -36,8 +36,8 @@ public class Customer {
         ConsoleStyler.styleOutput("Constructor with 2 arguments invoked");
     }
 
-    public Customer(String name, double credit_limit, String emailaddress) { // All ignoredUnusedArgs constructor
-        ConsoleStyler.styleOutput("All-ignoredUnusedArgs constructor with all 3 arguments invoked");
+    public Customer(String name, double credit_limit, String emailaddress) { // All args constructor
+        ConsoleStyler.styleOutput("All-args constructor with all 3 arguments invoked");
         this.name = name;
         this.credit_limit = credit_limit;
         this.emailaddress = emailaddress;

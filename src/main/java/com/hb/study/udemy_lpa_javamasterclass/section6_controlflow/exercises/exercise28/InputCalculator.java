@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Scanner;
 
 public class InputCalculator {
-    public static void main(String[] ignoredignoredUnusedArgs) {
+    public static void main(String[] args) {
         inputThenPrintSumAndAverage();
     }
 

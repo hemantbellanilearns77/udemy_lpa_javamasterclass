@@ -16,7 +16,7 @@ public class polymorphismChallengeMainClass {
     private static final String GENERIC = "Generic";
     private static final String GASOLINE = "Gasoline";
 
-    public static void main(String[] ignoredUnusedArgs) {
+    public static void main(String[] args) {
 
         List<String> listOfCarTypes = new ArrayList<>();
         listOfCarTypes.add(GENERIC);

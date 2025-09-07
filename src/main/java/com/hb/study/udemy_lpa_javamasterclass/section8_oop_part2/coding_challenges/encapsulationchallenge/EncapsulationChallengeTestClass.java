@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class EncapsulationChallengeTestClass {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
 
         Printer printer = new Printer(100, true);
 

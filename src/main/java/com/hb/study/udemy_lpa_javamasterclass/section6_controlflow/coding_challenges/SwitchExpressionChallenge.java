@@ -15,7 +15,7 @@ public class SwitchExpressionChallenge {
     private static final String INVALID_DAY = "Invalid Day";
     public static String dayOfTheWeek;
 
-    public static void main(String[] ignoredUnusedArgs) {
+    public static void main(String[] args) {
 
         printDayOfTheWeek(0);
         printDayOfTheWeek(1);

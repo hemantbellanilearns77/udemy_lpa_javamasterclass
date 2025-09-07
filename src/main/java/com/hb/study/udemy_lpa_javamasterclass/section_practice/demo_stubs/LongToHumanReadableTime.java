@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class LongToHumanReadableTime {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         long epochMilli = System.currentTimeMillis();
         // 1. Convert long to Instant

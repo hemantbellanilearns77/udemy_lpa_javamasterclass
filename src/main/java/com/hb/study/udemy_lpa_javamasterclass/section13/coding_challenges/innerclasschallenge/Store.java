@@ -12,9 +12,8 @@ public class Store {
 
         public static void main(String[] args) {
 
-        execution.initialize();
-        List<String> argsList = Arrays.stream(args).toList();
-        ConsoleStyler.styleOutput(argsList.isEmpty()? "No Arguments", argsList);
+        execution.initialize(args);
+
         Meal regularMeal = new Meal();
         regularMeal.addToppings("Ketchup", "Mayo", "Bacon", "Cheddar", "Cherries");
         ConsoleStyler.styleOutput(regularMeal.toString());

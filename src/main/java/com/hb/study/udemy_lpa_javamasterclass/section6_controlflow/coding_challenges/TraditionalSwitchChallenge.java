@@ -6,7 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Scanner;
 
 public class TraditionalSwitchChallenge {
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         Scanner scanner = new Scanner(System.in);
          ConsoleStyler.styleOutput("Enter an alphabet in range of A-E: ");

@@ -6,7 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class FlourPacker {
 
     // write code here
-        public static void main(String[] ignoredUnusedArgs) {
+        public static void main(String[] args) {
         //
         ConsoleStyler.styleOutput(canPack(1, 0, 4) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack (1, 0, 5) + CommonConstants.EMPTYSTRING);
