@@ -170,8 +170,13 @@ runs:
           fi
           if [[ "$age_days" -eq 0 ]]; then
             hours=$(( (now_ts - common_ts) / 3600 ))
-            echo "⚠️ Stage diverged ~${hours}h ago"
-            echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${hours}h ago" >> $GITHUB_OUTPUT
+            if [[ "$hours" -eq 0 ]]; then
+              echo "⚠️ Stage diverged roughly within past hour"
+              echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged roughly within past hour" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️ Stage diverged ~${hours}h ago"
+              echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${hours}h ago" >> $GITHUB_OUTPUT
+            fi
           else
             echo "⚠️ Stage diverged ~${age_days}d ago"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT

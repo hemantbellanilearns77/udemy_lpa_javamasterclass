@@ -204,13 +204,13 @@
         function FormatSonarStatus($count, $maxAllowed, $severity) {
             if ($count -eq 0) {
                 $emoji = "✅"
-                $note  = "(Good)"
+                $note  = "(GREAT)"
             } elseif ($count -le $maxAllowed) {
                 $emoji = "🟡"
-                $note  = "(Within Threshold)"
+                $note  = "(WATCH-OUT)"
             } else {
                 $emoji = "🔴"
-                $note  = "(Exceeded)"
+                $note  = "(OVERBOARD)"
             }
             return " / $maxAllowed $emoji $note"
             #return "$severity Issues: $count / $maxAllowed $emoji $note"
@@ -279,8 +279,8 @@
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         $emailModuleSevAggTable=""
-        if ($env:SKIP_FLAG -match "--skip-sonar") {
-        
+        $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
+        if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
           "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
