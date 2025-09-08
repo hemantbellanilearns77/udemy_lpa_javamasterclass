@@ -1,0 +1,166 @@
+name: "Pre-Setup"
+description: "Run all pre-hygiene checks before Setup step"
+
+inputs:
+  github-event-name:
+    required: true
+    description:
+  github-ref-name:
+    required: true
+    description:
+  github-head-commit-message:
+    required: false
+    description:
+  github-schedule:
+    required: false
+    description:
+  github-default-branch:
+    required: true
+    description:
+  pat-token:
+    required: true
+    description:
+  github-token:
+    required: true
+    description:
+
+runs:
+  using: "composite"
+  steps:
+    # Exit for unsupported events
+    - name: Exit for non-supported events
+      if: inputs.github-event-name != 'schedule' && inputs.github-event-name != 'workflow_dispatch' && inputs.github-event-name != 'push'
+      shell: pwsh
+      run: |
+        Write-Host "This workflow is not configured to run on '${{ inputs.github-event-name }}' → exiting gracefully."
+        echo "cancel=true" >> $env:GITHUB_ENV
+        echo "cancelReason=❌ Unsupported event '${{ inputs.github-event-name }}'." >> $env:GITHUB_ENV
+
+    # This step will run only if the event is NOT manual or scheduled or push to main
+    - name: Exit for non-supported events
+      if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+      shell: pwsh
+      run: |
+        Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting with failure."
+        echo
+        # Exit the job successfully, so it doesn't appear as a failure
+        echo "cancel=true" >> $env:GITHUB_ENV
+        echo "cancelReason=❌ This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting with failure." >> $env:GITHUB_ENV
+    # Decide whether to run hygiene checks
+    - name: Decide whether to run hygiene checks
+      id: decide
+      shell: bash
+      run: |
+        eventName="${{ inputs.github-event-name }}"
+        if [[ "$eventName" == "push" ]]; then
+          branchName="${{ inputs.github-ref-name }}"
+          defaultBranchName="${{ inputs.github-default-branch }}"
+          if [[ "$branchName" != "$defaultBranchName" ]]; then
+            echo "❌ Push event but branch is '$branchName' (not '$defaultBranchName')."
+            echo "cancel=true" >> $GITHUB_ENV
+            echo "cancelReason=❌ Push event but branch is '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
+          else
+            commit_message="${{ inputs.github-head-commit-message }}"
+            if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+              echo "Push to 'defaultBranchName' with trigger phrase → will execute hygiene sweep."
+            else
+              echo "❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully."
+              echo "cancel=true" >> $GITHUB_ENV
+              echo "cancelReason=❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
+            fi
+          fi
+        elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
+          echo "Event is $eventName → will execute hygiene sweep."
+        else
+          echo "❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully."
+          echo "cancel=true" >> $GITHUB_ENV
+          echo "cancelReason=❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
+        fi
+
+    # Log trigger for scheduled runs
+    - name: Log trigger for scheduled runs
+      if: inputs.github-event-name == 'schedule'
+      shell: pwsh
+      run: |
+        if ("${{ inputs.github-schedule }}" -eq '30 3,15 * * 1-4') {
+          Write-Host "✅ Executing for a business day (Mon-Thurs)."
+        } elseif ("${{ inputs.github-schedule }}" -eq '39 18 * * 4') {
+          Write-Host "✅ Executing on Friday (12:09 AM IST)."
+        } elseif ("${{ inputs.github-schedule }}" -eq '30 3 * * 5') {
+          Write-Host "✅ Executing on Friday (9:00 AM IST)."
+        } elseif ("${{ inputs.github-schedule }}" -eq '45 6 * * 5') {
+          Write-Host "✅ Executing on Friday (12:15 PM IST)."
+        }
+
+    # Log trigger for manual runs
+    - name: Log trigger for manual runs
+      if: inputs.github-event-name == 'workflow_dispatch'
+      shell: pwsh
+      run: Write-Host "✅ Executing manually via workflow_dispatch."
+
+    # Log trigger for push event
+    - name: Log trigger for push event
+      if: inputs.github-event-name == 'push'
+      shell: pwsh
+      run: Write-Host "✅ Executing due to push event triggered by special commit message."
+
+    # Check stage vs main state
+    - name: Check stage vs Default Branch (main) state
+      id: stage_vs_main_state
+      shell: bash
+      env:
+        MAX_AHEAD_COMMITS: 7
+        MAX_DIVERGENCE_DAYS: 7
+      run: |
+        
+        defaultBranchName="${{ inputs.github-default-branch }}"
+        # git fetch origin main stage
+        git fetch origin "$defaultBranchName" stage
+        MAX_AHEAD_COMMITS=$(echo "$MAX_AHEAD_COMMITS" | tr -d '\r')
+        # Case 1: stage == main
+        if [[ "$(git rev-list origin/$defaultBranchName..origin/stage --count)" -eq 0 ]] && \
+           [[ "$(git rev-list origin/stage..origin/$defaultBranchName --count)" -eq 0 ]]; then
+          echo "✅ Stage already in sync with '$defaultBranchName'"
+          echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with '$defaultBranchName'" >> $GITHUB_OUTPUT
+        elif git merge-base --is-ancestor origin/$defaultBranchName origin/stage; then
+          ahead=$(git rev-list origin/$defaultBranchName..origin/stage --count)
+          echo "DEBUG: ahead='$ahead' MAX_AHEAD_COMMITS='$MAX_AHEAD_COMMITS'"
+          if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
+            echo "❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required."
+            echo "cancel=true" >> $GITHUB_ENV
+            echo "cancelReason=❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required." >> $GITHUB_ENV
+          else
+            echo "⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'"
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'" >> $GITHUB_OUTPUT 
+          fi
+        else # Case 3: stage diverged (not rebased)
+          common=$(git merge-base origin/$defaultBranchName origin/stage)
+          common_ts=$(git show -s --format=%ct $common)
+          now_ts=$(date +%s)
+          age_days=$(( (now_ts - common_ts) / 86400 ))
+
+          if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
+            echo "❌ Stage diverged for ${age_days}d → rebase required."
+            echo "cancel=true" >> $GITHUB_ENV
+            echo "cancelReason=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_ENV
+          fi
+          echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago"
+          echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT
+        fi
+
+    # Cancel gracefully if needed
+    - name: Cancel current workflow gracefully
+      if: env.cancel == 'true'
+      shell: pwsh
+      run: |
+        $msg = "$env:cancelReason"
+        Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
+        Write-Host "Cancel Reason:  $msg"
+        echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Triggered by:** ${{ inputs.github-event-name }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Branch:** ${{ inputs.github-ref-name }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Commit Message:** ${{ inputs.github-head-commit-message }}" >> $env:GITHUB_STEP_SUMMARY
+        exit 1
