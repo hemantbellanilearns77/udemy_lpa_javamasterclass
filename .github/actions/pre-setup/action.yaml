@@ -58,7 +58,17 @@ runs:
         eventName="${{ inputs.github-event-name }}"
         defaultBranchName="${{ inputs.github-default-branch }}"
         branchName="${{ inputs.github-ref-name }}"
-        commit_message="${{ inputs.github-head-commit-message }}"
+        lastCommitMessage="${{ inputs.github-head-commit-message }}"
+        if [[ -z "$lastCommitMessage" ]]; then
+          echo "⚡ No last commit message received via input → using last commit from git"
+          lastCommitMessage=$(git log -1 --pretty=%B)
+          # Export for later use / summary
+          echo "LAST_COMMIT_MSG=$lastCommitMessage" >> $GITHUB_OUTPUT
+        fi
+        
+        LAST_COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+        echo "LAST_COMMIT_AUTHOR=$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        
         if [[ -z "$branchName" ]]; then
           echo "❌ No branch name resolved (event=$eventName, ref=${{ github.ref }})"
           echo "cancel=true" >> $GITHUB_ENV
@@ -67,25 +77,32 @@ runs:
         else
           
           if [[ "$eventName" == "push" ]]; then
+           
             if [[ "$branchName" != "$defaultBranchName" ]]; then
               echo "❌ Push event but branch is '$branchName' (not '$defaultBranchName')."
               echo "cancel=true" >> $GITHUB_ENV
               echo "cancelReason=❌ Push event but branch is '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
+              exit 0
             else
-              if [[ "$commit_message" =~ execute.*?hygiene.*?sweep ]]; then
+              if [[ "$lastCommitMessage" =~ execute.*?hygiene.*?sweep ]]; then
+                echo "✅ Executing due to push event triggered by special commit message."
                 echo "Push to 'defaultBranchName' with trigger phrase → will execute hygiene sweep."
               else
                 echo "❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully."
                 echo "cancel=true" >> $GITHUB_ENV
                 echo "cancelReason=❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
+                exit 0
               fi
             fi
           elif [[ "$eventName" == "workflow_dispatch" ]]; then
+            
             if [[ "$branchName" != "$defaultBranchName" ]]; then
               echo "❌ Manual run on branch '$branchName' (not '$defaultBranchName')."
               echo "cancel=true" >> $GITHUB_ENV
               echo "cancelReason=❌ Manual run on branch '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
+              exit 0
             else
+              echo "✅ Executing manually via workflow_dispatch."
               echo "Manual run on '$defaultBranchName' → will execute hygiene sweep."
             fi
           elif [[ "$eventName" == "schedule" ]]; then
@@ -105,6 +122,7 @@ runs:
             echo "❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully."
             echo "cancel=true" >> $GITHUB_ENV
             echo "cancelReason=❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
+            exit 0
           fi
         fi
 
@@ -122,18 +140,6 @@ runs:
         } elseif ("${{ inputs.github-schedule }}" -eq '45 6 * * 5') {
           Write-Host "✅ Executing on Friday (12:15 PM IST)."
         }
-
-    # Log trigger for manual runs
-    - name: Log trigger for manual runs
-      if: inputs.github-event-name == 'workflow_dispatch'
-      shell: pwsh
-      run: Write-Host "✅ Executing manually via workflow_dispatch."
-
-    # Log trigger for push event
-    - name: Log trigger for push event
-      if: inputs.github-event-name == 'push'
-      shell: pwsh
-      run: Write-Host "✅ Executing due to push event triggered by special commit message."
 
     # Check stage vs main state
     - name: Check stage vs Default Branch (main) state
@@ -204,5 +210,13 @@ runs:
         echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "**Triggered by:** ${{ inputs.github-event-name }}" >> $env:GITHUB_STEP_SUMMARY
         echo "**Branch:** ${{ inputs.github-ref-name }}" >> $env:GITHUB_STEP_SUMMARY
-        echo "**Commit Message:** ${{ inputs.github-head-commit-message }}" >> $env:GITHUB_STEP_SUMMARY
+        # Use fallback for workflow_dispatch
+        $lastCommitMessage = "${{ steps.decide.outputs.LAST_COMMIT_MSG }}"
+        $lastCommitAuthor = "${{ steps.decide.outputs.LAST_COMMIT_AUTHOR }}"
+        
+        if ([string]::IsNullOrEmpty($commitMessage)) {
+          $commitMessage = "N/A (manual workflow_dispatch)"
+        }
+        echo "**Last Commit Message:** $commitMessage" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
         exit 1
