@@ -1,19 +1,19 @@
 name: 📊 Hygiene Checks Pipeline
 on:
   workflow_dispatch: # Run manually
-  schedule:
+  # schedule:
     # Runs at 9:00 AM and 9:00 PM IST, Monday-Thursday
     # 9:00 AM IST -> 3:30 AM UTC
     # 9:00 PM IST -> 3:30 PM UTC
-    - cron: '30 3,15 * * 1-4,6'
+    # - cron: '30 3,15 * * 1-4,6'
 
     # Runs on Friday at 12:09 AM, 9:00 AM, and 12:15 PM IST
     # 12:09 AM IST -> 6:39 PM UTC (on Thursday)
     # 9:00 AM IST -> 3:30 AM UTC
     # 12:15 PM IST -> 6:45 AM UTC
-    - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
-    - cron: '30 3 * * 5' # For Friday 9:00 AM IST
-    - cron: '45 6 * * 5' # For Friday 12:15 PM IST
+    # - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
+    # - cron: '30 3 * * 5' # For Friday 9:00 AM IST
+    # - cron: '45 6 * * 5' # For Friday 12:15 PM IST
 #  push:
 #    branches:
 #      - main
