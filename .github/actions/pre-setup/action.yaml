@@ -214,9 +214,13 @@ runs:
         $lastCommitMessage = "${{ steps.decide.outputs.LAST_COMMIT_MSG }}"
         $lastCommitAuthor = "${{ steps.decide.outputs.LAST_COMMIT_AUTHOR }}"
         
-        if ([string]::IsNullOrEmpty($commitMessage)) {
-          $commitMessage = "N/A (manual workflow_dispatch)"
+        if ([string]::IsNullOrEmpty($lastCommitMessage)) {
+          $lastCommitMessage = "N/A (manual workflow_dispatch)"
         }
-        echo "**Last Commit Message:** $commitMessage" >> $env:GITHUB_STEP_SUMMARY
+        
+        if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
+          $lastCommitAuthor = "N/A"
+        }
+        echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
         echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
         exit 1
