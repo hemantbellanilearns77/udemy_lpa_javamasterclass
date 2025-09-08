@@ -63,11 +63,17 @@ runs:
           echo "⚡ No last commit message received via input → using last commit from git"
           lastCommitMessage=$(git log -1 --pretty=%B)
           # Export for later use / summary
-          echo "LAST_COMMIT_MSG=$lastCommitMessage" >> $GITHUB_OUTPUT
+          # echo "LAST_COMMIT_MSG=$lastCommitMessage" >> $GITHUB_OUTPUT
+          echo "LAST_COMMIT_MSG<<EOF" >> $GITHUB_OUTPUT
+          echo "$lastCommitMessage" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
         fi
         
         LAST_COMMIT_AUTHOR=$(git log -1 --pretty=%an)
-        echo "LAST_COMMIT_AUTHOR=$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        # echo "LAST_COMMIT_AUTHOR=$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        echo "LAST_COMMIT_AUTHOR<<EOF" >> $GITHUB_OUTPUT
+        echo "$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
         
         if [[ -z "$branchName" ]]; then
           echo "❌ No branch name resolved (event=$eventName, ref=${{ github.ref }})"
