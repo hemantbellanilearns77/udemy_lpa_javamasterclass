@@ -110,7 +110,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
-          STAGE_VS_MAIN_STATE: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
+          STAGE_VS_MAIN_STATE: ${{ steps.pre-setup.outputs.STAGE_VS_MAIN_STATE }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
