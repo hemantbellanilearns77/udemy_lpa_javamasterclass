@@ -1,4 +1,4 @@
-name: 📊 Hygiene Checks Pipeline
+name: 📊 Hygiene Checks Pipeline - WIP
 on:
   workflow_dispatch: # Run manually
   schedule:

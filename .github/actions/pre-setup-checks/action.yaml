@@ -69,8 +69,28 @@ runs:
               echo "cancelReason=❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
             fi
           fi
-        elif [[ "$eventName" == "schedule" || "$eventName" == "workflow_dispatch" ]]; then
-          echo "Event is $eventName → will execute hygiene sweep."
+        elif [[ "$eventName" == "workflow_dispatch" ]]; then
+          if [[ "$branchName" != "$defaultBranchName" ]]; then
+            echo "❌ Manual run on branch '$branchName' (not '$defaultBranchName')."
+            echo "cancel=true" >> $GITHUB_ENV
+            echo "cancelReason=❌ Manual run on branch '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
+          else
+            echo "Manual run on '$defaultBranchName' → will execute hygiene sweep."
+          fi
+        elif [[ "$eventName" == "schedule" ]]; then
+          echo "Scheduled run → will execute hygiene sweep."
+            echo "Scheduled run → will execute hygiene sweep."
+            cronSchedule="${{ inputs.github-schedule }}"
+            if [[ "$cronSchedule" == "30 3,15 * * 1-4,6" ]]; then
+              echo "✅ Executing for a business day (Monday, Tuesday, Wednesday, Thursday, Saturday)."
+            elif [[ "$cronSchedule" == "39 18 * * 4" ]]; then
+              echo "✅ Executing on Friday (12:09 AM IST)."
+            elif [[ "$cronSchedule" == "30 3 * * 5" ]]; then
+              echo "✅ Executing on Friday (9:00 AM IST)."
+            elif [[ "$cronSchedule" == "45 6 * * 5" ]]; then
+              echo "✅ Executing on Friday (12:15 PM IST)."
+            fi
+  
         else
           echo "❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully."
           echo "cancel=true" >> $GITHUB_ENV
