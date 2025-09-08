@@ -23,10 +23,10 @@ inputs:
   github-token:
     required: true
     description: ""
-  outputs:
-    STAGE_VS_MAIN_STATE:
-      value: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
-      description: ""
+outputs:
+  STAGE_VS_MAIN_STATE:
+    value: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
+    description: ""
 
 runs:
   using: "composite"
