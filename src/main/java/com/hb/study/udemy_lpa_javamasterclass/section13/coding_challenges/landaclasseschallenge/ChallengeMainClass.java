@@ -1,4 +1,4 @@
-package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.localandanonymousclasseschallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.landaclasseschallenge;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
@@ -21,7 +21,8 @@ import java.util.List;
 /**
  * created by : heman on 08-07-2025, 02:50 PM, in the "udemy_lpa_javamasterclass" project
  **/
-public class LocalAndAnonymousClassesChallengeMain {
+//This main class demo stubs the Local and Anonymous Classes' Challenge.
+public class ChallengeMainClass {
 
     //Object level or Static declarations here...
     public static ExcecutionUtil execution = new ExcecutionUtil();
@@ -31,9 +32,9 @@ public class LocalAndAnonymousClassesChallengeMain {
     private static String[] args;
 
         public static void main(String[] args) {
-        //
+
         execution.initialize(args);
-        LocalAndAnonymousClassesChallengeMain.args = args;
+        ChallengeMainClass.args = args;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
@@ -65,8 +66,6 @@ public class LocalAndAnonymousClassesChallengeMain {
         execution.finalizeExecution();
     }
 
-
-
     public static void printOrderedList(List<Employee> employeeList, String sortField) {
         //local class
         class DetailedEmployee {
@@ -78,7 +77,7 @@ public class LocalAndAnonymousClassesChallengeMain {
             public DetailedEmployee(Employee employee) {
                 currentEmployee = employee;
                 fullName = String.join(" ", currentEmployee.firstName(), currentEmployee.lastName());
-                //yearsWorked = getYearsWorked();
+
                 initYearsWorked();
             }
 
@@ -98,27 +97,27 @@ public class LocalAndAnonymousClassesChallengeMain {
             int secondLevel(T o1, T o2);
         }
 
-
-
         List<DetailedEmployee> empDetails = new ArrayList<>();
         for (Employee emp : employeeList) {
             empDetails.add(new DetailedEmployee(emp));
         }
-        //anonymous class
-        /*var detailedEmpComparator = new Comparator<DetailedEmployee>() {
-
-            @Override
-            public int compare(DetailedEmployee o1, DetailedEmployee o2) {
-                if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
-                    if (sortField.equalsIgnoreCase("fullName")) {
-                        return o1.fullName.compareTo(o2.fullName);
-                    } else if (sortField.equalsIgnoreCase("yearsWorked")) {
-                        return Integer.compare(o1.yearsWorked, o2.yearsWorked);
+        ConsoleStyler.styleExecutionInsight("""
+            //anonymous class
+            /*var detailedEmpComparator = new Comparator<DetailedEmployee>() {
+    
+                @Override
+                public int compare(DetailedEmployee o1, DetailedEmployee o2) {
+                    if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
+                        if (sortField.equalsIgnoreCase("fullName")) {
+                            return o1.fullName.compareTo(o2.fullName);
+                        } else if (sortField.equalsIgnoreCase("yearsWorked")) {
+                            return Integer.compare(o1.yearsWorked, o2.yearsWorked);
+                        }
                     }
+                    return 0;
                 }
-                return 0;
-            }
-        };*/
+            };*/
+            """);
         //another anonymous class
         var detailedEmpComparatorMixed = new EnhancedComparator<DetailedEmployee>() {
 
@@ -152,8 +151,6 @@ public class LocalAndAnonymousClassesChallengeMain {
              ConsoleStyler.styleOutput((i + 1) + "\t\t" + empDetails.get(i).toString());
         }
 
-
-
     }
 
     private static List<Employee> generateEmployeesList() {
@@ -170,6 +167,5 @@ public class LocalAndAnonymousClassesChallengeMain {
         }
         return generatedEmployeesList;
     }
-
 
 }

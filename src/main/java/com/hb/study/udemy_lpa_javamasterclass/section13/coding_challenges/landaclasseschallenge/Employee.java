@@ -1,4 +1,4 @@
-package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.localandanonymousclasseschallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.landaclasseschallenge;
 
 /**
  * created by : heman on 08-07-2025, 05:03 PM, in the "udemy_lpa_javamasterclass" project
