@@ -4,25 +4,29 @@ description: "Run all pre-hygiene checks before Setup step"
 inputs:
   github-event-name:
     required: true
-    description:
+    description: ""
   github-ref-name:
     required: true
-    description:
+    description: ""
   github-head-commit-message:
     required: false
-    description:
+    description: ""
   github-schedule:
     required: false
-    description:
+    description: ""
   github-default-branch:
     required: true
-    description:
+    description: ""
   pat-token:
     required: true
-    description:
+    description: ""
   github-token:
     required: true
-    description:
+    description: ""
+  outputs:
+    STAGE_VS_MAIN_STATE:
+      value: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
+      description: ""
 
 runs:
   using: "composite"
@@ -164,8 +168,14 @@ runs:
             echo "cancel=true" >> $GITHUB_ENV
             echo "cancelReason=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_ENV
           fi
-          echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago"
-          echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT
+          if [[ "$age_days" -eq 0 ]]; then
+            hours=$(( (now_ts - common_ts) / 3600 ))
+            echo "⚠️ Stage diverged ~${hours}h ago"
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${hours}h ago" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Stage diverged ~${age_days}d ago"
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT
+          fi
         fi
 
     # Cancel gracefully if needed
