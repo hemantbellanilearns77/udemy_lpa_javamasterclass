@@ -114,31 +114,51 @@ runs:
         # Access GitHub context variables in PowerShell
         $eventName = "${{ inputs.TRIGGER_EVENT }}"
         function Get-CronExplanation($expr) {
-        $parts = $expr.Split(" ")
-        if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
-        
-        $minute   = $parts[0]
-        $hour     = $parts[1]
-        $day      = $parts[2]
-        $month    = $parts[3]
-        $weekday  = $parts[4]
-        
-        # Helper function to pretty print
-        function Pretty($field, $type) {
-        switch ($field) {
-          "*"   { return "every $type" }
-          "?"   { return "any $type" }
-          default { return $field }
+          $parts = $expr.Split(" ")
+          if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
+          
+          $minute   = $parts[0]
+          $hour     = $parts[1]
+          $day      = $parts[2]
+          $month    = $parts[3]
+          $weekday  = $parts[4]
+          
+          # Helper function to pretty print
+          function Pretty($field, $type) {
+          switch ($field) {
+            "*"   { return "every $type" }
+            "?"   { return "any $type" }
+            default { return $field }
+            }
           }
-        }
-        
-        $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
-        $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-        $dayDesc     = Pretty $day "day" of month  
-        $monthDesc   = Pretty $month "month" of year 
-        $weekdayDesc = Pretty $weekday "day of week"
-        
-        return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
+          
+          $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
+          $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
+          $dayDesc     = Pretty $day "day" of month  
+          $monthDesc   = Pretty $month "month" of year 
+          $weekdayDesc = Pretty $weekday "day of week"
+    
+    
+          # Expand weekday numbers to names
+          $weekdayMap = @{
+            "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday"
+            "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday"
+          }
+          if ($weekday -match "^[0-6](,[0-6])*$") {
+            $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
+            $weekdayDesc = ($names -join ", ")
+          }
+          elseif ($weekday -match "^[0-6]-[0-6]$") {
+            $range = $weekday.Split("-")
+            $start = [int]$range[0]; $end = [int]$range[1]
+            $names = for ($i=$start; $i -le $end; $i++) { $weekdayMap["$i"] }
+            $weekdayDesc = ($names -join ", ")
+          }
+          else {
+            $weekdayDesc = Pretty $weekday "day of week"
+          }
+          
+          return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
         }
         
         if ($eventName -eq "schedule") {
