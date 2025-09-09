@@ -49,19 +49,6 @@ runs:
         curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
       shell: cmd
 
-#    ##########################
-#    # DOWNLOAD SONAR-SCANNER
-#    ##########################
-#
-#    - name: Download and Setup SonarScanner - sonar-scanner-cli-7.2.0.5079-windows-x64
-#      shell: bash
-#      run: |
-#        curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-windows-x64.zip
-#        mkdir tools/sonar-scanner
-#        unzip sonar-scanner.zip -d tools/sonar-scanner
-#        echo "SONAR_SCANNER_HOME=$PWD/tools/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_ENV
-#        echo "$PWD/tools/sonar-scanner/sonar-scanner-cli-7.2.0.5079-windows-x64" >> $GITHUB_PATH
-
       ##########################
       # DOWNLOAD SONAR-SCANNER
       ##########################

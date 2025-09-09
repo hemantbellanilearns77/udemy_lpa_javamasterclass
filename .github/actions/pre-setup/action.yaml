@@ -241,32 +241,3 @@ runs:
         echo "$lastCommitAuthor" >> $env:GITHUB_OUTPUT
         echo "EOF" >> $env:GITHUB_OUTPUT
       
-
-#    # Cancel gracefully if needed
-#    - name: Cancel current workflow gracefully
-#          if: env.cancel == 'true'
-#      shell: pwsh
-#      run: |
-#        $msg = "$env:executeReason"
-#        Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
-#        Write-Host "Cancel Reason:  $msg"
-#        echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
-#        echo "" >> $env:GITHUB_STEP_SUMMARY
-#        echo "$msg" >> $env:GITHUB_STEP_SUMMARY
-#        echo "" >> $env:GITHUB_STEP_SUMMARY
-#        echo "**Triggered by:** ${{ inputs.github-event-name }}" >> $env:GITHUB_STEP_SUMMARY
-#        echo "**Branch:** ${{ inputs.github-ref-name }}" >> $env:GITHUB_STEP_SUMMARY
-#        # Use fallback for workflow_dispatch
-#        $lastCommitMessage = "${{ steps.decide.outputs.LAST_COMMIT_MSG }}"
-#        $lastCommitAuthor = "${{ steps.decide.outputs.LAST_COMMIT_AUTHOR }}"
-#
-#        if ([string]::IsNullOrEmpty($lastCommitMessage)) {
-#          $lastCommitMessage = "N/A (manual workflow_dispatch)"
-#        }
-#
-#        if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
-#          $lastCommitAuthor = "N/A"
-#        }
-#        echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
-#        echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
-#        exit 1

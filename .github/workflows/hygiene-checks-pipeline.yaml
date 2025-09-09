@@ -192,7 +192,3 @@ jobs:
 
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Send Cancellation Email
-#        run: |
-#          echo "Sending cancellation mail..."
-#          # call SMTP composite or script here
