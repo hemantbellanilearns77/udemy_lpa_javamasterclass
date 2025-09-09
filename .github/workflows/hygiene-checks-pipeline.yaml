@@ -186,6 +186,7 @@ jobs:
             github-event: ${{ github.event_name }}
             branch: ${{ github.ref_name }}
             run-id: ${{ github.run_id }}
+            repository: ${{ github.repository }}
 
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
