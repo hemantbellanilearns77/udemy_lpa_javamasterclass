@@ -228,7 +228,7 @@ runs:
         if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
           $lastCommitAuthor = "N/A"
         }
-        
+         
         echo "LAST_COMMIT_MSG<<EOF" >> $env:GITHUB_OUTPUT
         echo "$lastCommitMessage" >> $env:GITHUB_OUTPUT
         echo "EOF" >> $env:GITHUB_OUTPUT
