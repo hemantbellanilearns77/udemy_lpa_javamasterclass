@@ -90,7 +90,7 @@ runs:
       id: github-restapi-call-cancel-workflow
       shell: pwsh
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: $env:GITHUB_TOKEN
       run: |
         $uri = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ inputs.run-id }}/cancel"
         Write-Host "⚠️ Cancelling workflow via GitHub API..."
