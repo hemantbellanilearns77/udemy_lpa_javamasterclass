@@ -34,6 +34,23 @@ runs:
         Write-Host "🧪 Bash path from previous step: '$env:SONAR_SCANNER_BIN'"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
 
+#    - name: Run SonarCloud Scan
+#      if: ${{ !contains(inputs.SKIP_FLAG, '--skip-sonar') }}
+#      uses: SonarSource/sonarqube-scan-action@v5.3.1
+#      with:
+#        args: >
+#          -Dsonar.projectKey=my-project
+#          -Dsonar.organization=my-org
+#          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+#          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#          # === Mirrors your batch file checks ===
+#          -Dsonar.sources=src
+#          -Dsonar.java.binaries=target/classes
+#          -Dsonar.junit.reportPaths=reports/junit/latest
+#          -Dsonar.jacoco.reportPaths=reports/jacoco/jacoco-latest.exec
+#          -Dsonar.checkstyle.reportPaths=reports/checkstyle/checkstyle-latest.xml
+#          -Dsonar.pmd.reportPaths=reports/pmd/pmd-latest.xml
+
     ##########################
     # UPLOAD REPORTS
     ##########################
