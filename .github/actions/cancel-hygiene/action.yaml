@@ -17,6 +17,9 @@ inputs:
   branch:
     required: true
     description: "Branch name"
+  run-id:
+    required: true
+    description: "The run id"
 
 runs:
   using: "composite"
@@ -67,7 +70,7 @@ runs:
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         subject: >-
-          🚨 HYGIENE PIPELINE CANCELLED | Repo: ${{ github.repository }} | Branch: ${{ inputs.branch }} | Run #${{  ${{ github.run_id }} }}
+          🚨 HYGIENE PIPELINE CANCELLED | Repo: ${{ github.repository }} | Branch: ${{ inputs.branch }} | Run # ${{ inputs.run-id }}
         html_body: |
           <html>
           <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">
@@ -76,7 +79,7 @@ runs:
             <p><strong>Triggered by:</strong> <code>${{ inputs.github-event }}</code></p>
             <p><strong>Branch:</strong> <code>${{ inputs.branch }}</code></p>
             <p><strong>Last Commit:</strong> "${{ inputs.last-commit-msg }}" by <code>${{ inputs.last-commit-author }}</code></p>
-            <p><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run Details</a></p>
+            <p><a href="https://github.com/${{ github.repository }}/actions/runs/${{ inputs.run-id }}">View Run Details</a></p>
             <p><em>🤖 This is an automated cancellation notice.</em></p>
           </body>
           </html>
@@ -89,7 +92,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        $uri = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel"
+        $uri = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ inputs.run-id }}/cancel"
         Write-Host "⚠️ Cancelling workflow via GitHub API..."
         Invoke-RestMethod -Method POST -Uri $uri -Headers @{
           Accept = "application/vnd.github+json"

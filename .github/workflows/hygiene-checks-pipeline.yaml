@@ -185,6 +185,10 @@ jobs:
             last-commit-author: ${{ needs.pre-setup-job.outputs.last-commit-author }}
             github-event: ${{ github.event_name }}
             branch: ${{ github.ref_name }}
+            run-id: ${{ github.run_id }}
+
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Send Cancellation Email
 #        run: |
 #          echo "Sending cancellation mail..."
