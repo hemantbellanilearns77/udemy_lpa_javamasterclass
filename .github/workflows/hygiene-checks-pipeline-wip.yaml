@@ -1,47 +1,29 @@
-name: 📊 Hygiene Checks Pipeline
+name: 📊 Hygiene Checks Pipeline - WIP
 on:
   workflow_dispatch: # Run manually
-  # schedule:
+  schedule:
     # Runs at 3:30 AM UTC (9:00 AM IST) and 3:30 PM UTC (9:00 PM IST), every Monday-Thursday and Saturday
-    # - cron: '30 3,15 * * 1-4,6'
+    - cron: '30 3,15 * * 1-4,6'
     # Runs on 6:39 PM UTC on Thursday ( 12:09 AM IST on Friday),
     # 3:30 AM UTC on Friday (9:00 AM IST on Friday) and 6:45 AM UTC on Friday (12:15 PM IST on Friday)
-    # - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
-    # - cron: '30 3 * * 5' # For Friday 9:00 AM IST
-    # - cron: '45 6 * * 5' # For Friday 12:15 PM IST
+    - cron: '39 18 * * 4' # For Friday 12:09 AM IST (runs on Thursday UTC)
+    - cron: '30 3 * * 5' # For Friday 9:00 AM IST
+    - cron: '45 6 * * 5' # For Friday 12:15 PM IST
 #  push:
 #    branches:
 #      - main
 
 jobs:
-  hygiene-checks:
-    name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
+  pre-setup-job:
     runs-on: windows-latest
-    env:
-      SONAR_ORG: ${{ vars.SONAR_ORG }}
-      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-      SONAR_FETCH_SLEEP_TIME: 27
-      MODULE_PATHS: |
-        udemy_lpa_javamasterclass_main=src/main/java/com/hb/study/udemy_lpa_javamasterclass
-        misc_utils_main=misc_utils/src/main/java/com/hb/study/misc_utils
-        udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
-        misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
-      # --- Code Coverage ---
-      JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
-
-      # --- Aggregate Violations ---
-      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300  # Maximum total violations (Checkstyle + PMD)
-      CHECKSTYLE_MAX_VIOLATIONS: 200            # Max Checkstyle violations per module
-      PMD_MAX_VIOLATIONS: 50                    # Max PMD violations per module
-
-      # --- SonarCloud Severity Thresholds ---
-      BLOCKER_MAX: 0      # Any Blocker fails hygiene
-      HIGH_MAX: 10        # Maximum allowed high severity issues
-      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
-      LOW_MAX: 30         # Maximum allowed low severity issues
-      INFO_MAX: 50        # Maximum allowed informational issues
+    outputs:
+      pre-setup-decision: ${{ steps.pre-setup.outputs.pre-setup-decision }}
+      pre-setup-decision-reason: ${{ steps.pre-setup.outputs.pre-setup-decision-reason }}
+      STAGE_VS_MAIN_STATE: ${{ steps.pre-setup.outputs.STAGE_VS_MAIN_STATE }}
+      last-commit-msg: ${{ steps.pre-setup.outputs.LAST_COMMIT_MSG }}
+      last-commit-author: ${{ steps.pre-setup.outputs.LAST_COMMIT_AUTHOR }}
     steps:
-      # Checkout Code
+        # Checkout Code
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
@@ -65,6 +47,43 @@ jobs:
           pat-token: ${{ secrets.PAT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+  hygiene-checks:
+    name: Hygiene Checks - Checkstyle + PMD + JaCoCo + Sonar
+    runs-on: windows-latest
+    needs: pre-setup-job
+    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'false' }}
+    env:
+      SONAR_ORG: ${{ vars.SONAR_ORG }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_FETCH_SLEEP_TIME: 27
+      MODULE_PATHS: |
+        udemy_lpa_javamasterclass_main=src/main/java/com/hb/study/udemy_lpa_javamasterclass
+        misc_utils_main=misc_utils/src/main/java/com/hb/study/misc_utils
+        udemy_lpa_javamasterclass_test=src/test/java/com/hb/study/udemy_lpa_javamasterclass
+        misc_utils_test=misc_utils/src/test/java/com/hb/study/misc_utils
+      # --- Code Coverage ---
+      JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
+
+      # --- Aggregate Violations ---
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 300  # Maximum total violations (Checkstyle + PMD)
+      CHECKSTYLE_MAX_VIOLATIONS: 200            # Max Checkstyle violations per module
+      PMD_MAX_VIOLATIONS: 50                    # Max PMD violations per module
+
+      # --- SonarCloud Severity Thresholds ---
+      BLOCKER_MAX: 0      # Any Blocker fails hygiene
+      HIGH_MAX: 10        # Maximum allowed high severity issues
+      MEDIUM_MAX: 20      # Maximum allowed medium severity issues
+      LOW_MAX: 30         # Maximum allowed low severity issues
+      INFO_MAX: 50        # Maximum allowed informational issues
+      STAGE_VS_MAIN_STATE: ${{ needs.pre-setup-job.outputs.STAGE_VS_MAIN_STATE }}
+    steps:
+      # Checkout Code
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }} # will be "main"
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
       ####################################################
           # Hygiene Environment Initialization
@@ -110,7 +129,7 @@ jobs:
           TGT_BRANCH: ${{ steps.setup.outputs.TGT_BRANCH }}
           BRANCH_EXECUTED: ${{ steps.setup.outputs.TGT_BRANCH }}
           ARTIFACT_URL: ${{ steps.hygiene-sweep-and-upload-reports.outputs.ARTIFACT_URL }}
-          STAGE_VS_MAIN_STATE: ${{ steps.pre-setup.outputs.STAGE_VS_MAIN_STATE }}
+          STAGE_VS_MAIN_STATE: ${{ env.STAGE_VS_MAIN_STATE }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
@@ -128,6 +147,7 @@ jobs:
           LOW_MAX: ${{ env.LOW_MAX }}
           INFO_MAX: ${{ env.INFO_MAX }}
 
+
         #############################
           # FULL CLEANUP AND VERIFY
         ##############################
@@ -135,3 +155,41 @@ jobs:
       - name: Full Cleanup and Verify Composite Call
         id: cleanup-and-verify-composite-call
         uses: ./.github/actions/full-cleanup-and-verify
+
+  cancellation:
+    runs-on: windows-latest
+    needs: pre-setup-job
+    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'true' }}
+    steps:
+      # Cancel gracefully if needed
+      - name: Cancel current workflow gracefully
+        shell: pwsh
+        run: |
+          $msg = "${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}"
+          Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
+          Write-Host "Cancel Reason:  $msg"
+          echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.event_name }}" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $env:GITHUB_STEP_SUMMARY
+          # Use fallback for workflow_dispatch
+          $lastCommitMessage = "${{ needs.pre-setup-job.outputs.last-commit-msg }}"
+          $lastCommitAuthor = "${{ needs.pre-setup-job.outputs.last-commit-author }}"
+    
+          if ([string]::IsNullOrEmpty($lastCommitMessage)) {
+            $lastCommitMessage = "N/A (manual workflow_dispatch)"
+          }
+    
+          if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
+            $lastCommitAuthor = "N/A"
+          }
+          echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
+          echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
+          exit 1
+#
+#      - name: Send Cancellation Email
+#        run: |
+#          echo "Sending cancellation mail..."
+#          # call SMTP composite or script here
