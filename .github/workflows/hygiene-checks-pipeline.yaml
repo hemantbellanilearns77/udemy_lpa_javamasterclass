@@ -51,7 +51,7 @@ jobs:
     name: Hygiene Checks - Execute
     runs-on: windows-latest
     needs: pre-setup-job
-    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'false' }}
+    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'true' }}
     env:
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
@@ -160,36 +160,54 @@ jobs:
     name: Hygiene Checks - Cancel
     runs-on: windows-latest
     needs: pre-setup-job
-    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'true' }}
+    if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'false' }}
+    env:
+      SMTP_SERVER_ADDRESS: ${{ vars.SMTP_SERVER_ADDRESS }}
+      SMTP_SERVER_PORT: ${{ vars.SMTP_SERVER_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
     steps:
-      # Cancel gracefully if needed
-      - name: Cancel current workflow gracefully
-        shell: pwsh
-        run: |
-          $msg = "${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}"
-          Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
-          Write-Host "Cancel Reason:  $msg"
-          echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
-          echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "$msg" >> $env:GITHUB_STEP_SUMMARY
-          echo "" >> $env:GITHUB_STEP_SUMMARY
-          echo "**Triggered by:** ${{ github.event_name }}" >> $env:GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.ref_name }}" >> $env:GITHUB_STEP_SUMMARY
-          # Use fallback for workflow_dispatch
-          $lastCommitMessage = "${{ needs.pre-setup-job.outputs.last-commit-msg }}"
-          $lastCommitAuthor = "${{ needs.pre-setup-job.outputs.last-commit-author }}"
-    
-          if ([string]::IsNullOrEmpty($lastCommitMessage)) {
-            $lastCommitMessage = "N/A (manual workflow_dispatch)"
-          }
-    
-          if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
-            $lastCommitAuthor = "N/A"
-          }
-          echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
-          echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
-          exit 1
+#      # Cancel gracefully if needed
+#      - name: Cancel current workflow gracefully
+#        id: cancel-hygiene
+#        shell: pwsh
+#        run: |
+#          $msg = "${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}"
+#          Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
+#          Write-Host "Cancel Reason:  $msg"
+#          echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+#          echo "" >> $env:GITHUB_STEP_SUMMARY
+#          echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+#          echo "" >> $env:GITHUB_STEP_SUMMARY
+#          echo "**Triggered by:** ${{ github.event_name }}" >> $env:GITHUB_STEP_SUMMARY
+#          echo "**Branch:** ${{ github.ref_name }}" >> $env:GITHUB_STEP_SUMMARY
+#          # Use fallback for workflow_dispatch
+#          $lastCommitMessage = "${{ needs.pre-setup-job.outputs.last-commit-msg }}"
+#          $lastCommitAuthor = "${{ needs.pre-setup-job.outputs.last-commit-author }}"
 #
+#          if ([string]::IsNullOrEmpty($lastCommitMessage)) {
+#            $lastCommitMessage = "N/A (manual workflow_dispatch)"
+#          }
+#
+#          if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
+#            $lastCommitAuthor = "N/A"
+#          }
+#          echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
+#          echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
+#          exit 1
+
+
+        # Cancel gracefully if needed
+        - name: Cancel current workflow gracefully
+          id: cancel-hygiene
+          uses: ./.github/actions/cancel-hygiene
+          with:
+            reason: ${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}
+            last-commit-msg: ${{ needs.pre-setup-job.outputs.last-commit-msg }}
+            last-commit-author: ${{ needs.pre-setup-job.outputs.last-commit-author }}
+            github-event: ${{ github.event_name }}
+            branch: ${{ github.ref_name }}
 #      - name: Send Cancellation Email
 #        run: |
 #          echo "Sending cancellation mail..."
