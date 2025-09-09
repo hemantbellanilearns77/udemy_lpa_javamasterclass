@@ -24,32 +24,24 @@ inputs:
     required: true
     description: ""
 outputs:
+  pre-setup-decision:
+    value: ${{ steps.pre-setup-announce-decision.outputs.PRE-SETUP-DECISION }}
+    description: ""
+  pre-setup-decision-reason:
+    value: ${{ steps.pre-setup-announce-decision.outputs.PRE-SETUP-DECISION-REASON }}
+    description: ""
   STAGE_VS_MAIN_STATE:
     value: ${{ steps.stage_vs_main_state.outputs.STAGE_VS_MAIN_STATE }}
     description: ""
-
+  LAST_COMMIT_MSG:
+    value: ${{ steps.pre-setup-announce-decision.outputs.LAST_COMMIT_MSG }}
+    description: ""
+  LAST_COMMIT_AUTHOR:
+    value: ${{ steps.pre-setup-announce-decision.outputs.LAST_COMMIT_AUTHOR }}
+    description: ""
 runs:
   using: "composite"
   steps:
-    # Exit for unsupported events
-    - name: Exit for non-supported events
-      if: inputs.github-event-name != 'schedule' && inputs.github-event-name != 'workflow_dispatch' && inputs.github-event-name != 'push'
-      shell: pwsh
-      run: |
-        Write-Host "This workflow is not configured to run on '${{ inputs.github-event-name }}' → exiting gracefully."
-        echo "cancel=true" >> $env:GITHUB_ENV
-        echo "cancelReason=❌ Unsupported event '${{ inputs.github-event-name }}'." >> $env:GITHUB_ENV
-
-    # This step will run only if the event is NOT manual or scheduled or push to main
-    - name: Exit for non-supported events
-      if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
-      shell: pwsh
-      run: |
-        Write-Host "This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting with failure."
-        echo
-        # Exit the job successfully, so it doesn't appear as a failure
-        echo "cancel=true" >> $env:GITHUB_ENV
-        echo "cancelReason=❌ This workflow is not configured to run on a '${{ github.event_name }}' event which is not supported → exiting with failure." >> $env:GITHUB_ENV
     # Decide whether to run hygiene checks
     - name: Decide whether to run hygiene checks
       id: decide
@@ -64,10 +56,10 @@ runs:
           lastCommitMessage=$(git log -1 --pretty=%B)
           # Export for later use / summary
           # echo "LAST_COMMIT_MSG=$lastCommitMessage" >> $GITHUB_OUTPUT
+        fi
           echo "LAST_COMMIT_MSG<<EOF" >> $GITHUB_OUTPUT
           echo "$lastCommitMessage" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-        fi
         
         LAST_COMMIT_AUTHOR=$(git log -1 --pretty=%an)
         # echo "LAST_COMMIT_AUTHOR=$LAST_COMMIT_AUTHOR" >> $GITHUB_OUTPUT
@@ -92,11 +84,13 @@ runs:
             else
               if [[ "$lastCommitMessage" =~ execute.*?hygiene.*?sweep ]]; then
                 echo "✅ Executing due to push event triggered by special commit message."
-                echo "Push to 'defaultBranchName' with trigger phrase → will execute hygiene sweep."
+                echo "Push to '$defaultBranchName' with trigger phrase → will execute hygiene sweep."
+                echo "cancel=false" >> $GITHUB_ENV
+                echo "cancelReason=✅ Executing due to push event triggered to '$defaultBranchName' with special commit message → will execute hygiene sweep." >> $GITHUB_ENV
               else
-                echo "❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully."
+                echo "❌ Push to '$defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully."
                 echo "cancel=true" >> $GITHUB_ENV
-                echo "cancelReason=❌ Push to 'defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
+                echo "cancelReason=❌ Push to '$defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
                 exit 0
               fi
             fi
@@ -110,6 +104,8 @@ runs:
             else
               echo "✅ Executing manually via workflow_dispatch."
               echo "Manual run on '$defaultBranchName' → will execute hygiene sweep."
+              echo "cancel=false" >> $GITHUB_ENV
+              echo "cancelReason=✅ Executing manually via workflow_dispatch on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
             fi
           elif [[ "$eventName" == "schedule" ]]; then
             echo "Scheduled run → will execute hygiene sweep."
@@ -117,12 +113,20 @@ runs:
               cronSchedule="${{ inputs.github-schedule }}"
               if [[ "$cronSchedule" == "30 3,15 * * 1-4,6" ]]; then
                 echo "✅ Executing for a business day (Monday, Tuesday, Wednesday, Thursday, Saturday)."
+                echo "cancel=false" >> $GITHUB_ENV
+                echo "cancelReason=✅ Executing for a business day (Monday, Tuesday, Wednesday, Thursday, Saturday) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "39 18 * * 4" ]]; then
                 echo "✅ Executing on Friday (12:09 AM IST)."
+                echo "cancel=false" >> $GITHUB_ENV
+                echo "cancelReason=✅ Executing on Friday (12:09 AM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "30 3 * * 5" ]]; then
                 echo "✅ Executing on Friday (9:00 AM IST)."
+                echo "cancel=false" >> $GITHUB_ENV
+                echo "cancelReason=✅ Executing on Friday (9:00 AM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "45 6 * * 5" ]]; then
                 echo "✅ Executing on Friday (12:15 PM IST)."
+                echo "cancel=false" >> $GITHUB_ENV
+                echo "cancelReason=✅ Executing on Friday (12:15 PM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               fi
           else
             echo "❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully."
@@ -132,20 +136,6 @@ runs:
           fi
         fi
 
-    # Log trigger for scheduled runs
-    - name: Log trigger for scheduled runs
-      if: inputs.github-event-name == 'schedule'
-      shell: pwsh
-      run: |
-        if ("${{ inputs.github-schedule }}" -eq '30 3,15 * * 1-4') {
-          Write-Host "✅ Executing for a business day (Mon-Thurs)."
-        } elseif ("${{ inputs.github-schedule }}" -eq '39 18 * * 4') {
-          Write-Host "✅ Executing on Friday (12:09 AM IST)."
-        } elseif ("${{ inputs.github-schedule }}" -eq '30 3 * * 5') {
-          Write-Host "✅ Executing on Friday (9:00 AM IST)."
-        } elseif ("${{ inputs.github-schedule }}" -eq '45 6 * * 5') {
-          Write-Host "✅ Executing on Friday (12:15 PM IST)."
-        }
 
     # Check stage vs main state
     - name: Check stage vs Default Branch (main) state
@@ -165,16 +155,23 @@ runs:
            [[ "$(git rev-list origin/stage..origin/$defaultBranchName --count)" -eq 0 ]]; then
           echo "✅ Stage already in sync with '$defaultBranchName'"
           echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with '$defaultBranchName'" >> $GITHUB_OUTPUT
+          echo "cancel=false" >> $GITHUB_ENV
+          echo "cancelReason=✅ Stage already in sync with → will execute hygiene sweep." >> $GITHUB_ENV
+
         elif git merge-base --is-ancestor origin/$defaultBranchName origin/stage; then
           ahead=$(git rev-list origin/$defaultBranchName..origin/stage --count)
           echo "DEBUG: ahead='$ahead' MAX_AHEAD_COMMITS='$MAX_AHEAD_COMMITS'"
           if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
             echo "❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required."
+            echo "STAGE_VS_MAIN_STATE=❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required." >> $GITHUB_OUTPUT
             echo "cancel=true" >> $GITHUB_ENV
             echo "cancelReason=❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required." >> $GITHUB_ENV
+            exit 0
           else
             echo "⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'"
-            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'" >> $GITHUB_OUTPUT 
+            echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'" >> $GITHUB_OUTPUT
+            echo "cancel=false" >> $GITHUB_ENV
+            echo "cancelReason=⚠️ Though, Stage is ${ahead} commit(s) ahead of '$defaultBranchName → will execute hygiene sweep." >> $GITHUB_ENV
           fi
         else # Case 3: stage diverged (not rebased)
           common=$(git merge-base origin/$defaultBranchName origin/stage)
@@ -184,49 +181,82 @@ runs:
 
           if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
             echo "❌ Stage diverged for ${age_days}d → rebase required."
+            echo "STAGE_VS_MAIN_STATE=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_OUTPUT
             echo "cancel=true" >> $GITHUB_ENV
             echo "cancelReason=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_ENV
+            exit 0
           fi
           if [[ "$age_days" -eq 0 ]]; then
             hours=$(( (now_ts - common_ts) / 3600 ))
             if [[ "$hours" -eq 0 ]]; then
               echo "⚠️ Stage diverged roughly within past hour"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged roughly within past hour" >> $GITHUB_OUTPUT
+              echo "cancel=false" >> $GITHUB_ENV
+              echo "cancelReason=⚠️ Though, Stage diverged roughly within past hour → will execute hygiene sweep." >> $GITHUB_ENV
             else
               echo "⚠️ Stage diverged ~${hours}h ago"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${hours}h ago" >> $GITHUB_OUTPUT
+              echo "cancel=false" >> $GITHUB_ENV
+              echo "cancelReason=⚠️ Though, Stage diverged ~${hours}h ago → will execute hygiene sweep." >> $GITHUB_ENV
             fi
           else
             echo "⚠️ Stage diverged ~${age_days}d ago"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT
+            echo "cancel=false" >> $GITHUB_ENV
+            echo "cancelReason=⚠️ Though, Stage diverged ~${age_days}d ago → will execute hygiene sweep." >> $GITHUB_ENV
           fi
         fi
-
-    # Cancel gracefully if needed
-    - name: Cancel current workflow gracefully
-      if: env.cancel == 'true'
+     # Announce Final Decision
+    - name: Announce Final Decision
       shell: pwsh
+      id: pre-setup-announce-decision
       run: |
+        $presetupdecision="$env:cancel"
         $msg = "$env:cancelReason"
-        Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
-        Write-Host "Cancel Reason:  $msg"
-        echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
-        echo "" >> $env:GITHUB_STEP_SUMMARY
-        echo "$msg" >> $env:GITHUB_STEP_SUMMARY
-        echo "" >> $env:GITHUB_STEP_SUMMARY
-        echo "**Triggered by:** ${{ inputs.github-event-name }}" >> $env:GITHUB_STEP_SUMMARY
-        echo "**Branch:** ${{ inputs.github-ref-name }}" >> $env:GITHUB_STEP_SUMMARY
-        # Use fallback for workflow_dispatch
+        Write-Host "Decision to Execute or Cancel: $presetupdecision"
+        Write-Host "Decision to Execute or Cancel → Reason:  $msg"
+        echo "pre-setup-decision=$presetupdecision" >> $env:GITHUB_OUTPUT
+        echo "pre-setup-decision-reason=$msg" >> $env:GITHUB_OUTPUT
+        
         $lastCommitMessage = "${{ steps.decide.outputs.LAST_COMMIT_MSG }}"
         $lastCommitAuthor = "${{ steps.decide.outputs.LAST_COMMIT_AUTHOR }}"
         
         if ([string]::IsNullOrEmpty($lastCommitMessage)) {
           $lastCommitMessage = "N/A (manual workflow_dispatch)"
         }
-        
+
         if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
           $lastCommitAuthor = "N/A"
         }
-        echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
-        echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
-        exit 1
+        echo "LAST_COMMIT_MSG=$lastCommitMessage" >> $env:GITHUB_OUTPUT
+        echo "LAST_COMMIT_AUTHOR=$lastCommitAuthor" >> $env:GITHUB_OUTPUT
+      
+
+#    # Cancel gracefully if needed
+#    - name: Cancel current workflow gracefully
+#          if: env.cancel == 'true'
+#      shell: pwsh
+#      run: |
+#        $msg = "$env:cancelReason"
+#        Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
+#        Write-Host "Cancel Reason:  $msg"
+#        echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+#        echo "" >> $env:GITHUB_STEP_SUMMARY
+#        echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+#        echo "" >> $env:GITHUB_STEP_SUMMARY
+#        echo "**Triggered by:** ${{ inputs.github-event-name }}" >> $env:GITHUB_STEP_SUMMARY
+#        echo "**Branch:** ${{ inputs.github-ref-name }}" >> $env:GITHUB_STEP_SUMMARY
+#        # Use fallback for workflow_dispatch
+#        $lastCommitMessage = "${{ steps.decide.outputs.LAST_COMMIT_MSG }}"
+#        $lastCommitAuthor = "${{ steps.decide.outputs.LAST_COMMIT_AUTHOR }}"
+#
+#        if ([string]::IsNullOrEmpty($lastCommitMessage)) {
+#          $lastCommitMessage = "N/A (manual workflow_dispatch)"
+#        }
+#
+#        if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
+#          $lastCommitAuthor = "N/A"
+#        }
+#        echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
+#        echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
+#        exit 1
