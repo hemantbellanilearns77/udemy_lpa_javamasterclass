@@ -168,37 +168,7 @@ jobs:
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       EMAIL_RECIPIENT: ${{ vars.EMAIL_RECIPIENT }}
     steps:
-#      # Cancel gracefully if needed
-#      - name: Cancel current workflow gracefully
-#        id: cancel-hygiene
-#        shell: pwsh
-#        run: |
-#          $msg = "${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}"
-#          Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
-#          Write-Host "Cancel Reason:  $msg"
-#          echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
-#          echo "" >> $env:GITHUB_STEP_SUMMARY
-#          echo "$msg" >> $env:GITHUB_STEP_SUMMARY
-#          echo "" >> $env:GITHUB_STEP_SUMMARY
-#          echo "**Triggered by:** ${{ github.event_name }}" >> $env:GITHUB_STEP_SUMMARY
-#          echo "**Branch:** ${{ github.ref_name }}" >> $env:GITHUB_STEP_SUMMARY
-#          # Use fallback for workflow_dispatch
-#          $lastCommitMessage = "${{ needs.pre-setup-job.outputs.last-commit-msg }}"
-#          $lastCommitAuthor = "${{ needs.pre-setup-job.outputs.last-commit-author }}"
-#
-#          if ([string]::IsNullOrEmpty($lastCommitMessage)) {
-#            $lastCommitMessage = "N/A (manual workflow_dispatch)"
-#          }
-#
-#          if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
-#            $lastCommitAuthor = "N/A"
-#          }
-#          echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
-#          echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
-#          exit 1
-
-
-      # Checkout Code
+          # Checkout Code
         - name: Checkout default branch
           uses: actions/checkout@v4
           with:
