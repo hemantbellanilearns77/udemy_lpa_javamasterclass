@@ -156,7 +156,7 @@ jobs:
         id: cleanup-and-verify-composite-call
         uses: ./.github/actions/full-cleanup-and-verify
 
-  hygiene-checks-cancel:
+  hygiene-checks-cancel-wip:
     name: Hygiene Checks - Cancel
     runs-on: windows-latest
     needs: pre-setup-job
