@@ -157,7 +157,7 @@ jobs:
         uses: ./.github/actions/full-cleanup-and-verify
 
   hygiene-checks-cancel:
-    name: Hygiene Checks - Cancel - WIP
+    name: Hygiene Checks - Cancel
     runs-on: windows-latest
     needs: pre-setup-job
     if: ${{ needs.pre-setup-job.outputs.pre-setup-decision == 'false' }}
