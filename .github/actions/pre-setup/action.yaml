@@ -69,7 +69,7 @@ runs:
         
         if [[ -z "$branchName" ]]; then
           echo "❌ No branch name resolved (event=$eventName, ref=${{ github.ref }})"
-          echo "cancel=true" >> $GITHUB_ENV
+          echo "execute=false" >> $GITHUB_ENV
           echo "cancelReason=❌ No branch name resolved → stopping hygiene sweep." >> $GITHUB_ENV
           exit 0
         else
@@ -78,18 +78,18 @@ runs:
            
             if [[ "$branchName" != "$defaultBranchName" ]]; then
               echo "❌ Push event but branch is '$branchName' (not '$defaultBranchName')."
-              echo "cancel=true" >> $GITHUB_ENV
+              echo "execute=false" >> $GITHUB_ENV
               echo "cancelReason=❌ Push event but branch is '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
               exit 0
             else
               if [[ "$lastCommitMessage" =~ execute.*?hygiene.*?sweep ]]; then
                 echo "✅ Executing due to push event triggered by special commit message."
                 echo "Push to '$defaultBranchName' with trigger phrase → will execute hygiene sweep."
-                echo "cancel=false" >> $GITHUB_ENV
+                echo "execute=true" >> $GITHUB_ENV
                 echo "cancelReason=✅ Executing due to push event triggered to '$defaultBranchName' with special commit message → will execute hygiene sweep." >> $GITHUB_ENV
               else
                 echo "❌ Push to '$defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully."
-                echo "cancel=true" >> $GITHUB_ENV
+                echo "execute=false" >> $GITHUB_ENV
                 echo "cancelReason=❌ Push to '$defaultBranchName' without trigger phrase → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
                 exit 0
               fi
@@ -98,13 +98,13 @@ runs:
             
             if [[ "$branchName" != "$defaultBranchName" ]]; then
               echo "❌ Manual run on branch '$branchName' (not '$defaultBranchName')."
-              echo "cancel=true" >> $GITHUB_ENV
+              echo "execute=false" >> $GITHUB_ENV
               echo "cancelReason=❌ Manual run on branch '$branchName' (not '$defaultBranchName')." >> $GITHUB_ENV
               exit 0
             else
               echo "✅ Executing manually via workflow_dispatch."
               echo "Manual run on '$defaultBranchName' → will execute hygiene sweep."
-              echo "cancel=false" >> $GITHUB_ENV
+              echo "execute=true" >> $GITHUB_ENV
               echo "cancelReason=✅ Executing manually via workflow_dispatch on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
             fi
           elif [[ "$eventName" == "schedule" ]]; then
@@ -113,24 +113,24 @@ runs:
               cronSchedule="${{ inputs.github-schedule }}"
               if [[ "$cronSchedule" == "30 3,15 * * 1-4,6" ]]; then
                 echo "✅ Executing for a business day (Monday, Tuesday, Wednesday, Thursday, Saturday)."
-                echo "cancel=false" >> $GITHUB_ENV
+                echo "execute=true" >> $GITHUB_ENV
                 echo "cancelReason=✅ Executing for a business day (Monday, Tuesday, Wednesday, Thursday, Saturday) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "39 18 * * 4" ]]; then
                 echo "✅ Executing on Friday (12:09 AM IST)."
-                echo "cancel=false" >> $GITHUB_ENV
+                echo "execute=true" >> $GITHUB_ENV
                 echo "cancelReason=✅ Executing on Friday (12:09 AM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "30 3 * * 5" ]]; then
                 echo "✅ Executing on Friday (9:00 AM IST)."
-                echo "cancel=false" >> $GITHUB_ENV
+                echo "execute=true" >> $GITHUB_ENV
                 echo "cancelReason=✅ Executing on Friday (9:00 AM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               elif [[ "$cronSchedule" == "45 6 * * 5" ]]; then
                 echo "✅ Executing on Friday (12:15 PM IST)."
-                echo "cancel=false" >> $GITHUB_ENV
+                echo "execute=true" >> $GITHUB_ENV
                 echo "cancelReason=✅ Executing on Friday (12:15 PM IST) on branch: '$defaultBranchName' → will execute hygiene sweep." >> $GITHUB_ENV
               fi
           else
             echo "❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully."
-            echo "cancel=true" >> $GITHUB_ENV
+            echo "execute=false" >> $GITHUB_ENV
             echo "cancelReason=❌ Unsupported event ($eventName) → will not execute hygiene sweep and stop gracefully." >> $GITHUB_ENV
             exit 0
           fi
@@ -155,7 +155,7 @@ runs:
            [[ "$(git rev-list origin/stage..origin/$defaultBranchName --count)" -eq 0 ]]; then
           echo "✅ Stage already in sync with '$defaultBranchName'"
           echo "STAGE_VS_MAIN_STATE=✅ Stage already in sync with '$defaultBranchName'" >> $GITHUB_OUTPUT
-          echo "cancel=false" >> $GITHUB_ENV
+          echo "execute=true" >> $GITHUB_ENV
           echo "cancelReason=✅ Stage already in sync with → will execute hygiene sweep." >> $GITHUB_ENV
 
         elif git merge-base --is-ancestor origin/$defaultBranchName origin/stage; then
@@ -164,13 +164,13 @@ runs:
           if [[ "$ahead" -gt "$MAX_AHEAD_COMMITS" ]]; then
             echo "❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required."
             echo "STAGE_VS_MAIN_STATE=❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required." >> $GITHUB_OUTPUT
-            echo "cancel=true" >> $GITHUB_ENV
+            echo "execute=false" >> $GITHUB_ENV
             echo "cancelReason=❌ Stage is $ahead commits ahead of '$defaultBranchName'. PR required." >> $GITHUB_ENV
             exit 0
           else
             echo "⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage is ${ahead} commit(s) ahead of '$defaultBranchName'" >> $GITHUB_OUTPUT
-            echo "cancel=false" >> $GITHUB_ENV
+            echo "execute=true" >> $GITHUB_ENV
             echo "cancelReason=⚠️ Though, Stage is ${ahead} commit(s) ahead of '$defaultBranchName → will execute hygiene sweep." >> $GITHUB_ENV
           fi
         else # Case 3: stage diverged (not rebased)
@@ -182,7 +182,7 @@ runs:
           if [[ "$age_days" -gt "$MAX_DIVERGENCE_DAYS" ]]; then
             echo "❌ Stage diverged for ${age_days}d → rebase required."
             echo "STAGE_VS_MAIN_STATE=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_OUTPUT
-            echo "cancel=true" >> $GITHUB_ENV
+            echo "execute=false" >> $GITHUB_ENV
             echo "cancelReason=❌ Stage diverged for ${age_days}d → rebase required." >> $GITHUB_ENV
             exit 0
           fi
@@ -191,18 +191,18 @@ runs:
             if [[ "$hours" -eq 0 ]]; then
               echo "⚠️ Stage diverged roughly within past hour"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged roughly within past hour" >> $GITHUB_OUTPUT
-              echo "cancel=false" >> $GITHUB_ENV
+              echo "execute=true" >> $GITHUB_ENV
               echo "cancelReason=⚠️ Though, Stage diverged roughly within past hour → will execute hygiene sweep." >> $GITHUB_ENV
             else
               echo "⚠️ Stage diverged ~${hours}h ago"
               echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${hours}h ago" >> $GITHUB_OUTPUT
-              echo "cancel=false" >> $GITHUB_ENV
+              echo "execute=true" >> $GITHUB_ENV
               echo "cancelReason=⚠️ Though, Stage diverged ~${hours}h ago → will execute hygiene sweep." >> $GITHUB_ENV
             fi
           else
             echo "⚠️ Stage diverged ~${age_days}d ago"
             echo "STAGE_VS_MAIN_STATE=⚠️ Stage diverged ~${age_days}d ago" >> $GITHUB_OUTPUT
-            echo "cancel=false" >> $GITHUB_ENV
+            echo "execute=true" >> $GITHUB_ENV
             echo "cancelReason=⚠️ Though, Stage diverged ~${age_days}d ago → will execute hygiene sweep." >> $GITHUB_ENV
           fi
         fi

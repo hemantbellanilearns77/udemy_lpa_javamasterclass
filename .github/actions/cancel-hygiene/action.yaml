@@ -1,0 +1,98 @@
+name: "Cancel Hygiene"
+description: "Handles cancellation: prints GitHub summary, sends email, and cancels gracefully"
+
+inputs:
+  reason:
+    required: true
+    description: "Reason for cancellation"
+  last-commit-msg:
+    required: true
+    description: "Last commit message"
+  last-commit-author:
+    required: true
+    description: "Last commit author"
+  github-event:
+    required: true
+    description: "GitHub event name"
+  branch:
+    required: true
+    description: "Branch name"
+
+runs:
+  using: "composite"
+  steps:
+    #############################################################
+    # 1. Print GitHub Summary (your exact logic with fallbacks)
+    #############################################################
+    - name: Print cancellation summary
+      id: print-summary
+      shell: pwsh
+      run: |
+        $msg = "${{ inputs.reason }}"
+        Write-Host "ℹ️ Cancelling workflow without executing hygiene sweep."
+        Write-Host "Cancel Reason: $msg"
+
+        echo "### ❌ Hygiene Checks Cancelled" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "$msg" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Triggered by:** ${{ inputs.github-event }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Branch:** ${{ inputs.branch }}" >> $env:GITHUB_STEP_SUMMARY
+
+        $lastCommitMessage = "${{ inputs.last-commit-msg }}"
+        $lastCommitAuthor  = "${{ inputs.last-commit-author }}"
+
+        if ([string]::IsNullOrEmpty($lastCommitMessage)) {
+          $lastCommitMessage = "N/A (manual workflow_dispatch)"
+        }
+        if ([string]::IsNullOrEmpty($lastCommitAuthor)) {
+          $lastCommitAuthor = "N/A"
+        }
+
+        echo "**Last Commit Message:** $lastCommitMessage" >> $env:GITHUB_STEP_SUMMARY
+        echo "**Last Commit Author:** $lastCommitAuthor" >> $env:GITHUB_STEP_SUMMARY
+
+    #############################################################
+    # 2. Send Cancellation Email (🚨 alarm in subject)
+    #############################################################
+
+    - name: 📧 Send Cancellation Email
+      id: send-cancellation-email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ env.SMTP_SERVER_ADDRESS }}
+        server_port: ${{ env.SMTP_SERVER_PORT }}
+        username: ${{ env.SMTP_USER }}
+        password: ${{ env.SMTP_PASS }}
+        to: ${{ env.EMAIL_RECIPIENT }}
+        from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
+        subject: >-
+          🚨 HYGIENE PIPELINE CANCELLED | Repo: ${{ github.repository }} | Branch: ${{ inputs.branch }} | Run #${{  ${{ github.run_id }} }}
+        html_body: |
+          <html>
+          <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">
+            <h2>❌ Hygiene Pipeline Cancelled</h2>
+            <p><strong>Reason:</strong> <code>${{ inputs.reason }}</code></p>
+            <p><strong>Triggered by:</strong> <code>${{ inputs.github-event }}</code></p>
+            <p><strong>Branch:</strong> <code>${{ inputs.branch }}</code></p>
+            <p><strong>Last Commit:</strong> "${{ inputs.last-commit-msg }}" by <code>${{ inputs.last-commit-author }}</code></p>
+            <p><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run Details</a></p>
+            <p><em>🤖 This is an automated cancellation notice.</em></p>
+          </body>
+          </html>
+    #############################################################
+    # 3. Cancel Job Gracefully
+    #############################################################
+    - name: Cancel workflow gracefully (Gray)
+      id: github-restapi-call-cancel-workflow
+      shell: pwsh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $uri = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel"
+        Write-Host "⚠️ Cancelling workflow via GitHub API..."
+        Invoke-RestMethod -Method POST -Uri $uri -Headers @{
+          Accept = "application/vnd.github+json"
+          Authorization = "Bearer $env:GITHUB_TOKEN"
+        }
+        Write-Host "Workflow cancellation requested. It will appear gray (Cancelled) in GitHub."
