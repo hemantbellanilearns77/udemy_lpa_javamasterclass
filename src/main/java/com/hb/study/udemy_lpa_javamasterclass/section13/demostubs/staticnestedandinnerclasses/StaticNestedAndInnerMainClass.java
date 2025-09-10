@@ -21,8 +21,8 @@ public class StaticNestedAndInnerMainClass {
                 new Employee(13151, "Laura", 2020),
                 new Employee(10050, "Jim", 2018)));
 
-//        var comparator = new EmployeeComparator<>();
-//        employees.sort(comparator);
+         var anotherComparator = new EmployeeComparator<>();
+          employees.sort(anotherComparator);
 
         employees.sort(new Employee.EmployeeComparator("yearStarted")
                 .reversed());
@@ -73,8 +73,8 @@ public class StaticNestedAndInnerMainClass {
         class DecoratedEmployee extends StoreEmployee
                 implements Comparable<DecoratedEmployee> {
 
-            private String pigLatinName;
-            private Employee originalInstance;
+            private final String pigLatinName;
+            private final Employee originalInstance;
 
             public DecoratedEmployee(String pigLatinName, Employee originalInstance) {
                 this.pigLatinName = pigLatinName + " " + lastName;
