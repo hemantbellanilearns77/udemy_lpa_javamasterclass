@@ -74,7 +74,12 @@ public class LambdaExpressionsChallenge {
         ConsoleStyler.halfDivider();
 
         //Add a last name that is the reverse of the first name.
-        backedByArray.replaceAll(s -> s += " " + getReversedName(s.split(" ")[0]));
+        backedByArray.replaceAll(s -> {
+            s += " " + getReversedName(s.split(" ")[0]);
+            ConsoleStyler.styleOutput(s);
+            return s;
+        });
+        ConsoleStyler.styleOutput(backedByArray.toString());
         ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY +
                 "Add reversed name as last name", CommonConstants.EMPTYSTRING + Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
