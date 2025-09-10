@@ -29,12 +29,11 @@ public class ChallengeMainClass {
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
-    private static String[] args;
 
-        public static void main(String[] args) {
+
+    public static void main(String[] args) {
 
         execution.initialize(args);
-        ChallengeMainClass.args = args;
         ConsoleStyler.styleOutput("This program will generate " + MAX_EMPLOYEE_COUNT + " objects for Employees");
         List<Employee> employees = generateEmployeesList();
 
@@ -43,7 +42,7 @@ public class ChallengeMainClass {
         for (int i = 0; i < employees.size(); i++) {
             ConsoleStyler.styleOutput(i + 1 + ".\t\t" + employees.get(i).toString());
         }
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         ConsoleStyler.styleOutput("*".repeat(54) + "\tNow begins the sorting demo\t " + "*".repeat(54));
         String sortField;
@@ -51,13 +50,13 @@ public class ChallengeMainClass {
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 "default sort order" + " is:");
         printOrderedList(employees, null);
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "fullName";
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
                 sortField + " is:");
         printOrderedList(employees, sortField);
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         sortField = "yearsWorked";
         ConsoleStyler.styleOutput("Detailed listing of Employees (i.e. DetailedEmployee) sorted according to " +
@@ -94,7 +93,9 @@ public class ChallengeMainClass {
         }
 
         interface EnhancedComparator<T> extends Comparator<T> {
-            int secondLevel(T o1, T o2);
+            default int secondLevel(T o1, T o2) {
+                return 0;
+            }
         }
 
         List<DetailedEmployee> empDetails = new ArrayList<>();
@@ -102,34 +103,50 @@ public class ChallengeMainClass {
             empDetails.add(new DetailedEmployee(emp));
         }
         ConsoleStyler.styleExecutionInsight("""
-            //anonymous class
-            /*var detailedEmpComparator = new Comparator<DetailedEmployee>() {
-    
-                @Override
-                public int compare(DetailedEmployee o1, DetailedEmployee o2) {
-                    if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
-                        if (sortField.equalsIgnoreCase("fullName")) {
-                            return o1.fullName.compareTo(o2.fullName);
-                        } else if (sortField.equalsIgnoreCase("yearsWorked")) {
-                            return Integer.compare(o1.yearsWorked, o2.yearsWorked);
+                //anonymous class
+                /*var detailedEmpComparator = new Comparator<DetailedEmployee>() {
+                
+                    @Override
+                    public int compare(DetailedEmployee o1, DetailedEmployee o2) {
+                        if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
+                            if (sortField.equalsIgnoreCase("fullName")) {
+                                return o1.fullName.compareTo(o2.fullName);
+                            } else if (sortField.equalsIgnoreCase("yearsWorked")) {
+                                return Integer.compare(o1.yearsWorked, o2.yearsWorked);
+                            }
                         }
+                        return 0;
                     }
-                    return 0;
-                }
-            };*/
-            """);
+                };*/
+                """);
+        var anotherDetailedEmpComparatorMixed = new EnhancedComparator<>() {
+
+            @Override
+            public int secondLevel(Object o1, Object o2) {
+                return EnhancedComparator.super.secondLevel(o1, o2);
+            }
+
+            @Override
+            public int compare(Object o1, Object o2) {
+                return 0;
+            }
+        };
+        empDetails.sort(anotherDetailedEmpComparatorMixed);
         //another anonymous class
         var detailedEmpComparatorMixed = new EnhancedComparator<DetailedEmployee>() {
 
             @Override
             public int compare(DetailedEmployee o1, DetailedEmployee o2) {
-                if (!(sortField == null || sortField.isEmpty() || sortField.isBlank())) {
+                if (!(sortField == null || sortField.isBlank())) {
                     if (sortField.equalsIgnoreCase("fullName")) {
                         String o1FirstName = o1.fullName.split(" ")[0];
-                        String o2FirstName =  o2.fullName.split(" ")[0];
+                        String o2FirstName = o2.fullName.split(" ")[0];
 
                         int result = o1FirstName.compareTo(o2FirstName);
-                        return (result == 0 ? secondLevel(o1, o2) : result);
+                        ConsoleStyler.styleOutput("First Level Comparison returned : " + result);
+                        result = secondLevel(o1, o2);
+                        return  result;
+                        // return (result == 0 ? secondLevel(o1, o2) : result);
                     } else if (sortField.equalsIgnoreCase("yearsWorked")) {
                         return Integer.compare(o1.yearsWorked, o2.yearsWorked);
                     }
@@ -140,7 +157,7 @@ public class ChallengeMainClass {
             @Override
             public int secondLevel(DetailedEmployee o1, DetailedEmployee o2) {
                 String o1Lastname = o1.fullName.split(" ")[1];
-                String o2LastName =  o2.fullName.split(" ")[1];
+                String o2LastName = o2.fullName.split(" ")[1];
                 return o1Lastname.compareTo(o2LastName);
             }
         };
@@ -148,13 +165,12 @@ public class ChallengeMainClass {
 
         ConsoleStyler.styleOutput("S.No.\t\t\t\t\tEmployee Details");
         for (int i = 0; i < empDetails.size(); i++) {
-             ConsoleStyler.styleOutput((i + 1) + "\t\t" + empDetails.get(i).toString());
+            ConsoleStyler.styleOutput((i + 1) + "\t\t" + empDetails.get(i).toString());
         }
 
     }
 
     private static List<Employee> generateEmployeesList() {
-        String[] fullName;
         List<Employee> generatedEmployeesList = new ArrayList<>(MAX_EMPLOYEE_COUNT);
         Name generatedFullName;
 
@@ -163,7 +179,7 @@ public class ChallengeMainClass {
             generatedEmployeesList.add(listElementCounter, new Employee(
                     generatedFullName.getFirstName(),
                     generatedFullName.getLastName(),
-                    CommonUtils.getRandomDate(15,8, 1947,FormatStyle.LONG)));
+                    CommonUtils.getRandomDate(15, 8, 1947, FormatStyle.LONG)));
         }
         return generatedEmployeesList;
     }
