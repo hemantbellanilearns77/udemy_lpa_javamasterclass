@@ -4,10 +4,10 @@ import java.util.Comparator;
 
 public class Employee {
 
-    public static class EmployeeComparator <T extends Employee>
+    public static class EmployeeComparator
             implements Comparator<Employee> {
 
-        private String sortType;
+        private final String sortType;
 
         public EmployeeComparator() {
             this("name");

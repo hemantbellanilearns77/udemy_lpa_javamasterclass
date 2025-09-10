@@ -34,7 +34,7 @@ public class RunMethods {
                         "Target")));
 
         var c0 = new EmployeeComparator<StoreEmployee>();
-        var c1 = new Employee.EmployeeComparator<StoreEmployee>();
+        var c1 = new Employee.EmployeeComparator();
         var c2 = new StoreEmployee().new StoreComparator<StoreEmployee>();
 
         // Using local class
