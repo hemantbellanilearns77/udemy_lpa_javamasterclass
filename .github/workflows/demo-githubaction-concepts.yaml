@@ -1,0 +1,126 @@
+####################################################################
+# DEMO WORKFLOW OF GITHUB ACTIONS CONCEPTS
+# - Demonstrates cancellation, composite actions, conditionals,
+#   env + output passing, email, cross-platform jobs, and matrix.
+####################################################################
+name: Demo → GitHub Actions Concepts
+
+on:
+  workflow_dispatch: # Run manually from GitHub UI
+
+jobs:
+  ############################################################
+  # JOB 1: CANCEL DEMONSTRATION (Windows-based)
+  ############################################################
+  cancel-demo:
+    name: Cancel Workflow Demo (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set cancel flag
+        shell: pwsh
+        run: |
+          echo "cancel=true" >> $env:GITHUB_ENV
+          echo "cancelReason=Testing cancellation after checkout" >> $env:GITHUB_ENV
+
+      - name: Cancel workflow
+        if: env.cancel == 'true'
+        uses: styfle/cancel-workflow-action@v0.12.1
+        with:
+          access_token: ${{ secrets.PAT_TOKEN }}
+          reason: "ℹ️ Cancelling workflow: ${{ env.cancelReason }}"
+
+      - name: Dummy step after cancel
+        if: env.cancel != 'true'
+        shell: pwsh
+        run: Write-Host "This should NOT run if workflow is cancelled"
+
+  ############################################################
+  # JOB 2: DEMONSTRATE COMPOSITE + CONDITIONALS (Ubuntu-based)
+  ############################################################
+  demo-composite:
+    name: Composite + Conditionals Demo (Ubuntu)
+    runs-on: ubuntu-latest
+    env:
+      SKIP_ECHO: true
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Capture a value (simulate dynamic output)
+        id: capture
+        run: echo "name=HemantBellani" >> $GITHUB_OUTPUT
+
+      - name: Call Composite Action
+        id: process
+        uses: ./.github/actions/demo-composite-action
+        with:
+          username: ${{ steps.capture.outputs.name }}
+
+      - name: Use output in summary
+        run: |
+          echo "Original name: ${{ steps.process.outputs.originalName }}"
+          echo "Uppercased: ${{ steps.process.outputs.upperName }}"
+
+      - name: Say Hello (unless skipped)
+        if: env.SKIP_ECHO != 'true'
+        run: echo Hello, world!
+        shell: cmd
+
+      - name: Use output in Email step (toy example)
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
+          server_port: ${{ vars.SMTP_SERVER_PORT }}
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "Processed for ${{ steps.process.outputs.upperName }}"
+          to: hemantbellanilearns77@gmail.com
+          from: github-actions@example.com
+          body: |
+            Hello ${{ steps.process.outputs.originalName }},
+            Your processed variant is: ${{ steps.process.outputs.upperName }}.
+
+  ############################################################
+  # JOB 3: DEMO ON WINDOWS (to show cross-platform capability)
+  ############################################################
+  windows-extra:
+    name: Cross-Platform Demo (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Print environment
+        shell: pwsh
+        run: |
+          Write-Host "Running on Windows runner."
+          Write-Host "GitHub Actor: $env:GITHUB_ACTOR"
+          Write-Host "Repo: $env:GITHUB_REPOSITORY"
+
+      - name: Dummy conditional
+        if: always()
+        run: echo "✅ This runs regardless of success/failure."
+
+  ############################################################
+  # JOB 4: MATRIX STRATEGY (Runs on Windows + Ubuntu automatically)
+  ############################################################
+  matrix-demo:
+    name: Matrix Demo (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Print runner info
+        run: |
+          echo "🖥️ Running on ${{ matrix.os }}"
+          echo "GitHub Actor: $GITHUB_ACTOR"
+          echo "Repo: $GITHUB_REPOSITORY"
