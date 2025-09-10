@@ -24,7 +24,7 @@ public class StaticNestedAndInnerMainClass {
 //        var comparator = new EmployeeComparator<>();
 //        employees.sort(comparator);
 
-        employees.sort(new Employee.EmployeeComparator<>("yearStarted")
+        employees.sort(new Employee.EmployeeComparator("yearStarted")
                 .reversed());
 
         for (Employee e : employees) {

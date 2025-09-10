@@ -1,4 +1,4 @@
-package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.landaclasseschallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.lambdaclasseschallenge;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * created by : heman on 08-07-2025, 02:50 PM, in the "udemy_lpa_javamasterclass" project
  **/
-//This main class demo stubs the Local and Anonymous Classes' Challenge.
 public class ChallengeMainClass {
 
     //Object level or Static declarations here...
@@ -146,7 +145,6 @@ public class ChallengeMainClass {
                         ConsoleStyler.styleOutput("First Level Comparison returned : " + result);
                         result = secondLevel(o1, o2);
                         return  result;
-                        // return (result == 0 ? secondLevel(o1, o2) : result);
                     } else if (sortField.equalsIgnoreCase("yearsWorked")) {
                         return Integer.compare(o1.yearsWorked, o2.yearsWorked);
                     }
