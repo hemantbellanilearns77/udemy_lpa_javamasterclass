@@ -9,20 +9,21 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class GenericsBasedComparingMain {
-    //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] args) {
-        //
+    public static void main(String[] args) {
+
         execution.initialize(args);
 
         Integer five = 5;
         Integer[] others = {0, 5, 10, -50, 50};
+        String comparisonValSymbol;
 
         for (Integer i : others) {
             int val = five.compareTo(i);
-            ConsoleStyler.styleOutput("%d %s %d: compareTo=%d%n".formatted( five,
-                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), i, val));
+            comparisonValSymbol = val < 0 ? "<" : ">";
+            ConsoleStyler.styleOutput("%d %s %d: compareTo=%d%n".formatted(five,
+                    (val == 0 ? "==" : comparisonValSymbol), i, val));
         }
 
         String banana = "banana";
@@ -30,18 +31,19 @@ public class GenericsBasedComparingMain {
         ConsoleStyler.divider();
         for (String s : fruit) {
             int val = banana.compareTo(s);
+            comparisonValSymbol = val < 0 ? "<" : ">";
             ConsoleStyler.styleOutput("%s %s %s: compareTo=%d%n".formatted(banana,
-                    (val == 0 ? "==" : (val < 0) ? "<" : ">"), s, val));
+                    (val == 0 ? "==" : comparisonValSymbol), s, val));
         }
 
         Arrays.sort(fruit);
         ConsoleStyler.styleOutput(Arrays.toString(fruit));
-        ConsoleStyler.styleOutput("A:"+(int)'A' + " " + "a:"+(int)'a');
-        ConsoleStyler.styleOutput("B:"+(int)'B' + " " + "b:"+(int)'b');
-        ConsoleStyler.styleOutput("P:"+(int)'P' + " " + "p:"+(int)'p');
+        ConsoleStyler.styleOutput("A:" + (int) 'A' + " " + "a:" + (int) 'a');
+        ConsoleStyler.styleOutput("B:" + (int) 'B' + " " + "b:" + (int) 'b');
+        ConsoleStyler.styleOutput("P:" + (int) 'P' + " " + "p:" + (int) 'p');
         ConsoleStyler.divider();
-        Student tim = new Student ("Tim");
-        Student [] students = {new Student("Zach"), new Student("Tim"),
+        Student tim = new Student("Tim");
+        Student[] students = {new Student("Zach"), new Student("Tim"),
                 new Student("Ann"), new Student("Tim")};
 
         Arrays.sort(students);
@@ -59,14 +61,9 @@ public class GenericsBasedComparingMain {
                 //        return name.compareTo(other.name);
                 //    }
                 """);
- 	       /*
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
-
-  //
 }
 
 class StudentGPAComparator implements Comparator<Student> {
@@ -106,7 +103,5 @@ class Student implements Comparable<Student> {
                 """);
         return Integer.compare(id, o.id);
     }
-
-
 }
 
