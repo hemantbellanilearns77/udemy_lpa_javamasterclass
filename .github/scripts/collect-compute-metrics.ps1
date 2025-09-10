@@ -402,14 +402,14 @@
                   INFO    = 0
                 }
         
-                  foreach ($issue in $response.issues) {
+                foreach ($issue in $response.issues) {
                   switch ($issue.severity) {
-                  "BLOCKER"  { $counts.BLOCKER++ }
-                  "CRITICAL" { $counts.HIGH++ }
-                  "MAJOR"    { $counts.MEDIUM++ }
-                  "MINOR"    { $counts.LOW++ }
-                  "INFO"     { $counts.INFO++ }
-                }
+                      "BLOCKER"  { $counts.BLOCKER++ }
+                      "CRITICAL" { $counts.HIGH++ }
+                      "MAJOR"    { $counts.MEDIUM++ }
+                      "MINOR"    { $counts.LOW++ }
+                      "INFO"     { $counts.INFO++ }
+                    }
                 }
         
                 # Now add to moduleAgg

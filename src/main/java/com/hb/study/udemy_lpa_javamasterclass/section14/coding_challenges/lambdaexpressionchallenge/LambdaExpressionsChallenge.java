@@ -20,8 +20,7 @@ public class LambdaExpressionsChallenge {
     private static final ExcecutionUtil execution = new ExcecutionUtil();
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final NamesUtil namesUtil = new NamesUtil();
-    private static final String LIST_BACKED_BY_ARRAY = """
-            List backedByArray -->""";
+    private static final String LIST_BACKED_BY_ARRAY = "List backedByArray -->";
 
     public static void main(String[] args) {
         execution.initialize(args);
@@ -51,37 +50,33 @@ public class LambdaExpressionsChallenge {
                 Use removeIf with a lambda expression to perform this last operation.
                 """);
 
-        ConsoleStyler.styleInitializationInfo("""
-                First NamesUtil Array initialized for use in this challenge as below:""");
+        ConsoleStyler.styleInitializationInfo("First NamesUtil Array initialized for use in this challenge as below:");
         ConsoleStyler.styleOutput(null, Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
 
         List<String> backedByArray = Arrays.asList(firstNames);
-        UnaryOperator<String> allUppercaseUnaryLambda = (s) -> {
-            return s.toUpperCase();
-        };
+        UnaryOperator<String> allUppercaseUnaryLambda = String::toUpperCase;
+        ConsoleStyler.styleExecutionInsight("""
+                It was:
+                UnaryOperator<String> allUppercaseUnaryLambda = s -> s.toUpperCase();
+                But replaced with methods reference to fix a sonar.
+                """);
         // Transform names to all uppercase.
         backedByArray.replaceAll(allUppercaseUnaryLambda);
-        ConsoleStyler.styleOutput( LIST_BACKED_BY_ARRAY
-                + """
-                 Transform to Uppercase""", backedByArray.toString());
+        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY + "Transform to Uppercase", backedByArray.toString());
 
         ConsoleStyler.halfDivider();
         // Add a randomly generated middle initial and include a period.
-        backedByArray.replaceAll((s) -> s + " " + getRandomChar('A', 'Z') + '.');
-        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY
-                 + """
-                 Transform to add a middle Initial with a period
-                """, backedByArray.toString());
+        backedByArray.replaceAll(s -> s + " " + getRandomChar('A', 'Z') + '.');
+        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY +
+                "Transform to add a middle Initial with a period", backedByArray.toString());
+
         ConsoleStyler.halfDivider();
 
         //Add a last name that is the reverse of the first name.
         backedByArray.replaceAll(s -> s += " " + getReversedName(s.split(" ")[0]));
-        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY
-                +
-                """
-                 Add reversed name as last name
-                """, CommonConstants.EMPTYSTRING + Arrays.toString(firstNames));
+        ConsoleStyler.styleOutput(LIST_BACKED_BY_ARRAY +
+                "Add reversed name as last name", CommonConstants.EMPTYSTRING + Arrays.toString(firstNames));
         ConsoleStyler.halfDivider();
 
         // Finally, create a new modifiable ArrayList from your names array, removing any names where the last name equals the first name.
@@ -89,15 +84,15 @@ public class LambdaExpressionsChallenge {
         newList.removeIf(s -> s.substring(0, s.indexOf(" ")).equals(
                 s.substring(s.lastIndexOf(" ") + 1)
         ));
-
-        ConsoleStyler.styleOutput("First NamesUtil --> Remove names where first = last", """
-                """ + Arrays.toString(firstNames));
+        ConsoleStyler.styleEachAsIs(CommonConstants.EMPTYSTRING, newList);
+        ConsoleStyler.styleOutput("First NamesUtil --> Remove names where first = last",
+                CommonConstants.EMPTYSTRING + Arrays.toString(firstNames));
 
         ConsoleStyler.endSection("Lambda Expressions Challenge Demo - Arrays/ArrayList/Operation Lambda"); // required
     }
 
     public static char getRandomChar(char startChar, char endChar) {
-        return (char) secureRandom.nextInt((int) startChar, (int) endChar + 1);
+        return (char) secureRandom.nextInt(startChar,  endChar + 1);
     }
 
     private static String getReversedName(String firstName) {
