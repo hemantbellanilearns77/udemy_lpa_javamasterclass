@@ -1,0 +1,238 @@
+name: Souvenir Demo → Hygiene Checks
+
+on:
+  workflow_dispatch:
+    inputs:
+      SKIP_FLAG:
+        description: "Set --skip-sonar to skip Sonar scan"
+        required: false
+        default: ""
+
+jobs:
+  # ======================================================
+  # 1. WINDOWS DEMO
+  # ======================================================
+  windows-hygiene:
+    name: Windows Hygiene
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run Checkstyle
+        uses: dbelyaev/action-checkstyle@v1.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: google_checks.xml
+          checkstyle_version: 10.17.0
+
+      - name: Run PMD
+        uses: mkrakowitzer/github-action-pmd@v1
+        with:
+          src: ./src/main/java
+          rulesets: ./pmd-rules.xml
+
+      - name: Build & Test with Coverage
+        run: mvn -B clean verify jacoco:report
+
+      - name: Publish JUnit Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: JUnit Tests (Windows)
+          path: target/surefire-reports/TEST-*.xml
+          reporter: java-junit
+
+      - name: Verify JaCoCo Coverage Threshold
+        uses: devmasx/coverage-check-action@v1
+        with:
+          coverageFile: target/site/jacoco/jacoco.xml
+          minimumCoverage: 70
+
+      - name: Sonar Scan
+        if: ${{ !contains(github.event.inputs.SKIP_FLAG, '--skip-sonar') }}
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        with:
+          args: >
+            -Dsonar.projectKey=my-project
+            -Dsonar.organization=my-org
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.junit.reportPaths=target/surefire-reports
+            -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.exec
+            -Dsonar.checkstyle.reportPaths=target/checkstyle-result.xml
+            -Dsonar.pmd.reportPaths=target/pmd.xml
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-reports
+          path: |
+            target/site/jacoco/*
+            target/surefire-reports/*
+            **/checkstyle-result.xml
+            **/pmd.xml
+
+  # ======================================================
+  # 2. UBUNTU DEMO
+  # ======================================================
+  ubuntu-hygiene:
+    name: Ubuntu Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run Checkstyle
+        uses: dbelyaev/action-checkstyle@v1.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: google_checks.xml
+          checkstyle_version: 10.17.0
+
+      - name: Run PMD
+        uses: mkrakowitzer/github-action-pmd@v1
+        with:
+          src: ./src/main/java
+          rulesets: ./pmd-rules.xml
+
+      - name: Build & Test with Coverage
+        run: mvn -B clean verify jacoco:report
+
+      - name: Publish JUnit Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: JUnit Tests (Ubuntu)
+          path: target/surefire-reports/TEST-*.xml
+          reporter: java-junit
+
+      - name: Sonar Scan
+        if: ${{ !contains(github.event.inputs.SKIP_FLAG, '--skip-sonar') }}
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        with:
+          args: >
+            -Dsonar.projectKey=my-project
+            -Dsonar.organization=my-org
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.junit.reportPaths=target/surefire-reports
+            -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.exec
+            -Dsonar.checkstyle.reportPaths=target/checkstyle-result.xml
+            -Dsonar.pmd.reportPaths=target/pmd.xml
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-reports
+          path: |
+            target/site/jacoco/*
+            target/surefire-reports/*
+            **/checkstyle-result.xml
+            **/pmd.xml
+
+  # ======================================================
+  # 3. MACOS DEMO (industry popular 3rd platform)
+  # ======================================================
+  macos-hygiene:
+    name: macOS Hygiene
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run Checkstyle
+        uses: dbelyaev/action-checkstyle@v1.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: google_checks.xml
+          checkstyle_version: 10.17.0
+
+      - name: Run PMD
+        uses: mkrakowitzer/github-action-pmd@v1
+        with:
+          src: ./src/main/java
+          rulesets: ./pmd-rules.xml
+
+      - name: Build & Test with Coverage
+        run: mvn -B clean verify jacoco:report
+
+      - name: Publish JUnit Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: JUnit Tests (macOS)
+          path: target/surefire-reports/TEST-*.xml
+          reporter: java-junit
+
+      - name: Sonar Scan
+        if: ${{ !contains(github.event.inputs.SKIP_FLAG, '--skip-sonar') }}
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        with:
+          args: >
+            -Dsonar.projectKey=my-project
+            -Dsonar.organization=my-org
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.junit.reportPaths=target/surefire-reports
+            -Dsonar.jacoco.reportPaths=target/site/jacoco/jacoco.exec
+            -Dsonar.checkstyle.reportPaths=target/checkstyle-result.xml
+            -Dsonar.pmd.reportPaths=target/pmd.xml
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-reports
+          path: |
+            target/site/jacoco/*
+            target/surefire-reports/*
+            **/checkstyle-result.xml
+            **/pmd.xml
+
+  # ======================================================
+  # 4. NOTIFICATION (after all jobs)
+  # ======================================================
+  notify:
+    runs-on: ubuntu-latest
+    needs: [windows-hygiene, ubuntu-hygiene, macos-hygiene]
+    if: always()
+    steps:
+      - name: Send Summary Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "Hygiene Souvenir Demo: ${{ job.status }}"
+          to: "team@example.com"
+          from: "ci-bot@example.com"
+          body: |
+            🧪 Hygiene Souvenir Demo finished.
+            Windows: ${{ needs.windows-hygiene.result }}
+            Ubuntu: ${{ needs.ubuntu-hygiene.result }}
+            macOS: ${{ needs.macos-hygiene.result }}
