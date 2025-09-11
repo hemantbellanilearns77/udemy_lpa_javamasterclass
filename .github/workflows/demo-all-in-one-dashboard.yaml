@@ -1,0 +1,30 @@
+- name: Upload Checkstyle Report
+  uses: actions/upload-artifact@v4
+  with:
+    name: checkstyle-report
+    path: checkstyle-result.xml
+
+- name: Upload PMD Report
+  uses: actions/upload-artifact@v4
+  with:
+    name: pmd-report
+    path: pmd-result.xml
+
+- name: Upload JaCoCo Report Artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: jacoco-report
+    path: build/reports/jacoco/test/html
+
+# 5. Publish a simple HTML summary dashboard
+- name: Generate Static Dashboard
+  run: |
+    mkdir site
+    echo "<h1>Demo Dashboard</h1>" >> site/index.html
+    echo "<h2>Reports</h2>" >> site/index.html
+    echo "<ul>" >> site/index.html
+    echo "<li>📄 Checkstyle Report → Download from <b>Actions > Artifacts</b> (checkstyle-report)</li>" >> site/index.html
+    echo "<li>📄 PMD Report → Download from <b>Actions > Artifacts</b> (pmd-report)</li>" >> site/index.html
+    echo "<li>📄 Jacoco Coverage → Download from <b>Actions > Artifacts</b> (jacoco-report)</li>" >> site/index.html
+    echo "</ul>" >> site/index.html
+    echo "<p>📊 SonarCloud dashboard: https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY</p>" >> site/index.html
