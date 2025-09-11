@@ -2,14 +2,20 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.alla
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.util.Arrays;
+
 public class StringVsStringBuilderDemo {
         public static void main(String[] args) {
-        //
+        if(args!= null && args.length>0) {
+            ConsoleStyler.styleExecutionInsight("args as supplied are: " + Arrays.toString(args));
+        }
         String stringObject = "Hello" + " World";
         //StringBuilder stringBuilderObject  = "Hello" + " World"; // Sample error - as StringBuilder cannot be initialized by String literals...
 
         StringBuilder stringBuilderObject  = new StringBuilder("Hello World");
-        stringObject.concat(" and Goodbye...");
+        String concatenatedString = stringObject.concat(" and Goodbye...");
+        ConsoleStyler.styleOutput(stringObject + " when concatenated with :  and Goodbye... resulted in one concatenated string: \n"
+                + concatenatedString );
         stringBuilderObject.append(" and Goodbye..... ");
         printInformation(stringObject);
         printInformation(stringBuilderObject);
