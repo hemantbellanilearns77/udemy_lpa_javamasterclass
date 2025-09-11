@@ -21,6 +21,7 @@ public class Exercise44MainClass {//Object level or Static declarations here...
     }
 
     public static void demoFunction() {
+        boolean operationSuccess;
         ConsoleStyler.startSection("Welcome to Demo of Mobile Phone App"); // required
         ConsoleStyler.styleInitializationInfo("A Mobile Phone has been initialized");
         MobilePhone myPhone = new MobilePhone("9811000000");
@@ -30,7 +31,12 @@ public class Exercise44MainClass {//Object level or Static declarations here...
         boolean contactUpdated =myPhone.updateContact(Contact.createContact(BHARATI_T_BELLANI, BHARATI_TELNO),
                                 Contact.createContact("Bharati Mata","9899101010"));
         if(contactUpdated) ConsoleStyler.styleExecutionInsight("Contact successfully updated");
-        myPhone.removeContact(Contact.createContact("XYZ BELLANI","9650101010"));
+        operationSuccess = myPhone.removeContact(Contact.createContact("XYZ BELLANI","9650101010"));
+        if (operationSuccess) {
+            ConsoleStyler.styleOutput("XYZ BELLANI - 9650101010 removed from Contacts");
+        } else {
+            ConsoleStyler.styleOutput("Something went wrong : XYZ BELLANI - 9650101010 was not removed from Contacts");
+        }
         ConsoleStyler.styleOutput("" + myPhone.queryContact("XYZ BELLANI"));
         myPhone.printContacts();
 
