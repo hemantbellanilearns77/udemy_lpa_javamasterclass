@@ -24,23 +24,25 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c /google_checks.xml src/main/java > checkstyle-result.xml || true
+          java -jar checkstyle.jar -c /google_checks.xml src/main/java -f xml -o checkstyle-result.xml || true
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Install Checkstyle SARIF converter
-        run: pip install checkstyle-to-sarif
+      # 1b. Convert Checkstyle XML -> SARIF using self-contained Multitool
+      - name: Download SARIF Multitool
+        run: |
+          curl -L -o sarif.zip https://github.com/microsoft/sarif-sdk/releases/download/v3.9.10/Sarif.Multitool.3.9.10-net6.0-linux-x64.zip
+          mkdir sarif-tools
+          unzip sarif.zip -d sarif-tools
+          echo "${{ github.workspace }}/sarif-tools" >> $GITHUB_PATH
 
       - name: Convert Checkstyle XML to SARIF
-        run: checkstyle-to-sarif checkstyle-result.xml > checkstyle-result.sarif
+        run: |
+          ./sarif-tools/Sarif.Multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
 
       - name: Upload Checkstyle SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: checkstyle-result.sarif
+
 
 
       # 2. Run PMD

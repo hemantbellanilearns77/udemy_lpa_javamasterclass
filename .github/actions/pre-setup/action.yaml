@@ -216,9 +216,9 @@ runs:
       id: pre-setup-announce-decision
       run: |
         $presetupdecision="$env:execute"
-        $msg = "$env:executeReason"
-        Write-Host "Decision to Execute or Cancel: $presetupdecision"
-        Write-Host "Decision to Execute or Cancel → Reason:  $msg"
+        $msg = "$env:executeReason"        
+        Write-Host "Decision to Execute (true) or Cancel (false): $presetupdecision"
+        Write-Host "Decision to Execute (true) or Cancel (false) → Reason:  $msg"
         echo "pre-setup-decision=$presetupdecision" >> $env:GITHUB_OUTPUT
         echo "pre-setup-decision-reason=$msg" >> $env:GITHUB_OUTPUT
         

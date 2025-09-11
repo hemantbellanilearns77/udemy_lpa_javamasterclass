@@ -2,9 +2,11 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.inhe
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
+import java.util.Objects;
+
 public class Fish extends Animal{
-    private int gills;
-    private int fins;
+    private final int gills;
+    private final int fins;
 
     public Fish(String type, int gills, int fins) {
         super(type);
@@ -24,7 +26,7 @@ public class Fish extends Animal{
     public void move(String speed) {
         super.move(speed);
         moveMuscles();
-        if(speed == "fast"){
+        if(Objects.equals(speed, "fast")){
             moveBackFin();
         }
 
