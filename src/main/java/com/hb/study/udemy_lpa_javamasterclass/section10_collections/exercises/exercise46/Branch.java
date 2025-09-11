@@ -3,8 +3,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.e
 import java.util.ArrayList;
 
 public class Branch {
-    private String name;
-    private ArrayList<Customer> customers;
+    private final String name;
+    private final ArrayList<Customer> customers;
 
     public Branch(String name) {
         this.name = name;
@@ -38,7 +38,7 @@ public class Branch {
 
     private Customer findCustomer(String name) {
         Customer customerAsFound = null;
-        if(customers.size() == 0) {
+        if(customers.isEmpty()) {
             return customerAsFound;
         } else {
             for(var nextCustomer : customers){
