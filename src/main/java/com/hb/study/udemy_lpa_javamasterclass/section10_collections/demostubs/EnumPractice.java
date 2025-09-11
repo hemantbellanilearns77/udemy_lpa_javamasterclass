@@ -31,19 +31,23 @@ public class EnumPractice {
         long weekendDaysFound = 0;
         for (; loopCounter < loopCounterLimit; loopCounter++) {
             weekDay = getRandomDay();
-            ConsoleStyler.styleOutput(loopCounter + " Name of the day is: %s, Ordinal Value is: %d%n".formatted(weekDay.name(), weekDay.ordinal()));
-
-            switch (weekDay) {
-                case FRIDAY, SATURDAY, SUNDAY -> weekendDaysFound++;
-                default -> {
-                    ConsoleStyler.styleOutput("Weekend Day awaited.. ");
+            if(weekDay==null) {
+                ConsoleStyler.styleExecutionInsight("Weekday was randomly generated null, continuing... Please investigate");
+                continue;
+            } else {
+                ConsoleStyler.styleOutput(loopCounter +
+                        " Name of the day is: %s, Ordinal Value is: %d%n".formatted(weekDay.name(), weekDay.ordinal()));
+                switch (weekDay) {
+                    case FRIDAY, SATURDAY, SUNDAY -> weekendDaysFound++;
+                    default -> ConsoleStyler.styleOutput("Weekend Day awaited.. ");
                 }
             }
-
+            ConsoleStyler.halfDivider();
         }
         ConsoleStyler.styleOutput("Total of " + (loopCounter - 1) + " iterations were executed... ");
         long weekendDaysPercentage = Math.round(((double) weekendDaysFound / (double) loopCounter) * 100);
-        ConsoleStyler.styleOutput("A total of " + weekendDaysFound + " Weekend Days were found and that's approximately " + weekendDaysPercentage + " %");
+        ConsoleStyler.styleOutput("A total of " + weekendDaysFound +
+                " Weekend Days were found and that's approximately " + weekendDaysPercentage + " %");
 
         execution.finalizeExecution();
     }
