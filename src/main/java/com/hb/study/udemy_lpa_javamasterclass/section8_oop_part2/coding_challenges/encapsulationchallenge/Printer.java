@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Printer {
     private int tonerPercentage;
-    private boolean duplex;
+    private final boolean duplex;
     private int pagesPrinted;
 
     @Override
@@ -20,7 +20,9 @@ public class Printer {
         this.duplex = duplex;
         setPagesPrinted(0);
         setTonerPercentage(tonerPercentage);
-        this.toString();
+        ConsoleStyler.styleInitializationInfo("""
+                Printer initialized as: %n%s
+                """.formatted(this.toString()));
     }
     private void setPagesPrinted(int pagesPrinted) {
         if(pagesPrinted < 0) {
@@ -47,13 +49,13 @@ public class Printer {
         int sheetsToBeConsumed = 0;
         if(duplex) {
             ConsoleStyler.styleOutput("Printing in duplex mode");
-            sheetsToBeConsumed = (int) Math.ceil(pagesToPrint/2);
+            sheetsToBeConsumed = (int) Math.ceil((double) pagesToPrint /2);
         }
         if (this.tonerPercentage < (sheetsToBeConsumed / 10)) {
             sheetsToBeConsumed = tonerPercentage * 10;
             ConsoleStyler.styleOutput("The number of sheets that could be printed is: " + sheetsToBeConsumed +
                     " because printer ran out of toner ... ");
-            setTonerPercentage(this.tonerPercentage - this.tonerPercentage);
+            setTonerPercentage(0);
             setPagesPrinted(sheetsToBeConsumed);
         } else {
             setTonerPercentage(this.tonerPercentage - (sheetsToBeConsumed / 10));

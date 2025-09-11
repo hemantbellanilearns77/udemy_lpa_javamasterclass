@@ -1,9 +1,9 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.compositionchallenge_smartkitchen;
 
 public class SmartKitchen {
-    private CoffeeMaker brewMaster;
-    private DishWasher dishWasher;
-    private Refrigerator iceBox;
+    private final CoffeeMaker brewMaster;
+    private final DishWasher dishWasher;
+    private final Refrigerator iceBox;
 
 
     public SmartKitchen(){
@@ -40,6 +40,8 @@ public class SmartKitchen {
         brewMaster.brewCoffee();
         iceBox.orderFood();
         dishWasher.doDishes();
+        addWater();
+        pourMilk();
 
     }
     public void setKitchenState(boolean coffeeMakerState,

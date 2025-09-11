@@ -6,7 +6,7 @@ public class DishWasher {
     private boolean hasWorkToDo;
 
     public DishWasher() {
-        this.hasWorkToDo = hasWorkToDo;
+        ConsoleStyler.styleInitializationInfo("DishWasher initialized");
     }
     public void setHasWorkToDo(boolean hasWorkToDo) {
         this.hasWorkToDo = hasWorkToDo;

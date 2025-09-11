@@ -6,9 +6,7 @@ public class CoffeeMaker {
     private boolean hasWorkToDo;
 
     public CoffeeMaker() {
-        ConsoleStyler.styleExecutionInsight("""
-                Inside Coffee No Args COnstructor....
-                """);
+        ConsoleStyler.styleInitializationInfo("CoffeeMaker initialized");
     }
     public void setHasWorkToDo(boolean hasWorkToDo) {
         this.hasWorkToDo = hasWorkToDo;

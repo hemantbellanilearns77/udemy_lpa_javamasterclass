@@ -8,7 +8,7 @@ public class Refrigerator {
     private boolean hasWorkToDo;
 
     public Refrigerator() {
-        this.hasWorkToDo = hasWorkToDo;
+        ConsoleStyler.styleInitializationInfo("Refrigerator initialized");
     }
     public void setHasWorkToDo(boolean hasWorkToDo) {
         this.hasWorkToDo = hasWorkToDo;
