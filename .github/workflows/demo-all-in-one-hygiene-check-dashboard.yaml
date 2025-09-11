@@ -26,11 +26,15 @@ jobs:
         run: |
           java -jar checkstyle.jar -c /google_checks.xml src/main/java > checkstyle-result.xml || true
 
+      - name: Install SARIF Multitool
+        run: |
+          dotnet tool install --global Sarif.Multitool
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
       - name: Convert Checkstyle XML to SARIF
-        uses: microsoft/tslint-to-sarif@v2
-        with:
-          inputFile: checkstyle-result.xml
-          outputFile: checkstyle-result.sarif
+        run: |
+          sarif multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
+
 
       - name: Upload Checkstyle SARIF
         uses: github/codeql-action/upload-sarif@v3
