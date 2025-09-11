@@ -5,8 +5,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
  **/
 
 public class Song {
-    private String title;
-    private double duration;
+    private final String title;
+    private final double duration;
 
     public Song(String title, double duration) {
         this.title = title;
@@ -19,14 +19,11 @@ public class Song {
 
     @Override
     public boolean equals(Object obj) {
-       Song toCompareSong  = (Song)obj;
-        if(((Song) this).getTitle().equalsIgnoreCase(toCompareSong.getTitle())) {
-            return true;
+        if(obj instanceof Song toCompareSong) {
+            return this.getTitle().equalsIgnoreCase(toCompareSong.getTitle());
         }
         return false;
     }
-
-
     @Override
     public String toString() {
         return  getTitle() + ": " + duration;
