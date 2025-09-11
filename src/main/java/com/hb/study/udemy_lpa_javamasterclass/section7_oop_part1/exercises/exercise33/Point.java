@@ -34,7 +34,7 @@ public class Point {
 
     public double distance() {
         double distance;
-        distance =  Math.sqrt((-this.x)*(-this.x) + (-this.y)*(-this.y));
+        distance =  Math.sqrt( ( (double) ((-this.x)*(-this.x)) ) + ((double) ( (-this.y)*(-this.y) ) ) );
         return distance;
     }
 
@@ -43,17 +43,15 @@ public class Point {
 
         double distance;
 
-        distance = Math.sqrt((anotherPoint.getX()-this.x)*(anotherPoint.getX()-this.x) +
-                (anotherPoint.getY()-this.y)*(anotherPoint.getY()-this.y));
-        //distance(this.x, anotherPoint.getX(), this.y, anotherPoint.getY());
-
+        distance = Math.sqrt( ( (double) ((anotherPoint.getX()-this.x)*(anotherPoint.getX()-this.x))) +
+                ( (double) ((anotherPoint.getY()-this.y)*(anotherPoint.getY()-this.y)) ));
         return distance;
     }
 
     public double distance(int x, int y) {
 
         double distance;
-        distance = Math.sqrt((x-this.x)*(x-this.x) + (y-this.y)*(y-this.y)); //distance(this.x, x, this.y, y);
+        distance = Math.sqrt( ( (double) ( (x-this.x)*(x-this.x)) ) + ( (double) ((y-this.y)*(y-this.y)) ) );
         return distance;
     }
 }
