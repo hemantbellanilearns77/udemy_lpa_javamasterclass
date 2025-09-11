@@ -1,30 +1,98 @@
-- name: Upload Checkstyle Report
-  uses: actions/upload-artifact@v4
-  with:
-    name: checkstyle-report
-    path: checkstyle-result.xml
+name: Demo All-in-One Dashboard
 
-- name: Upload PMD Report
-  uses: actions/upload-artifact@v4
-  with:
-    name: pmd-report
-    path: pmd-result.xml
+on:
+  workflow_dispatch:
 
-- name: Upload JaCoCo Report Artifact
-  uses: actions/upload-artifact@v4
-  with:
-    name: jacoco-report
-    path: build/reports/jacoco/test/html
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-# 5. Publish a simple HTML summary dashboard
-- name: Generate Static Dashboard
-  run: |
-    mkdir site
-    echo "<h1>Demo Dashboard</h1>" >> site/index.html
-    echo "<h2>Reports</h2>" >> site/index.html
-    echo "<ul>" >> site/index.html
-    echo "<li>📄 Checkstyle Report → Download from <b>Actions > Artifacts</b> (checkstyle-report)</li>" >> site/index.html
-    echo "<li>📄 PMD Report → Download from <b>Actions > Artifacts</b> (pmd-report)</li>" >> site/index.html
-    echo "<li>📄 Jacoco Coverage → Download from <b>Actions > Artifacts</b> (jacoco-report)</li>" >> site/index.html
-    echo "</ul>" >> site/index.html
-    echo "<p>📊 SonarCloud dashboard: https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY</p>" >> site/index.html
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      # 1. Run Checkstyle
+      - name: Download Checkstyle
+        run: |
+          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar
+
+      - name: Run Checkstyle
+        run: |
+          java -jar checkstyle.jar -c /google_checks.xml src/main/java -f xml -o checkstyle-result.xml || true
+
+      - name: Upload Checkstyle Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: checkstyle-result.xml
+
+      # 2. Run PMD
+      - name: Run PMD
+        uses: pmd/pmd-github-action@v1
+        with:
+          rulesets: "rulesets/java/quickstart.xml"
+          sourcePath: "src/main/java"
+          encoding: "UTF-8"
+          format: "xml"
+          outputFile: "pmd-result.xml"
+
+      - name: Upload PMD Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: pmd-result.xml
+
+      # 3. Gradle bootstrap for JUnit + Jacoco
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Generate Gradle build file if missing
+        run: |
+          if [ ! -f build.gradle ]; then
+            echo "plugins { id 'java'; id 'jacoco' }" > build.gradle
+            echo "repositories { mavenCentral() }" >> build.gradle
+            echo "test { useJUnitPlatform() }" >> build.gradle
+          fi
+
+      - name: Run Tests with Jacoco
+        run: ./gradlew test jacocoTestReport
+
+      - name: Upload JaCoCo Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/test/html
+
+      # 4. SonarCloud scan (if sonar-project.properties is present)
+      - name: SonarCloud Scan
+        if: hashFiles('sonar-project.properties') != ''
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        with:
+          args: >
+            -Dproject.settings=sonar-project.properties
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      # 5. Publish a simple HTML summary dashboard
+      - name: Generate Static Dashboard
+        run: |
+          mkdir site
+          echo "<h1>Demo Dashboard</h1>" >> site/index.html
+          echo "<h2>Reports</h2>" >> site/index.html
+          echo "<ul>" >> site/index.html
+          echo "<li>📄 Checkstyle Report → Download from <b>Actions > Artifacts</b> (checkstyle-report)</li>" >> site/index.html
+          echo "<li>📄 PMD Report → Download from <b>Actions > Artifacts</b> (pmd-report)</li>" >> site/index.html
+          echo "<li>📄 Jacoco Coverage → Download from <b>Actions > Artifacts</b> (jacoco-report)</li>" >> site/index.html
+          echo "</ul>" >> site/index.html
+          echo "<p>📊 SonarCloud dashboard: https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY</p>" >> site/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
