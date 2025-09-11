@@ -171,7 +171,7 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
         ConsoleStyler.styleOutput("""
-                The below method reference was a Lambda but to kill sonar it has been made a method reference 
+                The below method reference was a Lambda but to kill sonar it has been made a method reference
                 names.forEach((String name) -> ConsoleStyler.styleOutput(name));
                 """);
         names.forEach(ConsoleStyler::styleOutput);
