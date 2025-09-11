@@ -28,7 +28,7 @@ jobs:
       - name: Upload Checkstyle Report
         uses: actions/upload-artifact@v4
         with:
-          name: checkstyle-report
+          name: checkstyle-report   # ✅ no spaces, lowercase
           path: checkstyle-result.xml
 
       # 2. Run PMD
@@ -44,7 +44,7 @@ jobs:
       - name: Upload PMD Report
         uses: actions/upload-artifact@v4
         with:
-          name: pmd-report
+          name: pmd-report          # ✅ no spaces
           path: pmd-result.xml
 
       # 3. Gradle bootstrap for JUnit + Jacoco
@@ -65,7 +65,7 @@ jobs:
       - name: Upload JaCoCo Report Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: jacoco-report
+          name: jacoco-report       # ✅ no spaces
           path: build/reports/jacoco/test/html
 
       # 4. SonarCloud scan (if sonar-project.properties is present)
