@@ -29,14 +29,15 @@ jobs:
       # 1b. Convert Checkstyle XML -> SARIF using self-contained Multitool
       - name: Download SARIF Multitool
         run: |
-          curl -L -o sarif.zip https://github.com/microsoft/sarif-sdk/releases/download/v3.9.10/Sarif.Multitool.3.9.10-net6.0-linux-x64.zip
+          curl -L -o sarif.tar.gz https://github.com/microsoft/sarif-sdk/releases/download/v3.9.10/Sarif.Multitool.3.9.10-net6.0-linux-x64.tar.gz
           mkdir sarif-tools
-          unzip sarif.zip -d sarif-tools
+          tar -xzf sarif.tar.gz -C sarif-tools
+          chmod +x sarif-tools/Sarif.Multitool
           echo "${{ github.workspace }}/sarif-tools" >> $GITHUB_PATH
 
       - name: Convert Checkstyle XML to SARIF
         run: |
-          ./sarif-tools/Sarif.Multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
+          sarif-tools/Sarif.Multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
 
       - name: Upload Checkstyle SARIF
         uses: github/codeql-action/upload-sarif@v3
