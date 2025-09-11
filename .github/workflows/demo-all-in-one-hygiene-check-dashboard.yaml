@@ -26,21 +26,18 @@ jobs:
         run: |
           java -jar checkstyle.jar -c /google_checks.xml src/main/java -f xml -o checkstyle-result.xml || true
 
-      - name: Download SARIF Multitool
+      - name: Install SARIF Multitool
         run: |
-          curl -L -o sarif.nupkg https://github.com/microsoft/sarif-sdk/releases/download/v3.9.10/Sarif.Multitool.3.9.10.nupkg
-          mkdir sarif-tools
-          unzip sarif.nupkg -d sarif-tools
-          echo "${{ github.workspace }}/sarif-tools/tools/net6.0/any" >> $GITHUB_PATH
-
-      - name: Convert Checkstyle XML to SARIF
-        run: |
-          dotnet sarif-tools/tools/net6.0/any/Sarif.Multitool.dll convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
-      
+          dotnet tool install --global Sarif.Multitool --version 3.9.10
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Convert Checkstyle XML to SARIF
         run: |
           Sarif.Multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
+
+      - name: Convert PMD XML to SARIF
+        run: |
+          Sarif.Multitool convert pmd-result.xml --tool "PMD" --output pmd-result.sarif
 
       - name: Upload Checkstyle SARIF
         uses: github/codeql-action/upload-sarif@v3
