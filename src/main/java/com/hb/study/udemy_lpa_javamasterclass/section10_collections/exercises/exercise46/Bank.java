@@ -52,10 +52,11 @@ public class Bank {
     public boolean addCustomerTransaction(String branchName, String customerName, double transaction) {
         boolean customerTransactionAdded = false;
         Branch branch = findBranch(branchName);
-        if (branch != null && branch.getCustomers().size() > 0) {
+        if (branch != null && !branch.getCustomers().isEmpty()) {
             for (var nextCustomer : branch.getCustomers()) {
                 if (nextCustomer.getName().equalsIgnoreCase(customerName)) {
                     nextCustomer.addTransaction(transaction);
+                    branch.addCustomerTransaction(customerName, transaction);
                     customerTransactionAdded = true;
                 }
             }
@@ -87,11 +88,11 @@ public class Bank {
                     }
                 }
             }
-            return branchExists;
+        } else {
+            ConsoleStyler.styleOutput("The Branch " + branchName + " doesn't really exist!");
         }
         return branchExists;
     }
-
 }
 
 

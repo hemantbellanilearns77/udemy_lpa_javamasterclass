@@ -72,8 +72,7 @@ public class MobilePhone {
             pribtContactsTextBlock.append("Contact List:\n");
             int listOrderNumber = 1;
             for (Contact nextContact : this.myContacts) {
-                pribtContactsTextBlock.append(listOrderNumber + ". "
-                        + nextContact.getName() + " -> " + nextContact.getPhoneNumber() + "\n");
+                pribtContactsTextBlock.append(listOrderNumber).append(". ").append(nextContact.getName()).append(" -> ").append(nextContact.getPhoneNumber()).append("\n");
             }
             ConsoleStyler.styleOutput(pribtContactsTextBlock.toString());
         }

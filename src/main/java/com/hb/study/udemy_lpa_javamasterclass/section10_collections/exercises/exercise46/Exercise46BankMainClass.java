@@ -44,6 +44,7 @@ public class Exercise46BankMainClass {
         boolean customersListed = bank.listCustomers(ADELAIDE, false);
         if(customersListed)
             ConsoleStyler.styleExecutionInsight("Customers Listed Successfully above");
+
         execution.finalizeExecution();
     }
 }
