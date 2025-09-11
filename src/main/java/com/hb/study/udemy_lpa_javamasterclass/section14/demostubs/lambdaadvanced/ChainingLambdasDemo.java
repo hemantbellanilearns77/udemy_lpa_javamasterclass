@@ -71,9 +71,9 @@ public class ChainingLambdasDemo {
 
         String[] names = {"Ann", "Bob", "Carol"};
         Consumer<String> s0 = s ->  ConsoleStyler.styleOutput(s.charAt(0) + "");
-        Consumer<String> s1 = System.out::println;
+        Consumer<String> s1 = ConsoleStyler::styleOutput;
         Arrays.asList(names).forEach(s0
-                .andThen(s->  ConsoleStyler.styleOutput(" - "))
+                .andThen(_ ->  ConsoleStyler.styleOutput(" - "))
                 .andThen(s1));
 
         Predicate<String> p1 = s -> s.equals("TIM");
@@ -102,7 +102,12 @@ public class ChainingLambdasDemo {
                 new Person("Mickey", "Mouse")
         ));
 
-        list.sort((o1, o2) -> o1.lastName.compareTo(o2.lastName));
+        ConsoleStyler.styleExecutionInsight("""
+                This was:
+                list.sort((o1, o2) -> o1.lastName.compareTo(o2.lastName));
+                but commented and changed to kill sonars
+                """);
+        list.sort(Comparator.comparing(o -> o.lastName));
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
                 S_S_FORMATSPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
