@@ -26,6 +26,13 @@ jobs:
         run: |
           java -jar checkstyle.jar -c /google_checks.xml src/main/java > checkstyle-result.xml || true
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install SARIF Multitool
+        run: dotnet tool install --global Sarif.Multitool
       - name: Install SARIF Multitool
         run: |
           dotnet tool install --global Sarif.Multitool

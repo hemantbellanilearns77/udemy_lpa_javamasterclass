@@ -158,8 +158,10 @@ public class LambdaAdvancedDemo {
 
             // both below are valid lambda invocations of category Supplier with use of get() implementation
             randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[supplier.get()]; // more readable and s is more reusable...
-            // Alternatively
-            randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[secureRandom.nextInt(0, namesUtil.getDefaultLastNames().length)];
+            ConsoleStyler.styleExecutionInsight("""
+                    // Alternatively
+                    randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[secureRandom.nextInt(0, namesUtil.getDefaultLastNames().length)];
+                    """);
         }
         ConsoleStyler.styleEachAsIs(GUEST_LABEL, randomArrayUsingLambda);
     }
@@ -168,7 +170,13 @@ public class LambdaAdvancedDemo {
 
         ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " equalsIgnoreCase(\"ArjunDev\") ");
         names.removeIf(name -> name.equalsIgnoreCase("ArjunDev"));
-        names.forEach((String name) -> ConsoleStyler.styleOutput(name));
+        ConsoleStyler.styleOutput("""
+                The below method reference was a Lambda but to kill sonar it has been made a method reference 
+                names.forEach((String name) -> ConsoleStyler.styleOutput(name));
+                """);
+        names.forEach(ConsoleStyler::styleOutput);
+
+
         ConsoleStyler.styleEachAsIs("", names);
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
