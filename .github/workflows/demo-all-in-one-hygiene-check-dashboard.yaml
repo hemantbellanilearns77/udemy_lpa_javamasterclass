@@ -1,11 +1,11 @@
 name: Demo All-in-One Dashboard
 
 on:
-  workflow_dispatch: # run manually for demo
+  workflow_dispatch:
 
 jobs:
   analysis:
-    runs-on: ubuntu-latest   # must be Linux for container-based actions
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
@@ -26,25 +26,11 @@ jobs:
         run: |
           java -jar checkstyle.jar -c /google_checks.xml src/main/java -f xml -o checkstyle-result.xml || true
 
-      - name: Install SARIF Multitool
-        run: |
-          dotnet tool install --global Sarif.Multitool --version 3.9.10
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
-      - name: Convert Checkstyle XML to SARIF
-        run: |
-          Sarif.Multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
-
-      - name: Convert PMD XML to SARIF
-        run: |
-          Sarif.Multitool convert pmd-result.xml --tool "PMD" --output pmd-result.sarif
-
-      - name: Upload Checkstyle SARIF
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload Checkstyle Report
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: checkstyle-result.sarif
-
-
+          name: checkstyle-report
+          path: checkstyle-result.xml
 
       # 2. Run PMD
       - name: Run PMD
@@ -56,13 +42,11 @@ jobs:
           format: "xml"
           outputFile: "pmd-result.xml"
 
-      - name: Convert PMD XML to SARIF
-        run: |
-          sarif multitool convert pmd-result.xml --tool "PMD" --output pmd-result.sarif
-      - name: Upload PMD SARIF
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload PMD Report
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: pmd-result.sarif
+          name: pmd-report
+          path: pmd-result.xml
 
       # 3. Gradle bootstrap for JUnit + Jacoco
       - name: Setup Gradle
@@ -85,7 +69,7 @@ jobs:
           name: jacoco-report
           path: build/reports/jacoco/test/html
 
-      # 4. SonarCloud scan (using your sonar-project.properties)
+      # 4. SonarCloud scan (if sonar-project.properties is present)
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5.3.1
         with:
@@ -99,11 +83,11 @@ jobs:
         run: |
           mkdir site
           echo "<h1>Demo Dashboard</h1>" >> site/index.html
-          echo "<h2>Checkstyle, PMD, JUnit + Jacoco Reports</h2>" >> site/index.html
-          echo "<p>✅ Checkstyle + PMD issues are visible in the GitHub Security tab</p>" >> site/index.html
-          echo "<p>✅ JUnit tests executed with Gradle</p>" >> site/index.html
-          echo "<p>✅ Jacoco report downloadable from workflow artifacts</p>" >> site/index.html
-          echo "<p>✅ SonarCloud dashboard: https://sonarcloud.io/project/overview?id=hemantbellanilearns77_udemy_lpa_javamasterclass</p>" >> site/index.html
+          echo "<h2>Reports</h2>" >> site/index.html
+          echo "<p>📄 <a href='../artifacts/checkstyle-report'>Checkstyle Report (XML)</a></p>" >> site/index.html
+          echo "<p>📄 <a href='../artifacts/pmd-report'>PMD Report (XML)</a></p>" >> site/index.html
+          echo "<p>📄 <a href='../artifacts/jacoco-report'>Jacoco Coverage (HTML)</a></p>" >> site/index.html
+          echo "<p>📊 SonarCloud dashboard: https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY</p>" >> site/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
