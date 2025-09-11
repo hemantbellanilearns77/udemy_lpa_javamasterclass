@@ -31,16 +31,11 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Install SARIF Multitool
-        run: dotnet tool install --global Sarif.Multitool
-      - name: Install SARIF Multitool
-        run: |
-          dotnet tool install --global Sarif.Multitool
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+      - name: Install Checkstyle SARIF converter
+        run: pip install checkstyle-to-sarif
 
       - name: Convert Checkstyle XML to SARIF
-        run: |
-          sarif multitool convert checkstyle-result.xml --tool "Checkstyle" --output checkstyle-result.sarif
+        run: checkstyle-to-sarif checkstyle-result.xml > checkstyle-result.sarif
 
       - name: Upload Checkstyle SARIF
         uses: github/codeql-action/upload-sarif@v3
