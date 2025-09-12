@@ -89,7 +89,7 @@
          $info    = $impactSeveritiesCounts["INFO"]
 
          foreach ($val in $json.facets[0].values) {
-                  $counts[$val.val] = $val.count
+                  $impactSeveritiesCounts[$val.val] = $val.count
           }
          if ($body -match '"total"\s*:\s*(\d+)') {
            $totalSonarFetchedIssues = $matches[1]
