@@ -40,8 +40,18 @@ jobs:
           sourcePath: src/main/java
           rulesets: rulesets/java/quickstart.xml
           createGitHubAnnotations: true
+        continue-on-error: true
 
+      - name: Upload PMD SARIF to Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: pmd-report.sarif
 
+      - name: Upload PMD Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: pmd-report.sarif
 
       # 3. Gradle bootstrap for JUnit + Jacoco
       - name: Setup Gradle
@@ -85,6 +95,7 @@ jobs:
           echo "<li>📄 Jacoco Coverage → Download from <b>Actions > Artifacts</b> (jacoco-report)</li>" >> site/index.html
           echo "</ul>" >> site/index.html
           echo "<p>📊 SonarCloud dashboard: https://sonarcloud.io/project/overview?id=YOUR_PROJECT_KEY</p>" >> site/index.html
+          echo "<p>📊 PMD results also visible under <b>Security > Code scanning alerts</b> in GitHub</p>" >> site/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
