@@ -140,62 +140,84 @@ runs:
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
         html_body: |
           <html>
-          <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
-          <p>Hi Hemant,</p>
-          <h2>🏁 Hygiene Check : <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};"> <code>${{ inputs.HygieneCheckStatus }}</code> </span>             
-            </span>
-          </h2>
-          <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
-          <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-          <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
-          <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code><br/>
-          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
-          <h3>📊 Summary</h3>
-          <ul>
-            <li>📈 <b>Code Coverage:</b> ${{ inputs.sonarCoverage }}
-              ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
-            </li>
-            <li>🎯 <strong>Coverage Visual: </strong><code>${{ inputs.coverageBar }}</code></li>
-            <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ inputs.checkstyleCount }}</code></li>
-            <li>🔍 <strong>PMD Violations:</strong> <code>${{ inputs.pmdCount }}</li>           
-            <li>🗂 <strong>SonarCloud:</strong><br/>
-                  &nbsp;&nbsp;• Execution: <code>${{ inputs.sonarExecutionNote }}</code><br/>
-                  &nbsp;&nbsp;• Issues: <code>${{ inputs.sonarIssuesNote }}</code><br/>
-                  &nbsp;&nbsp;• Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code><br/>
-              🛠 <strong>SonarCloud Severity Breakdown:</strong>
-              <ul>
-                <li>🟥 <strong>BLOCKER:</strong> <a href="${{ inputs.sonarBlockerUrl }}"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
-                <li>🟧 <strong>HIGH:</strong> <a href="${{ inputs.sonarHighUrl }}"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
-                <li>🟨 <strong>MEDIUM:</strong> <a href="${{ inputs.sonarMediumUrl }}"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
-                <li>🟦 <strong>LOW:</strong> <a href="${{ inputs.sonarLowUrl }}"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
-                <li>ℹ️ <strong>INFO:</strong> <a href="${{ inputs.sonarInfoUrl }}"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
-              </ul>
-            </li>
-          </ul>
-          <h3>📦 Module-Wise Impact-Severity</h3>
-          ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-          <h3>🔗 Links - SonarCloud, GitHUb</h3>
-          <ul>
-            <li>🌐 <a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud ${{ inputs.BRANCH_EXECUTED }} Branch Summary - All Open Issues</a></li>
-            <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Dashboard - Severity-Wise Breakdown</a></li>
-            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Commit - SHA=${{ inputs.SHORT_SHA }}</a></li>
-            <li>🌐 <a href="${{ inputs.ARTIFACT_URL }}">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
-
-            
-          </ul>
-          <h3>📌 Next Steps - Dynamic</h3>
-          <ul>
-            ${{ inputs.NextStepsHtml }}
-          </ul>
-          <h3>📜 Job Execution Info</h3>
-          <ul>
-            <li>Triggered by:${{ inputs.TRIGGER_INFO }}</li>
-            <li>Last Commit was by: ${{ inputs.COMMIT_AUTHOR }} with Commit Message: ${{ inputs.COMMIT_MSG }}</li>
-            <li>Commit Date: ${{ inputs.COMMIT_DATE }} (IST)</li>
-            <li>Job Duration: ${{ inputs.formattedDuration }}</li>
-            <li>Start: ${{ inputs.startTime }} | End: ${{ inputs.endTime }}</li>
-          </ul>
-          <p>🕒 All times reported in IST.</p>
-          <p><em>🤖 This is an automated message from GitHub Actions. Please do not reply.</em></p>
+          <body style="font-family:Calibri, sans-serif; font-size:12pt; color:#2b2b2b; line-height:1.5; margin:0; padding:0;">
+            <p style="margin-bottom:16px;">Dear Hemant,</p>
+        
+            <h2 style="color:#1a5276; border-bottom:1px solid #dcdcdc; padding-bottom:4px;">
+              🏁 Hygiene Check : 
+              <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
+                <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
+              </span>
+            </h2>
+        
+            <p style="margin:0 0 12px 0;">
+              <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
+              <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+              <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
+              <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code>
+            </p>
+        
+            <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
+              Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues)
+            </p>
+        
+            <h3 style="color:#117864; margin-top:24px;">📊 Summary</h3>
+            <ul style="margin-top:0;">
+              <li><b>📈 Code Coverage:</b> 
+                ${{ inputs.sonarCoverage }}
+                ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
+              </li>
+              <li>🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
+              <li>📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code></li>
+              <li>🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code></li>
+              <li>🗂 <b>SonarCloud:</b>
+                <ul style="margin-top:4px;">
+                  <li>Execution: <code>${{ inputs.sonarExecutionNote }}</code></li>
+                  <li>Issues: <code>${{ inputs.sonarIssuesNote }}</code></li>
+                  <li>Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code></li>
+                </ul>
+                <b>🛠 SonarCloud Severity Breakdown:</b>
+                <ul>
+                  <li>🟥 BLOCKER: <a href="${{ inputs.sonarBlockerUrl }}"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
+                  <li>🟧 HIGH: <a href="${{ inputs.sonarHighUrl }}"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
+                  <li>🟨 MEDIUM: <a href="${{ inputs.sonarMediumUrl }}"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
+                  <li>🟦 LOW: <a href="${{ inputs.sonarLowUrl }}"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
+                  <li>ℹ️ INFO: <a href="${{ inputs.sonarInfoUrl }}"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
+                </ul>
+              </li>
+            </ul>
+        
+            <h3 style="color:#117864; margin-top:24px;">📦 Module-Wise Impact-Severity</h3>
+            <div style="margin:8px 0 16px 0;">
+              ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+            </div>
+        
+            <h3 style="color:#117864; margin-top:24px;">🔗 Key Links</h3>
+            <ul>
+              <li><a href="${{ inputs.sonarOverallCodeDashBoardURL }}" style="color:#1a5276;">SonarCloud – ${{ inputs.BRANCH_EXECUTED }} Branch Summary</a></li>
+              <li><a href="${{ inputs.sonarOpenIssuesDashboardURL }}" style="color:#1a5276;">SonarCloud Open Issues – Severity Breakdown</a></li>
+              <li><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}" style="color:#1a5276;">Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
+              <li><a href="${{ inputs.ARTIFACT_URL }}" style="color:#1a5276;">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
+            </ul>
+        
+            <h3 style="color:#117864; margin-top:24px;">📌 Next Steps</h3>
+            <ul>
+              ${{ inputs.NextStepsHtml }}
+            </ul>
+        
+            <h3 style="color:#117864; margin-top:24px;">📜 Job Execution Details</h3>
+            <ul>
+              <li>Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
+              <li>Commit Author: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
+              <li>Commit Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
+              <li>Commit Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
+              <li>Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
+              <li>Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
+            </ul>
+        
+            <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
+              🕒 All times reported in IST.<br/>
+              🤖 This is an automated notification from GitHub Actions. Kindly do not reply.
+            </p>
           </body>
           </html>
