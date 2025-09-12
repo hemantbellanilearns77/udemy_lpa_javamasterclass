@@ -93,8 +93,8 @@ runs:
         $COMMIT_MSG = $LAST_COMMIT_MSG
         $COMMIT_AUTHOR = $LAST_COMMIT_AUTHOR
         $prDetected=$false
-        
-        
+        $prMergePattern = '(Merge|Merged)\s+(pull request|PR)'
+                
         $DEFAULT_BRANCH = "${{ github.event.repository.default_branch }}"
         
         # --- Determine source and target branches ---
@@ -111,7 +111,7 @@ runs:
             $commitSHA = git rev-parse HEAD
         
             # Detect merge commit patterns anywhere in the message
-            $prMergePattern = '(Merge|Merged)\s+(pull request|PR)'
+            
         
             if ($LAST_COMMIT_MSG -imatch $prMergePattern) {
               Write-Host "⚡ Merge commit detected via PR → querying PR info"
@@ -178,6 +178,12 @@ runs:
           Write-Host "✅ Sonar will RUN | $REASON"
         } else {
           Write-Host "⏭️ Sonar will SKIP | $REASON"
+        }
+        
+
+        if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
+          Write-Host "🧪 $prMergePattern was not found in the Last Commit Message ( $COMMIT_MSG ) therefore defaulting SKIP_FLAG variable to : '⚠️ Empty Skip Flag ⚠️ '"
+          $SKIP_FLAG = "⚠️ Empty Skip Flag ⚠️ "
         }
         
         # Log for verification
