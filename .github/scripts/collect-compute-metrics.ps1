@@ -479,7 +479,7 @@
         
           # Step 3: Pretty-print module severity breakdown with conditional icons
           if ($moduleAgg.Count -gt 0) {
-          echo "### 📦 SonarCloud Module Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
+          echo "### 📦 SonarCloud Module Impact-Severity Breakdown" >> $env:GITHUB_STEP_SUMMARY
           echo "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |" >> $env:GITHUB_STEP_SUMMARY
           echo "|--------|------------|---------|----------|--------|--------|" >> $env:GITHUB_STEP_SUMMARY
           foreach ($mod in $moduleAgg.Keys) {
