@@ -417,7 +417,7 @@
                   $dirIssuesUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
                   Write-Output "✅ Calling Directory issues url for: $dir as : $dirIssuesUrl"
                   $response = Invoke-WebRequest -Uri $dirIssuesUrl -Headers $headers -Method Get | ConvertFrom-Json
-        
+
                   # Initialize counts
                   $counts = @{
                   BLOCKER = 0
@@ -439,14 +439,16 @@
                 foreach ($issue in $response.issues) {
                     foreach ($impacts in $issue) {
                       switch ($impacts.severity) {
-                          "BLOCKER"  { $counts.BLOCKER++ }
-                          "HIGH" { $counts.HIGH++ }
-                          "MEDIUM"    { $counts.MEDIUM++ }
-                          "LOW"    { $counts.LOW++ }
-                          "INFO"     { $counts.INFO++ }
+                        "BLOCKER"   { $counts.BLOCKER++ }
+                          "HIGH"    { $counts.HIGH++ }
+                          "MEDIUM"  { $counts.MEDIUM++ }
+                          "LOW"     { $counts.LOW++ }
+                          "INFO"    { $counts.INFO++ }
                         }
                     }
                 }
+                $totalIssuesDir = ($counts.BLOCKER + $counts.HIGH + $counts.MEDIUM + $counts.LOW + $counts.INFO)
+                Write-Output "✅ Total issues for : $dir are : $totalIssuesDir"
 <#                 foreach ($issue in $response.issues) {
                   switch ($issue.severity) {
                       "BLOCKER"  { $counts.BLOCKER++ }
