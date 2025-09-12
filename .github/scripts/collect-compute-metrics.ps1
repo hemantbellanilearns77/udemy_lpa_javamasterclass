@@ -176,11 +176,11 @@
         # === Generate Severity URLs (global and per module) ===
         ############################################################
         $severityLinks = @{
-          BLOCKER = "https://sonarcloud.io/project/issues?severities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          HIGH    = "https://sonarcloud.io/project/issues?severities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          MEDIUM  = "https://sonarcloud.io/project/issues?severities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          LOW     = "https://sonarcloud.io/project/issues?severities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          BLOCKER = "https://sonarcloud.io/project/issues?impactSeverities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          HIGH    = "https://sonarcloud.io/project/issues?impactSeverities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          MEDIUM  = "https://sonarcloud.io/project/issues?impactSeverities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
         }
 <#         $blocker = Fetch-SonarSeverity "BLOCKER"
         $high = Fetch-SonarSeverity "CRITICAL"
@@ -403,9 +403,11 @@
                 if ($null -ne $moduleAgg[$matchedModule]) {
                 # Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
         
-                # now fetch severity-wise and then aggregate it
-                  $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
-                  $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
+                # now fetch impact-severity-wise and then aggregate it
+                  # $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
+                  $sevList = "BLOCKER,HIGH,MEDIUM,LOW,INFO"
+                  # $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
+                  $impactSevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&impactSeverities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
                   $response = Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json
         
                   # Initialize counts
@@ -417,12 +419,21 @@
                   INFO    = 0
                 }
         
-                foreach ($issue in $response.issues) {
+<#                 foreach ($issue in $response.issues) {
                   switch ($issue.severity) {
                       "BLOCKER"  { $counts.BLOCKER++ }
                       "CRITICAL" { $counts.HIGH++ }
                       "MAJOR"    { $counts.MEDIUM++ }
                       "MINOR"    { $counts.LOW++ }
+                      "INFO"     { $counts.INFO++ }
+                    }
+                } #>
+                foreach ($issue in $response.issues) {
+                  switch ($issue.severity) {
+                      "BLOCKER"  { $counts.BLOCKER++ }
+                      "HIGH" { $counts.HIGH++ }
+                      "MEDIUM"    { $counts.MEDIUM++ }
+                      "LOW"    { $counts.LOW++ }
                       "INFO"     { $counts.INFO++ }
                     }
                 }
