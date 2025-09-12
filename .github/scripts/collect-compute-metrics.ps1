@@ -54,12 +54,40 @@
          Write-Error "⚠ SONAR_TOKEN is empty!"
          exit 1
         }
-        $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization=$projectOrg"
+        # $url = "https://sonarcloud.io/api/issues/search?issueStatuses=OPEN,CONFIRMED&id=$projectKey&organization=$projectOrg"
+        $url = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&issueStatuses=OPEN,CONFIRMED&facets=impactSeverities"
         Write-Host "?? Calling SonarCloud API: $url"
+        $impactSeveritiesCounts = @{
+             BLOCKER = 0
+             HIGH    = 0
+             MEDIUM  = 0
+             LOW     = 0
+             INFO    = 0
+        }
+        $blocker = $impactSeveritiesCounts["BLOCKER"]
+        $high    = $impactSeveritiesCounts["HIGH"]
+        $medium  = $impactSeveritiesCounts["MEDIUM"]
+        $low     = $impactSeveritiesCounts["LOW"]
+        $info    = $impactSeveritiesCounts["INFO"]
         try {
          $response = Invoke-WebRequest -Uri $url -Method Get
          $body = $response.Content
-        
+         $json = $body | ConvertFrom-Json
+         $impactSeveritiesCounts = @{
+             BLOCKER = 0
+             HIGH    = 0
+             MEDIUM  = 0
+             LOW     = 0
+             INFO    = 0
+         }
+         $blocker = $impactSeveritiesCounts["BLOCKER"]
+         $high    = $impactSeveritiesCounts["HIGH"]
+         $medium  = $impactSeveritiesCounts["MEDIUM"]
+         $low     = $impactSeveritiesCounts["LOW"]
+         $info    = $impactSeveritiesCounts["INFO"]
+         foreach ($val in $json.facets[0].values) {
+                  $counts[$val.val] = $val.count
+          }
          if ($body -match '"total"\s*:\s*(\d+)') {
            $totalSonarFetchedIssues = $matches[1]
            Write-Host "? Total SonarCloud Issues (OPEN): $totalSonarFetchedIssues"
@@ -156,12 +184,12 @@
         }
         $coverageBar = Get-AsciiBar $sonarCoverage
         
-        ###########################################################
+<#         ###########################################################
         # === Fetch Overall Impact Severity Breakdown (UI-Aligned) ===
         ###########################################################
          function Fetch-SonarSeverity($impactSeverities) {
           $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$impactSeverities&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
-        
+
           try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
             $json = $resp.Content | ConvertFrom-Json
@@ -171,12 +199,12 @@
             exit 1
           }
         }
-        
-        $blocker = Fetch-SonarSeverity "BLOCKER" 
+        $blocker = Fetch-SonarSeverity "BLOCKER"
         $high = Fetch-SonarSeverity "HIGH"
         $medium = Fetch-SonarSeverity "MEDIUM"
         $low = Fetch-SonarSeverity "LOW"
         $info = Fetch-SonarSeverity "INFO"
+        #>
         ############################################################
         # === Generate Severity URLs (global and per module) ===
         ############################################################
@@ -202,7 +230,7 @@
           LOW     = "https://sonarcloud.io/project/issues?severities=MINOR&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
         } #>
-        
+        Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities is: : $impactSeveritiesCounts"
         ############################################################
               # === Generate URLS ===
         ############################################################

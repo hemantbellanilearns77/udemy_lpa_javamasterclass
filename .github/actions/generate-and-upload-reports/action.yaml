@@ -25,10 +25,6 @@ runs:
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
-        if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
-          Write-Host "⚠️ SKIP_FLAG is empty — defaulting to '⚠️ Empty Skip Flag ⚠️ '"
-          $SKIP_FLAG = "⚠️ Empty Skip Flag ⚠️ "
-        }
         Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
         # Write-Host the environment variable directly to ensure its value is printed.
         Write-Host "🧪 Bash path from previous step: '$env:SONAR_SCANNER_BIN'"
