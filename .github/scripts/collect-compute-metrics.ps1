@@ -82,15 +82,14 @@
              INFO    = 0
          }
 
-         $blocker = $impactSeveritiesCounts["BLOCKER"]
-         $high    = $impactSeveritiesCounts["HIGH"]
-         $medium  = $impactSeveritiesCounts["MEDIUM"]
-         $low     = $impactSeveritiesCounts["LOW"]
-         $info    = $impactSeveritiesCounts["INFO"]
-
          foreach ($val in $json.facets[0].values) {
                   $impactSeveritiesCounts[$val.val] = $val.count
           }
+          $blocker = $impactSeveritiesCounts["BLOCKER"]
+          $high    = $impactSeveritiesCounts["HIGH"]
+          $medium  = $impactSeveritiesCounts["MEDIUM"]
+          $low     = $impactSeveritiesCounts["LOW"]
+          $info    = $impactSeveritiesCounts["INFO"]
          if ($body -match '"total"\s*:\s*(\d+)') {
            $totalSonarFetchedIssues = $matches[1]
            Write-Host "? Total SonarCloud Issues (OPEN): $totalSonarFetchedIssues"
