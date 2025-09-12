@@ -252,7 +252,7 @@
         echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Legend                  | ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues) |" >> $env:GITHUB_STEP_SUMMARY        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Legend                  | ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues) |" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
         
