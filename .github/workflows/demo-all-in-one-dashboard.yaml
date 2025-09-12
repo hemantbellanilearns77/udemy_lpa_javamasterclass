@@ -36,7 +36,7 @@ jobs:
       - name: Run PMD
         uses: pmd/pmd-github-action@v1
         with:
-          version: '7.16.0'
+          version: '7.15.0'
           sourcePath: src/main/java
           rulesets: rulesets/java/quickstart.xml
           createGitHubAnnotations: true
