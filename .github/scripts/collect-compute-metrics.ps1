@@ -168,6 +168,21 @@
         }
         
         $blocker = Fetch-SonarSeverity "BLOCKER" 
+        $high = Fetch-SonarSeverity "HIGH"
+        $medium = Fetch-SonarSeverity "MEDIUM"
+        $low = Fetch-SonarSeverity "LOW"
+        $info = Fetch-SonarSeverity "INFO"
+        ############################################################
+        # === Generate Severity URLs (global and per module) ===
+        ############################################################
+        $severityLinks = @{
+          BLOCKER = "https://sonarcloud.io/project/issues?severities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          HIGH    = "https://sonarcloud.io/project/issues?severities=HIGH&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          MEDIUM  = "https://sonarcloud.io/project/issues?severities=MEDIUM&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          LOW     = "https://sonarcloud.io/project/issues?severities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+          INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
+        }
+<#         $blocker = Fetch-SonarSeverity "BLOCKER"
         $high = Fetch-SonarSeverity "CRITICAL"
         $medium = Fetch-SonarSeverity "MAJOR"
         $low = Fetch-SonarSeverity "MINOR"
@@ -181,7 +196,7 @@
           MEDIUM  = "https://sonarcloud.io/project/issues?severities=MAJOR&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           LOW     = "https://sonarcloud.io/project/issues?severities=MINOR&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-        }
+        } #>
         
         ############################################################
               # === Generate URLS ===

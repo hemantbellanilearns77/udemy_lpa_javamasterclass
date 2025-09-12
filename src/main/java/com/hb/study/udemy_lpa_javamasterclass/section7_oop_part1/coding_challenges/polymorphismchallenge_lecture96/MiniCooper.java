@@ -4,6 +4,8 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
 class MiniCooper extends Car{
+    private static final String INSIDE_MINI_COOPER_CLASS_INVOKED = "inside MiniCooper class invoked";
+
     public MiniCooper(int cylinders, String name) {
 
         super(cylinders,name);
@@ -11,16 +13,16 @@ class MiniCooper extends Car{
     @Override
     public void startEngine() {
 
-        ConsoleStyler.styleOutput("startEngine() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("startEngine() " + INSIDE_MINI_COOPER_CLASS_INVOKED);
     }
     @Override
     public void accelerate() {
 
-        ConsoleStyler.styleOutput("accelerate() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("accelerate() " + INSIDE_MINI_COOPER_CLASS_INVOKED);
     }
     @Override
     public void brake(){
 
-        ConsoleStyler.styleOutput("brake() inside MiniCooper class invoked");
+        ConsoleStyler.styleOutput("brake() " + INSIDE_MINI_COOPER_CLASS_INVOKED);
     }
 }
