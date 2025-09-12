@@ -25,7 +25,7 @@ runs:
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
         # --- DEBUG: show what is being passed
         Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
-          if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
+        if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
           Write-Host "⚠️ SKIP_FLAG is empty — defaulting to '⚠️ Empty Skip Flag ⚠️ '"
           $SKIP_FLAG = "⚠️ Empty Skip Flag ⚠️ "
         }

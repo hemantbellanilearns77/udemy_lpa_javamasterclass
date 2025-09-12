@@ -437,8 +437,8 @@
                     }
                 } #>
                 foreach ($issue in $response.issues) {
-                    foreach ($impacts in $issue) {
-                      switch ($impacts.severity) {
+                    foreach ($impact in $issue.impacts) {
+                      switch ($impact.severity) {
                         "BLOCKER"   { $counts.BLOCKER++ }
                           "HIGH"    { $counts.HIGH++ }
                           "MEDIUM"  { $counts.MEDIUM++ }
