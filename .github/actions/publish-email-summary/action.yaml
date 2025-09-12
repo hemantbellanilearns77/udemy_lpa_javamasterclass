@@ -172,7 +172,7 @@ runs:
               </ul>
             </li>
           </ul>
-          <h3>📦 Module-Wise Severity Breakdown</h3>
+          <h3>📦 Module-Wise Impact-Severity</h3>
           ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
           <h3>🔗 Links - SonarCloud, GitHUb</h3>
           <ul>
