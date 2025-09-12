@@ -152,10 +152,10 @@
         $coverageBar = Get-AsciiBar $sonarCoverage
         
         ###########################################################
-        # === Fetch Overall Severity Breakdown (UI-Aligned) ===
+        # === Fetch Overall Impact Severity Breakdown (UI-Aligned) ===
         ###########################################################
-         function Fetch-SonarSeverity($severity) {
-          $url = "https://sonarcloud.io/api/issues/search?severities=$severity&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
+         function Fetch-SonarSeverity($impactSeverities) {
+          $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$impactSeverities&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
         
           try {
             $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
