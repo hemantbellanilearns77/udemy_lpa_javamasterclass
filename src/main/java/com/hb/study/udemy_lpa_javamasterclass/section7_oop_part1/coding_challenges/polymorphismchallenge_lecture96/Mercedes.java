@@ -2,6 +2,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Mercedes extends Car{
+    private static final String INSIDE_MERCEDES_CLASS_INVOKED = "inside Mercedes class invoked";
+
     public Mercedes(int cylinders, String name) {
 
         super(cylinders,name);
@@ -9,12 +11,12 @@ public class Mercedes extends Car{
     @Override
     public void startEngine() {
 
-        ConsoleStyler.styleOutput("startEngine() inside Mercedes class invoked");
+        ConsoleStyler.styleOutput("startEngine() " + INSIDE_MERCEDES_CLASS_INVOKED);
     }
     @Override
     public void accelerate() {
 
-        ConsoleStyler.styleOutput("accelerate() inside Mercedes class invoked");
+        ConsoleStyler.styleOutput("accelerate() " + INSIDE_MERCEDES_CLASS_INVOKED);
     }
 }
 

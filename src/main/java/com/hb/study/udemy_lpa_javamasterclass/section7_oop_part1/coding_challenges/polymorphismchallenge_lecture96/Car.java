@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 class Car {
+    private static final String INSIDE_CAR_CLASS_INVOKED = "inside Car class invoked";
     private final String name;
     private final boolean engine;
     private final int cylinders;
@@ -31,12 +32,22 @@ class Car {
         return name;
     }
     public void startEngine() {
-        ConsoleStyler.styleOutput("startEngine() inside Car class invoked");
+        ConsoleStyler.styleOutput("startEngine() " + INSIDE_CAR_CLASS_INVOKED);
     }
     public void accelerate() {
-        ConsoleStyler.styleOutput("accelerate() inside Car class invoked");
+        ConsoleStyler.styleOutput("accelerate() " + INSIDE_CAR_CLASS_INVOKED);
     }
     public void brake(){
-        ConsoleStyler.styleOutput("brake() inside Car class invoked");
+        ConsoleStyler.styleOutput("brake() " + INSIDE_CAR_CLASS_INVOKED);
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "name='" + name + '\'' +
+                ", engine=" + engine +
+                ", cylinders=" + getCylinders() +
+                ", wheels=" + getWheels() +
+                '}';
     }
 }

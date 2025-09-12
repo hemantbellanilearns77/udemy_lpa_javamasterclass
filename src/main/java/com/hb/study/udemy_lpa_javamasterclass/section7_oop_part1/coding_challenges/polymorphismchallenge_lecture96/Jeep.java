@@ -2,19 +2,21 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
 
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 class Jeep extends Car{
+    private static final String INSIDE_JEEP_CLASS_INVOKED = "inside Jeep class invoked";
+
     public Jeep(int cylinders, String name) {
         super(cylinders, name);
     }
     @Override
     public void startEngine() {
-        ConsoleStyler.styleOutput("startEngine() inside Jeep class invoked");
+        ConsoleStyler.styleOutput("startEngine() " + INSIDE_JEEP_CLASS_INVOKED);
     }
     @Override
     public void accelerate() {
-        ConsoleStyler.styleOutput("accelerate() inside Jeep class invoked");
+        ConsoleStyler.styleOutput("accelerate() " + INSIDE_JEEP_CLASS_INVOKED);
     }
     @Override
     public void brake(){
-        ConsoleStyler.styleOutput("brake() inside Jeep class invoked");
+        ConsoleStyler.styleOutput("brake() " + INSIDE_JEEP_CLASS_INVOKED);
     }
 }
