@@ -105,9 +105,7 @@
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
-        # Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $env:SKIP_FLAG"
-        # Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $skipFlagVal"
-        
+
         if ($skipFlagVal -match $skipSonarPattern) {
             $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
             $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
@@ -169,8 +167,7 @@
           $coverageEmoji = "🔴"
         }
         $coverageBar = Get-AsciiBar $sonarCoverage
-        
-        # $sonarCoverage = Get-SonarMetric "coverage"
+
         # Ensure only the first numeric value is used
         if ($sonarCoverage -is [array]) {
           $sonarCoverage = $sonarCoverage[0]
@@ -186,27 +183,6 @@
         }
         $coverageBar = Get-AsciiBar $sonarCoverage
         
-<#         ###########################################################
-        # === Fetch Overall Impact Severity Breakdown (UI-Aligned) ===
-        ###########################################################
-         function Fetch-SonarSeverity($impactSeverities) {
-          $url = "https://sonarcloud.io/api/issues/search?impactSeverities=$impactSeverities&issueStatuses=OPEN,CONFIRMED&organization=$projectOrg&id=$projectKey"
-
-          try {
-            $resp = Invoke-WebRequest -Uri $url -Headers $headers -Method Get
-            $json = $resp.Content | ConvertFrom-Json
-            return $json.total
-          } catch {
-            Write-Error "⚠ API call failed: $_"
-            exit 1
-          }
-        }
-        $blocker = Fetch-SonarSeverity "BLOCKER"
-        $high = Fetch-SonarSeverity "HIGH"
-        $medium = Fetch-SonarSeverity "MEDIUM"
-        $low = Fetch-SonarSeverity "LOW"
-        $info = Fetch-SonarSeverity "INFO"
-        #>
         ############################################################
         # === Generate Severity URLs (global and per module) ===
         ############################################################
@@ -217,21 +193,6 @@
           LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
         }
-<#         $blocker = Fetch-SonarSeverity "BLOCKER"
-        $high = Fetch-SonarSeverity "CRITICAL"
-        $medium = Fetch-SonarSeverity "MAJOR"
-        $low = Fetch-SonarSeverity "MINOR"
-        $info = Fetch-SonarSeverity "INFO"
-        ############################################################
-        # === Generate Severity URLs (global and per module) ===
-        ############################################################
-        $severityLinks = @{
-          BLOCKER = "https://sonarcloud.io/project/issues?severities=BLOCKER&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          HIGH    = "https://sonarcloud.io/project/issues?severities=CRITICAL&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          MEDIUM  = "https://sonarcloud.io/project/issues?severities=MAJOR&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          LOW     = "https://sonarcloud.io/project/issues?severities=MINOR&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-          INFO    = "https://sonarcloud.io/project/issues?severities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
-        } #>
         Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities is: : $impactSeveritiesCounts"
         ############################################################
               # === Generate URLS ===
@@ -291,8 +252,7 @@
         echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Legend                  | ✅ is GREAT-GOING 🟡 is WATCH-OUT  🔴 is GONE-OVERBOARD |" >> $env:GITHUB_STEP_SUMMARY
-        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Legend                  | ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues) |" >> $env:GITHUB_STEP_SUMMARY        echo "" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
         

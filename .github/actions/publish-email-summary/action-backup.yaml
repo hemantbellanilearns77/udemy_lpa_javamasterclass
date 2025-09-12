@@ -1,0 +1,201 @@
+# .github/actions/email-summary/action.yml
+##############################################################
+# EMAIL SUMMARY COMPOSITE
+##############################################################
+name: "Send Hygiene Summary Email"
+description: "Reusable step to send hygiene summary email"
+inputs:
+  HygieneCheckStatus:
+    required: true
+    description: ""
+  NextStepsHtml:
+    required: true
+    description: ""
+  BRANCH_EXECUTED:
+    required: true
+    description: ""
+  sonarCoverage:
+    required: true
+    description: ""
+  coverageBar:
+    required: true
+    description: ""
+  checkstyleCount:
+    required: true
+    description: ""
+  pmdCount:
+    required: true
+    description: ""
+  sonarExecutionNote:
+    required: true
+    description: ""
+  sonarIssuesNote:
+    required: true
+    description: ""
+  lastSonarAnalysis:
+    required: true
+    description: ""
+  sonarBlocker:
+    required: true
+    description: ""
+  sonarBlockerUrl:
+    required: true
+    description: ""
+  sonarBlockerEmojiMark:
+    required: true
+    description: ""
+  sonarHigh:
+    required: true
+    description: ""
+  sonarHighUrl:
+    required: true
+    description: ""
+  sonarHighEmojiMark:
+    required: true
+    description: ""
+  sonarMedium:
+    required: true
+    description: ""
+  sonarMediumUrl:
+    required: true
+    description: ""
+  sonarMediumEmojiMark:
+    required: true
+    description: ""
+  sonarLow:
+    required: true
+    description: ""
+  sonarLowUrl:
+    required: true
+    description: ""
+  sonarLowEmojiMark:
+    required: true
+    description: ""
+  sonarInfo:
+    required: true
+    description: ""
+  sonarInfoUrl:
+    required: true
+    description: ""
+  sonarInfoEmojiMark:
+    required: true
+    description: ""
+  sonarOpenIssuesDashboardURL:
+    required: true
+    description: ""
+  sonarOverallCodeDashBoardURL:
+    required: true
+    description: ""
+  EMAIL_MODULE_SEV_AGG_TABLE:
+    required: true
+    description: ""
+  FULL_SHA:
+    required: true
+    description: ""
+  SHORT_SHA:
+    required: true
+    description: ""
+  TRIGGER_INFO:
+    required: true
+    description: ""
+  COMMIT_MSG:
+    required: true
+    description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
+  COMMIT_DATE:
+    required: true
+    description: ""
+  startTime:
+    required: true
+    description: ""
+  endTime:
+    required: true
+    description: ""
+  formattedDuration:
+    required: true
+    description: ""
+  ARTIFACT_URL:
+    required: true
+    description: ""
+  STAGE_VS_MAIN_STATE:
+    required: true
+    description: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: 📧 Send Hygiene Summary Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ env.SMTP_SERVER_ADDRESS }}
+        server_port: ${{ env.SMTP_SERVER_PORT }}
+        username: ${{ env.SMTP_USER }}
+        password: ${{ env.SMTP_PASS }}
+        subject: >-
+          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ inputs.formattedDuration }}
+            ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
+        to: ${{ env.EMAIL_RECIPIENT }}
+        from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
+        html_body: |
+          <html>
+          <body style="font-family:Calibri;font-size:16px;color:#333; line-height:1.4;">          
+          <p>Hi Hemant,</p>
+          <h2>🏁 Hygiene Check : <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};"> <code>${{ inputs.HygieneCheckStatus }}</code> </span>             
+            </span>
+          </h2>
+          <strong>Repository:</strong> <code>${{ github.repository }}</code><br/> 
+          <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+          <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
+          <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code><br/>
+          <p><strong>Legend:</strong> ✅ = Great / 0 issues, 🟡 = Watch-Out / 1-27 issues, 🔴 = Action Needed / >27 issues</p>
+          <h3>📊 Summary</h3>
+          <ul>
+            <li>📈 <b>Code Coverage:</b> ${{ inputs.sonarCoverage }}
+              ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
+            </li>
+            <li>🎯 <strong>Coverage Visual: </strong><code>${{ inputs.coverageBar }}</code></li>
+            <li>📝 <strong>Checkstyle Violations:</strong> <code>${{ inputs.checkstyleCount }}</code></li>
+            <li>🔍 <strong>PMD Violations:</strong> <code>${{ inputs.pmdCount }}</li>           
+            <li>🗂 <strong>SonarCloud:</strong><br/>
+                  &nbsp;&nbsp;• Execution: <code>${{ inputs.sonarExecutionNote }}</code><br/>
+                  &nbsp;&nbsp;• Issues: <code>${{ inputs.sonarIssuesNote }}</code><br/>
+                  &nbsp;&nbsp;• Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code><br/>
+              🛠 <strong>SonarCloud Severity Breakdown:</strong>
+              <ul>
+                <li>🟥 <strong>BLOCKER:</strong> <a href="${{ inputs.sonarBlockerUrl }}"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
+                <li>🟧 <strong>HIGH:</strong> <a href="${{ inputs.sonarHighUrl }}"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
+                <li>🟨 <strong>MEDIUM:</strong> <a href="${{ inputs.sonarMediumUrl }}"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
+                <li>🟦 <strong>LOW:</strong> <a href="${{ inputs.sonarLowUrl }}"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
+                <li>ℹ️ <strong>INFO:</strong> <a href="${{ inputs.sonarInfoUrl }}"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
+              </ul>
+            </li>
+          </ul>
+          <h3>📦 Module-Wise Impact-Severity</h3>
+          ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+          <h3>🔗 Links - SonarCloud, GitHUb</h3>
+          <ul>
+            <li>🌐 <a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud ${{ inputs.BRANCH_EXECUTED }} Branch Summary - All Open Issues</a></li>
+            <li>🌐 <a href="${{ inputs.sonarOpenIssuesDashboardURL }}">SonarCloud Open Issues Dashboard - Severity-Wise Breakdown</a></li>
+            <li>🌐 <a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Commit - SHA=${{ inputs.SHORT_SHA }}</a></li>
+            <li>🌐 <a href="${{ inputs.ARTIFACT_URL }}">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
+
+            
+          </ul>
+          <h3>📌 Next Steps - Dynamic</h3>
+          <ul>
+            ${{ inputs.NextStepsHtml }}
+          </ul>
+          <h3>📜 Job Execution Info</h3>
+          <ul>
+            <li>Triggered by:${{ inputs.TRIGGER_INFO }}</li>
+            <li>Last Commit was by: ${{ inputs.COMMIT_AUTHOR }} with Commit Message: ${{ inputs.COMMIT_MSG }}</li>
+            <li>Commit Date: ${{ inputs.COMMIT_DATE }} (IST)</li>
+            <li>Job Duration: ${{ inputs.formattedDuration }}</li>
+            <li>Start: ${{ inputs.startTime }} | End: ${{ inputs.endTime }}</li>
+          </ul>
+          <p>🕒 All times reported in IST.</p>
+          <p><em>🤖 This is an automated message from GitHub Actions. Please do not reply.</em></p>
+          </body>
+          </html>
