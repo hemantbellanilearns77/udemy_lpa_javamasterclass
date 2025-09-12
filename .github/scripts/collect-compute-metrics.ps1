@@ -410,11 +410,11 @@
                 # Write-Output "✅ moduleAgg has a row for: $matchedModule and can be populated with severity numbers"
         
                 # now fetch impact-severity-wise and then aggregate it
-                  # $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
-                  $sevList = "BLOCKER,HIGH,MEDIUM,LOW,INFO"
-                  # $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
-                  $impactSevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&impactSeverities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
-                  $response = Invoke-WebRequest -Uri $impactSevUrl -Headers $headers -Method Get | ConvertFrom-Json
+                  $sevList = "BLOCKER,CRITICAL,MAJOR,MINOR,INFO"
+                  # $sevList = "BLOCKER,HIGH,MEDIUM,LOW,INFO"
+                  $sevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&severities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
+                  # $impactSevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&impactSeverities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
+                  $response = Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json
         
                   # Initialize counts
                   $counts = @{
@@ -425,7 +425,7 @@
                   INFO    = 0
                 }
         
-<#                 foreach ($issue in $response.issues) {
+                 foreach ($issue in $response.issues) {
                   switch ($issue.severity) {
                       "BLOCKER"  { $counts.BLOCKER++ }
                       "CRITICAL" { $counts.HIGH++ }
@@ -433,8 +433,8 @@
                       "MINOR"    { $counts.LOW++ }
                       "INFO"     { $counts.INFO++ }
                     }
-                } #>
-                foreach ($issue in $response.issues) {
+                }
+<#                 foreach ($issue in $response.issues) {
                   switch ($issue.severity) {
                       "BLOCKER"  { $counts.BLOCKER++ }
                       "HIGH" { $counts.HIGH++ }
@@ -442,7 +442,7 @@
                       "LOW"    { $counts.LOW++ }
                       "INFO"     { $counts.INFO++ }
                     }
-                }
+                } #>
         
                 # Now add to moduleAgg
                   $moduleAgg[$matchedModule]["BLOCKER"] += $counts.BLOCKER
