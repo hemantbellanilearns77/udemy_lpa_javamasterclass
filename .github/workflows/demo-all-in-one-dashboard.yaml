@@ -46,6 +46,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: pmd-report.sarif
+        continue-on-error: true
 
       - name: Upload PMD Report Artifact
         uses: actions/upload-artifact@v4
