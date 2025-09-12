@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  analysis:
+  ALL-IN-ONE-HYGIENE-CHECK:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +53,7 @@ jobs:
         with:
           name: pmd-report
           path: pmd-report.sarif
+        continue-on-error: true
 
       # 3. Gradle bootstrap for JUnit + Jacoco
       - name: Setup Gradle
