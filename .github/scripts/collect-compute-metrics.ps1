@@ -416,7 +416,7 @@
                   # $impactSevUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&impactSeverities=$sevList&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
                   $dirIssuesUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
                   Write-Output "✅ Calling Directory issues url for: $dir as : $dirIssuesUrl"
-                  $response = Invoke-WebRequest -Uri $sevUrl -Headers $headers -Method Get | ConvertFrom-Json
+                  $response = Invoke-WebRequest -Uri $dirIssuesUrl -Headers $headers -Method Get | ConvertFrom-Json
         
                   # Initialize counts
                   $counts = @{
