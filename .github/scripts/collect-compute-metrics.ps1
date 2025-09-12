@@ -1,3 +1,5 @@
+        $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
+        $skipFlagVal="$env:SKIP_FLAG"
         ############################################################
         # === Parse JaCoCo XML (Overall) ===
         ############################################################
@@ -72,8 +74,10 @@
         ############################################################
         # === Derive Sonar Presentation Variables ===
         ############################################################
-        Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $env:SKIP_FLAG"
-        if ($env:SKIP_FLAG -match "--skip-sonar") {
+        # Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $env:SKIP_FLAG"
+        Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $skipFlagVal"
+        
+        if ($skipFlagVal -match $skipSonarPattern) {
             $sonarExecutionNote = "SKIPPED ⚡ (manual override)"
             $sonarIssuesNote    = "from last successful analysis : $totalSonarFetchedIssues"
         } else {
@@ -294,8 +298,10 @@
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         $emailModuleSevAggTable=""
-        $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
-        if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
+        # $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
+        # if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
+        # if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
+        if ($env:SKIP_FLAG -imatch "Hi There") {
           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
           # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
           "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
