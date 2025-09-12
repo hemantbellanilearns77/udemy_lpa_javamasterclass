@@ -69,6 +69,7 @@
         $medium  = $impactSeveritiesCounts["MEDIUM"]
         $low     = $impactSeveritiesCounts["LOW"]
         $info    = $impactSeveritiesCounts["INFO"]
+
         try {
          $response = Invoke-WebRequest -Uri $url -Method Get
          $body = $response.Content
@@ -80,11 +81,13 @@
              LOW     = 0
              INFO    = 0
          }
+
          $blocker = $impactSeveritiesCounts["BLOCKER"]
          $high    = $impactSeveritiesCounts["HIGH"]
          $medium  = $impactSeveritiesCounts["MEDIUM"]
          $low     = $impactSeveritiesCounts["LOW"]
          $info    = $impactSeveritiesCounts["INFO"]
+
          foreach ($val in $json.facets[0].values) {
                   $counts[$val.val] = $val.count
           }
