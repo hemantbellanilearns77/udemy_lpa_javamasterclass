@@ -145,6 +145,7 @@ runs:
           $pmdViolations = "${{ inputs.pmdCount }}"
           $sonarCoverage = "${{ inputs.sonarCoverage }}"
           $coverageStatus = "${{ inputs.coverageStatus }}"
+          $coverageBar="${{ inputs.coverageBar }}"
            ############################################################
                      # === Write Overall Table ===
            ############################################################
@@ -154,8 +155,8 @@ runs:
            echo "Stage ↔ Main state: ${{inputs.STAGE_VS_MAIN_STATE }}" >> $env:GITHUB_STEP_SUMMARY
            echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
            echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
-           # echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage % $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
-           #         echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage % $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
 
