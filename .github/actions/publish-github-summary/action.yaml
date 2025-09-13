@@ -156,8 +156,8 @@ runs:
          echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🟥 BLOCKER               | [$blocker]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🟥 BLOCKER               | [$blocker]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🟧 HIGH                  | [$high]($($severityLinks.HIGH)) $sonarHighStatus |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
