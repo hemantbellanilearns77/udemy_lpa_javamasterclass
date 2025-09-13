@@ -431,7 +431,7 @@
 
           $githubModuleSevAggTable += "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |$nl"
           $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------|$nl"
-          foreach ($mod in $moduleAgg.Keys) {
+          foreach ($mod in $moduleAgg.Keys | Sort-Object) {
               $b = $moduleAgg[$mod]
               $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
           }

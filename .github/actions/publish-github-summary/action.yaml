@@ -134,6 +134,36 @@ runs:
   steps:
     ####################################################
     # Publish GITHUB SUMMARY
+#      $branch                = "${{ inputs.BRANCH_EXECUTED }}"
+#      $repository            = "${{ github.repository }}"
+#      $checkstyleViolations  = "${{ inputs.checkstyleCount }}"
+#      $pmdViolations         = "${{ inputs.pmdCount }}"
+#      $sonarCoverage         = "${{ inputs.sonarCoverage }}"
+#      $coverageStatus        = "${{ inputs.coverageStatus }}"
+#      $coverageBar           = "${{ inputs.coverageBar }}"
+#      $sonarExecutionNote    = "${{ inputs.sonarExecutionNote }}"
+#      $sonarIssuesNote       = "${{ inputs.sonarIssuesNote }}"
+#      $lastSonarAnalysis     = "${{ inputs.lastSonarAnalysis }}"
+#      $sonarBlocker          = "${{ inputs.sonarBlocker }}"
+#      $sonarBlockerUrl       = "${{ inputs.sonarBlockerUrl }}"
+#      $sonarBlockerEmojiMark = "${{ inputs.sonarBlockerEmojiMark }}"
+#      $sonarHigh             = "${{ inputs.sonarHigh }}"
+#      $sonarHighUrl          = "${{ inputs.sonarHighUrl }}"
+#      $sonarHighEmojiMark    = "${{ inputs.sonarHighEmojiMark }}"
+#      $sonarMedium           = "${{ inputs.sonarMedium }}"
+#      $sonarMediumUrl        = "${{ inputs.sonarMediumUrl }}"
+#      $sonarMediumEmojiMark  = "${{ inputs.sonarMediumEmojiMark }}"
+#      $sonarLow              = "${{ inputs.sonarLow }}"
+#      $sonarLowUrl           = "${{ inputs.sonarLowUrl }}"
+#      $sonarLowEmojiMark     = "${{ inputs.sonarLowEmojiMark }}"
+#      $sonarInfo             = "${{ inputs.sonarInfo }}"
+#      $sonarInfoUrl          = "${{ inputs.sonarInfoUrl }}"
+#      $sonarInfoEmojiMark    = "${{ inputs.sonarInfoEmojiMark }}"
+#      $sonarOverallUrl       = "${{ inputs.sonarOverallCodeDashBoardURL }}"
+#      $sonarOpenIssuesUrl    = "${{ inputs.sonarOpenIssuesDashboardURL }}"
+#      $moduleTableHtml       = "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}"
+#      $sonarLegend           = "${{ inputs.sonarIssuesLegend }}"
+#      $stageState            = "${{ inputs.STAGE_VS_MAIN_STATE }}"
     ####################################################
     - name: Publish GITHUB Summary
       id: publish-github-summary
