@@ -448,18 +448,17 @@
         $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
          # --- Aggregate violations ---
-        $totalCodeViolations = $checkstyleCount + $pmdCount
-        if ($totalCodeViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
+        if ($totalViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
             $passed = $false
             $NextStepsHtml += "<li>Total code violations exceed allowed maximum ($totalCodeViolations > $($env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS)).</li>"
         }
 
-        if ($checkstyleCount -gt [int]$env:CHECKSTYLE_MAX_VIOLATIONS) {
+        if ($checkstyleViolations -gt [int]$env:CHECKSTYLE_MAX_VIOLATIONS) {
             $passed = $false
             $NextStepsHtml += "<li>Fix Checkstyle violations ($checkstyleCount > $($env:CHECKSTYLE_MAX_VIOLATIONS)).</li>"
         }
 
-        if ($pmdCount -gt [int]$env:PMD_MAX_VIOLATIONS) {
+        if ($pmdViolations -gt [int]$env:PMD_MAX_VIOLATIONS) {
             $passed = $false
             $NextStepsHtml += "<li>Fix pmdCount violations ($pmdCount > $($env:PMD_MAX_VIOLATIONS)).</li>"
         }
@@ -467,33 +466,33 @@
         $SonarNextStepsHtml += "<li>Resolve Issues that exceeded threshold per severity:</li>"
         $SonarNextStepsHtml += "<ul>"
         # Blocker
-        if ($sonarBlocker -gt [int]$env:BLOCKER_MAX) {
+        if ($blocker -gt [int]$env:BLOCKER_MAX) {
             $sonarHasNextSteps=$true
-            $SonarNextStepsHtml += "<li>🟥 BLOCKER Issues: $sonarBlocker / $($env:BLOCKER_MAX) 🔴 (Exceeded)</li>"
+            $SonarNextStepsHtml += "<li>🟥 BLOCKER Issues: $blocker / $($env:BLOCKER_MAX) 🔴 (Exceeded)</li>"
         }
 
         # High
-        if ($sonarHigh -gt [int]$env:HIGH_MAX) {
+        if ($high -gt [int]$env:HIGH_MAX) {
             $sonarHasNextSteps=$true
-            $SonarNextStepsHtml += "<li>🟧 HIGH Issues: $sonarHigh / $($env:HIGH_MAX) 🔴 (Exceeded)</li>"
+            $SonarNextStepsHtml += "<li>🟧 HIGH Issues: $high / $($env:HIGH_MAX) 🔴 (Exceeded)</li>"
         }
 
         # Medium
-        if ($sonarMedium -gt [int]$env:MEDIUM_MAX) {
+        if ($medium -gt [int]$env:MEDIUM_MAX) {
             $sonarHasNextSteps=$true
-            $SonarNextStepsHtml += "<li>🟨 MEDIUM Issues: $sonarMedium / $($env:MEDIUM_MAX) 🔴 (Exceeded)</li>"
+            $SonarNextStepsHtml += "<li>🟨 MEDIUM Issues: $medium / $($env:MEDIUM_MAX) 🔴 (Exceeded)</li>"
         }
 
         # Low
-        if ($sonarLow -gt [int]$env:LOW_MAX) {
+        if ($low -gt [int]$env:LOW_MAX) {
             $sonarHasNextSteps=$true
-            $SonarNextStepsHtml += "<li>🟦 LOW Issues: $sonarLow / $($env:LOW_MAX) 🔴 (Exceeded)</li>"
+            $SonarNextStepsHtml += "<li>🟦 LOW Issues: $low / $($env:LOW_MAX) 🔴 (Exceeded)</li>"
         }
 
         # Info
-        if ($sonarInfo -gt [int]$env:INFO_MAX) {
+        if ($info -gt [int]$env:INFO_MAX) {
             $sonarHasNextSteps=$true
-            $SonarNextStepsHtml += "<li>ℹ️ INFO Issues: $sonarInfo / $($env:INFO_MAX) 🔴 (Exceeded)</li>"
+            $SonarNextStepsHtml += "<li>ℹ️ INFO Issues: $info / $($env:INFO_MAX) 🔴 (Exceeded)</li>"
         }
 
         $SonarNextStepsHtml += "</ul>"
@@ -506,9 +505,10 @@
         }
 
         # --- Job Status ---
+        $outcome="$env:JOB_STATUS"
         if ($outcome -ne "success") {
             $passed = $false
-            $NextStepsHtml += "<li>Job did not succeed (status: $jobStatus).</li>"
+            $NextStepsHtml += "<li>The Hygiene sweep and upload reports step, did  not succeed (status: $outcome).</li>"
         }
         # --- Laud Hygiene if no issues ---
         if ([string]::IsNullOrWhiteSpace($NextStepsHtml)) {

@@ -34,6 +34,9 @@ inputs:
   STAGE_MERGE_SKIPPED:
     required: true
     description: "Indicates if stage merge was skipped"
+  JOB_STATUS:
+    required: true
+    description: ""
 
 outputs:
   sonarExecutionNote:
@@ -45,6 +48,7 @@ outputs:
   lastSonarAnalysis:
     description: ""
     value: ${{ steps.sonar-vars.outputs.lastSonarAnalysis }}
+
 runs:
   using: "composite"
   steps:
@@ -57,7 +61,7 @@ runs:
       shell: pwsh
       env:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-        JOB_STATUS: ${{ job.status }}   # 👈 capture job status here
+        JOB_STATUS: ${{ inputs.JOB_STATUS }}   # 👈 capture job status here
         SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
         SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
         SONAR_ORG: ${{ env.SONAR_ORG }}
