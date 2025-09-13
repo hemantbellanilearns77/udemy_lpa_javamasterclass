@@ -179,8 +179,7 @@ runs:
         } else {
           Write-Host "⏭️ Sonar will SKIP | $REASON"
         }
-        
-
+      
         if ([string]::IsNullOrWhiteSpace($SKIP_FLAG)) {
           Write-Host "🧪 $prMergePattern was not found in the Last Commit Message ( $COMMIT_MSG ) therefore defaulting SKIP_FLAG variable to : '⚠️ Empty Skip Flag ⚠️ '"
           $SKIP_FLAG = "⚠️ Empty Skip Flag ⚠️ "
@@ -222,6 +221,9 @@ runs:
     # 3. Download Tools & Setup
     - name: Download Tools & Setup
       id: download-tools-setup
+      with:
+        SKIP_FLAG: ${{ steps.setup_vars.outputs.SKIP_FLAG }}
+
       uses: ./.github/actions/download-setup-tools
 
     # 4. Compile Java Modules
