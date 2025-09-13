@@ -142,177 +142,97 @@ runs:
         html_body: |
           <html>
           <body style="margin:0; padding:0;">
-          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-              <td style="padding:16px;">
-                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"
-                style="max-width:600px; margin:0 auto; background:#ffffff;">
-                  <tr>
-                    <td style="padding:16px; font-family:Calibri, sans-serif; font-size:12pt; color:#2b2b2b; line-height:1.8;">
-                      <!-- all your existing HTML content goes here -->
-                      <p style="margin-bottom:16px;">Dear Hemant,</p>
-                      <h2 style="color:#1a5276; border-bottom:1px solid #dcdcdc; padding-bottom:4px;">
-                        🏁 Hygiene Check : 
-                        <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
-                          <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
-                        </span>
-                      </h2>
-                    
-                      <p style="margin:0 0 12px 0;">
-                        <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
-                        <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-                        <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
-                        <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code>
-                      </p>
-                    
-                      <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
-                        Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues)
-                      </p>
-                    
-                      <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
-                      <ul style="margin:6px 0 12px 18px; padding:0;">
-                        <li style="margin-bottom:6px;"><b>📈 Code Coverage:</b> 
-                          ${{ inputs.sonarCoverage }}
-                          ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
-                        </li>
-                        <li style="margin-bottom:6px;">🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
-                        <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code></li>
-                        <li style="margin-bottom:6px;">🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code></li>
-                        <li style="margin-bottom:6px;">🗂 <b>SonarCloud:</b>
-                          <ul style="margin:6px 0 12px 18px; padding:0;">
-                            <li style="margin-bottom:6px;">Execution: <code>${{ inputs.sonarExecutionNote }}</code></li>
-                            <li style="margin-bottom:6px;">Issues: <code>${{ inputs.sonarIssuesNote }}</code></li>
-                            <li style="margin-bottom:6px;">Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code></li>
-                          </ul>
-                          <b>🛠 SonarCloud Impact Severity Breakdown:</b>
-                          <ul style="margin:6px 0 12px 18px; padding:0;">
-                            <li style="margin-bottom:6px;">🟥 BLOCKER: <a href="${{ inputs.sonarBlockerUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
-                            <li style="margin-bottom:6px;">🟧 HIGH: <a href="${{ inputs.sonarHighUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
-                            <li style="margin-bottom:6px;">🟨 MEDIUM: <a href="${{ inputs.sonarMediumUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
-                            <li style="margin-bottom:6px;">🟦 LOW: <a href="${{ inputs.sonarLowUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
-                            <li style="margin-bottom:6px;">ℹ️ INFO: <a href="${{ inputs.sonarInfoUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
-                          </ul>
-                        </li>
-                      </ul>
-                    
-                      <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📦 Module-Wise Impact-Severity</h3>
-                      <div style="margin:8px 0 16px 0;">
-                        ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-                      </div>
-                    
-                      <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">🔗 Key Links</h3>
-                      <ul style="margin:6px 0 12px 18px; padding:0;">
-                        <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOverallCodeDashBoardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud – ${{ inputs.BRANCH_EXECUTED }} Branch Summary</a></li>
-                        <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOpenIssuesDashboardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud Open Issues - Impact Severity Breakdown</a></li>
-                        <li style="margin-bottom:6px;"><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}" style="color:#1a5276; text-decoration:none;">View Last Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
-                        <li style="margin-bottom:6px;"><a href="${{ inputs.ARTIFACT_URL }}" style="color:#1a5276; text-decoration:none;">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
-                      </ul>
-                    
-                      <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📌 Next Steps</h3>
-                      <ul style="margin:6px 0 12px 18px; padding:0;">
-                        ${{ inputs.NextStepsHtml }}
-                      </ul>
-                    
-                      <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details</h3>
-                      <ul style="margin:6px 0 12px 18px; padding:0;">
-                        <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
-                        <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
-                        <li style="margin-bottom:6px;">Last Commit / PR Merge Approval, Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
-                        <li style="margin-bottom:6px;">Last Commit / PR Approval, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
-                        <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
-                        <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
-                      </ul>
-                    
-                      <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
-                        🕒 All times reported in IST.<br/>
-                        🤖 This is an automated notification from GitHub Actions. For any queries, please check the linked dashboards.
-                      </p>
-                    
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-          </body>
-          <body style="font-family:Calibri, sans-serif; font-size:14pt; color:#2b2b2b; line-height:1.5; margin:0; padding:0;">
-            <p style="margin-bottom:16px;">Dear Hemant,</p>
-          
-            <h2 style="color:#1a5276; border-bottom:1px solid #dcdcdc; padding-bottom:4px;">
-              🏁 Hygiene Check : 
-              <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
-                <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
-              </span>
-            </h2>
-          
-            <p style="margin:0 0 12px 0;">
-              <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
-              <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-              <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
-              <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code>
-            </p>
-          
-            <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
-              Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues)
-            </p>
-          
-            <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
-            <ul style="margin:6px 0 12px 18px; padding:0;">
-              <li style="margin-bottom:6px;"><b>📈 Code Coverage:</b> 
-                ${{ inputs.sonarCoverage }}
-                ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
-              </li>
-              <li style="margin-bottom:6px;">🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
-              <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code></li>
-              <li style="margin-bottom:6px;">🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code></li>
-              <li style="margin-bottom:6px;">🗂 <b>SonarCloud:</b>
-                <ul style="margin:6px 0 12px 18px; padding:0;">
-                  <li style="margin-bottom:6px;">Execution: <code>${{ inputs.sonarExecutionNote }}</code></li>
-                  <li style="margin-bottom:6px;">Issues: <code>${{ inputs.sonarIssuesNote }}</code></li>
-                  <li style="margin-bottom:6px;">Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code></li>
-                </ul>
-                <b>🛠 SonarCloud Impact Severity Breakdown:</b>
-                <ul style="margin:6px 0 12px 18px; padding:0;">
-                  <li style="margin-bottom:6px;">🟥 BLOCKER: <a href="${{ inputs.sonarBlockerUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
-                  <li style="margin-bottom:6px;">🟧 HIGH: <a href="${{ inputs.sonarHighUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
-                  <li style="margin-bottom:6px;">🟨 MEDIUM: <a href="${{ inputs.sonarMediumUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
-                  <li style="margin-bottom:6px;">🟦 LOW: <a href="${{ inputs.sonarLowUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
-                  <li style="margin-bottom:6px;">ℹ️ INFO: <a href="${{ inputs.sonarInfoUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
-                </ul>
-              </li>
-            </ul>
-          
-            <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📦 Module-Wise Impact-Severity</h3>
-            <div style="margin:8px 0 16px 0;">
-              ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-            </div>
-          
-            <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">🔗 Key Links</h3>
-            <ul style="margin:6px 0 12px 18px; padding:0;">
-              <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOverallCodeDashBoardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud – ${{ inputs.BRANCH_EXECUTED }} Branch Summary</a></li>
-              <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOpenIssuesDashboardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud Open Issues - Impact Severity Breakdown</a></li>
-              <li style="margin-bottom:6px;"><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}" style="color:#1a5276; text-decoration:none;">View Last Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
-              <li style="margin-bottom:6px;"><a href="${{ inputs.ARTIFACT_URL }}" style="color:#1a5276; text-decoration:none;">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
-            </ul>
-          
-            <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📌 Next Steps</h3>
-            <ul style="margin:6px 0 12px 18px; padding:0;">
-              ${{ inputs.NextStepsHtml }}
-            </ul>
-          
-            <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details</h3>
-            <ul style="margin:6px 0 12px 18px; padding:0;">
-              <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
-              <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
-              <li style="margin-bottom:6px;">Last Commit / PR Merge Approval, Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
-              <li style="margin-bottom:6px;">Last Commit / PR Approval, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
-              <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
-              <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
-            </ul>
-          
-            <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
-              🕒 All times reported in IST.<br/>
-              🤖 This is an automated notification from GitHub Actions. For any queries, please check the linked dashboards.
-            </p>
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="padding:16px;">
+                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%"
+                  style="max-width:600px; margin:0 auto; background:#ffffff;">
+                    <tr>
+                      <td style="padding:16px; font-family:Calibri, sans-serif; font-size:12pt; color:#2b2b2b; line-height:1.8;">
+                        <!-- all your existing HTML content goes here -->
+                        <p style="margin-bottom:16px;">Dear Hemant,</p>
+                        <h2 style="color:#1a5276; border-bottom:1px solid #dcdcdc; padding-bottom:4px;">
+                          🏁 Hygiene Check : 
+                          <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
+                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
+                          </span>
+                        </h2>
+                      
+                        <p style="margin:0 0 12px 0;">
+                          <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
+                          <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+                          <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
+                          <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code>
+                        </p>
+                      
+                        <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
+                            {{ inputs.sonarIssuesLegend$ }}
+                        </p>
+                      
+                        <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
+                        <ul style="margin:6px 0 12px 18px; padding:0;">
+                          <li style="margin-bottom:6px;"><b>📈 Code Coverage:</b> 
+                            ${{ inputs.sonarCoverage }}
+                            ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
+                          </li>
+                          <li style="margin-bottom:6px;">🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
+                          <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code></li>
+                          <li style="margin-bottom:6px;">🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code></li>
+                          <li style="margin-bottom:6px;">🗂 <b>SonarCloud:</b>
+                            <ul style="margin:6px 0 12px 18px; padding:0;">
+                              <li style="margin-bottom:6px;">Execution: <code>${{ inputs.sonarExecutionNote }}</code></li>
+                              <li style="margin-bottom:6px;">Issues: <code>${{ inputs.sonarIssuesNote }}</code></li>
+                              <li style="margin-bottom:6px;">Last Analysis: <code>${{ inputs.lastSonarAnalysis }}</code></li>
+                            </ul>
+                            <b>🛠 SonarCloud Impact Severity Breakdown:</b>
+                            <ul style="margin:6px 0 12px 18px; padding:0;">
+                              <li style="margin-bottom:6px;">🟥 BLOCKER: <a href="${{ inputs.sonarBlockerUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarBlocker }}</code></a> ${{ inputs.sonarBlockerEmojiMark }}</li>
+                              <li style="margin-bottom:6px;">🟧 HIGH: <a href="${{ inputs.sonarHighUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarHigh }}</code></a> ${{ inputs.sonarHighEmojiMark }}</li>
+                              <li style="margin-bottom:6px;">🟨 MEDIUM: <a href="${{ inputs.sonarMediumUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarMedium }}</code></a> ${{ inputs.sonarMediumEmojiMark }}</li>
+                              <li style="margin-bottom:6px;">🟦 LOW: <a href="${{ inputs.sonarLowUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarLow }}</code></a> ${{ inputs.sonarLowEmojiMark }}</li>
+                              <li style="margin-bottom:6px;">ℹ️ INFO: <a href="${{ inputs.sonarInfoUrl }}" style="color:#1a5276; text-decoration:none;"><code>${{ inputs.sonarInfo }}</code></a> ${{ inputs.sonarInfoEmojiMark }}</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      
+                        <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📦 Module-Wise Impact-Severity</h3>
+                        <div style="margin:8px 0 16px 0;">
+                          ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+                        </div>
+                      
+                        <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">🔗 Key Links</h3>
+                        <ul style="margin:6px 0 12px 18px; padding:0;">
+                          <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOverallCodeDashBoardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud – ${{ inputs.BRANCH_EXECUTED }} Branch Summary</a></li>
+                          <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOpenIssuesDashboardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud Open Issues - Impact Severity Breakdown</a></li>
+                          <li style="margin-bottom:6px;"><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}" style="color:#1a5276; text-decoration:none;">View Last Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
+                          <li style="margin-bottom:6px;"><a href="${{ inputs.ARTIFACT_URL }}" style="color:#1a5276; text-decoration:none;">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
+                        </ul>
+                      
+                        <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📌 Next Steps</h3>
+                        <ul style="margin:6px 0 12px 18px; padding:0;">
+                          ${{ inputs.NextStepsHtml }}
+                        </ul>
+                      
+                        <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details</h3>
+                        <ul style="margin:6px 0 12px 18px; padding:0;">
+                          <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
+                          <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
+                          <li style="margin-bottom:6px;">Last Commit / PR Merge Approval, Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
+                          <li style="margin-bottom:6px;">Last Commit / PR Approval, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
+                          <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
+                          <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
+                        </ul>
+                      
+                        <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
+                          🕒 All times reported in IST.<br/>
+                          🤖 This is an automated notification from GitHub Actions. For any queries, please check the linked dashboards.
+                        </p>
+                      
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
           </body>
           </html>
