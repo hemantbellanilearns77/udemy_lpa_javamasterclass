@@ -160,7 +160,13 @@ runs:
            echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY00
            echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 🟥 BLOCKER | [${{ inputs.sonarBlocker }}](${{ inputs.sonarBlockerUrl }}) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY        
-           echo "| Legend                  | ${{ inputs.sonarIssuesLegend }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟥 BLOCKER                   | [${{ inputs.sonarBlocker }}](${{ inputs.sonarBlockerUrl }}) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟧 HIGH                      | [${{ inputs.sonarHigh }}](${{ inputs.sonarHighUrl }}) ${{ inputs.sonarHighEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟨 MEDIUM                    | [[${{ inputs.sonarMedium }}](${{ inputs.sonarMediumUrl }}) ${{ inputs.sonarMediumEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟦 LOW                       | [[${{ inputs.sonarLow }}](${{ inputs.sonarLowmUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| ℹ INFO                       | [[${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| Legend                       | ${{ inputs.sonarIssuesLegend }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }})" >> $env:GITHUB_STEP_SUMMARY
+           echo "🌐 [View SonarCloud Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }})" >> $env:GITHUB_STEP_SUMMARY
            echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
 

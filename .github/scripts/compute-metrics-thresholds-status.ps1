@@ -427,10 +427,9 @@
       $githubModuleSevAggTable="Uninitialized"
       if ($moduleAgg.Count -gt 0) {
           $githubModuleSevAggTable = "### 📦 SonarCloud Module Impact-Severity"
-          $githubModuleSevAggTable = "### 📦 SonarCloud Module Impact-Severity"
 
           $githubModuleSevAggTable += "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |"
-          $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------|"
+          $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------| "
           foreach ($mod in $moduleAgg.Keys) {
           $b = $moduleAgg[$mod]
           $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |"
