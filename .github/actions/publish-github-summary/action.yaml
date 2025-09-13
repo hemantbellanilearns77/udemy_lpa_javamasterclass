@@ -160,5 +160,7 @@ runs:
            echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY00
            echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
-#           echo "| 🟥 BLOCKER                   | [${{inputs.sonarBlocker }}]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟥 BLOCKER                   | [${{inputs.sonarBlocker }}]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| Legend                  | $sonarIssuesLegend |" >> $env:GITHUB_STEP_SUMMARY
+           echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
 
