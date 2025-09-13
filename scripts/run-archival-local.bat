@@ -1,7 +1,14 @@
 @echo off
-setlocal EnableDelayedExpansion
+setlocal EnableExtensions EnableDelayedExpansion
 :: --- Capture start epoch time (seconds since 1970-01-01 UTC) ---
-for /f %%T in ('powershell -NoProfile -Command "[int]((Get-Date).ToUniversalTime() - [datetime]\'1970-01-01\').TotalSeconds"') do set "startEpoch=%%T"
+for /f %%T in ('powershell -NoProfile -Command "[int][double](Get-Date -UFormat %%s)"') do set "startEpoch=%%T"
+echo startEpoch=%startEpoch%
+REM Create timestamp
+for /f %%T in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"') do set "ts=%%T"
+if not defined ts (
+    echo [ERROR] Timestamp generation failed. Exiting.
+    exit /b 1
+)
 cd /d "%~dp0.."
 
 :: ==========================================================
@@ -48,7 +55,7 @@ if /i "%runMode%"=="EXECUTE" (
     echo.
     echo ==========================================================
     echo   ALERT: EXECUTE MODE ENABLED
-    echo   Files WILL be archived moved permanently!
+    echo   Files WILL be archived moved permanently
     echo   RootPath = %rootPath%
     echo ==========================================================
     echo.
@@ -85,7 +92,6 @@ set "retention=9"
 set "archiveRoot=%rootPath%\archived"
 
 :: ===== LOG SETUP =====
-for /f %%t in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"') do set "ts=%%t"
 REM Prepare logDir
 set "logDir=%rootPath%\archival-logs"
 if not exist "%logDir%" mkdir "%logDir%"
@@ -424,19 +430,20 @@ for %%R in (logs reports) do (
 )
 
 
-:: --- Capture end epoch time (seconds since 1970-01-01 UTC) ---
-for /f %%T in ('powershell -NoProfile -Command "[int]((Get-Date).ToUniversalTime() - [datetime]\'1970-01-01\').TotalSeconds"') do set "endEpoch=%%T"
+echo [DEBUG] startEpoch is: %startEpoch% >> "%logPath%"
+echo [DEBUG] startEpoch is: %startEpoch%
+:: --- Capture end time ---
 
-:: Compute duration
-set /a duration=endEpoch-startEpoch
+for /f %%T in ('powershell -NoProfile -Command "[int][double](Get-Date -UFormat %%s)"') do set "endEpoch=%%T"
+echo [DEBUG] endEpoch is: %endEpoch%
+echo [DEBUG] endEpoch is: %endEpoch% >> "%logPath%"
+:: Compute duration (total seconds)
+set /a durationSec=endEpoch-startEpoch
 
-:: Break duration into H:M:S
-set /a hh=durationSec/3600
-set /a mm=(durationSec%%3600)/60
-set /a ss=durationSec%%60
-
-:: Zero-padding (PowerShell handles it cleanly)
-for /f %%X in ('powershell -NoProfile -Command "('{0:D2}:{1:D2}:{2:D2}' -f %hh%, %mm%, %ss%)"') do set "durationFmt=%%X"
+:: Format duration as HH:MM:SS with PowerShell
+for /f %%X in (
+  'powershell -NoProfile -Command "New-TimeSpan -Seconds !durationSec! | ForEach-Object { '{0:D2}:{1:D2}:{2:D2}' -f $_.Hours, $_.Minutes, $_.Seconds }"'
+) do set "durationFmt=%%X"
 
 echo === ARCHIVAL SCRIPT COMPLETED === in %durationFmt%  ^(%durationSec% seconds^)
 echo === ARCHIVAL SCRIPT COMPLETED === in %durationFmt%  ^(%durationSec% seconds^) >> "%logPath%"
