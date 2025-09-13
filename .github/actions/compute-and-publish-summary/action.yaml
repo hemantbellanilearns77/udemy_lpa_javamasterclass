@@ -115,20 +115,19 @@ runs:
     - name: 📧 Send Hygiene Summary Email
       uses: ./.github/actions/publish-email-summary
       with:
-
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
         COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
         COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
         ARTIFACT_URL: ${{ inputs.ARTIFACT_URL }}
         STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
 
-        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
-        NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}
-
         sonarCoverage: ${{ steps.metrics.outputs.sonarCoverage }}
+        coverageStatus: ${{ steps.metrics.outputs.coverageStatus }}
         coverageBar: ${{ steps.metrics.outputs.coverageBar }}
         checkstyleCount: ${{ steps.metrics.outputs.checkstyleCount }}
         pmdCount: ${{ steps.metrics.outputs.pmdCount }}
+        sonarIssuesLegend: ${{ steps.metrics.outputs.sonarIssuesLegend }}
+        totalSonarFetchedIssues: ${{ steps.metrics.outputs.totalSonarFetchedIssues }}
         sonarExecutionNote: ${{ steps.metrics.outputs.sonarExecutionNote }}
         sonarIssuesNote: ${{ steps.metrics.outputs.sonarIssuesNote }}
         lastSonarAnalysis: ${{ steps.metrics.outputs.lastSonarAnalysis }}
@@ -149,10 +148,10 @@ runs:
         sonarInfoEmojiMark: ${{ steps.metrics.outputs.sonarInfoEmojiMark }}
         sonarOpenIssuesDashboardURL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
         sonarOverallCodeDashBoardURL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
-        # EMAIL_MODULE_SEV_AGG_TABLE: ${{ env.EMAIL_MODULE_SEV_AGG_TABLE }}
         EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-        # EMAIL_BREAKDOWN: ${{ steps.metrics.outputs.EMAIL_BREAKDOWN }}
 
+        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
+        NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}
 
         FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}
         SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}

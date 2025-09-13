@@ -159,29 +159,7 @@
         
         $sonarCoverage = Get-SonarMetric "coverage"
         # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage"
-        if ($sonarCoverage -ge 50) {
-          $coverageEmoji = "🟢"
-        } elseif ($sonarCoverage -ge 20) {
-          $coverageEmoji = "🟡"
-        } else {
-          $coverageEmoji = "🔴"
-        }
-        $coverageBar = Get-AsciiBar $sonarCoverage
-
-        # Ensure only the first numeric value is used
-        if ($sonarCoverage -is [array]) {
-          $sonarCoverage = $sonarCoverage[0]
-        }
-        # Try to cast to a number safely
-        $sonarCoverage = [double]($sonarCoverage -replace '[^0-9\.]', '')
-        if ($sonarCoverage -ge 77) {
-          $coverageEmoji = "🟢"
-        } elseif ($sonarCoverage -ge 49) {
-          $coverageEmoji = "🟡"
-        } else {
-          $coverageEmoji = "🔴"
-        }
-        $coverageBar = Get-AsciiBar $sonarCoverage
+         $coverageBar = Get-AsciiBar $sonarCoverage
         
         ############################################################
         # === Generate Severity URLs (global and per module) ===
@@ -200,7 +178,7 @@
          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
         
-         function MarkEmoji($count) {
+<#          function MarkEmoji($count) {
             if ($count -eq 0) { return "✅" }
             elseif ($count -le 27) { return "🟡" }
             else { return "🔴" }
@@ -210,7 +188,7 @@
         $sonarHighEmojiMark = $(MarkEmoji $high)
         $sonarMediumEmojiMark = $(MarkEmoji $medium)
         $sonarLowEmojiMark = $(MarkEmoji $low)
-        $sonarInfoEmojiMark = $(MarkEmoji $info)
+        $sonarInfoEmojiMark = $(MarkEmoji $info) #>
 
         function FormatSonarStatus($count, $maxAllowed, $severity) {
             if ($count -eq 0) {
@@ -218,22 +196,45 @@
                 $note  = "(GREAT)"
             } elseif ($count -le $maxAllowed) {
                 $emoji = "🟡"
-                $note  = "(WATCH-OUT)"
+                $note  = "(NEARING THRESHOLD)"
             } else {
                 $emoji = "🔴"
                 $note  = "(OVERBOARD)"
             }
             return " / $maxAllowed $emoji $note"
             #return "$severity Issues: $count / $maxAllowed $emoji $note"
-}
+        }
 
+        function FormatCoverageStatus($actualCoverage, $minNeeded) {
+           # Ensure only the first numeric value is used
+           if ($actualCoverage -is [array]) {
+             $actualCoverage = $actualCoverage[0]
+           }
+           # Try to cast to a number safely
+           $actualCoverage = [double]($actualCoverage -replace '[^0-9\.]', '')
+           if ($actualCoverage -ge 90.00 ) {
+             $emoji = "🟢"
+             $note = "(GREAT)"
+           } elseif ($sonarCoverage -ge $minNeeded -and $sonarCoverage le 89.99 ) {
+             $emoji = "🟡"
+             $note  = "(NEARING THRESHOLD)"
+           } else {
+             $emoji = "🔴"
+             $note  = "(OVERBOARD)"
+           }
+            return " / 100 % $emoji ($note)"
+            #return "$severity Issues: $count / $maxAllowed $emoji $note"
+        }
+
+        $coverageStatus = FormatCoverageStatus $sonarCoverage
         $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"
         $sonarHighStatus    = FormatSonarStatus $high    $env:HIGH_MAX    "🟧 HIGH"
         $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
         $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
         $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
+        $sonarIssuesLegend = "Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (NEARING THRESHOLD), 🔴 = Immediate Action Required (THRESHOLD BREACHED)"
 
-         ############################################################
+        ############################################################
                 # === Write Overall Table ===
         ############################################################
         echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
@@ -242,17 +243,17 @@
         echo "Stage ↔ Main state: $env:STAGE_VS_MAIN_STATE" >> $env:GITHUB_STEP_SUMMARY
         echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
         echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Code Coverage (Sonar)    | $sonarCoverage % $coverageEmoji |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage % $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟥 BLOCKER               | [$blocker]($($severityLinks.BLOCKER)) $sonarBlockerStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟧 HIGH                  | [$high]($($severityLinks.HIGH)) $sonarHighStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
-        echo "| Legend                  | ✅ = Excellent / No issues, 🟡 = Monitor Closely (1–27 issues), 🔴 = Immediate Action Required (>27 issues) |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| Legend                  | $sonarIssuesLegend |" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
         
@@ -262,9 +263,10 @@
         "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "totalSonarFetchedIssues=$totalSonarFetchedIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarIssuesLegend=$sonarIssuesLegend" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarCoverage=$sonarCoverage %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        
+        "coverageStatus=$coverageStatus %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerEmojiMark=$sonarBlockerStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerURL=$($severityLinks.BLOCKER)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
