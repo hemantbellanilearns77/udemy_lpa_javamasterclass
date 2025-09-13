@@ -137,7 +137,7 @@ runs:
         moduleAgg: ${{ steps.metrics-and-thresholds.outputs.moduleAgg }}
         EMAIL_BREAKDOWN: ${{ steps.metrics-and-thresholds.outputs.EMAIL_BREAKDOWN }}
         EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics-and-thresholds.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-        #Only goes to github publish summary
+        #Only goes to GitHub publish summary
         GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:  ${{ steps.metrics-and-thresholds.outputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}
 
         HygieneCheckStatus: ${{ steps.metrics-and-thresholds.outputs.HygieneCheckStatus }}

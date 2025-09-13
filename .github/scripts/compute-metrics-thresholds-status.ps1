@@ -564,4 +564,3 @@
         "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE=$githubModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         ############################################################
-

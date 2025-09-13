@@ -139,26 +139,25 @@ runs:
       id: publish-github-summary
       shell: pwsh
       run: |
-          $branch = "${{ inputs.BRANCH_EXECUTED }}"
-          $repository = "${{ github.repository }}"
-          $checkstyleViolations = "${{ inputs.checkstyleCount }}"
-          $pmdViolations = "${{ inputs.pmdCount }}"
-          $sonarCoverage = "${{ inputs.sonarCoverage }}"
-          $coverageStatus = "${{ inputs.coverageStatus }}"
-          $coverageBar="${{ inputs.coverageBar }}"
-           ############################################################
-                     # === Write Overall Table ===
-           ############################################################
-           echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
-           echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
-           echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
-           echo "Stage ↔ Main state: ${{inputs.STAGE_VS_MAIN_STATE }}" >> $env:GITHUB_STEP_SUMMARY
-           echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
-           echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY00
-           echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
+        $branch = "${{ inputs.BRANCH_EXECUTED }}"
+        $repository = "${{ github.repository }}"
+        $checkstyleViolations = "${{ inputs.checkstyleCount }}"
+        $pmdViolations = "${{ inputs.pmdCount }}"
+        $sonarCoverage = "${{ inputs.sonarCoverage }}"
+        $coverageStatus = "${{ inputs.coverageStatus }}"
+        $coverageBar="${{ inputs.coverageBar }}"
+         ############################################################
+                   # === Write Overall Table ===
+         ############################################################
+         echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
+         echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
+         echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
+         echo "Stage ↔ Main state: ${{inputs.STAGE_VS_MAIN_STATE }}" >> $env:GITHUB_STEP_SUMMARY
+         echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
+         echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY00
+         echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
 #           echo "| 🟥 BLOCKER                   | [${{inputs.sonarBlocker }}]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
-

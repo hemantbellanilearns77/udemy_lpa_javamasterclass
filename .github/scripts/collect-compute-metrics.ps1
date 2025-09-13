@@ -83,7 +83,7 @@
          }
 
          foreach ($val in $json.facets[0].values) {
-                  $impactSeveritiesCounts[$val.val] = $val.count
+            $impactSeveritiesCounts[$val.val] = $val.count
           }
           $blocker = $impactSeveritiesCounts["BLOCKER"]
           $high    = $impactSeveritiesCounts["HIGH"]
@@ -171,7 +171,15 @@
           LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
         }
-        Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities is: : $impactSeveritiesCounts"
+        # Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities is: : $impactSeveritiesCounts"
+       <# Debug: Print out current Impact Severity Counts
+       Write-Output "----- Current Module Aggregates -----"
+       foreach ($sevName in $impactSeveritiesCounts.Keys) {
+            $bucket = $impactSeveritiesCounts[$sevName]
+            Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
+                           sevName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
+       } #>
+       # Write-Output "--------------------------------------"
         ############################################################
               # === Generate URLS ===
         ############################################################
