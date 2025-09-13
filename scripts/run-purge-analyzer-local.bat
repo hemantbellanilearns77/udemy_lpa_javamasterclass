@@ -6,10 +6,18 @@
 :: Usage       : run-archive-age-analyzer-and-purge-local.bat <<FOLDER PATH>> <<DRYRUN/EXECUTE>>
 :: Notes       : In DRYRUN runMode by default; use EXECUTE to enable deletions
 :: ========================================================================================================================
-
 @echo off
-setlocal EnableDelayedExpansion
-set "startTime=%TIME%"
+setlocal EnableExtensions EnableDelayedExpansion
+:: --- Capture start epoch time (seconds since 1970-01-01 UTC) ---
+for /f %%T in ('powershell -NoProfile -Command "[int][double](Get-Date -UFormat %%s)"') do set "startEpoch=%%T"
+echo startEpoch=%startEpoch%
+REM Create timestamp
+for /f %%T in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmmss"') do set "ts=%%T"
+if not defined ts (
+    echo [ERROR] Timestamp generation failed. Exiting.
+    exit /b 1
+)
+
 cd /d "%~dp0.."
 
 :: ==========================================================
@@ -52,16 +60,14 @@ if /i "%~1"=="DRYRUN" (
 :: This is a loud warning so you never forget that files WILL be moved.
 :: It is echoed before validation & guards.
 if /i "%runMode%"=="EXECUTE" (
-    echo.
-    echo ==========================================================
+    echo ================================================================
     echo   WARNING: EXECUTE MODE ENABLED
-    echo   Files WILL be archived moved permanently!
+	echo   The SCRIPT will EITHER ATTEMPT MOVING FILES TO RECYCLE BIN 
+    echo                          OR
+	echo   Files WILL be PERMANENTLY DELETED and will NOT BE RECOVERABLE
     echo   RootPath = %rootPath%
-    echo ==========================================================
-    echo.
+    echo ================================================================
 )
-
-echo(runMode=_%runMode%_
 :: ==========================================================
 :: EXTRA GUARD (Validate inputs)
 :: ==========================================================
@@ -78,12 +84,16 @@ exit /b 1
 :valid
 
 :initDone
-
+:: ==========================================================
+:: EXTRA GUARD for rootPath and logDir
+:: ==========================================================
 if "%rootPath%"=="" (
-    echo [WARN] rootPath was empty, defaulting to current directory...
-    set "rootPath=%CD%"
+    echo [ERROR] rootPath is empty. Exiting.
+    exit /b 1
 )
 
+REM Normalize trailing backslash
+if "%rootPath:~-1%"=="\" set "rootPath=%rootPath:~0,-1%"
 
 :: === CONFIG ===
 set "archivalDir=%rootPath%\archived"
@@ -91,11 +101,18 @@ set "logDir=%rootPath%\purge-logs"
 
 if not exist "%logDir%" mkdir "%logDir%"
 
-
 :: Create timestamped log file
-for /f %%T in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set "ts=%%T"
 set "logFile=%logDir%\purge-log-execution-%ts%.txt"
-
+REM Final sanity check: does logDir exist?
+if not exist "%logDir%" (
+    echo [ERROR] Log directory missing: %logDir%
+    exit /b 1
+)
+REM Test write permissions
+echo [INFO] Logging initialized at "%logFile%" > "%logFile%" || (
+    echo [ERROR] Unable to create log file. Exiting.
+    exit /b 1
+)
 
 echo === FILE AGE REPORT (%ts%) for: "!archivalDir!" in !runMode! mode  > "%logFile%"
 echo === FILE AGE REPORT (%ts%) for: "!archivalDir!" in !runMode! mode  
@@ -158,7 +175,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						:: Get age in hours (as per latest logic)
 						for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
 							set /a age=%%A
-							echo [DEBUG] : Age calculated for !literalPath! is !age!
+							echo [DEBUG] : Age calculated for !literalPath! is !age! hours
 						)
 
 						:: Check if age is a valid number
@@ -188,7 +205,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 								echo [DRYRUN] Candidate FILE: !literalPath! !age! hrs >> "%logFile%"
 							)
 						) else (
-							call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will Retain: !literalPath! hrs !age!" RED
+							call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will Retain: !literalPath! hrs !age!" GREEN
 							echo [BOTH MODES][KEEP] WIll Retain: %%~nxX !age! hrs >> "%logFile%"
 						)
 					 ) else (
@@ -210,7 +227,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						:: Get age in hours (as per latest logic)
 						for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
 							set /a age=%%A
-							echo [DEBUG] : Age calculated for !literalPath! is !age!
+							echo [DEBUG] : Age calculated for !literalPath! is !age! hours
 						)
 
 						:: Check if age is a valid number
@@ -292,7 +309,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 								echo [DRYRUN] Candidate DIR: !dirPath! !dirAgeH! hrs >> "%logFile%"
 							)
 						) else (
-						    call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will retain: !dirPath! !dirAgeH! hrs GREEN
+						    call :colorEcho "[DEBUG][BOTH MODES][KEEP] Will retain: !dirPath! !dirAgeH! hrs" GREEN
 							echo [BOTH MODES][KEEP] DIR: %%~nxD !dirAgeH! hrs >> "%logFile%"
 						)
 
@@ -328,7 +345,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 					:: Get age in hours (as per latest logic)
 					for /f %%A in ('powershell -NoProfile -Command "(Get-Date).Subtract((Get-Item -LiteralPath '!literalPath!').CreationTime).Hours"') do (
 						set /a age=%%A
-						echo [DEBUG] : Age calculated for !literalPath! is !age!
+						echo [DEBUG] : Age calculated for !literalPath! is !age! hours
 					)
 
 					:: Check if age is a valid number
@@ -380,29 +397,25 @@ for /f %%R in ('powershell -NoProfile -Command "((New-Object -ComObject Shell.Ap
 
 call :colorEcho "[DEBUG] Files currently in Recycle Bin: !recycleCount!" CYAN
 echo Files currently in Recycle Bin: !recycleCount! >> "%logFile%"
-set "endTime=%TIME%"
-echo [DEBUG] startTime is: %startTime%
-echo [DEBUG] endTime is: %endTime%
-echo "endTime is: %endTime%" >> "%logFile%"
-:: Function to convert HH:MM:SS.cc into seconds
-for /f "tokens=1-4 delims=:.," %%a in ("%startTime%") do (
-    set /a "startSecs=%%a*3600 + %%b*60 + %%c"
-)
 
-for /f "tokens=1-4 delims=:.," %%a in ("%endTime%") do (
-    set /a "endSecs=%%a*3600 + %%b*60 + %%c"
-)
+echo [DEBUG] startEpoch is: %startEpoch% >> "%logFile%"
+echo [DEBUG] startEpoch is: %startEpoch%
+:: --- Capture end time ---
 
-echo [DEBUG] startSecs is: %startSecs%
-echo startSecs is: %startSecs% >> "%logFile%"
-echo [DEBUG] endSecs is: %endSecs%
-echo endSecs is: %endSecs% >> "%logFile%"
-set /a duration=%endSecs%-%startSecs%
-echo [DEBUG] duration is: %duration%
-echo duration is: %duration% >> "%logFile%"
-echo === FILE AGE ANALYSIS COMPLETED IN === in !runMode! and IN %duration% seconds
-echo === FILE AGE ANALYSIS COMPLETED IN === in !runMode! and IN %duration% seconds >> "%logFile%"
-echo. >> "%logFile%"
+for /f %%T in ('powershell -NoProfile -Command "[int][double](Get-Date -UFormat %%s)"') do set "endEpoch=%%T"
+echo [DEBUG] endEpoch is: %endEpoch%
+echo [DEBUG] endEpoch is: %endEpoch% >> "%logFile%"
+:: Compute duration (total seconds)
+set /a durationSec=endEpoch-startEpoch
+
+:: Format duration as HH:MM:SS with PowerShell
+for /f %%X in (
+  'powershell -NoProfile -Command "New-TimeSpan -Seconds !durationSec! | ForEach-Object { '{0:D2}:{1:D2}:{2:D2}' -f $_.Hours, $_.Minutes, $_.Seconds }"'
+) do set "durationFmt=%%X"
+
+echo === PURGE SCRIPT COMPLETED === in %durationFmt%  ^(%duration% seconds^) >> "%logFile%"
+echo === PURGE SCRIPT COMPLETED === in %durationFmt%  ^(%duration% seconds^)
+
 goto :eof
 
 :: === Subroutine to Color Echo ===
