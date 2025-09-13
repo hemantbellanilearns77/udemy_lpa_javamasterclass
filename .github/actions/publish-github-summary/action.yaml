@@ -146,6 +146,7 @@ runs:
           $sonarCoverage = "${{ inputs.sonarCoverage }}"
           $coverageStatus = "${{ inputs.coverageStatus }}"
           $coverageBar="${{ inputs.coverageBar }}"
+        
            ############################################################
                      # === Write Overall Table ===
            ############################################################
