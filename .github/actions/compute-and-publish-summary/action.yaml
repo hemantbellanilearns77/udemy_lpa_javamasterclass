@@ -53,7 +53,7 @@ runs:
   using: "composite"
   steps:
     ##############################################################################
-          # 1. COMPUTE SUMMARY COUNTS AND PUBLISH GITHUBSUMMARY SECTION
+    # 1. COMPUTE SUMMARY COUNTS AND PUBLISH GITHUBSUMMARY SECTION
     ##############################################################################
 
     - name: 🧮 Compute Counts and Export Counts and Status and Threshold Outputs
@@ -88,13 +88,13 @@ runs:
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
 
 
-#    - name: Log Start/End Time After Execution Info
-#      run: |
-#        Write-Host "✅ Start Time after execution-info: ${{ steps.execution-info.outputs.startTime }}"
-#        Write-Host "✅ End Time after execution-info:   ${{ steps.execution-info.outputs.endTime }}"
-#        Write-Host "✅ Duration after execution-info:   ${{ steps.execution-info.outputs.formattedDuration }}"
-#        Write-Host "✅ ARTIFACT_URL:   ${{ inputs.ARTIFACT_URL }}"
-#      shell: pwsh
+    #    - name: Log Start/End Time After Execution Info
+    #      run: |
+    #        Write-Host "✅ Start Time after execution-info: ${{ steps.execution-info.outputs.startTime }}"
+    #        Write-Host "✅ End Time after execution-info:   ${{ steps.execution-info.outputs.endTime }}"
+    #        Write-Host "✅ Duration after execution-info:   ${{ steps.execution-info.outputs.formattedDuration }}"
+    #        Write-Host "✅ ARTIFACT_URL:   ${{ inputs.ARTIFACT_URL }}"
+    #      shell: pwsh
 
     - name: Publish GITHUB SUMMARY
       id: publish-github-summary
@@ -137,7 +137,7 @@ runs:
         moduleAgg: ${{ steps.metrics-and-thresholds.outputs.moduleAgg }}
         EMAIL_BREAKDOWN: ${{ steps.metrics-and-thresholds.outputs.EMAIL_BREAKDOWN }}
         EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics-and-thresholds.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
-        #Only goes to GitHub publish summary
+        #Only goes to github publish summary
         GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:  ${{ steps.metrics-and-thresholds.outputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}
 
         HygieneCheckStatus: ${{ steps.metrics-and-thresholds.outputs.HygieneCheckStatus }}
