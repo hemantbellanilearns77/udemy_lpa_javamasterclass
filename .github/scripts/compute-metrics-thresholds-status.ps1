@@ -426,13 +426,14 @@
         $emailModuleSevAggTable += "</table>"
       $githubModuleSevAggTable="Uninitialized"
       if ($moduleAgg.Count -gt 0) {
-          $githubModuleSevAggTable = "### 📦 SonarCloud Module Impact-Severity"
+          $nl = "`n"   # newline for markdown readability
+          $githubModuleSevAggTable = "### 📦 SonarCloud Module Impact-Severity$nl$nl"
 
-          $githubModuleSevAggTable += "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |"
-          $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------| "
+          $githubModuleSevAggTable += "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |$nl"
+          $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------|$nl"
           foreach ($mod in $moduleAgg.Keys) {
           $b = $moduleAgg[$mod]
-          $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |"
+          $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
           }
       }
 
