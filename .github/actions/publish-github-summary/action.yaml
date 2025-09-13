@@ -139,23 +139,25 @@ runs:
       id: publish-github-summary
       shell: pwsh
       run: |
-        $branch = $env:BRANCH_EXECUTED
+        $branch = ${{inputs.BRANCH_EXECUTED }}
         $repository = ${{ github.repository }}
-        $checkstyleViolations = $env:checkstyleCount
-        $pmdViolations = $env:pmdCount
+        $checkstyleViolations = ${{inputs.checkstyleCount }}
+        $pmdViolations = ${{inputs.pmdCount }}
+        $sonarCoverage=${{inputs.sonarCoverage }}
+        $coverageStatus=${{inputs.$coverageStatus }}
          ############################################################
                      # === Write Overall Table ===
          ############################################################
          echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
          echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
          echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
-         echo "Stage ↔ Main state: $env:STAGE_VS_MAIN_STATE" >> $env:GITHUB_STEP_SUMMARY
+         echo "Stage ↔ Main state: ${{inputs.STAGE_VS_MAIN_STATE }}" >> $env:GITHUB_STEP_SUMMARY
          echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
          echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
          echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage % $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🟥 BLOCKER               | [$blocker]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
 #         echo "| 🟧 HIGH                  | [$high]($($severityLinks.HIGH)) $sonarHighStatus |" >> $env:GITHUB_STEP_SUMMARY
