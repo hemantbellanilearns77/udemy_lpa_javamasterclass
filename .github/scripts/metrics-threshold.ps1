@@ -1,13 +1,13 @@
 param(
-    [int]$checkstyle,
-    [int]$pmd,
+    [int]$checkstyleCount,
+    [int]$pmdCount,
     [int]$sonarBlocker,
     [int]$sonarHigh,
     [int]$sonarMedium,
     [int]$sonarLow,
     [int]$sonarInfo,
     [string]$sonarCoverage,
-    [string]$jobStatus
+    [string]$outcome
 )
 
 Write-Host "🧮 Evaluating metrics against strict thresholds..."
@@ -19,20 +19,20 @@ $sonarHasNextSteps=$false
 $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
  # --- Aggregate violations ---
-$totalCodeViolations = $checkstyle + $pmd
+$totalCodeViolations = $checkstyleCount + $pmdCount
 if ($totalCodeViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
     $passed = $false
     $NextStepsHtml += "<li>Total code violations exceed allowed maximum ($totalCodeViolations > $($env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS)).</li>"
 }
 
-if ($checkstyle -gt [int]$env:CHECKSTYLE_MAX_VIOLATIONS) {
+if ($checkstyleCount -gt [int]$env:CHECKSTYLE_MAX_VIOLATIONS) {
     $passed = $false
-    $NextStepsHtml += "<li>Fix Checkstyle violations ($checkstyle > $($env:CHECKSTYLE_MAX_VIOLATIONS)).</li>"
+    $NextStepsHtml += "<li>Fix Checkstyle violations ($checkstyleCount > $($env:CHECKSTYLE_MAX_VIOLATIONS)).</li>"
 }
 
-if ($pmd -gt [int]$env:PMD_MAX_VIOLATIONS) {
+if ($pmdCount -gt [int]$env:PMD_MAX_VIOLATIONS) {
     $passed = $false
-    $NextStepsHtml += "<li>Fix PMD violations ($pmd > $($env:PMD_MAX_VIOLATIONS)).</li>"
+    $NextStepsHtml += "<li>Fix pmdCount violations ($pmdCount > $($env:PMD_MAX_VIOLATIONS)).</li>"
 }
 # --- Sonar Severity Checks with detailed reporting ---
 $SonarNextStepsHtml += "<li>Resolve Issues that exceeded threshold per severity:</li>"
@@ -77,7 +77,7 @@ if ($coverageValue -lt [double]$env:JACOCO_MIN_COVERAGE) {
 }
 
 # --- Job Status ---
-if ($jobStatus -ne "success") {
+if ($outcome -ne "success") {
     $passed = $false
     $NextStepsHtml += "<li>Job did not succeed (status: $jobStatus).</li>"
 }
