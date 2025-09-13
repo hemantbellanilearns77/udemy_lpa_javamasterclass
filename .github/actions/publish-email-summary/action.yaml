@@ -122,6 +122,9 @@ inputs:
   STAGE_VS_MAIN_STATE:
     required: true
     description: ""
+  sonarIssuesLegend:
+    required: true
+    description: ""
 
 runs:
   using: "composite"
