@@ -65,7 +65,7 @@ runs:
         REPOSITORY: ${{ github.repository }}
         STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
       run: |
-        pwsh -File .\.github\scripts\compute-metrics-thresholds-status.psl
+        pwsh -File .\.github\scripts\compute-metrics-thresholds-status.ps1
 
       ###################################
       # EXECUTION INFO COMPOSITE CALL
@@ -94,7 +94,7 @@ runs:
 
     - name: Publish GITHUB SUMMARY
       id: publish-github-summary
-      uses: ./.github/actions/publish-email-summary
+      uses: ./.github/actions/publish-github-summary
       with:
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
         COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
