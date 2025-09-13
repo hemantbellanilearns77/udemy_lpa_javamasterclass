@@ -1,0 +1,162 @@
+##############################################################
+# PUBLISH GITHUB SUMMARY SECTION AND SEND EMAIL
+##############################################################
+name: "Compute Metric and Publish Summaries (GITHUB and EMAIL)"
+description: ""
+inputs:
+  startTime:
+    description: "Start time from setup-starttime composite"
+    required: true
+  SKIP_FLAG:
+    required: true
+    description: ""
+  COMMIT_MSG:
+    required: true
+    description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
+  TRIGGER_EVENT:
+    required: true
+    description: ""
+  SRC_BRANCH:
+    required: true
+    description: ""
+  TGT_BRANCH:
+    required: true
+    description: ""
+  BRANCH_EXECUTED:
+    required: true
+    description: ""
+  ARTIFACT_URL:
+    required: true
+    description: ""
+  STAGE_MERGE_SKIPPED:
+    required: true
+    description: "Indicates if stage merge was skipped"
+
+outputs:
+  sonarExecutionNote:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.sonarExecutionNote }}
+  sonarIssuesNote:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.sonarIssuesNote }}
+  lastSonarAnalysis:
+    description: ""
+    value: ${{ steps.sonar-vars.outputs.lastSonarAnalysis }}
+runs:
+  using: "composite"
+  steps:
+    ##############################################################################
+    # 1. COMPUTE SUMMARY COUNTS AND PUBLISH GITHUBSUMMARY SECTION
+    ##############################################################################
+
+    - name: 🧮 Compute Counts and 📊 Add Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar Issues)
+      id: metrics
+      shell: pwsh
+      env:
+        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        JOB_STATUS: ${{ job.status }}   # 👈 capture job status here
+        SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
+        SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
+        SONAR_ORG: ${{ env.SONAR_ORG }}
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+        REPOSITORY: ${{ github.repository }}
+        STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
+      run: |
+        pwsh -File .\.github\scripts\collect-compute-metrics.ps1
+
+    ######################################################
+    # 2. Evaluate thresholds against env variables
+    ######################################################
+    - name: 🧮 Evaluate Thresholds
+      id: thresholds
+      shell: pwsh
+      run: |
+        pwsh -File .\.github\scripts\metrics-threshold.ps1 `
+          -checkstyle ${{ steps.metrics.outputs.checkstyleCount }} `
+          -pmd ${{ steps.metrics.outputs.pmdCount }} `
+          -sonarBlocker ${{ steps.metrics.outputs.sonarBlocker }} `
+          -sonarHigh ${{ steps.metrics.outputs.sonarHigh }} `
+          -sonarMedium ${{ steps.metrics.outputs.sonarMedium }} `
+          -sonarLow ${{ steps.metrics.outputs.sonarLow }} `
+          -sonarInfo ${{ steps.metrics.outputs.sonarInfo }} `
+          -sonarCoverage ${{ steps.metrics.outputs.sonarCoverage }} `
+          -jobStatus ${{ steps.metrics.outcome }}
+
+      ###################################
+      # EXECUTION INFO COMPOSITE CALL
+      ###################################
+    - name: Call Execution Info
+      id: execution-info
+      uses: ./.github/actions/execution-info
+      with:
+        startTime: ${{ inputs.startTime }}
+        SKIP_FLAG: ${{ inputs.SKIP_FLAG }}
+        COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
+        TRIGGER_EVENT: ${{ inputs.TRIGGER_EVENT }}
+        SRC_BRANCH: ${{ inputs.SRC_BRANCH }}
+        TGT_BRANCH: ${{ inputs.TGT_BRANCH }}
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+
+    - name: Log Start/End Time After Execution Info
+      run: |
+        Write-Host "✅ Start Time after execution-info: ${{ steps.execution-info.outputs.startTime }}"
+        Write-Host "✅ End Time after execution-info:   ${{ steps.execution-info.outputs.endTime }}"
+        Write-Host "✅ Duration after execution-info:   ${{ steps.execution-info.outputs.formattedDuration }}"
+        Write-Host "✅ ARTIFACT_URL:   ${{ inputs.ARTIFACT_URL }}"
+      shell: pwsh
+
+    ##########################
+    # Email Success Summary
+    ##########################
+    - name: 📧 Send Hygiene Summary Email
+      uses: ./.github/actions/publish-email-summary
+      with:
+        BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
+        COMMIT_MSG: ${{ inputs.COMMIT_MSG }}
+        COMMIT_AUTHOR: ${{ inputs.COMMIT_AUTHOR }}
+        ARTIFACT_URL: ${{ inputs.ARTIFACT_URL }}
+        STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
+
+        sonarCoverage: ${{ steps.metrics.outputs.sonarCoverage }}
+        coverageStatus: ${{ steps.metrics.outputs.coverageStatus }}
+        coverageBar: ${{ steps.metrics.outputs.coverageBar }}
+        checkstyleCount: ${{ steps.metrics.outputs.checkstyleCount }}
+        pmdCount: ${{ steps.metrics.outputs.pmdCount }}
+        sonarIssuesLegend: ${{ steps.metrics.outputs.sonarIssuesLegend }}
+        totalSonarFetchedIssues: ${{ steps.metrics.outputs.totalSonarFetchedIssues }}
+        sonarExecutionNote: ${{ steps.metrics.outputs.sonarExecutionNote }}
+        sonarIssuesNote: ${{ steps.metrics.outputs.sonarIssuesNote }}
+        lastSonarAnalysis: ${{ steps.metrics.outputs.lastSonarAnalysis }}
+        sonarBlocker: ${{ steps.metrics.outputs.sonarBlocker }}
+        sonarBlockerUrl: ${{ steps.metrics.outputs.sonarBlockerUrl }}
+        sonarBlockerEmojiMark: ${{ steps.metrics.outputs.sonarBlockerEmojiMark }}
+        sonarHigh: ${{ steps.metrics.outputs.sonarHigh }}
+        sonarHighUrl: ${{ steps.metrics.outputs.sonarHighUrl }}
+        sonarHighEmojiMark: ${{ steps.metrics.outputs.sonarHighEmojiMark }}
+        sonarMedium: ${{ steps.metrics.outputs.sonarMedium }}
+        sonarMediumUrl: ${{ steps.metrics.outputs.sonarMediumUrl }}
+        sonarMediumEmojiMark: ${{ steps.metrics.outputs.sonarMediumEmojiMark }}
+        sonarLow: ${{ steps.metrics.outputs.sonarLow }}
+        sonarLowUrl: ${{ steps.metrics.outputs.sonarLowUrl }}
+        sonarLowEmojiMark: ${{ steps.metrics.outputs.sonarLowEmojiMark }}
+        sonarInfo: ${{ steps.metrics.outputs.sonarInfo }}
+        sonarInfoUrl: ${{ steps.metrics.outputs.sonarInfoUrl }}
+        sonarInfoEmojiMark: ${{ steps.metrics.outputs.sonarInfoEmojiMark }}
+        sonarOpenIssuesDashboardURL: ${{ steps.metrics.outputs.sonarOpenIssuesDashboardURL }}
+        sonarOverallCodeDashBoardURL: ${{ steps.metrics.outputs.sonarOverallCodeDashBoardURL }}
+        EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+
+        HygieneCheckStatus: ${{ steps.thresholds.outputs.HygieneCheckStatus }}
+        NextStepsHtml: ${{ steps.thresholds.outputs.NextStepsHtml }}
+
+        FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}
+        SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}
+        TRIGGER_INFO: ${{ steps.execution-info.outputs.TRIGGER_INFO }}
+        COMMIT_DATE: ${{ steps.execution-info.outputs.COMMIT_DATE }}
+        startTime: ${{ steps.execution-info.outputs.startTime }}
+        endTime: ${{ steps.execution-info.outputs.endTime }}
+        formattedDuration: ${{ steps.execution-info.outputs.formattedDuration }}
