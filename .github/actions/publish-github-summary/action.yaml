@@ -1,8 +1,8 @@
-# .github/actions/publish-github-summary/action.yml
+# .github/actions/publish-github-summary/action.yaml
 ##############################################################
 # GITHUB  SUMMARY COMPOSITE
 ##############################################################
-name: "Send Hygiene Summary Email"
+name: "Publish GitHub Summary Composite"
 description: "Reusable step to send hygiene summary email"
 inputs:
   HygieneCheckStatus:
