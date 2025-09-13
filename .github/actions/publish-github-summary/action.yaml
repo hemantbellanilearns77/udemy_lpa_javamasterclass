@@ -164,7 +164,7 @@ runs:
            echo "| 🟥 BLOCKER                   | [${{ inputs.sonarBlocker }}](${{ inputs.sonarBlockerUrl }}) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 🟧 HIGH                      | [${{ inputs.sonarHigh }}](${{ inputs.sonarHighUrl }}) ${{ inputs.sonarHighEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
            echo "| 🟨 MEDIUM                    | [[${{ inputs.sonarMedium }}](${{ inputs.sonarMediumUrl }}) ${{ inputs.sonarMediumEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
-           echo "| 🟦 LOW                       | [[${{ inputs.sonarLow }}](${{ inputs.sonarLowmUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+           echo "| 🟦 LOW                       | [[${{ inputs.sonarLow }}](${{ inputs.sonarLowUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
            echo "| ℹ INFO                       | [[${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
            echo "| Legend                       | ${{ inputs.sonarIssuesLegend }} |" >> $env:GITHUB_STEP_SUMMARY
            echo "🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }})" >> $env:GITHUB_STEP_SUMMARY
