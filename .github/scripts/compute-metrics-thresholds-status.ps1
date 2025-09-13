@@ -523,7 +523,7 @@
 ######################################################################################################################################################################################################################
 
         ############################################################
-        # === Outputs for GITHUB SUBMMARY and Email ===
+        # === Outputs for GITHUB SUMMARY and Email ===
         ############################################################
         "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

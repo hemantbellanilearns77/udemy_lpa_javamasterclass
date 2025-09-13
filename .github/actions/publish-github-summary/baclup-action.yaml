@@ -1,0 +1,187 @@
+# .github/actions/publish-github-summary/action.yaml
+##############################################################
+# GITHUB  SUMMARY COMPOSITE
+##############################################################
+name: "Publish GitHub Summary Composite"
+description: "Reusable step to send hygiene summary email"
+inputs:
+  HygieneCheckStatus:
+    required: true
+    description: ""
+  NextStepsHtml:
+    required: true
+    description: ""
+  BRANCH_EXECUTED:
+    required: true
+    description: ""
+  sonarCoverage:
+    required: true
+    description: ""
+  coverageBar:
+    required: true
+    description: ""
+  checkstyleCount:
+    required: true
+    description: ""
+  pmdCount:
+    required: true
+    description: ""
+  sonarExecutionNote:
+    required: true
+    description: ""
+  sonarIssuesNote:
+    required: true
+    description: ""
+  lastSonarAnalysis:
+    required: true
+    description: ""
+  sonarBlocker:
+    required: true
+    description: ""
+  sonarBlockerUrl:
+    required: true
+    description: ""
+  sonarBlockerEmojiMark:
+    required: true
+    description: ""
+  sonarHigh:
+    required: true
+    description: ""
+  sonarHighUrl:
+    required: true
+    description: ""
+  sonarHighEmojiMark:
+    required: true
+    description: ""
+  sonarMedium:
+    required: true
+    description: ""
+  sonarMediumUrl:
+    required: true
+    description: ""
+  sonarMediumEmojiMark:
+    required: true
+    description: ""
+  sonarLow:
+    required: true
+    description: ""
+  sonarLowUrl:
+    required: true
+    description: ""
+  sonarLowEmojiMark:
+    required: true
+    description: ""
+  sonarInfo:
+    required: true
+    description: ""
+  sonarInfoUrl:
+    required: true
+    description: ""
+  sonarInfoEmojiMark:
+    required: true
+    description: ""
+  sonarOpenIssuesDashboardURL:
+    required: true
+    description: ""
+  sonarOverallCodeDashBoardURL:
+    required: true
+    description: ""
+  EMAIL_MODULE_SEV_AGG_TABLE:
+    required: true
+    description: ""
+  FULL_SHA:
+    required: true
+    description: ""
+  SHORT_SHA:
+    required: true
+    description: ""
+  TRIGGER_INFO:
+    required: true
+    description: ""
+  COMMIT_MSG:
+    required: true
+    description: ""
+  COMMIT_AUTHOR:
+    required: true
+    description: ""
+  COMMIT_DATE:
+    required: true
+    description: ""
+  startTime:
+    required: true
+    description: ""
+  endTime:
+    required: true
+    description: ""
+  formattedDuration:
+    required: true
+    description: ""
+  ARTIFACT_URL:
+    required: true
+    description: ""
+  STAGE_VS_MAIN_STATE:
+    required: true
+    description: ""
+  sonarIssuesLegend:
+    required: true
+    description: ""
+  GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:
+    required: true
+    description: ""
+
+runs:
+  using: "composite"
+  steps:
+    ####################################################
+    # Publish GITHUB SUMMARY
+    ####################################################
+    - name: Publish GITHUB Summary
+      id: publish-github-summary
+      shell: pwsh
+      run: |
+        $branch = ${{inputs.BRANCH_EXECUTED }}
+        $repository = ${{ github.repository }}
+        $checkstyleViolations = ${{inputs.checkstyleCount }}
+        $pmdViolations = ${{inputs.pmdCount }}
+        $sonarCoverage=${{inputs.sonarCoverage }}
+        $coverageStatus=${{inputs.coverageStatus }}
+        ############################################################
+                  # === Write Overall Table ===
+        ############################################################
+        echo "### 📊 Hygiene Summary (Checkstyle + PMD + JaCoCo + Sonar)" >> $env:GITHUB_STEP_SUMMARY
+        echo "Repository: $repository " >> $env:GITHUB_STEP_SUMMARY
+        echo "Branch: $branch" >> $env:GITHUB_STEP_SUMMARY
+        echo "Stage ↔ Main state: ${{inputs.STAGE_VS_MAIN_STATE }}" >> $env:GITHUB_STEP_SUMMARY
+        echo "| **Metric**               | **Value** |" >> $env:GITHUB_STEP_SUMMARY
+        echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage % $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
+        #         echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
+        echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🗂 SonarCloud            | Execution: <code>$sonarExecutionNote</code><br/>Issues: <code>$sonarIssuesNote</code><br/>Last Analysis: <code>$lastSonarAnalysis</code> |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🟥 BLOCKER               | [$blocker]($( ${{inputs.sonarBlockerUrl }})) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🟧 HIGH                  | [$high]($($severityLinks.HIGH)) $sonarHighStatus |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🟨 MEDIUM                | [$medium]($($severityLinks.MEDIUM)) $sonarMediumStatus |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| 🟦 LOW                   | [$low]($($severityLinks.LOW)) $sonarLowStatus |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| ℹ INFO                  | [$info]($($severityLinks.INFO)) $sonarInfoStatus |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "| Legend                  | $sonarIssuesLegend |" >> $env:GITHUB_STEP_SUMMARY
+#         echo "🌐 [View SonarCloud Overall Code Dashboard]($sonarOverallCodeDashBoardUrl)" >> $env:GITHUB_STEP_SUMMARY
+#         echo "🌐 [View SonarCloud Issues Breakdown Dashboard]($sonarOpenIssuesDashboardUrl)" >> $env:GITHUB_STEP_SUMMARY
+#         # Step 3: Pretty-print module severity breakdown with conditional icons
+#          echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
+#       if ($moduleAgg.Count -gt 0) {
+#           echo "### 📦 SonarCloud Module Impact-Severity" >> $env:GITHUB_STEP_SUMMARY
+#           echo "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |" >> $env:GITHUB_STEP_SUMMARY
+#           echo "|--------|------------|---------|----------|--------|--------|" >> $env:GITHUB_STEP_SUMMARY
+#           foreach ($mod in $moduleAgg.Keys) {
+#           $b = $moduleAgg[$mod]
+#
+#           function Mark($count) {
+#             if ($count -eq 0) { return "✅ $count" }
+#             elseif ($count -le 5) { return "🟡 $count" }
+#             else { return "🔴 $count" }
+#           } # end of function Mark
+#
+#           echo "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |" >> $env:GITHUB_STEP_SUMMARY
+#           }
+#       }
