@@ -432,8 +432,8 @@
           $githubModuleSevAggTable += "| Module | 🟥 BLOCKER | 🟧 HIGH | 🟨 MEDIUM | 🟦 LOW  | ℹ INFO |$nl"
           $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------|$nl"
           foreach ($mod in $moduleAgg.Keys) {
-          $b = $moduleAgg[$mod]
-          $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
+              $b = $moduleAgg[$mod]
+              $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
           }
       }
 
@@ -562,6 +562,11 @@
         "moduleAgg=$moduleAgg" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE=$githubModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        # Write as multi-line GitHub Action output
+        $githubModuleSevAggTable | Out-File -FilePath module_table.md -Encoding utf8
+
+        Write-Output "GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE<<EOF" >> $env:GITHUB_OUTPUT
+        Get-Content module_table.md >> $env:GITHUB_OUTPUT
+        Write-Output "EOF" >> $env:GITHUB_OUTPUT
         ############################################################
 
