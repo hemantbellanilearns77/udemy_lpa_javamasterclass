@@ -222,13 +222,13 @@
         $emailModuleSevAggTable=""
         # $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         # if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
-        if ($skipFlagVal -imatch $skipSonarPattern) {
-          $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
-          # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
-          "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-           Write-Host "Skipping rest of this step"
-           exit 0   # Ends this step cleanly
-        }
+#         if ($skipFlagVal -imatch $skipSonarPattern) {
+#           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
+#           # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
+#           "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+#            Write-Host "Skipping rest of this step"
+#            exit 0   # Ends this step cleanly
+#         }
         ###############################################################################
         # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
         ###############################################################################
