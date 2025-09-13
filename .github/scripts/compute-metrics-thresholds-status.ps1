@@ -531,7 +531,7 @@
         "sonarIssuesLegend=$sonarIssuesLegend" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarCoverage=$sonarCoverage %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "coverageStatus=$coverageStatus %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "coverageStatus=$coverageStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerEmojiMark=$sonarBlockerStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerURL=$($severityLinks.BLOCKER)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
