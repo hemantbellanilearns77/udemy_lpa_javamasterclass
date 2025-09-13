@@ -144,7 +144,7 @@ runs:
         $checkstyleViolations = ${{inputs.checkstyleCount }}
         $pmdViolations = ${{inputs.pmdCount }}
         $sonarCoverage=${{inputs.sonarCoverage }}
-        $coverageStatus=${{inputs.$coverageStatus }}
+        $coverageStatus=${{inputs.coverageStatus }}
          ############################################################
                      # === Write Overall Table ===
          ############################################################
