@@ -206,27 +206,25 @@
         }
 
         function FormatCoverageStatus($actualCoverage, $minNeeded) {
-           # Ensure only the first numeric value is used
-           if ($actualCoverage -is [array]) {
-             $actualCoverage = $actualCoverage[0]
-           }
-           # Try to cast to a number safely
-           $actualCoverage = [double]($actualCoverage -replace '[^0-9\.]', '')
-           if ($actualCoverage -ge 90.00 ) {
-             $emoji = "🟢"
-             $note = "(GREAT)"
-           } elseif ($sonarCoverage -ge $minNeeded -and $sonarCoverage le 89.99 ) {
-             $emoji = "🟡"
-             $note  = "(NEARING THRESHOLD)"
-           } else {
-             $emoji = "🔴"
-             $note  = "(OVERBOARD)"
-           }
-            return " / 100 % $emoji ($note)"
-            #return "$severity Issues: $count / $maxAllowed $emoji $note"
-        }
+            if ($actualCoverage -is [array]) {
+                $actualCoverage = $actualCoverage[0]
+            }
+            # sanitize and cast
+            $actualCoverage = [double]($actualCoverage -replace '[^0-9\.]', '')
 
-        $coverageStatus = FormatCoverageStatus $sonarCoverage
+            if ($actualCoverage -ge 90.00) {
+                $emoji = "🟢"
+                $note  = "(GREAT)"
+            } elseif ($actualCoverage -ge $minNeeded -and $actualCoverage -le 89.99) {
+                $emoji = "🟡"
+                $note  = "(NEARING THRESHOLD)"
+            } else {
+                $emoji = "🔴"
+                $note  = "(OVERBOARD)"
+            }
+            return "/ 100% $emoji $note"
+        }
+        $coverageStatus = FormatCoverageStatus $sonarCoverage $env:JACOCO_MIN_COVERAGE
         $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"
         $sonarHighStatus    = FormatSonarStatus $high    $env:HIGH_MAX    "🟧 HIGH"
         $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
