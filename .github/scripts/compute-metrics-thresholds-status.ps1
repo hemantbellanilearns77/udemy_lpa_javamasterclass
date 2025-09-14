@@ -1,5 +1,10 @@
         $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         $skipFlagVal="$env:SKIP_FLAG"
+        Start-Sleep -Seconds $env:SONAR_FETCH_SLEEP_TIME
+        $projectKey = $env:SONAR_PROJECT_KEY
+        $projectOrg = $env:SONAR_ORG
+        $branch = $env:BRANCH_EXECUTED
+        $repository = $env:REPOSITORY
         Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $skipFlagVal"
 
 
@@ -106,12 +111,7 @@
         ############################################################
         # === Fetch SonarCloud Issue Count (OPEN) ===
         ############################################################
-        Start-Sleep -Seconds $env:SONAR_FETCH_SLEEP_TIME
 
-        $projectKey = $env:SONAR_PROJECT_KEY
-        $projectOrg = $env:SONAR_ORG
-        $branch = $env:BRANCH_EXECUTED
-        $repository = $env:REPOSITORY
         # Confirm if token is passed
         if (-not $env:SONAR_TOKEN) {
          Write-Error "⚠ SONAR_TOKEN is empty!"
