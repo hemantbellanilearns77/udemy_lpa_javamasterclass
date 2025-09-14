@@ -1,16 +1,16 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-echo =================================================================================
-echo     🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud
-echo =================================================================================
+REM echo =================================================================================
+REM echo     🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud
+REM echo =================================================================================
 set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
 goto :unsupported
 
 :github
-echo === Running in GitHub Actions ===
+REM echo === Running in GitHub Actions ===
 	:: === Preserve Original Directory ===
 set "originalDir=%CD%"
 

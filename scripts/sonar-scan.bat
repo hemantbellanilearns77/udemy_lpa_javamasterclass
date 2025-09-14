@@ -1,9 +1,9 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-echo ===================================================
-echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight and Preview)
-echo ===================================================
+REM echo ===================================================
+REM echo ☕ SonarCloud Scan Initiator — Dynamic Branch (Preflight and Preview)
+REM echo ===================================================
 
 set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
