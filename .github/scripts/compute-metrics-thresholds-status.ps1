@@ -29,7 +29,7 @@
             ############################################################
             # === Parse JaCoCo XML (Overall) ===
             ############################################################
-            $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
+            $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
             $missed = [int]$xml.Node.missed
             $covered = [int]$xml.Node.covered
             $total = $missed + $covered
