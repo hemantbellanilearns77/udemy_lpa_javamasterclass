@@ -9,12 +9,13 @@
             $headers = @{ Authorization = "Basic $encodedAuth" }
 
             function Get-SonarMetric($metricKey) {
-              $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=coverage"
+              $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=$metricKey"
               # Write-Host "Coverage Fetch URL is $url"
               try {
                 $resp = Invoke-WebRequest -Uri $url -Method Get
                 $json = $resp.Content | ConvertFrom-Json
-                return $json.component.measures[0].value
+                $returnVal = [double]$json.component.measures[0].value
+                return $returnVal
               } catch {
                 Write-Error "⚠ API call failed: $_"
                 exit 1
@@ -37,7 +38,7 @@
             } else {
                 $jacocoCoverage = 0.00
             }
-            $sonarCoverage = $jacocoCoverage %
+            $sonarCoverage = $jacocoCoverage
         }
         function Get-AsciiBar($percent) {
 
