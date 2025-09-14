@@ -272,35 +272,34 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a pmdCount+=1
 )
 
-:: --- JaCoCo Coverage via PowerShell ---
-if exist "reports\jacoco\jacoco-latest.xml" (
-    echo found jacoco-latest.xml report file 
-    for /f %%i in ('powershell -nologo -noprofile -Command "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'LINE' -or $_.type -eq 'BRANCH' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N}%%' -f (($cov * 100.0) / $t) } else { '0%%'} } else { '	 Jacoco report missing' }" ') do (
-        set "jacocoTemp=%%i"
-    )
-)
-if defined jacocoTemp (
-    set "jacocoSummary=%jacocoTemp%"
+set "jacocoLatestReportPath=%REPO_ROOT%\reports\jacoco\jacoco-latest.xml"
+for /f "usebackq tokens=* delims=" %%i in (`powershell -nologo -noprofile -ExecutionPolicy Bypass -File "scripts\calc-jacoco-local.ps1" -reportPath "%jacocoLatestReportPath%"`) do (
+    set "jacocoSummary=%%i"
+    goto :done
 )
 
-for /f %%i in ('powershell -nologo -noprofile -Command ^
-    "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; ^
-     $c = $xml.report.counter | Where-Object { $_.type -eq 'LINE' -or $_.type -eq 'BRANCH' }; ^
-     if ($c) { ^
-       $cov = ($c | Measure-Object -Property covered -Sum).Sum; ^
-       $miss = ($c | Measure-Object -Property missed -Sum).Sum; ^
-       $t = $cov + $miss; ^
-       if ($t -ne 0) { '{0:N1}%%' -f (($cov * 100.0) / $t) } else { '0%%'} ^
-     } else { 'Jacoco report missing' }"') do (
-    set "jacocoTempAnother=%%i"
-)
+:done
 
-if defined jacocoTempAnother (
-    set "jacocoSummaryAnother=%jacocoTempAnother%"
-)
-echo jacocoSummaryAnother is %jacocoTempAnother% or !jacocoTempAnother!
+REM if defined jacocoSummary (
+    REM echo JaCoCo Coverage: !jacocoSummary!
+REM ) else (
+    REM echo Jacoco report missing
+REM )
+
+REM :: --- JaCoCo Coverage via PowerShell ---
+REM if exist "reports\jacoco\jacoco-latest.xml" (
+    REM echo found jacoco-latest.xml report file 
+    REM for /f %%i in ('powershell -nologo -noprofile -Command "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'LINE' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N2}%%' -f (($cov * 100.0) / $t) } else { '0%%'} } else { '	 Jacoco report missing' }" ') do (
+        REM set "jacocoTemp=%%i"
+    REM )
+REM )
+REM if defined jacocoTemp (
+    REM set "jacocoSummary=%jacocoTemp%"
+REM )
 REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary%
 REM echo ?? OutsideDo Code Coverage (JaCoCo): !jacocoSummary!
+
+
 echo ?? Final Summary
 echo Checkstyle Violations: !checkstyleCount!
 echo PMD Violations:        !pmdCount!
