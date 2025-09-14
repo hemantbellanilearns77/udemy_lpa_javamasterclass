@@ -26,7 +26,7 @@
             Write-Output "Writing Output Coverage as fetched from SonarCloud is $sonarCoverage"
         }
         else {
-            ############################################################
+           <#  ############################################################
             # === Parse JaCoCo XML (Overall) ===
             ############################################################
             $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
@@ -39,7 +39,22 @@
                 $jacocoCoverage = 0.00
             }
             $sonarCoverage = $jacocoCoverage
-            Write-Output "Writing Output Coverage as fetched from latest Jacoco Execution in runner is $sonarCoverage"
+            Write-Output "Writing Output Coverage as fetched from latest Jacoco Execution in runner is $sonarCoverage" #>
+            $lineNode   = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
+            $branchNode = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='BRANCH']"
+
+            $lineMissed   = [int]$lineNode.Node.missed
+            $lineCovered  = [int]$lineNode.Node.covered
+            $branchMissed = [int]$branchNode.Node.missed
+            $branchCovered= [int]$branchNode.Node.covered
+
+            $total = $lineMissed + $lineCovered + $branchMissed + $branchCovered
+            if ($total -gt 0) {
+                $coverage = [math]::Round(100 * ($lineCovered + $branchCovered) / $total, 2)
+            } else {
+                $coverage = 0
+            }
+            Write-Output "Sonar-style Coverage as fetched from latest Jacoco Execution in runner is $coverage %"
         }
         function Get-AsciiBar($percent) {
 
