@@ -256,22 +256,31 @@ set /a pmdCount=0
 for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a pmdCount+=1
 )
-set "jacocoSummary=0.00%"
+set "jacocoSummary=0.0%%"
 if "%skip_sonar%"=="false" (
-	:: --- JaCoCo Coverage via PowerShell ---
-	if exist "reports\jacoco\jacoco-latest.xml" (
-		echo found jacoco-latest.xml report file 
-		for /f %%i in ('powershell -nologo -noprofile -Command "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'INSTRUCTION' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N2}%%' -f (($cov * 100.0) / $t) } else { '0%%'} } else { '	 Jacoco report missing' }" ') do (
-			set "jacocoTemp=%%i"
-		)
-	)
-	if defined jacocoTemp (
-		set "jacocoSummary=%jacocoTemp%"
-	) else (
-		echo some issue occured while setting jacocoTemp
-	)
+    if exist "reports\jacoco\jacoco-latest.xml" (
+        echo found jacoco-latest.xml report file 
+        for /f %%i in ('
+            powershell -nologo -noprofile -Command ^
+              "[xml]$xml = Get-Content 'reports\jacoco\jacoco-latest.xml'; ^
+               $line = $xml.report.counter | Where-Object { $_.type -eq 'LINE' }; ^
+               if ($line) { ^
+                 $cov = [int]$line.covered; ^
+                 $miss = [int]$line.missed; ^
+                 $t = $cov + $miss; ^
+                 if ($t -ne 0) { '{0:N1}%%' -f (($cov * 100.0) / $t) } else { '0%%' } ^
+               } else { 'Jacoco report missing' }"
+        ') do (
+            set "jacocoTemp=%%i"
+        )
+    )
+    if defined jacocoTemp (
+        set "jacocoSummary=%jacocoTemp%"
+    ) else (
+        echo some issue occurred while setting jacocoTemp
+    )
 ) else (
-	set "jacocoSummary=0.0% Not Reported Not Captured"
+    set "jacocoSummary=0.0% Not Reported Not Captured"
 )
 REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary%
 REM echo ?? OutsideDo Code Coverage (JaCoCo): !jacocoSummary!

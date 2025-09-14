@@ -233,7 +233,7 @@ runs:
       # 4. Compile Java Modules
     - name: Compile Java Modules
       shell: cmd
-      if: ${{ inputs.SKIP_FLAG != '--skip-sonar' }}
+      if: ${{ steps.setup_vars.outputs.SKIP_FLAG != '--skip-sonar' }}
       run: |
         REM -----------------------------
         REM Enable delayed expansion
