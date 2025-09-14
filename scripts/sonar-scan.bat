@@ -131,13 +131,13 @@ if /I "%ENABLE_JACOCO%"=="true" (
 )
 echo ------------------------------------------
 echo After checking report paths >> "!logPath!"
-:: Dry Run Check
-if /I "%DRY_RUN%"=="true" (
-    echo 🚧 Dry-run mode enabled — skipping SonarCloud push
-    cd /d "%originalDir%"
-    pause
-    exit /b 0
-)
+REM :: Dry Run Check
+REM if /I "%DRY_RUN%"=="true" (
+    REM echo 🚧 Dry-run mode enabled — skipping SonarCloud push
+    REM cd /d "%originalDir%"
+    REM pause
+    REM exit /b 0
+REM )
 for /f "tokens=1,2 delims==" %%a in (.env) do (
   if "%%a"=="SONAR_TOKEN" set SONAR_TOKEN=%%b
 )
@@ -162,28 +162,18 @@ REM ) else (
 REM )
 
 
-:: Count Violations
-set /a CHECKSTYLE_COUNT=0
-set /a PMD_COUNT=0
+REM :: Count Violations
+REM set /a CHECKSTYLE_COUNT=0
+REM set /a PMD_COUNT=0
 
-for /f %%X in ('findstr /c:"<error " "!checkstyleReportPath!"') do (
-    set /a CHECKSTYLE_COUNT+=1
-)
-for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
-    set /a PMD_COUNT+=1
-)
+REM for /f %%X in ('findstr /c:"<error " "!checkstyleReportPath!"') do (
+    REM set /a CHECKSTYLE_COUNT+=1
+REM )
+REM for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
+    REM set /a PMD_COUNT+=1
+REM )
 
-:: Warning Thresholds
-set warn=false
-if !durationMinutes! GEQ 5 (
-    set warn=true
-)
-if !CHECKSTYLE_COUNT! GEQ 1000 (
-    set warn=true
-)
-if !PMD_COUNT! GEQ 100 (
-    set warn=true
-)
+
 :: Capture End Time
 for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set endTime=%%t
 
@@ -201,26 +191,23 @@ REM echo 🕒 End:      %endTime%
 REM echo ⏱️ Duration: %durationMinutes% minutes
 REM echo ✅ Checkstyle Violations: !CHECKSTYLE_COUNT!
 REM echo ✅ PMD Violations:        !PMD_COUNT!
-REM if "!warn!"=="true" (
-    REM echo ⚠️  Warning: High violation count or long scan duration
-REM )
 REM echo ===================================================
 
 :: Mirror to Log File
-(
-    echo ================== SCAN SUMMARY ==================
-    echo 🌀 Branch: !BRANCH_NAME!
-    echo 🔍 Log Path :   !logPath! -- %timestamp%
-    echo 🕒 Start:    !startTime!
-    echo 🕒 End:      !endTime!
-    echo ⏱️ Duration: !durationMinutes! minutes
-    echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
-    echo ✅ PMD:        !PMD_COUNT!
-    if "!warn!"=="true" (
-        echo ⚠️  Warning: High violation count or long scan duration
-    )
-    echo ===================================================
-) >> "!logPath!"
+REM (
+    REM echo ================== SCAN SUMMARY ==================
+    REM echo 🌀 Branch: !BRANCH_NAME!
+    REM echo 🔍 Log Path :   !logPath! -- %timestamp%
+    REM echo 🕒 Start:    !startTime!
+    REM echo 🕒 End:      !endTime!
+    REM echo ⏱️ Duration: !durationMinutes! minutes
+    REM echo ✅ Checkstyle: !CHECKSTYLE_COUNT!
+    REM echo ✅ PMD:        !PMD_COUNT!
+    REM if "!warn!"=="true" (
+        REM echo ⚠️  Warning: High violation count or long scan duration
+    REM )
+    REM echo ===================================================
+REM ) >> "!logPath!"
 goto :end
 
 :local

@@ -113,17 +113,17 @@ if exist "%XML_REPORT%" (
 )
 
 :: === SUMMARY ===
-if exist "%TEXT_REPORT%" (
-    echo.
-    echo ===== VIOLATION SUMMARY =====
-    set /a violationCount=0
-    for /f "usebackq delims=" %%L in ("%TEXT_REPORT%") do (
-        set /a violationCount+=1
-    )
-    echo Total Violations: !violationCount!
-    echo =============================
-)
-echo.
+REM if exist "%XML_REPORT%" (
+    REM echo.
+    REM echo ===== VIOLATION SUMMARY =====
+    REM set /a violationCount=0
+    REM for /f "usebackq delims=" %%L in ("%XML_REPORT%") do (
+        REM set /a violationCount+=1
+    REM )
+    REM echo Total Violations: !violationCount!
+    REM echo =============================
+REM )
+REM echo.
 echo ======= Log file is at: %LOG_FILE% =======
 echo.
 goto :end

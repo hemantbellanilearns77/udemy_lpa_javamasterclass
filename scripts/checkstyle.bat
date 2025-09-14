@@ -112,17 +112,18 @@ if exist "%TEXT_REPORT_PATH%" (
 >> "%LOG_PATH%" echo XML Report path: %XML_REPORT_PATH%
 
 :: === Violation Summary ===
-set "violationCount=0"
-if exist "%XML_REPORT_PATH%" (
-    for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%XML_REPORT_PATH%"`) do (
-        set /a violationCount+=1
-    )
-    echo.
-    echo ===== VIOLATION SUMMARY =====
-    echo Total Violations: !violationCount!
-    echo =============================
-    >> "%LOG_PATH%" echo Total Violations: !violationCount!
-)
+REM set "violationCount=0"
+REM if exist "%XML_REPORT_PATH%" (
+    REM for /f "usebackq tokens=*" %%L in (`findstr /R "<error " "%XML_REPORT_PATH%"`) do (
+        REM set /a violationCount+=1
+    REM )
+    REM echo.
+    REM echo ===== VIOLATION SUMMARY =====
+    REM echo Total Violations: !violationCount!
+    REM echo =============================
+    REM >> "%LOG_PATH%" 
+	REM echo Total Violations: !violationCount!
+REM )
 
 :: === Optional Threshold Exit ===
 :: set "maxViolations=10"
@@ -132,7 +133,7 @@ if exist "%XML_REPORT_PATH%" (
 :: )
 
 :: === Wrap-up ===
-echo.
+REM echo.
 echo ====== Execution log saved: %LOG_PATH%
 goto :end
 
