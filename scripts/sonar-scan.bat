@@ -157,7 +157,7 @@ echo 🚀 Running SonarCloud scan — Branch: !BRANCH_NAME!
 :: Call sonar-scanner.bat using the environment variable
 set "SCANNER=%SONAR_SCANNER_BIN%\sonar-scanner.bat"
 if exist "%SCANNER%" (
-  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%" >> "!logPath!" 2>&1
+  call "%SCANNER%" "-Dsonar.token=%SONAR_TOKEN%" > "!logPath!" 2>&1
   echo ✅ SonarCloud scan completed successfully.
 ) else (
   echo ❌ sonar-scanner.bat not found at %SCANNER%
