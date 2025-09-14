@@ -81,6 +81,45 @@ echo [ERROR] Invalid runMode: %runMode%
 echo Allowed values: DRYRUN (default) or EXECUTE
 exit /b 1
 
+:: ==========================================================
+:: CONFIGURATION SETUP
+:: ==========================================================
+set "rootPath="
+set "runMode="
+
+REM :: --- Case 1: Only runMode passed (EXECUTE or DRYRUN) ---
+REM if /i "%~1"=="EXECUTE" (
+    REM set "runMode=EXECUTE"
+    REM set "rootPath=%CD%"
+    REM goto :initDone
+REM )
+REM if /i "%~1"=="DRYRUN" (
+    REM set "runMode=DRYRUN"
+    REM set "rootPath=%CD%"
+    REM goto :initDone
+REM )
+
+REM :: --- Case 2: rootPath + runMode ---
+REM if not "%~1"=="" (
+    REM set "rootPath=%~1"
+REM )
+REM if not "%~2"=="" (
+    REM set "runMode=%~2"
+REM )
+
+REM :: Defaults if missing
+REM if "%rootPath%"=="" set "rootPath=%CD%"
+REM if "%runMode%"=="" set "runMode=DRYRUN"
+
+REM :: --- Validate runMode ---
+REM if /i "%runMode%"=="EXECUTE" goto :initDone
+REM if /i "%runMode%"=="DRYRUN" goto :initDone
+
+REM echo [ERROR] Invalid runMode: %runMode%
+REM echo Allowed values: DRYRUN (default) or EXECUTE
+REM exit /b 1
+
+
 :valid
 
 :initDone
