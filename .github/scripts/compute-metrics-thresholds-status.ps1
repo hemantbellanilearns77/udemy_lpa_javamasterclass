@@ -1,26 +1,53 @@
         $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         $skipFlagVal="$env:SKIP_FLAG"
         Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $skipFlagVal"
-        ############################################################
-        # === Parse JaCoCo XML (Overall) ===
-        ############################################################
-        $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
-        $missed = [int]$xml.Node.missed
-        $covered = [int]$xml.Node.covered
-        $total = $missed + $covered
-         if ($total -gt 0) {
-            $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
-          } else {
-            $jacocoCoverage = 0
-          }
+        if ($skipFlagVal -imatch $skipSonarPattern) {
+            ############################################################
+            # === Fetch SonarCloud Coverage Metrics ===
+            ############################################################
+            $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($env:SONAR_TOKEN):"))
+            $headers = @{ Authorization = "Basic $encodedAuth" }
 
+            function Get-SonarMetric($metricKey) {
+              $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=coverage"
+              # Write-Host "Coverage Fetch URL is $url"
+              try {
+                $resp = Invoke-WebRequest -Uri $url -Method Get
+                $json = $resp.Content | ConvertFrom-Json
+                return $json.component.measures[0].value
+              } catch {
+                Write-Error "⚠ API call failed: $_"
+                exit 1
+              }
+            }
+
+            $sonarCoverage = Get-SonarMetric "coverage"
+            # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage"
+        }
+        else {
+            ############################################################
+            # === Parse JaCoCo XML (Overall) ===
+            ############################################################
+            $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='INSTRUCTION']"
+            $missed = [int]$xml.Node.missed
+            $covered = [int]$xml.Node.covered
+            $total = $missed + $covered
+            if ($total -gt 0) {
+                $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
+            } else {
+                $jacocoCoverage = 0.00
+            }
+            $sonarCoverage = $jacocoCoverage %
+        }
         function Get-AsciiBar($percent) {
 
-          $blocks = 25
+          $blocks = 27
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
           return ('█' * $filled) + ('░' * $empty)
         }
+
+        $coverageBar = Get-AsciiBar $sonarCoverage
 
         ############################################################
         # === Parse Checkstyle & PMD Reports ===
@@ -131,34 +158,6 @@
           $lastSonarAnalysis = "N/A"
         }
         Write-Host "📅 Last Analysis IST: $lastSonarAnalysis"
-
-        # expose for later consumers (email etc.)
-        "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarIssuesNote=$sonarIssuesNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "lastSonarAnalysis=$lastSonarAnalysis" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
-        ############################################################
-        # === Fetch SonarCloud Coverage Metrics ===
-        ############################################################
-        $encodedAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($env:SONAR_TOKEN):"))
-        $headers = @{ Authorization = "Basic $encodedAuth" }
-
-        function Get-SonarMetric($metricKey) {
-          $url = "https://sonarcloud.io/api/measures/component?component=$projectKey&metricKeys=coverage"
-          # Write-Host "Coverage Fetch URL is $url"
-          try {
-            $resp = Invoke-WebRequest -Uri $url -Method Get
-            $json = $resp.Content | ConvertFrom-Json
-            return $json.component.measures[0].value
-          } catch {
-            Write-Error "⚠ API call failed: $_"
-            exit 1
-          }
-        }
-
-        $sonarCoverage = Get-SonarMetric "coverage"
-        # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage"
-         $coverageBar = Get-AsciiBar $sonarCoverage
 
         ############################################################
         # === Generate Severity URLs (global and per module) ===
@@ -527,11 +526,18 @@
         ############################################################
         "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "totalSonarFetchedIssues=$totalSonarFetchedIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "sonarIssuesLegend=$sonarIssuesLegend" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
         "sonarCoverage=$sonarCoverage %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "coverageStatus=$coverageStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "coverageBar=$coverageBar" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+        # expose for later consumers (email etc.)
+        "sonarExecutionNote=$sonarExecutionNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarIssuesNote=$sonarIssuesNote" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "lastSonarAnalysis=$lastSonarAnalysis" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "totalSonarFetchedIssues=$totalSonarFetchedIssues" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "sonarIssuesLegend=$sonarIssuesLegend" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
         "sonarBlocker=$blocker" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerEmojiMark=$sonarBlockerStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarBlockerURL=$($severityLinks.BLOCKER)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -555,9 +561,6 @@
         "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-        # --- Emit outputs ---
-        "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "NextStepsHtml=$NextStepsHtml" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         # Export both plain breakdown and HTML table
         "moduleAgg=$moduleAgg" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "EMAIL_BREAKDOWN=$emailModuleSevAggBreakdown" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -568,5 +571,11 @@
         Write-Output "GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE<<EOF" >> $env:GITHUB_OUTPUT
         Get-Content module_table.md >> $env:GITHUB_OUTPUT
         Write-Output "EOF" >> $env:GITHUB_OUTPUT
+
+        # --- Emit outputs ---
+        "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "NextStepsHtml=$NextStepsHtml" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+
         ############################################################
 
