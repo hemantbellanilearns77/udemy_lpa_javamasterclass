@@ -43,13 +43,16 @@ runs:
       ##########################
 
     - name: ?? Download JaCoCo + JUnit Console
+      id: download_jacoco_junit_console
+      shell: cmd
+      if: ${{ inputs.SKIP_FLAG != '--skip-sonar' }}
       run: |
         mkdir tools\jacoco-0.8.13\lib
         curl -L -o tools\jacoco-0.8.13\lib\jacocoagent.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
         curl -L -o tools\jacoco-0.8.13\lib\jacococli.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.13/org.jacoco.cli-0.8.13-nodeps.jar
         mkdir tools\junit-console
         curl -L -o tools\junit-console\junit-platform-console-standalone-1.13.0.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.13.0/junit-platform-console-standalone-1.13.0.jar
-      shell: cmd
+      
 
       ##########################
       # DOWNLOAD SONAR-SCANNER
