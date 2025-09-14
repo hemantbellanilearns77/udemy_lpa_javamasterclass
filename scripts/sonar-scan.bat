@@ -123,13 +123,13 @@ for %%p in (%junitPaths:,= %) do (
     if exist "%%p" dir /b "%%p"
 )
 if /I "%ENABLE_JACOCO%"=="true" (
-    echo 📄 JaCoCo Execs:
+    REM echo 📄 JaCoCo Execs:
     for %%p in (%jacocoPaths:,= %) do (
         REM echo   ↳ %%p
         if exist "%%p" dir /b "%%p"
     )
 )
-echo ------------------------------------------
+REM echo ------------------------------------------
 echo After checking report paths >> "!logPath!"
 REM :: Dry Run Check
 REM if /I "%DRY_RUN%"=="true" (
@@ -320,17 +320,17 @@ echo 📄 Checkstyle:   !checkstyleReportPath!
 echo 📄 PMD:          !pmdReportPath!
 echo 📄 JUnit Paths:
 for %%p in (%junitPaths:,= %) do (
-    echo   ↳ %%p
+    REM echo   ↳ %%p
     if exist "%%p" dir /b "%%p"
 )
 if /I "%ENABLE_JACOCO%"=="true" (
-    echo 📄 JaCoCo Execs:
+    REM echo 📄 JaCoCo Execs:
     for %%p in (%jacocoPaths:,= %) do (
-        echo   ↳ %%p
+        REM echo   ↳ %%p
         if exist "%%p" dir /b "%%p"
     )
 )
-echo ------------------------------------------
+REM echo ------------------------------------------
 
 :: Dry Run Check
 if /I "%DRY_RUN%"=="true" (
@@ -429,7 +429,7 @@ echo Unsupported environment: %executionEnv%
 exit /b 1
 
 :end
-echo SonarCloud Sonar-Scan Analysis complete.
+REM echo SonarCloud Sonar-Scan Analysis complete.
 cd /d "%originalDir%"
 endlocal
 exit /b 0
