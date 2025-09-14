@@ -103,7 +103,7 @@ set "originalDir=%CD%"
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
 	echo --------------------------------------------------- 
-
+	call scripts\sonar-scan.bat githubactions
 	:: === Step 4: SonarCloud ===
 	if "%skip_sonar%"=="false" (
 		echo 🚀 Step 4: Running SonarCloud scan... >> "%hygieneLogPath%"
