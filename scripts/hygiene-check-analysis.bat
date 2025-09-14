@@ -275,6 +275,8 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
 set "jacocoLatestReportPath=%REPO_ROOT%\reports\jacoco\jacoco-latest.xml"
 for /f "usebackq tokens=* delims=" %%i in (`powershell -nologo -noprofile -ExecutionPolicy Bypass -File "scripts\calc-jacoco-local.ps1" -reportPath "%jacocoLatestReportPath%"`) do (
     set "jacocoSummary=%%i"
+	rem remove any accidental double percent signs
+	set "jacocoSummary=%jacocoSummary:%%=%"
     goto :done
 )
 

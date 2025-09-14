@@ -58,45 +58,25 @@ echo TEXT REPORT: %TEXT_REPORT%
 echo XML REPORT:  %XML_REPORT%
 echo ===========================================
 
-REM :: === PMD TEXT REPORT ===
-REM echo Running PMD Text Analysis...
-REM java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
-  REM --no-progress ^
-  REM --rulesets "%RULESET%" ^
-  REM --dir "%SRC_DIRS%" ^
-  REM --format text ^
-  REM --report-file "%TEXT_REPORT%" ^
-  REM > "%LOG_FILE%" 2>&1
-
-REM :: === PMD XML REPORT ===
-REM echo Running PMD XML Analysis...
-REM java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
-  REM --no-progress ^
-  REM --rulesets "%RULESET%" ^
-  REM --dir "%SRC_DIRS%" ^
-  REM --format xml ^
-  REM --report-file "%XML_REPORT%" ^
-  REM >> "%LOG_FILE%" 2>&1
-  
-:: === RUN PMD ANALYSIS (TEXT) ===
+:: === PMD TEXT REPORT ===
 echo Running PMD Text Analysis...
-call "%PMD_HOME%\bin\pmd.bat" check ^
+java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
   --no-progress ^
   --rulesets "%RULESET%" ^
   --dir "%SRC_DIRS%" ^
   --format text ^
   --report-file "%TEXT_REPORT%" ^
+  > "%LOG_FILE%" 2>&1
 
-:: === RUN PMD ANALYSIS (XML) ===
+:: === PMD XML REPORT ===
 echo Running PMD XML Analysis...
-call "%PMD_HOME%\bin\pmd.bat" check ^
+java -cp "%CLASSPATH%" net.sourceforge.pmd.cli.PmdCli check ^
   --no-progress ^
   --rulesets "%RULESET%" ^
   --dir "%SRC_DIRS%" ^
   --format xml ^
   --report-file "%XML_REPORT%" ^
   >> "%LOG_FILE%" 2>&1
-
 
 :: === CHECK OUTPUT ===
 echo.
@@ -113,7 +93,7 @@ if exist "%XML_REPORT%" (
 )
 
 :: === SUMMARY ===
-if exist "%TEXT_REPORT%" (
+if exist "%XML_REPORT%" (
     echo.
     echo ===== VIOLATION SUMMARY =====
     set /a violationCount=0
@@ -203,7 +183,7 @@ if exist "%XML_REPORT%" (
 )
 
 :: === Violation Summary ===
-if exist "!TEXT_REPORT!" (
+if exist "!XML_REPORT!" (
     echo.
     echo ===== VIOLATION SUMMARY =====
     set "violationCount=0"
