@@ -130,7 +130,7 @@ if /I "%ENABLE_JACOCO%"=="true" (
     )
 )
 echo ------------------------------------------
-
+echo After checking report paths >> "!logPath!"
 :: Dry Run Check
 if /I "%DRY_RUN%"=="true" (
     echo 🚧 Dry-run mode enabled — skipping SonarCloud push
@@ -236,6 +236,7 @@ echo ===================================================
 goto :end
 
 :local
+chcp 65001 >nul
 echo === Running Locally ===
 :: Capture Start Time
 for /f %%t in ('powershell -command "Get-Date -Format 'HH:mm:ss'"') do set startTime=%%t
@@ -454,6 +455,6 @@ exit /b 1
 
 :end
 echo SonarCloud Sonar-Scan Analysis complete.
-endlocal
 cd /d "%originalDir%"
+endlocal
 exit /b 0
