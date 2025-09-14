@@ -48,10 +48,10 @@ set "originalDir=%CD%"
 	REM --- Add echo logs here to confirm the values ---
 	echo skip_checkstyle is %skip_checkstyle%
 	echo skip_pmd is %skip_pmd%
-	echo skip_pmd is %skip_jacoco%
-	echo skip_pmd is %skip_sonar%
+	echo skip_jacoco is %skip_jacoco%
+	echo skip_sonar is %skip_sonar%
 	if "%skip_sonar%"=="false" (
-		echo Checking SONAR_SCANNER_BIN and it is %SONAR_SCANNER_BIN%
+		echo SONAR_SCANNER_BIN as received from environment is %SONAR_SCANNER_BIN%
 	)
 	REM ------------------------------------------------
 
@@ -155,8 +155,8 @@ for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do
 
 echo skip_checkstyle is %skip_checkstyle%
 echo skip_pmd is %skip_pmd%
-echo skip_pmd is %skip_jacoco%
-echo skip_pmd is %skip_sonar%
+echo skip_jacoco is %skip_jacoco%
+echo skip_sonar is %skip_sonar%
 :: === Log Directory Setup ===
 set "hygieneLogFolder=logs\all-hygiene-logs"
 set "hygieneLogPath=%hygieneLogFolder%\all-hygiene-%timestamp%.txt"
@@ -168,47 +168,62 @@ echo --------------------------------------------------- >> "%hygieneLogPath%"
 :: === Step 1: Checkstyle ===
 if "%skip_checkstyle%"=="false" (
     echo 🚀 Step 1: Running Checkstyle... >> "%hygieneLogPath%"
+	echo 🚀 Step 1: Running Checkstyle... 
     call scripts\checkstyle.bat local >> "%hygieneLogPath%" 2>&1
     echo ✅ Checkstyle scan completed. >> "%hygieneLogPath%"
+	echo ✅ Checkstyle scan completed.
 ) else (
     echo ⏭️ Skipping Checkstyle... >> "%hygieneLogPath%"
+	echo ⏭️ Skipping Checkstyle...
 )
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
 :: === Step 2: PMD ===
 if "%skip_pmd%"=="false" (
     echo 🚀 Step 2: Running PMD... >> "%hygieneLogPath%"
+	echo 🚀 Step 2: Running PMD...
     call scripts\pmd-local.bat local >> "%hygieneLogPath%" 2>&1
     echo ✅ PMD scan completed. >> "%hygieneLogPath%"
+	echo ✅ PMD scan completed.
 ) else (
     echo ⏭️ Skipping PMD... >> "%hygieneLogPath%"
+	echo ⏭️ Skipping PMD...
 )
 echo --------------------------------------------------- >> "%hygieneLogPath%"
-if "%skip_sonar%"=="false" (
-	:: === Step 3: JaCoCo ===
-	if "%skip_jacoco%"=="false" (
-		echo 🚀 Step 3: Running JaCoCo... >> "%hygieneLogPath%"
-		call scripts\jacoco-coverage-analysis.bat local >> "%hygieneLogPath%" 2>&1
-		echo ✅ JaCoCo analysis completed. >> "%hygieneLogPath%"
-	) else (
-		echo ⏭️ Skipping JaCoCo... >> "%hygieneLogPath%"
-	)
+
+:: === Step 3: JaCoCo ===
+if "%skip_jacoco%"=="false" (
+	echo 🚀 Step 3: Running JaCoCo... >> "%hygieneLogPath%"
+	echo 🚀 Step 3: Running JaCoCo...
+	call scripts\jacoco-coverage-analysis.bat local >> "%hygieneLogPath%" 2>&1
+	echo ✅ JaCoCo analysis completed. >> "%hygieneLogPath%"
+	echo ✅ JaCoCo analysis completed.
+) else (
+	echo ⏭️ Skipping JaCoCo... >> "%hygieneLogPath%"
+	echo ⏭️ Skipping JaCoCo...
 )
+
+
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 
 :: === Step 4: SonarCloud ===
 if "%skip_sonar%"=="false" (
     echo 🚀 Step 4: Running SonarCloud scan... >> "%hygieneLogPath%"
+	echo 🚀 Step 4: Running SonarCloud scan...
     call scripts\sonar-scan.bat local>> "%hygieneLogPath%" 2>&1
     echo ✅ SonarCloud scan completed. >> "%hygieneLogPath%"
+	echo ✅ SonarCloud scan completed
 ) else (
     echo ⏭️ Skipping SonarCloud scan... >> "%hygieneLogPath%"
+	echo ⏭️ Skipping SonarCloud scan...
 )
 echo --------------------------------------------------- >> "%hygieneLogPath%"
-
+echo --------------------------------------------------- >>
 :: === FINAL SUMMARY (based on previous reports) ===
 echo 📊 Generating Hygiene Summary... >> "%hygieneLogPath%"
-
+echo 📊 Generating Hygiene Summary... 
+echo --------------------------------------------------- >> "%hygieneLogPath%"
+echo --------------------------------------------------- 
 setlocal EnableDelayedExpansion
 cd /d "%REPO_ROOT%"
 echo current directory is %CD%
@@ -256,35 +271,36 @@ set /a pmdCount=0
 for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a pmdCount+=1
 )
-set "jacocoSummary=0.0%%"
-if "%skip_sonar%"=="false" (
-    if exist "reports\jacoco\jacoco-latest.xml" (
-        echo found jacoco-latest.xml report file 
-        for /f %%i in ('
-            powershell -nologo -noprofile -Command ^
-              "[xml]$xml = Get-Content 'reports\jacoco\jacoco-latest.xml'; ^
-               $line = $xml.report.counter | Where-Object { $_.type -eq 'LINE' }; ^
-               if ($line) { ^
-                 $cov = [int]$line.covered; ^
-                 $miss = [int]$line.missed; ^
-                 $t = $cov + $miss; ^
-                 if ($t -ne 0) { '{0:N1}%%' -f (($cov * 100.0) / $t) } else { '0%%' } ^
-               } else { 'Jacoco report missing' }"
-        ') do (
-            set "jacocoTemp=%%i"
-        )
+
+:: --- JaCoCo Coverage via PowerShell ---
+if exist "reports\jacoco\jacoco-latest.xml" (
+    echo found jacoco-latest.xml report file 
+    for /f %%i in ('powershell -nologo -noprofile -Command "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; $c = $xml.report.counter | Where-Object { $_.type -eq 'LINE' -or $_.type -eq 'BRANCH' }; if ($c) { $cov = [int]$c.covered; $miss = [int]$c.missed; $t = $cov + $miss; if ($t -ne 0) { '{0:N}%%' -f (($cov * 100.0) / $t) } else { '0%%'} } else { '	 Jacoco report missing' }" ') do (
+        set "jacocoTemp=%%i"
     )
-    if defined jacocoTemp (
-        set "jacocoSummary=%jacocoTemp%"
-    ) else (
-        echo some issue occurred while setting jacocoTemp
-    )
-) else (
-    set "jacocoSummary=0.0% Not Reported Not Captured"
 )
+if defined jacocoTemp (
+    set "jacocoSummary=%jacocoTemp%"
+)
+
+for /f %%i in ('powershell -nologo -noprofile -Command ^
+    "[xml]$xml = Get-Content 'reports\\jacoco\\jacoco-latest.xml'; ^
+     $c = $xml.report.counter | Where-Object { $_.type -eq 'LINE' -or $_.type -eq 'BRANCH' }; ^
+     if ($c) { ^
+       $cov = ($c | Measure-Object -Property covered -Sum).Sum; ^
+       $miss = ($c | Measure-Object -Property missed -Sum).Sum; ^
+       $t = $cov + $miss; ^
+       if ($t -ne 0) { '{0:N1}%%' -f (($cov * 100.0) / $t) } else { '0%%'} ^
+     } else { 'Jacoco report missing' }"') do (
+    set "jacocoTempAnother=%%i"
+)
+
+if defined jacocoTempAnother (
+    set "jacocoSummaryAnother=%jacocoTempAnother%"
+)
+echo jacocoSummaryAnother is %jacocoTempAnother% or !jacocoTempAnother!
 REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary%
 REM echo ?? OutsideDo Code Coverage (JaCoCo): !jacocoSummary!
-
 echo ?? Final Summary
 echo Checkstyle Violations: !checkstyleCount!
 echo PMD Violations:        !pmdCount!
@@ -296,7 +312,6 @@ echo 🧪 Hygiene Summary — %timestamp% >> "%hygieneLogPath%"
 echo Checkstyle Violations: !checkstyleCount! >> "%hygieneLogPath%"
 echo PMD Violations:        !pmdCount! >> "%hygieneLogPath%"
 echo Code Coverage - JaCoCo: %jacocoSummary%  >> "%hygieneLogPath%"
-
 echo --------------------------------------------------- >> "%hygieneLogPath%"
 endlocal
 echo 🎯 All hygiene steps complete. Composite log:

@@ -235,16 +235,7 @@
         $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
         $sonarIssuesLegend = "Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (NEARING THRESHOLD), 🔴 = Immediate Action Required (THRESHOLD BREACHED)"
 
-        $emailModuleSevAggTable=""
-        # $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
-        # if ($env:SKIP_FLAG -imatch $skipSonarPattern) {
-#         if ($skipFlagVal -imatch $skipSonarPattern) {
-#           $emailModuleSevAggTable="<code>⚡ Unavailable — Sonar was SKIPPED (manual override)</code>"
-#           # echo "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" >> $env:GITHUB_ENV
-#           "EMAIL_MODULE_SEV_AGG_TABLE=$emailModuleSevAggTable" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-#            Write-Host "Skipping rest of this step"
-#            exit 0   # Ends this step cleanly
-#         }
+
         ###############################################################################
         # === SonarCloud Module Severity Breakdown (Aggregated per MODULE_PATHS) ===
         ###############################################################################
@@ -418,10 +409,11 @@
        } # end of function Mark
         # Step 4: Export results as an output variable for email step
         # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
-          $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
+        $emailModuleSevAggTable=""
+        $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
             $b = $moduleAgg[$_]
             "${_}:$(Mark $b.BLOCKER),$(Mark $b.HIGH),$(Mark $b.MEDIUM),$(Mark $b.LOW),$(Mark $b.INFO)"
-          }) -join ";"
+        }) -join ";"
 
         $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
         $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
@@ -439,7 +431,7 @@
             }
         }
 
-        $emailModuleSevAggTable += "</table>"
+      $emailModuleSevAggTable += "</table>"
       $githubModuleSevAggTable="Uninitialized"
       if ($moduleAgg.Count -gt 0) {
           $nl = "`n"   # newline for markdown readability
