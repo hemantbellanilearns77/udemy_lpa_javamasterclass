@@ -23,16 +23,38 @@ cd /d "%~dp0.."
 :: ==========================================================
 :: CONFIGURATION SETUP
 :: ==========================================================
-:: Default rootPath = first argument, else current directory
-set "rootPath=%~1"
-if "%rootPath%"=="" set "rootPath=%CD%"
 
-:: Default runMode = DRYRUN
-:: (so you can test safely unless EXECUTE is explicitly passed)
-set "runMode=DRYRUN" 
-set "runMode=%~2"
+:: --- Case 1: Only runMode passed (EXECUTE or DRYRUN) ---
+if /i "%~1"=="EXECUTE" (
+    set "runMode=EXECUTE"
+    set "rootPath=%CD%"
+    goto :initDone
+)
+if /i "%~1"=="DRYRUN" (
+    set "runMode=DRYRUN"
+    set "rootPath=%CD%"
+    goto :initDone
+)
+
+:: --- Case 2: rootPath + runMode ---
+if not "%~1"=="" (
+    set "rootPath=%~1"
+)
+if not "%~2"=="" (
+    set "runMode=%~2"
+)
+
+:: Defaults if missing
+if "%rootPath%"=="" set "rootPath=%CD%"
 if "%runMode%"=="" set "runMode=DRYRUN"
 
+:: --- Validate runMode ---
+if /i "%runMode%"=="EXECUTE" goto :initDone
+if /i "%runMode%"=="DRYRUN" goto :initDone
+
+echo [ERROR] Invalid runMode: %runMode%
+echo Allowed values: DRYRUN (default) or EXECUTE
+exit /b 1
 
 :: ==========================================================
 :: SPECIAL CASE: Only runMode passed (no rootPath)
@@ -87,37 +109,6 @@ exit /b 1
 set "rootPath="
 set "runMode="
 
-REM :: --- Case 1: Only runMode passed (EXECUTE or DRYRUN) ---
-REM if /i "%~1"=="EXECUTE" (
-    REM set "runMode=EXECUTE"
-    REM set "rootPath=%CD%"
-    REM goto :initDone
-REM )
-REM if /i "%~1"=="DRYRUN" (
-    REM set "runMode=DRYRUN"
-    REM set "rootPath=%CD%"
-    REM goto :initDone
-REM )
-
-REM :: --- Case 2: rootPath + runMode ---
-REM if not "%~1"=="" (
-    REM set "rootPath=%~1"
-REM )
-REM if not "%~2"=="" (
-    REM set "runMode=%~2"
-REM )
-
-REM :: Defaults if missing
-REM if "%rootPath%"=="" set "rootPath=%CD%"
-REM if "%runMode%"=="" set "runMode=DRYRUN"
-
-REM :: --- Validate runMode ---
-REM if /i "%runMode%"=="EXECUTE" goto :initDone
-REM if /i "%runMode%"=="DRYRUN" goto :initDone
-
-REM echo [ERROR] Invalid runMode: %runMode%
-REM echo Allowed values: DRYRUN (default) or EXECUTE
-REM exit /b 1
 
 
 :valid
@@ -164,7 +155,7 @@ REM echo [DEBUG] startTime is: !startTime!
 REM echo [DEBUG] startTime is: "!startTime!" >> "%logFile%"
 set /a grandTotal=0
 rem # in hours (divide by 24 for days)
-set /a purgeAgeinHours=63
+set /a purgeAgeinHours=3
 set /a purgeAgeinDays=!purgeAgeinHours!/24 
 echo [DEBUG] purgeAgeinHours is !purgeAgeinHours!
 echo [DEBUG] purgeAgeinDays is !purgeAgeinDays!
@@ -236,6 +227,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							set /a old+=1
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
+								echo SendToRecycleBin 1
 								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 								echo [EXECUTE] DELETED FILE: !literalPath! !age! hrs >> "%logFile%"
 								call :colorEcho "[DEBUG][EXECUTE][DELETE] DELETED FILE: !literalPath! hrs !age!" RED
@@ -288,7 +280,8 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							set /a old+=1
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE FILE: !literalPath! !age! hrs
-								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								echo SendToRecycleBin 2
+								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 								echo [EXECUTE] DELETED FILE: !literalPath! !age! hrs >> "%logFile%"
 								call :colorEcho "[DEBUG] [EXECUTE] DELETED FILE:: !literalPath! !age! hrs" RED
 							) else (
@@ -337,7 +330,8 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 							echo [DEBUG] !old!
 							if "!runMode!"=="EXECUTE" (
 								echo [DEBUG] [EXECUTE] DELETE DIR: !dirPath! !dirAgeH! hrs
-								powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory('!dirPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
+								echo SendToRecycleBin 3
+								call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory('!dirPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 								REM : Try below to attempt sending them to bin first
 								REM powershell -NoProfile -Command "$Shell = New-Object -ComObject Shell.Application; 
 								REM ^$Shell.NameSpace(0).ParseName('!literalPath!').InvokeVerb('delete')"
@@ -407,6 +401,7 @@ echo [DEBUG] Now traversing targetfolder "!targetFolder!" >> "%logFile%"
 						set /a old+=1 
 						 if "!runMode!"=="EXECUTE" (
 							echo [DEBUG] [EXECUTE] DELETING to Recycle Bin: !literalPath! !age! hours
+							echo SendToRecycleBin 4
 							call powershell -NoProfile -Command "Add-Type -AssemblyName Microsoft.VisualBasic; ^[Microsoft.VisualBasic.FileIO.FileSystem^]::DeleteFile('!literalPath!', 'OnlyErrorDialogs', 'SendToRecycleBin')"
 							echo [DEBUG] [EXECUTE] DELETED: !literalPath! !age! hours >> "%logFile%"
 							call :colorEcho "[DEBUG] [EXECUTE] DELETED: !literalPath! !age! hours" RED
