@@ -282,11 +282,6 @@ for /f "usebackq tokens=* delims=" %%i in (`powershell -nologo -noprofile -Execu
 
 :done
 
-REM if defined jacocoSummary (
-    REM echo JaCoCo Coverage: !jacocoSummary!
-REM ) else (
-    REM echo Jacoco report missing
-REM )
 
 REM :: --- JaCoCo Coverage via PowerShell ---
 REM if exist "reports\jacoco\jacoco-latest.xml" (
@@ -298,9 +293,7 @@ REM )
 REM if defined jacocoTemp (
     REM set "jacocoSummary=%jacocoTemp%"
 REM )
-REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary%
-REM echo ?? OutsideDo Code Coverage (JaCoCo): !jacocoSummary!
-
+REM echo ?? OutsideDo Code Coverage (JaCoCo): %jacocoSummary% or !jacocoSummary!
 
 echo ?? Final Summary
 echo Checkstyle Violations: !checkstyleCount!
