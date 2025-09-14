@@ -101,7 +101,6 @@ set "originalDir=%CD%"
 		echo ⏭️ Skipping JaCoCo... because skip_sonar was true >> "%hygieneLogPath%"
 		echo ⏭️ Skipping JaCoCo... because skip_sonar was true 
 	)
-	if "%skip_sonar%"=="false" (
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
 	echo --------------------------------------------------- 
 
