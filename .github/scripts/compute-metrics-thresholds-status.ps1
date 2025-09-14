@@ -1,7 +1,30 @@
         $skipSonarPattern = "(?i)skip.*sonar|sonar.*skip"
         $skipFlagVal="$env:SKIP_FLAG"
         Write-Host "✅ SKIP_FLAG as received in publish summary composite is: $skipFlagVal"
-        if ($skipFlagVal -imatch $skipSonarPattern) {
+
+
+        ############################################################
+        # === Parse Checkstyle & PMD Reports ===
+        ############################################################
+        $checkstyleViolations = 0
+        if (Test-Path "reports/checkstyle") {
+          Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
+            $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
+          }
+        }
+
+        $pmdViolations = 0
+        if (Test-Path "reports/pmd") {
+          Get-ChildItem reports/pmd/*.txt | ForEach-Object {
+            $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
+          }
+        }
+        $totalViolations = $checkstyleViolations + $pmdViolations
+
+       ############################################################
+       # === Compute Coverage, CoverageBar, Coverage Status  ===
+       ############################################################
+       if ($skipFlagVal -imatch $skipSonarPattern) {
             ############################################################
             # === Fetch SonarCloud Coverage Metrics ===
             ############################################################
@@ -26,20 +49,10 @@
             Write-Output "Sonar-style Coverage as fetched from SonarCloud is $sonarCoverage"
         }
         else {
-           <#  ############################################################
+            ############################################################
             # === Parse JaCoCo XML (Overall) ===
             ############################################################
-            $xml = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
-            $missed = [int]$xml.Node.missed
-            $covered = [int]$xml.Node.covered
-            $total = $missed + $covered
-            if ($total -gt 0) {
-                $jacocoCoverage = [math]::Round(100 * $covered / $total, 2)
-            } else {
-                $jacocoCoverage = 0.00
-            }
-            $sonarCoverage = $jacocoCoverage
-            Write-Output "Writing Output Coverage as fetched from latest Jacoco Execution in runner is $sonarCoverage" #>
+
             $lineNode   = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='LINE']"
             $branchNode = Select-Xml -Path reports\jacoco\jacoco-latest.xml -XPath "//report/counter[@type='BRANCH']"
 
@@ -62,28 +75,33 @@
           $blocks = 27
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
-          return ('█' * $filled) + ('░' * $empty)
+          $AsciiBar = "('█' * $filled) + ('░' * $empty)"
+          # return ('█' * $filled) + ('░' * $empty)
+          return $AsciiBar
         }
 
         $coverageBar = Get-AsciiBar $sonarCoverage
 
-        ############################################################
-        # === Parse Checkstyle & PMD Reports ===
-        ############################################################
-        $checkstyleViolations = 0
-        if (Test-Path "reports/checkstyle") {
-          Get-ChildItem reports/checkstyle/*.txt | ForEach-Object {
-            $checkstyleViolations += (Get-Content $_ | Where-Object { $_.Trim() -ne "" }).Count
-          }
-        }
+        function FormatCoverageStatus($actualCoverage, $minNeeded) {
+            if ($actualCoverage -is [array]) {
+                $actualCoverage = $actualCoverage[0]
+            }
+            # sanitize and cast
+            $actualCoverage = [double]($actualCoverage -replace '[^0-9\.]', '')
 
-        $pmdViolations = 0
-        if (Test-Path "reports/pmd") {
-          Get-ChildItem reports/pmd/*.txt | ForEach-Object {
-            $pmdViolations += (Get-Content $_ | Where-Object { $_ -match "^[A-Za-z]:\\" }).Count
-          }
+            if ($actualCoverage -ge 90.00) {
+                $emoji = "🟢"
+                $note  = "(GREAT)"
+            } elseif ($actualCoverage -ge $minNeeded -and $actualCoverage -le 89.99) {
+                $emoji = "🟡"
+                $note  = "(NEARING THRESHOLD)"
+            } else {
+                $emoji = "🔴"
+                $note  = "(OVERBOARD)"
+            }
+            return "/ 100% $emoji $note"
         }
-        $totalViolations = $checkstyleViolations + $pmdViolations
+        $coverageStatus = FormatCoverageStatus $sonarCoverage $env:JACOCO_MIN_COVERAGE
 
         ############################################################
         # === Fetch SonarCloud Issue Count (OPEN) ===
@@ -209,26 +227,7 @@
             #return "$severity Issues: $count / $maxAllowed $emoji $note"
         }
 
-        function FormatCoverageStatus($actualCoverage, $minNeeded) {
-            if ($actualCoverage -is [array]) {
-                $actualCoverage = $actualCoverage[0]
-            }
-            # sanitize and cast
-            $actualCoverage = [double]($actualCoverage -replace '[^0-9\.]', '')
 
-            if ($actualCoverage -ge 90.00) {
-                $emoji = "🟢"
-                $note  = "(GREAT)"
-            } elseif ($actualCoverage -ge $minNeeded -and $actualCoverage -le 89.99) {
-                $emoji = "🟡"
-                $note  = "(NEARING THRESHOLD)"
-            } else {
-                $emoji = "🔴"
-                $note  = "(OVERBOARD)"
-            }
-            return "/ 100% $emoji $note"
-        }
-        $coverageStatus = FormatCoverageStatus $sonarCoverage $env:JACOCO_MIN_COVERAGE
         $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"
         $sonarHighStatus    = FormatSonarStatus $high    $env:HIGH_MAX    "🟧 HIGH"
         $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
