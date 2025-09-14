@@ -23,7 +23,7 @@
             }
 
             $sonarCoverage = Get-SonarMetric "coverage"
-            Write-Output "Writing Output Coverage as fetched from SonarCloud is $sonarCoverage"
+            Write-Output "Sonar-style Coverage as fetched from SonarCloud is $sonarCoverage"
         }
         else {
            <#  ############################################################
@@ -50,11 +50,12 @@
 
             $total = $lineMissed + $lineCovered + $branchMissed + $branchCovered
             if ($total -gt 0) {
-                $coverage = [math]::Round(100 * ($lineCovered + $branchCovered) / $total, 2)
+                $jacocoCoverage = [math]::Round(100 * ($lineCovered + $branchCovered) / $total, 1)
             } else {
-                $coverage = 0
+                $jacocoCoverage = 0.0
             }
-            Write-Output "Sonar-style Coverage as fetched from latest Jacoco Execution in runner is $coverage %"
+            $sonarCoverage = $jacocoCoverage
+            Write-Output "Sonar-style Coverage as fetched from latest Jacoco Execution in runner is $sonarCoverage %"
         }
         function Get-AsciiBar($percent) {
 
