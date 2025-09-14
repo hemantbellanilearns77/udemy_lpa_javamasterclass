@@ -155,7 +155,7 @@ REM echo [DEBUG] startTime is: !startTime!
 REM echo [DEBUG] startTime is: "!startTime!" >> "%logFile%"
 set /a grandTotal=0
 rem # in hours (divide by 24 for days)
-set /a purgeAgeinHours=3
+set /a purgeAgeinHours=63
 set /a purgeAgeinDays=!purgeAgeinHours!/24 
 echo [DEBUG] purgeAgeinHours is !purgeAgeinHours!
 echo [DEBUG] purgeAgeinDays is !purgeAgeinDays!
