@@ -4,11 +4,6 @@ setlocal EnableDelayedExpansion
 echo =================================================================================
 echo     🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud
 echo =================================================================================
-REM --- Add echo logs here to confirm the values ---
-if "%skip_sonar%"=="false" (
-	echo Checking SONAR_SCANNER_BIN: %SONAR_SCANNER_BIN%
-)
-REM ------------------------------------------------
 set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
@@ -50,6 +45,15 @@ set "originalDir=%CD%"
 	set "hygieneLogPath=%hygieneLogFolder%\all-hygiene-%timestamp%.txt"
 
 	if not exist "%hygieneLogFolder%" mkdir "%hygieneLogFolder%"
+	REM --- Add echo logs here to confirm the values ---
+	echo skip_checkstyle is %skip_checkstyle%
+	echo skip_pmd is %skip_pmd%
+	echo skip_pmd is %skip_jacoco%
+	echo skip_pmd is %skip_sonar%
+	if "%skip_sonar%"=="false" (
+		echo Checking SONAR_SCANNER_BIN and it is %SONAR_SCANNER_BIN%
+	)
+	REM ------------------------------------------------
 
 	:: === Begin Composite Logging ===
 	echo 🔗 Starting full hygiene sweep at %timestamp% >> "%hygieneLogPath%"
