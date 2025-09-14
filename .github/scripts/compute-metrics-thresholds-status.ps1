@@ -23,7 +23,7 @@
             }
 
             $sonarCoverage = Get-SonarMetric "coverage"
-            # Write-Output "Writing Output Coverage as fetched from Sonar is $sonarCoverage"
+            Write-Output "Writing Output Coverage as fetched from SonarCloud is $sonarCoverage"
         }
         else {
             ############################################################
@@ -39,6 +39,7 @@
                 $jacocoCoverage = 0.00
             }
             $sonarCoverage = $jacocoCoverage
+            Write-Output "Writing Output Coverage as fetched from latest Jacoco Execution in runner is $sonarCoverage"
         }
         function Get-AsciiBar($percent) {
 

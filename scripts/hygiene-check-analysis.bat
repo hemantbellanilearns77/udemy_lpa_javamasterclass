@@ -256,6 +256,7 @@ set /a pmdCount=0
 for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
     set /a pmdCount+=1
 )
+set "jacocoSummary=0.00%"
 if "%skip_sonar%"=="false" (
 	:: --- JaCoCo Coverage via PowerShell ---
 	if exist "reports\jacoco\jacoco-latest.xml" (
@@ -266,6 +267,8 @@ if "%skip_sonar%"=="false" (
 	)
 	if defined jacocoTemp (
 		set "jacocoSummary=%jacocoTemp%"
+	) else (
+		echo some issue occured while setting jacocoTemp
 	)
 ) else (
 	set "jacocoSummary=0.0% Not Reported Not Captured"
