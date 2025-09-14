@@ -218,7 +218,7 @@ if "%skip_sonar%"=="false" (
 	echo ⏭️ Skipping SonarCloud scan...
 )
 echo --------------------------------------------------- >> "%hygieneLogPath%"
-echo --------------------------------------------------- >>
+echo --------------------------------------------------- 
 :: === FINAL SUMMARY (based on previous reports) ===
 echo 📊 Generating Hygiene Summary... >> "%hygieneLogPath%"
 echo 📊 Generating Hygiene Summary... 

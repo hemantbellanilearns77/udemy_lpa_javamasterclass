@@ -80,7 +80,7 @@
           $blocks = 27
           $filled = [math]::Round($blocks * $percent / 100)
           $empty = $blocks - $filled
-          $AsciiBar = "('█' * $filled) + ('░' * $empty)"
+          $AsciiBar = ('█' * $filled) + ('░' * $empty)
           # return ('█' * $filled) + ('░' * $empty)
           return $AsciiBar
         }
