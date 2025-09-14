@@ -106,7 +106,7 @@ set "originalDir=%CD%"
 		REM echo ⏭️ Skipping JaCoCo... because skip_sonar was true 
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
-	echo --------------------------------------------------- 
+	REM echo --------------------------------------------------- 
 	call scripts\sonar-scan.bat githubactions
 	:: === Step 4: SonarCloud ===
 	if "%skip_sonar%"=="false" (
@@ -120,7 +120,7 @@ set "originalDir=%CD%"
 		REM echo ⏭️ Skipping SonarCloud scan... because skip_sonar was true  
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
-	echo --------------------------------------------------- 
+	REM echo --------------------------------------------------- 
 	:: === Wrap-Up ===
 	echo 🎯 All hygiene steps complete. | tee -a "%hygieneLogPath%"
 	REM echo 📄 Composite log available at: %hygieneLogPath%
@@ -329,5 +329,5 @@ echo Unsupported environment: %executionEnv%
 exit /b 1
 
 :end
-echo 🎯 All hygiene steps complete.
+REM echo 🎯 All hygiene steps complete.
 exit /b 0
