@@ -139,18 +139,31 @@ runs:
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
           # $dayDesc     = Pretty $day "day" of month  
-          # Day vs weekday logic
           if ($day -eq "*" -and $weekday -ne "*") {
-              # instead of blank, combine weekday into "every X of month"
+            if ($weekday -match "^[0-6](,[0-6])*$") {
+              $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
+              $dayDesc = "every $($names -join ', ') of month"
+              $weekdayDesc = ""
+            } 
+            elseif ($weekday -match "^[0-6]-[0-6]$") {
+              $range = $weekday.Split("-")
+              $start = [int]$range[0]; $end = [int]$range[1]
+              $names = for ($i=$start; $i -le $end; $i++) { $weekdayMap["$
+              $dayDesc = "every $($names -join ', ') of month"
+              $weekdayDesc = ""
+            }
+            else {
               $dayDesc = "every $($weekdayMap[$weekday]) of month"
-              $weekdayDesc = ""   # clear weekday since it's now part of dayDesc
-          } else {
+              $weekdayDesc = ""
+            }
+          }
+          else {
               $dayDesc = Pretty $day "day of month"
           }
           $monthDesc   = Pretty $month "month" of year 
           $weekdayDesc = Pretty $weekday "day of week"
 
-          if ($weekday -match "^[0-6](,[0-6])*$") {
+          <-if ($weekday -match "^[0-6](,[0-6])*$") {
             $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
             $weekdayDesc = ($names -join ", ")
           }
@@ -163,6 +176,7 @@ runs:
           else {
             $weekdayDesc = Pretty $weekday "day of week"
           }
+>
           
           return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
         }
