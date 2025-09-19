@@ -131,7 +131,11 @@ runs:
             default { return $field }
             }
           }
-          
+          # Expand weekday numbers to names
+          $weekdayMap = @{
+            "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday"
+            "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday"
+          }
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
           # $dayDesc     = Pretty $day "day" of month  
@@ -146,11 +150,6 @@ runs:
           $monthDesc   = Pretty $month "month" of year 
           $weekdayDesc = Pretty $weekday "day of week"
 
-          # Expand weekday numbers to names
-          $weekdayMap = @{
-            "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday"
-            "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday"
-          }
           if ($weekday -match "^[0-6](,[0-6])*$") {
             $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
             $weekdayDesc = ($names -join ", ")
