@@ -160,8 +160,13 @@ runs:
           else {
               $dayDesc = Pretty $day "day of month"
           }
-          $monthDesc   = Pretty $month "month" of year 
-          $weekdayDesc = Pretty $weekday "day of week"
+          # Month
+          $monthDesc = Pretty $month "month of year"
+          
+          # Weekday (default fallback, only if not already handled above)
+          if (-not $weekdayDesc) {
+              $weekdayDesc = Pretty $weekday "day of week"
+          }
 
           # The block below duplicates weekday expansion logic.
           # Leaving it here commented in case you still want explicit fallback handling.
