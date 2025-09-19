@@ -134,7 +134,13 @@ runs:
           
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-          $dayDesc     = Pretty $day "day" of month  
+          # $dayDesc     = Pretty $day "day" of month  
+          # Day vs weekday logic
+          if ($day -eq "*" -and $weekday -ne "*") {
+              $dayDesc = ""   # suppress "every day" if weekday is set
+          } else {
+              $dayDesc = Pretty $day "day of month"
+          }
           $monthDesc   = Pretty $month "month" of year 
           $weekdayDesc = Pretty $weekday "day of week"
     
