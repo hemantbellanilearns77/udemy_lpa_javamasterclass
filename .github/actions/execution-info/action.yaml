@@ -145,8 +145,7 @@ runs:
           }
           $monthDesc   = Pretty $month "month" of year 
           $weekdayDesc = Pretty $weekday "day of week"
-    
-    
+
           # Expand weekday numbers to names
           $weekdayMap = @{
             "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday"
