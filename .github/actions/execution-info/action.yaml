@@ -163,21 +163,21 @@ runs:
           $monthDesc   = Pretty $month "month" of year 
           $weekdayDesc = Pretty $weekday "day of week"
 
-          <-if ($weekday -match "^[0-6](,[0-6])*$") {
-            $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
-            $weekdayDesc = ($names -join ", ")
-          }
-          elseif ($weekday -match "^[0-6]-[0-6]$") {
-            $range = $weekday.Split("-")
-            $start = [int]$range[0]; $end = [int]$range[1]
-            $names = for ($i=$start; $i -le $end; $i++) { $weekdayMap["$i"] }
-            $weekdayDesc = ($names -join ", ")
-          }
-          else {
-            $weekdayDesc = Pretty $weekday "day of week"
-          }
->
-          
+          # The block below duplicates weekday expansion logic.
+          # Leaving it here commented in case you still want explicit fallback handling.
+          # if ($weekday -match "^[0-6](,[0-6])*$") {
+          #     $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
+          #     $weekdayDesc = ($names -join ", ")
+          # }
+          # elseif ($weekday -match "^[0-6]-[0-6]$") {
+          #     $range = $weekday.Split("-")
+          #     $start = [int]$range[0]; $end = [int]$range[1]
+          #     $names = for ($i=$start; $i -le $end; $i++) { $weekdayMap["$i"] }
+          #     $weekdayDesc = ($names -join ", ")
+          # }
+          # else {
+          #     $weekdayDesc = Pretty $weekday "day of week"
+          # }
           return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
         }
         
