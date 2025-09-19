@@ -137,7 +137,9 @@ runs:
           # $dayDesc     = Pretty $day "day" of month  
           # Day vs weekday logic
           if ($day -eq "*" -and $weekday -ne "*") {
-              $dayDesc = ""   # suppress "every day" if weekday is set
+              # instead of blank, combine weekday into "every X of month"
+              $dayDesc = "every $($weekdayMap[$weekday]) of month"
+              $weekdayDesc = ""   # clear weekday since it's now part of dayDesc
           } else {
               $dayDesc = Pretty $day "day of month"
           }
