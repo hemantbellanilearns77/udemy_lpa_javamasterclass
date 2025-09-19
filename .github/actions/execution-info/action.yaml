@@ -186,7 +186,8 @@ runs:
           # else {
           #     $weekdayDesc = Pretty $weekday "day of week"
           # }
-          return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
+          # return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
+          return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
         }
         
         if ($eventName -eq "schedule") {
