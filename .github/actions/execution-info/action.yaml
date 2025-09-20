@@ -140,26 +140,26 @@ runs:
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
           # $dayDesc     = Pretty $day "day" of month  
           if ($day -eq "*" -and $weekday -ne "*") {
-    $tokens = $weekday.Split(",")
-    $names = @()
-    foreach ($t in $tokens) {
-        if ($t -match "^[0-6]-[0-6]$") {
-            $range = $t.Split("-")
-            $start = [int]$range[0]; $end = [int]$range[1]
-            for ($i=$start; $i -le $end; $i++) {
-                $names += $weekdayMap["$i"]
+            $tokens = $weekday.Split(",")
+            $names = @()
+            foreach ($t in $tokens) {
+              if ($t -match "^[0-6]-[0-6]$") {
+                $range = $t.Split("-")
+                $start = [int]$range[0]; $end = [int]$range[1]
+                for ($i=$start; $i -le $end; $i++) {
+                  $names += $weekdayMap["$i"]
+                  }
+              }
+              elseif ($t -match "^[0-6]$") {
+                $names += $weekdayMap[$t]
+              }
+              else {
+                $names += $t  # fallback: keep as-is if unrecognized
+              }
             }
-        }
-        elseif ($t -match "^[0-6]$") {
-            $names += $weekdayMap[$t]
-        }
-        else {
-            $names += $t  # fallback: keep as-is if unrecognized
-        }
-    }
-    $dayDesc = "every $($names -join ', ') of month"
-    $weekdayDesc = ""
-}
+            $dayDesc = "every $($names -join ', ') of month"
+            $weekdayDesc = ""
+          }
           else {
               $dayDesc = Pretty $day "day of month"
           }
