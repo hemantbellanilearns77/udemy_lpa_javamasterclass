@@ -233,7 +233,7 @@ runs:
                         <h2 style="color:#1a5276; border-bottom:1px solid #dcdcdc; padding-bottom:4px;">
                           🏁 Hygiene Check : 
                           <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
-                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }} - ${{ job.status }}</code>
+                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
                           </span>
                         </h2>
                         <p style="margin:0 0 12px 0;">
@@ -292,7 +292,7 @@ runs:
                         </ul>
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details
                         <span style="color:${{ job.status == 'SUCCESS ✅' && 'green' || 'red' }};">
-                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ jib.status }}</code>
+                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ job.status }}</code>
                         </span>
                         </h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
