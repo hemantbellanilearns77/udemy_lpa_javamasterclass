@@ -291,11 +291,14 @@ runs:
                           ${{ inputs.NextStepsHtml }}
                         </ul>
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details
-                        <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-                            <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ job.status }}</code>
-                        </span>
+                        
                         </h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
+                          <li style="margin-bottom:6px;">Job Execution Status: 
+                            <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
+                              <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ job.status }}</code>
+                            </span>
+                          </li>
                           <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
                           <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
                           <li style="margin-bottom:6px;">Last Commit / PR Merge Approval, Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
