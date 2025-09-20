@@ -296,8 +296,10 @@ runs:
                         <ul style="margin:6px 0 12px 18px; padding:0;">
                           <li style="margin-bottom:6px;">Job Execution Status: 
                             <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-                              <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ job.status }}</code>
-                            </span>
+                            <code style="font-family:Calibri, sans-serif; font-size:12pt; font-weight:bold;">
+                              ${{ job.status }}
+                             </code>
+                             </span>
                           </li>
                           <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
                           <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
