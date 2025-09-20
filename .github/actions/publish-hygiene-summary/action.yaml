@@ -291,7 +291,7 @@ runs:
                           ${{ inputs.NextStepsHtml }}
                         </ul>
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📜 Job Execution Details
-                        <span style="color:${{ job.status == 'SUCCESS ✅' && 'green' || 'red' }};">
+                        <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
                             <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ job.status }}</code>
                         </span>
                         </h3>
