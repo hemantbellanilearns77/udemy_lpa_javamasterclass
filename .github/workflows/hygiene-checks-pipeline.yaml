@@ -20,9 +20,9 @@ on:
     - cron: '45 6 * * 5'
 
 
-    # ==========================================
-    # Additional Edge Case Test Crons (Fixed)
-    # ==========================================
+    # ==================================================
+    # Additional Edge Case Test Cron Expressions (Fixed)
+    # ==================================================
 
     # Mixed day-of-month + weekday
     # (split into two separate jobs: 1st of month, and every Monday)

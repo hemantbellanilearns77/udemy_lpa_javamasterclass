@@ -8,9 +8,9 @@ outputs: {} # If you don't have any inputs, you can leave it empty or remove thi
 runs:
   using: "composite"
   steps:
-    ##########################
-    # FULL CLEANUP
-    ##########################
+    ####################################################
+    # FULL CLEANUP (dir /s /b this is disabled for now)
+    ####################################################
 
     - name: ??Full Cleanup
       shell: cmd
@@ -20,13 +20,4 @@ runs:
         rmdir /s /q logs >nul 2>&1
         rmdir /s /q reports >nul 2>&1
         del /q sources_*.txt >nul 2>&1
-        echo ? Cleanup done 
-
-    ###################################################################
-    # CLEANUP VERIFICATION using (dir /s /b this is disabled for now)
-    ##################################################################
-    - name: ?? List Remaining Files
-      shell: cmd
-      run: |
-        echo === POST-CLEANUP DIRECTORY TREE ===
-        echo Hello, world!
+        echo ? Cleanup done

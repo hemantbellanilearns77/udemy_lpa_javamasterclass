@@ -53,10 +53,10 @@ runs:
   using: "composite"
   steps:
     ##############################################################################
-    # 1. COMPUTE SUMMARY COUNTS AND PUBLISH GITHUBSUMMARY SECTION
+          # COMPUTE METRICS, COMPARE THEM TO THRESHOLD AND GENERATE STATUS
     ##############################################################################
 
-    - name: 🧮 Compute Counts and Export Counts and Status and Threshold Outputs
+    - name: 🧮 Compute Metrics, Evaluate against Thresholds and Export Metrics, Status as Outputs
       id: metrics-and-thresholds
       shell: pwsh
       env:
