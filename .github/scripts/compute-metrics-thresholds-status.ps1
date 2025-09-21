@@ -339,7 +339,7 @@
 
                 # now fetch impact-severity-wise and then aggregate it
                   $dirIssuesUrl = "https://sonarcloud.io/api/issues/search?organization=$projectOrg&componentKeys=$projectKey&directories=$dir&issueStatuses=OPEN,CONFIRMED&resolved=false&ps=500"
-                  Write-Output "✅ Calling Directory issues url for: $dir as : $dirIssuesUrl"
+                  # Write-Output "✅ Calling Directory issues url for: $dir as : $dirIssuesUrl"
                   $response = Invoke-WebRequest -Uri $dirIssuesUrl -Headers $headers -Method Get | ConvertFrom-Json
 
                   # Initialize counts
@@ -363,7 +363,7 @@
                     }
                 }
                 $totalIssuesDir = ($counts.BLOCKER + $counts.HIGH + $counts.MEDIUM + $counts.LOW + $counts.INFO)
-                Write-Output "✅ Total issues for : $dir are : $totalIssuesDir"
+                # Write-Output "✅ Total issues for : $dir are : $totalIssuesDir"
                 # Now add to moduleAgg
                   $moduleAgg[$matchedModule]["BLOCKER"] += $counts.BLOCKER
                   $moduleAgg[$matchedModule]["HIGH"]    += $counts.HIGH

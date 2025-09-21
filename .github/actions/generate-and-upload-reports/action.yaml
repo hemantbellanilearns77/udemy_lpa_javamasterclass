@@ -24,28 +24,10 @@ runs:
       run: |
         $SKIP_FLAG = "${{ inputs.SKIP_FLAG }}"
         # --- DEBUG: show what is being passed
-        Write-Host "🧪 SKIP_FLAG received in composite: '$SKIP_FLAG'"
-        Write-Host "🧪 SKIP_FLAG as finally being passed to batch script in composite: '$SKIP_FLAG'"
+        Write-Host "🧪 SKIP_FLAG received in composite and as finally being passed to batch script: '$SKIP_FLAG'"
         # Write-Host the environment variable directly to ensure its value is printed.
         Write-Host "🧪 Bash path from previous step: '$env:SONAR_SCANNER_BIN'"
         & scripts/hygiene-check-analysis.bat githubactions $SKIP_FLAG
-
-#    - name: Run SonarCloud Scan
-#      if: ${{ !contains(inputs.SKIP_FLAG, '--skip-sonar') }}
-#      uses: SonarSource/sonarqube-scan-action@v5.3.1
-#      with:
-#        args: >
-#          -Dsonar.projectKey=my-project
-#          -Dsonar.organization=my-org
-#          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-#          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-#          # === Mirrors your batch file checks ===
-#          -Dsonar.sources=src
-#          -Dsonar.java.binaries=target/classes
-#          -Dsonar.junit.reportPaths=reports/junit/latest
-#          -Dsonar.jacoco.reportPaths=reports/jacoco/jacoco-latest.exec
-#          -Dsonar.checkstyle.reportPaths=reports/checkstyle/checkstyle-latest.xml
-#          -Dsonar.pmd.reportPaths=reports/pmd/pmd-latest.xml
 
     ##########################
     # UPLOAD REPORTS
