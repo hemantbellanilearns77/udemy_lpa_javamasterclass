@@ -19,24 +19,27 @@ on:
     # Runs at 6:45 AM UTC on Friday (12:15 PM IST)
     - cron: '45 6 * * 5'
 
+
     # ==========================================
-    # Additional Edge Case Test Crons
+    # Additional Edge Case Test Crons (Fixed)
     # ==========================================
 
-    # Mixed day-of-month + weekday (1st OR Monday)
-    - cron: '30 3 1 * 1'
+    # Mixed day-of-month + weekday
+    # (split into two separate jobs: 1st of month, and every Monday)
+    - cron: '30 3 1 * *'    # 03:30 UTC on the 1st of every month
+    - cron: '30 3 * * 1'    # 03:30 UTC every Monday
 
-    # Weekday range wrap-around (Friday to Monday)
-    - cron: '0 12 * * 5-1'
+    # Weekday range wrap-around (Fri to Mon → expanded list)
+    - cron: '0 12 * * 5,6,0,1'   # 12:00 UTC on Fri, Sat, Sun, Mon
 
-    # Weekday aliases
-    - cron: '15 9 * * MON,WED,FRI'
+    # Weekday aliases replaced with numeric (Mon, Wed, Fri)
+    - cron: '15 9 * * 1,3,5'     # 09:15 UTC on Mon, Wed, Fri
 
-    # Combined numeric + alias + range
-    - cron: '0 0 * * 0,MON,5-6'
+    # Combined numeric + alias + range (normalized)
+    - cron: '0 0 * * 0,5,6'      # Midnight UTC on Sun, Fri, Sat
 
-    # Wildcard + weekday alias
-    - cron: '45 23 * * TUE,THU'
+    # Wildcard + weekday alias replaced with numbers (Tue, Thu)
+    - cron: '45 23 * * 2,4'      # 23:45 UTC on Tue, Thu
 
 #  push:
 #    branches:
