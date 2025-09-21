@@ -53,13 +53,13 @@ outputs:
     value: ${{ steps.execution_info.outputs.TRIGGER_INFO }}
   startTime:
     description: "Workflow start time in IST"
-    value: ${{ steps.execution_metrics.outputs.startTime }}
+    value: ${{ steps.execution_info.outputs.startTime }}
   endTime:
     description: "Workflow end time in IST"
-    value: ${{ steps.execution_metrics.outputs.endTime }}
+    value: ${{ steps.execution_info.outputs.endTime }}
   formattedDuration:
     description: "Workflow duration in minutes and seconds"
-    value: ${{ steps.execution_metrics.outputs.formattedDuration }}
+    value: ${{ steps.execution_info.outputs.formattedDuration }}
 runs:
   using: "composite"
   steps:
@@ -69,6 +69,8 @@ runs:
     - name: Extract Commit Info (Windows PowerShell)
       id: execution_info
       shell: pwsh
+      env:
+        START_EPOCH: ${{ inputs.startTime }}
       run: |
         $shortSha = git rev-parse --short HEAD
         $fullSha = git rev-parse HEAD
@@ -114,104 +116,99 @@ runs:
         # Access GitHub context variables in PowerShell
         $eventName = "${{ inputs.TRIGGER_EVENT }}"
         function Get-CronExplanation($expr) {
-          $parts = $expr.Split(" ")
-          if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
-          
-          $minute   = $parts[0]
-          $hour     = $parts[1]
-          $day      = $parts[2]
-          $month    = $parts[3]
-          $weekday  = $parts[4]
-          
-          # Helper function to pretty print
-          function Pretty($field, $type) {
+        $parts = $expr.Split(" ")
+        if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
+        
+        $minute   = $parts[0]
+        $hour     = $parts[1]
+        $day      = $parts[2]
+        $month    = $parts[3]
+        $weekday  = $parts[4]
+        
+        # Helper function to pretty print
+        function Pretty($field, $type) {
           switch ($field) {
             "*"   { return "every $type" }
             "?"   { return "any $type" }
             default { return $field }
-            }
           }
-          # Expand weekday numbers to names
-          $weekdayMap = @{
-            "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday"
-            "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday"
-          }
-          $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
-          $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-          # $dayDesc     = Pretty $day "day" of month  
-          if ($day -eq "*" -and $weekday -ne "*") {
-            $tokens = $weekday.Split(",")
-            $names = @()
-            foreach ($t in $tokens) {
-              if ($t -match "^[0-6]-[0-6]$") {
-                $range = $t.Split("-")
-                $start = [int]$range[0]; $end = [int]$range[1]
-                for ($i=$start; $i -le $end; $i++) {
-                  $names += $weekdayMap["$i"]
-                  }
-              }
-              elseif ($t -match "^[0-6]$") {
-                $names += $weekdayMap[$t]
-              }
-              else {
-                $names += $t  # fallback: keep as-is if unrecognized
-              }
-            }
-            $dayDesc = "every $($names -join ', ') of month"
-            $weekdayDesc = ""
-          }
-          else {
-              $dayDesc = Pretty $day "day of month"
-          }
-          # Month
-          $monthDesc = Pretty $month "month of year"
-          
-          # Weekday (default fallback, only if not already handled above)
-          # if (-not $weekdayDesc) {
-          #    $weekdayDesc = Pretty $weekday "day of week"
-          # }
-          # Weekday (default fallback, only if not already handled above)
-          if ($day -ne "*" -and $weekday -ne "*") {
-              $weekdayDesc = Pretty $weekday "day of week"
-          }
-          # The block below duplicates weekday expansion logic.
-          # Leaving it here commented in case you still want explicit fallback handling.
-          # if ($weekday -match "^[0-6](,[0-6])*$") {
-          #     $names = $weekday.Split(",") | ForEach-Object { $weekdayMap[$_] }
-          #     $weekdayDesc = ($names -join ", ")
-          # }
-          # elseif ($weekday -match "^[0-6]-[0-6]$") {
-          #     $range = $weekday.Split("-")
-          #     $start = [int]$range[0]; $end = [int]$range[1]
-          #     $names = for ($i=$start; $i -le $end; $i++) { $weekdayMap["$i"] }
-          #     $weekdayDesc = ($names -join ", ")
-          # }
-          # else {
-          #     $weekdayDesc = Pretty $weekday "day of week"
-          # }
-          # return "$minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc"
-          return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
         }
         
+        # Expand weekday numbers and aliases to names
+        $weekdayMap = @{
+          "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday";
+          "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday";
+          "SUN"="Sunday"; "MON"="Monday"; "TUE"="Tuesday"; "WED"="Wednesday";
+          "THU"="Thursday"; "FRI"="Friday"; "SAT"="Saturday"
+        }
+        
+        function Expand-Weekdays($wd) {
+            $tokens = $wd.Split(",")
+            $names = @()
+            foreach ($t in $tokens) {
+            $t = $t.ToUpper()
+            if ($t -match "^[0-6]-[0-6]$") {
+            $range = $t.Split("-"); $start=[int]$range[0]; $end=[int]$range[1]
+            if ($start -gt $end) {  # wrap-around
+            for ($i=$start; $i -le 6; $i++) { $names += $weekdayMap["$i"] }
+            for ($i=0; $i -le $end; $i++) { $names += $weekdayMap["$i"] }
+            } else {
+            for ($i=$start; $i -le $end; $i++) { $names += $weekdayMap["$i"] }
+            }
+            } elseif ($weekdayMap.ContainsKey($t)) {
+            $names += $weekdayMap[$t]
+            } elseif ($t -match "^[0-6]$") {
+            $names += $weekdayMap[$t]
+            } else {
+            $names += $t  # fallback
+            }
+            }
+            return $names -join ", "
+          }
+        
+        $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
+        $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
+        
+        if ($day -ne "*" -and $weekday -ne "*") {
+        $dayDesc = Pretty $day "day of month"
+        $weekdayDesc = Expand-Weekdays $weekday
+        $dayDesc = "$dayDesc or $weekdayDesc"
+        }
+        elseif ($day -eq "*" -and $weekday -ne "*") {
+        $dayDesc = "every $(Expand-Weekdays $weekday)"
+        $weekdayDesc = ""
+        }
+        else {
+        $dayDesc = Pretty $day "day of month"
+        $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
+        }
+        
+        $monthDesc = Pretty $month "month of year"
+        
+        return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
+        }
+        
+        # The invocation block remains exactly the same
         if ($eventName -eq "schedule") {
         $cronExpr = "${{ github.event.schedule }}"
         $explanation = Get-CronExplanation $cronExpr
         $timezone = "UTC"
         $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
+        
         elseif ($eventName -eq "workflow_dispatch") {
-            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ inputs.COMMIT_AUTHOR }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
+        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>${{ inputs.COMMIT_AUTHOR }} ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
         } elseif ($eventName -eq "push") {
-            if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
-              # PR merged into target branch
-              # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
-              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
-            } else {
-              # Direct push
-              $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
-            }
+        if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
+        # PR merged into target branch
+        # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
         } else {
-          $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
+        # Direct push
+        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by ${{ inputs.COMMIT_AUTHOR }}</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+        }
+        } else {
+        $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
         }
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
         "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
@@ -219,18 +216,8 @@ runs:
         "COMMIT_DATE=$commitDateIST" >> $env:GITHUB_OUTPUT
         "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
         "TRIGGER_INFO=$triggerInfo" >> $env:GITHUB_OUTPUT
-
-    ###############################
-    # Calculate Execution Metrics
-    ##############################
-
-    - name: ?? Calculate Duration and Export Timing
-      id: execution_metrics
-      shell: pwsh
-      env:
-        START_EPOCH: ${{ inputs.startTime }}
-      run: |
-        # Define IST offset
+        
+         # Define IST offset
         $istOffset = [System.TimeSpan]::FromHours(5.5)
         
         $startEpoch = [int]$env:START_EPOCH
@@ -256,3 +243,4 @@ runs:
         Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
         Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
         Write-Host "✅ FORMATTED DURATION | $durationFormatted"
+       
