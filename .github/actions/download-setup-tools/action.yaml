@@ -80,10 +80,10 @@ runs:
       if: ${{ inputs.SKIP_FLAG != '--skip-sonar' }}
       run: |
           $bashPath = "${{ steps.download_scanner_step.outputs.scanner_bin_dir }}"
-          Write-Host "Bash Path to convert: $bashPath"
+          # Write-Host "Bash Path to convert: $bashPath"
           
           $winPath = (cmd.exe /c "cygpath -w `"$bashPath`"").Trim()
-          Write-Host "Converted Windows Path: $winPath"
+          # Write-Host "Converted Windows Path: $winPath"
           
           # "SONAR_SCANNER_BIN=$winPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
             "scanner_bin_win=$winPath" | Out-File -FilePath "$env:GITHUB_OUTPUT" -Encoding utf-8 -Append

@@ -89,131 +89,135 @@ runs:
         $commitTs = git log -1 --pretty=%ct
         $nowTs = [int][double]::Parse((Get-Date -UFormat %s))
         $deltaMin = [math]::Floor(($nowTs - $commitTs) / 60)
-
         
         if ($deltaMin -lt 1) {
-        $ago = "Just now"
+          $ago = "Just now"
         }
         elseif ($deltaMin -eq 1) {
-        $ago = "1 minute ago"
+          $ago = "1 minute ago"
         }
         elseif ($deltaMin -lt 60) {
-        $ago = "$deltaMin minutes ago"
+          $ago = "$deltaMin minutes ago"
         }
         elseif ($deltaMin -lt 1440) { # under 24h
-        $hours = [math]::Floor($deltaMin / 60)
-        $ago = "$hours hour" + ($(if ($hours -gt 1) { "s" } else { "" })) + " ago"
+          $hours = [math]::Floor($deltaMin / 60)
+          $ago = "$hours hour" + ($(if ($hours -gt 1) { "s" } else { "" })) + " ago"
         }
         elseif ($deltaMin -lt 43200) { # under ~30d
-        $days = [math]::Floor($deltaMin / 1440)
-        $ago = "$days day" + ($(if ($days -gt 1) { "s" } else { "" })) + " ago"
+          $days = [math]::Floor($deltaMin / 1440)
+          $ago = "$days day" + ($(if ($days -gt 1) { "s" } else { "" })) + " ago"
         }
         elseif ($deltaMin -lt 525600) { # under ~365d
-        $months = [math]::Round($deltaMin / 43200) # round to nearest month
-        if ($months -eq 0) { $months = 1 } # avoid "0 months"
-        $ago = "$months month" + ($(if ($months -gt 1) { "s" } else { "" })) + " ago"
+          $months = [math]::Round($deltaMin / 43200) # round to nearest month
+          if ($months -eq 0) { $months = 1 } # avoid "0 months"
+          $ago = "$months month" + ($(if ($months -gt 1) { "s" } else { "" })) + " ago"
         }
         else {
-        $years = [math]::Round($deltaMin / 525600) # round to nearest year
-        if ($years -eq 0) { $years = 1 }
-        $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
+          $years = [math]::Round($deltaMin / 525600) # round to nearest year
+          if ($years -eq 0) { $years = 1 }
+          $ago = "$years year" + ($(if ($years -gt 1) { "s" } else { "" })) + " ago"
         }     
 
         function Get-CronExplanation($expr) {
-        $parts = $expr.Split(" ")
-        if ($parts.Count -ne 5) { return "Invalid cron expression: $expr" }
-        
-        $minute   = $parts[0]
-        $hour     = $parts[1]
-        $day      = $parts[2]
-        $month    = $parts[3]
-        $weekday  = $parts[4]
-        
-        # Helper function to pretty print
-        function Pretty($field, $type) {
-          switch ($field) {
-            "*"   { return "every $type" }
-            "?"   { return "any $type" }
-            default { return $field }
+          $parts = $expr.Split(" ")
+          if ($parts.Count -ne 5) { 
+             return "Invalid cron expression: $expr" 
           }
-        }
-        
-        # Expand weekday numbers and aliases to names
-        $weekdayMap = @{
-          "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday";
-          "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday";
-          "SUN"="Sunday"; "MON"="Monday"; "TUE"="Tuesday"; "WED"="Wednesday";
-          "THU"="Thursday"; "FRI"="Friday"; "SAT"="Saturday"
-        }
-        
-        function Expand-Weekdays($wd) {
-            $tokens = $wd.Split(",")
-            $names = @()
-            foreach ($t in $tokens) {
-            $t = $t.ToUpper()
-            if ($t -match "^[0-6]-[0-6]$") {
-            $range = $t.Split("-"); $start=[int]$range[0]; $end=[int]$range[1]
-            if ($start -gt $end) {  # wrap-around
-            for ($i=$start; $i -le 6; $i++) { $names += $weekdayMap["$i"] }
-            for ($i=0; $i -le $end; $i++) { $names += $weekdayMap["$i"] }
-            } else {
-            for ($i=$start; $i -le $end; $i++) { $names += $weekdayMap["$i"] }
+          
+          $minute   = $parts[0]
+          $hour     = $parts[1]
+          $day      = $parts[2]
+          $month    = $parts[3]
+          $weekday  = $parts[4]
+          
+          # Helper function to pretty print
+          function Pretty($field, $type) {
+            switch ($field) {
+              "*"   { return "every $type" }
+              "?"   { return "any $type" }
+              default { return $field }
             }
-            } elseif ($weekdayMap.ContainsKey($t)) {
-            $names += $weekdayMap[$t]
-            } elseif ($t -match "^[0-6]$") {
-            $names += $weekdayMap[$t]
-            } else {
-            $names += $t  # fallback
-            }
-            }
-            return $names -join ", "
           }
-        
-        $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
-        $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-        
-        if ($day -ne "*" -and $weekday -ne "*") {
-        $dayDesc = Pretty $day "day of month"
-        $weekdayDesc = Expand-Weekdays $weekday
-        $dayDesc = "$dayDesc or $weekdayDesc"
-        }
-        elseif ($day -eq "*" -and $weekday -ne "*") {
-        $dayDesc = "every $(Expand-Weekdays $weekday)"
-        $weekdayDesc = ""
-        }
-        else {
-        $dayDesc = Pretty $day "day of month"
-        $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
-        }
-        
-        $monthDesc = Pretty $month "month of year"
-        
-        return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
+          
+          # Expand weekday numbers and aliases to names
+          $weekdayMap = @{
+            "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday";
+            "4" = "Thursday"; "5" = "Friday"; "6" = "Saturday";
+            "SUN"="Sunday"; "MON"="Monday"; "TUE"="Tuesday"; "WED"="Wednesday";
+            "THU"="Thursday"; "FRI"="Friday"; "SAT"="Saturday"
+          }
+          
+          function Expand-Weekdays($wd) {
+              $tokens = $wd.Split(",")
+              $names = @()
+              foreach ($t in $tokens) {
+                $t = $t.ToUpper()
+                if ($t -match "^[0-6]-[0-6]$") {
+                  $range = $t.Split("-"); $start=[int]$range[0]; $end=[int]$range[1]
+                  if ($start -gt $end) {  # wrap-around
+                    for ($i=$start; $i -le 6; $i++) { $names += $weekdayMap["$i"] }
+                    for ($i=0; $i -le $end; $i++) { $names += $weekdayMap["$i"] }
+                  } else {
+                    for ($i=$start; $i -le $end; $i++) { 
+                        $names += $weekdayMap["$i"]
+                    }
+                  }
+                } elseif ($weekdayMap.ContainsKey($t)) {
+                  $names += $weekdayMap[$t]
+                } elseif ($t -match "^[0-6]$") {
+                  $names += $weekdayMap[$t]
+                } else {
+                  $names += $t  # fallback
+                }
+              }
+              return $names -join ", "
+          }
+          
+          $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
+          $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
+          
+          if ($day -ne "*" -and $weekday -ne "*") {
+            $dayDesc = Pretty $day "day of month"
+            $weekdayDesc = Expand-Weekdays $weekday
+            $dayDesc = "$dayDesc or $weekdayDesc"
+          }
+          elseif ($day -eq "*" -and $weekday -ne "*") {
+            $dayDesc = "every $(Expand-Weekdays $weekday)"
+            $weekdayDesc = ""
+          }
+          else {
+            $dayDesc = Pretty $day "day of month"
+            $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
+          }
+          
+          $monthDesc = Pretty $month "month of year"
+          
+          return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
         }
         
         # The invocation block remains exactly the same
         if ($eventName -eq "schedule") {
-        $cronExpr = "${{ github.event.schedule }}"
-        $explanation = Get-CronExplanation $cronExpr
-        $timezone = "UTC"
-        $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
+          $cronExpr = "${{ github.event.schedule }}"
+          $explanation = Get-CronExplanation $cronExpr
+          $timezone = "UTC"
+          $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
         
         elseif ($eventName -eq "workflow_dispatch") {
-        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>$author ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
+          $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>$author ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
         } elseif ($eventName -eq "push") {
-        if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
-        # PR merged into target branch
-        # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
-        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $author</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+          if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
+            # PR merged into target branch
+            # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $author</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+          } else {
+            # Direct push
+            $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by $author</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+          }
         } else {
-        # Direct push
-        $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by $author</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+          $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
         }
-        } else {
-        $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
-        }
+        Write-Host "✅ TRIGGER_INFO is  $triggerInfo"     
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
         "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
         "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
@@ -229,8 +233,8 @@ runs:
         
         $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
         $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-        Write-Host "✅ START DATE-TIME (UTC)| $startDT"
-        Write-Host "✅ END DATE-TIME (UTC) | $endDT"
+#        Write-Host "✅ START DATE-TIME (UTC)| $startDT"
+#        Write-Host "✅ END DATE-TIME (UTC) | $endDT"
         
         # Convert to DateTimeOffset and shift to IST
         $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
@@ -244,7 +248,7 @@ runs:
         echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
         echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
         echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
-        Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
-        Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
-        Write-Host "✅ FORMATTED DURATION | $durationFormatted"
+#        Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
+#        Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
+#        Write-Host "✅ FORMATTED DURATION | $durationFormatted"
        
