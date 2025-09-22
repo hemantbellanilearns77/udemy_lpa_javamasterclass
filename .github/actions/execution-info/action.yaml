@@ -200,15 +200,25 @@ runs:
           }
           if ($day -ne "*" -and $weekday -ne "*") {
             # $dayDesc = Pretty $day "day of month"
-            if ($day -eq "*") {
+            #            if ($day -eq "*") {
+            #              $dayDesc = "every day of month"
+            #            } else {
+            #              $ordinalDay = Ordinal([int]$day)
+            #              $dayDesc = "on the $ordinalDay"
+            #            }
+            #            $weekdayDesc = Expand-Weekdays $weekday
+            #            $dayDesc = "$dayDesc or $weekdayDesc"
+            #          }
+            if ($day -eq "*" -or $day -eq "?") {
               $dayDesc = "every day of month"
             } else {
-              $ordinalDay = Ordinal([int]$day)
-              $dayDesc = "on the $ordinalDay"
+              try {
+                $ordinalDay = Ordinal([int]$day)
+                $dayDesc = "on the $ordinalDay"
+              } catch {
+                $dayDesc = "on day $day"
+              }
             }
-            $weekdayDesc = Expand-Weekdays $weekday
-            $dayDesc = "$dayDesc or $weekdayDesc"
-          }
           elseif ($day -eq "*" -and $weekday -ne "*") {
             $dayDesc = "every $(Expand-Weekdays $weekday)"
             $weekdayDesc = ""
@@ -216,12 +226,22 @@ runs:
           else {
             # $dayDesc = Pretty $day "day of month"
             # $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
-            if ($day -eq "*") {
+            #            if ($day -eq "*") {
+            #              $dayDesc = "every day of month"
+            #            } else {
+            #              $ordinalDay = Ordinal([int]$day)
+            #              $dayDesc = "on the $ordinalDay"
+            #            }  
+            if ($day -eq "*" -or $day -eq "?") {
               $dayDesc = "every day of month"
             } else {
-              $ordinalDay = Ordinal([int]$day)
-              $dayDesc = "on the $ordinalDay"
-            }        
+              try {
+                $ordinalDay = Ordinal([int]$day)
+                $dayDesc = "on the $ordinalDay"
+              } catch {
+                $dayDesc = "on day $day"
+              }
+            }
             $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
           }
         
