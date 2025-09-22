@@ -1,11 +1,11 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson;
 
-public class Building implements com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable {
+public class Building implements Mappable {
 
-    private String name;
-    private com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.UsageType usage;
+    private final String name;
+    private final UsageType usage;
 
-    public Building(String name, com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.UsageType usage) {
+    public Building(String name, UsageType usage) {
         this.name = name;
         this.usage = usage;
     }
@@ -16,24 +16,22 @@ public class Building implements com.hb.study.udemy_lpa_javamasterclass.section1
     }
 
     @Override
-    public com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Geometry getShape() {
-        return com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Geometry.POINT;
+    public Geometry getShape() {
+        return Geometry.POINT;
     }
 
     @Override
     public String getMarker() {
         return switch (usage) {
-            case ENTERTAINMENT -> Color.GREEN + " " + com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.PointMarker.TRIANGLE;
-            case GOVERNMENT -> Color.RED + " " + com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.PointMarker.STAR;
-            case RESIDENTIAL -> Color.BLUE + " " + com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.PointMarker.SQUARE;
-            case SPORTS -> Color.ORANGE + " " + com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.PointMarker.PUSH_PIN;
-            default -> Color.BLACK + " " + com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.PointMarker.CIRCLE;
+            case ENTERTAINMENT -> Color.GREEN + " " + PointMarker.TRIANGLE;
+            case GOVERNMENT -> Color.RED + " " + PointMarker.STAR;
+            case RESIDENTIAL -> Color.BLUE + " " + PointMarker.SQUARE;
+            case SPORTS -> Color.ORANGE + " " + PointMarker.PUSH_PIN;
         };
     }
 
     @Override
     public String toJSON() {
-        return com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable.super.toJSON() + """
-                , "name": "%s", "usage": "%s" """.formatted(name, usage);
+        return Mappable.super.toJSON() + "name: %s ; usage: %s" .formatted(name, usage);
     }
 }
