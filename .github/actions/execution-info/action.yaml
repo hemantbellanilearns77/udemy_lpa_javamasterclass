@@ -176,8 +176,20 @@ runs:
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
         
+          function Ordinal($n) {
+            if ($n -in 11..13) {
+              return "$n`th" 
+            }
+            switch ($n % 10) {
+              1 { return "$n`st" }
+              2 { return "$n`nd" }
+              3 { return "$n`rd" }
+              default { return "$n`th" }
+            }
+          } 
           if ($day -ne "*" -and $weekday -ne "*") {
-            $dayDesc = Pretty $day "day of month"
+            # $dayDesc = Pretty $day "day of month"
+            $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
             $weekdayDesc = Expand-Weekdays $weekday
             $dayDesc = "$dayDesc or $weekdayDesc"
           }
@@ -186,13 +198,18 @@ runs:
             $weekdayDesc = ""
           }
           else {
-            $dayDesc = Pretty $day "day of month"
+            # $dayDesc = Pretty $day "day of month"
+            $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
             $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
           }
         
-          $monthDesc = Pretty $month "month of year"
-        
-          return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
+          # $monthDesc = Pretty $month "month of year"
+          $monthNames = @("January","February","March","April","May","June","July","August","September","October","November","December")
+          $monthDesc = if ($month -eq "*") { "every month" } elseif ([int]$month -ge 1 -and [int]$month -le 12) { $monthNames[[int]$month - 1] } else { $month }
+  
+          # return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
+          $parts = @($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) | Where-Object { $_ -ne "" }
+          return $parts -join ", "
         }
         
         # The invocation block remains exactly the same
