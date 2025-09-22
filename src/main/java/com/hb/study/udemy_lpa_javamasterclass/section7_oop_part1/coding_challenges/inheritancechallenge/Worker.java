@@ -35,8 +35,8 @@ public class Worker {
 
     public Worker(String name, String birthDate, String lwdDate) {
         this.name = name;
-        this.birthDate = birthDate;
-        this.lwdDate = lwdDate;
+        setBirthDate(birthDate);
+        setLwdDate(lwdDate);
     }
 
     public int getAge(){
@@ -63,8 +63,6 @@ public class Worker {
                 (currentDate < dateOfBirth )) {
             age = age - 1;
         }
-
-        //age = currentYear - currentYear;
         return age;
     }
     public double collectPay() {

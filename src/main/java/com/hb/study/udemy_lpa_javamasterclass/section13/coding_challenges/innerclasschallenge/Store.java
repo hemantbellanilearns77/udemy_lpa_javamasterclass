@@ -3,9 +3,6 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.inner
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Store {
     public static ExcecutionUtil execution = new ExcecutionUtil();
 
