@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-public class polymorphismChallengeMainClass {
+public class PolymorphismChallengeMainClass {
 
     private static final String ELECTRIC = "ELectric";
     private static final String GAS_POWERED = "GasPowered";

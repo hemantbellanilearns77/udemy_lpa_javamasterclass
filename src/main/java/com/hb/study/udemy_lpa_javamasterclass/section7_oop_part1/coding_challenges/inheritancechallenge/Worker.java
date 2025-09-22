@@ -63,8 +63,6 @@ public class Worker {
                 (currentDate < dateOfBirth )) {
             age = age - 1;
         }
-
-        //age = currentYear - currentYear;
         return age;
     }
     public double collectPay() {

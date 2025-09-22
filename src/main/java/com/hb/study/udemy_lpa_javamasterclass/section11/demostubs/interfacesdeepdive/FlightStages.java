@@ -1,7 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.interfacesdeepdive;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 enum FlightStages implements Trackable {GROUNDED, LAUNCH_OR_TAKEOFF, CRUISE, DATA_COLLECTION;
 
