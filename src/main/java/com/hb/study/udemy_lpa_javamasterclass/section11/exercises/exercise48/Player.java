@@ -64,7 +64,7 @@ public class Player implements ISaveable{
     @Override
     public void read(List<String> stringList) {
         if(stringList!=null && !stringList.isEmpty()) {
-            List<String> fieldsToWrite = new ArrayList<String>(stringList);
+            List<String> fieldsToWrite = new ArrayList<>(stringList);
             ConsoleStyler.styleOutput(fieldsToWrite + CommonConstants.EMPTYSTRING);
         }
     }
