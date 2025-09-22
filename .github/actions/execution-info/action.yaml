@@ -176,20 +176,36 @@ runs:
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
         
+          #          function Ordinal($n) {
+          #            if ($n -in 11..13) {
+          #              return "$n`th"
+          #            }
+          #            switch ($n % 10) {
+          #              1 { return "$n`st" }
+          #              2 { return "$n`nd" }
+          #              3 { return "$n`rd" }
+          #              default { return "$n`th" }
+          #            }
+          #          }
           function Ordinal($n) {
             if ($n -in 11..13) {
-              return "$n`th" 
+              return "$n" + "th"
             }
             switch ($n % 10) {
-              1 { return "$n`st" }
-              2 { return "$n`nd" }
-              3 { return "$n`rd" }
-              default { return "$n`th" }
+              1 { return "$n" + "st" }
+              2 { return "$n" + "nd" }
+              3 { return "$n" + "rd" }
+              default { return "$n" + "th" }
             }
-          } 
+          }
           if ($day -ne "*" -and $weekday -ne "*") {
             # $dayDesc = Pretty $day "day of month"
-            $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
+            if ($day -eq "*") {
+              $dayDesc = "every day of month"
+            } else {
+              $ordinalDay = Ordinal([int]$day)
+              $dayDesc = "on the $ordinalDay"
+            }
             $weekdayDesc = Expand-Weekdays $weekday
             $dayDesc = "$dayDesc or $weekdayDesc"
           }
@@ -199,7 +215,13 @@ runs:
           }
           else {
             # $dayDesc = Pretty $day "day of month"
-            $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
+            # $dayDesc = if ($day -eq "*") { "every day of month" } else { "on the $(Ordinal $day)" }
+            if ($day -eq "*") {
+              $dayDesc = "every day of month"
+            } else {
+              $ordinalDay = Ordinal([int]$day)
+              $dayDesc = "on the $ordinalDay"
+            }        
             $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
           }
         
@@ -221,10 +243,10 @@ runs:
           $timezone = "UTC"
           # Escape HTML special chars for GitHub Actions safe output
           function Encode-For-GHA([string]$s) {
-          $s = $s -replace "&", "&amp;"
-          $s = $s -replace "<", "&lt;"
-          $s = $s -replace ">", "&gt;"
-          return $s
+            $s = $s -replace "&", "&amp;"
+            $s = $s -replace "<", "&lt;"
+            $s = $s -replace ">", "&gt;"
+            return $s
           }
           # Build triggerInfo (HTML preserved)
           $triggerInfoRaw = "🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: $($env:BRANCH_EXECUTED)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
