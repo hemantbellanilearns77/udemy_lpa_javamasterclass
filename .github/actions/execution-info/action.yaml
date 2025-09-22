@@ -254,7 +254,12 @@ runs:
           $parts = @($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) | Where-Object { $_ -ne "" }
           return $parts -join ", "
         }
-        
+        function Encode-For-GHA([string]$s) {
+            $s = $s -replace "&", "&amp;"
+            $s = $s -replace "<", "&lt;"
+            $s = $s -replace ">", "&gt;"
+            return $s
+          }
         # The invocation block remains exactly the same
         if ($eventName -eq "schedule") {
           $cronExpr = "${{ github.event.schedule }}"
@@ -263,12 +268,7 @@ runs:
           Write-Host "✅ [DEBUG] Inside step : execution_info and Explanation of Cron Expression that triggered the workflow is: | $explanation"
           $timezone = "UTC"
           # Escape HTML special chars for GitHub Actions safe output
-          function Encode-For-GHA([string]$s) {
-            $s = $s -replace "&", "&amp;"
-            $s = $s -replace "<", "&lt;"
-            $s = $s -replace ">", "&gt;"
-            return $s
-          }
+          
           # Build triggerInfo (HTML preserved)
           $triggerInfo = "🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: $($env:BRANCH_EXECUTED)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
           # Only encode for GHA if needed when writing to output file
