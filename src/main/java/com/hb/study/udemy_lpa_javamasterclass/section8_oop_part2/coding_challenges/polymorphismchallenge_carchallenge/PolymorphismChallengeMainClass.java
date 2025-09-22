@@ -1,6 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +18,10 @@ public class PolymorphismChallengeMainClass {
     private static final String GENERIC = "Generic";
     private static final String GASOLINE = "Gasoline";
 
-    public static void main(String[] args) {
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
+    public static void main(String[] args) {
+        execution.initialize(args);
         List<String> listOfCarTypes = new ArrayList<>();
         listOfCarTypes.add(GENERIC);
         listOfCarTypes.add(GAS_POWERED);
@@ -27,6 +31,7 @@ public class PolymorphismChallengeMainClass {
 
         Car car = getCarInstance(listOfCarTypes.get((int) (listOfCarTypes.size() * secureRandom.nextDouble(0.0, 1.0))));
         runCarRace(car);
+        execution.finalizeExecution();
     }
 
     public static Car getCarInstance(String carType) {
