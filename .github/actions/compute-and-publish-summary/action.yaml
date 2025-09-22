@@ -77,6 +77,7 @@ runs:
     - name: Call Execution Info
       id: execution-info
       uses: ./.github/actions/execution-info
+      shell: pwsh
       with:
         startTime: ${{ inputs.startTime }}
         SKIP_FLAG: ${{ inputs.SKIP_FLAG }}

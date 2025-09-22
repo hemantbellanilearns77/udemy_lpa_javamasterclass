@@ -163,6 +163,12 @@
          Write-Error "⚠ API call failed: $_"
          exit 1
         }
+#         Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities are as below:"
+#         Write-Host "✅ BLOCKER: "$impactSeveritiesCounts["BLOCKER"]""
+#         Write-Host "✅ HIGH: "$impactSeveritiesCounts["HIGH"]""
+#         Write-Host "✅ MEDIUM: "$impactSeveritiesCounts["MEDIUM"]""
+#         Write-Host "✅ LOW: "$impactSeveritiesCounts["LOW"]""
+#         Write-Host "✅ INFO: "$impactSeveritiesCounts["INFO"]""
 
         ############################################################
         # === Derive Sonar Presentation Variables ===
@@ -205,7 +211,6 @@
           LOW     = "https://sonarcloud.io/project/issues?impactSeverities=LOW&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
           INFO    = "https://sonarcloud.io/project/issues?impactSeverities=INFO&issueStatuses=OPEN,CONFIRMED&id=$projectKey"
         }
-        Write-Host "✅ Counts as extracted from API Call response after fetching total impact severities is: : $impactSeveritiesCounts"
         ############################################################
               # === Generate URLS ===
         ############################################################
@@ -584,6 +589,5 @@
         # --- Emit outputs ---
         "HygieneCheckStatus=$HygieneCheckStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "NextStepsHtml=$NextStepsHtml" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
 
         ############################################################

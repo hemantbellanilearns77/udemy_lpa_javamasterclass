@@ -123,13 +123,13 @@ runs:
           if ($parts.Count -ne 5) { 
              return "Invalid cron expression: $expr" 
           }
-          
+        
           $minute   = $parts[0]
           $hour     = $parts[1]
           $day      = $parts[2]
           $month    = $parts[3]
           $weekday  = $parts[4]
-          
+        
           # Helper function to pretty print
           function Pretty($field, $type) {
             switch ($field) {
@@ -138,7 +138,7 @@ runs:
               default { return $field }
             }
           }
-          
+        
           # Expand weekday numbers and aliases to names
           $weekdayMap = @{
             "0" = "Sunday"; "1" = "Monday"; "2" = "Tuesday"; "3" = "Wednesday";
@@ -146,7 +146,7 @@ runs:
             "SUN"="Sunday"; "MON"="Monday"; "TUE"="Tuesday"; "WED"="Wednesday";
             "THU"="Thursday"; "FRI"="Friday"; "SAT"="Saturday"
           }
-          
+        
           function Expand-Weekdays($wd) {
               $tokens = $wd.Split(",")
               $names = @()
@@ -172,10 +172,10 @@ runs:
               }
               return $names -join ", "
           }
-          
+        
           $minuteDesc  = if ($minute -eq "*") { "every minute" } else { "at minute $minute" }
           $hourDesc    = if ($hour   -eq "*") { "every hour" }   else { "at hour $hour" }
-          
+        
           if ($day -ne "*" -and $weekday -ne "*") {
             $dayDesc = Pretty $day "day of month"
             $weekdayDesc = Expand-Weekdays $weekday
@@ -189,9 +189,9 @@ runs:
             $dayDesc = Pretty $day "day of month"
             $weekdayDesc = if ($weekday -ne "*") { Pretty $weekday "day of week" } else { "" }
           }
-          
+        
           $monthDesc = Pretty $month "month of year"
-          
+        
           return ($minuteDesc, $hourDesc, $dayDesc, $monthDesc, $weekdayDesc) -join ", " -replace ", $"
         }
         
@@ -225,7 +225,7 @@ runs:
         "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
         "TRIGGER_INFO=$triggerInfo" >> $env:GITHUB_OUTPUT
         
-         # Define IST offset
+        # Define IST offset
         $istOffset = [System.TimeSpan]::FromHours(5.5)
         
         $startEpoch = [int]$env:START_EPOCH
@@ -233,8 +233,6 @@ runs:
         
         $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
         $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
-#        Write-Host "✅ START DATE-TIME (UTC)| $startDT"
-#        Write-Host "✅ END DATE-TIME (UTC) | $endDT"
         
         # Convert to DateTimeOffset and shift to IST
         $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
@@ -248,7 +246,9 @@ runs:
         echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
         echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
         echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
-#        Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
-#        Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
-#        Write-Host "✅ FORMATTED DURATION | $durationFormatted"
+        #       Write-Host "✅ START DATE-TIME (UTC)| $startDT"
+        #       Write-Host "✅ END DATE-TIME (UTC) | $endDT"
+        #       Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
+        #       Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
+        #       Write-Host "✅ FORMATTED DURATION | $durationFormatted"
        
