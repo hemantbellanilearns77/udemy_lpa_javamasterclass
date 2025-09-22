@@ -198,7 +198,9 @@ runs:
         # The invocation block remains exactly the same
         if ($eventName -eq "schedule") {
           $cronExpr = "${{ github.event.schedule }}"
+          Write-Host "✅ [DEBUG] Inside step : execution_info and Cron Expression that triggered the workflow is: | $cronExpr"        
           $explanation = Get-CronExplanation $cronExpr
+          Write-Host "✅ [DEBUG] Inside step : execution_info and Explanation of Cron Expression that triggered the workflow is: | $explanation"
           $timezone = "UTC"
           $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
         }
@@ -217,7 +219,7 @@ runs:
         } else {
           $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
         }
-        Write-Host "✅ TRIGGER_INFO is  $triggerInfo"     
+        Write-Host "✅ [DEBUG] Inside step : execution_info and TRIGGER_INFO is: | $triggerInfo"
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
         "FULL_SHA=$fullSha" >>  $env:GITHUB_OUTPUT
         "COMMIT_AUTHOR=$author" >>  $env:GITHUB_OUTPUT
