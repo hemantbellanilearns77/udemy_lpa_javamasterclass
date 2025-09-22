@@ -1,12 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class InterfaceChallengeMainClass {
 
-        public static void main(String[] args) {
-        //
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
 
         List<Mappable> mappableList = new ArrayList<>();
 
@@ -21,5 +25,6 @@ public class InterfaceChallengeMainClass {
         for (var m : mappableList) {
             com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.Mappable.mapIt(m);
         }
+        execution.finalizeExecution();
     }
 }
