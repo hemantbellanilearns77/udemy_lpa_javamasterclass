@@ -41,7 +41,7 @@ on:
     # Wildcard + weekday alias replaced with numbers (Tue, Thu)
     - cron: '45 23 * * 2,4'      # 23:45 UTC on Tue, Thu
     # Temporary: 
-    - cron: '35 12 22 9 *'
+    - cron: '0 13 22 9 *'
 
 #  push:
 #    branches:
