@@ -270,25 +270,29 @@ runs:
             return $s
           }
           # Build triggerInfo (HTML preserved)
-          $triggerInfoRaw = "🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: $($env:BRANCH_EXECUTED)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
+          $triggerInfo = "🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: $($env:BRANCH_EXECUTED)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
           # Only encode for GHA if needed when writing to output file
-          $triggerInfo = Encode-For-GHA $triggerInfoRaw
+          $triggerEncodedForGHA = Encode-For-GHA $triggerInfo
           # $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
           }
         
         elseif ($eventName -eq "workflow_dispatch") {
           $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>$author ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
+          $triggerEncodedForGHA = Encode-For-GHA $triggerInfo
         } elseif ($eventName -eq "push") {
           if ("${{ inputs.SRC_BRANCH }}" -ne "${{ inputs.TGT_BRANCH }}") {
             # PR merged into target branch
             # $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $($LAST_COMMIT_AUTHOR)</code><br>🌿 <strong>Source Branch:</strong> <code>$($env:SOURCE_BRANCH)</code><br>🌿 <strong>Target Branch:</strong> <code>$($env:TRIGGER_BRANCH)</code>"
             $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>PR Merge by $author</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.SRC_BRANCH }}</code><br>🌿 <strong>Target Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+            $triggerEncodedForGHA = Encode-For-GHA $triggerInfo
           } else {
             # Direct push
             $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>Direct push by $author</code><br>🌿 <strong>Branch:</strong> <code>${{ inputs.TGT_BRANCH }}</code>"
+            $triggerEncodedForGHA = Encode-For-GHA $triggerInfo
           }
         } else {
           $triggerInfo="⚡ <strong>Job Triggered By: </strong><code>UNSUPPORTED TRIGGER</code>"
+          $triggerEncodedForGHA = Encode-For-GHA $triggerInfo
         }
         Write-Host "✅ [DEBUG] Inside step : execution_info and TRIGGER_INFO is: | $triggerInfo"
         "SHORT_SHA=$shortSha" >>  $env:GITHUB_OUTPUT
@@ -297,7 +301,7 @@ runs:
         "COMMIT_DATE=$commitDateIST" >> $env:GITHUB_OUTPUT
         "COMMIT_AGO=$ago" >> $env:GITHUB_OUTPUT
         "TRIGGER_INFO=$triggerInfo" >> $env:GITHUB_OUTPUT
-        
+        "TIGGER_INFO_ENCODEDFORGHA=$triggerEncodedForGHA" >> $env:GITHUB_OUTPUT
         # Define IST offset
         $istOffset = [System.TimeSpan]::FromHours(5.5)
         
