@@ -66,7 +66,7 @@ runs:
     ####################################################
     # EXTRACT WORKFLOW EXECUTION INFO
     ####################################################
-    - name: Extract Commit Info (Windows PowerShell)
+    - name: Compute Execution (Commit + Trigger + Duration) Info
       id: execution_info
       shell: pwsh
       env:
