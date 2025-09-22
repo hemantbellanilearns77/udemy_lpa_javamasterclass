@@ -219,6 +219,7 @@ runs:
                 $dayDesc = "on day $day"
               }
             }
+          }
           elseif ($day -eq "*" -and $weekday -ne "*") {
             $dayDesc = "every $(Expand-Weekdays $weekday)"
             $weekdayDesc = ""
