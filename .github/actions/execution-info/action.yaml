@@ -219,8 +219,19 @@ runs:
           $explanation = Get-CronExplanation $cronExpr
           Write-Host "✅ [DEBUG] Inside step : execution_info and Explanation of Cron Expression that triggered the workflow is: | $explanation"
           $timezone = "UTC"
-          $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
-        }
+          # Escape HTML special chars for GitHub Actions safe output
+          function Encode-For-GHA([string]$s) {
+          $s = $s -replace "&", "&amp;"
+          $s = $s -replace "<", "&lt;"
+          $s = $s -replace ">", "&gt;"
+          return $s
+          }
+          # Build triggerInfo (HTML preserved)
+          $triggerInfoRaw = "🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: $($env:BRANCH_EXECUTED)</code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
+          # Only encode for GHA if needed when writing to output file
+          $triggerInfo = Encode-For-GHA $triggerInfoRaw
+          # $triggerInfo="🔔 <strong>Job Triggered By:</strong> <code>Scheduled Run (cron) on branch: ${{ inputs.BRANCH_EXECUTED }}  </code><br>⏰ <strong>Schedule:</strong> <code>$cronExpr</code><br>📝 <strong>Explanation:</strong> $explanation<br>🌍 <strong>Timezone:</strong> $timezone"
+          }
         
         elseif ($eventName -eq "workflow_dispatch") {
           $triggerInfo="⚡ <strong>Job Triggered By:</strong> <code>$author ($eventName)</code><br>🌿 <strong>Source Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code>"
