@@ -67,7 +67,6 @@ runs:
         SONAR_ORG: ${{ env.SONAR_ORG }}
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
         REPOSITORY: ${{ github.repository }}
-        STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
       run: |
         pwsh -File .\.github\scripts\compute-metrics-thresholds-status.ps1
 
@@ -76,6 +75,7 @@ runs:
       ###################################
     - name: Call Execution Info
       id: execution-info
+      shell: pwsh
       uses: ./.github/actions/execution-info
       with:
         startTime: ${{ inputs.startTime }}
