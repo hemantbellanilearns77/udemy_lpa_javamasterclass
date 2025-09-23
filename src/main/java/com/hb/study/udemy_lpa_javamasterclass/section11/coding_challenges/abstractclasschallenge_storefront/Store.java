@@ -1,16 +1,19 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstractclasschallenge_storefront;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Store {
 
-    private static ArrayList<ProductForSale> storeFrontInventory = new ArrayList<>();
+    private static final List<ProductForSale> storeFrontInventory = new ArrayList<>();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-        public static void main(String[] args) {
-
+    public static void main(String[] args) {
+        execution.initialize(args);
 
         storeFrontInventory.add(new ArtObject("Oil Painting", 1350,
                 "Impressionistic work by ABF painted in 2010"));
@@ -38,6 +41,7 @@ public class Store {
         addItemToOrder(order2, 0, 1);
         addItemToOrder(order2, 2, 1);
         printOrder(order2);
+        execution.finalizeExecution();
     }
 
     public static void listProducts() {
@@ -53,7 +57,7 @@ public class Store {
         order.add(new OrderItem(qty, storeFrontInventory.get(orderIndex)));
     }
 
-    public static void printOrder(ArrayList<OrderItem> order) {
+    public static void printOrder(List<OrderItem> order) {
 
         double salesTotal = 0;
         for (var item : order) {
