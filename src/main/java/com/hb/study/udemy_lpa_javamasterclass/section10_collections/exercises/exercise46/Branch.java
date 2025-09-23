@@ -1,6 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise46;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Branch {
     private final String name;
@@ -15,7 +16,7 @@ public class Branch {
         return name;
     }
 
-    public ArrayList<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 
@@ -23,7 +24,7 @@ public class Branch {
         boolean customerAdded = false;
         if(findCustomer(name) == null) {
             Customer newCustomer = new Customer(name, initialTransaction);
-            customerAdded = customers.add(newCustomer);
+            customerAdded = this.customers.add(newCustomer);
         }
         return customerAdded;
     }
@@ -37,14 +38,12 @@ public class Branch {
     }
 
     private Customer findCustomer(String name) {
+
         Customer customerAsFound = null;
-        if(customers.isEmpty()) {
-            return customerAsFound;
-        } else {
-            for(var nextCustomer : customers){
+        if(!this.customers.isEmpty()) {
+            for(var nextCustomer : this.customers){
                 if(nextCustomer.getName().equalsIgnoreCase(name)){
                     customerAsFound = nextCustomer;
-                    return customerAsFound;
                 }
             }
         }

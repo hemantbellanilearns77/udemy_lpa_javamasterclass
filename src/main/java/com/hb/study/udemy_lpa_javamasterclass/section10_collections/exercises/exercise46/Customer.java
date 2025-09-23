@@ -1,11 +1,12 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise46;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
 
-    private String name;
-    private ArrayList<Double> transactions;
+    private final String name;
+    private final List<Double> transactions;
 
     public Customer(String name, double initialTransaction) {
 
@@ -18,7 +19,7 @@ public class Customer {
         return name;
     }
 
-    public ArrayList<Double> getTransactions() {
+    public List<Double> getTransactions() {
         return transactions;
     }
 
