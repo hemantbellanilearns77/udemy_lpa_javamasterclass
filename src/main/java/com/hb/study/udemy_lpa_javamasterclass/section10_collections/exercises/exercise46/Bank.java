@@ -56,7 +56,9 @@ public class Bank {
             for (var nextCustomer : branch.getCustomers()) {
                 if (nextCustomer.getName().equalsIgnoreCase(customerName)) {
                     nextCustomer.addTransaction(transaction);
-                    branch.addCustomerTransaction(customerName, transaction);
+                    if(branch.addCustomerTransaction(customerName, transaction)) {
+                        ConsoleStyler.styleExecutionInsight("Customer Transaction also updated in Branch Records");
+                    }
                     customerTransactionAdded = true;
                 }
             }
