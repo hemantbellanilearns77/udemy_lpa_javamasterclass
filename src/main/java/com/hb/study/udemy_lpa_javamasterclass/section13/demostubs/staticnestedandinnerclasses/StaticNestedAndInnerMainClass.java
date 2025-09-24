@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StaticNestedAndInnerMainClass {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] args) {
         //

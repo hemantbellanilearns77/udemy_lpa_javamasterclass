@@ -2,10 +2,13 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.demostubs.staticnesteda
 
 import java.util.Comparator;
 
-public class EmployeeComparator <T extends Employee> implements Comparator<Employee> {
-
+public class EmployeeComparator <T extends Employee> implements Comparator<T> {
     @Override
-    public int compare(Employee o1, Employee o2) {
+    public int compare(T o1, T o2) {
+
         return o1.getName().compareTo(o2.getName());
     }
+
+
+
 }
