@@ -17,9 +17,7 @@ public class RunMethods {
         public static void main(String[] args) {
         //
 
-        /*
-         *****************************************************
-         */
+
         execution.initialize(args);
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
                 new StoreEmployee(10015, "Meg", 2019,
@@ -33,9 +31,11 @@ public class RunMethods {
                 new StoreEmployee(10322, "Bud", 2016,
                         "Target")));
 
-        var c0 = new EmployeeComparator<StoreEmployee>();
-        var c1 = new Employee.EmployeeComparator();
-        var c2 = new StoreEmployee().new StoreComparator<StoreEmployee>();
+
+        EmployeeComparator<StoreEmployee> c0 = new EmployeeComparator<>();
+        Employee.EmployeeComparator c1 = new Employee.EmployeeComparator();
+        StoreEmployee.StoreComparator<StoreEmployee> c2 =
+                    new StoreEmployee().new StoreComparator<>();
 
         // Using local class
         class NameSort<T> implements Comparator<StoreEmployee> {
@@ -62,10 +62,7 @@ public class RunMethods {
         sortIt(storeEmployees, c3);
         sortIt(storeEmployees, c4);
         sortIt(storeEmployees, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-        /*
 
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 
