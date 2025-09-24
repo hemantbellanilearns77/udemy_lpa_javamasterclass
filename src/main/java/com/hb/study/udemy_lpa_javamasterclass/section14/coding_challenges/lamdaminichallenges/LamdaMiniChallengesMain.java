@@ -30,12 +30,9 @@ public class LamdaMiniChallengesMain {
 
     public static void miniChallengeOne() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 1 : Creating a lambda from an anonymous class....");
-        Consumer<String> printTheParts = new Consumer<String>() {
-            @Override
-            public void accept(String sentence) {
-                String[] parts = sentence.split(" ");
-                ConsoleStyler.styleEachAsIs("Part: ", parts);
-            }
+        Consumer<String> printTheParts = sentence -> {
+            String[] parts = sentence.split(" ");
+            ConsoleStyler.styleEachAsIs("Part: ", parts);
         };
         String originalSentence = "I am trying to print the parts of this sentence using a Lambda Expression generated out of an anonymous class";
         ConsoleStyler.styleInitializationInfo("[INITIALIZATION]: \n" + "Original sentence is: \n\"" + originalSentence + "\"");
@@ -45,10 +42,11 @@ public class LamdaMiniChallengesMain {
         ConsoleStyler.halfDivider();
 
         Consumer<String> printThePartsLambda = sentence -> {
-            AtomicInteger atomicInteger = new AtomicInteger(0);
+
             String[] sentenceParts = sentence.split(" ");
             ConsoleStyler.styleExecutionInsight("""
                     /*
+                    AtomicInteger atomicInteger = new AtomicInteger(0);
                     for(String nextWord: sentenceParts) {
                     ConsoleStyler.styleIt("NextPart: "  + "[" + atomicInteger.getAndIncrement() + "] : " + nextWord, false);
                      */
@@ -74,7 +72,7 @@ public class LamdaMiniChallengesMain {
     public static void miniChallengeTwoToFive() {
         ConsoleStyler.startSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
         ConsoleStyler.styleInitializationInfo("""
-                These 4 mini-challenges are all about creating a lambda from a method with return value 
+                These 4 mini-challenges are all about creating a lambda from a method with return value
                 Also create a Target Function, using one of the variations as its arguments and demonstrate it's invocation
                 Here's the method provided \n
                 public static String everySecondChar(String source){
@@ -179,7 +177,7 @@ public class LamdaMiniChallengesMain {
                     return function.apply(source);
                 }
                 // Then invoked it, with source string
-                result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");                
+                result = everySecondChar.apply(unaryOperatorConcise, "The quick brown fox jumps over the lazy dog!");
                 """);
         ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL, result);
         ConsoleStyler.endSection("Lambda Mini Challenge # 2,3,4,5 : Function Lambda variations");
@@ -208,9 +206,16 @@ public class LamdaMiniChallengesMain {
                  amd to use it to assign to a variable supplierResult and print the same"""); // optional
 
         Supplier<String> iLoveJava = () -> ("I Love Java");
-        Supplier<String> iLoveJava2 = () -> {
-            return "I Love Java";
-        };
+        ConsoleStyler.styleExecutionInsight("""
+                iLoveJava Lambda could also be written as below:
+                Supplier<String> iLoveJava2 = () -> {
+                    return "I Love Java";
+                };
+                and used as:
+                supplierResult = iLoveJava2.get();
+                ConsoleStyler.styleOutput("String iLoveJava2 was initialized using Supplier<String>.get() to: ",
+                        supplierResult);
+                """);
 
         ConsoleStyler.styleExecutionInsight("""
                 The below code was used :
@@ -225,9 +230,7 @@ public class LamdaMiniChallengesMain {
 
         ConsoleStyler.styleOutput("String iLoveJava was initialized using Supplier<String>.get() to: ",
                 supplierResult);
-        supplierResult = iLoveJava2.get();
-        ConsoleStyler.styleOutput("String iLoveJava was initialized using Supplier<String>.get() to: ",
-                supplierResult);
+
         ConsoleStyler.halfDivider();
         ConsoleStyler.endSection("Mini Challenge 6 and 7: Supplier Interface");
 

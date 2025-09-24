@@ -15,8 +15,6 @@ public class RunMethods {
   public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] args) {
-        //
-
 
         execution.initialize(args);
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
@@ -38,10 +36,10 @@ public class RunMethods {
                     new StoreEmployee().new StoreComparator<>();
 
         // Using local class
-        class NameSort<T> implements Comparator<StoreEmployee> {
+        class NameSort<T extends Employee> implements Comparator<T> {
 
             @Override
-            public int compare(StoreEmployee o1, StoreEmployee o2) {
+            public int compare(T o1, T o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         }
@@ -61,12 +59,17 @@ public class RunMethods {
         sortIt(storeEmployees, c2);
         sortIt(storeEmployees, c3);
         sortIt(storeEmployees, c4);
-        sortIt(storeEmployees, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+        sortIt(storeEmployees, Comparator.comparing(Employee::getName));
+        ConsoleStyler.styleExecutionInsight("""
+                The above use of Comparing was earlier as below:
+                (Modified to fix a sonar medium)
+                sortIt(storeEmployees, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+                """);
 
         execution.finalizeExecution();
     }
 
-  //
+
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {
 
