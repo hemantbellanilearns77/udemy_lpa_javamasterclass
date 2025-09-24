@@ -44,9 +44,9 @@ public class Meal {
 
     private class Item {
 
-        private String name;
-        private String type;
-        private double price;
+        private final String name;
+        private final String type;
+        private final double price;
 
         public Item(String name, String type) {
             this(name, type, type.equals("BURGER") ? Meal.this.price : 0);
@@ -86,18 +86,18 @@ public class Meal {
 
             private double getPrice(){
                 return switch(this){
-                    case BACON, SALAMI, AVOCADO -> 2.0;
-                    case CHEDDAR, PICKLES, TOMATO, LETTUCE -> 1.5;
-                    case KETCHUP, CHEESE, MUSTARD, MAYO -> 1.0;
-                    default -> 0.0;
+                    case BACON, SALAMI, AVOCADO, LETTUCE -> 2.0;
+                    case CHEDDAR, PICKLES, MUSTARD -> 1.5;
+                    case CHEESE, MAYO -> 1.0;
+                    default -> 0.5;
                 };
             }
 
         }
 
-        private List<Item> toppings = new ArrayList<>();
+        private final List<Item> toppings = new ArrayList<>();
         Burger(String name) {
-            super(name, "BURGER", 5.0);
+            super(name, "BURGER");
         }
 
         public double getPrice() {
@@ -116,7 +116,7 @@ public class Meal {
                     Extra topping = Extra.valueOf(selectedTopping.toUpperCase());
                     toppings.add(new Item(topping.name(), "TOPPING",
                             topping.getPrice()));
-                } catch (IllegalArgumentException ie) {
+                } catch (IllegalArgumentException illegalArgumentException) {
                     ConsoleStyler.styleOutput("No topping found for " + selectedTopping);
                 }
             }

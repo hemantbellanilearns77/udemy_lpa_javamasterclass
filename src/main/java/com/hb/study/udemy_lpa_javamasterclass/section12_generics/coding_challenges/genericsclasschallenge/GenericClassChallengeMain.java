@@ -6,7 +6,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 public class GenericClassChallengeMain {
     //Object level or Static declarations here...
-  public static ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExcecutionUtil execution = new ExcecutionUtil();
 
         public static void main(String[] args) {
 

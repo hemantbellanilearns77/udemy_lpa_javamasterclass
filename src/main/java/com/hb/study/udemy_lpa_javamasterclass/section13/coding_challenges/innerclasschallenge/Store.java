@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 
 public class Store {
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
 
         public static void main(String[] args) {

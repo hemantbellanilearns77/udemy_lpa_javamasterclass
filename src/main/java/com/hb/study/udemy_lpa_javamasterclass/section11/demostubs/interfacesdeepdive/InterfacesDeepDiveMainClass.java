@@ -7,17 +7,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InterfacesDeepDiveMainClass {
-    public static ExcecutionUtil execution = new ExcecutionUtil();
-        public static void main(String[] args) {
-        //
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
+
+    public static void main(String[] args) {
+
         execution.initialize(args);
         Bird bird = new Bird();
-        Animal animal = bird;
-        FlightEnabled flier = bird;
-        Trackable tracked = bird;
+        Animal animal;
+        animal = bird;
+        FlightEnabled flier;
+        flier = bird;
+        Trackable tracked;
+        tracked = bird;
 
         animal.move();
-
 
         flier.takeOff();
         flier.fly();
@@ -58,7 +61,7 @@ public class InterfacesDeepDiveMainClass {
         execution.finalizeExecution();
     }
 
-  //
+    //
 
     private static void inFlight(FlightEnabled flier) {
 
