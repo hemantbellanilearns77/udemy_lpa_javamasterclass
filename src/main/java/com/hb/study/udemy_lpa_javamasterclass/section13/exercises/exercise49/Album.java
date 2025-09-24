@@ -61,13 +61,13 @@ public class Album {
     }
 
     public static class SongList<T extends Song> {
-        private final ArrayList<Song> songs;
+        private final List<T> songs;
 
         private SongList() {
             songs = new ArrayList<>();
         }
 
-                private boolean add(Song songToAdd) {
+                private boolean add(T songToAdd) {
                     boolean songAdded = false;
                     if (findSong(songToAdd.getTitle()) == null) {
                         songs.add(songToAdd);

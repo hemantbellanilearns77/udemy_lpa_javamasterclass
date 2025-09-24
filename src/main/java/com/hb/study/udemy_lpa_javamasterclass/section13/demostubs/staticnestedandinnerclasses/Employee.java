@@ -3,6 +3,12 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.demostubs.staticnesteda
 import java.util.Comparator;
 
 public class Employee {
+    private int employeeId;
+    private String name;
+    private int yearStarted;
+
+    public Employee() {
+    }
 
     public static class EmployeeComparator
             implements Comparator<Employee> {
@@ -28,12 +34,7 @@ public class Employee {
         }
     }
 
-    private int employeeId;
-    private String name;
-    private int yearStarted;
 
-    public Employee() {
-    }
 
     public Employee(int employeeId, String name, int yearStarted) {
         this.employeeId = employeeId;
