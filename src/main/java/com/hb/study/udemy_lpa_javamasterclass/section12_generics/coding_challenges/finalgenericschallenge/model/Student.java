@@ -4,7 +4,6 @@ package com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challen
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challenges.finalgenericschallenge.util.*;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 public class Student implements QueryItem, Comparable<Student> {
 

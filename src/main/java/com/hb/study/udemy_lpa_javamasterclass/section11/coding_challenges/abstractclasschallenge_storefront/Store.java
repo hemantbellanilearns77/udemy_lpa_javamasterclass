@@ -52,7 +52,7 @@ public class Store {
         }
     }
 
-    public static void addItemToOrder(ArrayList<OrderItem> order, int orderIndex,
+    public static void addItemToOrder(List<OrderItem> order, int orderIndex,
                                       int qty) {
         order.add(new OrderItem(qty, storeFrontInventory.get(orderIndex)));
     }

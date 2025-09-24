@@ -18,7 +18,7 @@ record Employee(String name) implements QueryItem {
 
 public class FinalGenericsChallengeMain {
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
 
     public static void main(String[] args) {

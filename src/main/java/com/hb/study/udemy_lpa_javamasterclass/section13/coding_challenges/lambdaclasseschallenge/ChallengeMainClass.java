@@ -24,7 +24,7 @@ import java.util.List;
 public class ChallengeMainClass {
 
     //Object level or Static declarations here...
-    public static ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExcecutionUtil execution = new ExcecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 
