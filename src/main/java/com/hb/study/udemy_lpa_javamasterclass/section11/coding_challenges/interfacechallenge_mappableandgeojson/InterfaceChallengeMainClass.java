@@ -1,13 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InterfaceChallengeMainClass {
 
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize(args);

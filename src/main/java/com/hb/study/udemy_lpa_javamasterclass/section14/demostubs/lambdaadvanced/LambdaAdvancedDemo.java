@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 import com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.Operation;
 
@@ -16,7 +16,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 
 public class LambdaAdvancedDemo {
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final String GUESTS_AFTER_REMOVE_IF = "Guests after remove if....";

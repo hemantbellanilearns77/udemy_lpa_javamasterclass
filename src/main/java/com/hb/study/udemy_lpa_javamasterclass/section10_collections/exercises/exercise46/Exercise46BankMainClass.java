@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise46;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class Exercise46BankMainClass {
 
@@ -9,7 +9,7 @@ public class Exercise46BankMainClass {
     private static final String TIM = "Tim";
     private static final String MIKE = "Mike";
 
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String CUSTOMER_ADDED = "Another bank customer added";
     private static final String TRANSACTION_SUCCESSFUL = "Customer Transaction Successful";
 

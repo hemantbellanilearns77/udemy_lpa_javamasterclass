@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_advanced;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_advanced.model.LPAStudent;
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_advanced.model.Student;
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_advanced.util.QueryItem;
@@ -21,7 +21,7 @@ record Employee(String name) implements QueryItem {
 
 public class GenericsAdvancedMain {
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
 
     public static void main(String[] args) {

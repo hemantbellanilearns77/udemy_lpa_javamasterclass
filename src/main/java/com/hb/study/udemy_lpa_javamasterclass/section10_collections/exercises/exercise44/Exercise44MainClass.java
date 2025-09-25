@@ -1,13 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise44;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 /**
  * created by : heman on 01-09-2025, 05:21 pm, in the "run-pmd.bat" project
  **/
 public class Exercise44MainClass {//Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String BHARATI_T_BELLANI = "Bharati T Bellani";
     private static final String BHARATI_TELNO = "9899000000";
 

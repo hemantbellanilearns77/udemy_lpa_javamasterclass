@@ -9,7 +9,7 @@ import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExcecutionUtil {
+public class ExecutionUtil {
     private BenchmarkModel benchmarkModel;
 
     public void initialize(String[] args) {

@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.coding_challenges.linkedlistchallenge;
 
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class LinkedListChallengeMainClass {
 
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
         public static void main(String[] args) {
         //

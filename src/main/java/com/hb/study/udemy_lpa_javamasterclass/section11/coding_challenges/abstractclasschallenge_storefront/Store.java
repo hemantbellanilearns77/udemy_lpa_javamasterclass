@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstractclasschallenge_storefront;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class Store {
 
     private static final List<ProductForSale> storeFrontInventory = new ArrayList<>();
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize(args);

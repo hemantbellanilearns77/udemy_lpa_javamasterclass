@@ -1,13 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section11.demostubs.interfacesdeepdive;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class InterfacesDeepDiveMainClass {
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
 

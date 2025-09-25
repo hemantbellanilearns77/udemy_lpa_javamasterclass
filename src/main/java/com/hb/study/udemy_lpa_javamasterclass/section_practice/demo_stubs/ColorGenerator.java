@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.security.SecureRandom;
@@ -13,7 +13,7 @@ import java.util.Set;
 public class ColorGenerator {
     public static final SecureRandom secureRandom = new SecureRandom();
     //Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String COLOR_CODE_ESCAPE_SEQUENCE_ONE = "\u001B[38;2";
     private static final String COLOR_CODE_ESCAPE_SEQUENCE_TWO = "\\u001B[38;2;";
     private static final String FORMAT_SPECIFIER_STRING_ONE = ";%d;%d;%dm";

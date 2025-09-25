@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.lamdaminichallenges;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
  **/
 public class LamdaMiniChallengesMain {
 
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String QUICKBROWNFOX_SENTENCE = "The quick brown fox jumps over the lazy dog!";
     private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
 

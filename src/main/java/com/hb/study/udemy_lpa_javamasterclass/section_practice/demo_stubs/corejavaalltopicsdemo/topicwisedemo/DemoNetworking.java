@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 /**
  * created by : heman on 16-07-2025, 09:18 pm, in the "udemy_lpa_javamasterclass" project
@@ -17,7 +17,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 public class DemoNetworking {
 
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) throws MalformedURLException {
         execution.initialize(args);

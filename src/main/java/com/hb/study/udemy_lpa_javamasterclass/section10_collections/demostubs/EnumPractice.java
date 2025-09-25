@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.models.DayOfTheWeek;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class EnumPractice {
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
         public static void main(String[] args) {
 

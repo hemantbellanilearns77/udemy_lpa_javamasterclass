@@ -5,7 +5,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.security.SecureRandom;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ChallengeMainClass {
 
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     public static final SecureRandom secureRandom = new SecureRandom();
     private static final int MAX_EMPLOYEE_COUNT = secureRandom.nextInt(1, (3969 + 1));
 

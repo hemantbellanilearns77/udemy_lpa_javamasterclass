@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.demo_
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.controller.CUIModeOrchestrator;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.common.constants.DateTimeUtilLIbConstants;
 
 import java.time.*;
@@ -13,7 +13,7 @@ public class DateTimeCarnival {
 
 
 
-    public static final  ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
         public static void main(String[] args) {
 

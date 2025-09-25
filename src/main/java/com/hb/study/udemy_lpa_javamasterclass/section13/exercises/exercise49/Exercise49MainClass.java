@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,7 +12,7 @@ import java.util.List;
  **/
 public class Exercise49MainClass {
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     private static final String STORMBRINGER = "Stormbringer";
 
         public static void main(String[] args) {
