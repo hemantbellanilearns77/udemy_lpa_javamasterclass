@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.polymorphismchallenge_carchallenge;
 
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class PolymorphismChallengeMainClass {
     private static final String GENERIC = "Generic";
     private static final String GASOLINE = "Gasoline";
 
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize(args);

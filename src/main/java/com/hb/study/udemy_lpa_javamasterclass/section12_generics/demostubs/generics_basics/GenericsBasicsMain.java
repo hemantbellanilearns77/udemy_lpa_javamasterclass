@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_basics;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 interface Player {
 
@@ -22,7 +22,7 @@ public class GenericsBasicsMain {
     private static final String HOUSTON_ASTROS = "Houston Astros";
     private static final String ADELAIDE_CROWS = "Adelaide Crows";
     private static final String COMMON_STRING_FORMATTER = "%s %s %s %n";
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
 

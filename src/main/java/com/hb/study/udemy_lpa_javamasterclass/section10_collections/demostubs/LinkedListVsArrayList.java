@@ -1,12 +1,12 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.LinkedList;
 
 public class LinkedListVsArrayList {
 
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     private static final String BRISBANE = "Brisbane";
     private static final String WAS_REMOVED_FROM_PLACES_TO_VISIT = "was removed from placesToVisit.";
     private static final String PLACES_TO_VISIT_AFTER_A_CALL_TO = "Places to visit after a call to";

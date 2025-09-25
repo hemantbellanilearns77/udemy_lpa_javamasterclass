@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs.corejavaalltopicsdemo;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ import java.util.Set;
 public class CoreJavaCarnival {
 
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
     private static final String FORMAT_STRING_PREFIX_ONE = "\uD83D\uDD37";
     private static final String FORMAT_STRING_PREFIX_TWO = "\uD83D\uDCCC";
     private static final String FORMAT_STRING_PREFIX_THREE = "\uD83E\uDDEE";

@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.coding_challenges.methodrefschallenge;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.security.SecureRandom;
@@ -16,7 +16,7 @@ import java.util.function.UnaryOperator;
 public class MethodReferencesChallenge {
 
     //Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
     private static final SecureRandom secureRandom = new SecureRandom();
 

@@ -9,7 +9,7 @@ import java.util.Properties;
 public class SystemDiagnostics {
 
     //Object level or Static declarations here...
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
         public static void main(String[] args) {
         //
         execution.initialize(args);

@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaadvanced;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 public class ChainingLambdasDemo {
 
     //Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String BUCHALKA = "Buchalka";
     private static final String S_S_FORMATSPEC_ONE = """
             %s %s""";
