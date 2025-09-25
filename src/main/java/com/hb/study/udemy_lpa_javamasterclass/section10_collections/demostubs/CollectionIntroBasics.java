@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.demostubs;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CollectionIntroBasics {
 
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String PRODUCE = "PRODUCE";
 
         public static void main(String[] args) {

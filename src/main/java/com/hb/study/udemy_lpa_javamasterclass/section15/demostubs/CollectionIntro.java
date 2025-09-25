@@ -1,6 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section15.demostubs;
 
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 
@@ -14,7 +14,7 @@ import java.util.HashSet;
 public class CollectionIntro {
 
     //Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize(args);

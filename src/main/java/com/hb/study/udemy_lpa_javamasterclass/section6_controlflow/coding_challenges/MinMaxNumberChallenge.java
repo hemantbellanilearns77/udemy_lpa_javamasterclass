@@ -1,20 +1,24 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_challenges;
 
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import java.util.Scanner;
+ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
+
+ import java.util.Scanner;
 
 public class MinMaxNumberChallenge {
 
+    public static final ExecutionUtil execution = new ExecutionUtil();
     public static void main(String[] args) {
-
+        execution.initialize(args);
         double maxNumber = 0.0;
         double minNumber = 0.0;
         String nextInput;
         double nextDecimalNumber;
         int numberOfDecimalsScreened = 0;
         Scanner scanner = new Scanner(System.in);
-        while(true) {
-            try {
+        try {
+            while(true) {
+
                 ConsoleStyler.styleOutput("Please enter the next decimal number or exit to quit: ");
                 nextInput = scanner.nextLine();
                 if (nextInput.equalsIgnoreCase("exit")){
@@ -22,23 +26,23 @@ public class MinMaxNumberChallenge {
                 }
                 nextDecimalNumber = Double.parseDouble(nextInput);
                 numberOfDecimalsScreened++;
-               if(numberOfDecimalsScreened == 1){
-                   minNumber = maxNumber = nextDecimalNumber;
-               } else {
-                   if(nextDecimalNumber > maxNumber) {
-                       maxNumber = nextDecimalNumber;
-                   }
-                   if(nextDecimalNumber < minNumber){
-                       minNumber = nextDecimalNumber;
-                   }
-               }
-            } catch(NumberFormatException nfe) {
-                ConsoleStyler.styleOutput("Since you entered a non-decimal number character, so exiting");
-                break;
+                if(numberOfDecimalsScreened == 1){
+                    minNumber = maxNumber = nextDecimalNumber;
+                } else {
+                    if(nextDecimalNumber > maxNumber) {
+                        maxNumber = nextDecimalNumber;
+                    }
+                    if(nextDecimalNumber < minNumber){
+                        minNumber = nextDecimalNumber;
+                    }
+                }
             }
+            ConsoleStyler.styleOutput("The count of decimal numbers screened to come to max and min values is: " + numberOfDecimalsScreened);
+            ConsoleStyler.styleOutput("The minimum number is: " + minNumber);
+            ConsoleStyler.styleOutput("The maximum number is: " + maxNumber);
+            execution.finalizeExecution();
+        }   catch(NumberFormatException nfe) {
+            ConsoleStyler.styleOutput("Since you entered a non-decimal number character, so exiting");
         }
-        ConsoleStyler.styleOutput("The count of decimal numbers screened to come to max and min values is: " + numberOfDecimalsScreened);
-        ConsoleStyler.styleOutput("The minimum number is: " + minNumber);
-        ConsoleStyler.styleOutput("The maximum number is: " + maxNumber);
     }
 }

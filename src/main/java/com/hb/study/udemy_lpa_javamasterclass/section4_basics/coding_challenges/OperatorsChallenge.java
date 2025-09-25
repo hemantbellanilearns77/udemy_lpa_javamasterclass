@@ -1,45 +1,41 @@
 package com.hb.study.udemy_lpa_javamasterclass.section4_basics.coding_challenges;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class OperatorsChallenge {
-    public static final ExcecutionUtil execution = new ExcecutionUtil();
 
-    // Named constants instead of magic numbers
-    private static final double FIRST_VALUE = 20.0d;
-    private static final double SECOND_VALUE = 80.0d;
-    private static final double MULTIPLIER = 100.0d;
-    private static final double DIVISOR_ONE = 40.58d;
-    private static final double DIVISOR_TWO = 29.0d; // from 2900/100d
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
         execution.initialize(args);
 
-        ConsoleStyler.styleExecutionInsight("""
-                The below was earlier used without parenthesis to demonstrate operator parenthesis, removed to fix a Sonar:
-                double myValuesTotal = myFirstValue + mySecondValue * 100.00d;
-                """);
+        double myFirstValue = 20.0d;
+        double mySecondValue = 80.0d;
 
-        double myValuesTotal = (FIRST_VALUE + SECOND_VALUE) * MULTIPLIER;
+        double myValuesTotal = calculateTotal(myFirstValue, mySecondValue);
         ConsoleStyler.styleOutput("myValuesTotal : " + myValuesTotal);
 
-        // Reuse helper method instead of duplicating logic
-        checkRemainder(myValuesTotal, DIVISOR_ONE);
-        checkRemainder(myValuesTotal, DIVISOR_TWO);
+        double modDivisor = 40.58d;
+        double remainder = calculateRemainder(myValuesTotal, modDivisor);
+        ConsoleStyler.styleOutput("Divisor: " + modDivisor + " | Remainder: " + remainder);
+        ConsoleStyler.styleOutput(remainder == 0.0 ? "There's no remainder" : "Got some remainder");
+
+        modDivisor = 2900 / 100d; // 29.0
+        remainder = calculateRemainder(myValuesTotal, modDivisor);
+        ConsoleStyler.styleOutput("Divisor: " + modDivisor + " | Remainder: " + remainder);
+        ConsoleStyler.styleOutput(remainder == 0.0 ? "There's no remainder" : "Got some remainder");
 
         execution.finalizeExecution();
     }
 
-    private static void checkRemainder(double total, double divisor) {
-        double remainder = total % divisor;
-        ConsoleStyler.styleOutput("theRemainder : " + remainder);
+    // Extracted method: calculates the total
+    public static double calculateTotal(double firstValue, double secondValue) {
+        return (firstValue + secondValue) * 100.0d;
+    }
 
-        // Use tolerance for floating point comparison
-        if (Math.abs(remainder) < 1e-9) {
-            ConsoleStyler.styleOutput("There's no remainder");
-        } else {
-            ConsoleStyler.styleOutput("Got some remainder");
-        }
+    // Extracted method: calculates remainder
+    public static double calculateRemainder(double total, double divisor) {
+        return total % divisor;
     }
 }

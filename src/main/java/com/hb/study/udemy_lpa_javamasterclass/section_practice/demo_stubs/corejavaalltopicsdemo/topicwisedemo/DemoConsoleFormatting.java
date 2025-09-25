@@ -1,7 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs.corejavaalltopicsdemo.topicwisedemo;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 /**
  * created by : heman on 21-07-2025, 11:23 am, in the "udemy_lpa_javamasterclass" project
@@ -9,7 +9,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
 public class DemoConsoleFormatting {
 
     //Object level or Static declarations here...
-    private static final ExcecutionUtil execution = new ExcecutionUtil();
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
     // ANSI escape codes
     public static final String RESET = "\u001B[0m";

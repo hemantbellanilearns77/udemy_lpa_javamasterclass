@@ -3,7 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs;
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 /**
  * created by : heman on 16-07-2025, 01:13 pm, in the "udemy_lpa_javamasterclass" project
@@ -14,7 +14,7 @@ public class DemoRunner {
     //Object level or Static declarations here...
 
     public static void main(String[] args) {
-        ExcecutionUtil execution = new ExcecutionUtil();
+        ExecutionUtil execution = new ExecutionUtil();
         execution.initialize(args);
         demoFunction();
         execution.finalizeExecution();

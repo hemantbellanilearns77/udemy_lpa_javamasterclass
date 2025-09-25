@@ -2,7 +2,7 @@ package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaintro;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
-import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExcecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
 import java.security.SecureRandom;
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
  **/
 public class FunkyFilters {
   //Object level or Static declarations here...
-  public static final ExcecutionUtil execution = new ExcecutionUtil();
+  public static final ExecutionUtil execution = new ExecutionUtil();
   public static final SecureRandom  secureRandom = new SecureRandom();
 
     private static int namesCount =  secureRandom.nextInt(1,64);
