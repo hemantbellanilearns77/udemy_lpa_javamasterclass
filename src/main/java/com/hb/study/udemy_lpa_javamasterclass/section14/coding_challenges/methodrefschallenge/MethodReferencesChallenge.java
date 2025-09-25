@@ -31,11 +31,11 @@ public class MethodReferencesChallenge {
     public static void main(String[] args) {
         execution.initialize(args);
 
-        demoMethodRefernces();
+        demoMethodReferences();
         execution.finalizeExecution();
     }
 
-    public static void demoMethodRefernces() {
+    public static void demoMethodReferences() {
 
         ConsoleStyler.startSection("Welcome to Method References Challenge Section");
         String[] firstNames = {"Anna", "Bob", "Nitin", "Aarav", "Vihaan", "Ishaan", "Kabir", "Aryan", "Hemant",
@@ -73,35 +73,31 @@ public class MethodReferencesChallenge {
 
         unaryOperators.add(allUppercaseUnaryLambda);
         // Add a randomly generated middle initial and include a period.
-        UnaryOperator<String> addMiddleInitialLsLambda = (s) -> {
-            return (s + " " + getRandomChar('A', 'Z') + '.');
-        };
+        UnaryOperator<String> addMiddleInitialLsLambda = (s) -> (s + " " + getRandomChar('A', 'Z') + '.');
         unaryOperators.add(addMiddleInitialLsLambda);
 
-        UnaryOperator<String> addReversedLastName = (s) -> {
-            return (s += " " + getReversedName(s.substring(0, s.indexOf(" "))));
-        };
+        UnaryOperator<String> addReversedLastName = (s) -> s + (" " + getReversedName(s.substring(0, s.indexOf(" "))));
         unaryOperators.add(addReversedLastName);
         List<UnaryOperator<String>> list = new ArrayList<>(List.of(
                 String::toUpperCase,
-                s -> s += " " + getRandomChar('D', 'M') + ".",
-                s -> s += " " + reverse(s, 0, s.indexOf(" ")),
+                s -> s + (" " + getRandomChar('D', 'M') + "."),
+                s -> s + (" " + reverse(s, s.indexOf(" "))),
                 MethodReferencesChallenge::reverse,
-                String::new,
-//                s -> new String("Howdy " + s),
+                String::new,s -> "Howdy " + s,
                 String::valueOf,
                 tim::last,
                 (new Person("MARY"))::last
 
         ));
-
+        applyTransformations(firstNames, unaryOperators);
+        ConsoleStyler.halfDivider();
         applyTransformations(firstNames, list);
 
 
     }
 
     public static char getRandomChar(char startChar, char endChar) {
-        return (char) secureRandom.nextInt((int) startChar, (int) endChar + 1);
+        return (char) secureRandom.nextInt(startChar, (int) endChar + 1);
     }
 
     private static String getReversedName(String firstName) {
@@ -109,11 +105,11 @@ public class MethodReferencesChallenge {
     }
 
     private static String reverse(String s) {
-        return reverse(s, 0, s.length());
+        return reverse(s, s.length());
     }
 
-    private static String reverse(String s, int start, int end) {
-        return new StringBuilder(s.substring(start, end)).reverse().toString();
+    private static String reverse(String s, int end) {
+        return new StringBuilder(s.substring(0, end)).reverse().toString();
     }
 
 

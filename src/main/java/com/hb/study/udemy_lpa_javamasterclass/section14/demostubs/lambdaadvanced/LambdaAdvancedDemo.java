@@ -181,7 +181,11 @@ public class LambdaAdvancedDemo {
         ConsoleStyler.halfDivider();
         names.removeIf(name -> name.startsWith("Ar"));
         ConsoleStyler.styleIntro(GUESTS_AFTER_REMOVE_IF + " startsWith(\"Ar\") ");
-        //names.forEach((String name) -> ConsoleStyler.styleIt(name, false));
+        names.forEach(ConsoleStyler::styleOutput);
+        ConsoleStyler.styleExecutionInsight("""
+                The above was a lambda as below, has been replaced with Method Reference to fix a sonar:
+                 names.forEach((String name) -> ConsoleStyler.styleOutput(name));
+                """);
         ConsoleStyler.styleEachAsIs("", names);
 
     }
