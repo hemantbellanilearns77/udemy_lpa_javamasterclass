@@ -28,21 +28,21 @@ public class LinkedListVsArrayList {
         ConsoleStyler.divider();
         ConsoleStyler.styleOutput("Places to visit before any call to removeElements Method are: " + placesToVisit);
         removeElements(placesToVisit);
-        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " LinkedList Remove-Data Methods ( remove and remove(index-4) : removeElements ) are: \n "
+        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " LinkedList Remove-Data Methods ( remove and remove(index-4) : removeElements ) are: CommonConstants.NEWLINE "
                 + placesToVisit);
 
         if (!placesToVisit.isEmpty()) removeElements(placesToVisit);
-        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Queue Remove-Data Methods ( remove, removeFirst and removeLast : removeElements ) are: \n "
+        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Queue Remove-Data Methods ( remove, removeFirst and removeLast : removeElements ) are: CommonConstants.NEWLINE "
                 + placesToVisit);
         removeElements(placesToVisit);
-        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Queue Remove-Data Methods ( remove, removeFirst and removeLast : removeElements ) are: \n "
+        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Queue Remove-Data Methods ( remove, removeFirst and removeLast : removeElements ) are: CommonConstants.NEWLINE "
                 + placesToVisit);
         removeElements(placesToVisit);
-        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Stack Remove-Data Methods ( pop : removeElements ) are: \n "
+        ConsoleStyler.styleOutput(PLACES_TO_VISIT_AFTER_A_CALL_TO + " Stack Remove-Data Methods ( pop : removeElements ) are: CommonConstants.NEWLINE "
                 + placesToVisit);
         ConsoleStyler.divider();
 
-        ConsoleStyler.styleOutput("Places to visit before demonstrating the gettingElement methods are:\n" + placesToVisit);
+        ConsoleStyler.styleOutput("Places to visit before demonstrating the gettingElement methods are:CommonConstants.NEWLINE" + placesToVisit);
         gettingElements(placesToVisit);
         ConsoleStyler.divider();
         execution.finalizeExecution();
@@ -85,13 +85,13 @@ public class LinkedListVsArrayList {
         ConsoleStyler.styleOutput(p2 + " " + WAS_REMOVED_FROM_PLACES_TO_VISIT);
         String p3 = placesToVisit.pollLast();
         ConsoleStyler.styleOutput(p3 + " " + WAS_REMOVED_FROM_PLACES_TO_VISIT);
-        ConsoleStyler.styleOutput("Places to visit after polling methods is: :\n"
+        ConsoleStyler.styleOutput("Places to visit after polling methods is: :CommonConstants.NEWLINE"
                 + placesToVisit);
         //Stack push and pop methods
         placesToVisit.push("Sydney");
         placesToVisit.push(BRISBANE);
         placesToVisit.push("Canberra");
-        ConsoleStyler.styleOutput("Places to visit after pushing new elements are:\n"
+        ConsoleStyler.styleOutput("Places to visit after pushing new elements are:CommonConstants.NEWLINE"
                 + placesToVisit);
         String p4 = placesToVisit.pop();
         ConsoleStyler.styleOutput(p4 + " was popped from placesToVisit.");

@@ -10,7 +10,7 @@ public class ConstructorChallenge_MainClass {
         //Test 1: Calling Constructor with 3 arguments
 
         Customer firstCustomer = new Customer("Tim", 20000000.00, "tim@gmail.com");
-        ConsoleStyler.styleOutput("First Customer's details are: \n" + firstCustomer);
+        ConsoleStyler.styleOutput("First Customer's details are: CommonConstants.NEWLINE" + firstCustomer);
         ConsoleStyler.styleOutput(firstCustomer.getName());
         ConsoleStyler.styleOutput(firstCustomer.getCredit_limit() + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(firstCustomer.getEmailaddress());
@@ -18,7 +18,7 @@ public class ConstructorChallenge_MainClass {
         ConsoleStyler.divider();
         //Test 2: Calling Empty Constructor
         Customer secondCustomer = new Customer();
-        ConsoleStyler.styleOutput("Second Customer's details are:  \n" + secondCustomer);
+        ConsoleStyler.styleOutput("Second Customer's details are:  CommonConstants.NEWLINE" + secondCustomer);
         ConsoleStyler.styleOutput(secondCustomer.getName());
         ConsoleStyler.styleOutput(secondCustomer.getCredit_limit() + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(secondCustomer.getEmailaddress());
@@ -26,7 +26,7 @@ public class ConstructorChallenge_MainClass {
         ConsoleStyler.divider();
         //Test 3: Calling Constructor with 2 arguments
         Customer thirdCustomer = new Customer("Hemant", "hemantbellani@gmail.com");
-        ConsoleStyler.styleOutput("Third Customer's details are:  \n" + thirdCustomer);
+        ConsoleStyler.styleOutput("Third Customer's details are:  CommonConstants.NEWLINE" + thirdCustomer);
         ConsoleStyler.styleOutput(thirdCustomer.getName());
         ConsoleStyler.styleOutput(thirdCustomer.getCredit_limit() + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(thirdCustomer.getEmailaddress());

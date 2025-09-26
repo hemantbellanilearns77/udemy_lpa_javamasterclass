@@ -69,10 +69,10 @@ public class MobilePhone {
     public void printContacts(){
         if(!this.myContacts.isEmpty()) {
             StringBuilder pribtContactsTextBlock = new StringBuilder();
-            pribtContactsTextBlock.append("Contact List:\n");
+            pribtContactsTextBlock.append("Contact List:CommonConstants.NEWLINE");
             int listOrderNumber = 1;
             for (Contact nextContact : this.myContacts) {
-                pribtContactsTextBlock.append(listOrderNumber).append(". ").append(nextContact.getName()).append(" -> ").append(nextContact.getPhoneNumber()).append("\n");
+                pribtContactsTextBlock.append(listOrderNumber).append(". ").append(nextContact.getName()).append(" -> ").append(nextContact.getPhoneNumber()).append("CommonConstants.NEWLINE");
             }
             ConsoleStyler.styleOutput(pribtContactsTextBlock.toString());
         }

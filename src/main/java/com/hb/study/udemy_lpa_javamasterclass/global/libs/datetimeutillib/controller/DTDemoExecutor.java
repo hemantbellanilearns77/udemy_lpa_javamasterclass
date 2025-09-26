@@ -57,24 +57,24 @@ public class DTDemoExecutor {
         ConsoleStyler.styleOutput("🕉️ VEDIC MODE — (Coming Soon - Placeholder)");
         ConsoleStyler.styleOutput("📅 Traditional Indian calendar formatting to be implemented...");
         ConsoleStyler.styleOutput("📅 Lunar calendars · Vikram Samvat · Shaka Samvat · Panchang Exploration");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "CommonConstants.NEWLINE");
     }
 
     public static void runCurrencyAndNumbers() {
         ConsoleStyler.styleOutput("💱 CURRENCY & NUMBER FORMATTING DEMO");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "CommonConstants.NEWLINE");
         double sample = 1234567.89;
         for (Locale locale : LocaleLibrary.getGlobalLocales()) {
             ConsoleStyler.styleOutput("🌐 %s".formatted(locale.getDisplayName()));
             ConsoleStyler.styleOutput("💰 Currency: " + NumberUtils.formatCurrency(sample, locale));
             ConsoleStyler.styleOutput("🔢 Number  : " + NumberUtils.formatNumber(sample, locale));
-            ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+            ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "CommonConstants.NEWLINE");
         }
     }
 
     public static void runTraditionalCalendars() {
         ConsoleStyler.styleOutput("🗓️ TRADITIONAL CALENDARS — Japan & Thailand");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "CommonConstants.NEWLINE");
         ZonedDateTime now = ZonedDateTime.now();
 
         String japanFmt = DTFormatterUtils.safeFormat(now, "GGGG yyyy/MM/dd", Locale.JAPAN);
@@ -86,7 +86,7 @@ public class DTDemoExecutor {
 
     public static void runPatternFiesta() {
         ConsoleStyler.styleOutput("🎨 PATTERN FIESTA — Demo of a lot of Pattern variations ");
-        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "\n");
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR + "CommonConstants.NEWLINE");
         PatternLibrary.runIndianPatterns();
         PatternLibrary.runGlobalPatterns();
     }

@@ -127,7 +127,7 @@ public class Meal {
 
             StringBuilder itemized = new StringBuilder(super.toString());
             for (Item topping : toppings) {
-                itemized.append("\n");
+                itemized.append("CommonConstants.NEWLINE");
                 itemized.append(topping);
             }
 

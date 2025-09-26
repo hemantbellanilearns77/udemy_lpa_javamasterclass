@@ -38,7 +38,7 @@ public class EvenDigitSum {
                                 "please try again or or input 'exit' or 'quit' to quit ");
                     }
                 } catch(NumberFormatException nfe) {
-                    ConsoleStyler.styleOutput("\n**** Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ****");
+                    ConsoleStyler.styleOutput("CommonConstants.NEWLINE**** Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ****");
                 }
             }
         } while(!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));

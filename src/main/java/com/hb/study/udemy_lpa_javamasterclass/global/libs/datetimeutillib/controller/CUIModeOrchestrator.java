@@ -18,9 +18,9 @@ public class CUIModeOrchestrator {
 
     public static void runMode(FormatterMode mode, Locale locale, ZoneId zone, String customPattern) {
         ConsoleStyler.styleInitializationInfo(
-                "🎭 Terminal Mode Execution: " + mode.name() + "\n"
-                + "🌐 Locale: " + locale.toString() + "\n"
-                + "🕰️ Zone: " + zone + "\n"
+                "🎭 Terminal Mode Execution: " + mode.name() + "CommonConstants.NEWLINE"
+                + "🌐 Locale: " + locale.toString() + "CommonConstants.NEWLINE"
+                + "🕰️ Zone: " + zone + "CommonConstants.NEWLINE"
         );
 
         switch (mode) {

@@ -21,9 +21,9 @@ public class GUIModeOrchestrator {
     public static void runMode(FormatterMode mode, Locale locale, String zoneId, String customPattern) {
 
         ConsoleStyler.styleInitializationInfo(
-                "🎭 Running Mode: " + mode.name() + "\n"
-                        + "🌐 Locale:  " + locale.toString() + "\n"
-                        + "🌐 Locale: " + zoneId + "\n"
+                "🎭 Running Mode: " + mode.name() + "CommonConstants.NEWLINE"
+                        + "🌐 Locale:  " + locale.toString() + "CommonConstants.NEWLINE"
+                        + "🌐 Locale: " + zoneId + "CommonConstants.NEWLINE"
         );
 
         ZoneId zone = ZoneId.of(zoneId);

@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class ArraysSortDescChallenge {
         public static void main(String[] args) {
         //
-        String asteriskSeparatorLine = "*".repeat(153) + "\n";
+        String asteriskSeparatorLine = "*".repeat(153) + "CommonConstants.NEWLINE";
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of "
                 + ArraysSortDescChallenge.class.getSimpleName() +
                 " is as below\t\t" + "*".repeat(54);
