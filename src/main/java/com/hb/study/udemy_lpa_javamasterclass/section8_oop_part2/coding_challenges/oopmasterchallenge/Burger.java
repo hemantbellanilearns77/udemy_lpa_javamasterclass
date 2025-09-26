@@ -1,4 +1,4 @@
-package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstractclasschallenge_storefront.Topping;
@@ -29,11 +29,6 @@ public class Burger extends Item {
 
     public double getExtraPrice(String toppingName) {
         return Topping.valueOf(toppingName.toUpperCase()).getPrice();
-    /*    return switch (toppingName.toUpperCase()) {
-            case "AVOCADO", "CHEESE" -> 1.0;
-            case "BACON", "HAM", "SALAMI" -> 1.5;
-            default -> 0.0;
-        };*/
     }
 
     public void addToppings(String extra1, String extra2, String extra3) {

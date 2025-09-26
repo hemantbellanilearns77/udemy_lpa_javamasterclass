@@ -1,4 +1,4 @@
-package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
