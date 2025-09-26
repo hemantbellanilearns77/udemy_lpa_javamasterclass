@@ -1,15 +1,17 @@
 package com.hb.study.udemy_lpa_javamasterclass.section9_advancedarrays.demostubs;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Random;
 
 public class ArrayBasics {
 
-        public static void main(String[] args) {
-        //
+    public static final ExecutionUtil execution = new ExecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
         String asteriskSeparatorLine = "*".repeat(153) + "\n";
         String programOutputBegins = "*".repeat(63) + " The Output of " + ArrayBasics.class.getSimpleName() + " is as below " + "*".repeat(63);
 
@@ -19,9 +21,10 @@ public class ArrayBasics {
         myDoubleArray[2] = 20.00;
         ConsoleStyler.styleOutput(programOutputBegins);
 
-         ConsoleStyler.styleOutput("myIntArray 3rd element: %d %n".formatted(myIntArray[2]));
-         ConsoleStyler.styleOutput("myDoubleArray 3rd element: %f  %n".formatted(myDoubleArray[2]));
-        ConsoleStyler.styleOutput("myIntArray printed using Arrays.toString() looks like: "+Arrays.toString(myIntArray));;
+        ConsoleStyler.styleOutput("myIntArray 3rd element: %d %n".formatted(myIntArray[2]));
+        ConsoleStyler.styleOutput("myDoubleArray 3rd element: %f  %n".formatted(myDoubleArray[2]));
+        ConsoleStyler.styleOutput("myIntArray printed using Arrays.toString() looks like: " + Arrays.toString(myIntArray));
+
         ConsoleStyler.styleOutput("The lengths of " +
                 "myIntArray and myDoubleArray respectively are:  " +
                 myIntArray.length + " and " + myDoubleArray.length);
@@ -34,43 +37,41 @@ public class ArrayBasics {
         ConsoleStyler.styleOutput("Sorted firstArray is: " + Arrays.toString(firstArray));
         ConsoleStyler.styleOutput(asteriskSeparatorLine);
 
-        int[] secondArray = getRandomArray(10);
+        int[] secondArray = getRandomArray(20);
         ConsoleStyler.styleOutput("secondArray initialized and before filling with all 5s: " + Arrays.toString(secondArray));
         Arrays.fill(secondArray, 5);
         ConsoleStyler.styleOutput("secondArray after filling with all 5s: " + Arrays.toString(secondArray));
         ConsoleStyler.styleOutput(asteriskSeparatorLine);
 
-        int[] thirdArray =  getRandomArray(10);
+        int[] thirdArray = getRandomArray(30);
         ConsoleStyler.styleOutput("thirdArray is: " + Arrays.toString(thirdArray));
         int[] fourthArray = Arrays.copyOf(thirdArray, thirdArray.length);
         ConsoleStyler.styleOutput("fourthArray as copied from thirdArray is: " + Arrays.toString(fourthArray));
         ConsoleStyler.styleOutput(asteriskSeparatorLine);
-        String[] stringArray = {"Able","Jane","Mark","Ralph","David"};
+        String[] stringArray = {"Able", "Jane", "Mark", "Ralph", "David"};
         Arrays.sort(stringArray);
-        if(Arrays.binarySearch(stringArray,"Mark") >= 0) {
+        if (Arrays.binarySearch(stringArray, "Mark") >= 0) {
             ConsoleStyler.styleOutput("Mark was found in the string Array at index: " + Arrays.binarySearch(stringArray, "Mark"));
         }
         ConsoleStyler.styleOutput(asteriskSeparatorLine);
-        int[] testArray1 = {1,2,3,4,5};
-        int[] testArray2 = {1,2,3,4,5};
-        if(Arrays.equals(testArray1, testArray2)) {
+        int[] testArray1 = {1, 2, 3, 4, 5};
+        int[] testArray2 = {1, 2, 3, 4, 5};
+        if (Arrays.equals(testArray1, testArray2)) {
             ConsoleStyler.styleOutput("Arrays(testArray1, testArray2) are equal");
-        } else{
+        } else {
             ConsoleStyler.styleOutput("Arrays(testArray1, testArray2) are not equal");
         }
         ConsoleStyler.styleOutput(asteriskSeparatorLine);
-
+        execution.finalizeExecution();
     }
 
-    private static int[] getRandomArray(int len){
+    private static int[] getRandomArray(int len) {
 
         SecureRandom secureRandom = new SecureRandom();
         int[] randomArray = new int[len];
 
-        for(int i = 0; i< randomArray.length; i++) {
+        for (int i = 0; i < randomArray.length; i++) {
             randomArray[i] = secureRandom.nextInt(101);
-            //randomArray[i] += random.nextInt(101);
-
         }
         return randomArray;
     }
