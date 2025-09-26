@@ -25,9 +25,9 @@ class PersonalComputer extends Product{
     public String toString() {
         return "PersonalComputer{" +
                 super.toString() +
-                ", \n monitor=" + monitor.toString() +
-                ", \n motherboard=" + motherboard.toString() +
-                ", \n computerCase=" + computerCase.toString() +
+                ", CommonConstants.NEWLINE monitor=" + monitor.toString() +
+                ", CommonConstants.NEWLINE motherboard=" + motherboard.toString() +
+                ", CommonConstants.NEWLINE computerCase=" + computerCase.toString() +
                 "} " ;
     }
 

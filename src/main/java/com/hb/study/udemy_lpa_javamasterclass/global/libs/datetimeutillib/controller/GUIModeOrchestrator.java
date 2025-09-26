@@ -3,6 +3,7 @@ package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.contr
 
 
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
@@ -21,9 +22,9 @@ public class GUIModeOrchestrator {
     public static void runMode(FormatterMode mode, Locale locale, String zoneId, String customPattern) {
 
         ConsoleStyler.styleInitializationInfo(
-                "🎭 Running Mode: " + mode.name() + "\n"
-                        + "🌐 Locale:  " + locale.toString() + "\n"
-                        + "🌐 Locale: " + zoneId + "\n"
+                "🎭 Running Mode: " + mode.name() + CommonConstants.NEWLINE
+                        + "🌐 Locale:  " + locale.toString() + CommonConstants.NEWLINE
+                        + "🌐 Locale: " + zoneId + CommonConstants.NEWLINE
         );
 
         ZoneId zone = ZoneId.of(zoneId);

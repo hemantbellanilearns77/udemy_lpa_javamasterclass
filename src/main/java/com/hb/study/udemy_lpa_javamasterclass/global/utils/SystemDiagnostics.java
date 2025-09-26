@@ -23,7 +23,7 @@ public class SystemDiagnostics {
             ConsoleStyler.styleOutput("%-40s : %s%n".formatted(entry.getKey(), entry.getValue()));
         }
         ConsoleStyler.divider();
-        ConsoleStyler.styleOutput("\n=== 🌐 Environment Variables ===");
+        ConsoleStyler.styleOutput("CommonConstants.NEWLINE=== 🌐 Environment Variables ===");
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> entry : env.entrySet()) {
             ConsoleStyler.styleOutput("%-30s : %s%n".formatted(entry.getKey(), entry.getValue()));

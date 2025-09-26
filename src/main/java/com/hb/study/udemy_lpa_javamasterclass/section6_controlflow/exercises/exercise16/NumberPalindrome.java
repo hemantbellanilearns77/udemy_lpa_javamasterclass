@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise16;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
@@ -27,14 +28,14 @@ public class NumberPalindrome {
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
             if (userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
-                ConsoleStyler.styleOutput("\n\nExiting the input screen .... thanks for your attempts and inputs.... ");
+                ConsoleStyler.styleOutput("CommonConstants.NEWLINE\nExiting the input screen .... thanks for your attempts and inputs.... ");
             } else {
                 ConsoleStyler.styleOutput("userInput was:" + userInput + ", userInputWithoutBlanks is:" + userInputWithoutBlanks);
                 // Checking if user input number is Palindrome or not?
                 try {
                     ConsoleStyler.styleOutput("Is " + userInputWithoutBlanks + " a palindrome? : " + isPalindrome(Integer.parseInt(userInputWithoutBlanks)));
                 } catch (NumberFormatException numberFormatException) {
-                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit " + "\n" + numberFormatException.getMessage());
+                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit " + CommonConstants.NEWLINE + numberFormatException.getMessage());
                 }
             }
         } while (!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));

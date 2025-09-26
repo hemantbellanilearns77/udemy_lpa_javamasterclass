@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section9_advancedarrays.coding_challenges;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.security.SecureRandom;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 public class ArraysSortDescChallenge {
         public static void main(String[] args) {
         //
-        String asteriskSeparatorLine = "*".repeat(153) + "\n";
+        String asteriskSeparatorLine = "*".repeat(153) + CommonConstants.NEWLINE;
         String programOutputBegins = "*".repeat(54) + "\t\tThe Output of "
                 + ArraysSortDescChallenge.class.getSimpleName() +
                 " is as below\t\t" + "*".repeat(54);

@@ -38,9 +38,9 @@ public class Part1 {
                 printMenuOfActions();
                 continue;
             }
-            printSortedGroceries(groceries, "Grocery list is empty right now... ", "Your interim grocery list, sorted(in natural order) is:\n ");
+            printSortedGroceries(groceries, "Grocery list is empty right now... ", "Your interim grocery list, sorted(in natural order) is:CommonConstants.NEWLINE ");
         } while (userInput != 0);
-        printSortedGroceries(groceries, "You ended up with an empty grocery list", "Your final grocery list, sorted(in natural order) is:\n ");
+        printSortedGroceries(groceries, "You ended up with an empty grocery list", "Your final grocery list, sorted(in natural order) is:CommonConstants.NEWLINE ");
 
     }
 
@@ -56,7 +56,7 @@ public class Part1 {
     }
 
     private static void printGroceryState(ArrayList<String> groceries) {
-        printSortedGroceries(groceries, "Grocery list is empty right now... ", "Your interim grocery list, sorted(in natural order) is:\n ");
+        printSortedGroceries(groceries, "Grocery list is empty right now... ", "Your interim grocery list, sorted(in natural order) is:CommonConstants.NEWLINE ");
     }
 
     private static void addGroceryItems(ArrayList<String> groceryList) {

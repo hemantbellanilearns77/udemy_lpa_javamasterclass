@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.controller;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.DTFormatterUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.libs.datetimeutillib.core.FormatterMode;
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
@@ -18,9 +19,9 @@ public class CUIModeOrchestrator {
 
     public static void runMode(FormatterMode mode, Locale locale, ZoneId zone, String customPattern) {
         ConsoleStyler.styleInitializationInfo(
-                "🎭 Terminal Mode Execution: " + mode.name() + "\n"
-                + "🌐 Locale: " + locale.toString() + "\n"
-                + "🕰️ Zone: " + zone + "\n"
+                "🎭 Terminal Mode Execution: " + mode.name() + CommonConstants.NEWLINE
+                + "🌐 Locale: " + locale.toString() + CommonConstants.NEWLINE
+                + "🕰️ Zone: " + zone + CommonConstants.NEWLINE
         );
 
         switch (mode) {

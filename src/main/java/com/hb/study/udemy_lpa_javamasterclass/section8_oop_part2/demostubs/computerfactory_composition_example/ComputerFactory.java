@@ -17,7 +17,7 @@ public class ComputerFactory {
         thePC.getMotherboard().loadProgram("Operating System");
         thePC.getMonitor().drawPixelAt(35, 35, "blue");*/
        """);
-        ConsoleStyler.styleOutput("Your PC has these configurations : \n " + thePC);
+        ConsoleStyler.styleOutput("Your PC has these configurations : CommonConstants.NEWLINE " + thePC);
         ConsoleStyler.divider();
         thePC.powerUp();
 

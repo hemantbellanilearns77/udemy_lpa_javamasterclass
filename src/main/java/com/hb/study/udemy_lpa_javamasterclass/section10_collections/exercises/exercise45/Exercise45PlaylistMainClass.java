@@ -25,7 +25,7 @@ public class Exercise45PlaylistMainClass {
         album.addSong("The gypsy", 4.2);
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
-        ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: \n" + album);
+        ConsoleStyler.styleOutput("The album 'Stormbringer' looks like below: CommonConstants.NEWLINE" + album);
         ConsoleStyler.divider();
 
         album = new Album("For those about to rock", "AC/DC");
@@ -39,7 +39,7 @@ public class Exercise45PlaylistMainClass {
         album.addSong("Breaking the rules", 5.32);
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
-        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: \n" + album);
+        ConsoleStyler.styleOutput("The album 'For those about to rock' looks like below: CommonConstants.NEWLINE" + album);
         ConsoleStyler.divider();
 
         LinkedList<Song> playList = new LinkedList<>();

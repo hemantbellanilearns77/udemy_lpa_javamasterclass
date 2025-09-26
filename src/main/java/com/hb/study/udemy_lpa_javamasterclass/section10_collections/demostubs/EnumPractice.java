@@ -17,7 +17,7 @@ public class EnumPractice {
 
         execution.initialize(args);
 
-        ConsoleStyler.styleOutput("Days of the week are: \n" +
+        ConsoleStyler.styleOutput("Days of the week are: CommonConstants.NEWLINE" +
                 Arrays.asList(DayOfTheWeek.values()));
         ConsoleStyler.divider();
 

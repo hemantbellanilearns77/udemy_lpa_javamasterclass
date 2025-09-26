@@ -20,7 +20,7 @@ public class StringMethods {
         //String inspection methods : length / isempty / charAt
         printInformation(stringToInspect);
         printInformation("");
-        printInformation("\t      \n");
+        printInformation("\t      CommonConstants.NEWLINE");
         //String comarison methods : compare, equals etc...
         printStringComparisonResults(stringToInspect, stringToInspectToLower);
         // String Manipulation Methods. - substring etc....

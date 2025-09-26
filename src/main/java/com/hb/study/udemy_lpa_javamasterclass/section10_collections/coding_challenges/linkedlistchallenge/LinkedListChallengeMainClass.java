@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.coding_challenges.linkedlistchallenge;
 
+ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ public class LinkedListChallengeMainClass {
 
 
         createItineray(itinerary);
-        ConsoleStyler.styleInitializationInfo("\nThe list before any user performed operation using the Menu is as below:\n" + itinerary);
+        ConsoleStyler.styleInitializationInfo("\nThe list before any user performed operation using the Menu is as below:CommonConstants.NEWLINE" + itinerary);
         ConsoleStyler.halfDivider();
         var iterator = itinerary.listIterator();
         boolean forward = true;
@@ -40,7 +41,7 @@ public class LinkedListChallengeMainClass {
                 case "L" -> listPlaces(itinerary);
                 case "M" -> printMenu();
                 default ->
-                        ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + "\n");
+                        ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + CommonConstants.NEWLINE);
             }
         } while (!nextInput.equalsIgnoreCase("Q"));
         execution.finalizeExecution();

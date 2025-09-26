@@ -2,6 +2,8 @@ package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 /**
@@ -53,9 +55,9 @@ public class Album {
     @Override
     public String toString() {
         StringBuilder albumToStringBuilder = new StringBuilder();
-        albumToStringBuilder.append("Album name='").append(name).append('\'').append(", artist='").append(artist).append('\'').append("\nTrack No. Title: Duration \n");
+        albumToStringBuilder.append("Album name='").append(name).append('\'').append(", artist='").append(artist).append('\'').append("\nTrack No. Title: Duration CommonConstants.NEWLINE");
         for (int loopCounter = 0; loopCounter < this.songs.songs.size(); loopCounter++) {
-            albumToStringBuilder.append((loopCounter + 1)).append(".\t").append(this.songs.songs.get(loopCounter).toString()).append("\n");
+            albumToStringBuilder.append((loopCounter + 1)).append(".\t").append(this.songs.songs.get(loopCounter).toString()).append(CommonConstants.NEWLINE);
         }
         return albumToStringBuilder.toString();
     }

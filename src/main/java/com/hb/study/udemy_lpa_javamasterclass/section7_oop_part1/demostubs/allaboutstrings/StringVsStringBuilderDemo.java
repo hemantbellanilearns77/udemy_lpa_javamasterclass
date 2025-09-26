@@ -14,7 +14,7 @@ public class StringVsStringBuilderDemo {
 
         StringBuilder stringBuilderObject  = new StringBuilder("Hello World");
         String concatenatedString = stringObject.concat(" and Goodbye...");
-        ConsoleStyler.styleOutput(stringObject + " when concatenated with :  and Goodbye... resulted in one concatenated string: \n"
+        ConsoleStyler.styleOutput(stringObject + " when concatenated with :  and Goodbye... resulted in one concatenated string: CommonConstants.NEWLINE"
                 + concatenatedString );
         stringBuilderObject.append(" and Goodbye..... ");
         printInformation(stringObject);

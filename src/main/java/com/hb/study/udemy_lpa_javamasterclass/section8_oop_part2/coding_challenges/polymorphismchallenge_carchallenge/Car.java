@@ -10,7 +10,7 @@ public class Car {
 
     public void startEngine() {
         ConsoleStyler.styleOutput("Starting the Engine of the Car... " +
-                "\n This car can be described as: " + this.description);
+                "CommonConstants.NEWLINE This car can be described as: " + this.description);
     }
     public void drive(){
         ConsoleStyler.styleOutput("Driving the Car of type: " + getClass().getSimpleName());
