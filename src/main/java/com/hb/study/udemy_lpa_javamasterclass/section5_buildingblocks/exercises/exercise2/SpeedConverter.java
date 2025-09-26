@@ -1,12 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises.exercise2;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class SpeedConverter {
-        public static void main(String[] args) {
-        //
+    public static final ExecutionUtil execution = new ExecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
         double testValueKilometersPerHour = 1.5;
         printConversion(testValueKilometersPerHour);
+        execution.finalizeExecution();
     }
     public static long toMilesPerHour(double kilometersPerHour) {
         long roundedMilesPerHour = -1;
