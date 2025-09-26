@@ -3,18 +3,17 @@ package com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.gene
 import com.hb.study.udemy_lpa_javamasterclass.section12_generics.demostubs.generics_advanced.util.*;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 public class Student implements QueryItem, com.hb.study.udemy_lpa_javamasterclass.section12_generics.coding_challenges.finalgenericschallenge.util.QueryItem {
 
-    private String name;
-    private String course;
-    private int yearStarted;
+    private final String name;
+    private final String course;
+    private final int yearStarted;
 
     protected static SecureRandom secureRandom = new SecureRandom();
 
-    private static String[] firstNames = {"Ann", "Bill", "Cathy", "John", "Tim"};
-    private static String[] courses = {"C++", "Java", "Python"};
+    private static final String[] firstNames = {"Ann", "Bill", "Cathy", "John", "Tim"};
+    private static final String[] courses = {"C++", "Java", "Python"};
 
     public Student() {
         int lastNameIndex = secureRandom.nextInt(65, 91);
