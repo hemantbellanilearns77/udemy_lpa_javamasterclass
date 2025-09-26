@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.coding_challenges.linkedlistchallenge;
 
+ import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.LinkedList;
@@ -40,7 +41,7 @@ public class LinkedListChallengeMainClass {
                 case "L" -> listPlaces(itinerary);
                 case "M" -> printMenu();
                 default ->
-                        ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + "CommonConstants.NEWLINE");
+                        ConsoleStyler.styleOutput("*".repeat(27) + " Extremely Sorry, but this is an invalid input. try again.... " + "*".repeat(27) + CommonConstants.NEWLINE);
             }
         } while (!nextInput.equalsIgnoreCase("Q"));
         execution.finalizeExecution();

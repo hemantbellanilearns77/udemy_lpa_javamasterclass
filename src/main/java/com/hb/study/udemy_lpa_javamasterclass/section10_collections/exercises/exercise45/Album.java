@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise45;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class Album {
             albumToStringBuilder.append(loopCounter + 1)
                     .append(".\t")
                     .append(songs.get(loopCounter).toString())
-                    .append("CommonConstants.NEWLINE");
+                    .append(CommonConstants.NEWLINE);
         }
         return albumToStringBuilder.toString();
     }

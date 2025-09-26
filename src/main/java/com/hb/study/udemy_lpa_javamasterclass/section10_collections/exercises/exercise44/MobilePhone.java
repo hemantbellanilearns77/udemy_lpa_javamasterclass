@@ -1,6 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section10_collections.exercises.exercise44;
 
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class MobilePhone {
             pribtContactsTextBlock.append("Contact List:CommonConstants.NEWLINE");
             int listOrderNumber = 1;
             for (Contact nextContact : this.myContacts) {
-                pribtContactsTextBlock.append(listOrderNumber).append(". ").append(nextContact.getName()).append(" -> ").append(nextContact.getPhoneNumber()).append("CommonConstants.NEWLINE");
+                pribtContactsTextBlock.append(listOrderNumber).append(". ").append(nextContact.getName()).append(" -> ").append(nextContact.getPhoneNumber()).append(CommonConstants.NEWLINE);
             }
             ConsoleStyler.styleOutput(pribtContactsTextBlock.toString());
         }

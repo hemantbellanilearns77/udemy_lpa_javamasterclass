@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise16;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
@@ -34,7 +35,7 @@ public class NumberPalindrome {
                 try {
                     ConsoleStyler.styleOutput("Is " + userInputWithoutBlanks + " a palindrome? : " + isPalindrome(Integer.parseInt(userInputWithoutBlanks)));
                 } catch (NumberFormatException numberFormatException) {
-                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit " + "CommonConstants.NEWLINE" + numberFormatException.getMessage());
+                    ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit " + CommonConstants.NEWLINE + numberFormatException.getMessage());
                 }
             }
         } while (!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));
