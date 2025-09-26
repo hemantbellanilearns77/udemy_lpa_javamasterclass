@@ -60,7 +60,7 @@ public class CommonUtils {
         try {
             minDay = LocalDate.of(fromYear, fromMonth, fromDayOfMonth).toEpochDay();
         } catch (DateTimeException dateTimeException) {
-            ConsoleStyler.styleOutput("Since the Random Date couldn't be formed from the range between today and date parameters supplied, due to: \n" +
+            ConsoleStyler.styleOutput("Since the Random Date couldn't be formed from the range between today and date parameters supplied, due to: CommonConstants.NEWLINE" +
                     dateTimeException.getMessage());
             ConsoleStyler.styleOutput("Therefore returning a default date: 15-Aug-1947");
             minDay = LocalDate.of(1947, 8, 15).toEpochDay();

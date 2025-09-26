@@ -8,8 +8,8 @@ public class CharChallenge {
         char myUnicodeChar = '\u003F';
         char myDecimalChar = 63;
 
-    ConsoleStyler.styleOutput("My Char values are: \n\n 1. mySimpleChar: \'" + mySimpleChar + "\'" +
-            "\n 2. myUnicodeChar: \'" + myUnicodeChar + "\'" +
-            "\n 3. myDecimalChar: \'" + myDecimalChar + "\'");
+    ConsoleStyler.styleOutput("My Char values are: \nCommonConstants.NEWLINE 1. mySimpleChar: \'" + mySimpleChar + "\'" +
+            "CommonConstants.NEWLINE 2. myUnicodeChar: \'" + myUnicodeChar + "\'" +
+            "CommonConstants.NEWLINE 3. myDecimalChar: \'" + myDecimalChar + "\'");
     }
 }

@@ -8,7 +8,7 @@ record Town ( String town, int distanceFromOrigin) {
         return " {" +
                 "\'" + town + '\'' +
                 ", distance (in km) from \'" + originTown + "\': " + distanceFromOrigin +
-                "}\n";
+                "}CommonConstants.NEWLINE";
     }
 
 }

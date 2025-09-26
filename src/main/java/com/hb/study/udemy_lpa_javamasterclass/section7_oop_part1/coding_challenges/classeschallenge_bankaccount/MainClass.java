@@ -22,7 +22,7 @@ public class MainClass {
         myAccount.withdrawFunds(54.46);
         myAccount.withdrawFunds(54.45);
 
-        ConsoleStyler.styleOutput("Details of Account : \n");
+        ConsoleStyler.styleOutput("Details of Account : CommonConstants.NEWLINE");
         ConsoleStyler.styleOutput(CUSTOMER_NAME + myAccount.getCustomerName());
         ConsoleStyler.styleOutput(CUSTOMER_ACCOUNT_NUMBER + myAccount.getAccountNumber());
         ConsoleStyler.styleOutput(CUSTOMER_NAME + myAccount.getCustomerEmail());
@@ -33,7 +33,7 @@ public class MainClass {
                 "Hemant Bellani",
                 "hemantbellani@gmail.com",
                 "98117860808");
-        ConsoleStyler.styleOutput("Details of Another Account : \n");
+        ConsoleStyler.styleOutput("Details of Another Account : CommonConstants.NEWLINE");
         ConsoleStyler.styleOutput(CUSTOMER_NAME + anotherAccount.getCustomerName());
         ConsoleStyler.styleOutput(CUSTOMER_ACCOUNT_NUMBER + anotherAccount.getAccountNumber());
         ConsoleStyler.styleOutput(CUSTOMER_NAME + anotherAccount.getCustomerEmail());

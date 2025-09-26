@@ -12,7 +12,7 @@ public class ArrayBasics {
 
     public static void main(String[] args) {
         execution.initialize(args);
-        String asteriskSeparatorLine = "*".repeat(153) + "\n";
+        String asteriskSeparatorLine = "*".repeat(153) + "CommonConstants.NEWLINE";
         String programOutputBegins = "*".repeat(63) + " The Output of " + ArrayBasics.class.getSimpleName() + " is as below " + "*".repeat(63);
 
         int[] myIntArray = new int[10];

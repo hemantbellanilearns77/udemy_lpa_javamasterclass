@@ -53,9 +53,9 @@ public class Album {
     @Override
     public String toString() {
         StringBuilder albumToStringBuilder = new StringBuilder();
-        albumToStringBuilder.append("Album name='").append(name).append('\'').append(", artist='").append(artist).append('\'').append("\nTrack No. Title: Duration \n");
+        albumToStringBuilder.append("Album name='").append(name).append('\'').append(", artist='").append(artist).append('\'').append("\nTrack No. Title: Duration CommonConstants.NEWLINE");
         for (int loopCounter = 0; loopCounter < this.songs.songs.size(); loopCounter++) {
-            albumToStringBuilder.append((loopCounter + 1)).append(".\t").append(this.songs.songs.get(loopCounter).toString()).append("\n");
+            albumToStringBuilder.append((loopCounter + 1)).append(".\t").append(this.songs.songs.get(loopCounter).toString()).append("CommonConstants.NEWLINE");
         }
         return albumToStringBuilder.toString();
     }

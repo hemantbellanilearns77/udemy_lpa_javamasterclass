@@ -76,6 +76,7 @@ public class CoreJavaCarnival {
         // 📅 Date API
         LocalDate now = LocalDate.now();
         ConsoleStyler.styleOutput("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_STANDARD)));
+        ConsoleStyler.styleOutput("Today: " + now.format(DateTimeFormatter.ofPattern(CommonConstants.DATE_PATTERN_VERBOSE)));
         ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_FIVE + " Date API");
         ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_SIX + " Exception Handling");
         // 🧪 Exception Handling
@@ -142,7 +143,7 @@ public class CoreJavaCarnival {
     }
 
     public static void runDBDemo() {
-        ConsoleStyler.styleOutput("\n📂 Connecting to SQLite DB...");
+        ConsoleStyler.styleOutput("CommonConstants.NEWLINE📂 Connecting to SQLite DB...");
         String url = "jdbc:sqlite:db\\carnival.db";
 
         // ✅ Whitelist table names

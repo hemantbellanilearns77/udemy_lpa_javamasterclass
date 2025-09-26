@@ -29,7 +29,7 @@ public class CollectionIntroBasics {
         groceryArray[0] = new GroceryItem("Milk");
         groceryArray[1] = new GroceryItem("apples", PRODUCE,1);
         groceryArray[2] = new GroceryItem("5 Oranges",PRODUCE,5);
-        ConsoleStyler.styleOutput("List of items in groceryArray (GrocerItem records) are: \n" + Arrays.toString(groceryArray));
+        ConsoleStyler.styleOutput("List of items in groceryArray (GrocerItem records) are: CommonConstants.NEWLINE" + Arrays.toString(groceryArray));
         ConsoleStyler.halfDivider();
 
         List<Object> objectList = new ArrayList<>();

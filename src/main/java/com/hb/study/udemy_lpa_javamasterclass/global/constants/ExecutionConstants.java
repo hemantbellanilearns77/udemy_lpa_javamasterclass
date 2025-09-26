@@ -14,9 +14,9 @@ public class ExecutionConstants {
     public static final String BENCHMARKSECTIONHEADER =
             "*".repeat(45) + " 📊 BENCHMARK INFO 📊 " + "*".repeat(45);
     public static final String BENCHMARKINSUMMARYSTR =
-            "📊 " + CommonConstants.UNDERLINE + "BENCHMARK SUMMARY" + CommonConstants.RESET + " of the above execution:\n";
+            "📊 " + CommonConstants.UNDERLINE + "BENCHMARK SUMMARY" + CommonConstants.RESET + " of the above execution:CommonConstants.NEWLINE";
     public static final String BENCHMARKINGDETAILSSTR =
-            "📊 " + CommonConstants.UNDERLINE + "BENCHMARK DETAILS" + CommonConstants.RESET + " of the above execution:\n";
+            "📊 " + CommonConstants.UNDERLINE + "BENCHMARK DETAILS" + CommonConstants.RESET + " of the above execution:CommonConstants.NEWLINE";
 
     public static final String BENCHMARKINSUMMARYDAYSSTR =
             CommonConstants.INDENT + " 🕒 Days: %s day(s)%n";

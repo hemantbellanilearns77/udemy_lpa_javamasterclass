@@ -35,7 +35,7 @@ public class LamdaMiniChallengesMain {
             ConsoleStyler.styleEachAsIs("Part: ", parts);
         };
         String originalSentence = "I am trying to print the parts of this sentence using a Lambda Expression generated out of an anonymous class";
-        ConsoleStyler.styleInitializationInfo("[INITIALIZATION]: \n" + "Original sentence is: \n\"" + originalSentence + "\"");
+        ConsoleStyler.styleInitializationInfo("[INITIALIZATION]: CommonConstants.NEWLINE" + "Original sentence is: CommonConstants.NEWLINE\"" + originalSentence + "\"");
         ConsoleStyler.halfDivider();
         ConsoleStyler.startSection("Original sentence after being divided into 'word parts' using accept() call on Anonymous class is as below: ");
         printTheParts.accept(originalSentence);
@@ -74,7 +74,7 @@ public class LamdaMiniChallengesMain {
         ConsoleStyler.styleInitializationInfo("""
                 These 4 mini-challenges are all about creating a lambda from a method with return value
                 Also create a Target Function, using one of the variations as its arguments and demonstrate it's invocation
-                Here's the method provided \n
+                Here's the method provided CommonConstants.NEWLINE
                 public static String everySecondChar(String source){
                          StringBuilder returnVal = new StringBuilder();
                          for( int i=0; i<source.length(); i++){
