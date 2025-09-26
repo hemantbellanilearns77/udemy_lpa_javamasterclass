@@ -41,7 +41,7 @@ public class CommonConstants {
     public static final String DB_DEMO_LABEL = "💾 Database Interaction Demo";
     public static final String SWING_UI_LABEL = "🎨 Swing UI Showcase";
     public static final String JFX_DEMO_LABEL = "🖼️ JavaFX Feature Preview";
-
+    public static final double EPSILON = 1e-9;
 
 
     private CommonConstants() {} // Prevent instantiation
