@@ -2,13 +2,17 @@ package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.exercises
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class PlayingCat {
-        public static void main(String[] args) {
-        //
+    public static final ExecutionUtil execution = new ExecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.styleOutput(isCatPlaying(true, 10) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(isCatPlaying(false, 36) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(isCatPlaying(false, 35) + CommonConstants.EMPTYSTRING);
+        execution.finalizeExecution();
     }
 
     public static boolean isCatPlaying(boolean summer, int temperature) {
