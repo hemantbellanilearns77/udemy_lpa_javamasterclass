@@ -3,19 +3,21 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.demostubs.comp
 class PersonalComputer extends Product{
 
     private String model;
-    private String manufacturer;
-    private Monitor monitor;
-    private Motherboard motherboard;
-    private ComputerCase computerCase;
+    private final String manufacturer;
+    private final Monitor monitor;
+    private final Motherboard motherboard;
+    private final ComputerCase computerCase;
 
      public PersonalComputer(String model,
-                            String manufacturer,
-                            ComputerCase computerCase,
-                            Monitor monitor,
-                            Motherboard motherboard
+                             String manufacturer,
+                             ComputerCase computerCase,
+                             Monitor monitor,
+                             Motherboard motherboard
                             ) {
         super(model, manufacturer);
-        this.monitor = monitor;
+         this.model = model;
+         this.manufacturer = manufacturer;
+         this.monitor = monitor;
         this.motherboard = motherboard;
         this.computerCase = computerCase;
 
@@ -24,24 +26,13 @@ class PersonalComputer extends Product{
     @Override
     public String toString() {
         return "PersonalComputer{" +
-                super.toString() +
-                ", CommonConstants.NEWLINE monitor=" + monitor.toString() +
-                ", CommonConstants.NEWLINE motherboard=" + motherboard.toString() +
-                ", CommonConstants.NEWLINE computerCase=" + computerCase.toString() +
-                "} " ;
+                "model='" + model + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", monitor=" + monitor +
+                ", motherboard=" + motherboard +
+                ", computerCase=" + computerCase +
+                '}';
     }
-
-    /*public Monitor getMonitor() {
-        return monitor;
-    }
-
-    public Motherboard getMotherboard() {
-        return motherboard;
-    }
-
-    public ComputerCase getComputerCase() {
-        return computerCase;
-    }*/
 
     public void powerUp(){
         computerCase.pressPowerButton();
@@ -51,4 +42,13 @@ class PersonalComputer extends Product{
     private void drawLogo(){
         monitor.drawPixelAt(1200, 50, "yellow");
     }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
 }

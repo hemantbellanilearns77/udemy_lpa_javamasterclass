@@ -1,11 +1,14 @@
-package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge_billburgerchallenge;
+package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.oopmasterchallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.abstractclasschallenge_storefront.Topping;
 
-public class Main {
+public class BillBurgerChallengeMainClass {
+
+        public static final ExecutionUtil execution = new ExecutionUtil();
 
         public static void main(String[] args) {
-        //
+        execution.initialize(args);
 
         Item coke = new Item("drink", "coke", 1.50);
         coke.printItem();

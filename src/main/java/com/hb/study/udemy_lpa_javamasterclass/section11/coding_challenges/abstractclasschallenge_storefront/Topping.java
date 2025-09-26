@@ -17,7 +17,6 @@ public enum Topping {
             case BACON, SALAMI, AVACADO -> 2.0;
             case CHEDDAR, PICKLES, TOMATO, LETTUCE -> 1.5;
             case CHEESE, MUSTARD, MAYO -> 1.0;
-            default -> 0.0;
         };
     }
 }
