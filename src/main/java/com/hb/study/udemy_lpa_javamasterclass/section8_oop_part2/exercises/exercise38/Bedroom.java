@@ -3,14 +3,29 @@ package com.hb.study.udemy_lpa_javamasterclass.section8_oop_part2.exercises.exer
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Bedroom {
-    private String name;
-    private Wall wall1;
-    private Wall wall2;
-    private Wall wall3;
-    private Wall wall4;
-    private Ceiling ceiling;
-    private Bed bed;
-    private Lamp lamp;
+    private final String name;
+    private final Wall wall1;
+    private final Wall wall2;
+    private final Wall wall3;
+    private final Wall wall4;
+    private final Ceiling ceiling;
+    private final Bed bed;
+    private final Lamp lamp;
+
+    @Override
+    public String toString() {
+        return "Bedroom{" +
+                "name='" + name + '\'' +
+                ", wall1=" + wall1 +
+                ", wall2=" + wall2 +
+                ", wall3=" + wall3 +
+                ", wall4=" + wall4 +
+                ", ceiling=" + ceiling +
+                ", bed=" + bed +
+                ", lamp=" + lamp +
+                '}';
+    }
+
     public Bedroom(String name, Wall wall1, Wall wall2, Wall wall3, Wall wall4, Ceiling ceiling, Bed bed, Lamp lamp) {
         this.name = name;
         this.wall1 = wall1;
