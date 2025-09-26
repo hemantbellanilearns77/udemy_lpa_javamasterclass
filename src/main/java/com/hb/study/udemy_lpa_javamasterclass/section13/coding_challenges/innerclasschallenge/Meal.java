@@ -1,5 +1,6 @@
 package com.hb.study.udemy_lpa_javamasterclass.section13.coding_challenges.innerclasschallenge;
 
+import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class Meal {
 
             StringBuilder itemized = new StringBuilder(super.toString());
             for (Item topping : toppings) {
-                itemized.append("CommonConstants.NEWLINE");
+                itemized.append(CommonConstants.NEWLINE);
                 itemized.append(topping);
             }
 
