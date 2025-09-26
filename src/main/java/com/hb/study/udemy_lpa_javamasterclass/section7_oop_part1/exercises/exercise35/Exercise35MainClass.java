@@ -2,11 +2,14 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exer
 
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
-public class MainClass_execrise35 {
+public class Exercise35MainClass {
+
+        public static final ExecutionUtil execution = new ExecutionUtil();
 
         public static void main(String[] args) {
-        //
+        execution.initialize(args);
         ComplexNumber one = new ComplexNumber(1.0, 1.0);
         ComplexNumber number = new ComplexNumber(2.5, -1.5);
         one.add(1,1);
@@ -18,5 +21,6 @@ public class MainClass_execrise35 {
         number.subtract(one);
         ConsoleStyler.styleOutput("number.real= " + number.getReal());
         ConsoleStyler.styleOutput("number.imaginary= " + number.getImaginary());
+        execution.finalizeExecution();
     }
 }
