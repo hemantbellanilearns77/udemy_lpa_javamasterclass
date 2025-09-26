@@ -18,9 +18,9 @@ public class PlayingCat {
         // return false in rest of the  scenarios
 
         if(temperature >= 25) {
-            if(summer && temperature <= 45 ) {
+            if((summer && temperature <= 45 ) || (!summer && temperature <= 35) {
                 catPlayingStatus = true;
-            } else if (!summer && temperature <= 35){
+            } else if (){
                 catPlayingStatus = true;
             }
         }
