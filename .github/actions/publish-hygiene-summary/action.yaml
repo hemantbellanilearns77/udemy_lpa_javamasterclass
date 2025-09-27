@@ -22,7 +22,13 @@ inputs:
   checkstyleCount:
     required: true
     description: ""
+  checkstyleStatus:
+    required: true
+    description: ""
   pmdCount:
+    required: true
+    description: ""
+  pmdStatus:
     required: true
     description: ""
   sonarExecutionNote:
@@ -187,8 +193,8 @@ runs:
          echo "|------------------------- |-----------|" >> $env:GITHUB_STEP_SUMMARY
          echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 📝 Checkstyle Violations    | $checkstyleViolations |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🔍 PMD Violations           | $pmdViolations |" >> $env:GITHUB_STEP_SUMMARY00
+         echo "| 📝 Checkstyle Violations    | $checkstyleViolations ${{ inputs.checkstyleStatus }} |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 🔍 PMD Violations           | $pmdViolations ${{ inputs.pmdStatus }} |" >> $env:GITHUB_STEP_SUMMARY00
          echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟥 BLOCKER                   | [${{ inputs.sonarBlocker }}](${{ inputs.sonarBlockerUrl }}) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟧 HIGH                      | [${{ inputs.sonarHigh }}](${{ inputs.sonarHighUrl }}) ${{ inputs.sonarHighEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
@@ -253,8 +259,8 @@ runs:
                             ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
                           </li>
                           <li style="margin-bottom:6px;">🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
-                          <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code></li>
-                          <li style="margin-bottom:6px;">🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code></li>
+                          <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code> ${{ inputs.checkstyleStatus }}</li>
+                          <li style="margin-bottom:6px;">🔍 <b>PMD Violations:</b> <code>${{ inputs.pmdCount }}</code>${{ inputs.pmdStatus }}</li>
                           <li style="margin-bottom:6px;">🗂 <b>SonarCloud:</b>
                             <ul style="margin:6px 0 12px 18px; padding:0;">
                               <li style="margin-bottom:6px;">Execution: <code>${{ inputs.sonarExecutionNote }}</code></li>
