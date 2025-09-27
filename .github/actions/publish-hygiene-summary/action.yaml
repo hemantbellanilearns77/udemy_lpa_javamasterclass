@@ -202,8 +202,7 @@ runs:
          echo "| 🟦 LOW                       | [${{ inputs.sonarLow }}](${{ inputs.sonarLowUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| ℹ INFO                      | [${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| Legend                       | ${{ inputs.statusLegend }} |" >> $env:GITHUB_STEP_SUMMARY
-         echo "🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }})" >> $env:GITHUB_STEP_SUMMARY
-         echo "🌐 [View SonarCloud Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }})" >> $env:GITHUB_STEP_SUMMARY
+         echo "|🔗 Key Links | 🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }}) <br/>🌐 [View SonarCloud Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }}) |" >> $env:GITHUB_STEP_SUMMARY
          echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
     
 
