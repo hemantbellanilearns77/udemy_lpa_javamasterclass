@@ -244,6 +244,7 @@
         $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
         Write-Output "✅ checkstyleStatus: '$checkstyleStatus'"
         Write-Output "✅ pmdStatus: '$pmdStatus'"
+        $statusLegend = "Legend: ✅ = EXCELLENT ( No Next Steps ), 🟡 = WITHIN / NEARING THRESHOLD (Monitor Closely ), 🔴 = THRESHOLD BREACHED ( Immediate Action Required )"
 
 
         ###############################################################################
@@ -572,6 +573,7 @@
         "sonarInfo=$info" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarInfoEmojiMark=$sonarInfoStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarInfoURL=$($severityLinks.INFO)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "statusLegend=$statusLegend" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
         "sonarOverallCodeDashBoardURL=$sonarOverallCodeDashBoardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "sonarOpenIssuesDashboardURL=$sonarOpenIssuesDashboardUrl" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
