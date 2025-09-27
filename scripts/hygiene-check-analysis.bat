@@ -1,9 +1,9 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-REM echo =================================================================================
-REM echo     🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud
-REM echo =================================================================================
+echo =================================================================================
+echo     🧹 All Hygiene Workflow — Checkstyle then PMD then JaCoCo then SonarCloud
+echo =================================================================================
 set "executionEnv=%~1"
 if /i "%executionEnv%"=="githubactions" goto :github
 if /i "%executionEnv%"=="local" goto :local
