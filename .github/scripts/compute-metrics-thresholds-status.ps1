@@ -428,15 +428,16 @@
             "$($b.INFO) $(FormatViolationStatus $b.INFO $env:INFO_MAX)"
         }) -join ";" #>
 
-        $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
-        $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
+        $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse; table-layout:fixed; width:100%; max-width:600px;'>"
+        $emailModuleSevAggTable += "<tr style='background:#f0f0f0; text-align:center;'><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
+        #$emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
         foreach ($entry in $emailModuleSevAggBreakdown -split ";") {
             $parts = $entry -split ":"
             if ($parts.Count -eq 2) {
                 $module = $parts[0]
                 $counts = $parts[1] -split ","
                 $emailModuleSevAggTable += "<tr>"
-                $emailModuleSevAggTable += "<td>$module</td>"
+                $emailModuleSevAggTable += "<td style='word-break:break-word;'>$module</td>"
                 foreach ($c in $counts) {
                     $emailModuleSevAggTable += "<td align='center'>$c</td>"
                 }
