@@ -217,7 +217,8 @@
         $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
         $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
 
-        function FormatSonarStatus($count, $maxAllowed, $issueLabel) {
+        function FormatViolationStatus($count, $maxAllowed) {
+        # function FormatViolationStatus($count, $maxAllowed, $issueLabel)
             if ($count -eq 0) {
                 $emoji = "✅"
                 $note  = "(EXCELLENT)"
@@ -233,14 +234,14 @@
         }
 
 
-        $sonarBlockerStatus = FormatSonarStatus $blocker $env:BLOCKER_MAX "🟥 BLOCKER"
-        $sonarHighStatus    = FormatSonarStatus $high    $env:HIGH_MAX    "🟧 HIGH"
-        $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
-        $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
-        $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
+        $sonarBlockerStatus = FormatViolationStatus $blocker $env:BLOCKER_MAX
+        $sonarHighStatus    = FormatViolationStatus $high    $env:HIGH_MAX
+        $sonarMediumStatus  = FormatViolationStatus $medium  $env:MEDIUM_MAX
+        $sonarLowStatus     = FormatViolationStatus $low     $env:LOW_MAX
+        $sonarInfoStatus    = FormatViolationStatus $info    $env:INFO_MAX
         # --- Decorate Violations ---
-        $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
-        $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
+        $checkstyleStatus = FormatViolationStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS
+        $pmdStatus = FormatViolationStatus $pmdViolations $env:PMD_MAX_VIOLATIONS
         Write-Output "✅ checkstyleStatus: '$checkstyleStatus'"
         Write-Output "✅ pmdStatus: '$pmdStatus'"
         $statusLegend = "Legend: ✅ = EXCELLENT ( No Next Steps ), 🟡 = WITHIN / NEARING THRESHOLD (Monitor Closely ), 🔴 = THRESHOLD BREACHED ( Immediate Action Required )"
@@ -415,7 +416,7 @@
         $emailModuleSevAggTable=""
         $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
             $b = $moduleAgg[$_]
-            "${_}:$(Mark $b.BLOCKER),$(Mark $b.HIGH),$(Mark $b.MEDIUM),$(Mark $b.LOW),$(Mark $b.INFO)"
+            "${_}:$(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX ),$(FormatViolationStatus $b.HIGH $env:HIGH_MAX),$(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX),$(FormatViolationStatus $b.LOW $env:LOW_MAX)),$(FormatViolationStatus $b.INFO $env:INFO_MAX))"
         }) -join ";"
 
         $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
@@ -444,7 +445,8 @@
           $githubModuleSevAggTable += "|--------|------------|---------|----------|--------|--------|$nl"
           foreach ($mod in $moduleAgg.Keys | Sort-Object) {
               $b = $moduleAgg[$mod]
-              $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
+              # $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
+              $githubModuleSevAggTable += "| **$mod** | $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX ) | $(FormatViolationStatus $b.HIGH $env:HIGH_MAX) |$(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX) | $(FormatViolationStatus $b.LOW $env:LOW_MAX) | $(FormatViolationStatus $b.INFO $env:INFO_MAX)  |$nl"
           }
       }
 
