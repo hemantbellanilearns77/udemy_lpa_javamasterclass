@@ -238,7 +238,6 @@
         $sonarMediumStatus  = FormatSonarStatus $medium  $env:MEDIUM_MAX  "🟨 MEDIUM"
         $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
         $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
-        $sonarIssuesLegend = "Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (NEARING THRESHOLD), 🔴 = Immediate Action Required (THRESHOLD BREACHED)"
         # --- Decorate Violations ---
         $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
         $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
