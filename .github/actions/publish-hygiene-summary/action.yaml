@@ -203,8 +203,8 @@ runs:
          echo "| 🟧 HIGH                      | [${{ inputs.sonarHigh }}](${{ inputs.sonarHighUrl }}) ${{ inputs.sonarHighEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟨 MEDIUM                    | [${{ inputs.sonarMedium }}](${{ inputs.sonarMediumUrl }}) ${{ inputs.sonarMediumEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟦 LOW                       | [${{ inputs.sonarLow }}](${{ inputs.sonarLowUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| ℹ INFO                       | [${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| Legend                       | ${{ inputs.sonarIssuesLegend }} |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| ℹ INFO                      | [${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| Legend                       | ${{ inputs.statusLegend }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }})" >> $env:GITHUB_STEP_SUMMARY
          echo "🌐 [View SonarCloud Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }})" >> $env:GITHUB_STEP_SUMMARY
          echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
@@ -252,7 +252,7 @@ runs:
                         </p>
 
                         <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
-                           ${{ inputs.sonarIssuesLegend }}
+                           ${{ inputs.statusLegend }}
                         </p>
 
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
