@@ -112,7 +112,6 @@ runs:
         checkstyleStatus: ${{ steps.metrics-and-thresholds.outputs.checkstyleStatus }}
         pmdCount: ${{ steps.metrics-and-thresholds.outputs.pmdCount }}
         pmdStatus: ${{ steps.metrics-and-thresholds.outputs.pmdStatus }}
-        sonarIssuesLegend: ${{ steps.metrics-and-thresholds.outputs.sonarIssuesLegend }}
         totalSonarFetchedIssues: ${{ steps.metrics-and-thresholds.outputs.totalSonarFetchedIssues }}
         sonarExecutionNote: ${{ steps.metrics-and-thresholds.outputs.sonarExecutionNote }}
         sonarIssuesNote: ${{ steps.metrics-and-thresholds.outputs.sonarIssuesNote }}
