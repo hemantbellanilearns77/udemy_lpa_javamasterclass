@@ -416,7 +416,7 @@
         $emailModuleSevAggTable=""
          $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
             $b = $moduleAgg[$_]
-            "${_}:$($b.BLOCKER $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX) ),$($b.HIGH $(FormatViolationStatus $b.HIGH $env:HIGH_MAX)),$($b.MEDIUM $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX)),$($b.LOW $(FormatViolationStatus $b.LOW $env:LOW_MAX)),$($b.INFO $(FormatViolationStatus $b.INFO $env:INFO_MAX))"
+            "${_}:$($b.BLOCKER) $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX) ,$($b.HIGH) $(FormatViolationStatus $b.HIGH $env:HIGH_MAX), $($b.MEDIUM) $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX),$($b.LOW) $(FormatViolationStatus $b.LOW $env:LOW_MAX),$($b.INFO) $(FormatViolationStatus $b.INFO $env:INFO_MAX)"
         }) -join ";"
 <#         $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
             $b = $moduleAgg[$_]
@@ -455,7 +455,7 @@
           foreach ($mod in $moduleAgg.Keys | Sort-Object) {
               $b = $moduleAgg[$mod]
               # $githubModuleSevAggTable += "| **$mod** | $(Mark $b.BLOCKER) | $(Mark $b.HIGH) | $(Mark $b.MEDIUM) | $(Mark $b.LOW) | $(Mark $b.INFO) |$nl"
-              $githubModuleSevAggTable += "| **$mod** |  $($b.BLOCKER $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX) ) | $($b.HIGH $(FormatViolationStatus $b.HIGH $env:HIGH_MAX)) |$($b.MEDIUM $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX)) | $($b.LOW $(FormatViolationStatus $b.LOW $env:LOW_MAX) | $($b.INFO $(FormatViolationStatus $b.INFO $env:INFO_MAX))  |$nl"
+              $githubModuleSevAggTable += "| **$mod** |  $($b.BLOCKER) $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX)  | $($b.HIGH) $(FormatViolationStatus $b.HIGH $env:HIGH_MAX) | $($b.MEDIUM) $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX) | $($b.LOW) $(FormatViolationStatus $b.LOW $env:LOW_MAX) | $($b.INFO) $(FormatViolationStatus $b.INFO $env:INFO_MAX)  |$nl"
           }
       }
 
