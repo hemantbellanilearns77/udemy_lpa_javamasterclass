@@ -455,8 +455,8 @@
         $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
         # --- Decorate Violations ---
-        $checkstyleStatus = FormatSonarStatus $checkstyleViolations [int]$env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
-        $pmdStatus = FormatSonarStatus $pmdViolations [int]$env:PMD_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
+        $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
+        $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
 
         # --- Aggregate violations ---
         if ($totalViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
