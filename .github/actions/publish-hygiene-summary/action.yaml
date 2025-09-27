@@ -219,7 +219,7 @@ runs:
         password: ${{ env.SMTP_PASS }}
         subject: >-
           ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ inputs.formattedDuration }}
-            ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '(⚠️ Coverage Below Threshold)' || '' }}
+            Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
 
@@ -255,8 +255,7 @@ runs:
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
                           <li style="margin-bottom:6px;"><b>📈 Code Coverage:</b> 
-                            ${{ inputs.sonarCoverage }}
-                            ${{ inputs.sonarCoverage && inputs.sonarCoverage < env.JACOCO_MIN_COVERAGE && '<span style="color:red;">(Below Threshold)</span>' || '<span style="color:green;">(OK)</span>' }}
+                            ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
                           </li>
                           <li style="margin-bottom:6px;">🎯 <b>Coverage Visual:</b> <code>${{ inputs.coverageBar }}</code></li>
                           <li style="margin-bottom:6px;">📝 <b>Checkstyle Violations:</b> <code>${{ inputs.checkstyleCount }}</code> ${{ inputs.checkstyleStatus }}</li>
