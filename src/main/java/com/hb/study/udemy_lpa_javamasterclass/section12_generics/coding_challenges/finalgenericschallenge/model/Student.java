@@ -7,20 +7,20 @@ import java.security.SecureRandom;
 
 public class Student implements QueryItem, Comparable<Student> {
 
-    private static int LAST_ID = 10_000;
-    private int studentId;
+    private static int lastID = 10_000;
+    private final int studentId;
 
-    private String name;
-    private String course;
-    private int yearStarted;
+    private final String name;
+    private final String course;
+    private final int yearStarted;
 
     protected static SecureRandom secureRandom = new SecureRandom();
 
-    private static String[] firstNames = {"Ann", "Bill", "Cathy", "John", "Tim"};
-    private static String[] courses = {"C++", "Java", "Python"};
+    private static final String[] firstNames = {"Ann", "Bill", "Cathy", "John", "Tim"};
+    private static final String[] courses = {"C++", "Java", "Python"};
 
     public Student() {
-        studentId = LAST_ID++;
+        studentId = lastID++;
         int lastNameIndex = secureRandom.nextInt(65, 91);
         name = firstNames[secureRandom.nextInt(5)] + " " + (char) lastNameIndex;
         course = courses[secureRandom.nextInt(3)];
@@ -29,7 +29,7 @@ public class Student implements QueryItem, Comparable<Student> {
 
     @Override
     public String toString() {
-        return "%d %-15s %-15s %d".formatted(studentId, name, course, yearStarted);
+        return "%d %-15s %-15s %d".formatted(studentId, name, course, getYearStarted());
     }
 
     public int getYearStarted() {
@@ -50,7 +50,7 @@ public class Student implements QueryItem, Comparable<Student> {
 
     @Override
     public int compareTo(Student o) {
-        return Integer.valueOf(studentId).compareTo(o.studentId);
+        return Integer.compare(studentId, o.studentId);
     }
 }
 

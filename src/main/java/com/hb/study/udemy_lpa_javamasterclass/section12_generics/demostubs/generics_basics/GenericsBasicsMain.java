@@ -95,11 +95,11 @@ public class GenericsBasicsMain {
         execution.finalizeExecution();
     }
 
-    public static void scoreResult(BaseballTeam team1, int t1_score,
-                                   BaseballTeam team2, int t2_score) {
+    public static void scoreResult(BaseballTeam team1, int team1Score,
+                                   BaseballTeam team2, int team2Score) {
 
-        String message = team1.setScore(t1_score, t2_score);
-        team2.setScore(t2_score, t1_score);
+        String message = team1.setScore(team1Score, team2Score);
+        team2.setScore(team2Score, team1Score);
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 

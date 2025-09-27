@@ -217,7 +217,7 @@
          $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
          $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
 
-        function FormatSonarStatus($count, $maxAllowed, $severity) {
+        function FormatSonarStatus($count, $maxAllowed, $issueLabel) {
             if ($count -eq 0) {
                 $emoji = "✅"
                 $note  = "(GREAT)"
@@ -229,7 +229,7 @@
                 $note  = "(OVERBOARD)"
             }
             return " / $maxAllowed $emoji $note"
-            #return "$severity Issues: $count / $maxAllowed $emoji $note"
+            #return "$issueLabel: $count / $maxAllowed $emoji $note"
         }
 
 
@@ -294,13 +294,6 @@
                   # Write-Output ("   Key = {0}, Value = {1}" -f $_.Key, ($val | ConvertTo-Json -Compress))
                 }
               }
-           <# Debug: Print out current aggregate state
-           Write-Output "----- Current Module Aggregates -----"
-           foreach ($moduleName in $moduleAgg.Keys) {
-                $bucket = $moduleAgg[$moduleName]
-                Write-Output ("Module: {0} | BLOCKER={1}, HIGH={2}, MEDIUM={3}, LOW={4}, INFO={5}" -f `
-                               $moduleName, $bucket.BLOCKER, $bucket.HIGH, $bucket.MEDIUM, $bucket.LOW, $bucket.INFO)
-           } #>
            # Write-Output "--------------------------------------"
           }
 
@@ -457,10 +450,15 @@
         $NextStepsHtml = ""
         $sonarHasNextSteps=$false
 
+
         # --- Convert coverage safely ---
         $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
 
-         # --- Aggregate violations ---
+        # --- Decorate Violations ---
+        $checkstyleStatus = FormatSonarStatus $checkstyleViolations [int]$env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
+        $pmdStatus = FormatSonarStatus $pmdViolations [int]$env:PMD_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
+
+        # --- Aggregate violations ---
         if ($totalViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
             $passed = $false
             $NextStepsHtml += "<li>Total code violations exceed allowed maximum ($totalCodeViolations > $($env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS)).</li>"
@@ -539,7 +537,9 @@
         # === Outputs for GITHUB SUMMARY and Email ===
         ############################################################
         "checkstyleCount=$checkstyleViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "checkstyleStatus=$checkstyleStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "pmdCount=$pmdViolations" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "pmdStatus=$pmdStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
         "sonarCoverage=$sonarCoverage %" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "coverageStatus=$coverageStatus" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

@@ -73,10 +73,10 @@ public class MethodReferencesChallenge {
 
         unaryOperators.add(allUppercaseUnaryLambda);
         // Add a randomly generated middle initial and include a period.
-        UnaryOperator<String> addMiddleInitialLsLambda = (s) -> (s + " " + getRandomChar('A', 'Z') + '.');
+        UnaryOperator<String> addMiddleInitialLsLambda = s -> (s + " " + getRandomChar('A', 'Z') + '.');
         unaryOperators.add(addMiddleInitialLsLambda);
 
-        UnaryOperator<String> addReversedLastName = (s) -> s + (" " + getReversedName(s.substring(0, s.indexOf(" "))));
+        UnaryOperator<String> addReversedLastName = s -> s + (" " + getReversedName(s.substring(0, s.indexOf(" "))));
         unaryOperators.add(addReversedLastName);
         List<UnaryOperator<String>> list = new ArrayList<>(List.of(
                 String::toUpperCase,

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Meal {
 
-    private final double price = 5.0;
+    private static final double BURGER_MEAL_BASE_PRICE = 5.0;
     private final Burger theBurgerInMeal;
     private final Item theDrinkInMeal;
     private final Item theSideInMeal;
@@ -50,7 +50,7 @@ public class Meal {
         private final double price;
 
         public Item(String name, String type) {
-            this(name, type, type.equals("BURGER") ? Meal.this.price : 0);
+            this(name, type, type.equals("BURGER") ? Meal.BURGER_MEAL_BASE_PRICE : 0);
         }
 
         public Item(String name, String type, double price) {
