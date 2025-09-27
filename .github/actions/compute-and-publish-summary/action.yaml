@@ -5,7 +5,7 @@ name: "Compute Metric and Publish Summaries (GITHUB and EMAIL)"
 description: ""
 inputs:
   startTime:
-    description: "Start time from setup-starttime composite"
+    description: "Start time from setup-start time composite"
     required: true
   SKIP_FLAG:
     required: true
@@ -31,7 +31,7 @@ inputs:
   ARTIFACT_URL:
     required: true
     description: ""
-  STAGE_MERGE_SKIPPED:
+  STAGE_VS_MAIN_STATE:
     required: true
     description: "Indicates if stage merge was skipped"
   JOB_STATUS:
