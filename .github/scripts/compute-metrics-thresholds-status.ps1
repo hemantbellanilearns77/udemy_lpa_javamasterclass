@@ -214,8 +214,8 @@
         ############################################################
               # === Generate URLS ===
         ############################################################
-         $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
-         $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
+        $sonarOverallCodeDashBoardUrl = "https://sonarcloud.io/summary/overall?id=$projectKey&branch=$branch"
+        $sonarOpenIssuesDashboardUrl= "https://sonarcloud.io/project/issues?issueStatuses=OPEN%2CCONFIRMED&id=$projectKey"
 
         function FormatSonarStatus($count, $maxAllowed, $issueLabel) {
             if ($count -eq 0) {
@@ -242,8 +242,8 @@
         # --- Decorate Violations ---
         $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
         $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
-        Write-Output "checkstyleStatus: ''$checkstyleStatus'"
-        Write-Output "pmdStatus: ''$pmdStatus'"
+        Write-Output "✅ checkstyleStatus: ''$checkstyleStatus'"
+        Write-Output "✅ pmdStatus: ''$pmdStatus'"
 
 
         ###############################################################################
