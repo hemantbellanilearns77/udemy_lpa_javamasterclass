@@ -239,6 +239,11 @@
         $sonarLowStatus     = FormatSonarStatus $low     $env:LOW_MAX     "🟦 LOW"
         $sonarInfoStatus    = FormatSonarStatus $info    $env:INFO_MAX    "ℹ️ INFO"
         $sonarIssuesLegend = "Legend: ✅ = Excellent / No issues, 🟡 = Monitor Closely (NEARING THRESHOLD), 🔴 = Immediate Action Required (THRESHOLD BREACHED)"
+        # --- Decorate Violations ---
+        $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
+        $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
+        Write-Output "checkstyleStatus: ''$checkstyleStatus'"
+        Write-Output "pmdStatus: ''$pmdStatus'"
 
 
         ###############################################################################
@@ -453,10 +458,6 @@
 
         # --- Convert coverage safely ---
         $coverageValue = [double]($sonarCoverage -replace '[^0-9\.]', '')
-
-        # --- Decorate Violations ---
-        $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
-        $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
 
         # --- Aggregate violations ---
         if ($totalViolations -gt [int]$env:CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS) {
