@@ -181,6 +181,7 @@ runs:
         $sonarCoverage = "${{ inputs.sonarCoverage }}"
         $coverageStatus = "${{ inputs.coverageStatus }}"
         $coverageBar="${{ inputs.coverageBar }}"
+        $lastCommitURL="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}"
         
          ############################################################
                    # === Write Overall Table ===
@@ -202,11 +203,13 @@ runs:
          echo "| 🟦 LOW                       | [${{ inputs.sonarLow }}](${{ inputs.sonarLowUrl }}) ${{ inputs.sonarLowEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| ℹ INFO                      | [${{ inputs.sonarInfo }}](${{ inputs.sonarInfoUrl }}) ${{ inputs.sonarInfoEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| Legend                       | ${{ inputs.statusLegend }} |" >> $env:GITHUB_STEP_SUMMARY
-         echo "|🔗 Key Links | 🌐 [View SonarCloud Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }}) <br/>🌐 [View SonarCloud Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }}) |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 🔗 Key Links | - 🌐 [SonarCloud – Overall Code Dashboard](${{ inputs.sonarOverallCodeDashBoardUrl }}) <br/> - 🌐 [SonarCloud – Issues Breakdown Dashboard](${{ inputs.sonarOpenIssuesDashboardUrl }}) <br/> - 🌐 [Last Commit Here:]($lastCommitURL) |" >> $env:GITHUB_STEP_SUMMARY
+  
          echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
-    
 
-    ##########################
+
+
+##########################
     # Email Success Summary
     ##########################
     - name: 📧 Send Hygiene Summary Email
@@ -304,9 +307,9 @@ runs:
                              </span>
                           </li>
                           <li style="margin-bottom:6px;">Triggered by: <code>${{ inputs.TRIGGER_INFO }}</code></li>
-                          <li style="margin-bottom:6px;">Last Commit / PR Approved and Merged, By: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
-                          <li style="margin-bottom:6px;">Last Commit / PR Merge Approval, Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
-                          <li style="margin-bottom:6px;">Last Commit / PR Approval, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
+                          <li style="margin-bottom:6px;">Author of Last Commit / Approver of Last PR: <code>${{ inputs.COMMIT_AUTHOR }}</code></li>
+                          <li style="margin-bottom:6px;">Last Commit Message / PR Approval & Merge Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
+                          <li style="margin-bottom:6px;">Last Commit / PR Approval & Merge, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
                           <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
                           <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
                         </ul>
