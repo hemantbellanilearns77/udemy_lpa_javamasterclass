@@ -109,7 +109,9 @@ runs:
         coverageStatus: ${{ steps.metrics-and-thresholds.outputs.coverageStatus }}
         coverageBar: ${{ steps.metrics-and-thresholds.outputs.coverageBar }}
         checkstyleCount: ${{ steps.metrics-and-thresholds.outputs.checkstyleCount }}
+        checkstyleStatus: ${{ steps.metrics-and-thresholds.outputs.checkstyleStatus }}
         pmdCount: ${{ steps.metrics-and-thresholds.outputs.pmdCount }}
+        pmdStatus: ${{ steps.metrics-and-thresholds.outputs.pmdStatus }}
         sonarIssuesLegend: ${{ steps.metrics-and-thresholds.outputs.sonarIssuesLegend }}
         totalSonarFetchedIssues: ${{ steps.metrics-and-thresholds.outputs.totalSonarFetchedIssues }}
         sonarExecutionNote: ${{ steps.metrics-and-thresholds.outputs.sonarExecutionNote }}
