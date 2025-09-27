@@ -218,8 +218,7 @@ runs:
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
         subject: >-
-          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ inputs.formattedDuration }}
-            Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
+          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ inputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
 
