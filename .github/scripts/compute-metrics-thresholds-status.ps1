@@ -414,10 +414,19 @@
         # Step 4: Export results as an output variable for email step
         # Example: "udemy_lpa_javamasterclass:0,2,15,5,0;misc_utils:0,1,8,4,0"
         $emailModuleSevAggTable=""
-        $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
+         $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
             $b = $moduleAgg[$_]
-            "${_}:$($b.BLOCKER $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX) ),$($b.HIGH $(FormatViolationStatus $b.HIGH $env:HIGH_MAX)),$($b.MEDIUM $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX)),$($b.LOW $(FormatViolationStatus $b.LOW $env:LOW_MAX),$($b.INFO $(FormatViolationStatus $b.INFO $env:INFO_MAX)"
+            "${_}:$($b.BLOCKER $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX) ),$($b.HIGH $(FormatViolationStatus $b.HIGH $env:HIGH_MAX)),$($b.MEDIUM $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX)),$($b.LOW $(FormatViolationStatus $b.LOW $env:LOW_MAX)),$($b.INFO $(FormatViolationStatus $b.INFO $env:INFO_MAX))"
         }) -join ";"
+<#         $emailModuleSevAggBreakdown = ($moduleAgg.Keys | ForEach-Object {
+            $b = $moduleAgg[$_]
+            "${_}:" +
+            "$($b.BLOCKER) $(FormatViolationStatus $b.BLOCKER $env:BLOCKER_MAX)," +
+            "$($b.HIGH) $(FormatViolationStatus $b.HIGH $env:HIGH_MAX)," +
+            "$($b.MEDIUM) $(FormatViolationStatus $b.MEDIUM $env:MEDIUM_MAX)," +
+            "$($b.LOW) $(FormatViolationStatus $b.LOW $env:LOW_MAX)," +
+            "$($b.INFO) $(FormatViolationStatus $b.INFO $env:INFO_MAX)"
+        }) -join ";" #>
 
         $emailModuleSevAggTable = "<table border='1' cellpadding='5' cellspacing='0'>"
         $emailModuleSevAggTable += "<tr><th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th></tr>"
