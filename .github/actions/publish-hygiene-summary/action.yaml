@@ -85,6 +85,9 @@ inputs:
   sonarInfoEmojiMark:
     required: true
     description: ""
+  statusLegend:
+    required: true
+    description: ""
   sonarOpenIssuesDashboardURL:
     required: true
     description: ""
