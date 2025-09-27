@@ -96,13 +96,13 @@
 
             if ($actualCoverage -ge 90.00) {
                 $emoji = "🟢"
-                $note  = "(GREAT)"
+                $note  = "(EXCELLENT)"
             } elseif ($actualCoverage -ge $minNeeded -and $actualCoverage -le 89.99) {
                 $emoji = "🟡"
-                $note  = "(NEARING THRESHOLD)"
+                $note  = "(WITHIN THRESHOLD - MONITOR)"
             } else {
                 $emoji = "🔴"
-                $note  = "(OVERBOARD)"
+                $note  = "(BELOW THRESHOLD – ACTION REQUIRED)"
             }
             return "/ 100% $emoji $note"
         }
@@ -220,13 +220,13 @@
         function FormatSonarStatus($count, $maxAllowed, $issueLabel) {
             if ($count -eq 0) {
                 $emoji = "✅"
-                $note  = "(GREAT)"
+                $note  = "(EXCELLENT)"
             } elseif ($count -le $maxAllowed) {
                 $emoji = "🟡"
-                $note  = "(NEARING THRESHOLD)"
+                $note  = "(WITHIN THRESHOLD - MONITOR)"
             } else {
                 $emoji = "🔴"
-                $note  = "(OVERBOARD)"
+                $note  = "(EXCEEDS THRESHOLD – ACTION REQUIRED)"
             }
             return " / $maxAllowed $emoji $note"
             #return "$issueLabel: $count / $maxAllowed $emoji $note"
@@ -242,8 +242,8 @@
         # --- Decorate Violations ---
         $checkstyleStatus = FormatSonarStatus $checkstyleViolations $env:CHECKSTYLE_MAX_VIOLATIONS "📝 Checkstyle Violations: " # third parameter isn't functional currently
         $pmdStatus = FormatSonarStatus $pmdViolations $env:PMD_MAX_VIOLATIONS "📝 PMD Violations: " # third parameter isn't functional currently
-        Write-Output "✅ checkstyleStatus: ''$checkstyleStatus'"
-        Write-Output "✅ pmdStatus: ''$pmdStatus'"
+        Write-Output "✅ checkstyleStatus: '$checkstyleStatus'"
+        Write-Output "✅ pmdStatus: '$pmdStatus'"
 
 
         ###############################################################################

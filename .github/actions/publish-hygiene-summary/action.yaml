@@ -194,7 +194,7 @@ runs:
          echo "| 📈 Code Coverage (Sonar)    | $sonarCoverage $coverageStatus |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🎯 Coverage Visual          | <code>$coverageBar</code> |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 📝 Checkstyle Violations    | $checkstyleViolations ${{ inputs.checkstyleStatus }} |" >> $env:GITHUB_STEP_SUMMARY
-         echo "| 🔍 PMD Violations           | HELLO $pmdViolations ${{ inputs.pmdStatus }} |" >> $env:GITHUB_STEP_SUMMARY
+         echo "| 🔍 PMD Violations           | $pmdViolations ${{ inputs.pmdStatus }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🗂 SonarCloud                | Execution: <code>${{inputs.sonarExecutionNote}}</code><br/>Issues: <code>${{inputs.sonarIssuesNote}}</code><br/>Last Analysis: <code>${{inputs.lastSonarAnalysis }}</code> |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟥 BLOCKER                   | [${{ inputs.sonarBlocker }}](${{ inputs.sonarBlockerUrl }}) ${{ inputs.sonarBlockerEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
          echo "| 🟧 HIGH                      | [${{ inputs.sonarHigh }}](${{ inputs.sonarHighUrl }}) ${{ inputs.sonarHighEmojiMark }} |" >> $env:GITHUB_STEP_SUMMARY
