@@ -106,8 +106,7 @@ set "originalDir=%CD%"
 		REM echo ⏭️ Skipping JaCoCo... because skip_sonar was true 
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
-	REM echo --------------------------------------------------- 
-	call scripts\sonar-scan.bat githubactions
+	REM echo ---------------------------------------------------
 	:: === Step 4: SonarCloud ===
 	if "%skip_sonar%"=="false" (
 		echo 🚀 Step 4: Running SonarCloud scan... >> "%hygieneLogPath%"
@@ -117,7 +116,7 @@ set "originalDir=%CD%"
 		REM echo ✅ SonarCloud scan completed.
 	) else (
 		echo ⏭️ Skipping SonarCloud scan... because skip_sonar was true  >> "%hygieneLogPath%"
-		REM echo ⏭️ Skipping SonarCloud scan... because skip_sonar was true  
+		echo ⏭️ Skipping SonarCloud scan... because skip_sonar was true
 	)
 	echo --------------------------------------------------- >> "%hygieneLogPath%"
 	REM echo --------------------------------------------------- 
