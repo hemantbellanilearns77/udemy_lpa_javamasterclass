@@ -132,6 +132,7 @@ runs:
         sonarInfo: ${{ steps.metrics-and-thresholds.outputs.sonarInfo }}
         sonarInfoUrl: ${{ steps.metrics-and-thresholds.outputs.sonarInfoUrl }}
         sonarInfoEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarInfoEmojiMark }}
+        statusLegend: ${{ steps.metrics-and-thresholds.outputs.statusLegend }}
         sonarOpenIssuesDashboardURL: ${{ steps.metrics-and-thresholds.outputs.sonarOpenIssuesDashboardURL }}
         sonarOverallCodeDashBoardURL: ${{ steps.metrics-and-thresholds.outputs.sonarOverallCodeDashBoardURL }}
 
