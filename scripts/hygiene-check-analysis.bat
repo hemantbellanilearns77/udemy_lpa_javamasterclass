@@ -36,7 +36,7 @@ set "originalDir=%CD%"
 		if /I "%%~A"=="--skip-jacoco" set "skip_jacoco=true"
 		if /I "%%~A"=="--skip-sonar" set "skip_sonar=true"
 	)
-
+    echo skip_sonar is %skip_sonar%
 	:: === Generate Timestamp ===
 	for /f %%i in ('powershell -command "Get-Date -Format yyyy-MM-dd--HH-mm-ss"') do set timestamp=%%i
 
