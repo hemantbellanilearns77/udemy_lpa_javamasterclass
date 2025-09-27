@@ -130,9 +130,6 @@ inputs:
   STAGE_VS_MAIN_STATE:
     required: true
     description: ""
-  sonarIssuesLegend:
-    required: true
-    description: ""
   GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:
     required: true
     description: ""
