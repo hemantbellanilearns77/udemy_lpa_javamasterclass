@@ -118,6 +118,9 @@ inputs:
   startTime:
     required: true
     description: ""
+  START_EPOCH:
+    required: true
+    description: ""
   endTime:
     required: true
     description: ""
@@ -215,7 +218,7 @@ runs:
       id: execution_timings
       shell: pwsh
       env:
-        START_EPOCH: ${{ inputs.startTime }}
+        START_EPOCH: ${{ inputs.START_EPOCH }}
       run: |
         # Define IST offset
         $istOffset = [System.TimeSpan]::FromHours(5.5)
