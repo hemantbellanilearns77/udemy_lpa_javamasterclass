@@ -260,7 +260,7 @@ runs:
 #        subject: >-
 #          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         subject: >-
-           ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_number }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
+           ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | Run #${{ github.run_number }} | ${{ github.repository }} (Executed on: ${{ inputs.BRANCH_EXECUTED }} Branch ) | Duration: ${{ steps.execution_timings.outputs.formattedDuration }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
 
