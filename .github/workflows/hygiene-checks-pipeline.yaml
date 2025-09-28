@@ -52,13 +52,17 @@ jobs:
   pre-setup-job:
     runs-on: windows-latest
     outputs:
-      startTime: ${{ steps.pre-setup.outputs.startTime }}
+      startTime: ${{ steps.start_time.outputs.startTime }}
       pre-setup-decision: ${{ steps.pre-setup.outputs.pre-setup-decision }}
       pre-setup-decision-reason: ${{ steps.pre-setup.outputs.pre-setup-decision-reason }}
       STAGE_VS_MAIN_STATE: ${{ steps.pre-setup.outputs.STAGE_VS_MAIN_STATE }}
       last-commit-msg: ${{ steps.pre-setup.outputs.LAST_COMMIT_MSG }}
       last-commit-author: ${{ steps.pre-setup.outputs.LAST_COMMIT_AUTHOR }}
     steps:
+      # 1. Capture start time
+      - name: Capture Start Time
+        id: start_time
+        uses: ./.github/actions/setup-starttime
         # Checkout Code
       - name: Checkout default branch
         uses: actions/checkout@v4

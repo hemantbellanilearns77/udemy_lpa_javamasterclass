@@ -39,17 +39,9 @@ outputs:
   LAST_COMMIT_AUTHOR:
     value: ${{ steps.pre-setup-announce-decision.outputs.LAST_COMMIT_AUTHOR }}
     description: ""
-  startTime:
-    description: ""
-    value: ${{ steps.start_time.outputs.startTime }}
 runs:
   using: "composite"
   steps:
-    # 1. Capture start time
-    - name: Capture Start Time
-      id: start_time
-      uses: ./.github/actions/setup-starttime
-
     # Decide whether to run hygiene checks
     - name: Decide whether to run hygiene checks
       id: decide

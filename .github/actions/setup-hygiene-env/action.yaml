@@ -24,9 +24,6 @@ inputs:
     description: ""
 
 outputs:
-  startTime:
-    description: ""
-    value: ${{ steps.start_time.outputs.startTime }}
   COMMIT_MSG:
     description: ""
     value: ${{ steps.setup_vars.outputs.COMMIT_MSG }}
