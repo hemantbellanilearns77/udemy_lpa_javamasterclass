@@ -14,8 +14,8 @@ runs:
     ####################################################
     - name: Capture Job Start Time
       id: setup_starttime_var
-      shell: bash
+      shell: pwsh
       run: |
-        startTime=$(date +%s)
-        echo "🕒 Captured Start Time (epoch seconds): $startTime"
-        echo "startTime=$startTime" >> $GITHUB_OUTPUT
+        $startTime=[int][double]::Parse((Get-Date -UFormat %s))
+        Write-Host "🕒 Captured Start Time (epoch seconds) | $startTime"
+        echo "startTime=$startTime" >> $env:GITHUB_OUTPUT
