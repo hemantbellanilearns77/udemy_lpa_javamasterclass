@@ -59,22 +59,22 @@ jobs:
       last-commit-msg: ${{ steps.pre-setup.outputs.LAST_COMMIT_MSG }}
       last-commit-author: ${{ steps.pre-setup.outputs.LAST_COMMIT_AUTHOR }}
     steps:
-      # 1. Checkout Code
+      # 1. Capture start time
+      - name: Capture Start Time
+        id: start_time
+        shell: bash
+        run: |
+          startTime=$(date +%s)
+          echo "🕒 Captured Start Time (epoch seconds): $startTime"
+          echo "startTime=$startTime" >> $GITHUB_OUTPUT
+
+      # 2. Checkout Code
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.repository.default_branch }} # will be "main"
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
-
-      # 2. Capture start time
-      - name: Capture Start Time
-        id: start_time
-        uses: ./.github/actions/setup-starttime
-      - name: Log Captured Start Time
-        run: |
-          echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.start_time.outputs.startTime }}"
-        shell: pwsh
 
       ####################################################
       # PRE-SETUP CHECKS - DECISIONS TO EXECUTE/CANCEL
