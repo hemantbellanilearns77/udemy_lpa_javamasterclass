@@ -52,6 +52,7 @@ jobs:
   pre-setup-job:
     runs-on: windows-latest
     outputs:
+      startTime: ${{ steps.pre-setup.outputs.startTime }}
       pre-setup-decision: ${{ steps.pre-setup.outputs.pre-setup-decision }}
       pre-setup-decision-reason: ${{ steps.pre-setup.outputs.pre-setup-decision-reason }}
       STAGE_VS_MAIN_STATE: ${{ steps.pre-setup.outputs.STAGE_VS_MAIN_STATE }}
@@ -155,7 +156,7 @@ jobs:
         id: publish-githubsummary-and-sendemail
         uses: ./.github/actions/compute-and-publish-summary
         with:
-          startTime: ${{ steps.setup.outputs.startTime }}
+          startTime: ${{ needs.pre-setup-job.outputs.startTime }}
           SKIP_FLAG: ${{ steps.setup.outputs.SKIP_FLAG }}
           COMMIT_MSG: ${{ steps.setup.outputs.COMMIT_MSG }}
           COMMIT_AUTHOR: ${{ steps.setup.outputs.COMMIT_AUTHOR }}
@@ -216,6 +217,7 @@ jobs:
           id: cancel-hygiene
           uses: ./.github/actions/cancel-hygiene
           with:
+            startTime: ${{ needs.pre-setup-job.outputs.startTime }}
             reason: ${{ needs.pre-setup-job.outputs.pre-setup-decision-reason }}
             last-commit-msg: ${{ needs.pre-setup-job.outputs.last-commit-msg }}
             last-commit-author: ${{ needs.pre-setup-job.outputs.last-commit-author }}
@@ -223,6 +225,5 @@ jobs:
             branch: ${{ github.ref_name }}
             run-id: ${{ github.run_id }}
             repository: ${{ github.repository }}
-
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
