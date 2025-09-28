@@ -285,6 +285,7 @@ runs:
                         <p style="margin:0 0 12px 0;">
                             <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
                             <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+                            <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
                             <strong>Run:</strong>
                             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="color:#1a5276; text-decoration:none;">#${{ github.run_number }}</a>
                             <br/>
