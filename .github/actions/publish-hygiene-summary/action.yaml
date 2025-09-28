@@ -301,7 +301,6 @@ runs:
                         <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
                            ${{ inputs.statusLegend }}
                         </p>
-                        <hr/>
                         
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
