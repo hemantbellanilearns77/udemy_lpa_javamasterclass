@@ -208,6 +208,41 @@ runs:
          echo "${{ inputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}" >> $env:GITHUB_STEP_SUMMARY
 
 
+    ####################################################
+          # CALCULATE EXECUTION TIMINGS
+    ####################################################
+    - name: Compute Execution (Commit + Trigger + Duration) Info
+      id: execution_timings
+      shell: pwsh
+      env:
+        START_EPOCH: ${{ inputs.startTime }}
+      run: |
+        # Define IST offset
+        $istOffset = [System.TimeSpan]::FromHours(5.5)
+        
+        $startEpoch = [int]$env:START_EPOCH
+        $endEpoch = [int][double]::Parse((Get-Date -UFormat %s))
+        
+        $startDT = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+        $endDT = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")
+        
+        # Convert to DateTimeOffset and shift to IST
+        $startDT_IST = [System.DateTimeOffset]::FromUnixTimeSeconds($startEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+        $endDT_IST   = [System.DateTimeOffset]::FromUnixTimeSeconds($endEpoch).ToOffset($istOffset).ToString("yyyy-MM-dd HH:mm:ss")
+        
+        $durationSec = $endEpoch - $startEpoch
+        $mins = [math]::Floor($durationSec / 60)
+        $secs = $durationSec % 60
+        $durationFormatted = "{0}m {1}s" -f $mins, $secs
+        
+        echo "startTime=$startDT_IST" >> $env:GITHUB_OUTPUT
+        echo "endTime=$endDT_IST" >> $env:GITHUB_OUTPUT
+        echo "formattedDuration=$durationFormatted" >> $env:GITHUB_OUTPUT
+        #       Write-Host "✅ START DATE-TIME (UTC)| $startDT"
+        #       Write-Host "✅ END DATE-TIME (UTC) | $endDT"
+        #       Write-Host "✅ START DATE-TIME (IST) | $startDT_IST"
+        #       Write-Host "✅ END DATE-TIME (IST) | $endDT_IST"
+        #       Write-Host "✅ FORMATTED DURATION | $durationFormatted"
 
     ##########################
     # Email Success Summary
@@ -220,7 +255,7 @@ runs:
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
         subject: >-
-          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ inputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
+          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
 
@@ -312,6 +347,8 @@ runs:
                           <li style="margin-bottom:6px;">Last Commit / PR Approval & Merge, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
                           <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
                           <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
+                          <li style="margin-bottom:6px;">Start: <code> ${{ steps.execution_timings.outputs.startTime }}</code> | End: <code>${{ steps.execution_timings.outputs.endTime }}</code></li>
+                         
                         </ul>
                         <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
                           🕒 All times reported in IST.<br/>
