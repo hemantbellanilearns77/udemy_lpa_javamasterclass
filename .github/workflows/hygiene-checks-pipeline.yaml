@@ -59,17 +59,18 @@ jobs:
       last-commit-msg: ${{ steps.pre-setup.outputs.LAST_COMMIT_MSG }}
       last-commit-author: ${{ steps.pre-setup.outputs.LAST_COMMIT_AUTHOR }}
     steps:
-      # 1. Capture start time
-      - name: Capture Start Time
-        id: start_time
-        uses: ./.github/actions/setup-starttime
-        # Checkout Code
+      # 1. Checkout Code
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.repository.default_branch }} # will be "main"
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
+
+      # 2. Capture start time
+      - name: Capture Start Time
+        id: start_time
+        uses: ./.github/actions/setup-starttime
 
       ####################################################
       # PRE-SETUP CHECKS - DECISIONS TO EXECUTE/CANCEL
