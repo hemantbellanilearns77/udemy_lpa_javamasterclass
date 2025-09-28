@@ -254,8 +254,10 @@ runs:
         server_port: ${{ env.SMTP_SERVER_PORT }}
         username: ${{ env.SMTP_USER }}
         password: ${{ env.SMTP_PASS }}
+#        subject: >-
+#          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         subject: >-
-          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
+           ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_number }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
         to: ${{ env.EMAIL_RECIPIENT }}
         from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}>
 
@@ -283,11 +285,32 @@ runs:
                           <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
                           <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code>
                         </p>
+                        <hr/>
+                        <p style="margin:0 0 12px 0;">
+                            <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
+                            <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+                            <strong>Run:</strong>
+                            <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="color:#1a5276; text-decoration:none;">#${{ github.run_number }}</a>
+                            <br/>
+                            <strong>Hygiene Check Status:</strong>
+                            <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
+                              <code style="font-family:Calibri, sans-serif; font-size:12pt;">${{ inputs.HygieneCheckStatus }} </code>
+                            </span><br/>
+                            <strong>Job Execution Status:</strong>
+                            <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
+                            <code style="font-family:Calibri, sans-serif; font-size:12pt; font-weight:bold;">
+                            ${{ job.status }}
+                            </code>
+                            </span><br/>
+                            <strong>Duration:</strong>
+                            <code>${{ steps.execution_timings.outputs.formattedDuration }}</code>
+                          </p>
 
                         <p style="margin:12px 0; font-style:italic; color:#5d6d7e;">
                            ${{ inputs.statusLegend }}
                         </p>
-
+                        <hr/>
+                        
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📊 Summary</h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
                           <li style="margin-bottom:6px;"><b>📈 Code Coverage:</b> 
@@ -324,7 +347,8 @@ runs:
                           <li style="margin-bottom:6px;"><a href="${{ inputs.sonarOpenIssuesDashboardURL }}" style="color:#1a5276; text-decoration:none;">SonarCloud Open Issues - Impact Severity Breakdown</a></li>
                           <li style="margin-bottom:6px;"><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}" style="color:#1a5276; text-decoration:none;">View Last Commit (SHA=${{ inputs.SHORT_SHA }})</a></li>
                           <li style="margin-bottom:6px;"><a href="${{ inputs.ARTIFACT_URL }}" style="color:#1a5276; text-decoration:none;">Download Hygiene Reports (Run: ${{ github.run_id }})</a></li>
-                        </ul>
+                          <li style="margin-bottom:6px;"><b>Run Details:</b><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="color:#1a5276; text-decoration:none;">#${{ github.run_number }}</a></li>
+                          <li style="margin-bottom:6px;"><a href="https://github.com/${{ github.repository }}/actions" style="color:#1a5276; text-decoration:none;">GitHub Actions Dashboard</a></li>                        </ul>
 
                         <h3 style="color:#117864; margin-top:24px; border-bottom:1px solid #e6e6e6; padding-bottom:3px;">📌 Next Steps</h3>
                         <ul style="margin:6px 0 12px 18px; padding:0;">
@@ -346,8 +370,7 @@ runs:
                           <li style="margin-bottom:6px;">Last Commit Message / PR Approval & Merge Message: <code>${{ inputs.COMMIT_MSG }}</code></li>
                           <li style="margin-bottom:6px;">Last Commit / PR Approval & Merge, Date: <code>${{ inputs.COMMIT_DATE }} (IST)</code></li>
                           <li style="margin-bottom:6px;">Job Duration: <code>${{ inputs.formattedDuration }}</code></li>
-                          <li style="margin-bottom:6px;">Start: <code>${{ inputs.startTime }}</code> | End: <code>${{ inputs.endTime }}</code></li>
-                          <li style="margin-bottom:6px;">Start: <code> ${{ steps.execution_timings.outputs.startTime }}</code> | End: <code>${{ steps.execution_timings.outputs.endTime }}</code></li>
+                          <li style="margin-bottom:6px;">Start: <code>${{ steps.execution_timings.outputs.startTime }}</code> | End: <code>${{ steps.execution_timings.outputs.endTime }}</code></li>
                          
                         </ul>
                         <p style="margin-top:20px; color:#5d6d7e; font-style:italic;">
