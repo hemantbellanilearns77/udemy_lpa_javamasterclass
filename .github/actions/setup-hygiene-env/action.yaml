@@ -53,17 +53,8 @@ runs:
   using: "composite"
   steps:
 
-    # 1. Capture start time
-    - name: Capture Start Time
-      id: start_time
-      uses: ./.github/actions/setup-starttime
 
-    - name: Log Captured Start Time
-      run: |
-        echo "🕒 Workflow Start Time captured from setup-hygiene-env: ${{ steps.start_time.outputs.startTime }}"
-      shell: pwsh
-
-    - name: Setup common varaibles
+    - name: Setup common variables
       id: setup_vars
       shell: pwsh
       env:
