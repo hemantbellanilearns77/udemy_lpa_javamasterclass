@@ -110,9 +110,9 @@ jobs:
       JACOCO_MIN_COVERAGE: 75        # Require at least 75% coverage
 
       # --- Aggregate Violations ---
-      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 3969  # Maximum total violations (Checkstyle + PMD)
-      CHECKSTYLE_MAX_VIOLATIONS: 3969            # Max Checkstyle violations per module
-      PMD_MAX_VIOLATIONS: 63                    # Max PMD violations per module
+      CHECKSTYLE_PMD_MAX_TOTAL_VIOLATIONS: 567  # Maximum total violations (Checkstyle + PMD)
+      CHECKSTYLE_MAX_VIOLATIONS: 441            # Max Checkstyle violations per module
+      PMD_MAX_VIOLATIONS: 126                    # Max PMD violations per module
 
       # --- SonarCloud Severity Thresholds ---
       BLOCKER_MAX: 10      # Any Blocker fails hygiene
