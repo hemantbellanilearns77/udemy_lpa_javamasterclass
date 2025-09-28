@@ -62,11 +62,11 @@ jobs:
       # 1. Capture start time
       - name: Capture Start Time
         id: start_time
-        shell: bash
+        shell: pwsh
         run: |
-          startTime=$(date +%s)
-          echo "🕒 Captured Start Time (epoch seconds): $startTime"
-          echo "startTime=$startTime" >> $GITHUB_OUTPUT
+          $startTime=[int][double]::Parse((Get-Date -UFormat %s))
+          Write-Host "🕒 Captured Start Time (epoch seconds) | $startTime"
+          echo "startTime=$startTime" >> $env:GITHUB_OUTPUT
 
       # 2. Checkout Code
       - name: Checkout default branch
