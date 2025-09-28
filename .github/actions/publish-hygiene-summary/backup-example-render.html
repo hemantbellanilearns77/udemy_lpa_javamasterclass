@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family:Calibri, sans-serif; font-size:11pt; color:#333;">
+
+    <!-- 🔑 Concise Job Summary -->
+    <h2 style="margin:0 0 10px 0; color:#2e6c80;">🔑 Job Summary</h2>
+    <p style="margin:0 0 12px 0;">
+      <strong>Repository:</strong> <code>org/acme-aem-project</code><br/>
+      <strong>Branch:</strong> <code>feature/aem-refactor</code><br/>
+      <strong>Stage ↔ Main state:</strong> <code>STAGE ≠ MAIN</code><br/>
+      <strong>Duration:</strong> <code>14m 22s</code><br/>
+      <strong>Job Execution:</strong>
+        <span style="color:green;">
+          <code style="font-size:12pt; font-weight:bold;">success</code>
+        </span><br/>
+      <strong>Hygiene Check:</strong>
+        <span style="color:green;">
+          <code style="font-size:12pt;">PASSED ✅</code>
+        </span><br/>
+      <strong>Execution Link:</strong>
+        <a href="https://github.com/org/acme-aem-project/actions/runs/1234567890" target="_blank">
+          View Run Details
+        </a>
+    </p>
+
+    <!-- ⚙️ Maven Lifecycle -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">⚙️ Maven Lifecycle Execution</h3>
+    <ul>
+      <li><strong>default</strong> → validate → compile → test → package → verify → install → deploy</li>
+      <li><strong>clean</strong> → pre-clean → clean → post-clean</li>
+      <li><strong>site</strong> → pre-site → site → post-site → site-deploy</li>
+    </ul>
+
+    <!-- 🧹 Hygiene Summary -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🧹 Hygiene Check Summary</h3>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-size:10pt;">
+      <tr style="background:#f2f2f2;">
+        <th>Module</th><th>BLOCKER</th><th>HIGH</th><th>MEDIUM</th><th>LOW</th><th>INFO</th>
+      </tr>
+      <tr>
+        <td>core</td><td>0</td><td>2</td><td>5</td><td>12</td><td>7</td>
+      </tr>
+      <tr>
+        <td>ui.apps</td><td>0</td><td>0</td><td>3</td><td>6</td><td>2</td>
+      </tr>
+      <tr>
+        <td>dispatcher</td><td>0</td><td>1</td><td>2</td><td>4</td><td>0</td>
+      </tr>
+    </table>
+
+    <!-- 📊 Quality Summary -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">📊 Code Quality Summary</h3>
+    <ul>
+      <li>📈 Code Coverage: <code>83%</code> ✅</li>
+      <li>📝 Checkstyle Violations: <code>14</code> ⚠️</li>
+      <li>🔍 PMD Violations: <code>2</code> ✅</li>
+      <li>🗂 SonarCloud: Executed: <code>Yes</code> | Issues: <code>12 (no blockers)</code></li>
+    </ul>
+
+    <!-- 🏗 AEM-Specific Checks -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🏗 AEM Project Checks</h3>
+    <ul>
+      <li>📦 Content Package Validation: <code>PASSED</code></li>
+      <li>⚙️ aemanalyser Report: <code>No violations</code></li>
+      <li>🧩 OSGi Bundle Health: <code>All bundles active</code></li>
+      <li>🌐 Dispatcher Config Validation: <code>Passed</code></li>
+      <li>☁️ AEMaaCS SDK Compatibility: <code>Compatible</code></li>
+    </ul>
+
+    <!-- 🛠 SonarCloud Impact -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🛠 SonarCloud Impact Severity</h3>
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-size:10pt;">
+      <tr style="background:#f2f2f2;">
+        <th>Module</th><th>BLOCKER</th><th>CRITICAL</th><th>MAJOR</th><th>MINOR</th><th>INFO</th>
+      </tr>
+      <tr>
+        <td>core</td><td>0</td><td>1</td><td>7</td><td>10</td><td>5</td>
+      </tr>
+      <tr>
+        <td>ui.apps</td><td>0</td><td>0</td><td>2</td><td>3</td><td>1</td>
+      </tr>
+    </table>
+
+    <!-- 🔗 Key Links -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🔗 Key Links</h3>
+    <ul>
+      <li><a href="https://sonarcloud.io/project/overview?id=org_acme-aem-project">SonarCloud – feature/aem-refactor Branch</a></li>
+      <li><a href="https://github.com/org/acme-aem-project/commit/abcdef123456">View Last Commit</a></li>
+      <li><a href="https://artifacts.acme.com/aem/hygiene/reports/1234.zip">Download Hygiene Reports</a></li>
+      <li><a href="https://github.com/org/acme-aem-project/actions/runs/1234567890">GitHub Actions Run</a></li>
+      <li><a href="https://nexus.acme.com/repository/maven-releases/org/acme-aem-project">Nexus Releases</a></li>
+    </ul>
+
+    <!-- 📌 Next Steps -->
+    <h3 style="margin:20px 0 10px 0; color:#2e6c80;">📌 Next Steps</h3>
+    <ul>
+      <li>Resolve Checkstyle warnings before merge ✅</li>
+      <li>Improve test coverage on <code>ui.apps</code> module ⚠️</li>
+      <li>Review dispatcher rules for SEO headers 🔍</li>
+    </ul>
+
+    <p style="margin-top:20px; font-style:italic; color:#666;">
+      🕒 All times in IST<br/>
+      🤖 Automated notification from GitHub Actions
+    </p>
+  </body>
+</html>

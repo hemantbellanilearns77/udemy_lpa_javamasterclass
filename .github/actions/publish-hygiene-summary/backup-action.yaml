@@ -1,128 +1,124 @@
-  <!DOCTYPE html>
-    <html>
-    <body style="font-family:Calibri, sans-serif; font-size:11pt; color:#333;">
+##############################################################
+# SUMMARY COMPOSITE
+##############################################################
+name: "Publish GitHub Summary Composite"
+description: "Reusable step to send hygiene summary email"
+inputs: {}
+outputs: {}
+runs:
+  using: "composite"
+  steps:
+  ##########################
+  # Email Success Summary
+  ##########################
+  - name: 📧 Send Hygiene Summary Email
+    uses: dawidd6/action-send-mail@v3
+    with:
+      server_address: ${{ env.SMTP_SERVER_ADDRESS }}
+      server_port: ${{ env.SMTP_SERVER_PORT }}
+      username: ${{ env.SMTP_USER }}
+      password: ${{ env.SMTP_PASS }}
+      #        subject: >-
+      #          ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Run #${{ github.run_id }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }} | Coverage Status: ${{ inputs.sonarCoverage }} ${{ inputs.coverageStatus }}
+      subject: >-
+        ${{ inputs.HygieneCheckStatus }} | ${{ github.workflow }} | Run #${{ github.run_number }} | Repository: ${{ github.repository }} | Branch: ${{ inputs.BRANCH_EXECUTED }} | Duration: ${{ steps.execution_timings.outputs.formattedDuration }}
+      to: ${{ env.EMAIL_RECIPIENT }}
+      from: GitHub Hygiene Bot <${{ env.EMAIL_RECIPIENT }}><!DOCTYPE html>
+      html_body: |
+        <html>
+        <body style="font-family:Calibri, sans-serif; font-size:11pt; color:#333;">
+        
+        <!-- ============================= -->
+        <!-- 🔑 Concise Job Summary -->
+        <!-- ============================= -->
+        <h2 style="margin:0 0 10px 0; color:#2e6c80;">🔑 Job Summary</h2>
+        <p style="margin:0 0 12px 0;">
+        <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
+        <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
+        <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
+        <strong>Duration:</strong> <code>${{ inputs.formattedDuration }}</code><br/>
+        <strong>Job Execution:</strong>
+        <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
+        <code style="font-size:12pt; font-weight:bold;">${{ job.status }}</code>
+        </span><br/>
+        <strong>Hygiene Check:</strong>
+        <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
+        <code style="font-size:12pt;">${{ inputs.HygieneCheckStatus }}</code>
+        </span><br/>
+        <strong>Execution Link:</strong>
+        <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" target="_blank">
+        View Run Details
+        </a>
+        </p>
     
-    <!-- ===== SUBJECT is built in workflow yaml ===== -->
-
-#    <!-- Example: ✅ PASSED | AEM Hygiene & Build Pipeline | my-repo | Branch: main | Run #123 -->
-    <!-- ===== GREETING ===== -->
-    <p style="margin:0 0 16px 0;">Dear Team,</p>
-
-    <!-- ===== SUMMARY BLOCK (At-a-Glance) ===== -->
-    <p style="margin:0 0 12px 0;">
-    <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
-    <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-    <strong>Run:</strong>
-    <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    style="color:#1a5276; text-decoration:none;">
-    #${{ github.run_number }}
-    </a><br/>
-    <strong>Hygiene Check Status:</strong>
-    <span style="color:${{ inputs.HygieneCheckStatus == 'PASSED ✅' && 'green' || 'red' }};">
-    <code style="font-family:Calibri, sans-serif; font-size:12pt;">
-    ${{ inputs.HygieneCheckStatus }}
-    </code>
-    </span><br/>
-    <strong>Job Execution Status:</strong>
-    <span style="color:${{ job.status == 'success' && 'green' || 'red' }};">
-    <code style="font-family:Calibri, sans-serif; font-size:12pt; font-weight:bold;">
-    ${{ job.status }}
-    </code>
-    </span><br/>
-    <strong>Duration:</strong>
-    <code>${{ steps.execution_timings.outputs.formattedDuration }}</code>
-    </p>
-
-    <!-- ===== KEY LINKS ===== -->
-    <h3 style="margin:20px 0 6px 0;">🔗 Key Links</h3>
-    <ul style="margin:6px 0 12px 18px; padding:0;">
-    <li><b>Run Details:</b>
-    <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    style="color:#1a5276; text-decoration:none;">
-    #${{ github.run_number }}
-    </a>
-    </li>
-    <li><a href="https://github.com/${{ github.repository }}/actions"
-    style="color:#1a5276; text-decoration:none;">
-    GitHub Actions Dashboard
-    </a>
-    </li>
-    <li><a href="https://sonarcloud.io/project/overview?id=${{ github.repository }}"
-    style="color:#1a5276; text-decoration:none;">
-    SonarCloud Report
-    </a>
-    </li>
-    <li><a href="https://repo.maven.apache.org/maven2/${{ github.repository }}"
-    style="color:#1a5276; text-decoration:none;">
-    Maven Central (artifact)
-    </a>
-    </li>
-    <!-- later add AEM Cloud Manager URL once available -->
-    </ul>
-
-    <!-- ===== JOB EXECUTION DETAILS ===== -->
-    <h3 style="margin:20px 0 6px 0;">📋 Job Execution Details</h3>
-    <p style="margin:0 0 12px 0;">
-    <strong>Repository:</strong> <code>${{ github.repository }}</code><br/>
-    <strong>Branch:</strong> <code>${{ inputs.BRANCH_EXECUTED }}</code><br/>
-    <strong>Stage ↔ Main state:</strong> <code>${{ inputs.STAGE_VS_MAIN_STATE }}</code><br/>
-    <strong>Duration:</strong> <code>${{ steps.execution_timings.outputs.formattedDuration }}</code><br/>
-    <strong>Triggered by:</strong> <code>${{ github.actor }}</code>
-    </p>
-
-    <!-- ===== HYGIENE CHECKS SUMMARY ===== -->
-    <h3 style="margin:20px 0 6px 0;">🧹 Hygiene Checks Summary</h3>
+        <!-- ============================= -->
+        <!-- ⚙️ Maven Lifecycle -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">⚙️ Maven Lifecycle Execution</h3>
+        <ul style="margin:0; padding-left:16px;">
+        <li><strong>default</strong> → validate → compile → test → package → verify → install → deploy</li>
+        <li><strong>clean</strong> → pre-clean → clean → post-clean</li>
+        <li><strong>site</strong> → pre-site → site → post-site → site-deploy</li>
+        </ul>
     
-    <!-- === Example Hygiene Numbers Table === -->
-    <table border="1" cellpadding="5" cellspacing="0"
-    style="border-collapse:collapse; margin:0 0 16px 0; font-size:10pt;">
-    <tr style="background-color:#f2f2f2;">
-    <th>Module</th>
-    <th>BLOCKER</th>
-    <th>HIGH</th>
-    <th>MEDIUM</th>
-    <th>LOW</th>
-    <th>INFO</th>
-    </tr>
-    <tr>
-    <td>core</td>
-    <td style="color:red; font-weight:bold;">1</td>
-    <td style="color:red;">2</td>
-    <td style="color:orange;">5</td>
-    <td>3</td>
-    <td>0</td>
-    </tr>
-    <tr>
-    <td>ui.apps</td>
-    <td style="color:green;">0</td>
-    <td style="color:green;">0</td>
-    <td>1</td>
-    <td>4</td>
-    <td>2</td>
-    </tr>
-    </table>
-
-    <!-- === Example Coverage === -->
-    <p style="margin:0 0 12px 0;">
-    <strong>Coverage Status:</strong>
-    <span style="color:${{ inputs.coverageStatus == 'OK' && 'green' || 'red' }};">
-    <code>${{ inputs.sonarCoverage }}% (${{
-    inputs.coverageStatus }})</code>
-    </span>
-    </p>
-
-    <!-- ===== AEM SPECIFIC BLOCK ===== -->
-    <h3 style="margin:20px 0 6px 0;">🌐 AEM Build & Deployment</h3>
-    <p style="margin:0 0 12px 0;">
-    <strong>Maven Build:</strong> <code>mvn clean install -PautoInstallPackage</code><br/>
-    <strong>AEM Cloud Manager Pipeline:</strong> (link placeholder)<br/>
-    <strong>Environment:</strong> <code>Stage / Dev / Prod</code>
-    </p>
-
-    <!-- ===== FOOTER ===== -->
-    <p style="margin-top:24px; font-size:10pt; color:#777;">
-    This is an automated notification. Please review the results and take action if needed.
-    </p>
+        <!-- ============================= -->
+        <!-- 🧹 Hygiene Summary -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🧹 Hygiene Check Summary</h3>
+        ${{ steps.hygiene_summary.outputs.table }}
     
-    </body>
-    </html>
+        <!-- ============================= -->
+        <!-- 📊 Quality Summary -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">📊 Code Quality Summary</h3>
+        <ul>
+        <li>📈 Code Coverage: <code>${{ inputs.sonarCoverage }}</code> ${{ inputs.coverageStatus }}</li>
+        <li>📝 Checkstyle Violations: <code>${{ inputs.checkstyleCount }}</code> ${{ inputs.checkstyleStatus }}</li>
+        <li>🔍 PMD Violations: <code>${{ inputs.pmdCount }}</code> ${{ inputs.pmdStatus }}</li>
+        <li>🗂 SonarCloud: Executed <code>${{ inputs.sonarExecutionNote }}</code> | Issues <code>${{ inputs.sonarIssuesNote }}</code></li>
+        </ul>
+    
+        <!-- ============================= -->
+        <!-- 🏗 AEM-Specific Checks -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🏗 AEM Project Checks</h3>
+        <ul>
+        <li>📦 Content Package Validation: <code>${{ inputs.pkgValidationStatus }}</code></li>
+        <li>⚙️ aemanalyser Report: <code>${{ inputs.aemAnalyserSummary }}</code></li>
+        <li>🧩 OSGi Bundle Health: <code>${{ inputs.osgiBundleCheck }}</code></li>
+        <li>🌐 Dispatcher Config Validation: <code>${{ inputs.dispatcherValidation }}</code></li>
+        <li>☁️ AEMaaCS SDK Compatibility: <code>${{ inputs.cloudSdkCheck }}</code></li>
+        </ul>
+    
+        <!-- ============================= -->
+        <!-- 🛠 SonarCloud Impact -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🛠 SonarCloud Impact Severity</h3>
+        ${{ inputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+    
+        <!-- ============================= -->
+        <!-- 🔗 Key Links -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">🔗 Key Links</h3>
+        <ul style="margin:0; padding-left:16px;">
+        <li><a href="${{ inputs.sonarOverallCodeDashBoardURL }}">SonarCloud – ${{ inputs.BRANCH_EXECUTED }} Branch</a></li>
+        <li><a href="https://github.com/${{ github.repository }}/commit/${{ inputs.FULL_SHA }}">View Last Commit</a></li>
+        <li><a href="${{ inputs.ARTIFACT_URL }}">Download Hygiene Reports</a></li>
+        <li><a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">GitHub Actions Run</a></li>
+        <li><a href="https://nexus.example.com/repository/maven-releases/${{ github.repository }}">Nexus Releases</a></li>
+        </ul>
+    
+        <!-- ============================= -->
+        <!-- 📌 Next Steps -->
+        <!-- ============================= -->
+        <h3 style="margin:20px 0 10px 0; color:#2e6c80;">📌 Next Steps</h3>
+        <ul>
+        ${{ inputs.NextStepsHtml }}
+        </ul>
+    
+        <p style="margin-top:20px; font-style:italic; color:#666;">
+        🕒 All times in IST<br/>
+        🤖 Automated notification from GitHub Actions
+        </p>
+        </body>
+        </html>
