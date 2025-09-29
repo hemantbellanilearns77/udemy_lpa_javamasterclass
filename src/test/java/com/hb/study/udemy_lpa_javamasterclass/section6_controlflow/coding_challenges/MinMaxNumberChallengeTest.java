@@ -39,7 +39,7 @@ class MinMaxNumberChallengeTest {
     @Test
     void testMinMaxWithMultipleNumbers() {
         // simulate user entering numbers 5.5, 2.2, 9.9 then exit
-        provideInput("5.5\n2.2\n9.9\nexitCommonConstants.NEWLINE");
+        provideInput("5.5\n2.2\n9.9\nexit\n");
 
         MinMaxNumberChallenge.main(new String[]{});
 
@@ -51,7 +51,7 @@ class MinMaxNumberChallengeTest {
 
     @Test
     void testSingleNumber() {
-        provideInput("7.7\nexitCommonConstants.NEWLINE");
+        provideInput("7.7\nexit\n");
 
         MinMaxNumberChallenge.main(new String[]{});
 
@@ -63,7 +63,7 @@ class MinMaxNumberChallengeTest {
 
     @Test
     void testNonDecimalInput() {
-        provideInput("3.3\nabcCommonConstants.NEWLINE");
+        provideInput("3.3\nabc\n");
 
         MinMaxNumberChallenge.main(new String[]{});
 

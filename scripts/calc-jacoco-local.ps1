@@ -15,7 +15,7 @@ if ($c) {
     $miss = ($c | Measure-Object -Property missed -Sum).Sum
     $t = $cov + $miss
     if ($t -ne 0) {
-        $pct = '{0:N1}%%' -f (($cov * 100.0) / $t)
+        $pct = '{0:N1}%' -f (($cov * 100.0) / $t)
         Write-Host $pct -NoNewline   # 👈 ensures *just* the number+% on one line
     } else {
         Write-Host "0%%" -NoNewline

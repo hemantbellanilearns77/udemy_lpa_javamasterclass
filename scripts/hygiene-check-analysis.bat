@@ -189,7 +189,7 @@ echo --------------------------------------------------- >> "%hygieneLogPath%"
 if "%skip_pmd%"=="false" (
     echo 🚀 Step 2: Running PMD... >> "%hygieneLogPath%"
 	echo 🚀 Step 2: Running PMD...
-    call scripts\pmd-local.bat local >> "%hygieneLogPath%" 2>&1
+    call scripts\pmd.bat local >> "%hygieneLogPath%" 2>&1
     echo ✅ PMD scan completed. >> "%hygieneLogPath%"
 	echo ✅ PMD scan completed.
 ) else (
@@ -282,8 +282,12 @@ for /f %%X in ('findstr /c:"<violation " "!pmdReportPath!"') do (
 set "jacocoLatestReportPath=%REPO_ROOT%\reports\jacoco\jacoco-latest.xml"
 for /f "usebackq tokens=* delims=" %%i in (`powershell -nologo -noprofile -ExecutionPolicy Bypass -File "scripts\calc-jacoco-local.ps1" -reportPath "%jacocoLatestReportPath%"`) do (
     set "jacocoSummary=%%i"
+	echo Hello !jacocoSummary!
 	rem remove any accidental double percent signs
-	set "jacocoSummary=%jacocoSummary:%%=%"
+	rem set "jacocoSummary=%jacocoSummary:%%=%"
+	:: Clean up double percent signs from PowerShell
+    rem set "jacocoSummary=!jacocoSummary:%%=%!"
+    echo [DEBUG] JaCoCo raw: %%i → cleaned: !jacocoSummary!
     goto :done
 )
 
