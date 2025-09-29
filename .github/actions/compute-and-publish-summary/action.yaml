@@ -1,7 +1,7 @@
 ##############################################################
-# PUBLISH GITHUB SUMMARY SECTION AND SEND EMAIL
+    # EVALUATE METRICS and STATUS and PUBLISH SUMMARIES
 ##############################################################
-name: "Compute Metric and Publish Summaries (GITHUB and EMAIL)"
+name: "EVALUATE METRICS and STATUS and PUBLISH SUMMARIES"
 description: ""
 inputs:
   startTime:
@@ -53,11 +53,11 @@ runs:
   using: "composite"
   steps:
     ##############################################################################
-          # COMPUTE METRICS, COMPARE THEM TO THRESHOLD AND GENERATE STATUS
+      # EVALUATE METRICS AND STATUS AGAINST THRESHOLDS AND EXPORT AS OUTPUTS
     ##############################################################################
 
-    - name: 🧮 Compute Metrics, Evaluate against Thresholds and Export Metrics, Status as Outputs
-      id: metrics-and-thresholds
+    - name: 🧮 EVALUATE METRICS AND STATUS AGAINST THRESHOLDS AND EXPORT AS OUTPUTS
+      id: evaluate-metrics-status
       shell: pwsh
       env:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
@@ -68,7 +68,7 @@ runs:
         BRANCH_EXECUTED: ${{ inputs.BRANCH_EXECUTED }}
         REPOSITORY: ${{ github.repository }}
       run: |
-        pwsh -File .\.github\scripts\compute-metrics-thresholds-status.ps1
+        pwsh -File .\.github\scripts\evaluate-metrics-status.ps1
 
       ###################################
       # EXECUTION INFO COMPOSITE CALL
@@ -105,45 +105,45 @@ runs:
         ARTIFACT_URL: ${{ inputs.ARTIFACT_URL }}
         STAGE_VS_MAIN_STATE: ${{ inputs.STAGE_VS_MAIN_STATE }}
 
-        sonarCoverage: ${{ steps.metrics-and-thresholds.outputs.sonarCoverage }}
-        coverageStatus: ${{ steps.metrics-and-thresholds.outputs.coverageStatus }}
-        coverageBar: ${{ steps.metrics-and-thresholds.outputs.coverageBar }}
-        checkstyleCount: ${{ steps.metrics-and-thresholds.outputs.checkstyleCount }}
-        checkstyleStatus: ${{ steps.metrics-and-thresholds.outputs.checkstyleStatus }}
-        pmdCount: ${{ steps.metrics-and-thresholds.outputs.pmdCount }}
-        pmdStatus: ${{ steps.metrics-and-thresholds.outputs.pmdStatus }}
-        totalSonarFetchedIssues: ${{ steps.metrics-and-thresholds.outputs.totalSonarFetchedIssues }}
-        sonarExecutionNote: ${{ steps.metrics-and-thresholds.outputs.sonarExecutionNote }}
-        sonarIssuesNote: ${{ steps.metrics-and-thresholds.outputs.sonarIssuesNote }}
-        lastSonarAnalysis: ${{ steps.metrics-and-thresholds.outputs.lastSonarAnalysis }}
-        sonarBlocker: ${{ steps.metrics-and-thresholds.outputs.sonarBlocker }}
-        sonarBlockerUrl: ${{ steps.metrics-and-thresholds.outputs.sonarBlockerUrl }}
-        sonarBlockerEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarBlockerEmojiMark }}
-        sonarHigh: ${{ steps.metrics-and-thresholds.outputs.sonarHigh }}
-        sonarHighUrl: ${{ steps.metrics-and-thresholds.outputs.sonarHighUrl }}
-        sonarHighEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarHighEmojiMark }}
-        sonarMedium: ${{ steps.metrics-and-thresholds.outputs.sonarMedium }}
-        sonarMediumUrl: ${{ steps.metrics-and-thresholds.outputs.sonarMediumUrl }}
-        sonarMediumEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarMediumEmojiMark }}
-        sonarLow: ${{ steps.metrics-and-thresholds.outputs.sonarLow }}
-        sonarLowUrl: ${{ steps.metrics-and-thresholds.outputs.sonarLowUrl }}
-        sonarLowEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarLowEmojiMark }}
-        sonarInfo: ${{ steps.metrics-and-thresholds.outputs.sonarInfo }}
-        sonarInfoUrl: ${{ steps.metrics-and-thresholds.outputs.sonarInfoUrl }}
-        sonarInfoEmojiMark: ${{ steps.metrics-and-thresholds.outputs.sonarInfoEmojiMark }}
-        statusLegend: ${{ steps.metrics-and-thresholds.outputs.statusLegend }}
-        sonarOpenIssuesDashboardURL: ${{ steps.metrics-and-thresholds.outputs.sonarOpenIssuesDashboardURL }}
-        sonarOverallCodeDashBoardURL: ${{ steps.metrics-and-thresholds.outputs.sonarOverallCodeDashBoardURL }}
+        sonarCoverage: ${{ steps.evaluate-metrics-status.outputs.sonarCoverage }}
+        coverageStatus: ${{ steps.evaluate-metrics-status.outputs.coverageStatus }}
+        coverageBar: ${{ steps.evaluate-metrics-status.outputs.coverageBar }}
+        checkstyleCount: ${{ steps.evaluate-metrics-status.outputs.checkstyleCount }}
+        checkstyleStatus: ${{ steps.evaluate-metrics-status.outputs.checkstyleStatus }}
+        pmdCount: ${{ steps.evaluate-metrics-status.outputs.pmdCount }}
+        pmdStatus: ${{ steps.evaluate-metrics-status.outputs.pmdStatus }}
+        totalSonarFetchedIssues: ${{ steps.evaluate-metrics-status.outputs.totalSonarFetchedIssues }}
+        sonarExecutionNote: ${{ steps.evaluate-metrics-status.outputs.sonarExecutionNote }}
+        sonarIssuesNote: ${{ steps.evaluate-metrics-status.outputs.sonarIssuesNote }}
+        lastSonarAnalysis: ${{ steps.evaluate-metrics-status.outputs.lastSonarAnalysis }}
+        sonarBlocker: ${{ steps.evaluate-metrics-status.outputs.sonarBlocker }}
+        sonarBlockerUrl: ${{ steps.evaluate-metrics-status.outputs.sonarBlockerUrl }}
+        sonarBlockerEmojiMark: ${{ steps.evaluate-metrics-status.outputs.sonarBlockerEmojiMark }}
+        sonarHigh: ${{ steps.evaluate-metrics-status.outputs.sonarHigh }}
+        sonarHighUrl: ${{ steps.evaluate-metrics-status.outputs.sonarHighUrl }}
+        sonarHighEmojiMark: ${{ steps.evaluate-metrics-status.outputs.sonarHighEmojiMark }}
+        sonarMedium: ${{ steps.evaluate-metrics-status.outputs.sonarMedium }}
+        sonarMediumUrl: ${{ steps.evaluate-metrics-status.outputs.sonarMediumUrl }}
+        sonarMediumEmojiMark: ${{ steps.evaluate-metrics-status.outputs.sonarMediumEmojiMark }}
+        sonarLow: ${{ steps.evaluate-metrics-status.outputs.sonarLow }}
+        sonarLowUrl: ${{ steps.evaluate-metrics-status.outputs.sonarLowUrl }}
+        sonarLowEmojiMark: ${{ steps.evaluate-metrics-status.outputs.sonarLowEmojiMark }}
+        sonarInfo: ${{ steps.evaluate-metrics-status.outputs.sonarInfo }}
+        sonarInfoUrl: ${{ steps.evaluate-metrics-status.outputs.sonarInfoUrl }}
+        sonarInfoEmojiMark: ${{ steps.evaluate-metrics-status.outputs.sonarInfoEmojiMark }}
+        statusLegend: ${{ steps.evaluate-metrics-status.outputs.statusLegend }}
+        sonarOpenIssuesDashboardURL: ${{ steps.evaluate-metrics-status.outputs.sonarOpenIssuesDashboardURL }}
+        sonarOverallCodeDashBoardURL: ${{ steps.evaluate-metrics-status.outputs.sonarOverallCodeDashBoardURL }}
 
-        moduleAgg: ${{ steps.metrics-and-thresholds.outputs.moduleAgg }}
-        EMAIL_BREAKDOWN: ${{ steps.metrics-and-thresholds.outputs.EMAIL_BREAKDOWN }}
-        EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.metrics-and-thresholds.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
+        moduleAgg: ${{ steps.evaluate-metrics-status.outputs.moduleAgg }}
+        EMAIL_BREAKDOWN: ${{ steps.evaluate-metrics-status.outputs.EMAIL_BREAKDOWN }}
+        EMAIL_MODULE_SEV_AGG_TABLE: ${{ steps.evaluate-metrics-status.outputs.EMAIL_MODULE_SEV_AGG_TABLE }}
 
         #Only goes to github publish summary
-        GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:  ${{ steps.metrics-and-thresholds.outputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}
+        GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE:  ${{ steps.evaluate-metrics-status.outputs.GITHUB_SUMMARY_MODULE_SEV_AGG_TABLE }}
 
-        HygieneCheckStatus: ${{ steps.metrics-and-thresholds.outputs.HygieneCheckStatus }}
-        NextStepsHtml: ${{ steps.metrics-and-thresholds.outputs.NextStepsHtml }}
+        HygieneCheckStatus: ${{ steps.evaluate-metrics-status.outputs.HygieneCheckStatus }}
+        NextStepsHtml: ${{ steps.evaluate-metrics-status.outputs.NextStepsHtml }}
 
         FULL_SHA: ${{ steps.execution-info.outputs.FULL_SHA }}
         SHORT_SHA: ${{ steps.execution-info.outputs.SHORT_SHA }}
