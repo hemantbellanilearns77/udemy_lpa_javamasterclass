@@ -1,73 +1,75 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_challenges;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MinMaxNumberChallengeTest {
 
-    private final InputStream systemIn = System.in;
-    private final PrintStream systemOut = System.out;
-
-    private ByteArrayOutputStream testOut;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    private PrintStream originalOut;
 
     @BeforeEach
-    void setUpOutput() {
-        testOut = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(testOut));
+    void setUp() {
+        originalOut = System.out;
+        System.setOut(new PrintStream(outputStreamCaptor));
     }
 
     @AfterEach
-    void restoreSystemInputOutput() {
-        System.setIn(systemIn);
-        System.setOut(systemOut);
+    void tearDown() {
+        System.setOut(originalOut);
     }
 
-    private void provideInput(String data) {
-        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
-        System.setIn(testIn);
-    }
-
-    private String getOutput() {
-        return testOut.toString();
-    }
-
-    @Test
-    void testMinMaxWithMultipleNumbers() {
-        // simulate user entering numbers 5.5, 2.2, 9.9 then exit
-        provideInput("5.5\n2.2\n9.9\nexit\n");
-
-        MinMaxNumberChallenge.main(new String[]{});
-
-        String output = getOutput();
-        assertTrue(output.contains("The minimum number is: 2.2"));
-        assertTrue(output.contains("The maximum number is: 9.9"));
-        assertTrue(output.contains("The count of decimal numbers screened to come to max and min values is: 3"));
+    private String runWithInput(String input) {
+        InputStream originalIn = System.in;
+        try {
+            System.setIn(new ByteArrayInputStream(input.getBytes()));
+            MinMaxNumberChallenge.main(new String[]{});
+            return outputStreamCaptor.toString();
+        } finally {
+            System.setIn(originalIn);
+        }
     }
 
     @Test
-    void testSingleNumber() {
-        provideInput("7.7\nexit\n");
+    void testSingleNumberThenExit() {
+        String input = "5.5\nexit\n";
+        String output = runWithInput(input);
 
-        MinMaxNumberChallenge.main(new String[]{});
-
-        String output = getOutput();
-        assertTrue(output.contains("The minimum number is: 7.7"));
-        assertTrue(output.contains("The maximum number is: 7.7"));
         assertTrue(output.contains("The count of decimal numbers screened to come to max and min values is: 1"));
+        assertTrue(output.contains("The minimum number is: 5.5"));
+        assertTrue(output.contains("The maximum number is: 5.5"));
     }
 
     @Test
-    void testNonDecimalInput() {
-        provideInput("3.3\nabc\n");
+    void testMultipleNumbers() {
+        String input = "10.1\n3.2\n7.8\nexit\n";
+        String output = runWithInput(input);
 
-        MinMaxNumberChallenge.main(new String[]{});
+        assertTrue(output.contains("The count of decimal numbers screened to come to max and min values is: 3"));
+        assertTrue(output.contains("The minimum number is: 3.2"));
+        assertTrue(output.contains("The maximum number is: 10.1"));
+    }
 
-        String output = getOutput();
+    @Test
+    void testInvalidInputTriggersExit() {
+        String input = "4.4\nabc\n";
+        String output = runWithInput(input);
+
         assertTrue(output.contains("Since you entered a non-decimal number character, so exiting"));
+        assertTrue(output.contains("The count of decimal numbers screened to come to max and min values is: 1"));
+        assertTrue(output.contains("The minimum number is: 4.4"));
+        assertTrue(output.contains("The maximum number is: 4.4"));
+    }
+
+    @Test
+    void testNoNumbersJustExit() {
+        String input = "exit\n";
+        String output = runWithInput(input);
+
+        assertTrue(output.contains("The count of decimal numbers screened to come to max and min values is: 0"));
+        assertTrue(output.contains("The minimum number is: 0.0"));
+        assertTrue(output.contains("The maximum number is: 0.0"));
     }
 }
