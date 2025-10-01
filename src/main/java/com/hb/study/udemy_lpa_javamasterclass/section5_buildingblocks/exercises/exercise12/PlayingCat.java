@@ -6,25 +6,22 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class PlayingCat {
     public static final ExecutionUtil execution = new ExecutionUtil();
-
+    public static final String CAT_PLAYING_STATUS = "Cat is playing? : ";
     public static void main(String[] args) {
+
         execution.initialize(args);
-        ConsoleStyler.styleOutput(isCatPlaying(true, 10) + CommonConstants.EMPTYSTRING);
-        ConsoleStyler.styleOutput(isCatPlaying(false, 36) + CommonConstants.EMPTYSTRING);
-        ConsoleStyler.styleOutput(isCatPlaying(false, 35) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(CAT_PLAYING_STATUS + isCatPlaying(true, 10) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(CAT_PLAYING_STATUS + isCatPlaying(false, 36) + CommonConstants.EMPTYSTRING);
+        ConsoleStyler.styleOutput(CAT_PLAYING_STATUS + isCatPlaying(false, 35) + CommonConstants.EMPTYSTRING);
         execution.finalizeExecution();
     }
 
     public static boolean isCatPlaying(boolean summer, int temperature) {
         boolean catPlayingStatus = false;
-
-        if(temperature >= 25) {
-            //if its summer i.e. if temp is between 25 and 45 (inclusive) - return true
-            // if winter i.e. it's NOT summer and temp is between 25 and 35 (inclusive) - return true
-            // return false in rest of the  scenarios
-            if((summer && temperature <= 45 ) || (!summer && temperature <= 35)) {
-                catPlayingStatus = true;
-            }
+        if(summer && (temperature >= 25 && temperature <= 45)) {
+            catPlayingStatus = true;
+        } else if(temperature >= 25 && temperature <= 35) {
+            catPlayingStatus = true;
         }
         return catPlayingStatus;
     }
