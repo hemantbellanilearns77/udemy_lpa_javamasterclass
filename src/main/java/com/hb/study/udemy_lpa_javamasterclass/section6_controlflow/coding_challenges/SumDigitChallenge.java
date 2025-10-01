@@ -14,7 +14,8 @@ public class SumDigitChallenge {
     public static void main(String[] args) {
         execution.initialize(args);
         Scanner scanner = new Scanner(System.in);
-        String userInput, userInputWithoutBlanks;
+        String userInput;
+        String userInputWithoutBlanks;
         int sumReceived;
 
         do {
@@ -28,7 +29,7 @@ public class SumDigitChallenge {
                 continue;
             }
 
-            ConsoleStyler.styleOutput("userInput was: " + userInput); // + ", \nand userInputWithoutBlanks is:" + userInputWithoutBlanks);
+            ConsoleStyler.styleOutput("userInput was: " + userInput + ", \nand userInputWithoutBlanks is:" + userInputWithoutBlanks);
             try {
                 sumReceived = sumDigits(Integer.parseInt(userInputWithoutBlanks));
                 ConsoleStyler.styleOutput("The sum of digits of " + userInputWithoutBlanks
