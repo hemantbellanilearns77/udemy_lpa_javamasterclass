@@ -13,16 +13,14 @@ public class ReadUserInputChallenge {
         Scanner scanner = new Scanner(System.in);
         int countOfIntegers = 0;
         int sum = 0;
-        int nextNumber = -1;
-        String nextNumberInput = "";
+        int nextNumber;
+        String nextNumberInput;
 
         while(countOfIntegers < 5) {
             ConsoleStyler.styleOutput("Enter a Integer # " + (countOfIntegers+1) + " : ");
             nextNumberInput = scanner.nextLine();
             nextNumber = isValidInteger(nextNumberInput) ? Integer.parseInt(nextNumberInput)  : -1;
-            if(nextNumber == -1) {
-                continue;
-            } else {
+            if(nextNumber != -1) {
                 sum += nextNumber;
                 countOfIntegers++;
             }
@@ -40,7 +38,6 @@ public class ReadUserInputChallenge {
         } catch(NumberFormatException numberFormatException){
             ConsoleStyler.styleExecutionInsight("You entered: " + nextNumberInput + " and that's an Invalid Input!");
             isValidInt = false;
-            return isValidInt;
         }
         return isValidInt;
     }

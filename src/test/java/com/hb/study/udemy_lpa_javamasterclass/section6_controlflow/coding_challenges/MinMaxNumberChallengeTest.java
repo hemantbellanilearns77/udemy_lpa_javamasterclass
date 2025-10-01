@@ -23,14 +23,17 @@ class MinMaxNumberChallengeTest {
 
     private String runWithInput(String input) {
         InputStream originalIn = System.in;
-        try {
-            System.setIn(new ByteArrayInputStream(input.getBytes()));
+        try (InputStream testIn = new ByteArrayInputStream(input.getBytes())) {
+            System.setIn(testIn);
             MinMaxNumberChallenge.main(new String[]{});
             return outputStreamCaptor.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             System.setIn(originalIn);
         }
     }
+
 
     @Test
     void testSingleNumberThenExit() {
