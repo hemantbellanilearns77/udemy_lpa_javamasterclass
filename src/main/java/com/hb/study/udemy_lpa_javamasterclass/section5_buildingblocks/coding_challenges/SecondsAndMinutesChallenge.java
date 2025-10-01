@@ -1,16 +1,19 @@
 package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.coding_challenges;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class SecondsAndMinutesChallenge {
-        public static void main(String[] args) {
-        //
+    private static final ExecutionUtil execution = new ExecutionUtil();
+    public static void main(String[] args) {
+        execution.initialize(args);
 
         ConsoleStyler.styleOutput(getDurationString(-3945));  // This is the first test case
         ConsoleStyler.styleOutput(getDurationString(-65, 45));  // This is the second test case
         ConsoleStyler.styleOutput(getDurationString(65, 145));
         ConsoleStyler.styleOutput(getDurationString(65, 45));
         ConsoleStyler.styleOutput(getDurationString(3945));
+        execution.finalizeExecution();
     }
 
     public static String getDurationString(int seconds) {
@@ -21,7 +24,8 @@ public class SecondsAndMinutesChallenge {
         }
 
         int minutes = seconds / 60;
-        return getDurationString(seconds / 60, seconds % 60);
+        int remainingSeconds = seconds % 60;
+        return getDurationString(minutes, remainingSeconds);
     }
 
     public static String getDurationString(int minutes, int seconds) {
