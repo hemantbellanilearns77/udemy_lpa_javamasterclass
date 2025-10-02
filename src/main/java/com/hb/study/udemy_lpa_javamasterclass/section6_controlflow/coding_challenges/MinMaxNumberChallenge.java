@@ -20,23 +20,22 @@ public class MinMaxNumberChallenge {
             try {
                 ConsoleStyler.styleOutput("Please enter the next decimal number or exit to quit: ");
                 nextInput = scanner.nextLine();
-                if (nextInput.equalsIgnoreCase("exit")){
-                    break;
-                }
-                nextDecimalNumber = Double.parseDouble(nextInput);
-                numberOfDecimalsScreened++;
-                if(numberOfDecimalsScreened == 1){
-                    minNumber = maxNumber = nextDecimalNumber;
-                } else {
-                    if(nextDecimalNumber > maxNumber) {
-                        maxNumber = nextDecimalNumber;
+                if (!nextInput.equalsIgnoreCase("exit")){
+                    nextDecimalNumber = Double.parseDouble(nextInput);
+                    numberOfDecimalsScreened++;
+                    if(numberOfDecimalsScreened == 1){
+                        minNumber = maxNumber = nextDecimalNumber;
+                    } else {
+                        if(nextDecimalNumber > maxNumber) {
+                            maxNumber = nextDecimalNumber;
+                        }
+                        if(nextDecimalNumber < minNumber){
+                            minNumber = nextDecimalNumber;
+                        }
                     }
-                    if(nextDecimalNumber < minNumber){
-                        minNumber = nextDecimalNumber;
-                    }
                 }
-            } catch(NumberFormatException nfe) {
-                ConsoleStyler.styleOutput("Since you entered a non-decimal number character, so exiting");
+            } catch(NumberFormatException _) {
+                ConsoleStyler.styleOutput("The input you provided is either 'exit' or something that cannot be interpreted to a decimal number, so exiting");
                 break;
             }
         }
