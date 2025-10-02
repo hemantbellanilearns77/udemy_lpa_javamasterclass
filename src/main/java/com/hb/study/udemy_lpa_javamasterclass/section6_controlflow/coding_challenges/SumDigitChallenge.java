@@ -37,7 +37,7 @@ public class SumDigitChallenge {
                 if (sumReceived == -1) {
                     ConsoleStyler.styleOutput("Invalid Input : Negative Number is not acceptable, please input a positive integer or 9");
                 }
-            } catch (NumberFormatException nfe) {
+            } catch (NumberFormatException _) {
                 ConsoleStyler.styleOutput("""
                         Sorry Invalid Input !! Please note that characters other than a positive integer or 0 or
                         either of these words  ("exit" or "quit" or "end") are  allowed as inputs,

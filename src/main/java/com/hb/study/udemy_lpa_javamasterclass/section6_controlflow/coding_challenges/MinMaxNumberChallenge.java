@@ -16,29 +16,25 @@ public class MinMaxNumberChallenge {
         double nextDecimalNumber;
         int numberOfDecimalsScreened = 0;
         Scanner scanner = new Scanner(System.in);
-        while(true) {
+        boolean loopAgain = false;
+        do {
             try {
                 ConsoleStyler.styleOutput("Please enter the next decimal number or exit to quit: ");
                 nextInput = scanner.nextLine();
                 if (!nextInput.equalsIgnoreCase("exit")){
                     nextDecimalNumber = Double.parseDouble(nextInput);
                     numberOfDecimalsScreened++;
-                    if(numberOfDecimalsScreened == 1){
-                        minNumber = maxNumber = nextDecimalNumber;
-                    } else {
-                        if(nextDecimalNumber > maxNumber) {
-                            maxNumber = nextDecimalNumber;
-                        }
-                        if(nextDecimalNumber < minNumber){
-                            minNumber = nextDecimalNumber;
-                        }
-                    }
+                    minNumber = Math.min(nextDecimalNumber, minNumber);
+                    maxNumber = Math.max(nextDecimalNumber, maxNumber);
+
+                    loopAgain = true;
                 }
             } catch(NumberFormatException _) {
                 ConsoleStyler.styleOutput("The input you provided is either 'exit' or something that cannot be interpreted to a decimal number, so exiting");
-                break;
+                loopAgain = false;
             }
-        }
+
+        } while(loopAgain);
         ConsoleStyler.styleOutput("The count of decimal numbers screened to come to max and min values is: " + numberOfDecimalsScreened);
         ConsoleStyler.styleOutput("The minimum number is: " + minNumber);
         ConsoleStyler.styleOutput("The maximum number is: " + maxNumber);
