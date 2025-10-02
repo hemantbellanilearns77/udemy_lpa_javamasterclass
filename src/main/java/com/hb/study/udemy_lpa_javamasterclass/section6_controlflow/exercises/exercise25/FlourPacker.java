@@ -2,12 +2,13 @@ package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.ex
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class FlourPacker {
 
-    // write code here
-        public static void main(String[] args) {
-        //
+    private static final ExecutionUtil execution = new ExecutionUtil();
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.styleOutput(canPack(1, 0, 4) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack (1, 0, 5) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack (0, 5, 4) + CommonConstants.EMPTYSTRING);
@@ -16,6 +17,7 @@ public class FlourPacker {
         ConsoleStyler.styleOutput(canPack(5, 3, 24) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack(2, 1, 5) + CommonConstants.EMPTYSTRING);
         ConsoleStyler.styleOutput(canPack(4, 18, 19) + CommonConstants.EMPTYSTRING);
+        execution.finalizeExecution();
     }
 
     public static boolean canPack (int bigCount, int smallCount, int goal){
@@ -53,16 +55,28 @@ public class FlourPacker {
         return condtionOneSatisfied;
     }
     private static boolean checkConditionTwo(int bigCount, int smallCount, int goal) {
-        boolean condtionTwoSatisfied = false;
-        if (((goal - smallCount) <= (bigCount * 5)) && (((goal - smallCount) % 5) == 0)) {
-            condtionTwoSatisfied = true;
-        } else if ((((goal - (bigCount * 5))) > 0) && (((goal - (bigCount * 5))) <= smallCount)) {
-            condtionTwoSatisfied = true;
-        } else if ((goal < (bigCount * 5)) && ((goal % 5) == 0)) {
-            condtionTwoSatisfied = true;
-        } else if (((bigCount * 5) - (goal % 5)) <= smallCount) {
-            condtionTwoSatisfied = true;
-        }
-        return condtionTwoSatisfied;
+
+        boolean checkTwo_PointOne = checkTwoPointOne(bigCount, smallCount, goal);
+        boolean checkTwo_PointTwo = checkTwoPointTwo(bigCount, smallCount, goal);
+        boolean checkTwo_PointThree = checkTwoPointThree(bigCount, goal);
+        boolean checkTwo_PointFour = checkTwoPointFour(bigCount, smallCount, goal);
+
+        return checkTwo_PointOne || checkTwo_PointTwo || checkTwo_PointThree || checkTwo_PointFour;
+    }
+
+    private static boolean checkTwoPointFour(int bigCount, int smallCount, int goal) {
+        return ((bigCount * 5) - (goal % 5)) <= smallCount;
+    }
+
+    private static boolean checkTwoPointThree(int bigCount, int goal) {
+        return (goal < (bigCount * 5)) && ((goal % 5) == 0);
+    }
+
+    private static boolean checkTwoPointTwo(int bigCount, int smallCount, int goal) {
+        return ((goal - (bigCount * 5)) > 0) && ((goal - (bigCount * 5)) <= smallCount);
+    }
+
+    private static boolean checkTwoPointOne(int bigCount, int smallCount, int goal) {
+        return ((goal - smallCount) <= (bigCount * 5)) && (((goal - smallCount) % 5) == 0);
     }
 }
