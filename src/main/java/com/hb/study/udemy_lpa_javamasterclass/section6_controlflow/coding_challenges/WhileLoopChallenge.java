@@ -1,10 +1,12 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_challenges;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class WhileLoopChallenge {
+    public static final ExecutionUtil execution = new ExecutionUtil();
         public static void main(String[] args) {
-        //
+        execution.initialize(args);
         int loopCounter = 5;
         int countOfEvens = 0;
         int countofOdds = 0;
@@ -22,10 +24,9 @@ public class WhileLoopChallenge {
             loopCounter++;
         }
         ConsoleStyler.styleOutput("Count of Odds between 5 and " + loopCounter + " is : " + countofOdds);
+        execution.finalizeExecution();
     }
     public static boolean isEvenNumber(int numberToCheck) {
-        if( (numberToCheck % 2) != 0 )
-            return false;
-        return true;
+        return (numberToCheck % 2) == 0;
     }
 }

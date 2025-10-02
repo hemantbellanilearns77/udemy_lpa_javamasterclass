@@ -35,7 +35,7 @@ public class ReadUserInputChallenge {
         try {
             nextNumber = Integer.parseInt(nextNumberInput);
             ConsoleStyler.styleExecutionInsight("You entered: " + nextNumber + " and that's a valid Input!");
-        } catch(NumberFormatException numberFormatException){
+        } catch(NumberFormatException _){
             ConsoleStyler.styleExecutionInsight("You entered: " + nextNumberInput + " and that's an Invalid Input!");
             isValidInt = false;
         }
