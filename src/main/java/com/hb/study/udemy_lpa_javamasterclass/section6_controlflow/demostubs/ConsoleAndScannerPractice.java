@@ -12,7 +12,7 @@ public class ConsoleAndScannerPractice {
         ConsoleStyler.styleOutput("Current Year is: " + currentYer);
         try {
             ConsoleStyler.styleOutput(getInputFromConsole(currentYer));
-        } catch(NullPointerException npe) {
+        } catch(NullPointerException _) {
             ConsoleStyler.styleOutput("Inside catch.... ");
             ConsoleStyler.styleOutput(getInputFromScanner(currentYer));
         }
