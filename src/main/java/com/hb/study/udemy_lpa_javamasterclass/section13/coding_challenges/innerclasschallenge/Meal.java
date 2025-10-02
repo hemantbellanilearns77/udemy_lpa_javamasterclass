@@ -117,7 +117,7 @@ public class Meal {
                     Extra topping = Extra.valueOf(selectedTopping.toUpperCase());
                     toppings.add(new Item(topping.name(), "TOPPING",
                             topping.getPrice()));
-                } catch (IllegalArgumentException illegalArgumentException) {
+                } catch (IllegalArgumentException _) {
                     ConsoleStyler.styleOutput("No topping found for " + selectedTopping);
                 }
             }
