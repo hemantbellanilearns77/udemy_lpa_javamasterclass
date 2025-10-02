@@ -1,8 +1,10 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.coding_challenges;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class SwitchExpressionChallenge {
+    public static final ExecutionUtil execution = new ExecutionUtil();
     private static final String THE_DAY = "The day ";
     private static final String IS = " is ";
     private static final String SUNDAY = "Sunday";
@@ -13,10 +15,10 @@ public class SwitchExpressionChallenge {
     private static final String FRIDAY = "Friday";
     private static final String SATURDAY = "Saturday";
     private static final String INVALID_DAY = "Invalid Day";
-    public static String dayOfTheWeek;
+    static String dayOfTheWeek;
 
     public static void main(String[] args) {
-
+        execution.initialize(args);
         printDayOfTheWeek(0);
         printDayOfTheWeek(1);
         printDayOfTheWeek(2);
@@ -36,15 +38,6 @@ public class SwitchExpressionChallenge {
         ConsoleStyler.styleOutput(THE_DAY + 7 + IS + printDayOfTheWeek(7));
 
         ConsoleStyler.divider();
-        printWeekDay(0);
-        printWeekDay(1);
-        printWeekDay(2);
-        printWeekDay(3);
-        printWeekDay(4);
-        printWeekDay(5);
-        printWeekDay(6);
-        printWeekDay(7);
-        ConsoleStyler.divider();
         alternativePrintDayOfTheWeek(0);
         alternativePrintDayOfTheWeek(1);
         alternativePrintDayOfTheWeek(2);
@@ -53,13 +46,12 @@ public class SwitchExpressionChallenge {
         alternativePrintDayOfTheWeek(5);
         alternativePrintDayOfTheWeek(6);
         alternativePrintDayOfTheWeek(7);
-
-
+        execution.finalizeExecution();
     }
 
     public static void alternativePrintDayOfTheWeek(int day) {
         ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
-        dayOfTheWeek = switch (day) {
+       dayOfTheWeek = switch (day) {
             case 0 -> SUNDAY;
             case 1 -> MONDAY;
             case 2 -> TUESDAY;
@@ -74,58 +66,37 @@ public class SwitchExpressionChallenge {
 
     public static String printDayOfTheWeek(int day) {
         ConsoleStyler.styleOutput("\nInside printDayOfTheWeekMethod");
-        String dayOfWeek;
+
         return switch (day) {
             case 0 -> {
-                dayOfWeek = SUNDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = SUNDAY;
+                yield dayOfTheWeek;
             }
             case 1 -> {
-                dayOfWeek = MONDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = MONDAY;
+                yield dayOfTheWeek;
             }
             case 2 -> {
-                dayOfWeek = TUESDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = TUESDAY;
+                yield dayOfTheWeek;
             }
             case 3 -> {
-                dayOfWeek = WEDNESDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = WEDNESDAY;
+                yield dayOfTheWeek;
             }
             case 4 -> {
-                dayOfWeek = THURSDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = THURSDAY;
+                yield dayOfTheWeek;
             }
             case 5 -> {
-                dayOfWeek = FRIDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = FRIDAY;
+                yield dayOfTheWeek;
             }
             case 6 -> {
-                dayOfWeek = SATURDAY;
-                yield dayOfWeek;
+                dayOfTheWeek = SATURDAY;
+                yield dayOfTheWeek;
             }
             default -> INVALID_DAY;
         };
-    }
-
-    public static void printWeekDay(int day) {
-        //ConsoleStyler.styleOutput("Inside printDayOfTheWeekMethod");
-        if (day == 0)
-            dayOfTheWeek = SUNDAY;
-        else if (day == 1)
-            dayOfTheWeek = MONDAY;
-        else if (day == 2)
-            dayOfTheWeek = TUESDAY;
-        else if (day == 3)
-            dayOfTheWeek = WEDNESDAY;
-        else if (day == 4)
-            dayOfTheWeek = THURSDAY;
-        else if (day == 5)
-            dayOfTheWeek = FRIDAY;
-        else if (day == 6)
-            dayOfTheWeek = SATURDAY;
-        else
-            dayOfTheWeek = INVALID_DAY;
-        ConsoleStyler.styleOutput(THE_DAY + day + IS + dayOfTheWeek);
     }
 }
