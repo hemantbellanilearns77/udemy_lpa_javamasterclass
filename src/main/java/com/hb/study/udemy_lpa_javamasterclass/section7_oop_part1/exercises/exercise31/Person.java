@@ -1,26 +1,35 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.exercises.exercise31;
 
 
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class Person {
     private String firstName;
     private String lastName;
     private int age;
 
-
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", age=" + age +
+                '}';
+    }
 
     public boolean isTeen() {
-       /* boolean isTeenAger = switch(getAge()) {
-            case 13, 14, 15, 16, 17, 18, 19 ->  true;
-            default -> false;
-        };
-        return isTeenAger;*/
+        ConsoleStyler.styleExecutionInsight("""
+                Could also have been:
+               /* boolean isTeenAger = switch(getAge()) {
+                    case 13, 14, 15, 16, 17, 18, 19 ->  true;
+                    default -> false;
+                };
+                return isTeenAger;*/
+               """);
 
-        boolean isTeenAger = false;
         return switch(getAge()) {
-            case 13, 14, 15, 16, 17, 18, 19 -> { isTeenAger = true;
-                yield isTeenAger;}
-            default -> {yield false;}
+            case 13, 14, 15, 16, 17, 18, 19 -> true;
+            default -> false;
         };
 
     }
