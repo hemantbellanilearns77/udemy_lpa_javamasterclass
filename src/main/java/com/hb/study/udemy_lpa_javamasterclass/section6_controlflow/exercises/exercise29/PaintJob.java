@@ -1,10 +1,13 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise29;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class PaintJob {
-        public static void main(String[] args) {
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
+    public static void main(String[] args) {
+        execution.initialize(args);
         // Testing of first method:
         ConsoleStyler.styleOutput("Below are the results of testing of first overloaded form ");
         ConsoleStyler.styleOutput("Buckets to Buy with getBucketCount(-3.4, 2.1, 1.5, 2) is : " + getBucketCount(-3.4, 2.1, 1.5, 2));
@@ -22,6 +25,7 @@ public class PaintJob {
         ConsoleStyler.styleOutput("Buckets to Buy with getBucketCount(3.4, 1.5) is : " + getBucketCount(3.4, 1.5));
         ConsoleStyler.styleOutput("Buckets to Buy with getBucketCount(6.26, 2.2) is : " + getBucketCount(6.26, 2.2));
         ConsoleStyler.styleOutput("Buckets to Buy with getBucketCount(3.26, 0.75) is : " + getBucketCount(3.26, 0.75));
+        execution.finalizeExecution();
     }
 
     public static int getBucketCount(double width, double height, double areaPerBucket, double extraBuckets){
