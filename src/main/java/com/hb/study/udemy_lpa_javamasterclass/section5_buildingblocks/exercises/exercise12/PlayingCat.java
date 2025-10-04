@@ -17,12 +17,10 @@ public class PlayingCat {
     }
 
     public static boolean isCatPlaying(boolean summer, int temperature) {
-        boolean catPlayingStatus = false;
-        if(summer && (temperature >= 25 && temperature <= 45)) {
-            catPlayingStatus = true;
-        } else if(temperature >= 25 && temperature <= 35) {
-            catPlayingStatus = true;
+        if (summer) {
+            return temperature >= 25 && temperature <= 45;
+        } else {
+            return temperature >= 25 && temperature <= 35;
         }
-        return catPlayingStatus;
     }
 }

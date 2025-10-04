@@ -4,7 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 public class HybridCar extends Car {
 
-    private double avgKMsperLitre;
+    private final double avgKMsperLitre;
     int batterySize;
     int Cylinders;
 
@@ -13,16 +13,24 @@ public class HybridCar extends Car {
         this.avgKMsperLitre = avgKMsperLitre;
         this.batterySize = batterySize;
     }
+
+    @Override
+    public String toString() {
+        return "HybridCar{" +
+                "avgKMsperLitre=" + avgKMsperLitre +
+                ", batterySize=" + batterySize +
+                ", Cylinders=" + Cylinders +
+                '}';
+    }
+
     public HybridCar(String description) {
-        super(description);
-        this.avgKMsperLitre = 21;
-        this.batterySize = 7;
+        this(description,21,7);
     }
 
     @Override
     public void startEngine() {
-        //super.startEngine();
-         ConsoleStyler.styleOutput("Starting a hybrid fuel car %n");
+        super.startEngine();
+        ConsoleStyler.styleOutput("Starting a hybrid fuel car %n");
 
     }
 
