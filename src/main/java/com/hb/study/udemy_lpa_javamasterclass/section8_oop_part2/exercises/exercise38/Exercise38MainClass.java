@@ -14,10 +14,9 @@ public class Exercise38MainClass {
         Lamp lamp = new Lamp("Classic", false, 75);
 
         Bedroom bedRoom = new Bedroom("Room Name Here",
-                wall1, wall2, wall3, wall4,
                 ceiling,bed,
                 lamp);
-
+        bedRoom.setWalls(wall1, wall2, wall3, wall4);
         bedRoom.makeBed();
         bedRoom.getLamp().turnOn();
     }
