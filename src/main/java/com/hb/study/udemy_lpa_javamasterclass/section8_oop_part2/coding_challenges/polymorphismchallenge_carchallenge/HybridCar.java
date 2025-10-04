@@ -29,8 +29,8 @@ public class HybridCar extends Car {
 
     @Override
     public void startEngine() {
-        //super.startEngine();
-         ConsoleStyler.styleOutput("Starting a hybrid fuel car %n");
+        super.startEngine();
+        ConsoleStyler.styleOutput("Starting a hybrid fuel car %n");
 
     }
 
