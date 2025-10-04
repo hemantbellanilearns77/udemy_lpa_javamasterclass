@@ -37,8 +37,6 @@ public class Floor {
 
     public double getArea(){
 
-        double area = 0.0;
-
         return this.width * this.length;
     }
 }

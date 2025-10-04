@@ -37,7 +37,7 @@ public class BillBurgerChallengeMainClass {
                 "chili");
         deluxeMeal.addBurgerToppings(Topping.AVACADO.name(), Topping.BACON.name(),Topping.LETTUCE.name(),
                 Topping.CHEESE.name(), Topping.MAYO.name());
-        //deluxeMeal.setDrinkSize("SMALL");
+        deluxeMeal.setDrinkSize("SMALL");
         deluxeMeal.printItemizedList();
     }
 }
