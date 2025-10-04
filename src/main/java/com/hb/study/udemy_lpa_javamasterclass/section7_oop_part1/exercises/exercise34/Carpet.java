@@ -7,9 +7,9 @@ public class Carpet {
 
     public Carpet(double cost){
         if( cost <0 ) {
-            this.cost = 0.0;
+            setCost(0.0);
         } else {
-            this.cost = cost;
+            setCost(cost);
         }
     }
 
@@ -17,11 +17,11 @@ public class Carpet {
         return this.cost;
     }
 
-    /*public void setCost(double cost){
+    public void setCost(double cost){
         if( cost <0 ) {
             this.cost = 0.0;
         } else {
             this.cost = cost;
         }
-    }*/
+    }
 }
