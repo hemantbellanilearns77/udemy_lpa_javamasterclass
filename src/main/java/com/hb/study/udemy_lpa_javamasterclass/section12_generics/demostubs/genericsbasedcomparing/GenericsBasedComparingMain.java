@@ -7,6 +7,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class GenericsBasedComparingMain {
     public static final ExecutionUtil execution = new ExecutionUtil();
@@ -76,7 +77,7 @@ class StudentGPAComparator implements Comparator<Student> {
 
 class Student implements Comparable<Student> {
 
-    private static int LAST_ID = 1000;
+    private static int LASTID = 1000;
     private static final SecureRandom secureRandom = new SecureRandom();
 
     String name;
@@ -85,7 +86,7 @@ class Student implements Comparable<Student> {
 
     public Student(String name) {
         this.name = name;
-        id = LAST_ID++;
+        id = LASTID++;
         gpa = secureRandom.nextDouble(1.0, 4.0);
     }
 
@@ -102,6 +103,18 @@ class Student implements Comparable<Student> {
                  return Integer.valueOf(id).compareTo(o.id);
                 """);
         return Integer.compare(id, o.id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && Double.compare(gpa, student.gpa) == 0 && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id, gpa);
     }
 }
 

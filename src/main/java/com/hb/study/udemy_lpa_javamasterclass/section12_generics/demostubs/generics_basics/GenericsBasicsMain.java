@@ -103,17 +103,17 @@ public class GenericsBasicsMain {
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 
-    public static void scoreResult(SportsTeam team1, int t1_score,
-                                   SportsTeam team2, int t2_score) {
-        String message = team1.setScore(t1_score, t2_score);
-        team2.setScore(t2_score, t1_score);
+    public static void scoreResult(SportsTeam team1, int team1Score,
+                                   SportsTeam team2, int team2Score) {
+        String message = team1.setScore(team1Score, team2Score);
+        team2.setScore(team2Score, team1Score);
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 
-    public static void scoreResult(Team<?, Affiliation> team1, int t1_score,
-                                   Team<?, Affiliation> team2, int t2_score) {
-        String message = team1.setScore(t1_score, t2_score);
-        team2.setScore(t2_score, t1_score);
+    public static void scoreResult(Team<?, Affiliation> team1, int team1Score,
+                                   Team<?, Affiliation> team2, int team2Score) {
+        String message = team1.setScore(team1Score, team2Score);
+        team2.setScore(team2Score, team1Score);
         ConsoleStyler.styleOutput(COMMON_STRING_FORMATTER.formatted(team1, message, team2));
     }
 }

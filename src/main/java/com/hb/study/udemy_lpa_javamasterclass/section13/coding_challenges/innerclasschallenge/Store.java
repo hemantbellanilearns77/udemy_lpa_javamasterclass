@@ -7,7 +7,7 @@ public class Store {
     public static final ExecutionUtil execution = new ExecutionUtil();
 
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
         execution.initialize(args);
 
@@ -16,8 +16,8 @@ public class Store {
         ConsoleStyler.styleOutput(regularMeal.toString());
         ConsoleStyler.divider();
 
-        Meal USRegularMeal = new Meal(0.68);
-        ConsoleStyler.styleOutput(USRegularMeal.toString());
+        Meal regularMeanUSA = new Meal(0.68);
+        ConsoleStyler.styleOutput(regularMeanUSA.toString());
 
         execution.finalizeExecution();
     }

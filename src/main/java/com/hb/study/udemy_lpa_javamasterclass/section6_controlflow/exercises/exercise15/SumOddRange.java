@@ -1,15 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise15;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SumOddRange {
 
-
+    private static final ExecutionUtil execution = new ExecutionUtil();
     public static void main(String[] args) {
-
+        execution.initialize(args);
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
@@ -30,7 +31,7 @@ public class SumOddRange {
             end = Integer.parseInt(userInputWithoutBlanks.substring(userInputWithoutBlanks.indexOf(',') + 1));
             ConsoleStyler.styleOutput("Sum of odd numbers between +  " + start + " and " + end + " is: " + sumOdd(start, end));
         } while (!(userInputWithoutBlanks.equalsIgnoreCase("exit")));
-
+        execution.finalizeExecution();
     }
 
     private static void demoTestCases() {
@@ -67,7 +68,7 @@ public class SumOddRange {
 
     public static int sumOdd(int start, int end) {
         int sum = -1;
-        if ((end >= start) && (start > 0 && end > 0)) {
+        if (end >= start && start > 0) {
             sum = 0;
             int loopCounter = start;
             for (; loopCounter <= end; loopCounter++) {
@@ -82,7 +83,7 @@ public class SumOddRange {
     public static boolean isOdd(int number) {
         boolean numberOddStatus = false;
         if (number > 0) {
-            numberOddStatus = ((number % 2) != 0) ? true : false;
+            numberOddStatus = (number % 2) != 0;
         }
         return numberOddStatus;
     }
