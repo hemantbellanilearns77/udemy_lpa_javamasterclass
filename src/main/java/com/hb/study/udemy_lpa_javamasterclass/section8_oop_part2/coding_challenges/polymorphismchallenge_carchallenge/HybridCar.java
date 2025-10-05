@@ -6,7 +6,7 @@ public class HybridCar extends Car {
 
     private final double avgKMsperLitre;
     int batterySize;
-    int Cylinders;
+    int cylinders;
 
     public HybridCar(String description, double avgKMsperLitre, int batterySize) {
         super(description);
@@ -19,12 +19,12 @@ public class HybridCar extends Car {
         return "HybridCar{" +
                 "avgKMsperLitre=" + avgKMsperLitre +
                 ", batterySize=" + batterySize +
-                ", Cylinders=" + Cylinders +
+                ", Cylinders=" + cylinders +
                 '}';
     }
 
     public HybridCar(String description) {
-        this(description,21,7);
+        this(description, 21, 7);
     }
 
     @Override
@@ -36,12 +36,12 @@ public class HybridCar extends Car {
 
     @Override
     public void drive() {
-         ConsoleStyler.styleOutput("Driving Hybrid Car %n");
+        ConsoleStyler.styleOutput("Driving Hybrid Car %n");
         runEngine();
     }
 
     @Override
     protected void runEngine() {
-         ConsoleStyler.styleOutput("Running Hybrid Car's Engine");
+        ConsoleStyler.styleOutput("Running Hybrid Car's Engine");
     }
 }

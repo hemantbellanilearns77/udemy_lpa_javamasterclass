@@ -1,14 +1,16 @@
 package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.recordsampleproject;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
-public class MainClass {
+public class RecordsDemoMainClass {
+        private static final ExecutionUtil execution = new ExecutionUtil();
         public static void main(String[] args) {
-        //
+        execution.initialize(args);
         int loopCounter;
 
         for(loopCounter = 1; loopCounter <= 5; loopCounter++) {
-            LPA_JPMStudent lpa_jpm_recordStudent = new LPA_JPMStudent(
+            LPAJPMStudent lpa_jpm_recordStudent = new LPAJPMStudent(
                     "S9230" + loopCounter,
                     switch(loopCounter) {
                         case 1 -> "Mary";
@@ -38,6 +40,6 @@ public class MainClass {
             ConsoleStyler.styleOutput(pojoStudent.toString());
             ConsoleStyler.styleOutput("Next id is : " + pojoStudent.getId());
         }
-
+        execution.finalizeExecution();
     }
 }

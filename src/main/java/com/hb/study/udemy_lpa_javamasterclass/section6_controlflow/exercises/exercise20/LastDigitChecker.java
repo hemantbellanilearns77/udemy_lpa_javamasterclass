@@ -24,9 +24,8 @@ public class LastDigitChecker {
             secondNumLastDigit = secondNum % 10;
             thirdNumLastDigit = thirdNum % 10;
             if ((firstNumLastDigit == secondNumLastDigit)
-                    || (firstNumLastDigit == thirdNumLastDigit)) {
-                sameLastDigitFoundTwiceOrMore = true;
-            } else if (secondNumLastDigit == thirdNumLastDigit) {
+                    || (firstNumLastDigit == thirdNumLastDigit)
+                    || (secondNumLastDigit == thirdNumLastDigit)) {
                 sameLastDigitFoundTwiceOrMore = true;
             }
         }

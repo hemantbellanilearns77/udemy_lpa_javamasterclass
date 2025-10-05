@@ -1,7 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section_practice.demo_stubs.corejavaalltopicsdemo;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,23 +31,20 @@ public class CoreJavaCarnival {
     private static final String FORMAT_STRING_PREFIX_SIX = "\uD83E\uDDEA";
     private static final String FORMAT_STRING_PREFIX_SEVEN = "\uD83D\uDCDD";
     private static final String FORMAT_STRING_PREFIX_EIGHT = "\uD83D\uDC68\u200D\uD83D\uDCBC";
-    private static final String FORMAT_STRING_PREFIX_NINE = "\uD83D\uDDBC\uFE0F";
+    private static final String FORMAT_STRING_PREFIX_NINE = "\uD83D\uDDBC️";
     private static final String FORMAT_STRING_PREFIX_TEN = "\uD83D\uDCC2";
-    private static final String FORMAT_STRING_PREFIX_ELEVEN = "\uD83D\uDDC4\uFE0F";
+    private static final String FORMAT_STRING_PREFIX_ELEVEN = "\uD83D\uDDC4️";
 
     public static void main(String[] args) {
         execution.initialize(args);
-
-
         ConsoleStyler.printBanner("CORE JAVA CARNIVAL");
         ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_ONE + " Primitives and Operators");
         // 🔷 Primitives and Operators
         int a = 10;
         int b = 5;
-
         ConsoleStyler.styleOutput("Addition: ", Integer.toString((a + b)));
         ConsoleStyler.styleOutput("Multiplication: ", Integer.toString((a * b)));
-        ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString((a > b)));
+        ConsoleStyler.styleOutput("Is A greater than B? ", Boolean.toString(true));
         ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_ONE + " Primitives and Operators");
 
         ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_TWO + " Control Flow");
@@ -83,8 +81,8 @@ public class CoreJavaCarnival {
         try {
             b = 0;
             ConsoleStyler.styleOutput(Integer.toString(a / b));
-        } catch (ArithmeticException e) {
-            ConsoleStyler.styleError("⚠️ Exception: " + e.getMessage());
+        } catch (ArithmeticException arithmeticException) {
+            ConsoleStyler.styleError("⚠️ Exception: " + arithmeticException.getMessage());
         }
         ConsoleStyler.endSection(" " + FORMAT_STRING_PREFIX_SIX + " Exception Handling");
         ConsoleStyler.startSection(" " + FORMAT_STRING_PREFIX_SEVEN + " Scanner Input");
@@ -134,7 +132,7 @@ public class CoreJavaCarnival {
         JLabel label = new JLabel("Welcome to Java UI Carnival!", SwingConstants.CENTER);
         JButton button = new JButton("Click Me 🎯");
 
-        button.addActionListener(e -> label.setText("🎉 You clicked!"));
+        button.addActionListener(_ -> label.setText("🎉 You clicked!"));
 
         frame.setLayout(new BorderLayout());
         frame.add(label, BorderLayout.CENTER);
@@ -167,12 +165,12 @@ public class CoreJavaCarnival {
 
                 // ✅ Create table
                 try (Statement stmt = conn.createStatement()) {
-                    stmt.execute("CREATE TABLE IF NOT EXISTS attendees (id INTEGER PRIMARY KEY, name TEXT)");
+                    stmt.execute(createTableSQL);
                     ConsoleStyler.styleOutput("✅ Table ready.");
                 }
 
                 // ✅ Insert user safely with PreparedStatement
-                try (PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO attendees(name) VALUES(?)")) {
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
                     insertStmt.setString(1, name);
                     insertStmt.executeUpdate();
                     ConsoleStyler.styleOutput("🎟️ Inserted attendee: " + name);
@@ -180,7 +178,7 @@ public class CoreJavaCarnival {
 
                 // ✅ Safe SELECT query
                 try (Statement selectStmt = conn.createStatement();
-                     ResultSet rs = selectStmt.executeQuery("SELECT id, name FROM attendees")) {
+                     ResultSet rs = selectStmt.executeQuery(selectSQL)) {
                     ConsoleStyler.styleOutput("🎟️ Attendees:");
                     while (rs.next()) {
                         ConsoleStyler.styleOutput(" - ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
@@ -237,7 +235,7 @@ public class CoreJavaCarnival {
     }
 
     static class Employee extends Person {
-        private int id;
+        private final int id;
 
         public Employee(String name, int id) {
             super(name);
