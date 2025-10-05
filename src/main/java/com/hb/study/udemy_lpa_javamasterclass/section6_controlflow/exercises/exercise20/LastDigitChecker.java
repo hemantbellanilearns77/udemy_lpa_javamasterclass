@@ -1,39 +1,40 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise20;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 public class LastDigitChecker {
-        public static void main(String[] args) {
-        //
-        hasSameLastDigit (41, 22, 71);
-        hasSameLastDigit (23, 32, 42);
-        hasSameLastDigit (9, 99, 999);
+    private static final ExecutionUtil execution = new ExecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
+        ConsoleStyler.styleOutput("hasSameLastDigit (41, 22, 71) gives: " + hasSameLastDigit(41, 22, 71));
+        hasSameLastDigit(23, 32, 42);
+        ConsoleStyler.styleOutput("hasSameLastDigit (23, 32, 42) gives: " + hasSameLastDigit(23, 32, 42));
+        ConsoleStyler.styleOutput("hasSameLastDigit (9, 99, 999) gives: " + hasSameLastDigit(9, 99, 999));
+        execution.finalizeExecution();
     }
+
     public static boolean hasSameLastDigit(int firstNum, int secondNum, int thirdNum) {
         boolean sameLastDigitFoundTwiceOrMore = false;
 
         int firstNumLastDigit, secondNumLastDigit, thirdNumLastDigit;
-        if( isValid(firstNum) && isValid(secondNum) && isValid(thirdNum) ){
+        if (isValid(firstNum) && isValid(secondNum) && isValid(thirdNum)) {
             firstNumLastDigit = firstNum % 10;
             secondNumLastDigit = secondNum % 10;
             thirdNumLastDigit = thirdNum % 10;
-            if( (firstNumLastDigit == secondNumLastDigit)
-                    || (firstNumLastDigit == thirdNumLastDigit)){
+            if ((firstNumLastDigit == secondNumLastDigit)
+                    || (firstNumLastDigit == thirdNumLastDigit)) {
                 sameLastDigitFoundTwiceOrMore = true;
-            } else if(secondNumLastDigit == thirdNumLastDigit) {
+            } else if (secondNumLastDigit == thirdNumLastDigit) {
                 sameLastDigitFoundTwiceOrMore = true;
-            } else {
-                // no match found
             }
-
-
-        } else {
-            //invalid input
         }
         ConsoleStyler.styleOutput(Boolean.toString(sameLastDigitFoundTwiceOrMore));
         return sameLastDigitFoundTwiceOrMore;
     }
-    public static boolean isValid (int number) {
-        return ((number >= 10) && (number <= 1000 ));
+
+    public static boolean isValid(int number) {
+        return ((number >= 10) && (number <= 1000));
     }
 }

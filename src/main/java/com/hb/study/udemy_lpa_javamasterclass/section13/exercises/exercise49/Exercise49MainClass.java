@@ -1,7 +1,8 @@
 package com.hb.study.udemy_lpa_javamasterclass.section13.exercises.exercise49;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,8 +16,8 @@ public class Exercise49MainClass {
     public static final ExecutionUtil execution = new ExecutionUtil();
     private static final String STORMBRINGER = "Stormbringer";
 
-        public static void main(String[] args) {
-        //
+    public static void main(String[] args) {
+
 
         execution.initialize(args);
 
@@ -34,7 +35,7 @@ public class Exercise49MainClass {
         album.addSong("Soldier of fortune", 3.13);
         albums.add(album);
         ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING);
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
         album = new Album("For those about to rock", "AC/DC");
         album.addSong("For those about to rock", 5.44);
@@ -48,20 +49,20 @@ public class Exercise49MainClass {
         album.addSong("Night of the long knives", 5.12);
         albums.add(album);
         ConsoleStyler.styleOutput(album + CommonConstants.EMPTYSTRING);
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
 
-        LinkedList<Song> playList = new LinkedList<Song>();
-        albums.get(0).addToPlayList("You can't do it right", playList);
-        albums.get(0).addToPlayList("Holy man", playList);
-        albums.get(0).addToPlayList("Speed king", playList);  // Does not exist
-        albums.get(0).addToPlayList("Huppa Huyya", playList);  // Does not exist
-        albums.get(0).addToPlayList(9, playList);
+        LinkedList<Song> playList = new LinkedList<>();
+        albums.getFirst().addToPlayList("You can't do it right", playList);
+        albums.getFirst().addToPlayList("Holy man", playList);
+        albums.getFirst().addToPlayList("Speed king", playList);  // Does not exist
+        albums.getFirst().addToPlayList("Huppa Huyya", playList);  // Does not exist
+        albums.getFirst().addToPlayList(9, playList);
         albums.get(1).addToPlayList(8, playList);
         albums.get(1).addToPlayList(3, playList);
         albums.get(1).addToPlayList(2, playList);
         albums.get(1).addToPlayList(10, playList);  // There is no track 10
         albums.get(1).addToPlayList(24, playList);  // There is no track 24
-         ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
+        ConsoleStyler.styleOutput(CommonConstants.FULLLINEASTERISKSEPERATOR);
         ConsoleStyler.styleOutput("Final Playlist:");
         ConsoleStyler.styleOutput("Track No. Title: Duration");
         for (int loopCounter = 0; loopCounter < playList.size(); loopCounter++) {

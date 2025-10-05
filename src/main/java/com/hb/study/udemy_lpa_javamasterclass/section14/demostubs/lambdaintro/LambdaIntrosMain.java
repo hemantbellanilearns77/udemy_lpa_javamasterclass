@@ -1,6 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section14.demostubs.lambdaintro;
 
- import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.models.Name;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.NamesUtil;
 
@@ -13,17 +14,19 @@ import java.util.*;
 public class LambdaIntrosMain {
     public static final SecureRandom secureRandom = new SecureRandom();
     //Object level or Static declarations here...
-  public static final ExecutionUtil execution = new ExecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
 
-    record Person (String firstName, String lastName) {
+    record Person(String firstName, String lastName) {
         @Override
         public String toString() {
             return firstName + " " + lastName;
         }
     }
-    private static final int namesCount =  secureRandom.nextInt(1,64);
-        public static void main(String[] args) {
+
+    private static final int MAX_CHARS_IN_NAME = secureRandom.nextInt(1, 64);
+
+    public static void main(String[] args) {
 
 
         execution.initialize(args);
@@ -31,9 +34,9 @@ public class LambdaIntrosMain {
         Name generatedFullName = NamesUtil.generateRandomName();
         List<Person> people = new ArrayList<>(List.of(
                 new Person(generatedFullName.getFirstName(), generatedFullName.getLastName())));
-        for(int i=0; i<namesCount; i++) {
+        for (int i = 0; i < MAX_CHARS_IN_NAME; i++) {
             generatedFullName = NamesUtil.generateRandomName();
-            people.add(new Person(generatedFullName.getFirstName(),generatedFullName.getLastName()));
+            people.add(new Person(generatedFullName.getFirstName(), generatedFullName.getLastName()));
         }
         Comparator<Person> comparatorLastName = Comparator.comparing(Person::firstName);
 
