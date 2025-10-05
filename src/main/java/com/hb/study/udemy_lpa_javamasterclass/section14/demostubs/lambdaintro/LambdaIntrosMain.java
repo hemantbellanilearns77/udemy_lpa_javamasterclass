@@ -22,36 +22,29 @@ public class LambdaIntrosMain {
             return firstName + " " + lastName;
         }
     }
-    private static int namesCount =  secureRandom.nextInt(1,64);
+    private static final int namesCount =  secureRandom.nextInt(1,64);
         public static void main(String[] args) {
-        //
+
 
         execution.initialize(args);
 
         Name generatedFullName = NamesUtil.generateRandomName();
-        List<Person> people = new ArrayList<>(Arrays.asList(
-                new LambdaIntrosMain.Person(generatedFullName.getFirstName(),generatedFullName.getLastName())));
+        List<Person> people = new ArrayList<>(List.of(
+                new Person(generatedFullName.getFirstName(), generatedFullName.getLastName())));
         for(int i=0; i<namesCount; i++) {
             generatedFullName = NamesUtil.generateRandomName();
             people.add(new Person(generatedFullName.getFirstName(),generatedFullName.getLastName()));
         }
-        // Using anonymous class
-        var comparatorLastName = new Comparator<Person>() {
+        Comparator<Person> comparatorLastName = Comparator.comparing(Person::firstName);
 
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.firstName().compareTo(p2.firstName());
-            }
-        };
         //one way is this...
         people.sort(comparatorLastName);
         ConsoleStyler.styleOutput("Sorted only one level (By First NamesUtil)");
-        people.sort((Person p1, Person p2) -> p1.lastName().compareTo(p2.lastName()));
+        people.sort(Comparator.comparing(Person::lastName));
 
         ConsoleStyler.styleOutput(people.toString());
 
         interface EnhancedComparator<T> extends Comparator<T> {
-            int secondLevel(T o1, T o2);
         }
 
         var comparatorMixed = new EnhancedComparator<Person>() {
@@ -59,17 +52,20 @@ public class LambdaIntrosMain {
             @Override
             public int compare(Person p1, Person p2) {
                 int result = p1.firstName().compareTo(p2.firstName());
-                return (result == 0 ? secondLevel(p1, p2) : result);
+                return (result != 0 ? result : secondLevel(p1, p2));
             }
 
-            @Override
-            public int secondLevel(Person p1, Person p2) {
+            private int secondLevel(Person p1, Person p2) {
                 return p1.lastName().compareTo(p2.lastName());
             }
         };
+        comparatorMixed.secondLevel(people.get(0), people.get(1));
         ConsoleStyler.styleOutput("Sorted till second level (By FirstName and then Last Name)");
         people.sort(comparatorMixed);
         ConsoleStyler.styleOutput(people.toString());
+        ConsoleStyler.styleOutput("Checking secondary comparison manually:");
+        int diff = comparatorMixed.secondLevel(people.get(0), people.get(1));
+        ConsoleStyler.styleOutput("Secondary compare result: " + diff);
 
 
         execution.finalizeExecution();
