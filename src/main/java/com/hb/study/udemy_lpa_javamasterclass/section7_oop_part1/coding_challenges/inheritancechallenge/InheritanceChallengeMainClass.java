@@ -35,8 +35,10 @@ public class InheritanceChallengeMainClass {
         String birthDate = BIRTH_DATE;
         int age;
         int currentYear = Year.now().getValue();
-        int currentMonth, monthOfBirth;
-        int currentDate, dateOfBirth;
+        int currentMonth;
+        int monthOfBirth;
+        int currentDate;
+        int dateOfBirth;
         int yearOfBirth = Integer.parseInt(
                 birthDate.substring(birthDate.lastIndexOf('-') + 1));
         monthOfBirth = Integer.parseInt(birthDate.substring(

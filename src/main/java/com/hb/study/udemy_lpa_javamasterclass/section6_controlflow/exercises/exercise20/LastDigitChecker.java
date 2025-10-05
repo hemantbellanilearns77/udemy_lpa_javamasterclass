@@ -18,7 +18,9 @@ public class LastDigitChecker {
     public static boolean hasSameLastDigit(int firstNum, int secondNum, int thirdNum) {
         boolean sameLastDigitFoundTwiceOrMore = false;
 
-        int firstNumLastDigit, secondNumLastDigit, thirdNumLastDigit;
+        int firstNumLastDigit;
+        int secondNumLastDigit;
+        int thirdNumLastDigit;
         if (isValid(firstNum) && isValid(secondNum) && isValid(thirdNum)) {
             firstNumLastDigit = firstNum % 10;
             secondNumLastDigit = secondNum % 10;

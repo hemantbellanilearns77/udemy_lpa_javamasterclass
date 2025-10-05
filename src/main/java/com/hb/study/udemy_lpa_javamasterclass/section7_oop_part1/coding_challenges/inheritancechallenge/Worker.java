@@ -69,8 +69,8 @@ public class Worker {
         return 0.0;
     }
 
-    public void terminate(String lwd_Date){
-        this.lwdDate = lwd_Date;
+    public void terminate(String lwdDate){
+        this.lwdDate = lwdDate;
     }
     @Override
     public String toString() {

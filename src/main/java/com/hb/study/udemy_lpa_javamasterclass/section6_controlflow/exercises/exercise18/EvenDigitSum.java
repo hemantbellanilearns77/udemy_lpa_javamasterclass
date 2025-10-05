@@ -40,7 +40,7 @@ public class EvenDigitSum {
                         ConsoleStyler.styleOutput("You entered a negative integer, which is an invalid input, " +
                                 "please try again or or input 'exit' or 'quit' to quit ");
                     }
-                } catch (NumberFormatException nfe) {
+                } catch (NumberFormatException _) {
                     ConsoleStyler.styleOutput("CommonConstants.NEWLINE**** Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ****");
                 }
             }

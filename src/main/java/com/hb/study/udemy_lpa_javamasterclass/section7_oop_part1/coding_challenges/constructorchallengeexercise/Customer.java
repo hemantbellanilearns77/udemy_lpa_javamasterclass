@@ -3,27 +3,27 @@ package com.hb.study.udemy_lpa_javamasterclass.section7_oop_part1.coding_challen
  import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 public class Customer {
 
-    private String name;
-    private double credit_limit;
-    private String emailaddress;
+    private final String name;
+    private final double creditLimit;
+    private final String emailAddress;
 
     @Override
     public String toString() {
         return "Customer{" +
                 "name='" + name + '\'' +
-                ", credit_limit=" + credit_limit +
-                ", emailaddress='" + emailaddress + '\'' +
+                ", credit_limit=" + creditLimit +
+                ", emailaddress='" + emailAddress + '\'' +
                 '}';
     }
 
     public String getName() {
         return name;
     }
-    public double getCredit_limit() {
-        return credit_limit;
+    public double getCreditLimit() {
+        return creditLimit;
     }
     public String getEmailaddress() {
-        return emailaddress;
+        return emailAddress;
     }
 
     public Customer() { // No args Constructor
@@ -36,10 +36,10 @@ public class Customer {
         ConsoleStyler.styleOutput("Constructor with 2 arguments invoked");
     }
 
-    public Customer(String name, double credit_limit, String emailaddress) { // All args constructor
+    public Customer(String name, double ceditLimit, String emailaddress) { // All args constructor
         ConsoleStyler.styleOutput("All-args constructor with all 3 arguments invoked");
         this.name = name;
-        this.credit_limit = credit_limit;
-        this.emailaddress = emailaddress;
+        this.creditLimit = ceditLimit;
+        this.emailAddress = emailaddress;
     }
 }

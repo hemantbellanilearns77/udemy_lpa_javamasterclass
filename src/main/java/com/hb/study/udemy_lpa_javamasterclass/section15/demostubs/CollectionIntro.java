@@ -23,7 +23,7 @@ public class CollectionIntro {
                 A collection of first names has been initialized and
                 a String Array along with
                 a few other local variables"""); // optional
-        final String LABELPREFIX_NAME = "Name -> ";
+        final String labelPrefixName = "Name -> ";
         final String GARY = "Gary";
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Demonstrating a few basic calls on methods of Collection Interface"); // optional
@@ -32,18 +32,18 @@ public class CollectionIntro {
 
         ConsoleStyler.styleExecutionInsight("Demonstrating basic add and addAll of elements to the Collection");
         Collection<String> list = new HashSet<>(Arrays.asList(names));
-        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
+        ConsoleStyler.styleEachAsIs(labelPrefixName , names);
 
         list.add("Fred");
         list.addAll(Arrays.asList("George", GARY, "Grace"));
-        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
+        ConsoleStyler.styleEachAsIs(labelPrefixName , names);
         ConsoleStyler.styleOutput(null, """
         Gary is in the list?""" + list.contains(GARY));
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");
         list.removeIf(s -> s.charAt(0) == 'G');
-        ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
+        ConsoleStyler.styleEachAsIs(labelPrefixName , names);
         ConsoleStyler.styleOutput(null, "Gary is in the list?" + list.contains(GARY));
 
         ConsoleStyler.halfDivider();

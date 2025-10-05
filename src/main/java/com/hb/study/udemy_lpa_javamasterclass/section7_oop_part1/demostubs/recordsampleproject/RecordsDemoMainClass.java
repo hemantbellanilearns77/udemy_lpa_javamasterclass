@@ -10,7 +10,7 @@ public class RecordsDemoMainClass {
         int loopCounter;
 
         for(loopCounter = 1; loopCounter <= 5; loopCounter++) {
-            LPAJPMStudent lpa_jpm_recordStudent = new LPAJPMStudent(
+            LPAJPMStudent lpaJPMRecordStudent = new LPAJPMStudent(
                     "S9230" + loopCounter,
                     switch(loopCounter) {
                         case 1 -> "Mary";
@@ -21,8 +21,8 @@ public class RecordsDemoMainClass {
                         default -> "Anonymous";
                     },
                     "05-Nov-1985", "Java MasterClass");
-            ConsoleStyler.styleOutput(lpa_jpm_recordStudent.toString());
-            ConsoleStyler.styleOutput("Next id is : " + lpa_jpm_recordStudent.id());
+            ConsoleStyler.styleOutput(lpaJPMRecordStudent.toString());
+            ConsoleStyler.styleOutput("Next id is : " + lpaJPMRecordStudent.id());
         }
 
         for(loopCounter = 1; loopCounter <= 5; loopCounter++) {

@@ -7,13 +7,14 @@ import java.util.Scanner;
 
 public class InputCalculator {
     private static final ExecutionUtil execution = new ExecutionUtil();
+
     public static void main(String[] args) {
         execution.initialize(args);
         inputThenPrintSumAndAverage();
         execution.finalizeExecution();
     }
 
-    public static void inputThenPrintSumAndAverage(){
+    public static void inputThenPrintSumAndAverage() {
         Scanner scanner = new Scanner(System.in);
         String nextInput;
         int nextNum;
@@ -21,24 +22,25 @@ public class InputCalculator {
         long roundedAverage = 0;
         double actualAverage = 0.0;
         int numberCount = 0;
-        while(true) {
+        while (true) {
             ConsoleStyler.styleOutput("Please enter the next number or type 'exit' to quit: ");
             nextInput = scanner.nextLine();
             // Check if the user wants to exit - did this to fix Sonar blocker
             if (nextInput.equalsIgnoreCase("exit")) {
                 break;
-            }
-            try {
-                nextNum = Integer.parseInt(nextInput);
-                sum += nextNum;
-                numberCount++;
-                actualAverage = (double) sum/numberCount;
-                roundedAverage = Math.round(actualAverage);
+            } else {
+                try {
+                    nextNum = Integer.parseInt(nextInput);
+                    sum += nextNum;
+                    numberCount++;
+                    actualAverage = (double) sum / numberCount;
+                    roundedAverage = Math.round(actualAverage);
 
-            } catch (NumberFormatException nfe) {
-                ConsoleStyler.styleOutput("Actual average is: " + actualAverage);
-                ConsoleStyler.styleOutput("SUM = " + sum + " AVG = " + roundedAverage);
-                break;
+                } catch (NumberFormatException _) {
+                    ConsoleStyler.styleOutput("Actual average is: " + actualAverage);
+                    ConsoleStyler.styleOutput("SUM = " + sum + " AVG = " + roundedAverage);
+                    break;
+                }
             }
         }
     }

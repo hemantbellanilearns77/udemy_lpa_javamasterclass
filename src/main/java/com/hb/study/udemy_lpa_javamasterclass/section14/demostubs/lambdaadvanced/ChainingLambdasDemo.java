@@ -4,10 +4,7 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 /**
  * created by : heman on 28-07-2025, 10:05 am, in the "udemy_lpa_javamasterclass" project
@@ -17,10 +14,8 @@ public class ChainingLambdasDemo {
     //Object level or Static declarations here...
     private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String BUCHALKA = "Buchalka";
-    private static final String S_S_FORMAT_SPEC_ONE = """
-            %s %s""";
-    private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
-    Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
+    private static final String S_S_FORMAT_SPEC_ONE = "%s %s";
+    private static final String LAMNDACHAINING_DEMO_INTRO_STRING = " Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)";
 
     public static void main(String[] args) {
         execution.initialize(args);
@@ -30,7 +25,7 @@ public class ChainingLambdasDemo {
     }
 
     public static void demoChainingLmbdasANDComparing() {
-        ConsoleStyler.startSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
+        ConsoleStyler.startSection(LAMNDACHAINING_DEMO_INTRO_STRING); // required
         ConsoleStyler.styleIntro("""
                 This section firstly demonstrates how to leverage convenience methods,
                 on some of the Functional Interfaces that Java provides out-of-box.
@@ -64,7 +59,7 @@ public class ChainingLambdasDemo {
                 .andThen(s -> s[1].toUpperCase() + ", " + s[0]);
         ConsoleStyler.styleOutput(null ,f1.apply(name));
 
-        Function<String,Integer> f2 = uCase
+        Function<String, Integer> f2 = uCase
                 .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "))
                 .andThen(s -> String.join(", ", s))
@@ -129,7 +124,7 @@ public class ChainingLambdasDemo {
         list.forEach(s -> ConsoleStyler.styleOutput(null ,
                 S_S_FORMAT_SPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
-        ConsoleStyler.endSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
+        ConsoleStyler.endSection(LAMNDACHAINING_DEMO_INTRO_STRING); // required
         ConsoleStyler.divider();
     }
 
