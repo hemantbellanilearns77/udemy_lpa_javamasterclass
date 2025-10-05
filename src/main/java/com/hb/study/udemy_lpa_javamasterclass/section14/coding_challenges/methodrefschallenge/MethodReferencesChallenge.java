@@ -97,7 +97,7 @@ public class MethodReferencesChallenge {
     }
 
     public static char getRandomChar(char startChar, char endChar) {
-        return (char) secureRandom.nextInt(startChar, (int) endChar + 1);
+        return (char) secureRandom.nextInt(startChar, endChar + 1);
     }
 
     private static String getReversedName(String firstName) {
@@ -123,10 +123,7 @@ public class MethodReferencesChallenge {
                      }*/
                     """);
             backedByArray.replaceAll(s -> s.transform(unaryOperator));
-            ConsoleStyler.styleOutput("""
-                    updated backedByArray List is:
-                    """, """
-                    """ + Arrays.toString(firstNames));
+            ConsoleStyler.styleOutput("updated backedByArray List is: ", Arrays.toString(firstNames));
         }
     }
 }

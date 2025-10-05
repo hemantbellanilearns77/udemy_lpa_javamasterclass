@@ -17,8 +17,10 @@ public class ChainingLambdasDemo {
     //Object level or Static declarations here...
     private static final ExecutionUtil execution = new ExecutionUtil();
     private static final String BUCHALKA = "Buchalka";
-    private static final String S_S_FORMATTERS_ONE = "%s %s";
-    private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = "Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)";
+    private static final String S_S_FORMAT_SPEC_ONE = """
+            %s %s""";
+    private static final String LAMNDACHAINING_DEMO_SECTIONLABEL = """
+    Demonstration of use of chaining of Lambda calls and Comparing (Chained Sorting)""";
 
     public static void main(String[] args) {
         execution.initialize(args);
@@ -40,39 +42,40 @@ public class ChainingLambdasDemo {
 
         String name = "Tim";
         UnaryOperator<String> uCase = String::toUpperCase;
-        ConsoleStyler.styleOutput(null, uCase.apply(name));
+        ConsoleStyler.styleOutput("Hi There 0" ,uCase.apply(name));
 
-        Function<String, String> lastName = s -> s.concat(" " + BUCHALKA);
-        Function<String, String> uCaseLastName = uCase.andThen(lastName);
 
-        ConsoleStyler.styleOutput(null, uCaseLastName.apply(name));
+        UnaryOperator<String> lastName = s -> s.concat(" " + "BuchALKa");
+        ConsoleStyler.styleOutput("Hi There 1" ,lastName.apply(uCase.apply(name)));
+        Function<String,String> uCaseLastName = uCase.andThen(lastName);
+        ConsoleStyler.styleOutput("Hi There 2 " ,uCaseLastName.apply(name));
 
         uCaseLastName = uCase.compose(lastName);
-        ConsoleStyler.styleOutput(null, uCaseLastName.apply(name));
+        ConsoleStyler.styleOutput("Hi There 3 " ,uCaseLastName.apply(name));
 
-        Function<String, String[]> f0 = uCase
+        Function<String,String[]> f0 = uCase
                 .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "));
-        ConsoleStyler.styleOutput(null, Arrays.toString(f0.apply(name)));
+        ConsoleStyler.styleOutput(null ,Arrays.toString(f0.apply(name)));
 
-        Function<String, String> f1 = uCase
+        UnaryOperator<String> f1 = (UnaryOperator<String>) uCase
                 .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "))
                 .andThen(s -> s[1].toUpperCase() + ", " + s[0]);
-        ConsoleStyler.styleOutput(null, f1.apply(name));
+        ConsoleStyler.styleOutput(null ,f1.apply(name));
 
-        Function<String, Integer> f2 = uCase
+        Function<String,Integer> f2 = uCase
                 .andThen(s -> s.concat(" " + BUCHALKA))
                 .andThen(s -> s.split(" "))
                 .andThen(s -> String.join(", ", s))
                 .andThen(String::length);
-        ConsoleStyler.styleOutput(null, Integer.toString(f2.apply(name)));
+        ConsoleStyler.styleOutput(null ,Integer.toString(f2.apply(name)));
 
         String[] names = {"Ann", "Bob", "Carol"};
-        Consumer<String> s0 = s -> ConsoleStyler.styleOutput(s.charAt(0) + "");
+        Consumer<String> s0 = s ->  ConsoleStyler.styleOutput(s.charAt(0) + "");
         Consumer<String> s1 = ConsoleStyler::styleOutput;
         Arrays.asList(names).forEach(s0
-                .andThen(_ -> ConsoleStyler.styleOutput(" - "))
+                .andThen(_ ->  ConsoleStyler.styleOutput(" - "))
                 .andThen(s1));
 
         Predicate<String> p1 = s -> s.equals("TIM");
@@ -81,13 +84,13 @@ public class ChainingLambdasDemo {
         Predicate<String> p4 = s -> s.endsWith("e");
 
         Predicate<String> combined1 = p1.or(p2);
-        ConsoleStyler.styleOutput(null, "combined1 = " + combined1.test(name));
+        ConsoleStyler.styleOutput(null ,"combined1 = " + combined1.test(name));
 
         Predicate<String> combined2 = p3.and(p4);
-        ConsoleStyler.styleOutput(null, "combined2 = " + combined2.test(name));
+        ConsoleStyler.styleOutput(null ,"combined2 = " + combined2.test(name));
 
         Predicate<String> combined3 = p3.and(p4).negate();
-        ConsoleStyler.styleOutput(null, "combined3 = " + combined3.test(name));
+        ConsoleStyler.styleOutput(null ,"combined3 = " + combined3.test(name));
 
 
         ConsoleStyler.halfDivider();
@@ -107,24 +110,24 @@ public class ChainingLambdasDemo {
                 but commented and changed to kill sonars
                 """);
         list.sort(Comparator.comparing(o -> o.lastName));
-        list.forEach(s -> ConsoleStyler.styleOutput(null,
-                S_S_FORMATTERS_ONE.formatted(s.firstName(), s.lastName())));
+        list.forEach(s -> ConsoleStyler.styleOutput(null ,
+                S_S_FORMAT_SPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName));
-        list.forEach(s -> ConsoleStyler.styleOutput(null,
-                S_S_FORMATTERS_ONE.formatted(s.firstName(), s.lastName())));
+        list.forEach(s -> ConsoleStyler.styleOutput(null ,
+                S_S_FORMAT_SPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName)
                 .thenComparing(Person::firstName));
-        list.forEach(s -> ConsoleStyler.styleOutput(null,
-                S_S_FORMATTERS_ONE.formatted(s.firstName(), s.lastName())));
+        list.forEach(s -> ConsoleStyler.styleOutput(null ,
+                S_S_FORMAT_SPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
         ConsoleStyler.halfDivider();
         list.sort(Comparator.comparing(Person::lastName)
                 .thenComparing(Person::firstName).reversed());
-        list.forEach(s -> ConsoleStyler.styleOutput(null,
-                S_S_FORMATTERS_ONE.formatted(s.firstName(), s.lastName())));
+        list.forEach(s -> ConsoleStyler.styleOutput(null ,
+                S_S_FORMAT_SPEC_ONE.formatted(s.firstName(),  s.lastName() ) ));
 
         ConsoleStyler.endSection(LAMNDACHAINING_DEMO_SECTIONLABEL); // required
         ConsoleStyler.divider();

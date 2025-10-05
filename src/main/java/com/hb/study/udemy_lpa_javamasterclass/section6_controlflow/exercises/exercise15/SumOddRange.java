@@ -14,7 +14,8 @@ public class SumOddRange {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
-        int start, end;
+        int start;
+        int end;
         demoTestCases();
         do {
              ConsoleStyler.styleOutput("Enter the range of numbers between whom the sum of odd number is required " +

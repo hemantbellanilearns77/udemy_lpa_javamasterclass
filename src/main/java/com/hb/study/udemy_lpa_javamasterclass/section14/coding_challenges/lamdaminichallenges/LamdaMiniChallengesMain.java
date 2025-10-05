@@ -6,7 +6,6 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -16,7 +15,7 @@ import java.util.function.UnaryOperator;
 public class LamdaMiniChallengesMain {
 
     private static final ExecutionUtil execution = new ExecutionUtil();
-    private static final String QUICKBROWNFOX_SENTENCE = "The quick brown fox jumps over the lazy dog!";
+    private static final String QUICK_BROWN_FOX_SENTENCE = "The quick brown fox jumps over the lazy dog!";
     private static final String OUTPUT_AFTER_LAMBDA_CALL = "Here's the output after lambda call:";
 
 
@@ -86,9 +85,8 @@ public class LamdaMiniChallengesMain {
                      }
                 """);
         ConsoleStyler.halfDivider();
-        ConsoleStyler.styleIntro(""" 
-                Mini Challenge 2, 3: Create Lambda Expressions using the method provided above, and execute the same.""");
-        Function<String, String> stringFunctionLambda = (String s) -> {
+        ConsoleStyler.styleIntro(" Mini Challenge 2, 3: Create Lambda Expressions using the method provided above, and execute the same.");
+        UnaryOperator<String> unaryOperatorLambda = (String s) -> {
             StringBuilder returnVal = new StringBuilder();
             for (int i = 0; i < s.length(); i++) {
                 if (i % 2 == 1) {
@@ -97,6 +95,7 @@ public class LamdaMiniChallengesMain {
             }
             return returnVal.toString();
         };
+
         ConsoleStyler.styleExecutionInsight("""
                 //The Lambda definition
                 Function<String, String> stringFunctionLambda = (String s) -> {
@@ -114,7 +113,7 @@ public class LamdaMiniChallengesMain {
                 """);
         ConsoleStyler.styleOutput("""
                     Here's the output after lambda call")
-                """, stringFunctionLambda.apply(QUICKBROWNFOX_SENTENCE));
+                """, unaryOperatorLambda.apply(QUICK_BROWN_FOX_SENTENCE));
         ConsoleStyler.halfDivider();
 
         UnaryOperator<String> unaryStringLambda = (String s) -> {
@@ -143,7 +142,7 @@ public class LamdaMiniChallengesMain {
                  unaryStringLambda.apply("The quick brown fox jumps over the lazy dog!");
                 """);
         ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL
-                , unaryStringLambda.apply(QUICKBROWNFOX_SENTENCE));
+                , unaryStringLambda.apply(QUICK_BROWN_FOX_SENTENCE));
 
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleExecutionInsight("""
@@ -163,14 +162,14 @@ public class LamdaMiniChallengesMain {
                 """);
 
         ConsoleStyler.styleOutput(OUTPUT_AFTER_LAMBDA_CALL
-                , unaryOperatorConcise.apply(QUICKBROWNFOX_SENTENCE));
+                , unaryOperatorConcise.apply(QUICK_BROWN_FOX_SENTENCE));
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("""
                 Mini Challenge # 4 & 5: ALTERNATIVELY: We can define a TARGET FUNCTION that accepts the Lambda Expression,
                 which in turn is defined using UnaryOperator<String, String> ( Lambda Function ) and then invoke it...
                 """);
 
-        String result = everySecondChar(unaryOperatorConcise, QUICKBROWNFOX_SENTENCE);
+        String result = everySecondChar(unaryOperatorConcise, QUICK_BROWN_FOX_SENTENCE);
         ConsoleStyler.styleExecutionInsight("""
                 Here's the definition of that Target Function: an overloaded version of everySecondChar
                 public static String everySecondChar(Function<String,String> function, String source ){
@@ -193,7 +192,7 @@ public class LamdaMiniChallengesMain {
         return returnVal.toString();
     }
 
-    public static String everySecondChar(Function<String, String> function, String source) {
+    public static String everySecondChar(UnaryOperator<String> function, String source) {
         return function.apply(source);
     }
 

@@ -1,24 +1,26 @@
-package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.demostubs.ifkeywordandcodeblocks;
+package com.hb.study.udemy_lpa_javamasterclass.section5_buildingblocks.demostubs.IfKeywordsBuildingBlockDemo;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.section11.coding_challenges.interfacechallenge_mappableandgeojson.InterfaceChallengeMainClass;
 
 public class IfKeywordandCodeBlocksMain {
-        public static void main(String[] args) {
-        //
+    private static final ExecutionUtil execution = new ExecutionUtil();
 
+    public static void main(String[] args) {
+        execution.initialize(args);
         ConsoleStyler.styleOutput("Inside InterfaceChallengeMainClass Method ... Before invoking the method");
         testMethodReturnWithoutValue();
         ConsoleStyler.styleOutput("After returning back from testMethodReturnWithoutValue");
-
+        execution.finalizeExecution();
     }
 
     public static void testMethodReturnWithoutValue() {
         ConsoleStyler.styleOutput("Number of declared methods is: " + IfKeywordandCodeBlocksMain.class.getMethods().length);
-        for(int counter = 0; counter < 150; counter++) {
-            if("testMethodReturnWithoutValue".equalsIgnoreCase(InterfaceChallengeMainClass.class.getDeclaredMethods()[counter].toString()))
+        for (int counter = 0; counter < 150; counter++) {
+            if ("testMethodReturnWithoutValue".equalsIgnoreCase(InterfaceChallengeMainClass.class.getDeclaredMethods()[counter].toString()))
                 ConsoleStyler.styleOutput("Inside Method : " + InterfaceChallengeMainClass.class.getDeclaredMethods()[counter]);
-            }
+        }
         ConsoleStyler.styleOutput("Inside testMethodReturnWithoutValue method, just before returning back to main");
     }
 }

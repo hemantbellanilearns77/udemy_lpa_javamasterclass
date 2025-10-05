@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 public class LambdaAdvancedDemo {
     private static final ExecutionUtil execution = new ExecutionUtil();
@@ -63,8 +63,7 @@ public class LambdaAdvancedDemo {
     private static void dmeoFunctionLambda(List<String> names) {
         int value1 = 77;
         int value2 = 99;
-        ConsoleStyler.styleIntro("""
-                Demonstrating Binary Function Lambda using Binary Function:""");
+        ConsoleStyler.styleIntro("Demonstrating Binary Function Lambda using Binary Function:");
         //Lambda invocation using calculator...
         var result = calculator((a, b) -> (a * b), value1, value2);
         ConsoleStyler.styleOutput(LAMBDA_FUNCTION_APPLIED_CALCULATOR_1, Integer.toString(result));
@@ -104,7 +103,7 @@ public class LambdaAdvancedDemo {
         Arrays.fill(stringArray, "STRING");
         ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " fill is: ");
         ConsoleStyler.styleOutput(STRING_ARRAY, Arrays.toString(stringArray));
-        Arrays.setAll(stringArray, (i) -> stringArray[i] + " # " + (i + 1));
+        Arrays.setAll(stringArray, i -> stringArray[i] + " # " + (i + 1));
         ConsoleStyler.styleIntro(STRING_ARRAY_AFTER + " setAll is: ");
         ConsoleStyler.styleOutput(STRING_ARRAY, Arrays.toString(stringArray));
         ConsoleStyler.halfDivider();
@@ -153,11 +152,11 @@ public class LambdaAdvancedDemo {
         NamesUtil namesUtil = new NamesUtil(9);
         int count = (names.size() / 2);
         String[] randomArrayUsingLambda = new String[count];
-        Supplier<Integer> supplier = () -> secureRandom.nextInt(0, NamesUtil.generateRandomName().getFirstName().length());
+        IntSupplier intSupplier = () -> secureRandom.nextInt(0, NamesUtil.generateRandomName().getFirstName().length());
         for (int i = 0; i < count; i++) {
 
             // both below are valid lambda invocations of category Supplier with use of get() implementation
-            randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[supplier.get()]; // more readable and s is more reusable...
+            randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[intSupplier.getAsInt()]; // more readable and s is more reusable...
             ConsoleStyler.styleExecutionInsight("""
                     // Alternatively
                     randomArrayUsingLambda[i] = namesUtil.getDefaultFirstNames()[secureRandom.nextInt(0, namesUtil.getDefaultLastNames().length)];

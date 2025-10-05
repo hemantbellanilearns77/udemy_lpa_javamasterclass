@@ -28,12 +28,10 @@ public class CollectionIntro {
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleIntro("Demonstrating a few basic calls on methods of Collection Interface"); // optional
 
-        Collection<String> list = new HashSet<>();
         String[] names = {"Anna", "Bob", "Carol", "David", "Edna"};
-        ConsoleStyler.styleExecutionInsight("""
-                Demonstrating basic add and addAll of elements to the Collection
-                """);
-        list.addAll(Arrays.asList(names));
+
+        ConsoleStyler.styleExecutionInsight("Demonstrating basic add and addAll of elements to the Collection");
+        Collection<String> list = new HashSet<>(Arrays.asList(names));
         ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
 
         list.add("Fred");
@@ -46,8 +44,7 @@ public class CollectionIntro {
         ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");
         list.removeIf(s -> s.charAt(0) == 'G');
         ConsoleStyler.styleEachAsIs(LABELPREFIX_NAME , names);
-        ConsoleStyler.styleOutput(null, """
-        Gary is in the list?""" + list.contains(GARY));
+        ConsoleStyler.styleOutput(null, "Gary is in the list?" + list.contains(GARY));
 
         ConsoleStyler.halfDivider();
         ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");

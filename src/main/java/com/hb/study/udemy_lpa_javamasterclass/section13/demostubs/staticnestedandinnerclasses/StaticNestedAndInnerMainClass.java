@@ -6,13 +6,14 @@ import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StaticNestedAndInnerMainClass {
     //Object level or Static declarations here...
     public static final ExecutionUtil execution = new ExecutionUtil();
 
     public static void main(String[] args) {
-        //
+
         execution.initialize(args);
         List<Employee> employees = new ArrayList<>(List.of(
                 new Employee(10001, "Ralph", 2015),
@@ -42,11 +43,6 @@ public class StaticNestedAndInnerMainClass {
         addPigLatinName(storeEmployees);
         ConsoleStyler.divider();
 
-
-        /*
-
-         ******************************************************
-         */
         execution.finalizeExecution();
     }
 
@@ -67,8 +63,6 @@ public class StaticNestedAndInnerMainClass {
         storeEmployees.sort(comparator);
         return storeEmployees;
     }
-
-    //
 
     // method to demonstrate local inner/nested class
     public static void addPigLatinName(List<? extends StoreEmployee> list) {
@@ -94,6 +88,17 @@ public class StaticNestedAndInnerMainClass {
             @Override
             public int compareTo(DecoratedEmployee o) {
                 return pigLatinName.compareTo(o.pigLatinName);
+            }
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) return true;
+                if (!(obj instanceof DecoratedEmployee other)) return false;
+                return Objects.equals(this.pigLatinName, other.pigLatinName);
+            }
+
+            @Override
+            public int hashCode() {
+                return pigLatinName.hashCode();
             }
         }
 
