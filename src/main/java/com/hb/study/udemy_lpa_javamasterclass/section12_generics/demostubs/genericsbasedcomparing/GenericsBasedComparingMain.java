@@ -77,7 +77,7 @@ class StudentGPAComparator implements Comparator<Student> {
 
 class Student implements Comparable<Student> {
 
-    private static int LASTID = 1000;
+    private static int lastID = 1000;
     private static final SecureRandom secureRandom = new SecureRandom();
 
     String name;
@@ -86,7 +86,7 @@ class Student implements Comparable<Student> {
 
     public Student(String name) {
         this.name = name;
-        id = LASTID++;
+        id = lastID++;
         gpa = secureRandom.nextDouble(1.0, 4.0);
     }
 
@@ -99,7 +99,7 @@ class Student implements Comparable<Student> {
     public int compareTo(Student o) {
 
         ConsoleStyler.styleOutput("""
-                This is what was intended to be demonsrrated, but now commented to fix sonar issue:
+                This is what was intended to be demonstrated, but now commented to fix sonar issue:
                  return Integer.valueOf(id).compareTo(o.id);
                 """);
         return Integer.compare(id, o.id);

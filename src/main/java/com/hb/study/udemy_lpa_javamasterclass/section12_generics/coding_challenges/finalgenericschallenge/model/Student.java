@@ -52,5 +52,16 @@ public class Student implements QueryItem, Comparable<Student> {
     public int compareTo(Student o) {
         return Integer.compare(studentId, o.studentId);
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Student other)) return false;
+        return this.studentId == other.studentId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(studentId);
+    }
 }
 

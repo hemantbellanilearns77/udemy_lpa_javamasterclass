@@ -9,9 +9,9 @@ import java.util.List;
 
 public class StaticNestedAndInnerMainClass {
     //Object level or Static declarations here...
-  public static final ExecutionUtil execution = new ExecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         //
         execution.initialize(args);
         List<Employee> employees = new ArrayList<>(List.of(
@@ -21,34 +21,21 @@ public class StaticNestedAndInnerMainClass {
                 new Employee(13151, "Laura", 2020),
                 new Employee(10050, "Jim", 2018)));
 
-         var anotherComparator = new EmployeeComparator<>();
-          employees.sort(anotherComparator);
+        var anotherComparator = new EmployeeComparator<>();
+        employees.sort(anotherComparator);
 
         employees.sort(new Employee.EmployeeComparator("yearStarted")
                 .reversed());
 
         for (Employee e : employees) {
-            ConsoleStyler.styleOutput(e  + CommonConstants.EMPTYSTRING);
+            ConsoleStyler.styleOutput(e + CommonConstants.EMPTYSTRING);
         }
         ConsoleStyler.divider();
         ConsoleStyler.styleOutput("Store Members");
-        List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
-                new StoreEmployee(10015, "Meg", 2019,
-                        "Target"),
-                new StoreEmployee(10515, "Joe", 2021,
-                        "Walmart"),
-                new StoreEmployee(10105, "Tom", 2020,
-                        "Macys"),
-                new StoreEmployee(10215, "Marty", 2018,
-                        "Walmart"),
-                new StoreEmployee(10322, "Bud", 2016,
-                        "Target")));
-
-        var comparator = new StoreEmployee().new StoreComparator<>();
-        storeEmployees.sort(comparator);
+        List<StoreEmployee> storeEmployees = getStoreEmployees();
 
         for (StoreEmployee e : storeEmployees) {
-            ConsoleStyler.styleOutput(e  + CommonConstants.EMPTYSTRING);
+            ConsoleStyler.styleOutput(e + CommonConstants.EMPTYSTRING);
         }
         ConsoleStyler.divider();
         ConsoleStyler.styleOutput("With Pig Latin NamesUtil");
@@ -63,7 +50,25 @@ public class StaticNestedAndInnerMainClass {
         execution.finalizeExecution();
     }
 
-  //
+    private static List<StoreEmployee> getStoreEmployees() {
+        List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
+                new StoreEmployee(10015, "Meg", 2019,
+                        "Target"),
+                new StoreEmployee(10515, "Joe", 2021,
+                        "Walmart"),
+                new StoreEmployee(10105, "Tom", 2020,
+                        "Macys"),
+                new StoreEmployee(10215, "Marty", 2018,
+                        "Walmart"),
+                new StoreEmployee(10322, "Bud", 2016,
+                        "Target")));
+
+        var comparator = new StoreEmployee().new StoreComparator<>();
+        storeEmployees.sort(comparator);
+        return storeEmployees;
+    }
+
+    //
 
     // method to demonstrate local inner/nested class
     public static void addPigLatinName(List<? extends StoreEmployee> list) {
