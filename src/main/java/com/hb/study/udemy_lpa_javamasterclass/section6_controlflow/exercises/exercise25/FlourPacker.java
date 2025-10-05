@@ -56,12 +56,12 @@ public class FlourPacker {
     }
     private static boolean checkConditionTwo(int bigCount, int smallCount, int goal) {
 
-        boolean checkTwo_PointOne = checkTwoPointOne(bigCount, smallCount, goal);
-        boolean checkTwo_PointTwo = checkTwoPointTwo(bigCount, smallCount, goal);
-        boolean checkTwo_PointThree = checkTwoPointThree(bigCount, goal);
-        boolean checkTwo_PointFour = checkTwoPointFour(bigCount, smallCount, goal);
+        boolean checkTwoPointOne = checkTwoPointOne(bigCount, smallCount, goal);
+        boolean checkTwoPointTwo = checkTwoPointTwo(bigCount, smallCount, goal);
+        boolean checkTwoPointThree = checkTwoPointThree(bigCount, goal);
+        boolean checkTwoPointFour = checkTwoPointFour(bigCount, smallCount, goal);
 
-        return checkTwo_PointOne || checkTwo_PointTwo || checkTwo_PointThree || checkTwo_PointFour;
+        return checkTwoPointOne || checkTwoPointTwo || checkTwoPointThree || checkTwoPointFour;
     }
 
     private static boolean checkTwoPointFour(int bigCount, int smallCount, int goal) {
