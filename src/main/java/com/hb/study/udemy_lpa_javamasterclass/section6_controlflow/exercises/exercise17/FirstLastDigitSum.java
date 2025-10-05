@@ -1,40 +1,43 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise17;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
 
 import java.util.Scanner;
 
 public class FirstLastDigitSum {
-        public static void main(String[] args) {
-        //
+    private static final ExecutionUtil execution = new ExecutionUtil();
+
+    public static void main(String[] args) {
+        execution.initialize(args);
         Scanner scanner = new Scanner(System.in);
         String userInput;
         String userInputWithoutBlanks;
 
         do {
-             ConsoleStyler.styleOutput("Enter a number to find the sum of its first and last digits: " +
-                    "or input 'exit' or 'quit' to quit:  " );
+            ConsoleStyler.styleOutput("Enter a number to find the sum of its first and last digits: " +
+                    "or input 'exit' or 'quit' to quit:  ");
             userInput = scanner.nextLine();
             // removes all whitespace characters (i.e. spaces, tabs, newlines etc.. ) from string
             userInputWithoutBlanks = userInput.replaceAll("\\s+", "");
 
-            if(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
+            if (userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")) {
                 ConsoleStyler.styleOutput("\nExiting the input screen .... " +
                         "thanks for your attempts and inputs.... ");
             } else {
                 ConsoleStyler.styleOutput("userInput was: " + userInput + ";" +
                         "\namd userInputWithoutBlanks is: " + userInputWithoutBlanks);
                 // Checking if user input number is Palindrome or not?
-                try{
+                try {
                     ConsoleStyler.styleOutput("Sum of first and last digits of " + userInputWithoutBlanks +
-                            "is: " + sumFirstAndLastDigit (Integer.parseInt(userInputWithoutBlanks)));
-                } catch(NumberFormatException nfe) {
+                            "is: " + sumFirstAndLastDigit(Integer.parseInt(userInputWithoutBlanks)));
+                } catch (NumberFormatException _) {
                     ConsoleStyler.styleOutput("Unfortunately your input could not parsed as an Integer, please try again or or input 'exit' or 'quit' to quit ");
                 }
             }
-        } while(!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));
-
+        } while (!(userInputWithoutBlanks.equalsIgnoreCase("exit") || userInputWithoutBlanks.equalsIgnoreCase("quit")));
+        execution.finalizeExecution();
     }
 
     public static int sumFirstAndLastDigit(int number) {
@@ -42,8 +45,8 @@ public class FirstLastDigitSum {
         int numberCopy = number;
         int firstDigit = 0;
         int lastDigit = numberCopy % 10;
-        if( !(number < 0)) {
-            while(numberCopy != 0) {
+        if ((number >= 0)) {
+            while (numberCopy != 0) {
                 firstDigit = numberCopy % 10;
                 numberCopy /= 10;
             }
@@ -51,5 +54,4 @@ public class FirstLastDigitSum {
         }
         return sum;
     }
-
 }
