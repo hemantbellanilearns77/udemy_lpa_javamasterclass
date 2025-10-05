@@ -36,9 +36,7 @@ public class Car {
         String lowercaseMake = make.toLowerCase();
         switch (lowercaseMake) {
             case "holden", "porsche", "tesla" -> this.make = make;
-            default -> {
-                this.make = "Unsupported ";
-            }
+            default -> this.make = "Unsupported ";
         }
     }
 
@@ -65,5 +63,16 @@ public class Car {
                 make + " " +
                 model + " " +
                 (convertible ? "Convertible" : ""));
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", color='" + color + '\'' +
+                ", doors=" + getDoors() +
+                ", Is It convertible?=" + isConvertible() +
+                '}';
     }
 }
