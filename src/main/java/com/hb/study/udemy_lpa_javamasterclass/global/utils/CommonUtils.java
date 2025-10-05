@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -69,5 +70,11 @@ public class CommonUtils {
         randomDay = secureRandom.nextLong(minDay, maxDay);
         return LocalDate.ofEpochDay(randomDay).format(DateTimeFormatter.ofLocalizedDate(formatStyle));
 
+    }
+    public static boolean isLeapYear(int year) {
+        if (year < 1 || year > 9999) {
+            return false;
+        }
+        return Year.isLeap(year);
     }
 }

@@ -30,7 +30,7 @@ public class PaintJob {
 
     public static int getBucketCount(double width, double height, double areaPerBucket, double extraBuckets){
         int bucketsToBuy = -1;
-        double totalBucketsNeeded = 0.0;
+        double totalBucketsNeeded;
         if( !(width <= 0 || height <= 0 || areaPerBucket <= 0 || extraBuckets < 0 ) ) {
             totalBucketsNeeded = ((width * height) / areaPerBucket);
             ConsoleStyler.styleOutput("Total Buckets Needed is: " + totalBucketsNeeded);
