@@ -37,8 +37,7 @@ public class CollectionIntro {
         list.add("Fred");
         list.addAll(Arrays.asList("George", GARY, "Grace"));
         ConsoleStyler.styleEachAsIs(labelPrefixName , names);
-        ConsoleStyler.styleOutput(null, """
-        Gary is in the list?""" + list.contains(GARY));
+        ConsoleStyler.styleOutput(null, "Gary is in the list?" + list.contains(GARY));
         ConsoleStyler.halfDivider();
 
         ConsoleStyler.styleExecutionInsight("Demonstrating removeif(filter is true) of elements to the Collection");

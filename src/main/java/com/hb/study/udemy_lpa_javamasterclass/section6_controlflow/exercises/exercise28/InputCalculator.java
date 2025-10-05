@@ -22,12 +22,12 @@ public class InputCalculator {
         long roundedAverage = 0;
         double actualAverage = 0.0;
         int numberCount = 0;
-        while (true) {
+        boolean breakOut = false;
+        do {
             ConsoleStyler.styleOutput("Please enter the next number or type 'exit' to quit: ");
             nextInput = scanner.nextLine();
-            // Check if the user wants to exit - did this to fix Sonar blocker
             if (nextInput.equalsIgnoreCase("exit")) {
-                break;
+                breakOut = true;
             } else {
                 try {
                     nextNum = Integer.parseInt(nextInput);
@@ -39,9 +39,9 @@ public class InputCalculator {
                 } catch (NumberFormatException _) {
                     ConsoleStyler.styleOutput("Actual average is: " + actualAverage);
                     ConsoleStyler.styleOutput("SUM = " + sum + " AVG = " + roundedAverage);
-                    break;
+                    breakOut = true;
                 }
             }
-        }
+        } while (!breakOut);
     }
 }
