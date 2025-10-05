@@ -1,6 +1,7 @@
 package com.hb.study.misc_utils.demo_stubs;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 
@@ -55,6 +56,7 @@ public class DemoClassTemplate {//Object level or Static declarations here...
         ConsoleStyler.styleIntro("Welcome to the subsection Y"); // optional
         ConsoleStyler.styleInitializationInfo("This and this was initialized and will be used throughout this subsection Y demo"); // optional
         ConsoleStyler.styleExecutionInsight("Regarding this sub-section.... some insights "); // optional
+        ConsoleStyler.styleOutput(CommonUtils.generateRandomString());
         /*
          * More output etc. for subsection Y
          * No call to method halfDivider() if this is the last-sub-section...

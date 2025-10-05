@@ -12,9 +12,9 @@ import java.util.List;
  **/
 public class RunMethods {
     //Object level or Static declarations here...
-  public static final ExecutionUtil execution = new ExecutionUtil();
+    public static final ExecutionUtil execution = new ExecutionUtil();
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
         execution.initialize(args);
         List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
@@ -23,37 +23,36 @@ public class RunMethods {
                 new StoreEmployee(10515, "Joe", 2021,
                         "Walmart"),
                 new StoreEmployee(10105, "Tom", 2020,
-                        "Macys"),
+                        "Costco"),
                 new StoreEmployee(10215, "Marty", 2018,
                         "Walmart"),
                 new StoreEmployee(10322, "Bud", 2016,
                         "Target")));
 
-
         EmployeeComparator<StoreEmployee> c0 = new EmployeeComparator<>();
         Employee.EmployeeComparator c1 = new Employee.EmployeeComparator();
         StoreEmployee.StoreComparator<StoreEmployee> c2 =
-                    new StoreEmployee().new StoreComparator<>();
+                new StoreEmployee().new StoreComparator<>();
 
         // Using local class
         class NameSort<T extends Employee> implements Comparator<T> {
-
             @Override
             public int compare(T o1, T o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         }
-
         var c3 = new NameSort<StoreEmployee>();
-
-        // Using anonymous class
-        var c4 = new Comparator<StoreEmployee>() {
-            @Override
-            public int compare(StoreEmployee o1, StoreEmployee o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-
+        ConsoleStyler.styleOutput("""
+                The below anonymous inner class has been made a lambda to fix a sonar:
+                // Using anonymous class
+                var c4 = new Comparator<StoreEmployee>() {
+                    @Override
+                    public int compare(StoreEmployee o1, StoreEmployee o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                };
+                """);
+        Comparator<StoreEmployee> c4 = Comparator.comparing(Employee::getName);
         sortIt(storeEmployees, c0);
         sortIt(storeEmployees, c1);
         sortIt(storeEmployees, c2);
@@ -68,7 +67,6 @@ public class RunMethods {
 
         execution.finalizeExecution();
     }
-
 
     public static <T> void sortIt(List<T> list,
                                   Comparator<? super T> comparator) {

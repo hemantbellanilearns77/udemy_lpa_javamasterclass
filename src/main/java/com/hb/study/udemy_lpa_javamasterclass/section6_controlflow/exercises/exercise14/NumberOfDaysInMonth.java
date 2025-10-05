@@ -1,6 +1,7 @@
 package com.hb.study.udemy_lpa_javamasterclass.section6_controlflow.exercises.exercise14;
 
 import com.hb.study.udemy_lpa_javamasterclass.global.constants.CommonConstants;
+import com.hb.study.udemy_lpa_javamasterclass.global.utils.CommonUtils;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
 import com.hb.study.udemy_lpa_javamasterclass.global.utils.ExecutionUtil;
 
@@ -22,8 +23,12 @@ public class NumberOfDaysInMonth {
             return switch(month) {
                 case 1, 3, 5, 7, 8, 10, 12 -> { monthDays = 31; yield monthDays; }
                 case 2 -> {
-                    if(isLeapYear(year))  {   monthDays = 29 ; }
-                    else { monthDays = 28 ; }
+                    if(CommonUtils.isLeapYear(year)) {
+                        monthDays = 29;
+                    }
+                    else {
+                        monthDays = 28;
+                    }
                     yield monthDays;
                 }
                 case 4, 6, 9, 11 -> { monthDays = 30; yield monthDays; }
@@ -32,17 +37,5 @@ public class NumberOfDaysInMonth {
         }
         return monthDays;
 
-    }
-    public static boolean isLeapYear(int year){
-        boolean leapYearStatus = false;
-        if( year >= 1 && year <= 9999 ) {
-            if( (year % 4) == 0 ) {
-                leapYearStatus = true;
-                if ( year%100 == 0 ) {
-                    leapYearStatus = year % 400 == 0;
-                }
-            }
-        }
-        return leapYearStatus;
     }
 }

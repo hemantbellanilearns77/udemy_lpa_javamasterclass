@@ -18,7 +18,7 @@ public class CheckNetwork {//Object level or Static declarations here...
         execution.initialize(args);
 
         try {
-            System.out.println("Attempting to connect to Oracle Home Page");
+            ConsoleStyler.styleOutput("Attempting to connect to Oracle Home Page");
             URL url = URI.create("https://www.oracle.com").toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -32,11 +32,11 @@ public class CheckNetwork {//Object level or Static declarations here...
                 try (InputStream is = conn.getInputStream();
                      BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
                     String line;
-                    StringBuilder stringBuuilder = new StringBuilder();
+                    StringBuilder stringBuilder = new StringBuilder();
                     while ((line = br.readLine()) != null) {
-                        stringBuuilder.append(line);
+                        stringBuilder.append(line);
                     }
-                    ConsoleStyler.styleOutput(stringBuuilder.toString());
+                    ConsoleStyler.styleOutput(stringBuilder.toString());
                 }
             } else {
                 ConsoleStyler.styleOutput("Failed to connect. Response code: " + responseCode);
