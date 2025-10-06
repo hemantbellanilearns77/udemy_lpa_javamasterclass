@@ -1,0 +1,109 @@
+package com.hblearns77.udemy_lpa_javamasterclass.section7_oop_part1.demostubs.allaboutstrings;
+
+import com.hblearns77.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
+
+import java.util.Locale;
+
+public class StringMethods {
+
+    private static final String WORLD = "World";
+
+        public static void main(String[] args) {
+
+         for(int i = 1; i <= 100000; i*=10){
+             ConsoleStyler.styleOutput("Printing %6d %n".formatted(i));
+        }
+        String stringToInspect  = "Hello World";
+        String stringToInspectToLower  = stringToInspect.toLowerCase(Locale.ROOT);
+
+        //String inspection methods : length / isempty / charAt
+        printInformation(stringToInspect);
+        printInformation("");
+        printInformation("\t      CommonConstants.NEWLINE");
+        //String comarison methods : compare, equals etc...
+        printStringComparisonResults(stringToInspect, stringToInspectToLower);
+        // String Manipulation Methods. - substring etc....
+        demoStringManipulation();
+    }
+
+    /*
+        This methods uses :  String inspection methods : length / isempty / charAt to print information about the String argument passed
+     */
+    public static void printInformation (String stringToInspect){
+        ConsoleStyler.styleOutput("String supplied in printInformation as String to inspect is: " + stringToInspect);
+        ConsoleStyler.styleOutput("The length of String to Inspect is: " + stringToInspect.length());
+        if(stringToInspect.isEmpty()) {
+            ConsoleStyler.styleOutput("String is Enpty (contains whitespace characters only!)");
+            ConsoleStyler.divider();
+        } else {
+            if(stringToInspect.isBlank()) {
+                ConsoleStyler.styleOutput("String: " + stringToInspect + " is Blank!");
+            }
+            if(stringToInspect.equalsIgnoreCase("Hello World")) {
+                ConsoleStyler.divider();
+                ConsoleStyler.styleOutput("The character at 7th index of String : " + stringToInspect + " is: " + stringToInspect.charAt(7) );
+                 ConsoleStyler.styleOutput("The first character and last character in %s are %c and %c respectively %n".formatted(stringToInspect, stringToInspect.charAt(0),
+                        stringToInspect.charAt(stringToInspect.length()-1)));
+                ConsoleStyler.divider();
+                 ConsoleStyler.styleOutput("Index of character: 'r' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.indexOf('r')) );
+                ConsoleStyler.divider();
+                 ConsoleStyler.styleOutput("Index of string: \"World\" in string : \"%s\", is: %d %n".formatted( stringToInspect, stringToInspect.indexOf(WORLD) ));
+                ConsoleStyler.divider();
+                 ConsoleStyler.styleOutput("Index of character: 'l' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.indexOf('l')));
+                 ConsoleStyler.styleOutput("Last Index of character: 'l' in string : \"%s\", is: %d %n".formatted(stringToInspect, stringToInspect.lastIndexOf('l')));
+                 ConsoleStyler.styleOutput("Index of character: 'l' after its first occurrence  in string : \"%s\", is: %d %n".formatted(stringToInspect,
+                        stringToInspect.indexOf('l', (stringToInspect.indexOf('l') + 1) )));
+                 ConsoleStyler.styleOutput("Last Index of character: 'l' just before its last occurrence in string : \"%s\", is: %d %n".formatted(
+                        stringToInspect, stringToInspect.lastIndexOf('l', (stringToInspect.lastIndexOf('l') -1 ))));
+            }
+            ConsoleStyler.divider();
+        }
+    }
+
+    public static void printStringComparisonResults(String stringToInspect, String stringToInspectToLower){
+         ConsoleStyler.styleOutput("Welcome to this method that demonstrates and prints results of comparison of two Strings: %s, %s %n".formatted(
+                stringToInspect, stringToInspectToLower));
+        if(stringToInspect.equals(stringToInspectToLower)) {
+            ConsoleStyler.styleOutput("Values of both strings are exactly" + "equal".toUpperCase());
+        }
+        if(stringToInspect.contentEquals(stringToInspectToLower)) {
+            ConsoleStyler.styleOutput("Content of both strings are exactly" + " equal".toUpperCase());
+        }
+        if(stringToInspect.equalsIgnoreCase(stringToInspectToLower)) {
+            ConsoleStyler.styleOutput("Values of both strings are exactly" + " equal".toUpperCase() + ", after Ignoring the case!");
+        }
+        if(stringToInspect.startsWith("Hello")) {
+            ConsoleStyler.styleOutput("String starts with 'Hello'");
+        }
+        if(stringToInspect.endsWith(WORLD)) {
+            ConsoleStyler.styleOutput("String ends with 'World'");
+        }
+        if(stringToInspect.contains(WORLD)) {
+            ConsoleStyler.styleOutput("String contains 'World'");
+        }
+        ConsoleStyler.divider();
+    }
+
+    public static void demoStringManipulation() {
+         ConsoleStyler.styleOutput("Welcome to this method that demonstrates and prints results of String Manipulation %n");
+        String birthDateString = "16/11/1981";
+        int yearStartIndex = birthDateString.indexOf("1981");
+        ConsoleStyler.styleOutput("Starting index for year 1981 in " + birthDateString + " is: " + yearStartIndex);
+         ConsoleStyler.styleOutput("Birth Year in %s, is: %s %n".formatted(birthDateString, birthDateString.substring(yearStartIndex) ));
+         ConsoleStyler.styleOutput("Date in  %s, is: %s and Month in %s, is: %s %n".formatted(birthDateString, birthDateString.substring(3,5),
+                birthDateString,birthDateString.substring(6) ));
+
+        String newDate = String.join("/", "16", "11", "1981");
+        ConsoleStyler.styleOutput("Demo String.join() : nwwDate formed by using join method with a delimeter '/' is:" + newDate);
+        ConsoleStyler.styleOutput("Demo String.replace() : nwwDate formed by replacing the delimeter '/' with '-' is:" + newDate.replace('/', '-'));
+        ConsoleStyler.styleOutput("Demo String.replaceFirst() : nwwDate formed by replacing first occurrence of first instance of a  delimeter '/' with '-' is:" +
+                newDate.replaceFirst("/", "-"));
+        ConsoleStyler.styleOutput("Demo String.replaceAll() : nwwDate formed by replacing all occurrences of the  delimeter '/' with '-'  is:" +
+                newDate.replaceFirst("/", "-"));
+
+        ConsoleStyler.divider();
+
+    }
+
+}

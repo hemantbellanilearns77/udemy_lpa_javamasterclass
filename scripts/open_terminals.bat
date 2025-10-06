@@ -33,6 +33,6 @@ echo Starting CMD as Administrator...
 powershell -Command "Start-Process cmd.exe -ArgumentList '/k cd /d D:\GitHubRepos' -Verb RunAs"
 
 echo Starting CMD with JShell as Administrator...
-powershell -Command "Start-Process cmd.exe -ArgumentList '/k cd /d D:\GitHubRepos\udemy_lpa_javamasterclass\misc_utils\src\main\java\com\hb\study\misc_utils\demo_stubs && echo Current folder: D:\GitHubRepos\udemy_lpa_javamasterclass\misc_utils\src\main\java\com\hb\study\misc_utils\demo_stubs && jshell' -Verb RunAs"
+powershell -Command "Start-Process cmd.exe -ArgumentList '/k cd /d D:\GitHubRepos\udemy_lpa_javamasterclass\misc_utils\src\main\java\com\hblearns77\misc_utils\demo_stubs && echo Current folder: D:\GitHubRepos\udemy_lpa_javamasterclass\misc_utils\src\main\java\com\hblearns77\misc_utils\demo_stubs && jshell' -Verb RunAs"
 
 goto :eof
