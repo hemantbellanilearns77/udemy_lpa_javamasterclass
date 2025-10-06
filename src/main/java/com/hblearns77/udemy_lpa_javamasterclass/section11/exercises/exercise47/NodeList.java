@@ -1,0 +1,11 @@
+package com.hblearns77.udemy_lpa_javamasterclass.section11.exercises.exercise47;
+
+public interface NodeList {
+    ListItem getRoot();
+    //, addItem(), removeItem() and traverse() which are package-private and abstract
+    boolean addItem(ListItem listItem);
+
+    boolean removeItem(ListItem listItem);
+
+    void traverse(ListItem root);
+}

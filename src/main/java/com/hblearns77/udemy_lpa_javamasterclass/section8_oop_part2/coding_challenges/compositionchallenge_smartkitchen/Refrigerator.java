@@ -1,0 +1,22 @@
+package com.hblearns77.udemy_lpa_javamasterclass.section8_oop_part2.coding_challenges.compositionchallenge_smartkitchen;
+
+import com.hblearns77.udemy_lpa_javamasterclass.global.utils.ConsoleStyler;
+
+
+public class Refrigerator {
+
+    private boolean hasWorkToDo;
+
+    public Refrigerator() {
+        ConsoleStyler.styleInitializationInfo("Refrigerator initialized");
+    }
+    public void setHasWorkToDo(boolean hasWorkToDo) {
+        this.hasWorkToDo = hasWorkToDo;
+    }
+    public void orderFood(){
+        if(hasWorkToDo) {
+            ConsoleStyler.styleOutput("Ordering food.....");
+            this.setHasWorkToDo(false);
+        }
+    }
+}
